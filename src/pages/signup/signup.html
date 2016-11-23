@@ -8,30 +8,55 @@
 
 <ion-content padding>
     <h2>Welcome to Share and charge</h2>
+    <form (ngSubmit)="logForm()">
+    <ion-grid>
+        <ion-row center>
+            <ion-col width-100>
+                <ion-item>
+                    <ion-label>Email</ion-label>
+                    <ion-input type="text"></ion-input>
+                </ion-item>
 
-    <ion-item>
-        <ion-label>Email</ion-label>
-        <ion-input type="text"></ion-input>
-    </ion-item>
+                <ion-item>
+                    <ion-label>Password</ion-label>
+                    <ion-input type="password"></ion-input>
+                </ion-item>
 
-    <ion-item>
-        <ion-label>Password</ion-label>
-        <ion-input type="password"></ion-input>
-    </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row center>
+            <ion-col width-10>
+                <ion-checkbox color="dark" checked="false"> Agree to T&C</ion-checkbox>
+            </ion-col>
+            <ion-col width-90>
+               Agree to T&C
+            </ion-col>
+        </ion-row>
+        <ion-row center>
+            <ion-col width-33>
+                <button ion-button type="submit" (click)="signUp()">Sign Up</button>
+            </ion-col>
+            <ion-col width-66>
+                <a href="">Login</a>
+            </ion-col>
+        </ion-row>
+        <ion-row center>
+            <ion-col width-100>
+                or login with
+            </ion-col>
+        </ion-row>
+        <ion-row center>
+            <ion-col width-33>
+                <button ion-button  (click)="loginFacebook()">Facebook</button>
+            </ion-col>
+            <ion-col width-33>
+                <button ion-button  (click)="loginGoogle()">Google+</button>
+            </ion-col>
+            <ion-col width-33>
+                <button ion-button  (click)="loginMicrosoft()">Microsoft</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    </form>
 
-        <ion-label>Agree to T&C</ion-label>
-        <ion-checkbox color="dark" checked="false"></ion-checkbox>
-
-    <div>
-        <button block (click)="signUp()">Sign Up</button>
-        <button block (click)="login()">Login</button>
-    </div>
-    <br/>
-    <br/>
-    <div>
-        or login with
-        <button block (click)="loginFacebook()">Facebook</button>
-        <button block (click)="loginGoogle()">Google+</button>
-        <button block (click)="loginMicrosoft()">Microsoft</button>
-    </div>
 </ion-content>

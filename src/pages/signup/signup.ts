@@ -13,7 +13,7 @@ export class SignupPage {
     //console.log('Hello SignupPage Page');
   }
 
-  signUp(){
+  logForm(){
     console.log("Signup");
   }
 
