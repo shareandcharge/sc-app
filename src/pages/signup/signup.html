@@ -1,13 +1,37 @@
-
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Sign Up</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Sign Up</ion-title>
+    </ion-navbar>
 
-</ion-header> 
-
+</ion-header>
 
 <ion-content padding>
+    <h2>Welcome to Share and charge</h2>
 
+    <ion-item>
+        <ion-label>Email</ion-label>
+        <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Password</ion-label>
+        <ion-input type="password"></ion-input>
+    </ion-item>
+
+        <ion-label>Agree to T&C</ion-label>
+        <ion-checkbox color="dark" checked="false"></ion-checkbox>
+
+    <div>
+        <button block (click)="signUp()">Sign Up</button>
+        <button block (click)="login()">Login</button>
+    </div>
+    <br/>
+    <br/>
+    <div>
+        or login with
+        <button block (click)="loginFacebook()">Facebook</button>
+        <button block (click)="loginGoogle()">Google+</button>
+        <button block (click)="loginMicrosoft()">Microsoft</button>
+    </div>
 </ion-content>

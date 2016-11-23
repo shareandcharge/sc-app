@@ -13,4 +13,26 @@ export class SignupPage {
     //console.log('Hello SignupPage Page');
   }
 
+  signUp(){
+    console.log("Signup");
+  }
+
+  login(){
+    console.log("Login");
+  }
+
+  loginFacebook(){
+    console.log("Login Facebook");
+
+  }
+
+  loginGoogle(){
+    console.log("Login Google");
+
+  }
+
+  loginMicrosoft(){
+    console.log("Login Microsoft");
+  }
+
 }

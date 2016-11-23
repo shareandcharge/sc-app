@@ -1,12 +1,24 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Map</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="showAddressModal()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button ion-button (click)="createMarker()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome</h2>
-  <p>
-      map
-  </p>
+<ion-content>
+  <div class="map-container">
+    <div #map id="map">
+    </div>
+    <div class="button-right">
+      <button (click)='centerCurrentPosition()'>Center</button>
+    </div>
+  </div>
+
 </ion-content>
