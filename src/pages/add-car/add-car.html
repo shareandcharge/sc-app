@@ -15,7 +15,7 @@
 
 <ion-content>
     <div class="top-image-container">
-        <img src="">
+        <img src="{{imgSource}}">
         <div class="add-image-button">
             <button (click)="addPhoto()">Add <br/> photo</button>
         </div>
@@ -28,11 +28,11 @@
 
     <ion-item>
         <ion-label floating>Manufacturer & Model</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="carInfo"></ion-input>
         <button ion-button item-right (click)="selectModdel()">Select</button>
     </ion-item>
     <ion-item>
-        <a href="">Customize Car</a>
+        <a (click)="customizeCar()">Customize Car</a>
         <br/>
     </ion-item>
      <button center ion-button (click)="saveCar()">Save</button>

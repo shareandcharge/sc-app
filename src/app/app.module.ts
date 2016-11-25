@@ -10,6 +10,7 @@ import {AddCarPage} from '../pages/add-car/add-car';
 import {CarManufacturerPage} from '../pages/car-manufacturer/car-manufacturer';
 import {CarModelPage} from '../pages/car-model/car-model';
 import {MapSettingsPage} from '../pages/map-settings/map-settings';
+import {CustomizeCarPage} from '../pages/customize-car/customize-car';
 import {TabsPage} from '../pages/tabs/tabs';
 
 @NgModule({
@@ -24,6 +25,7 @@ import {TabsPage} from '../pages/tabs/tabs';
         CarManufacturerPage,
         CarModelPage,
         MapSettingsPage,
+        CustomizeCarPage,
         TabsPage
     ],
     imports: [
@@ -41,6 +43,7 @@ import {TabsPage} from '../pages/tabs/tabs';
         CarManufacturerPage,
         CarModelPage,
         MapSettingsPage,
+        CustomizeCarPage,
         TabsPage
     ],
     providers: []

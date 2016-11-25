@@ -1,22 +1,34 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController , NavParams } from 'ionic-angular';
+import {CarService} from "../../services/car.service";
+import {AddCarPage} from "../add-car/add-car";
 
-/*
-  Generated class for the CarModel page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
 @Component({
   selector: 'page-car-model',
-  templateUrl: 'car-model.html'
+  templateUrl: 'car-model.html',
+  providers: [CarService]
 })
 export class CarModelPage {
+  manufacturerId: any;
+  manufacturerName: any;
+  models: any;
+  constructor(public navCtrl: NavController , private navParams : NavParams , private carService: CarService) {
 
-  constructor(public navCtrl: NavController) {}
+    this.manufacturerId = navParams.get("manufacturerId");
+    this.manufacturerName = navParams.get("manufacturerName");
+    this.models = this.carService.getModels(this.manufacturerId);
+  }
 
   ionViewDidLoad() {
-    console.log('Hello CarModelPage Page');
+  }
+
+  itemSelected(model){
+    this.navCtrl.setRoot(AddCarPage, {
+      "manufacturerName": this.manufacturerName,
+      "model": model
+    });
   }
 
 }

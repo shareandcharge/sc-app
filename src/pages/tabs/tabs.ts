@@ -26,4 +26,11 @@ export class TabsPage {
     modal.present();
 
   }
+
+  addCarModal(){
+    console.log("Opening Modal");
+    let modal = this.modalCtrl.create(AddCarPage);
+    modal.present();
+
+  }
 }

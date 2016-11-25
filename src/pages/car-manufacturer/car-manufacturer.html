@@ -1,11 +1,6 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons start>
-      <button (click)="dismiss()">
-        Close
-      </button>
-    </ion-buttons>
     <ion-title>Choose Manufacturer</ion-title>
   </ion-navbar>
 
@@ -13,8 +8,8 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let item of items" (click)="itemSelected(item)">
-      {{item.title}}
+    <ion-item *ngFor="let item of manufacturers" (click)="itemSelected(item)">
+      {{item.name}}
     </ion-item>
   </ion-list>
 
