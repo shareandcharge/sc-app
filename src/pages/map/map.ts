@@ -1,8 +1,10 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, ModalController, LoadingController} from 'ionic-angular';
+import {NavController, ModalController, LoadingController , PopoverController} from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
 import {Platform} from 'ionic-angular';
 import {AutocompletePage} from './autocomplete';
+import {MapSettingsPage} from '../map-settings/map-settings';
+
 
 declare var google;
 
@@ -27,7 +29,7 @@ export class MapPage {
   defaultCenterLng = 10.6679155;
   defaultZoom = 7;
 
-  constructor(platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+  constructor(public popoverCtrl: PopoverController ,platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
     this.platform = platform;
 
     this.address = {
@@ -112,6 +114,13 @@ export class MapPage {
     this.addInfoWindow(marker, content);
   }
 
+  mapSettingsPopOver(e){
+    let popover = this.popoverCtrl.create(MapSettingsPage);
+    popover.present({
+      ev: e
+    });
+  }
+  
   addDummyMarkers() {
     let dummys = [
       {'lat': 52.58363603, 'lng': 11.53619477},
