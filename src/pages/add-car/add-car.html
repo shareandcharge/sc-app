@@ -1,0 +1,41 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Add a Car</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="skipAddingCar()">
+                Skip
+            </button>
+
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <div class="top-image-container">
+        <img src="">
+        <div class="add-image-button">
+            <button (click)="addPhoto()">Add <br/> photo</button>
+        </div>
+    </div>
+
+    <ion-item>
+        <ion-label floating>Plate number</ion-label>
+        <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>Manufacturer & Model</ion-label>
+        <ion-input type="text"></ion-input>
+        <button ion-button item-right (click)="selectModdel()">Select</button>
+    </ion-item>
+    <ion-item>
+        <a href="">Customize Car</a>
+        <br/>
+    </ion-item>
+     <button center ion-button (click)="saveCar()">Save</button>
+
+
+</ion-content>

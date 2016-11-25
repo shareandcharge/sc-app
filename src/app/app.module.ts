@@ -2,20 +2,26 @@ import {NgModule} from '@angular/core';
 import {IonicApp, IonicModule} from 'ionic-angular';
 import {MyApp} from './app.component';
 import {AboutPage} from '../pages/about/about';
-import {ContactPage} from '../pages/contact/contact';
 import {SignupPage} from '../pages/signup/signup';
+import {LoginPage} from '../pages/login/login';
 import {MapPage} from '../pages/map/map';
 import {AutocompletePage} from '../pages/map/autocomplete';
+import {AddCarPage} from '../pages/add-car/add-car';
+import {CarManufacturerPage} from '../pages/car-manufacturer/car-manufacturer';
+import {CarModelPage} from '../pages/car-model/car-model';
 import {TabsPage} from '../pages/tabs/tabs';
 
 @NgModule({
     declarations: [
         MyApp,
         AboutPage,
-        ContactPage,
         MapPage,
         AutocompletePage,
         SignupPage,
+        LoginPage,
+        AddCarPage,
+        CarManufacturerPage,
+        CarModelPage,
         TabsPage
     ],
     imports: [
@@ -25,10 +31,13 @@ import {TabsPage} from '../pages/tabs/tabs';
     entryComponents: [
         MyApp,
         AboutPage,
-        ContactPage,
         MapPage,
         AutocompletePage,
         SignupPage,
+        LoginPage,
+        AddCarPage,
+        CarManufacturerPage,
+        CarModelPage,
         TabsPage
     ],
     providers: []

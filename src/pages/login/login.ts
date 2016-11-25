@@ -1,32 +1,31 @@
 import { Component } from '@angular/core';
 import { NavController , ViewController , ModalController} from 'ionic-angular';
-import { LoginPage } from '../login/login';
+import { SignupPage } from '../signup/signup';
 
 
 @Component({
-  selector: 'page-signup',
-  templateUrl: 'signup.html'
+  selector: 'page-login',
+  templateUrl: 'login.html'
 })
-export class SignupPage {
+export class LoginPage {
 
   constructor(public navCtrl: NavController , private viewCtrl: ViewController , public modalCtrl: ModalController) {}
 
   ionViewDidLoad() {
-    //console.log('Hello SignupPage Page');
   }
 
   dismiss(data) {
     this.viewCtrl.dismiss(data);
   }
-  
-  login(data) {
-    let modalLogin = this.modalCtrl.create(LoginPage);
+
+  signUp(data){
+    let modalLogin = this.modalCtrl.create(SignupPage);
     modalLogin.present();
     this.viewCtrl.dismiss(data);
   }
 
-  logForm(){
-    console.log("Signup");
+  submitForm(){
+    console.log("Login");
   }
 
   loginFacebook(){
