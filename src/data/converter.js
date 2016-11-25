@@ -159,11 +159,11 @@ var input = [
     }
 ];
 
-var cars = {};
+var cars = [];
 var manufacturors = [];
 var i = 1;
-input.map(inp => {
-    inp.cars.map(car => {
+input.map(function(inp) {
+    inp.cars.map(function(car) {
         manufacturors.forEach(function (val) {
 
         });
@@ -179,32 +179,38 @@ fs.writeFileSync('./man.json', JSON.stringify(uniqueMan) , 'utf-8');
 var model;
 uniqueMan.forEach(function (man) {
     var j = 1;
-    cars[i] =
-        {
-            "id": i,
-            "name": man,
-            "models": []
-        };
 
-    input.map(inp => {
-        inp.cars.map(car => {
-        if(car.name.substring(0 , car.name.indexOf(" ")) == man){
+    var tmpCar = {
+        "id": "" + i,
+        "name": man,
+        "models": []
+    };
+    input.map(function (inp) {
+        inp.cars.map(function (car) {
+            if (car.name.substring(0, car.name.indexOf(" ")) == man) {
 
-        model = {
-            "id" : j,
-            "name" : car.name.substring(car.name.indexOf(" ") +1 , car.name.length)
-        };
-          cars[i].models.push(model);
-        console.log(cars[i]);
-        j++;
-    }})
+
+                // model = {
+                //     "id": "" + j,
+                //     "name": car.name.substring(car.name.indexOf(" ") + 1, car.name.length)
+                // };
+                model = car;
+                model.id = "" + j;
+                model.name = car.name.substring(car.name.indexOf(" ") + 1, car.name.length);
+
+                tmpCar.models.push(model);
+                j++;
+            }
+        })
     });
+    cars.push(tmpCar);
     i++;
 });
 
 console.dir(cars, { depth: null });
+console.dir(JSON.stringify(cars));
 
-fs.writeFileSync('./data.json', JSON.stringify(cars) , 'utf-8');
+// fs.writeFileSync('./data.json', JSON.stringify(cars) , 'utf-8');
 
 
 
