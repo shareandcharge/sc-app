@@ -1,45 +1,65 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-buttons start>
-            <button (click)="dismiss()">
-                Close
+        <ion-title>Sign Up</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title>Sign Up</ion-title>
     </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-    <form (ngSubmit)="logForm()">
-        <ion-item>
-            <ion-label floating>Email</ion-label>
-            <ion-input type="text"></ion-input>
-        </ion-item>
+    <ion-grid class="fullpage">
+        <ion-row>
+            <ion-col>
+                <h2 text-center padding-top>Welcome to Share&Charge</h2>
+                <form (ngSubmit)="logForm()">
+                    <ion-list no-lines>
+                        <ion-item>
+                            <ion-label floating>Email</ion-label>
+                            <ion-input type="text"></ion-input>
+                        </ion-item>
 
-        <ion-item>
-            <ion-label floating>Password</ion-label>
-            <ion-input type="password"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label>Agree to T&C</ion-label>
-            <ion-checkbox color="dark" checked="false"> Agree to T&C</ion-checkbox>
-        </ion-item>
-
-        <div>
-            <button ion-button type="submit">Sign Up</button>
-        </div>
-    </form>
-        <p>
-            If you already have an account click <a (click)="login()">here to Login</a>
-        </p>
-        <br/>
-        <div>
-            or login with<br/>
-            <button ion-button  (click)="loginFacebook()">Facebook</button>
-            <button ion-button  (click)="loginGoogle()">Google+</button>
-            <button ion-button  (click)="loginMicrosoft()">Microsoft</button>
-        </div>
-
+                        <ion-item>
+                            <ion-label floating>Password</ion-label>
+                            <ion-input type="password"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Agree to T&C</ion-label>
+                            <ion-checkbox color="dark" checked="false"> Agree to T&C</ion-checkbox>
+                        </ion-item>
+                    </ion-list>
+                    <ion-row padding="">
+                        <ion-col class="nopadding">
+                            <button ion-button type="submit">Sign Up</button>
+                        </ion-col>
+                        <ion-col class="nopadding" text-right>
+                            <button clear ion-button (click)="login()" color="dark">Login</button>
+                        </ion-col>
+                    </ion-row>
+                </form>
+            </ion-col>
+        </ion-row>
+        <ion-row bottom>
+            <ion-col>
+                <ion-row wrap>
+                    <ion-col width-90>
+                        Or sign up with
+                    </ion-col>
+                    <ion-col width-33>
+                        <button ion-button class="button-facebook" (click)="loginFacebook()">Facebook</button>
+                    </ion-col>
+                    <ion-col width-33 text-center="">
+                        <button ion-button class="button-google" (click)="loginGoogle()">Google+</button>
+                    </ion-col>
+                    <ion-col width-33 text-right="">
+                        <button ion-button class="button-microsoft" (click)="loginMicrosoft()">Microsoft</button>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

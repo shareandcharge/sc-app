@@ -1,0 +1,14 @@
+.button { // otherwise we're not specific enough
+  &.button-google {
+    background-color: map_get($brand-color, google);
+  }
+  &.button-facebook {
+    background-color: map_get($brand-color, facebook);
+  }
+  &.button-twitter {
+    background-color: map_get($brand-color, twitter);
+  }
+  &.button-microsoft {
+    background-color: map_get($brand-color, microsoft);
+  }
+}

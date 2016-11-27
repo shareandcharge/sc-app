@@ -1,0 +1,16 @@
+form.blocky {
+
+}
+
+.item-ios.item-label-floating .text-input,
+.item-label-floating .text-input-md {
+  background-color: #f3f3f3;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 2px;
+}
+
+.label.label-ios[floating],
+.label.label-md[floating] {
+  transform: translate3d(14px, 38px, 0);
+}
