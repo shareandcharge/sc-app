@@ -1,2 +1,16 @@
 page-signup {
+  .toolbar {
+    .toolbar-background {
+      background: transparent;
+    }
+  }
+  ion-item.item {
+    background-color: transparent;
+  }
+  .content {
+    $_top: lighten(#9b6ae8, 20);
+    $_bottom: lighten(#106ef1, 30);
+    background-color: $_top;
+    background-image: linear-gradient($_top, $_bottom);
+  }
 }
