@@ -17,16 +17,27 @@ export class CarService {
     }
 
     getManufacturers() {
-        return this.tmpManuData.map(manu => {
+        var manu = this.tmpManuData.map(manu => {
             return {"id": manu.id, "name": manu.name};
         });
+
+        manu.sort((a, b) => {
+            return a.name.toLowerCase().localeCompare(b.name.toLowerCase());;
+        });
+        return manu;
     }
 
     getModels(manufacturerId) {
         var a =  this.tmpManuData.filter(manu => {
             return (manu.id == manufacturerId);
         });
-        return a.pop().models;
+
+        var models = a.pop().models;
+        models.sort((a, b) => {
+            return a.name.toLowerCase().localeCompare(b.name.toLowerCase());;
+        });
+
+        return models;
     }
 
     // getManufacturers() {

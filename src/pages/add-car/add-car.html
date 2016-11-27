@@ -21,21 +21,27 @@
         </div>
     </div>
 
-    <ion-item>
-        <ion-label floating>Plate number</ion-label>
-        <ion-input type="text"></ion-input>
-    </ion-item>
+    <ion-list no-lines>
+        <ion-item>
+            <ion-label floating>Plate number</ion-label>
+            <ion-input type="text"></ion-input>
+        </ion-item>
 
-    <ion-item>
-        <ion-label floating>Manufacturer & Model</ion-label>
-        <ion-input type="text" [(ngModel)]="carInfo"></ion-input>
-        <button ion-button item-right (click)="selectModdel()">Select</button>
-    </ion-item>
-    <ion-item>
-        <a (click)="customizeCar()">Customize Car</a>
-        <br/>
-    </ion-item>
-     <button center ion-button (click)="saveCar()">Save</button>
+        <ion-item>
+            <ion-label floating>Manufacturer & Model</ion-label>
+            <ion-input type="text" [(ngModel)]="carInfo"></ion-input>
+            <button ion-button outline item-right (click)="selectModdel()" style="font-size: 2.3rem; bottom: -15px; height: 32px">
+                <ion-icon name="list"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-item>
+            <a (click)="customizeCar()">Customize Car</a>
+            <br/>
+        </ion-item>
+        <div padding>
+            <button ion-button (click)="saveCar()">Save</button>
+        </div>
+    </ion-list>
 
 
 </ion-content>
