@@ -77,7 +77,8 @@ export class MapPage {
             center: latLng,
             zoom: this.defaultZoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false
+            mapTypeControl: false,
+            fullscreenControl: false
         };
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
