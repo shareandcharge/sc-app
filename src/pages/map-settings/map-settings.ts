@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, NavParams} from 'ionic-angular';
 
+declare var google;
 
 @Component({
     selector: 'page-map-settings',

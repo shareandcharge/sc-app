@@ -76,10 +76,13 @@ export class MapPage {
         let mapOptions = {
             center: latLng,
             zoom: this.defaultZoom,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false
         };
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+        this.addMapCenterControl();
+        this.addMapFilterControl();
 
         console.log("map elem:", this.mapElement.nativeElement);
 
@@ -89,15 +92,6 @@ export class MapPage {
             me.addDummyMarkers();
             loader.dismissAll();
         });
-
-        /*Geolocation.getCurrentPosition().then((position) => {
-         let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-         this.map.setCenter(latLng);
-         console.log(latLng);
-         }, (err) => {
-         console.log(err);
-         });*/
-
     }
 
     createMarker() {
@@ -118,8 +112,8 @@ export class MapPage {
 
 
     mapSettingsPopOver(e) {
-        let popover = this.popoverCtrl.create(MapSettingsPage , {
-            map : this.map
+        let popover = this.popoverCtrl.create(MapSettingsPage, {
+            map: this.map
         });
 
         popover.present({
@@ -190,4 +184,47 @@ export class MapPage {
         }
     }
 
+    addMapCenterControl() {
+        var centerControlDiv = document.createElement('div');
+
+        var controlUI = document.createElement('div');
+        controlUI.id = 'mapCenterUI';
+        centerControlDiv.appendChild(controlUI);
+
+
+        var controlText = document.createElement('div');
+        controlText.id = 'mapCenterText';
+        controlText.innerHTML = '<ion-icon name="md-locate" role="img" class="icon icon-md ion-md-locate" aria-label="locate" ng-reflect-name="md-locate"></ion-icon>';
+        controlUI.appendChild(controlText);
+
+        let me = this;
+
+        controlUI.addEventListener('click', function () {
+            me.centerCurrentPosition();
+        });
+
+        this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
+    }
+
+    addMapFilterControl() {
+        var centerControlDiv = document.createElement('div');
+
+        var controlUI = document.createElement('div');
+        controlUI.id = 'mapFilterUI';
+        centerControlDiv.appendChild(controlUI);
+
+
+        var controlText = document.createElement('div');
+        controlText.id = 'mapFilterText';
+        controlText.innerHTML = '<ion-icon name="filter" role="img" class="icon icon-ios ion-ios-funnel" aria-label="filter" ng-reflect-name="filter"></ion-icon>';
+        controlUI.appendChild(controlText);
+
+        let me = this;
+
+        controlUI.addEventListener('click', function () {
+            // me.openFilter()
+        });
+
+        this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
+    }
 }
