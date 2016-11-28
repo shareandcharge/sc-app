@@ -14,10 +14,12 @@ export class CarModelPage {
   manufacturerId: any;
   manufacturerName: any;
   models: any;
+  plateNumber: any;
   constructor(public navCtrl: NavController , private navParams : NavParams , private carService: CarService) {
 
     this.manufacturerId = navParams.get("manufacturerId");
     this.manufacturerName = navParams.get("manufacturerName");
+    this.plateNumber = navParams.get("plateNumber");
     this.models = this.carService.getModels(this.manufacturerId);
   }
 
@@ -27,7 +29,8 @@ export class CarModelPage {
   itemSelected(model){
     this.navCtrl.setRoot(AddCarPage, {
       "manufacturerName": this.manufacturerName,
-      "model": model
+      "model": model,
+      "plateNumber" : this.plateNumber
     });
   }
 

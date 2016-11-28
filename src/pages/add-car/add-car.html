@@ -15,7 +15,7 @@
 
 <ion-content>
     <div class="top-image-container">
-        <img src="{{imgSource}}">
+        <img [src]="base64Image">
         <div class="add-image-button">
             <button (click)="addPhoto()">Add <br/> photo</button>
         </div>
@@ -24,7 +24,7 @@
     <ion-list no-lines>
         <ion-item>
             <ion-label floating>Plate number</ion-label>
-            <ion-input type="text"></ion-input>
+            <ion-input type="text" [(ngModel)]="plateNumber"></ion-input>
         </ion-item>
 
         <ion-item>
