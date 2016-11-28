@@ -4,6 +4,7 @@ import {Geolocation} from 'ionic-native';
 import {Platform} from 'ionic-angular';
 import {AutocompletePage} from './autocomplete';
 import {MapSettingsPage} from '../map-settings/map-settings';
+import {MapFilterPage} from './filter/filter';
 
 
 declare var google;
@@ -154,6 +155,11 @@ export class MapPage {
 
     }
 
+    presentFilterModal() {
+        let filter = this.modalCtrl.create(MapFilterPage);
+        filter.present();
+    }
+
     showAddressModal() {
         let modal = this.modalCtrl.create(AutocompletePage);
         modal.onDidDismiss(place => {
@@ -223,7 +229,7 @@ export class MapPage {
         let me = this;
 
         controlUI.addEventListener('click', function () {
-            // me.openFilter()
+            me.presentFilterModal()
         });
 
         this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
