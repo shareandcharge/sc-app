@@ -1,4 +1,4 @@
-import {Component, NgZone} from '@angular/core';
+import {Component, NgZone , ViewChild} from '@angular/core';
 import {ViewController} from 'ionic-angular';
 
 declare var google: any;
@@ -7,6 +7,9 @@ declare var google: any;
     templateUrl: 'autocomplete.html'
 })
 export class AutocompletePage {
+
+    @ViewChild('searchInput') myInput ;
+
     autocompleteItems: any;
     autocomplete: any;
     service: any;
@@ -14,11 +17,13 @@ export class AutocompletePage {
 
     constructor(public viewCtrl: ViewController, private zone: NgZone) {
         console.log('Modal const');
+        console.log(this.myInput);
         this.service = new google.maps.places.AutocompleteService();
         this.autocompleteItems = [];
         this.autocomplete = {
             query: ''
         };
+
     }
 
 

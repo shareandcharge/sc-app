@@ -1,23 +1,34 @@
-import { Component } from '@angular/core';
-import { NavController , ViewController } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, ViewController, NavParams} from 'ionic-angular';
 
 
 @Component({
-  selector: 'page-map-settings',
-  templateUrl: 'map-settings.html'
+    selector: 'page-map-settings',
+    templateUrl: 'map-settings.html'
 })
 export class MapSettingsPage {
-  mapView: 'roadMap';
+    mapViewType:'roadMap';
+    map:any;
 
-  constructor(public navCtrl: NavController , private viewCtrl: ViewController) {}
+    constructor(public navCtrl:NavController, private viewCtrl:ViewController, private navParams:NavParams) {
+        this.map = navParams.get("map");
+    }
 
-  ionViewDidLoad() {
-    //console.log('Hello MapSettingsPage Page');
-  }
+    ionViewDidLoad() {
+        //console.log('Hello MapSettingsPage Page');
+    }
 
-  setMapView(selected){
-    this.viewCtrl.dismiss(selected);
-
-  }
-  
+    setMapView(selected) {
+        switch (selected) {
+            case 'ROADMAP':
+                this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+                break;
+            case 'SATELLITE':
+                this.map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+                break;
+            case 'HYBRID':
+                this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+                break;
+        }
+    }
 }

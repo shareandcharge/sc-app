@@ -13,21 +13,21 @@
                 <ion-radio value="listView"></ion-radio>
             </ion-item>
         </ion-list>
-        <ion-list radio-group [(ngModel)]="mapView">
+        <ion-list radio-group>
             <ion-list-header>
                 Map view
             </ion-list-header>
             <ion-item>
                 <ion-label>Road Map</ion-label>
-                <ion-radio value="roadMap" (click)="setMapView('roadMap')" checked ></ion-radio>
+                <ion-radio value="ROADMAP" (click)="setMapView('ROADMAP')" checked ></ion-radio>
             </ion-item>
             <ion-item>
                 <ion-label>Satellite</ion-label>
-                <ion-radio value="satellite" (click)="setMapView('satellite')"></ion-radio>
+                <ion-radio value="SATELLITE" (click)="setMapView('SATELLITE')"></ion-radio>
             </ion-item>
             <ion-item>
                 <ion-label>Hybrid</ion-label>
-                <ion-radio value="hybrid" (click)="setMapView('hybrid')"></ion-radio>
+                <ion-radio value="HYBRID" (click)="setMapView('HYBRID')"></ion-radio>
             </ion-item>
         </ion-list>
     </div>

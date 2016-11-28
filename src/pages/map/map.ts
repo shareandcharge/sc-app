@@ -116,11 +116,12 @@ export class MapPage {
         this.addInfoWindow(marker, content);
     }
 
+
     mapSettingsPopOver(e) {
-        let popover = this.popoverCtrl.create(MapSettingsPage);
-        popover.onDidDismiss(function (val) {
-           console.log(val);
+        let popover = this.popoverCtrl.create(MapSettingsPage , {
+            map : this.map
         });
+
         popover.present({
             ev: e
         });
