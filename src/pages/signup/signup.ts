@@ -15,14 +15,14 @@ export class SignupPage {
     //console.log('Hello SignupPage Page');
   }
 
-  dismiss(data) {
-    this.viewCtrl.dismiss(data);
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
   
-  login(data) {
+  login() {
     let modalLogin = this.modalCtrl.create(LoginPage);
     modalLogin.present();
-    this.viewCtrl.dismiss(data);
+    this.viewCtrl.dismiss();
   }
 
   logForm(){

@@ -118,6 +118,9 @@ export class MapPage {
 
     mapSettingsPopOver(e) {
         let popover = this.popoverCtrl.create(MapSettingsPage);
+        popover.onDidDismiss(function (val) {
+           console.log(val);
+        });
         popover.present({
             ev: e
         });

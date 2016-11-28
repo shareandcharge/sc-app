@@ -1,16 +1,23 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController , ViewController } from 'ionic-angular';
+
 
 @Component({
   selector: 'page-map-settings',
   templateUrl: 'map-settings.html'
 })
 export class MapSettingsPage {
+  mapView: 'roadMap';
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController , private viewCtrl: ViewController) {}
 
   ionViewDidLoad() {
-    console.log('Hello MapSettingsPage Page');
+    //console.log('Hello MapSettingsPage Page');
   }
 
+  setMapView(selected){
+    this.viewCtrl.dismiss(selected);
+
+  }
+  
 }

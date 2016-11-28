@@ -22,14 +22,15 @@ export class CustomizeCarPage {
   akkuCapacity: any;
   numberOfPlugs: any;
   plugTypes: any;
+  plateNumber: any;
   constructor(public navCtrl: NavController , private navParams: NavParams) {
     this.model = navParams.get("model");
     this.manufacturerName = navParams.get("manufacturerName");
+    this.plateNumber =  navParams.get("plateNumber");
 
     if(typeof this.model !="undefined" && typeof this.manufacturerName !="undefined"){
       this.manufacturer = this.manufacturerName;
       this.name = this.model.name;
-
     }
   }
 
@@ -38,6 +39,10 @@ export class CustomizeCarPage {
   }
 
   done(){
-    this.navCtrl.setRoot(AddCarPage);
+    this.navCtrl.setRoot(AddCarPage, {
+      "manufacturerName": this.manufacturerName,
+      "model": this.model,
+      "plateNumber" : this.plateNumber
+    });
   }
 }
