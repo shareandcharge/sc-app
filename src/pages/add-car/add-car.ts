@@ -34,9 +34,9 @@ export class AddCarPage {
         console.log("Add Photo");
     }
 
-    skipAddingCar(data) {
+    skipAddingCar() {
         console.log(" Skip Add Car");
-        this.viewCtrl.dismiss(data);
+        this.viewCtrl.dismiss();
     }
 
     customizeCar() {

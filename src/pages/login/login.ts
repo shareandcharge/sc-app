@@ -14,14 +14,14 @@ export class LoginPage {
   ionViewDidLoad() {
   }
 
-  dismiss(data) {
-    this.viewCtrl.dismiss(data);
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 
-  signUp(data){
+  signUp(){
     let modalLogin = this.modalCtrl.create(SignupPage);
     modalLogin.present();
-    this.viewCtrl.dismiss(data);
+    this.viewCtrl.dismiss();
   }
 
   submitForm(){
