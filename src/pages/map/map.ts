@@ -226,19 +226,6 @@ export class MapPage {
         this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
     }
     addDummyMarkers() {
-        // let dummys = [
-        //     {'lat': 52.58363603, 'lng': 11.53619477},
-        //     {'lat': 52.71166356, 'lng': 9.95521968},
-        //     {'lat': 51.38227646, 'lng': 9.69326227},
-        //     {'lat': 49.53745409, 'lng': 10.1372128},
-        //     {'lat': 49.795868, 'lng': 12.16748952},
-        //     {'lat': 51.01381809, 'lng': 7.87189239},
-        //     {'lat': 50.59631641, 'lng': 8.84209567},
-        //     {'lat': 51.19280834, 'lng': 13.2600554},
-        //     {'lat': 50.51676003, 'lng': 9.85862289},
-        //     {'lat': 50.64257946, 'lng': 12.21387494}
-        // ];
-
         let dummys = [
 
             {

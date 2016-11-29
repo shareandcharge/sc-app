@@ -57,6 +57,7 @@ $text-input-ios-background-color: map-get($colors, light);
 // default are overridden.
 
 @import "ionic.theme.default";
+@import "mixins";
 @import "grid";
 @import "header";
 @import "buttons";
