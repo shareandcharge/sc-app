@@ -1,0 +1,71 @@
+<ion-header class="transparent">
+    <ion-navbar>
+        <!--<ion-title>Location</ion-title>-->
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div class="image-wrapper">
+        <img src="{{location.images[0]}}">
+    </div>
+    <div padding>
+        <h3>{{ location.name }}</h3>
+        <p><strong>{{location.address}}, {{location.city}}</strong></p>
+        <p>
+            Opening hours: 10am - 6pm
+        </p>
+    </div>
+
+    <ion-row>
+        <ion-col>
+            <button ion-button color="light" full>Directions</button>
+        </ion-col>
+        <ion-col>
+            <button ion-button color="light" full>Report a problem</button>
+        </ion-col>
+    </ion-row>
+
+    <div padding>
+        <h6>Plug Types:</h6>
+        <p>
+            <img src="assets/images/plugs/combo.svg" style="width: 32px">
+            <img src="assets/images/plugs/chademo.svg" style="width: 32px">
+        </p>
+
+        <h6>About this station:</h6>
+        <p>
+            {{location.description}}
+        </p>
+
+        <hr>
+
+        <h6>Reviews</h6>
+        <p>
+            <ion-icon name="md-star"></ion-icon>
+            <ion-icon name="md-star"></ion-icon>
+            <ion-icon name="md-star"></ion-icon>
+            <ion-icon name="md-star"></ion-icon>
+            Good food, good power. I really like it here. Nothing much to say. Mollis molestie lorem quisque ut erat
+            curabitur gravida nisi at nibh in hac.
+        </p>
+    </div>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div class="text-right">
+            <strong>1,60 - 3,20 €/kWH</strong><br>
+            <ion-icon name="md-star"></ion-icon>
+            <ion-icon name="md-star"></ion-icon>
+            <ion-icon name="md-star"></ion-icon>
+            <ion-icon name="md-star-half"></ion-icon>
+            <ion-icon name="md-star-outline"></ion-icon>
+        </div>
+        <ion-buttons end>
+            <button ion-button outline color="primary">
+                Start Charging
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

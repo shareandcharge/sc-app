@@ -13,6 +13,7 @@ import {MapSettingsPage} from '../pages/map-settings/map-settings';
 import {CustomizeCarPage} from '../pages/customize-car/customize-car';
 import {TabsPage} from '../pages/tabs/tabs';
 import {MapFilterPage} from "../pages/map/filter/filter";
+import {LocationDetailPage} from "../pages/location/location-details";
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import {MapFilterPage} from "../pages/map/filter/filter";
         CarModelPage,
         MapSettingsPage,
         CustomizeCarPage,
+        LocationDetailPage,
         TabsPage
     ],
     imports: [
@@ -47,6 +49,7 @@ import {MapFilterPage} from "../pages/map/filter/filter";
         CarModelPage,
         MapSettingsPage,
         CustomizeCarPage,
+        LocationDetailPage,
         TabsPage
     ],
     providers: []

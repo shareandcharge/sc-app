@@ -5,6 +5,7 @@ import {Platform} from 'ionic-angular';
 import {AutocompletePage} from './autocomplete';
 import {MapSettingsPage} from '../map-settings/map-settings';
 import {MapFilterPage} from './filter/filter';
+import {LocationDetailPage} from "../location/location-details";
 
 
 declare var google;
@@ -108,9 +109,16 @@ export class MapPage {
             position: new google.maps.LatLng(location.latitude, location.longitude)
         });
 
-        let content = location.name;
+        let me = this;
+        marker.addListener('click', function() {
+            console.log('OPEN:', location);
+            me.navCtrl.push(LocationDetailPage, {
+                "location": location
+            });
+        });
 
-        this.addInfoWindow(marker, content);
+        // let content = location.name;
+        // this.addInfoWindow(marker, content);
     }
 
 
@@ -239,7 +247,7 @@ export class MapPage {
                 "name": "Intuitive asynchronous challenge",
                 "description": "non velit donec diam neque vestibulum eget vulputate ut ultrices",
                 "images": [
-                    "http://dummyimage.com/400x300.jpg/dddddd/000000",
+                    "http://dummyimage.com/400x300.jpg/99dddd/000000",
                     "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff"
                 ],
                 "latitude": "51.1646",
@@ -265,7 +273,7 @@ export class MapPage {
                 "name": "Reduced fault-tolerant array",
                 "description": "viverra dapibus nulla suscipit ligula in lacus curabitur at ipsum ac tellus semper interdum mauris ullamcorper",
                 "images": [
-                    "http://dummyimage.com/400x300.jpg/dddddd/000000",
+                    "http://dummyimage.com/400x300.jpg/dd00dd/000000",
                     "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff"
                 ],
                 "latitude": "51.216",
@@ -295,7 +303,7 @@ export class MapPage {
                 "name": "Compatible intermediate internet solution",
                 "description": "mollis molestie lorem quisque ut erat curabitur gravida nisi at nibh in hac",
                 "images": [
-                    "http://dummyimage.com/400x300.jpg/ff4444/ffffff",
+                    "http://dummyimage.com/400x300.jpg/5fF444/ffffff",
                     "http://dummyimage.com/400x300.jpg/dddddd/000000"
                 ],
                 "latitude": "51.129",
@@ -325,7 +333,7 @@ export class MapPage {
                 "name": "Digitized interactive conglomeration",
                 "description": "gravida nisi at nibh in hac habitasse platea dictumst aliquam augue quam sollicitudin vitae consectetuer eget rutrum at lorem integer",
                 "images": [
-                    "http://dummyimage.com/400x300.jpg/ff4444/ffffff",
+                    "http://dummyimage.com/400x300.jpg/ff4466/ffffff",
                     "http://dummyimage.com/400x300.jpg/ff4444/ffffff"
                 ],
                 "latitude": "54.3205",
@@ -355,7 +363,7 @@ export class MapPage {
                 "name": "Configurable discrete core",
                 "description": "nulla ac enim in tempor turpis nec euismod scelerisque quam turpis adipiscing lorem",
                 "images": [
-                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff",
+                    "http://dummyimage.com/400x300.jpg/5fa200/ffffff",
                     "http://dummyimage.com/400x300.jpg/ff4444/ffffff"
                 ],
                 "latitude": "49.4811",
@@ -381,7 +389,7 @@ export class MapPage {
                 "name": "Assimilated tangible info-mediaries",
                 "description": "tortor quis turpis sed ante vivamus tortor duis mattis egestas metus aenean fermentum donec ut mauris",
                 "images": [
-                    "http://dummyimage.com/400x300.jpg/cc0000/ffffff",
+                    "http://dummyimage.com/400x300.jpg/cc2200/ffffff",
                     "http://dummyimage.com/400x300.jpg/cc0000/ffffff"
                 ],
                 "latitude": "50.9968",
@@ -437,8 +445,8 @@ export class MapPage {
                 "name": "Re-contextualized mobile capacity",
                 "description": "odio in hac habitasse platea dictumst maecenas ut",
                 "images": [
-                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff",
-                    "http://dummyimage.com/400x300.jpg/ff4444/ffffff"
+                    "http://dummyimage.com/400x300.jpg/ff4444/ffffff",
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff"
                 ],
                 "latitude": "48.1738",
                 "longitude": "11.5858",
@@ -463,8 +471,8 @@ export class MapPage {
                 "name": "Ameliorated intangible implementation",
                 "description": "bibendum imperdiet nullam orci pede",
                 "images": [
-                    "http://dummyimage.com/400x300.jpg/dddddd/000000",
-                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff"
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff",
+                    "http://dummyimage.com/400x300.jpg/dddddd/000000"
                 ],
                 "latitude": "53.5953",
                 "longitude": "10.0122",

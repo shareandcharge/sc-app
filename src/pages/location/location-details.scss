@@ -1,0 +1,15 @@
+location-details {
+  .image-wrapper {
+    background-color: #eee;
+    overflow: hidden;
+    height: 180px;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .scroll-content {
+    margin-top: 0 !important;  // @TODO
+  }
+}
