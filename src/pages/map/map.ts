@@ -110,7 +110,7 @@ export class MapPage {
         });
 
         let me = this;
-        marker.addListener('click', function() {
+        marker.addListener('click', function () {
             console.log('OPEN:', location);
             me.navCtrl.push(LocationDetailPage, {
                 "location": location
@@ -154,9 +154,11 @@ export class MapPage {
     showAddressModal() {
         let modal = this.modalCtrl.create(AutocompletePage);
         modal.onDidDismiss(place => {
-            console.log('DATA:', place);
-            this.address.place = place;
-            this.centerToPlace(place);
+            if (place) {
+                console.log('DATA:', place);
+                this.address.place = place;
+                this.centerToPlace(place);
+            }
         });
         modal.present();
     }
@@ -175,6 +177,7 @@ export class MapPage {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 console.log('Place detail:', place);
                 me.map.setCenter(place.geometry.location);
+                me.map.setZoom(me.currentPositionZoom);
             }
             else {
                 console.log('Place err: ', status);
@@ -225,6 +228,7 @@ export class MapPage {
 
         this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
     }
+
     addDummyMarkers() {
         let dummys = [
 

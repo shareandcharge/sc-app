@@ -2,6 +2,7 @@ import {Component, NgZone , ViewChild} from '@angular/core';
 import {ViewController} from 'ionic-angular';
 
 declare var google: any;
+declare var cordova: any;
 
 @Component({
     templateUrl: 'autocomplete.html'
@@ -33,6 +34,13 @@ export class AutocompletePage {
 
     chooseItem(item: any) {
         console.log('modal > chooseItem > item > ', item);
+
+        try {
+            cordova.plugins.Keyboard.close();
+        }
+        catch(e) {
+            console.log('Hiding keyboard, browser');
+        }
 
         this.viewCtrl.dismiss(item);
     }
