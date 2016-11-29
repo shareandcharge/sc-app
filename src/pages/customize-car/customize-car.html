@@ -31,12 +31,23 @@
             <ion-input type="text" [(ngModel)]="akkuCapacity"></ion-input>
         </ion-item>
         <!--<ion-item>-->
-            <!--<ion-label floating>Number of Plugs</ion-label>-->
-            <!--<ion-input type="text" [(ngModel)]="numberOfPlugs"></ion-input>-->
+        <!--<ion-label floating>Number of Plugs</ion-label>-->
+        <!--<ion-input type="text" [(ngModel)]="numberOfPlugs"></ion-input>-->
         <!--</ion-item>-->
+
         <ion-item>
-            <ion-label floating>Plug Types</ion-label>
-            <ion-input type="text" [(ngModel)]="plugTypes "></ion-input>
+            <ion-label>Plug Types</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-select [(ngModel)]="plugTypes" [selectOptions]="selectPlugTypesOptions" multiple="true" class="select-multiline" placeholder="Please Select ...">
+                <ion-option>Schuko-Steckdose</ion-option>
+                <ion-option>CEE-Stecker</ion-option>
+                <ion-option>Typ 1</ion-option>
+                <ion-option>Typ 2</ion-option>
+                <ion-option>Combo</ion-option>
+                <ion-option>CHAdeMO</ion-option>
+                <ion-option>Tesla Supercharger</ion-option>
+            </ion-select>
         </ion-item>
     </ion-list>
 </ion-content>

@@ -4,6 +4,8 @@ import {Geolocation} from 'ionic-native';
 import {Platform} from 'ionic-angular';
 import {AutocompletePage} from './autocomplete';
 import {MapSettingsPage} from '../map-settings/map-settings';
+import {MapFilterPage} from './filter/filter';
+import {LocationDetailPage} from "../location/location-details";
 
 
 declare var google;
@@ -77,7 +79,8 @@ export class MapPage {
             center: latLng,
             zoom: this.defaultZoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false
+            mapTypeControl: false,
+            fullscreenControl: false
         };
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -94,20 +97,28 @@ export class MapPage {
         });
     }
 
-    createMarker() {
-        this.addMarker(this.map.getCenter());
-    }
+    // createMarker() {
+    //     this.addMarker(this.map.getCenter());
+    // }
 
-    addMarker(position) {
+    addMarker(location) {
+        console.log('ADD MARKER: ', location);
         let marker = new google.maps.Marker({
             map: this.map,
             animation: google.maps.Animation.DROP,
-            position: position
+            position: new google.maps.LatLng(location.latitude, location.longitude)
         });
 
-        let content = "<b>Station:</b> " + position.lat() + ', ' + position.lng();
+        let me = this;
+        marker.addListener('click', function() {
+            console.log('OPEN:', location);
+            me.navCtrl.push(LocationDetailPage, {
+                "location": location
+            });
+        });
 
-        this.addInfoWindow(marker, content);
+        // let content = location.name;
+        // this.addInfoWindow(marker, content);
     }
 
 
@@ -121,36 +132,23 @@ export class MapPage {
         });
     }
 
-    addDummyMarkers() {
-        let dummys = [
-            {'lat': 52.58363603, 'lng': 11.53619477},
-            {'lat': 52.71166356, 'lng': 9.95521968},
-            {'lat': 51.38227646, 'lng': 9.69326227},
-            {'lat': 49.53745409, 'lng': 10.1372128},
-            {'lat': 49.795868, 'lng': 12.16748952},
-            {'lat': 51.01381809, 'lng': 7.87189239},
-            {'lat': 50.59631641, 'lng': 8.84209567},
-            {'lat': 51.19280834, 'lng': 13.2600554},
-            {'lat': 50.51676003, 'lng': 9.85862289},
-            {'lat': 50.64257946, 'lng': 12.21387494}
-        ];
-
-        let me = this;
-        dummys.forEach(function (pos) {
-            me.addMarker(new google.maps.LatLng(pos.lat, pos.lng));
-        });
-    }
 
     addInfoWindow(marker, content) {
 
         let infoWindow = new google.maps.InfoWindow({
-            content: content
+            content: content,
+            enableEventPropagation: true
         });
 
         google.maps.event.addListener(marker, 'click', () => {
             infoWindow.open(this.map, marker);
         });
 
+    }
+
+    presentFilterModal() {
+        let filter = this.modalCtrl.create(MapFilterPage);
+        filter.present();
     }
 
     showAddressModal() {
@@ -222,9 +220,308 @@ export class MapPage {
         let me = this;
 
         controlUI.addEventListener('click', function () {
-            // me.openFilter()
+            me.presentFilterModal()
         });
 
         this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
+    }
+    addDummyMarkers() {
+        let dummys = [
+
+            {
+                "id": 1,
+                "owner": "cb7f00b318513870f477c6d78bf478023e5e481f",
+                "name": "Intuitive asynchronous challenge",
+                "description": "non velit donec diam neque vestibulum eget vulputate ut ultrices",
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/99dddd/000000",
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff"
+                ],
+                "latitude": "51.1646",
+                "longitude": "6.7519",
+                "address": "9716 Westerfield Center",
+                "_country": "Germany",
+                "city": "Neuss",
+                "stations": [
+                    {
+                        "name": "tortor",
+                        "connectors": [
+                            {
+                                "status": 4,
+                                "plugType": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "owner": "5d70e8dbffab79e90bc9c078df2fc8e4037993cd",
+                "name": "Reduced fault-tolerant array",
+                "description": "viverra dapibus nulla suscipit ligula in lacus curabitur at ipsum ac tellus semper interdum mauris ullamcorper",
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/dd00dd/000000",
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff"
+                ],
+                "latitude": "51.216",
+                "longitude": "7.1418",
+                "address": "6388 Artisan Way",
+                "_country": "Germany",
+                "city": "Wuppertal",
+                "stations": [
+                    {
+                        "name": "vitae quam",
+                        "connectors": [
+                            {
+                                "status": 1,
+                                "plugType": 4
+                            },
+                            {
+                                "status": 1,
+                                "plugType": 3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "owner": "1e5c136d9f1c79d603148b8b5e18f9ed31fcb16b",
+                "name": "Compatible intermediate internet solution",
+                "description": "mollis molestie lorem quisque ut erat curabitur gravida nisi at nibh in hac",
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/5fF444/ffffff",
+                    "http://dummyimage.com/400x300.jpg/dddddd/000000"
+                ],
+                "latitude": "51.129",
+                "longitude": "6.4386",
+                "address": "1 Eggendart Place",
+                "_country": "Germany",
+                "city": "Mönchengladbach",
+                "stations": [
+                    {
+                        "name": "non lectus",
+                        "connectors": [
+                            {
+                                "status": 4,
+                                "plugType": 4
+                            },
+                            {
+                                "status": 2,
+                                "plugType": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 4,
+                "owner": "6a0d357446bfc2f01e906ae18a80ce7bd39dc45f",
+                "name": "Digitized interactive conglomeration",
+                "description": "gravida nisi at nibh in hac habitasse platea dictumst aliquam augue quam sollicitudin vitae consectetuer eget rutrum at lorem integer",
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/ff4466/ffffff",
+                    "http://dummyimage.com/400x300.jpg/ff4444/ffffff"
+                ],
+                "latitude": "54.3205",
+                "longitude": "10.051",
+                "address": "352 Sundown Place",
+                "_country": "Germany",
+                "city": "Kiel",
+                "stations": [
+                    {
+                        "name": "quis orci",
+                        "connectors": [
+                            {
+                                "status": 2,
+                                "plugType": 4
+                            },
+                            {
+                                "status": 2,
+                                "plugType": 3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "owner": "7474358db0ed23e2517c723fe6db7d951e6af8f6",
+                "name": "Configurable discrete core",
+                "description": "nulla ac enim in tempor turpis nec euismod scelerisque quam turpis adipiscing lorem",
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/5fa200/ffffff",
+                    "http://dummyimage.com/400x300.jpg/ff4444/ffffff"
+                ],
+                "latitude": "49.4811",
+                "longitude": "8.4353",
+                "address": "733 Warner Alley",
+                "_country": "Germany",
+                "city": "Ludwigshafen am Rhein",
+                "stations": [
+                    {
+                        "name": "eu",
+                        "connectors": [
+                            {
+                                "status": 2,
+                                "plugType": 3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 6,
+                "owner": "14a4b90d0e4fab2cd42482e47d326bf2a5f284a3",
+                "name": "Assimilated tangible info-mediaries",
+                "description": "tortor quis turpis sed ante vivamus tortor duis mattis egestas metus aenean fermentum donec ut mauris",
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/cc2200/ffffff",
+                    "http://dummyimage.com/400x300.jpg/cc0000/ffffff"
+                ],
+                "latitude": "50.9968",
+                "longitude": "11.0079",
+                "address": "57426 Moulton Parkway",
+                "_country": "Germany",
+                "city": "Erfurt",
+                "stations": [
+                    {
+                        "name": "amet erat",
+                        "connectors": [
+                            {
+                                "status": 4,
+                                "plugType": 3
+                            },
+                            {
+                                "status": 2,
+                                "plugType": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 7,
+                "owner": "0bb49b0ccd8abcf2c46f0360fbeb669b3fe57e48",
+                "name": "Business-focused multi-state encoding",
+                "description": null,
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff",
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff"
+                ],
+                "latitude": "51.1833",
+                "longitude": "7.2556",
+                "address": "23039 Mendota Junction",
+                "_country": "Germany",
+                "city": "Remscheid",
+                "stations": [
+                    {
+                        "name": "ante",
+                        "connectors": [
+                            {
+                                "status": 4,
+                                "plugType": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 8,
+                "owner": "88adceec4dba050a7e0a9d9aeee932beaa65811b",
+                "name": "Re-contextualized mobile capacity",
+                "description": "odio in hac habitasse platea dictumst maecenas ut",
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/ff4444/ffffff",
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff"
+                ],
+                "latitude": "48.1738",
+                "longitude": "11.5858",
+                "address": "62032 Lakewood Gardens Terrace",
+                "_country": "Germany",
+                "city": "München",
+                "stations": [
+                    {
+                        "name": "vivamus tortor",
+                        "connectors": [
+                            {
+                                "status": 2,
+                                "plugType": 4
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 9,
+                "owner": "17b135b5d9f4e6f30a6913b3f3d96b9fd7bdb8b9",
+                "name": "Ameliorated intangible implementation",
+                "description": "bibendum imperdiet nullam orci pede",
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff",
+                    "http://dummyimage.com/400x300.jpg/dddddd/000000"
+                ],
+                "latitude": "53.5953",
+                "longitude": "10.0122",
+                "address": "77779 Gina Road",
+                "_country": "Germany",
+                "city": "Hamburg Winterhude",
+                "stations": [
+                    {
+                        "name": "viverra pede",
+                        "connectors": [
+                            {
+                                "status": 3,
+                                "plugType": 2
+                            },
+                            {
+                                "status": 1,
+                                "plugType": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 10,
+                "owner": "ef89e56b752564a070a3e806c162fc10da828774",
+                "name": "Secured grid-enabled encoding",
+                "description": "sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat morbi a ipsum",
+                "images": [
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff",
+                    "http://dummyimage.com/400x300.jpg/5fa2dd/ffffff"
+                ],
+                "latitude": "50.7659",
+                "longitude": "12.946",
+                "address": "1357 Susan Point",
+                "_country": "Germany",
+                "city": "Chemnitz",
+                "stations": [
+                    {
+                        "name": "morbi non",
+                        "connectors": [
+                            {
+                                "status": 3,
+                                "plugType": 3
+                            },
+                            {
+                                "status": 3,
+                                "plugType": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "11",
+                "name": "name 11",
+                "title": "My yash"
+            }
+
+        ];
+        let me = this;
+        dummys.forEach(function (location) {
+            me.addMarker(location);
+        });
     }
 }

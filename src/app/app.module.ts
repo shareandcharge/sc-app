@@ -12,12 +12,15 @@ import {CarModelPage} from '../pages/car-model/car-model';
 import {MapSettingsPage} from '../pages/map-settings/map-settings';
 import {CustomizeCarPage} from '../pages/customize-car/customize-car';
 import {TabsPage} from '../pages/tabs/tabs';
+import {MapFilterPage} from "../pages/map/filter/filter";
+import {LocationDetailPage} from "../pages/location/location-details";
 
 @NgModule({
     declarations: [
         MyApp,
         AboutPage,
         MapPage,
+        MapFilterPage,
         AutocompletePage,
         SignupPage,
         LoginPage,
@@ -26,6 +29,7 @@ import {TabsPage} from '../pages/tabs/tabs';
         CarModelPage,
         MapSettingsPage,
         CustomizeCarPage,
+        LocationDetailPage,
         TabsPage
     ],
     imports: [
@@ -36,6 +40,7 @@ import {TabsPage} from '../pages/tabs/tabs';
         MyApp,
         AboutPage,
         MapPage,
+        MapFilterPage,
         AutocompletePage,
         SignupPage,
         LoginPage,
@@ -44,6 +49,7 @@ import {TabsPage} from '../pages/tabs/tabs';
         CarModelPage,
         MapSettingsPage,
         CustomizeCarPage,
+        LocationDetailPage,
         TabsPage
     ],
     providers: []
