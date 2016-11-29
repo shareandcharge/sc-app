@@ -58,12 +58,19 @@ export class MapPage {
      }*/
 
     centerCurrentPosition() {
+        let loader = this.loadingCtrl.create({
+            content: "Getting your location ...",
+        });
+        loader.present();
+
         Geolocation.getCurrentPosition().then((position) => {
             let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             this.map.setZoom(this.currentPositionZoom);
             this.map.setCenter(latLng);
+            loader.dismissAll();
         }, (err) => {
             console.log(err);
+            loader.dismissAll();
         });
     }
 
