@@ -146,7 +146,8 @@ export class MapPage {
     addInfoWindow(marker, content) {
 
         let infoWindow = new google.maps.InfoWindow({
-            content: content
+            content: content,
+            enableEventPropagation: true
         });
 
         google.maps.event.addListener(marker, 'click', () => {
