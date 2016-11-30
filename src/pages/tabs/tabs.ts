@@ -5,6 +5,9 @@ import { MapPage } from '../map/map';
 import { AboutPage } from '../about/about';
 import { AddCarPage } from '../add-car/add-car';
 import { SignupPage } from '../signup/signup';
+import { AddStationPage } from '../station/add/add-station';
+import { MyCarsPage } from '../my-cars/my-cars';
+
 
 @Component({
   templateUrl: 'tabs.html'
@@ -21,16 +24,24 @@ export class TabsPage {
   }
 
   signUpModal(){
-    console.log("Opening Modal");
     let modal = this.modalCtrl.create(SignupPage);
     modal.present();
 
   }
 
   addCarModal(){
-    console.log("Opening Modal");
     let modal = this.modalCtrl.create(AddCarPage);
     modal.present();
 
+  }
+
+  addStationModal(){
+    let modal = this.modalCtrl.create(AddStationPage);
+    modal.present();
+  }
+
+  myCarsModal(){
+    let modal = this.modalCtrl.create(MyCarsPage);
+    modal.present();
   }
 }

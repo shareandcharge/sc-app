@@ -31,19 +31,66 @@
             <ion-input type="text" [(ngModel)]="plateNumber"></ion-input>
         </ion-item>
 
-        <ion-item>
-            <ion-label floating>Manufacturer & Model</ion-label>
-            <ion-input type="text" [(ngModel)]="carInfo"></ion-input>
-            <button ion-button outline item-right (click)="selectModdel()" style="font-size: 2.3rem; bottom: -15px; height: 32px">
-                <ion-icon name="list"></ion-icon>
-            </button>
-        </ion-item>
-        <ion-item>
-            <a (click)="customizeCar()">Customize Car</a>
-            <br/>
-        </ion-item>
+
+        <ion-segment color="primary" [(ngModel)]="segmentTabs" padding>
+            <ion-segment-button value="preset" (ionSelect)="showPresetForm()">
+                Preset
+            </ion-segment-button>
+            <ion-segment-button value="custom" (ionSelect)="showCustomForm()">
+                Customize
+            </ion-segment-button>
+        </ion-segment>
+
+            <div  *ngIf="segmentTabs == 'preset'" >
+
+                <ion-list *ngIf="car.manufacturer == ''">
+                    <button ion-item (click)="selectModdel()">
+                        Select Car Model
+                    </button>
+                </ion-list>
+
+                <div padding="">
+                    <h3>{{car.manufacturer}}  {{car.model}}</h3>
+                </div>
+            </div>
+
+        <div *ngIf="segmentTabs == 'custom'">
+            <ion-item>
+                <ion-label floating>Manufacturer</ion-label>
+                <ion-input type="text" [(ngModel)]="car.manufacturer"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Model</ion-label>
+                <ion-input type="text" [(ngModel)]="car.model"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Average Distance</ion-label>
+                <ion-input type="text" [(ngModel)]="car.averageDistance"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Akku Capacity</ion-label>
+                <ion-input type="text" [(ngModel)]="car.akkuCapacity"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Plug Types</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-select [(ngModel)]="car.plugTypes" [selectOptions]="selectPlugTypesOptions" multiple="true" class="select-multiline" placeholder="Please Select ...">
+                    <ion-option>Schuko-Steckdose</ion-option>
+                    <ion-option>CEE-Stecker</ion-option>
+                    <ion-option>Typ 1</ion-option>
+                    <ion-option>Typ 2</ion-option>
+                    <ion-option>Combo</ion-option>
+                    <ion-option>CHAdeMO</ion-option>
+                    <ion-option>Tesla Supercharger</ion-option>
+                </ion-select>
+            </ion-item>
+        </div>
+
         <div padding>
-            <button ion-button (click)="saveCar()">Save</button>
+            <button ion-button (click)="saveCar()">{{saveButtonText}}</button>
+            <button *ngIf="showDeleteButton" ion-button (click)="deleteCar()">Delete</button>
         </div>
     </ion-list>
 

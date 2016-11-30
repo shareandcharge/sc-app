@@ -1,37 +1,49 @@
-import { Component } from '@angular/core';
-import { NavController , NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 import {CarService} from "../../services/car.service";
 import {AddCarPage} from "../add-car/add-car";
-
+import {Car} from '../../models/cars';
 
 
 @Component({
-  selector: 'page-car-model',
-  templateUrl: 'car-model.html',
-  providers: [CarService]
+    selector: 'page-car-model',
+    templateUrl: 'car-model.html',
+    providers: [CarService]
 })
 export class CarModelPage {
-  manufacturerId: any;
-  manufacturerName: any;
-  models: any;
-  plateNumber: any;
-  constructor(public navCtrl: NavController , private navParams : NavParams , private carService: CarService) {
+    manufacturerId:any;
+    manufacturerName:any;
+    models:any;
+    cars:Car[];
+    mode:any;
+    car:Car;
 
-    this.manufacturerId = navParams.get("manufacturerId");
-    this.manufacturerName = navParams.get("manufacturerName");
-    this.plateNumber = navParams.get("plateNumber");
-    this.models = this.carService.getModels(this.manufacturerId);
-  }
+    constructor(public navCtrl:NavController, private navParams:NavParams, private carService:CarService) {
 
-  ionViewDidLoad() {
-  }
+        this.manufacturerId = navParams.get("manufacturerId");
+        this.models = this.carService.getModels(this.manufacturerId);
+        this.cars = navParams.get("cars");
+        this.mode = navParams.get("mode");
+        this.car = navParams.get("car");
+        this.manufacturerName = this.car.manufacturer;
 
-  itemSelected(model){
-    this.navCtrl.setRoot(AddCarPage, {
-      "manufacturerName": this.manufacturerName,
-      "model": model,
-      "plateNumber" : this.plateNumber
-    });
-  }
+
+        console.log(this.car);
+    }
+
+    ionViewDidLoad() {
+    }
+
+    itemSelected(model) {
+
+        this.car.model = model.name;
+
+        console.log("before navigate ", this.car)
+        this.navCtrl.setRoot(AddCarPage, {
+            "cars": this.cars,
+            "mode": this.mode,
+            "car": this.car
+        });
+    }
 
 }

@@ -1,0 +1,80 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Add Station</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="skipAddingStation()">
+                Skip
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-grid class="fullpage">
+        <ion-row>
+            <ion-col>
+
+                <div class="image-wrapper">
+
+                </div>
+
+                <ion-item no-lines>
+                    <ion-label floating>Type Station Address</ion-label>
+                    <ion-input type="text"></ion-input>
+                </ion-item>
+
+                <ion-row padding>
+                    <ion-col width-75>
+                        Opening Hours
+                    </ion-col>
+                    <ion-col width-25>
+                        <a (click)="customizeStation()">Customize</a>
+                    </ion-col>
+                </ion-row>
+
+                <ion-item no-lines>
+                    <ion-label>From</ion-label>
+                    <ion-select>
+                        <ion-option value="9" selected="true">9:00</ion-option>
+                        <ion-option value="12">10:00</ion-option>
+                    </ion-select>
+                </ion-item>
+
+                <ion-item no-lines>
+                    <ion-label>To</ion-label>
+                    <ion-select>
+                        <ion-option value="9" selected="true">9:00</ion-option>
+                        <ion-option value="12">10:00</ion-option>
+                    </ion-select>
+                </ion-item>
+
+                <ion-item no-lines>
+                    <ion-label>Days</ion-label>
+                    <ion-select multiple="true">
+                        <ion-option>Monday</ion-option>
+                        <ion-option>Tuesday</ion-option>
+                        <ion-option>Wednesday</ion-option>
+                        <ion-option>Thursday</ion-option>
+                        <ion-option>Friday</ion-option>
+                        <ion-option>Saturday</ion-option>
+                        <ion-option>Sunday</ion-option>
+                    </ion-select>
+                </ion-item>
+
+                <ion-item no-lines>
+                    <ion-label floating>Descriptions</ion-label>
+                    <ion-textarea></ion-textarea>
+                </ion-item>
+
+            </ion-col>
+        </ion-row>
+        <ion-row bottom right>
+            <ion-col text-right>
+                    <button ion-button (click)="continueAddStation()">Continue</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

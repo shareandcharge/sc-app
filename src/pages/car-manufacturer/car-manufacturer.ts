@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController , NavParams} from 'ionic-angular';
+import {NavController, ViewController, NavParams} from 'ionic-angular';
 import {CarService} from "../../services/car.service";
 import {CarModelPage} from "../car-model/car-model";
+import {Car} from '../../models/cars';
+
 
 @Component({
     selector: 'page-car-manufacturer',
@@ -9,23 +11,31 @@ import {CarModelPage} from "../car-model/car-model";
     providers: [CarService]
 })
 export class CarManufacturerPage {
-    manufacturers: any;
-    plateNumber: any;
+    manufacturers:any;
+    plateNumber:any;
+    mode:any;
+    car:Car;
+    cars:Car[];
+    selectedPlate:any;
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController , private carService: CarService , private navParams: NavParams) {
+    constructor(public navCtrl:NavController, private viewCtrl:ViewController, private carService:CarService, private navParams:NavParams) {
         this.manufacturers = this.carService.getManufacturers();
-        this.plateNumber = navParams.get("plateNumber");
+        this.car = navParams.get("car");
+        this.cars = navParams.get("cars");
+        this.mode = navParams.get("mode");
     }
 
     ionViewDidLoad() {
-        console.log('Hello CarManufacturerPage Page');
+        //console.log('Hello CarManufacturerPage Page');
     }
 
-    itemSelected(manufacturer){
+    itemSelected(manufacturer) {
+        this.car.manufacturer = manufacturer.name;
         this.navCtrl.push(CarModelPage, {
             "manufacturerId": manufacturer.id,
-            "manufacturerName": manufacturer.name,
-            "plateNumber" : this.plateNumber
+            "car": this.car,
+            "cars": this.cars,
+            "mode": this.mode
         });
     }
 
