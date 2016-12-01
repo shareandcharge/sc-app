@@ -42,7 +42,7 @@ export class AddCarPage {
         else {
             this.car = new Car();
         }
-        
+
         this.carInfo = "";
         if (this.car.manufacturer != '') {
             this.carInfo = this.car.manufacturer + " , " + this.car.model;
@@ -91,7 +91,6 @@ export class AddCarPage {
     }
 
     customizeCar() {
-
         this.car.plateNumber = this.plateNumber;
         this.navCtrl.push(CustomizeCarPage, {
             "cars": this.cars,
@@ -99,16 +98,6 @@ export class AddCarPage {
             "car": this.car
         });
     }
-
-    
-    showPresetForm(){
-        
-    }
-    
-    showCustomForm(){
-        
-    }
-    
     selectModdel() {
         this.car.plateNumber = this.plateNumber;
         this.navCtrl.push(CarManufacturerPage, {

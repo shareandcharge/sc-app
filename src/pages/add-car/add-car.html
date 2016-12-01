@@ -33,10 +33,10 @@
 
 
         <ion-segment color="primary" [(ngModel)]="segmentTabs" padding>
-            <ion-segment-button value="preset" (ionSelect)="showPresetForm()">
+            <ion-segment-button value="preset">
                 Preset
             </ion-segment-button>
-            <ion-segment-button value="custom" (ionSelect)="showCustomForm()">
+            <ion-segment-button value="custom">
                 Customize
             </ion-segment-button>
         </ion-segment>
@@ -49,9 +49,12 @@
                     </button>
                 </ion-list>
 
-                <div padding="">
-                    <h3>{{car.manufacturer}}  {{car.model}}</h3>
-                </div>
+                <ion-list *ngIf="car.manufacturer != ''">
+                    <button ion-item (click)="selectModdel()">
+                        {{car.manufacturer}}  {{car.model}}
+                    </button>
+                </ion-list>
+
             </div>
 
         <div *ngIf="segmentTabs == 'custom'">
