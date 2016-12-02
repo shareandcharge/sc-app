@@ -4,7 +4,7 @@ import {CarManufacturerPage} from '../car-manufacturer/car-manufacturer';
 import {CustomizeCarPage} from '../customize-car/customize-car';
 import {MyCarsPage} from '../my-cars/my-cars';
 import {Camera} from 'ionic-native';
-import {Car} from '../../models/cars';
+import {Car} from '../../models/car';
 
 
 @Component({

@@ -4,7 +4,7 @@ import {NavController} from 'ionic-angular';
 
 import {CarService} from "../../services/car.service";
 import {LocationDetailPage} from "../location/location-details";
-import {Observable} from "rxjs";
+import {Car} from "../../models/car";
 
 
 @Component({
@@ -17,11 +17,18 @@ export class AboutPage {
 
     manufacturers: any;
     modelsVw: any;
+    carList: Array<Car>;
 
     constructor(public navCtrl: NavController, private carService: CarService) {
 
         this.manufacturers = this.carService.getManufacturers();
         this.modelsVw = this.carService.getModels(5);
+    }
+
+    ngOnInit() {
+        this.carService.getCars().subscribe(
+            data => this.carList = data
+        );
     }
 
     testLocationDetails() {

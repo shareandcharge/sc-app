@@ -8,6 +8,12 @@
 
 <ion-content padding>
 
+  <h1>Cars from mockup api</h1>
+  <div *ngFor="let car of carList">
+    <strong>{{car.id}}</strong>: {{car.plateNumber}}, {{car.manufacturer}}, {{car.model}}
+  </div>
+
+
   <h1>Manufacturers</h1>
   <div *ngFor="let manufacturer of manufacturers">
     {{ manufacturer.name }}

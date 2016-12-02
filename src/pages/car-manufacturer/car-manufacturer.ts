@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, ViewController, NavParams} from 'ionic-angular';
 import {CarService} from "../../services/car.service";
 import {CarModelPage} from "../car-model/car-model";
-import {Car} from '../../models/cars';
+import {Car} from '../../models/car';
 
 
 @Component({
