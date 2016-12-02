@@ -16,6 +16,7 @@ import {TabsPage} from '../pages/tabs/tabs';
 import {MapFilterPage} from "../pages/map/filter/filter";
 import {LocationDetailPage} from "../pages/location/location-details";
 import { MyCarsPage } from '../pages/my-cars/my-cars';
+import { MapDetailPage } from '../pages/location/details-map/map';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { MyCarsPage } from '../pages/my-cars/my-cars';
         CustomizeCarPage,
         LocationDetailPage,
         MyCarsPage,
+        MapDetailPage,
         TabsPage
     ],
     imports: [
@@ -57,6 +59,7 @@ import { MyCarsPage } from '../pages/my-cars/my-cars';
         CustomizeCarPage,
         LocationDetailPage,
         MyCarsPage,
+        MapDetailPage,
         TabsPage
     ],
     providers: []

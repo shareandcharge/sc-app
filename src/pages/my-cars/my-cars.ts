@@ -17,9 +17,15 @@ export class MyCarsPage {
   cars = [];
   newCar : any;
   mode: any;
+  noCars = false;
   constructor(public navCtrl: NavController , private navParams : NavParams) {
+
+    console.log("The car is " , this.cars)
     if(typeof navParams.get("cars") != 'undefined'){
       this.cars = navParams.get("cars");
+    }
+    else{
+      this.noCars = true;
     }
     this.newCar = navParams.get("newCar");
     this.mode = navParams.get("mode");
@@ -32,10 +38,18 @@ export class MyCarsPage {
   }
 
   addCar(){
-    this.navCtrl.setRoot(AddCarPage, {
-      "cars" : this.cars,
-      "mode" : "add"
-    });
+    if(this.noCars){
+      this.navCtrl.setRoot(AddCarPage, {
+        "mode" : "add"
+      });
+    }
+    else{
+      this.navCtrl.setRoot(AddCarPage, {
+        "cars" : this.cars,
+        "mode" : "add"
+      });
+    }
+
   }
 
   editCar(carPlateNum){

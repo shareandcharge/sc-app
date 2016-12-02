@@ -1,11 +1,17 @@
 <ion-header class="transparent">
     <ion-navbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span color="primary" showWhen="ios">Close</span>
+                <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+            </button>
+        </ion-buttons>
         <!--<ion-title>Location</ion-title>-->
     </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <div class="image-wrapper">
+    <div class="image-wrapper" (click)="detailedMap()">
         <img src="{{location.images[0]}}">
     </div>
     <div padding>
@@ -61,11 +67,9 @@
             <ion-icon name="md-star"></ion-icon>
             <ion-icon name="md-star-half"></ion-icon>
             <ion-icon name="md-star-outline"></ion-icon>
-        </div>
-        <ion-buttons end>
-            <button ion-button outline color="primary">
+            <button ion-button  full outline color="primary" class="btn-start-charging">
                 Start Charging
             </button>
-        </ion-buttons>
+        </div>
     </ion-toolbar>
 </ion-footer>

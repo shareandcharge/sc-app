@@ -5,7 +5,8 @@ import {Platform} from 'ionic-angular';
 import {AutocompletePage} from './autocomplete';
 import {MapSettingsPage} from '../map-settings/map-settings';
 import {MapFilterPage} from './filter/filter';
-import {LocationDetailPage} from "../location/location-details";
+import {LocationDetailPage} from '../location/location-details';
+import {MyCarsPage} from '../../pages/my-cars/my-cars'
 
 
 declare var google;
@@ -118,14 +119,23 @@ export class MapPage {
 
         let me = this;
         marker.addListener('click', function () {
-            console.log('OPEN:', location);
-            me.navCtrl.push(LocationDetailPage, {
+            let locDetails = me.modalCtrl.create(LocationDetailPage , {
                 "location": location
             });
+
+            locDetails.present();
+
+         /*   me.navCtrl.push(LocationDetailPage, {
+                "location": location
+            });*/
         });
 
         // let content = location.name;
         // this.addInfoWindow(marker, content);
+    }
+
+    myCarsModal() {
+        this.navCtrl.setRoot(MyCarsPage);
     }
 
 
