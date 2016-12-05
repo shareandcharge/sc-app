@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, ModalController, NavParams} from 'ionic-angular';
-import {CarManufacturerPage} from '../car-manufacturer/car-manufacturer';
-import {CustomizeCarPage} from '../customize-car/customize-car';
+import {CarManufacturerPage} from '../manufacturer/car-manufacturer';
+import {CustomizeCarPage} from '../customize/customize-car';
 import {MyCarsPage} from '../my-cars/my-cars';
 import {Camera} from 'ionic-native';
-import {CarService} from "../../services/car.service";
-import {Car} from '../../models/car';
+import {CarService} from "../../../services/car.service";
+import {Car} from '../../../models/car';
 
 
 @Component({

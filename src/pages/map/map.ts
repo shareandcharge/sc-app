@@ -2,11 +2,11 @@ import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, ModalController, LoadingController, PopoverController} from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
 import {Platform} from 'ionic-angular';
-import {AutocompletePage} from './autocomplete';
-import {MapSettingsPage} from '../map-settings/map-settings';
+import {AutocompletePage} from './autocomplete/autocomplete';
+import {MapSettingsPage} from './settings/map-settings';
 import {MapFilterPage} from './filter/filter';
 import {LocationDetailPage} from '../location/location-details';
-import {MyCarsPage} from '../../pages/my-cars/my-cars'
+import {MyCarsPage} from '../car/my-cars/my-cars'
 
 
 declare var google;
@@ -30,7 +30,7 @@ export class MapPage {
 
     defaultCenterLat = 51.6054624;
     defaultCenterLng = 10.6679155;
-    defaultZoom = 7;
+    defaultZoom = 8;
     currentPositionZoom = 13;
 
     constructor(public popoverCtrl: PopoverController, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {

@@ -3,10 +3,10 @@ import { ModalController } from 'ionic-angular';
 
 import { MapPage } from '../map/map';
 import { AboutPage } from '../about/about';
-import { AddCarPage } from '../add-car/add-car';
+import { AddCarPage } from '../car/add/add-car';
 import { SignupPage } from '../signup/signup';
 import { AddStationPage } from '../station/add/add-station';
-import { MyCarsPage } from '../my-cars/my-cars';
+import { MyCarsPage } from '../car/my-cars/my-cars';
 
 
 @Component({

@@ -5,18 +5,18 @@ import {AboutPage} from '../pages/about/about';
 import {SignupPage} from '../pages/signup/signup';
 import {LoginPage} from '../pages/login/login';
 import {MapPage} from '../pages/map/map';
-import {AutocompletePage} from '../pages/map/autocomplete';
-import {AddCarPage} from '../pages/add-car/add-car';
+import {AutocompletePage} from '../pages/map/autocomplete/autocomplete';
 import {AddStationPage} from '../pages/station/add/add-station';
-import {CarManufacturerPage} from '../pages/car-manufacturer/car-manufacturer';
-import {CarModelPage} from '../pages/car-model/car-model';
-import {MapSettingsPage} from '../pages/map-settings/map-settings';
-import {CustomizeCarPage} from '../pages/customize-car/customize-car';
+import {CarManufacturerPage} from '../pages/car/manufacturer/car-manufacturer';
+import {CarModelPage} from '../pages/car/model/car-model';
+import {MapSettingsPage} from '../pages/map/settings/map-settings';
+import {CustomizeCarPage} from '../pages/car/customize/customize-car';
 import {TabsPage} from '../pages/tabs/tabs';
 import {MapFilterPage} from "../pages/map/filter/filter";
 import {LocationDetailPage} from "../pages/location/location-details";
-import { MyCarsPage } from '../pages/my-cars/my-cars';
+import { MyCarsPage } from '../pages/car/my-cars/my-cars';
 import { MapDetailPage } from '../pages/location/details-map/map';
+import {AddCarPage} from '../pages/car/add/add-car'
 
 
 @NgModule({
