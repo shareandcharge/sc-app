@@ -12,24 +12,15 @@
 
 <ion-content>
     <div class="image-wrapper" (click)="detailedMap()">
-        <img src="{{location.images[0]}}">
-    </div>
+        <div #map id="map">
+        </div>    </div>
     <div padding>
-        <h3>{{ location.name }}</h3>
         <p><strong>{{location.address}}, {{location.city}}</strong></p>
+        <button ion-button color="light">Directions</button>
         <p>
             Opening hours: 10am - 6pm
         </p>
     </div>
-
-    <ion-row>
-        <ion-col>
-            <button ion-button color="light" full>Adress</button>
-        </ion-col>
-        <ion-col>
-            <button ion-button color="light" full>Feedback</button>
-        </ion-col>
-    </ion-row>
 
     <div padding>
         <h6>Plug Types:</h6>
@@ -40,14 +31,8 @@
 
         <div>
             <ion-slides>
-                <ion-slide>
-                    <h1>Img 1</h1>
-                </ion-slide>
-                <ion-slide>
-                    <h1>Img 2</h1>
-                </ion-slide>
-                <ion-slide>
-                    <h1>Img 3</h1>
+                <ion-slide *ngFor="let loc of location.images">
+                    <img src="{{loc}}">
                 </ion-slide>
             </ion-slides>
         </div>
@@ -68,6 +53,7 @@
             Good food, good power. I really like it here. Nothing much to say. Mollis molestie lorem quisque ut erat
             curabitur gravida nisi at nibh in hac.
         </p>
+        <button ion-button color="light" full>Feedback</button>
     </div>
 
 </ion-content>

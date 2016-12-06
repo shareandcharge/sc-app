@@ -32,9 +32,16 @@ export class MapPage {
     defaultCenterLng = 10.6679155;
     defaultZoom = 8;
     currentPositionZoom = 13;
+    mapDefaultControlls:boolean;
 
     constructor(public popoverCtrl: PopoverController, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
         this.platform = platform;
+        if(this.platform.is("core")){
+            this.mapDefaultControlls = false;
+        }
+        else{
+            this.mapDefaultControlls = true;
+        }
 
         this.address = {
             place: ''
@@ -88,7 +95,8 @@ export class MapPage {
             zoom: this.defaultZoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
-            fullscreenControl: false
+            fullscreenControl: false,
+            disableDefaultUI: this.mapDefaultControlls
         };
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);

@@ -23,11 +23,22 @@ export class MapDetailPage {
     placesService: any;
     private platform;
     location:any;
+    mapDefaultControlls:boolean;
 
     defaultZoom = 16;
 
     constructor(public popoverCtrl: PopoverController, platform: Platform,private navParams: NavParams ,public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
         this.platform = platform;
+
+        if(this.platform.is("core")){
+            this.mapDefaultControlls = false;
+        }
+        else{
+            this.mapDefaultControlls = true;
+        }
+
+        console.log("map default is " ,this.mapDefaultControlls);
+
         
         this.location = navParams.get("location");
         this.address = {
@@ -64,7 +75,8 @@ export class MapDetailPage {
             zoom: this.defaultZoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
-            fullscreenControl: false
+            fullscreenControl: false,
+            disableDefaultUI: this.mapDefaultControlls
         };
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
