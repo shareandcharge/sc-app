@@ -17,6 +17,8 @@ import {LocationDetailPage} from "../pages/location/location-details";
 import { MyCarsPage } from '../pages/car/my-cars/my-cars';
 import { MapDetailPage } from '../pages/location/details-map/map';
 import {AddCarPage} from '../pages/car/add/add-car'
+import {AddStationImagePage} from '../pages/station/add-image/add-image'
+import {StationImageSelectPage} from '../pages/station/add-image/image-select-modal'
 
 
 @NgModule({
@@ -37,6 +39,8 @@ import {AddCarPage} from '../pages/car/add/add-car'
         LocationDetailPage,
         MyCarsPage,
         MapDetailPage,
+        AddStationImagePage,
+        StationImageSelectPage,
         TabsPage
     ],
     imports: [
@@ -60,6 +64,8 @@ import {AddCarPage} from '../pages/car/add/add-car'
         LocationDetailPage,
         MyCarsPage,
         MapDetailPage,
+        AddStationImagePage,
+        StationImageSelectPage,
         TabsPage
     ],
     providers: []
