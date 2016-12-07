@@ -19,6 +19,11 @@ import { MapDetailPage } from '../pages/location/details-map/map';
 import {AddCarPage} from '../pages/car/add/add-car';
 import {AddStationImagePage} from '../pages/station/add-image/add-image';
 import {SetTariffPage} from '../pages/station/set-tariff/set-tariff';
+import {WalletPage} from '../pages/wallet/wallet';
+import {AddMoneyPage} from '../pages/wallet/add/add-money';
+import {WalletOptionsPage} from '../pages/wallet/options/wallet-options';
+import {AddReviewPage} from '../pages/review/add-review';
+
 
 
 @NgModule({
@@ -41,6 +46,10 @@ import {SetTariffPage} from '../pages/station/set-tariff/set-tariff';
         MapDetailPage,
         AddStationImagePage,
         SetTariffPage,
+        WalletPage,
+        AddMoneyPage,
+        WalletOptionsPage,
+        AddReviewPage,
         TabsPage
     ],
     imports: [
@@ -66,6 +75,10 @@ import {SetTariffPage} from '../pages/station/set-tariff/set-tariff';
         MapDetailPage,
         AddStationImagePage,
         SetTariffPage,
+        WalletPage,
+        AddMoneyPage,
+        WalletOptionsPage,
+        AddReviewPage,
         TabsPage
     ],
     providers: []

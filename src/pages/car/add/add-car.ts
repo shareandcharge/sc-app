@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController, NavParams} from 'ionic-angular';
+import {NavController, ViewController, ModalController, NavParams , ActionSheetController} from 'ionic-angular';
 import {CarManufacturerPage} from '../manufacturer/car-manufacturer';
 import {CustomizeCarPage} from '../customize/customize-car';
 import {MyCarsPage} from '../my-cars/my-cars';
@@ -30,7 +30,7 @@ export class AddCarPage {
     segmentTabs:any;
 
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService) {
+    constructor(public navCtrl:NavController, private viewCtrl:ViewController,private actionSheetCtrl : ActionSheetController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService) {
 
         this.segmentTabs = 'preset';
         this.cars = navParams.get("cars");
@@ -77,7 +77,7 @@ export class AddCarPage {
     }
 
     addPhoto() {
-        console.log("Add Photo");
+        /*console.log("Add Photo");
         Camera.getPicture({
             destinationType: Camera.DestinationType.DATA_URL,
             targetWidth: 1000,
@@ -87,9 +87,54 @@ export class AddCarPage {
             this.base64Image = "data:image/jpeg;base64," + imageData;
         }, (err) => {
             console.log(err);
-        });
+        });*/
     }
 
+    presentActionSheet() {
+        let actionSheet = this.actionSheetCtrl.create({
+            title: 'Add Photo',
+            buttons: [
+                {
+                    text: 'Take a Photo',
+                    handler: () => {
+                        this.takePhoto('camera');
+                    }
+                }, {
+                    text: 'Add from Gallery',
+                    handler: () => {
+                        this.takePhoto('Gallery');
+                    }
+                }, {
+                    text: 'Cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
+    }
+
+    takePhoto(type) {
+        let sourceType;
+        if (type == 'camera') {
+            sourceType = Camera.PictureSourceType.CAMERA;
+        }
+        else {
+            sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
+        }
+        Camera.getPicture({
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: sourceType,
+            targetWidth: 1000,
+            targetHeight: 1000
+        }).then((imageData) => {
+            // imageData is a base64 encoded string
+            this.base64Image = "data:image/jpeg;base64," + imageData;
+        }, (err) => {
+            console.log(err);
+        });
+    }
 
     skipAddingCar() {
         console.log(" Skip Add Car");

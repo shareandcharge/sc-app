@@ -1,7 +1,8 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, NavParams , ViewController , Slides , LoadingController , Platform} from 'ionic-angular';
+import {NavController, NavParams , ViewController , Slides , LoadingController , Platform , ModalController} from 'ionic-angular';
 import {CarService} from "../../services/car.service";
 import {MapDetailPage} from "./details-map/map";
+import {AddReviewPage} from "../review/add-review";
 
 
 @Component({
@@ -20,7 +21,7 @@ export class LocationDetailPage {
 
 
 
-    constructor(public navCtrl: NavController, private navParams: NavParams, platform: Platform,  private viewCtrl:ViewController , private loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController,private navParams: NavParams, platform: Platform,  private viewCtrl:ViewController , private loadingCtrl: LoadingController) {
 
         this.location = navParams.get("location");
         this.platform = platform;
@@ -60,6 +61,11 @@ export class LocationDetailPage {
             this.loadMap();
 
         });
+    }
+
+    feedback(){
+        let modal = this.modalCtrl.create(AddReviewPage);
+        modal.present();
     }
 
     loadMap(){

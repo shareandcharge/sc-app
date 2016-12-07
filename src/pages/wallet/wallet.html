@@ -1,0 +1,43 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-buttons start>
+            <button ion-button (click)="walletOptions($event)">
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Wallet</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="addMoney()">
+                <ion-icon name="add"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <div *ngIf="!hasMoney" align="center">
+        <h2>Your Wallet is Empty</h2>
+        <button ion-button (click)="addMoney()">Add Money</button>
+    </div>
+
+    <div *ngIf="hasMoney" align="center">
+        <h2>Current Balance</h2>
+        <h2>{{currentBalance}} Eur</h2>
+    </div>
+    <br/>
+    <ion-list>
+        <ion-list-header>
+            Payment History
+        </ion-list-header>
+        <h2 *ngIf="noTransaction">You have no history</h2>
+        <ion-item *ngFor="let tr of paymentHistory">
+            <ion-icon name="close" (click)="deleteTransaction(tr)"></ion-icon>
+            &nbsp;&nbsp;{{tr.type}}{{tr.amount}}
+            &nbsp;<small>{{tr.date}}</small>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

@@ -6,6 +6,7 @@ import { AboutPage } from '../about/about';
 import { AddCarPage } from '../car/add/add-car';
 import { SignupPage } from '../signup/signup';
 import { AddStationPage } from '../station/add/add-station';
+import { WalletPage } from '../wallet/wallet';
 import { MyCarsPage } from '../car/my-cars/my-cars';
 
 
@@ -18,6 +19,7 @@ export class TabsPage {
   tab2Root: any = AddCarPage;
   tab3Root: any = SignupPage;
   tab4Root: any = AboutPage;
+  tab5Root: any = WalletPage;
 
   constructor(public modalCtrl: ModalController) {
 
