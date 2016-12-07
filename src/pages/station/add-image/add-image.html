@@ -14,7 +14,14 @@
     <ion-item no-lines>
         Add Images
     </ion-item>
-    <div class="add-image-icon" (click)="AddImage()">
+    <div *ngFor="let img of images">
+        <img [src]="img">
+    </div>
+    <div class="add-image-icon" (click)="presentActionSheet()">
         <ion-icon name="add"></ion-icon>
+    </div>
+
+    <div>
+        <button ion-button (click)="continueAddStation()">Continue</button>
     </div>
 </ion-content>

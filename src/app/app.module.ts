@@ -16,9 +16,10 @@ import {MapFilterPage} from "../pages/map/filter/filter";
 import {LocationDetailPage} from "../pages/location/location-details";
 import { MyCarsPage } from '../pages/car/my-cars/my-cars';
 import { MapDetailPage } from '../pages/location/details-map/map';
-import {AddCarPage} from '../pages/car/add/add-car'
-import {AddStationImagePage} from '../pages/station/add-image/add-image'
-import {StationImageSelectPage} from '../pages/station/add-image/image-select-modal'
+import {AddCarPage} from '../pages/car/add/add-car';
+import {AddStationImagePage} from '../pages/station/add-image/add-image';
+import {SetTariffPage} from '../pages/station/set-tariff/set-tariff';
+import {StationImageSelectPage} from '../pages/station/add-image/image-select-modal';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {StationImageSelectPage} from '../pages/station/add-image/image-select-mo
         MapDetailPage,
         AddStationImagePage,
         StationImageSelectPage,
+        SetTariffPage,
         TabsPage
     ],
     imports: [
@@ -66,6 +68,7 @@ import {StationImageSelectPage} from '../pages/station/add-image/image-select-mo
         MapDetailPage,
         AddStationImagePage,
         StationImageSelectPage,
+        SetTariffPage,
         TabsPage
     ],
     providers: []

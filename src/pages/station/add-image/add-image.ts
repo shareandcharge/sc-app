@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController , ModalController} from 'ionic-angular';
-import {StationImageSelectPage} from './image-select-modal'
+import {NavController, ViewController , ModalController , ActionSheetController} from 'ionic-angular';
+import {SetTariffPage} from '../set-tariff/set-tariff';
+import {Camera} from 'ionic-native';
+
 
 @Component({
     selector: 'page-add-image',
@@ -8,7 +10,13 @@ import {StationImageSelectPage} from './image-select-modal'
 })
 export class AddStationImagePage {
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController , public modalCtrl: ModalController) {
+    images:any;
+    public base64Image: string;
+
+    constructor(public navCtrl:NavController, private viewCtrl:ViewController , public modalCtrl: ModalController , private actionSheetCtrl:ActionSheetController) {
+        if (typeof this.images == "undefined") {
+            this.images = [];
+        }
     }
 
     ionViewDidLoad() {
@@ -18,9 +26,68 @@ export class AddStationImagePage {
         this.viewCtrl.dismiss();
     }
 
-    AddImage(){
-        let modal = this.modalCtrl.create(StationImageSelectPage);
+  /*  AddImage(){
+        let modal = this.modalCtrl.create(StationImageSelectPage , {
+            "images": this.images
+        });
+
+        modal.onDidDismiss(data => {
+            console.log('MODAL DATA ', data);
+            this.images = data;
+        });
+
         modal.present();
+    }*/
+
+    presentActionSheet() {
+        let actionSheet = this.actionSheetCtrl.create({
+            title: 'Add Photo',
+            buttons: [
+                {
+                    text: 'Take a Photo',
+                    handler: () => {
+                        this.takePhoto('camera');
+                    }
+                }, {
+                    text: 'Add from Gallery',
+                    handler: () => {
+                        this.takePhoto('Gallery');
+                    }
+                }, {
+                    text: 'Cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
+    }
+
+    takePhoto(type) {
+        let sourceType;
+        if (type == 'camera') {
+            sourceType = Camera.PictureSourceType.CAMERA;
+        }
+        else {
+            sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
+        }
+        Camera.getPicture({
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: sourceType,
+            targetWidth: 1000,
+            targetHeight: 1000
+        }).then((imageData) => {
+            // imageData is a base64 encoded string
+            this.base64Image = "data:image/jpeg;base64," + imageData;
+            this.images.push(this.base64Image);
+        }, (err) => {
+            console.log(err);
+        });
+    }
+
+    continueAddStation() {
+        this.navCtrl.push(SetTariffPage);
     }
 
 }
