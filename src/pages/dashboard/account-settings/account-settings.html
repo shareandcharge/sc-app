@@ -1,0 +1,29 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Account Settings</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <button ion-item (click)="profile()">
+            Profile
+        </button>
+        <button ion-item (click)="notifs()">
+            Notifications
+        </button>
+        <button ion-item (click)="lang()">
+            Language
+        </button>
+        <button ion-item (click)="privacy()">
+            Privacy
+        </button>
+
+        <button ion-item (click)="deleteAccount()">
+            Delete Account
+        </button>
+    </ion-list>
+</ion-content>

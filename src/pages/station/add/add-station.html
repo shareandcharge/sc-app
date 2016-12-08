@@ -23,7 +23,7 @@
 
                 <ion-item no-lines>
                     <ion-label floating>Type Station Address</ion-label>
-                    <ion-input type="text"></ion-input>
+                    <ion-input type="text" [(ngModel)]="address"></ion-input>
                 </ion-item>
 
                 <ion-segment color="primary" [(ngModel)]="segmentTabs" padding>
@@ -38,7 +38,7 @@
                 <div  *ngIf="segmentTabs == 'default'" >
                     <ion-item no-lines>
                         <ion-label>From</ion-label>
-                        <ion-select>
+                        <ion-select [(ngModel)]="from">
                             <ion-option value="9" selected="true">9:00</ion-option>
                             <ion-option value="12">10:00</ion-option>
                         </ion-select>
@@ -46,35 +46,29 @@
 
                     <ion-item no-lines>
                         <ion-label>To</ion-label>
-                        <ion-select>
+                        <ion-select [(ngModel)]="to">
                             <ion-option value="9" selected="true">9:00</ion-option>
-                            <ion-option value="12">10:00</ion-option>
+                            <ion-option value="10">10:00</ion-option>
                         </ion-select>
                     </ion-item>
 
                     <ion-item no-lines>
                         <ion-label>Days</ion-label>
-                        <ion-select multiple="true">
-                            <ion-option>Monday</ion-option>
-                            <ion-option>Tuesday</ion-option>
-                            <ion-option>Wednesday</ion-option>
-                            <ion-option>Thursday</ion-option>
-                            <ion-option>Friday</ion-option>
-                            <ion-option>Saturday</ion-option>
-                            <ion-option>Sunday</ion-option>
+                        <ion-select multiple="true" [(ngModel)]="days.text">
+                            <ion-option *ngFor="let d of days" [value]="d.text">{{d.text}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </div>
 
                 <div  *ngIf="segmentTabs == 'custom'" >
                     <ion-item *ngFor="let day of days">
-                        <ion-label>{{day}}</ion-label>
-                        <ion-checkbox checked="true"></ion-checkbox>
-                        <ion-select>
+                        <ion-label>{{day.text}}</ion-label>
+                        <ion-checkbox [(ngModel)]="day.enabled"></ion-checkbox>
+                        <ion-select [(ngModel)]="from">
                             <ion-option value="from" selected="true">From</ion-option>
                             <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                         </ion-select>
-                        <ion-select>
+                        <ion-select [(ngModel)]="to">
                             <ion-option value="from" selected="true">To</ion-option>
                             <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                         </ion-select>
@@ -84,7 +78,7 @@
 
                 <ion-item no-lines>
                     <ion-label floating>Descriptions</ion-label>
-                    <ion-textarea></ion-textarea>
+                    <ion-textarea [(ngModel)]="descriptions"></ion-textarea>
                 </ion-item>
             </ion-col>
         </ion-row>

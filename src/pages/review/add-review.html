@@ -14,5 +14,12 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-item>
+    Add Review
+  </ion-item>
   <rating [(ngModel)]="rate"></rating>
+  <ion-item>
+    <ion-textarea [(ngModel)]="desc"></ion-textarea>
+  </ion-item>
+  <button ion-button (click)="submitReview()" padding>Submit</button>
 </ion-content>

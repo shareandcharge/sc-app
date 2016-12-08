@@ -10,6 +10,12 @@ export class AddStationPage {
     segmentTabs: any;
     dayHours:any;
     days:any;
+    station:any;
+    address:any;
+    weekdays:any;
+    from:any;
+    to:any;
+    descriptions:any;
 
     constructor(public navCtrl:NavController, private viewCtrl:ViewController) {
 
@@ -32,15 +38,37 @@ export class AddStationPage {
         ];
 
         this.days = [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
+            {
+                "text": "Monday",
+                "enabled": false
+            },
+            {
+                "text": "Tuesday",
+                "enabled": false
+            },
+            {
+                "text": "Wednesday",
+                "enabled": false
+            },
+            {
+                "text": "Thursday",
+                "enabled": false
+            },
+            {
+                "text": "Friday",
+                "enabled": false
+            },
+            {
+                "text": "Saturday",
+                "enabled": false
+            },
+            {
+                "text": "Sunday",
+                "enabled": false
+            }
         ];
     }
+
 
     ionViewDidLoad() {
         console.log('Hello AddStationPage Page');
@@ -51,6 +79,20 @@ export class AddStationPage {
     }
 
     continueAddStation() {
+
+        this.station = {
+            "address": this.address,
+            "openingHours":
+                {
+                    "days": this.weekdays,
+                    "from": this.from,
+                    "to": this.to
+                },
+            "descriptions": this.descriptions
+        };
+
+        console.log(this.station);
+
         this.navCtrl.push(AddStationImagePage);
     }
 

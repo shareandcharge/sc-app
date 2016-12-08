@@ -10,7 +10,10 @@ export class SetTariffPage {
   constructor(public navCtrl: NavController) {}
 
   ionViewDidLoad() {
-    console.log('Hello SetTariffPage Page');
+  }
+
+  publish(){
+
   }
 
 }

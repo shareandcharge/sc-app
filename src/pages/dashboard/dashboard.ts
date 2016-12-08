@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import {NavController, ActionSheetController} from 'ionic-angular';
 import {Camera} from 'ionic-native';
+import {MyCarsPage} from '../car/my-cars/my-cars';
+import {AddReviewPage} from '../review/add-review';
+import {AccountSettingsPage} from './account-settings/account-settings';
 
 @Component({
   selector: 'page-dashboard',
@@ -54,6 +57,7 @@ export class DashboardPage {
       destinationType: Camera.DestinationType.DATA_URL,
       sourceType: sourceType,
       targetWidth: 1000,
+      allowEdit: true,
       targetHeight: 1000
     }).then((imageData) => {
       this.base64Image = "data:image/jpeg;base64," + imageData;
@@ -67,11 +71,11 @@ export class DashboardPage {
   }
 
   feedback(){
-    console.log("feedback");
+    this.navCtrl.push(AddReviewPage);
   }
 
   settings(){
-    console.log("settings");
+    this.navCtrl.push(AccountSettingsPage);
   }
 
   help(){
@@ -79,7 +83,7 @@ export class DashboardPage {
   }
 
   myCars(){
-    console.log("my Cars");
+    this.navCtrl.push(MyCarsPage);
   }
 
 }

@@ -125,6 +125,7 @@ export class AddCarPage {
         Camera.getPicture({
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: sourceType,
+            allowEdit: true,
             targetWidth: 1000,
             targetHeight: 1000
         }).then((imageData) => {
