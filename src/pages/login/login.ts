@@ -1,43 +1,52 @@
-import { Component } from '@angular/core';
-import { NavController , ViewController , ModalController} from 'ionic-angular';
-import { SignupPage } from '../signup/signup';
-
+import {Component} from '@angular/core';
+import {NavController, ViewController, ModalController} from 'ionic-angular';
+import {SignupPage} from '../signup/signup';
+import {UserService} from "../../services/user.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html'
+    selector: 'page-login',
+    templateUrl: 'login.html',
+    providers: [UserService]
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController , private viewCtrl: ViewController , public modalCtrl: ModalController) {}
+    credentials = {"email": "", "password": ""};
 
-  ionViewDidLoad() {
-  }
 
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, public modalCtrl: ModalController, private userService: UserService, public auth: AuthService) {
+    }
 
-  signUp(){
-    let modalLogin = this.modalCtrl.create(SignupPage);
-    modalLogin.present();
-    this.viewCtrl.dismiss();
-  }
+    ionViewDidLoad() {
+    }
 
-  submitForm(){
-    console.log("Login");
-  }
+    dismiss() {
+        this.viewCtrl.dismiss();
+    }
 
-  loginFacebook(){
-    console.log("Login Facebook");
-  }
+    signUp() {
+        let modalLogin = this.modalCtrl.create(SignupPage);
+        modalLogin.present();
+        this.viewCtrl.dismiss();
+    }
 
-  loginGoogle(){
-    console.log("Login Google");
-  }
+    submitForm() {
+        this.userService.login(this.credentials.email, this.credentials.password);
+    }
 
-  loginMicrosoft(){
-    console.log("Login Microsoft");
-  }
+    loginFacebook() {
+        console.log("Login Facebook");
+    }
 
+    loginGoogle() {
+        console.log("Login Google");
+    }
+
+    loginMicrosoft() {
+        console.log("Login Microsoft");
+    }
+
+    logout() {
+        this.auth.logout();
+    }
 }

@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-grid class="fullpage">
+    <ion-grid class="fullpage" *ngIf="!auth.loggedIn()">
         <ion-row>
             <ion-col>
                 <h2 text-center padding-top>Welcome to Share&Charge</h2>
@@ -20,12 +20,12 @@
                     <ion-list no-lines>
                         <ion-item>
                             <ion-label floating>Email</ion-label>
-                            <ion-input type="text"></ion-input>
+                            <ion-input type="text" [(ngModel)]="credentials.email" name="email"></ion-input>
                         </ion-item>
 
                         <ion-item>
                             <ion-label floating>Password</ion-label>
-                            <ion-input type="password"></ion-input>
+                            <ion-input type="password" [(ngModel)]="credentials.password" name="password"></ion-input>
                         </ion-item>
                     </ion-list>
                     <ion-row padding="">
@@ -58,4 +58,17 @@
             </ion-col>
         </ion-row>
     </ion-grid>
+
+
+    <ion-grid class="fullpage" *ngIf="auth.loggedIn()">
+        <ion-row>
+            <ion-col>
+
+                <h1>Hello</h1>
+                {{ auth.getUser().displayName}}
+                <button ion-button (click)="logout()">Logout</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
+

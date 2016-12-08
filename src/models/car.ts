@@ -1,6 +1,4 @@
-interface Serializable<T> {
-    deserialize(input: Object): T;
-}
+import {Serializable} from './serializable';
 
 export class Car implements Serializable<Car> {
     plateNumber: any;

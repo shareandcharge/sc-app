@@ -19,6 +19,7 @@
     "@angular/platform-server": "2.1.1",
     "@ionic/storage": "1.1.6",
     "@types/google-maps": "^3.1.28",
+    "angular2-jwt": "^0.1.26",
     "ionic-angular": "2.0.0-rc.3",
     "ionic-native": "2.2.3",
     "ionic2-rating": "0.0.10",

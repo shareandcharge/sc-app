@@ -14,8 +14,8 @@ import {CustomizeCarPage} from '../pages/car/customize/customize-car';
 import {TabsPage} from '../pages/tabs/tabs';
 import {MapFilterPage} from "../pages/map/filter/filter";
 import {LocationDetailPage} from "../pages/location/location-details";
-import { MyCarsPage } from '../pages/car/my-cars/my-cars';
-import { MapDetailPage } from '../pages/location/details-map/map';
+import {MyCarsPage} from '../pages/car/my-cars/my-cars';
+import {MapDetailPage} from '../pages/location/details-map/map';
 import {AddCarPage} from '../pages/car/add/add-car';
 import {AddStationImagePage} from '../pages/station/add-image/add-image';
 import {SetTariffPage} from '../pages/station/set-tariff/set-tariff';
@@ -27,8 +27,20 @@ import {DashboardPage} from '../pages/dashboard/dashboard';
 
 import { Ionic2RatingModule } from 'ionic2-rating';
 
+import {AuthHttp, AuthConfig} from 'angular2-jwt';
+import {Http} from '@angular/http';
+import {Storage} from '@ionic/storage';
+import {AuthService} from "../services/auth.service";
 
+let storage = new Storage();
 
+export function getAuthHttp(http) {
+    return new AuthHttp(new AuthConfig({
+        noJwtError: true,
+        globalHeaders: [{'Accept': 'application/json'}],
+        tokenGetter: (() => storage.get('id_token')),
+    }), http);
+}
 
 @NgModule({
     declarations: [
@@ -88,7 +100,15 @@ import { Ionic2RatingModule } from 'ionic2-rating';
         DashboardPage,
         TabsPage
     ],
-    providers: []
+    providers: [
+        {
+            provide: AuthHttp,
+            useFactory: getAuthHttp,
+            deps: [Http]
+        },
+        AuthService,
+        Storage
+    ]
 })
 export class AppModule {
 }
