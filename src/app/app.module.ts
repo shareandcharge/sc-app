@@ -23,6 +23,10 @@ import {WalletPage} from '../pages/wallet/wallet';
 import {AddMoneyPage} from '../pages/wallet/add/add-money';
 import {WalletOptionsPage} from '../pages/wallet/options/wallet-options';
 import {AddReviewPage} from '../pages/review/add-review';
+import {DashboardPage} from '../pages/dashboard/dashboard';
+
+import { Ionic2RatingModule } from 'ionic2-rating';
+
 
 
 
@@ -50,10 +54,12 @@ import {AddReviewPage} from '../pages/review/add-review';
         AddMoneyPage,
         WalletOptionsPage,
         AddReviewPage,
+        DashboardPage,
         TabsPage
     ],
     imports: [
-        IonicModule.forRoot(MyApp)
+        IonicModule.forRoot(MyApp),
+        Ionic2RatingModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -79,6 +85,7 @@ import {AddReviewPage} from '../pages/review/add-review';
         AddMoneyPage,
         WalletOptionsPage,
         AddReviewPage,
+        DashboardPage,
         TabsPage
     ],
     providers: []

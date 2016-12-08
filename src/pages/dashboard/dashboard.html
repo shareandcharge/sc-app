@@ -1,0 +1,43 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Dashboard</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <div class="top-div">
+        <div class="image-holder" (click)="presentActionSheet()">
+        <span *ngIf="!base64Image">
+          Add <br> Photo
+        </span>
+            <ion-thumbnail>
+                <img [src]="base64Image" *ngIf="base64Image">
+            </ion-thumbnail>
+        </div>
+        <div class="text-holder">
+            You are logged in as <br>
+            <h3>email</h3>
+        </div>
+    </div>
+
+    <ion-list>
+        <button ion-item (click)="settings()">
+            Account Settings
+        </button>
+        <button ion-item (click)="myCars()">
+            My Cars
+        </button>
+        <button ion-item (click)="help()">
+            Help
+        </button>
+        <button ion-item (click)="feedback()">
+            Give Us Feedback
+        </button>
+
+        <button ion-item (click)="logOut()">
+            Logout
+        </button>
+    </ion-list>
+</ion-content>

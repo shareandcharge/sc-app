@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController , ModalController , ActionSheetController} from 'ionic-angular';
+import {NavController, ViewController , ModalController , ActionSheetController , reorderArray} from 'ionic-angular';
 import {SetTariffPage} from '../set-tariff/set-tariff';
 import {Camera} from 'ionic-native';
 
@@ -76,6 +76,7 @@ export class AddStationImagePage {
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: sourceType,
             targetWidth: 1000,
+            allowEdit: true,
             targetHeight: 1000
         }).then((imageData) => {
             // imageData is a base64 encoded string
@@ -88,6 +89,19 @@ export class AddStationImagePage {
 
     continueAddStation() {
         this.navCtrl.push(SetTariffPage);
+    }
+
+    deleteImg(img){
+
+        let index = this.images.indexOf(img);
+
+        if(index > -1){
+            this.images.splice(index, 1);
+        }
+    }
+
+    reorderItems(indexes){
+        this.images = reorderArray(this.images, indexes);
     }
 
 }

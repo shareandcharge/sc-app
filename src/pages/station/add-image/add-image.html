@@ -14,9 +14,19 @@
     <ion-item no-lines>
         Add Images
     </ion-item>
-    <div *ngFor="let img of images">
-        <img [src]="img">
-    </div>
+    <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
+        <ion-item-sliding *ngFor="let img of images">
+            <ion-item>
+                <img [src]="img">
+            </ion-item>
+            <ion-item-options>
+                <button (click)="deleteImg(img)" danger>
+                    <ion-icon name="trash"></ion-icon>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+
     <div class="add-image-icon" (click)="presentActionSheet()">
         <ion-icon name="add"></ion-icon>
     </div>

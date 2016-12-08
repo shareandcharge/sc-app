@@ -8,6 +8,7 @@ import { SignupPage } from '../signup/signup';
 import { AddStationPage } from '../station/add/add-station';
 import { WalletPage } from '../wallet/wallet';
 import { MyCarsPage } from '../car/my-cars/my-cars';
+import { DashboardPage } from '../dashboard/dashboard';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class TabsPage {
   tab1Root: any = MapPage;
   tab2Root: any = AddCarPage;
   tab3Root: any = SignupPage;
-  tab4Root: any = AboutPage;
+  tab4Root: any = DashboardPage;
   tab5Root: any = WalletPage;
 
   constructor(public modalCtrl: ModalController) {

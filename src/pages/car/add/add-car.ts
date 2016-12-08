@@ -36,7 +36,6 @@ export class AddCarPage {
         this.cars = navParams.get("cars");
         this.car = navParams.get("car");
         this.mode = navParams.get("mode");
-        //this.selectedPlate = navParams.get("selectedPlate");
 
         if (typeof this.car != 'undefined') {
             this.car = navParams.get("car");
