@@ -75,9 +75,9 @@ export class AddStationImagePage {
         Camera.getPicture({
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: sourceType,
-            targetWidth: 1000,
+            targetWidth: 800,
             allowEdit: true,
-            targetHeight: 1000
+            targetHeight: 450
         }).then((imageData) => {
             // imageData is a base64 encoded string
             this.base64Image = "data:image/jpeg;base64," + imageData;

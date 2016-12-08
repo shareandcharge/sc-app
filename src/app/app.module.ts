@@ -24,6 +24,7 @@ import {AddMoneyPage} from '../pages/wallet/add/add-money';
 import {WalletOptionsPage} from '../pages/wallet/options/wallet-options';
 import {AddReviewPage} from '../pages/review/add-review';
 import {DashboardPage} from '../pages/dashboard/dashboard';
+import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
 
 import { Ionic2RatingModule } from 'ionic2-rating';
 
@@ -67,6 +68,7 @@ export function getAuthHttp(http) {
         WalletOptionsPage,
         AddReviewPage,
         DashboardPage,
+        AccountSettingsPage,
         TabsPage
     ],
     imports: [
@@ -98,6 +100,7 @@ export function getAuthHttp(http) {
         WalletOptionsPage,
         AddReviewPage,
         DashboardPage,
+        AccountSettingsPage,
         TabsPage
     ],
     providers: [

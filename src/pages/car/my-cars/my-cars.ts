@@ -2,13 +2,6 @@ import { Component } from '@angular/core';
 import { NavController , NavParams} from 'ionic-angular';
 import { AddCarPage } from '../add/add-car';
 
-
-/*
-  Generated class for the MyCars page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-my-cars',
   templateUrl: 'my-cars.html'
@@ -20,7 +13,7 @@ export class MyCarsPage {
   noCars = false;
   constructor(public navCtrl: NavController , private navParams : NavParams) {
 
-    console.log("The car is " , this.cars)
+    console.log("The car is " , this.cars);
     if(typeof navParams.get("cars") != 'undefined'){
       this.cars = navParams.get("cars");
     }
@@ -35,6 +28,11 @@ export class MyCarsPage {
   }
 
   ionViewDidLoad() {
+    if(this.noCars){
+      this.navCtrl.setRoot(AddCarPage, {
+        "mode" : "add"
+      });
+    }
   }
 
   addCar(){
