@@ -1,18 +1,20 @@
 import {Serializable} from './serializable';
 
 export class Car implements Serializable<Car> {
+    id: any;
     plateNumber: any;
     model: any;
     manufacturer: any;
-    akkuCapacity: any;
+    accuCapacity: any;
     averageDistance: any;
     plugTypes: any[];
 
     constructor() {
+        this.id = '';
         this.plateNumber = '';
         this.model = '';
         this.manufacturer = '';
-        this.akkuCapacity = '';
+        this.accuCapacity = '';
         this.averageDistance = '';
         this.plugTypes = [];
     }
@@ -26,10 +28,11 @@ export class Car implements Serializable<Car> {
      }*/
 
     deserialize(input) {
+        this.id = input.id;
         this.plateNumber = input.plateNumber;
         this.manufacturer = input.manufacturer;
         this.model = input.model;
-        this.akkuCapacity = input.accuCapacity;
+        this.accuCapacity = input.accuCapacity;
         this.plugTypes = input.plugTypes;
 
         return this;
