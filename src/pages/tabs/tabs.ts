@@ -9,6 +9,8 @@ import { AddStationPage } from '../station/add/add-station';
 import { WalletPage } from '../wallet/wallet';
 import { MyCarsPage } from '../car/my-cars/my-cars';
 import { DashboardPage } from '../dashboard/dashboard';
+import {AuthService} from "../../services/auth.service";
+
 
 
 @Component({
@@ -22,8 +24,13 @@ export class TabsPage {
   tab4Root: any = DashboardPage;
   tab5Root: any = WalletPage;
 
-  constructor(public modalCtrl: ModalController) {
+  constructor(public modalCtrl: ModalController , public auth: AuthService) {
+    if(auth.loggedIn()){
 
+    }
+    else{
+
+    }
   }
 
   signUpModal(){

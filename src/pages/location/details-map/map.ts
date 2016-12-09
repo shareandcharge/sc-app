@@ -1,6 +1,5 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, ModalController, LoadingController, PopoverController , NavParams} from 'ionic-angular';
-import {Geolocation} from 'ionic-native';
 import {Platform} from 'ionic-angular';
 
 
@@ -86,7 +85,7 @@ export class MapDetailPage {
             map: this.map
         });
 
-        let me = this;
+        console.log(marker);
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
             loader.dismissAll();

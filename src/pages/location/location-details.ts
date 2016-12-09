@@ -95,7 +95,7 @@ export class LocationDetailPage {
             map: this.map
         });
 
-        let me = this;
+        console.log(marker);
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
             loader.dismissAll();

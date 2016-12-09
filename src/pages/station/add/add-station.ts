@@ -40,7 +40,7 @@ export class AddStationPage {
         this.days = [
             {
                 "text": "Monday",
-                "enabled": false
+                "enabled": true
             },
             {
                 "text": "Tuesday",
@@ -48,7 +48,7 @@ export class AddStationPage {
             },
             {
                 "text": "Wednesday",
-                "enabled": false
+                "enabled": true
             },
             {
                 "text": "Thursday",
@@ -56,7 +56,7 @@ export class AddStationPage {
             },
             {
                 "text": "Friday",
-                "enabled": false
+                "enabled": true
             },
             {
                 "text": "Saturday",
@@ -92,6 +92,8 @@ export class AddStationPage {
         };
 
         console.log(this.station);
+
+        console.log(this.days);
 
         this.navCtrl.push(AddStationImagePage);
     }

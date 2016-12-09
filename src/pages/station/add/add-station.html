@@ -54,13 +54,13 @@
 
                     <ion-item no-lines>
                         <ion-label>Days</ion-label>
-                        <ion-select multiple="true" [(ngModel)]="days.text">
+                        <ion-select multiple="true" [(ngModel)]="weekdays">
                             <ion-option *ngFor="let d of days" [value]="d.text">{{d.text}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </div>
 
-                <div  *ngIf="segmentTabs == 'custom'" >
+                <div  *ngIf="segmentTabs == 'custom'">
                     <ion-item *ngFor="let day of days">
                         <ion-label>{{day.text}}</ion-label>
                         <ion-checkbox [(ngModel)]="day.enabled"></ion-checkbox>

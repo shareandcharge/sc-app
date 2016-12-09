@@ -4,6 +4,8 @@ import {Camera} from 'ionic-native';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AddReviewPage} from '../review/add-review';
 import {AccountSettingsPage} from './account-settings/account-settings';
+import {AuthService} from "../../services/auth.service";
+
 
 @Component({
   selector: 'page-dashboard',
@@ -12,8 +14,19 @@ import {AccountSettingsPage} from './account-settings/account-settings';
 export class DashboardPage {
 
   public base64Image:string;
+  email:any;
 
-  constructor(public navCtrl: NavController , private actionSheetCtrl: ActionSheetController) {}
+  constructor(public navCtrl: NavController , private actionSheetCtrl: ActionSheetController , public auth:AuthService) {
+    console.log(auth.loggedIn());
+    if(auth.loggedIn()){
+      let user = auth.getUser();
+      console.log("User is " , user);
+      this.email = user.email;
+    }
+    else{
+      console.log("not logged in");
+    }
+  }
 
   ionViewDidLoad() {
   }
