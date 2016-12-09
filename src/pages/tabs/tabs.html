@@ -2,12 +2,12 @@
 
   <ion-tab [root]="tab1Root" tabTitle="Map" tabIcon="md-map"></ion-tab>
 
-  <ion-tab tabTitle="Add Station" tabIcon="ios-add-circle-outline" (ionSelect)="addStationModal()" *ngIf="!auth.loggedIn()"></ion-tab>
-  <ion-tab tabTitle="Sign Up" tabIcon="ios-contact-outline" (ionSelect)="signUpModal()" *ngIf="!auth.loggedIn()"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="About" tabIcon="md-map" *ngIf="!auth.loggedIn()"></ion-tab>
+  <ion-tab tabTitle="Add Station" tabIcon="ios-add-circle-outline" (ionSelect)="addStationModal()" show="{{!auth.loggedIn()}}"></ion-tab>
+  <ion-tab tabTitle="Sign Up" tabIcon="ios-contact-outline" (ionSelect)="signUpModal()" show="{{!auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="About" tabIcon="md-map" show="{{!auth.loggedIn()}}"></ion-tab>
 
-  <ion-tab [root]="tab3Root" tabTitle="My Stations" tabIcon="md-map" *ngIf="auth.loggedIn()"></ion-tab>
-  <ion-tab [root]="tab4Root" tabTitle="Dashboard" tabIcon="ios-information-circle-outline" *ngIf="auth.loggedIn()"></ion-tab>
-  <ion-tab [root]="tab5Root" tabTitle="Wallet" tabIcon="ios-information-circle-outline" *ngIf="auth.loggedIn()"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="My Stations" tabIcon="md-map" show="{{auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab4Root" tabTitle="Dashboard" tabIcon="ios-information-circle-outline" show="{{auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab5Root" tabTitle="Wallet" tabIcon="ios-information-circle-outline" show="{{auth.loggedIn()}}"></ion-tab>
 
 </ion-tabs>
