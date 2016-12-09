@@ -13,7 +13,6 @@ export class MyCarsPage {
   noCars = false;
   constructor(public navCtrl: NavController , private navParams : NavParams) {
 
-    console.log("The car is " , this.cars);
     if(typeof navParams.get("cars") != 'undefined'){
       this.cars = navParams.get("cars");
     }

@@ -16,9 +16,9 @@
                 <img [src]="base64Image" *ngIf="base64Image">
             </ion-thumbnail>
         </div>
-        <div class="text-holder">
+        <div class="text-holder" *ngIf="auth.loggedIn()">
             You are logged in as <br>
-            <h3>{{email}}</h3>
+            <h3>{{auth.getUser().email}}</h3>
         </div>
     </div>
 

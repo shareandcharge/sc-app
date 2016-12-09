@@ -170,6 +170,7 @@ export class AddCarPage {
     }
 
     saveCar() {
+
         this.car.plateNumber = this.plateNumber;
         if (this.mode == "edit") {
             var index = this.cars.findIndex(c => c.plateNumber === this.car.plateNumber);
@@ -181,6 +182,7 @@ export class AddCarPage {
             this.carService.updateCar(this.car);
         }
         else{
+
             this.carService.createCar(this.car);
         }
         /*
@@ -190,7 +192,6 @@ export class AddCarPage {
          "plateNumber": this.plateNumber,
          };*/
 
-        console.log(this.cars);
         this.navCtrl.setRoot(MyCarsPage, {
             "cars": this.cars,
             "newCar": this.car,

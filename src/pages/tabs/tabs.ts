@@ -19,12 +19,13 @@ import {AuthService} from "../../services/auth.service";
 export class TabsPage {
 
   tab1Root: any = MapPage;
-  tab2Root: any = AddCarPage;
-  tab3Root: any = SignupPage;
+  tab2Root: any = AboutPage;
+  tab3Root: any = AddStationPage;
   tab4Root: any = DashboardPage;
   tab5Root: any = WalletPage;
 
   constructor(public modalCtrl: ModalController , public auth: AuthService) {
+
     if(auth.loggedIn()){
 
     }

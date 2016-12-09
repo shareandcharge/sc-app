@@ -8,12 +8,12 @@ import {Car} from "../models/car";
 @Injectable()
 export class CarService {
 
-    private tmpManuData:Array<any>;
+    private tmpManuData: Array<any>;
 
 
-    private baseUrl:string;
+    private baseUrl: string;
 
-    constructor(private http:Http) {
+    constructor(private http: Http) {
         // this.tmpData = {"1":{"id":"1","name":"BMW","models":[{"id":"1","name":"i3"},{"id":"2","name":"i8"}]},"2":{"id":"2","name":"Chery","models":[{"id":"1","name":"eQ"}]},"3":{"id":"3","name":"Chevrolet","models":[{"id":"1","name":"Spark EV"},{"id":"2","name":"Volt"}]},"4":{"id":"4","name":"Renault","models":[{"id":"1","name":"ZOE"},{"id":"2","name":"Twizy (13kw)"}]},"5":{"id":"5","name":"VW","models":[{"id":"1","name":"E-up!"},{"id":"2","name":"e-Golf"}]},"6":{"id":"6","name":"Zotye","models":[{"id":"1","name":"Cloud 100 EV"}]},"7":{"id":"7","name":"Kia","models":[{"id":"1","name":"Soul EV"}]},"8":{"id":"8","name":"Nissan","models":[{"id":"1","name":"Leaf"}]},"9":{"id":"9","name":"Renault-Samsung","models":[{"id":"1","name":"SM3 EV"}]},"10":{"id":"10","name":"Tesla","models":[{"id":"1","name":"Model S 60"},{"id":"2","name":"Model S P90D"}]},"11":{"id":"11","name":"Audi","models":[{"id":"1","name":"A3 Sportback e-tron"}]},"12":{"id":"12","name":"Mitsubishi","models":[{"id":"1","name":"Outlander PHEV"}]},"13":{"id":"13","name":"OPEL","models":[{"id":"1","name":"Ampera"}]},"14":{"id":"14","name":"Porsche","models":[{"id":"1","name":"Panamera S E-Hybrid"}]},"15":{"id":"15","name":"918","models":[{"id":"1","name":"Spyder"}]},"16":{"id":"16","name":"Toyota","models":[{"id":"1","name":"Prius Plug-in Hybrid"}]},"17":{"id":"17","name":"Volvo","models":[{"id":"1","name":"V60 Plug-in Hybrid"}]}};
         this.tmpManuData = [{
             "id": "1",
@@ -259,16 +259,16 @@ export class CarService {
         return new Car();
     }
 
-    updateCar(car:Car) {
-        console.log("Service Update" , Car);
+    updateCar(car: Car) {
+        console.log("Service Update", car);
     }
 
-    createCar(car:Car) {
-        console.log("Service Create" , Car);
+    createCar(car: Car) {
+        console.log("Service Create", car);
     }
 
-    deleteCar(car:Car) {
-        console.log("Service Delete" , Car);
+    deleteCar(car: Car) {
+        console.log("Service Delete", car);
     }
 
     handleError(error) {

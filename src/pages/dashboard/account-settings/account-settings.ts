@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import {ProfilePage} from '../../profile/profile'
+
 @Component({
   selector: 'page-account-settings',
   templateUrl: 'account-settings.html'
@@ -21,7 +23,7 @@ export class AccountSettingsPage {
   }
 
   profile(){
-
+    this.navCtrl.push(ProfilePage);
   }
 
   privacy(){

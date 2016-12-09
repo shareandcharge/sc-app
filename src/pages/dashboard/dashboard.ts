@@ -17,15 +17,7 @@ export class DashboardPage {
   email:any;
 
   constructor(public navCtrl: NavController , private actionSheetCtrl: ActionSheetController , public auth:AuthService) {
-    console.log(auth.loggedIn());
-    if(auth.loggedIn()){
-      let user = auth.getUser();
-      console.log("User is " , user);
-      this.email = user.email;
-    }
-    else{
-      console.log("not logged in");
-    }
+
   }
 
   ionViewDidLoad() {

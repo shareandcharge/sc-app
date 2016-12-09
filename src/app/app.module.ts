@@ -25,13 +25,12 @@ import {WalletOptionsPage} from '../pages/wallet/options/wallet-options';
 import {AddReviewPage} from '../pages/review/add-review';
 import {DashboardPage} from '../pages/dashboard/dashboard';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
-
 import { Ionic2RatingModule } from 'ionic2-rating';
-
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {Http} from '@angular/http';
 import {Storage} from '@ionic/storage';
 import {AuthService} from "../services/auth.service";
+import {ProfilePage} from '../pages/profile/profile';
 
 let storage = new Storage();
 
@@ -69,7 +68,8 @@ export function getAuthHttp(http) {
         AddReviewPage,
         DashboardPage,
         AccountSettingsPage,
-        TabsPage
+        ProfilePage,
+        TabsPage,
     ],
     imports: [
         IonicModule.forRoot(MyApp),
@@ -101,6 +101,7 @@ export function getAuthHttp(http) {
         AddReviewPage,
         DashboardPage,
         AccountSettingsPage,
+        ProfilePage,
         TabsPage
     ],
     providers: [
