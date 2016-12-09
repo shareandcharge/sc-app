@@ -33,7 +33,6 @@ export class AddCarPage {
     constructor(public navCtrl:NavController, private viewCtrl:ViewController,private actionSheetCtrl : ActionSheetController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService) {
 
         this.segmentTabs = 'preset';
-        this.cars = navParams.get("cars");
         this.car = navParams.get("car");
         this.mode = navParams.get("mode");
 
@@ -44,11 +43,9 @@ export class AddCarPage {
             this.car = new Car();
         }
 
-        if(typeof this.cars == 'undefined'){
-            this.cars = [];
-        }
 
         this.carInfo = "";
+
         if (this.car.manufacturer != '') {
             this.carInfo = this.car.manufacturer + " , " + this.car.model;
             this.plateNumber = this.car.plateNumber;
@@ -141,61 +138,46 @@ export class AddCarPage {
         this.viewCtrl.dismiss();
     }
 
-    customizeCar() {
-        this.car.plateNumber = this.plateNumber;
-        this.navCtrl.push(CustomizeCarPage, {
-            "cars": this.cars,
-            "mode": this.mode,
-            "car": this.car
-        });
-    }
     selectModdel() {
-        this.car.plateNumber = this.plateNumber;
         this.navCtrl.push(CarManufacturerPage, {
-            "cars": this.cars,
             "mode": this.mode,
             "car": this.car
         });
     }
 
     deleteCar() {
-        var index = this.cars.findIndex(c => c.plateNumber === this.car.plateNumber);
-        this.cars.splice(index, 1);
-        this.navCtrl.setRoot(MyCarsPage, {
-            "cars": this.cars,
-            "mode": this.mode
+        this.carService.deleteCar(this.car.id).subscribe(c => {
+            console.log("deleted car " , c);
+            this.navCtrl.setRoot(MyCarsPage, {
+                "mode": this.mode
+            });
         });
-
-        this.carService.deleteCar(this.car);
     }
 
     saveCar() {
-
-        this.car.plateNumber = this.plateNumber;
         if (this.mode == "edit") {
-            var index = this.cars.findIndex(c => c.plateNumber === this.car.plateNumber);
-            this.cars[index] = this.car;
             /*  this.cars[index].plateNumber = this.plateNumber;
              this.cars[index].manufacturerName = this.manufacturerName;
              this.cars[index].model = this.model;*/
 
-            this.carService.updateCar(this.car);
+            this.carService.updateCar(this.car).subscribe(c => {
+
+                this.navCtrl.setRoot(MyCarsPage, {
+                    "newCar": this.car,
+                    "mode": this.mode
+                });
+                console.log("updated car " , c);
+            });
         }
         else{
+            this.carService.createCar(this.car).subscribe( c => {
+                console.log("created car " , c);
 
-            this.carService.createCar(this.car);
+                this.navCtrl.setRoot(MyCarsPage, {
+                    "newCar": this.car,
+                    "mode": this.mode
+                });
+            });
         }
-        /*
-         var car = {
-         "model": this.model,
-         "manufacturerName": this.manufacturerName,
-         "plateNumber": this.plateNumber,
-         };*/
-
-        this.navCtrl.setRoot(MyCarsPage, {
-            "cars": this.cars,
-            "newCar": this.car,
-            "mode": this.mode
-        });
     }
 }

@@ -35,7 +35,7 @@
                     </ion-segment-button>
                 </ion-segment>
 
-                <div  *ngIf="segmentTabs == 'default'" >
+                <div *ngIf="segmentTabs == 'default'">
                     <ion-item no-lines>
                         <ion-label>From</ion-label>
                         <ion-select [(ngModel)]="from">
@@ -54,25 +54,27 @@
 
                     <ion-item no-lines>
                         <ion-label>Days</ion-label>
-                        <ion-select multiple="true" [(ngModel)]="weekdays">
-                            <ion-option *ngFor="let d of days" [value]="d.text">{{d.text}}</ion-option>
+                        <ion-select multiple="true" [(ngModel)]="weekdays" (ngModelChange)="updateSelectedDays($event)">
+                            <ion-option *ngFor="let d of days" [value]="d.text">
+                                {{d.text}}
+                            </ion-option>
                         </ion-select>
                     </ion-item>
                 </div>
 
-                <div  *ngIf="segmentTabs == 'custom'">
-                    <ion-item *ngFor="let day of days">
-                        <ion-label>{{day.text}}</ion-label>
-                        <ion-checkbox [(ngModel)]="day.enabled"></ion-checkbox>
-                        <ion-select [(ngModel)]="from">
-                            <ion-option value="from" selected="true">From</ion-option>
-                            <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
-                        </ion-select>
-                        <ion-select [(ngModel)]="to">
-                            <ion-option value="from" selected="true">To</ion-option>
-                            <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
-                        </ion-select>
-                    </ion-item>
+                <div *ngIf="segmentTabs == 'custom'">
+                        <ion-item *ngFor="let day of days">
+                            <ion-label>{{day.text}}</ion-label>
+                            <ion-checkbox [(ngModel)]="day.enabled" (ngModelChange)="updateCustomSelectedDays($event)"></ion-checkbox>
+                            <ion-select [(ngModel)]="day.from">
+                                <ion-option value="from" selected="true">From</ion-option>
+                                <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
+                            </ion-select>
+                            <ion-select [(ngModel)]="day.to">
+                                <ion-option value="from" selected="true">To</ion-option>
+                                <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
+                            </ion-select>
+                        </ion-item>
                 </div>
 
 

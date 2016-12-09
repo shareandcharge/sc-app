@@ -11,24 +11,19 @@ import {Car} from '../../../models/car';
     providers: [CarService]
 })
 export class CarModelPage {
-    manufacturerId:any;
-    manufacturerName:any;
-    models:any;
-    cars:Car[];
-    mode:any;
-    car:Car;
+    manufacturerId: any;
+    manufacturerName: any;
+    models: any;
+    mode: any;
+    car: Car;
 
-    constructor(public navCtrl:NavController, private navParams:NavParams, private carService:CarService) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, private carService: CarService) {
 
         this.manufacturerId = navParams.get("manufacturerId");
         this.models = this.carService.getModels(this.manufacturerId);
-        this.cars = navParams.get("cars");
         this.mode = navParams.get("mode");
         this.car = navParams.get("car");
         this.manufacturerName = this.car.manufacturer;
-
-
-        console.log(this.car);
     }
 
     ionViewDidLoad() {
@@ -37,10 +32,7 @@ export class CarModelPage {
     itemSelected(model) {
 
         this.car.model = model.name;
-
-        console.log("before navigate ", this.car)
         this.navCtrl.setRoot(AddCarPage, {
-            "cars": this.cars,
             "mode": this.mode,
             "car": this.car
         });

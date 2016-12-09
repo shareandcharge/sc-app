@@ -28,7 +28,7 @@
     <ion-list no-lines>
         <ion-item>
             <ion-label floating>Plate number</ion-label>
-            <ion-input type="text" [(ngModel)]="plateNumber"></ion-input>
+            <ion-input type="text" [(ngModel)]="car.plateNumber"></ion-input>
         </ion-item>
 
 
@@ -42,19 +42,16 @@
         </ion-segment>
 
             <div  *ngIf="segmentTabs == 'preset'" >
-
                 <ion-list *ngIf="car.manufacturer == ''">
                     <button ion-item (click)="selectModdel()">
                         Select Car Model
                     </button>
                 </ion-list>
-
                 <ion-list *ngIf="car.manufacturer != ''">
                     <button ion-item (click)="selectModdel()">
                         {{car.manufacturer}}  {{car.model}}
                     </button>
                 </ion-list>
-
             </div>
 
         <div *ngIf="segmentTabs == 'custom'">

@@ -15,13 +15,9 @@ export class CarManufacturerPage {
     plateNumber:any;
     mode:any;
     car:Car;
-    cars:Car[];
-    selectedPlate:any;
-
     constructor(public navCtrl:NavController, private viewCtrl:ViewController, private carService:CarService, private navParams:NavParams) {
         this.manufacturers = this.carService.getManufacturers();
         this.car = navParams.get("car");
-        this.cars = navParams.get("cars");
         this.mode = navParams.get("mode");
     }
 
@@ -34,7 +30,6 @@ export class CarManufacturerPage {
         this.navCtrl.push(CarModelPage, {
             "manufacturerId": manufacturer.id,
             "car": this.car,
-            "cars": this.cars,
             "mode": this.mode
         });
     }

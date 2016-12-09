@@ -37,36 +37,90 @@ export class AddStationPage {
 
         ];
 
-        this.days = [
+        this.weekdays = [
             {
                 "text": "Monday",
-                "enabled": true
+                "key" : "monday"
             },
             {
                 "text": "Tuesday",
-                "enabled": false
+                "key" : "tuesday"
             },
             {
                 "text": "Wednesday",
-                "enabled": true
+                "key" : "wednesday"
             },
             {
                 "text": "Thursday",
-                "enabled": false
+                "key" : "thursday"
             },
             {
                 "text": "Friday",
-                "enabled": true
+                "key" : "friday"
             },
             {
                 "text": "Saturday",
-                "enabled": false
+                "key" : "saturday"
             },
             {
                 "text": "Sunday",
-                "enabled": false
+                "key" : "sunday"
             }
         ];
+
+
+        this.days = [
+            {
+                "text": "Monday",
+                "enabled": true,
+                "key" : "monday",
+                "from": "",
+                "to" : ""
+            },
+            {
+                "text": "Tuesday",
+                "enabled": false,
+                "key" : "tuesday",
+                "from": "",
+                "to" : ""
+            },
+            {
+                "text": "Wednesday",
+                "enabled": true,
+                "key" : "wednesday",
+                "from": "",
+                "to" : ""
+            },
+            {
+                "text": "Thursday",
+                "enabled": false,
+                "key" : "thursday",
+                "from": "",
+                "to" : ""
+            },
+            {
+                "text": "Friday",
+                "enabled": true,
+                "key" : "friday",
+                "from": "",
+                "to" : ""
+            },
+            {
+                "text": "Saturday",
+                "enabled": false,
+                "key" : "saturday",
+                "from": "",
+                "to" : ""
+            },
+            {
+                "text": "Sunday",
+                "enabled": false,
+                "key" : "sunday",
+                "from": "",
+                "to" : ""
+            }
+        ]
+
     }
 
 
@@ -91,11 +145,39 @@ export class AddStationPage {
             "descriptions": this.descriptions
         };
 
-        console.log(this.station);
-
-        console.log(this.days);
-
         this.navCtrl.push(AddStationImagePage);
     }
 
+    updateSelectedDays(e) {
+
+        let me = this;
+        this.days.forEach(d => {
+            d.enabled = false;
+            d.from = "";
+            d.to = "";
+        });
+
+        e.forEach(wd => {
+            this.days.forEach(d => {
+                if(wd == d.text){
+                    d.enabled = true;
+                    d.from = me.from;
+                    d.to = me.to;
+                }
+            });
+        });
+    }
+
+    updateCustomSelectedDays(e){
+        this.weekdays = [];
+
+        this.days.forEach(d => {
+            if(d.enabled){
+                /*let data = {
+                    "text" : d.text,
+                };*/
+                this.weekdays.push(d.text);
+            }
+        });
+    }
 }

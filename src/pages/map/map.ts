@@ -6,7 +6,9 @@ import {AutocompletePage} from './autocomplete/autocomplete';
 import {MapSettingsPage} from './settings/map-settings';
 import {MapFilterPage} from './filter/filter';
 import {LocationDetailPage} from '../location/location-details';
-import {MyCarsPage} from '../car/my-cars/my-cars'
+import {MyCarsPage} from '../car/my-cars/my-cars';
+import {AuthService} from "../../services/auth.service";
+
 
 
 declare var google;
@@ -16,10 +18,6 @@ declare var google;
     templateUrl: 'map.html'
 })
 export class MapPage {
-
-    /*constructor(public navCtrl: NavController) {
-
-     }*/
 
     address;
 
@@ -34,7 +32,7 @@ export class MapPage {
     currentPositionZoom = 13;
     mapDefaultControlls:boolean;
 
-    constructor(public popoverCtrl: PopoverController, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+    constructor(public popoverCtrl: PopoverController,public auth: AuthService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
         this.platform = platform;
         if(this.platform.is("core")){
             this.mapDefaultControlls = false;

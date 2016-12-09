@@ -15,8 +15,8 @@
 
 <ion-content padding>
 
-  <ion-list *ngIf="!noCars">
-    <ion-item *ngFor="let item of cars" (click)="editCar(item.plateNumber)">
+  <ion-list>
+    <ion-item *ngFor="let item of cars" (click)="editCar(item.id)">
       <ion-avatar item-left>
         <img src="">
       </ion-avatar>

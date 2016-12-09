@@ -34,10 +34,8 @@ export class UserService {
     authSuccess(data) {
         console.log('LOGIN SUCCESS:', data);
         this.error = null;
-
         let token = data.token;
         let user = new User().deserialize(data.user);
-
         this.auth.login(token, user);
     }
 }

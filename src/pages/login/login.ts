@@ -32,6 +32,7 @@ export class LoginPage {
 
     submitForm() {
         this.userService.login(this.credentials.email, this.credentials.password);
+        this.viewCtrl.dismiss();
     }
 
     loginFacebook() {

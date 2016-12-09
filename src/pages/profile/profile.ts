@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {NavController, ActionSheetController} from 'ionic-angular';
 import {Camera} from 'ionic-native';
+import {AuthService} from "../../services/auth.service";
+import {MapPage} from '../map/map';
 
 
 @Component({
@@ -10,7 +12,7 @@ import {Camera} from 'ionic-native';
 export class ProfilePage {
     public base64Image: string;
 
-    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController) {
+    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController , private auth: AuthService) {
     }
 
     ionViewDidLoad() {
@@ -60,6 +62,12 @@ export class ProfilePage {
         }, (err) => {
             console.log(err);
         });
+    }
+
+    logout() {
+        this.auth.logout();
+        console.log("logged Out");
+        this.navCtrl.setRoot(MapPage);
     }
 
 }

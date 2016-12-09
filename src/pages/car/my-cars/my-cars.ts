@@ -1,63 +1,49 @@
-import { Component } from '@angular/core';
-import { NavController , NavParams} from 'ionic-angular';
-import { AddCarPage } from '../add/add-car';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {AddCarPage} from '../add/add-car';
+import {CarService} from "../../../services/car.service";
+
 
 @Component({
-  selector: 'page-my-cars',
-  templateUrl: 'my-cars.html'
+    selector: 'page-my-cars',
+    templateUrl: 'my-cars.html',
+    providers: [CarService]
 })
 export class MyCarsPage {
-  cars = [];
-  newCar : any;
-  mode: any;
-  noCars = false;
-  constructor(public navCtrl: NavController , private navParams : NavParams) {
+    cars = [];
+    newCar: any;
+    mode: any;
+    noCars = false;
 
-    if(typeof navParams.get("cars") != 'undefined'){
-      this.cars = navParams.get("cars");
-    }
-    else{
-      this.noCars = true;
-    }
-    this.newCar = navParams.get("newCar");
-    this.mode = navParams.get("mode");
-    if(this.mode != "edit"){
-      this.cars.push(this.newCar);
-    }
-  }
+    constructor(public navCtrl: NavController, private navParams: NavParams, private carService: CarService) {
 
-  ionViewDidLoad() {
-    if(this.noCars){
-      this.navCtrl.setRoot(AddCarPage, {
-        "mode" : "add"
-      });
-    }
-  }
+        this.carService.getCars().subscribe(cars => {
+            this.cars = cars;
+            console.log("the cars inside subscribe are ", this.cars);
+        });
 
-  addCar(){
-    if(this.noCars){
-      this.navCtrl.setRoot(AddCarPage, {
-        "mode" : "add"
-      });
-    }
-    else{
-      this.navCtrl.setRoot(AddCarPage, {
-        "cars" : this.cars,
-        "mode" : "add"
-      });
+
+        this.newCar = navParams.get("newCar");
+        this.mode = navParams.get("mode");
+
     }
 
-  }
+    ionViewDidLoad() {
+    }
 
-  editCar(carPlateNum){
-    console.log(carPlateNum);
+    addCar() {
+        this.navCtrl.setRoot(AddCarPage, {
+            "mode": "add"
+        });
+    }
 
-    var index =  this.cars.findIndex(c => c.plateNumber === carPlateNum);
+    editCar(id) {
 
-    this.navCtrl.push(AddCarPage, {
-      "cars" : this.cars,
-      "car" : this.cars[index],
-      "mode": "edit"
-    });
-  }
+        var index = this.cars.findIndex(c => c.id === id);
+
+        this.navCtrl.push(AddCarPage, {
+            "car": this.cars[index],
+            "mode": "edit"
+        });
+    }
 }
