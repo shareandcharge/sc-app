@@ -9,6 +9,8 @@ import {LocationDetailPage} from '../location/location-details';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
+import {LocationService} from "../../services/location.service";
+
 
 
 
@@ -16,7 +18,8 @@ declare var google;
 
 @Component({
     selector: 'page-map',
-    templateUrl: 'map.html'
+    templateUrl: 'map.html',
+    providers: [LocationService]
 })
 export class MapPage {
 
@@ -32,8 +35,9 @@ export class MapPage {
     defaultZoom = 8;
     currentPositionZoom = 13;
     mapDefaultControlls:boolean;
+    locations:any;
 
-    constructor(public popoverCtrl: PopoverController,public auth: AuthService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+    constructor(public popoverCtrl: PopoverController,public auth: AuthService, public locationService: LocationService ,platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
         this.platform = platform;
         if(this.platform.is("core")){
             this.mapDefaultControlls = false;
@@ -261,6 +265,7 @@ export class MapPage {
     }
 
     addDummyMarkers() {
+      /*
         let dummys = [
 
             {
@@ -553,10 +558,14 @@ export class MapPage {
                 "title": "My yash"
             }
 
-        ];
-        let me = this;
-        dummys.forEach(function (location) {
-            me.addMarker(location);
+        ];*/
+
+        this.locationService.getLocations().subscribe(locations => {
+            this.locations = locations;
+            let me = this;
+            this.locations.forEach(function (location) {
+                me.addMarker(location);
+            });
         });
     }
 }

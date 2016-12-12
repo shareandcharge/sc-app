@@ -6,7 +6,6 @@ import {Geolocation} from 'ionic-native';
 import {AuthService} from "../../../services/auth.service";
 
 
-
 @Component({
     selector: 'page-add-station',
     templateUrl: 'add-station.html'
@@ -38,7 +37,7 @@ export class AddStationPage {
 
     defaultZoom = 16;
 
-    constructor(public navCtrl: NavController,public auth : AuthService, private loadingCtrl: LoadingController, platform: Platform, private viewCtrl: ViewController) {
+    constructor(public navCtrl: NavController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, private viewCtrl: ViewController) {
 
 
         this.service = new google.maps.places.AutocompleteService();
@@ -275,14 +274,14 @@ export class AddStationPage {
     continueAddStation() {
 
         let userAddress = "";
-        if(this.auth.getUser() != null){
+        if (this.auth.getUser() != null) {
             userAddress = this.auth.getUser().address;
         }
         this.locObject = {
-            "owner" : userAddress,
+            "owner": userAddress,
             "address": this.address,
-            "latitude" : this.map.getCenter().lat(),
-            "longitude" : this.map.getCenter().lng(),
+            "latitude": this.map.getCenter().lat(),
+            "longitude": this.map.getCenter().lng(),
             "descriptions": this.descriptions,
             "stations": {
                 "openingHours": this.days,
@@ -290,9 +289,13 @@ export class AddStationPage {
             }
         };
 
-        this.navCtrl.push(AddStationImagePage , {
-            "loc" : this.locObject
+        this.navCtrl.push(AddStationImagePage, {
+            "loc": this.locObject
         });
+    }
+
+    dismiss() {
+        this.viewCtrl.dismiss();
     }
 
     updateSelectedDays(e) {

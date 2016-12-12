@@ -1,7 +1,11 @@
 
 <ion-header>
-
   <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        close
+      </button>
+    </ion-buttons>
     <ion-title>My Stations</ion-title>
     <ion-buttons end>
       <button ion-button (click)="addStation()">
@@ -14,14 +18,36 @@
 
 
 <ion-content padding>
-
   <ion-list>
-    <ion-item *ngFor="let item of stations" (click)="editStation(item.id)">
+    <ion-item-sliding  *ngFor="let item of stations" (click)="editStation(item.id)">
       <button ion-item>
+        <ion-avatar item-left>
+          <img src="{{item.images[0]}}">
+        </ion-avatar>
         {{item.address}}
       </button>
-    </ion-item>
+
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="delete(item.id)">Delete</button>
+      </ion-item-options>
+
+    </ion-item-sliding>
   </ion-list>
 
 
 </ion-content>
+
+
+<ion-item-sliding #item>
+  <ion-item>
+    Item
+  </ion-item>
+  <ion-item-options side="left">
+    <button ion-button (click)="favorite(item)">Favorite</button>
+    <button ion-button color="danger" (click)="share(item)">Share</button>
+  </ion-item-options>
+
+  <ion-item-options side="right">
+    <button ion-button (click)="unread(item)">Unread</button>
+  </ion-item-options>
+</ion-item-sliding>

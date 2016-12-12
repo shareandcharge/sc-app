@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController, NavParams , ActionSheetController} from 'ionic-angular';
+import {NavController, ViewController, ModalController, NavParams , ActionSheetController , AlertController} from 'ionic-angular';
 import {CarManufacturerPage} from '../manufacturer/car-manufacturer';
 import {MyCarsPage} from '../my-cars/my-cars';
 import {Camera} from 'ionic-native';
@@ -29,12 +29,11 @@ export class AddCarPage {
     segmentTabs:any;
 
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController,private actionSheetCtrl : ActionSheetController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService) {
+    constructor(public navCtrl:NavController, private viewCtrl:ViewController ,private alertCtrl: AlertController ,private actionSheetCtrl : ActionSheetController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService) {
 
         this.segmentTabs = 'preset';
         this.car = navParams.get("car");
         this.mode = navParams.get("mode");
-
         if (typeof this.car != 'undefined') {
             this.car = navParams.get("car");
         }
@@ -145,12 +144,33 @@ export class AddCarPage {
     }
 
     deleteCar() {
-        this.carService.deleteCar(this.car.id).subscribe(c => {
-            console.log("deleted car " , c);
-            this.navCtrl.setRoot(MyCarsPage, {
-                "mode": this.mode
-            });
+
+        let alert = this.alertCtrl.create({
+            title: 'Confirm delete',
+            message: 'Do you want to delete this car?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Ok',
+                    handler: () => {
+                        this.carService.deleteCar(this.car.id).subscribe(c => {
+                            console.log("deleted car " , c);
+                            this.navCtrl.setRoot(MyCarsPage, {
+                                "mode": this.mode
+                            });
+                        });
+                    }
+                }
+            ]
         });
+        alert.present();
+
     }
 
     saveCar() {

@@ -27,6 +27,10 @@ export class SetTariffPage {
     }
 
     publish() {
+
+
+
+
         this.locObject.stations.energyRate = this.energyRate;
         this.locObject.stations.parkRate = this.parkRate;
 
