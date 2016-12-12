@@ -20,8 +20,8 @@ export class MyStationsPage {
 
 
     let userAddress;
-    if (this.auth.getUser() != null) {
-      userAddress = this.auth.getUser().address;
+    if (auth.getUser() != null) {
+      userAddress = auth.getUser().address;
       this.locationService.getLocationsUser(userAddress).subscribe(locations => {
         this.stations = locations;
         console.log("the cars inside subscribe are ", this.stations);
