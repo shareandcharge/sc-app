@@ -1,0 +1,43 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Anschluss wählen</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-select [(ngModel)]="plugTypes"  multiple="true" class="select-multiline" placeholder="Steckertypen">
+      <ion-option>Schuko-Steckdose</ion-option>
+      <ion-option>CEE-Stecker</ion-option>
+      <ion-option>Typ 1</ion-option>
+      <ion-option>Typ 2</ion-option>
+      <ion-option>Combo</ion-option>
+      <ion-option>CHAdeMO</ion-option>
+      <ion-option>Tesla Supercharger</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-select [(ngModel)]="power" multiple="true" class="select-multiline" placeholder="Leistung">
+      <ion-option>2.4</ion-option>
+      <ion-option>4.3</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Zugangskontrolle</ion-label>
+    <ion-checkbox></ion-checkbox>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>kWh abrechnung</ion-label>
+    <ion-checkbox [(ngModel)]="kwh"></ion-checkbox>
+  </ion-item>
+
+  <button ion-button (click)="nextPage()">Weiter</button>
+
+</ion-content>

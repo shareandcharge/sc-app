@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController} from 'ionic-angular';
+import {NavController, ViewController, ModalController , NavParams} from 'ionic-angular';
 import {SignupPage} from '../signup/signup';
 import {UserService} from "../../services/user.service";
 import {AuthService} from "../../services/auth.service";
+import {MyCarsPage} from "../car/my-cars/my-cars";
 
 @Component({
     selector: 'page-login',
@@ -12,9 +13,11 @@ import {AuthService} from "../../services/auth.service";
 export class LoginPage {
 
     credentials = {"email": "", "password": ""};
+    destination: any;
 
 
-    constructor(public navCtrl: NavController, private viewCtrl: ViewController, public modalCtrl: ModalController, private userService: UserService, public auth: AuthService) {
+    constructor(public navCtrl: NavController, private navParams : NavParams,private viewCtrl: ViewController, public modalCtrl: ModalController, private userService: UserService, public auth: AuthService) {
+        this.destination = navParams.get("dest");
     }
 
     ionViewDidLoad() {
@@ -32,7 +35,13 @@ export class LoginPage {
 
     submitForm() {
         this.userService.login(this.credentials.email, this.credentials.password);
+
         this.viewCtrl.dismiss();
+
+        if(typeof this.destination != 'undefined'){
+            console.log(this.destination);
+            this.navCtrl.push(this.destination);
+        }
     }
 
     loginFacebook() {

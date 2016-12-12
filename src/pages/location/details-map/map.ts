@@ -35,9 +35,6 @@ export class MapDetailPage {
         else{
             this.mapDefaultControlls = true;
         }
-
-        console.log("map default is " ,this.mapDefaultControlls);
-
         
         this.location = navParams.get("location");
         this.address = {
