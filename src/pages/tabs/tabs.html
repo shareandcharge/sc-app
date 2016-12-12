@@ -2,12 +2,13 @@
 
   <ion-tab [root]="tab1Root" tabTitle="Map" tabIcon="md-map"></ion-tab>
 
-  <ion-tab tabTitle="Add Station" tabIcon="ios-add-circle-outline" (ionSelect)="addStationModal()" show="{{!auth.loggedIn()}}"></ion-tab>
-  <ion-tab tabTitle="Sign Up" tabIcon="ios-contact-outline" (ionSelect)="signUpModal()" show="{{!auth.loggedIn()}}"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="About" tabIcon="md-map" show="{{!auth.loggedIn()}}"></ion-tab>
+  <ion-tab tabTitle="Add Station" tabIcon="cust-stations" (ionSelect)="addStationModal()" show="{{!auth.loggedIn()}}"></ion-tab>
+  <!--<ion-tab tabTitle="Add Station" tabIcon="ios-add-circle-outline" (ionSelect)="addStationModal()" show="{{!auth.loggedIn()}}"></ion-tab>-->
+  <ion-tab tabTitle="Login" tabIcon="ios-create-outline" (ionSelect)="loginModal()" show="{{!auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Info" tabIcon="ios-information-circle-outline" show="{{!auth.loggedIn()}}"></ion-tab>
 
-  <ion-tab [root]="tab3Root" tabTitle="My Stations" tabIcon="md-map" show="{{auth.loggedIn()}}"></ion-tab>
-  <ion-tab [root]="tab4Root" tabTitle="Dashboard" tabIcon="ios-information-circle-outline" show="{{auth.loggedIn()}}"></ion-tab>
-  <ion-tab [root]="tab5Root" tabTitle="Wallet" tabIcon="ios-information-circle-outline" show="{{auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="My Stations" tabIcon="cust-stations" show="{{auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab4Root" tabTitle="Dashboard" tabIcon="ios-speedometer-outline" show="{{auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab5Root" tabTitle="Wallet" tabIcon="cust-wallet" show="{{auth.loggedIn()}}"></ion-tab>
 
 </ion-tabs>

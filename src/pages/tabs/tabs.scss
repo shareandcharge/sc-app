@@ -1,0 +1,27 @@
+.ion-ios-cust-stations-outline,
+.ion-ios-cust-stations,
+.ion-md-cust-stations {
+  background: url('../assets/icons/station.png') 6px 0 no-repeat;
+  background-size: 30px;
+  &:before {
+    content: "\00a0";
+  }
+}
+
+.tabs-ios .tab-button[aria-selected=true] .ion-ios-cust-stations {
+  background-image: url('../assets/icons/station-active.png');
+}
+
+.ion-ios-cust-wallet-outline,
+.ion-ios-cust-wallet,
+.ion-md-cust-wallet {
+  background: url('../assets/icons/wallet.png') 2px 0 no-repeat;
+  background-size: 30px;
+  &:before {
+    content: "\00a0";
+  }
+}
+
+.tabs-ios .tab-button[aria-selected=true] .ion-ios-cust-wallet {
+  background-image: url('../assets/icons/wallet-active.png');
+}

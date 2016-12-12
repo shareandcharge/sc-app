@@ -21,8 +21,8 @@ $background-color: #fff;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-        primary: #387ef5,
-        secondary: #32db64,
+        primary: #006EF1,
+        secondary: #A46EF1,
         danger: #f53d3d,
         light: #f4f4f4,
         dark: #222
@@ -40,6 +40,8 @@ $brand-color: (
 // iOS only Sass variables can go here
 
 $text-input-ios-background-color: map-get($colors, light);
+$toolbar-ios-active-color: map-get($colors, secondary);
+$toolbar-ios-inactive-color: map-get($colors, dark);
 
 // App Material Design Variables
 // --------------------------------------------------
