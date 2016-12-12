@@ -1,63 +1,117 @@
-
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Set Tariff</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Set Tariff</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
 
-  <ion-segment color="primary" [(ngModel)]="segmentTabs" padding>
-    <ion-segment-button value="default">
-      Öffentlicher Tarif
-    </ion-segment-button>
-    <ion-segment-button value="custom">
-      Sondertarif
-    </ion-segment-button>
-  </ion-segment>
+    <ion-segment color="primary" [(ngModel)]="segmentTabs" padding>
+        <ion-segment-button value="default">
+            Öffentlicher Tarif
+        </ion-segment-button>
+        <ion-segment-button value="custom">
+            Sondertarif
+        </ion-segment-button>
+    </ion-segment>
 
-  <div *ngIf="segmentTabs == 'default'">
-    <ion-list radio-group [(ngModel)]="tarif">
-      <ion-item>
-        <ion-label>Flatrate</ion-label>
-        <ion-radio value="flatrate" checked></ion-radio>
-      </ion-item>
-      <div padding *ngIf="tarif == 'flatrate'">
-        <ion-grid>
-          <ion-row>
-            <ion-col width-50>
-              <ion-item>
-                <ion-input type="text" value="" placeholder="Euro per charge"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col width-50>
-              + 3 Euro S&C fee
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
-      <ion-item>
-        <ion-label>Stundentarif</ion-label>
-        <ion-radio value="stundentarif"></ion-radio>
-      </ion-item>
-      <div padding *ngIf="tarif == 'stundentarif'">
-        Stundentarif Form
-      </div>
-      <ion-item>
-        <ion-label>kWh Tarif</ion-label>
-        <ion-radio value="kwh"></ion-radio>
-      </ion-item>
-      <div padding *ngIf="tarif == 'kwh'">
-        kWh Form
-      </div>
-    </ion-list>
-  </div>
-  <div *ngIf="segmentTabs == 'custom'">
+    <div *ngIf="segmentTabs == 'default'">
+        <ion-list radio-group [(ngModel)]="tarif">
+            <ion-item>
+                <ion-label>Flatrate</ion-label>
+                <ion-radio value="flatrate" checked></ion-radio>
+            </ion-item>
+            <div padding *ngIf="tarif == 'flatrate'">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50>
+                            <ion-item>
+                                <ion-input type="text" [(ngModel)]="energyRate"
+                                           placeholder="Euro per charge"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col width-50>
+                            + 3 Euro S&C fee
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <ion-item>
+                <ion-label>Stundentarif</ion-label>
+                <ion-radio value="stundentarif"></ion-radio>
+            </ion-item>
+            <div padding *ngIf="tarif == 'stundentarif'">
+                <ion-item>
+                    <ion-input type="text" [(ngModel)]="energyRate" placeholder="Energie Kosten"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-input type="text" [(ngModel)]="parkRate" placeholder="Nutzungsentgeld Parken"></ion-input>
+                </ion-item>
+            </div>
+            <ion-item>
+                <ion-label>kWh Tarif</ion-label>
+                <ion-radio value="kwh"></ion-radio>
+            </ion-item>
+            <div padding *ngIf="tarif == 'kwh'">
+                <ion-item>
+                    <ion-input type="text" [(ngModel)]="energyRate" placeholder="Energie Kosten"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-input type="text" [(ngModel)]="parkRate" placeholder="Nutzungsentgeld Parken"></ion-input>
+                </ion-item>
+            </div>
+        </ion-list>
+    </div>
+    <div *ngIf="segmentTabs == 'custom'">
+        <ion-list radio-group [(ngModel)]="tarif">
+            <ion-item>
+                <ion-label>Flatrate</ion-label>
+                <ion-radio value="flatrate" checked></ion-radio>
+            </ion-item>
+            <div padding *ngIf="tarif == 'flatrate'">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50>
+                            <ion-item>
+                                <ion-input type="text" [(ngModel)]="energyRate"
+                                           placeholder="Euro per charge"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col width-50>
+                            + 3 Euro S&C fee
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <ion-item>
+                <ion-label>Stundentarif</ion-label>
+                <ion-radio value="stundentarif"></ion-radio>
+            </ion-item>
+            <div padding *ngIf="tarif == 'stundentarif'">
+                <ion-item>
+                    <ion-input type="text" [(ngModel)]="energyRate" placeholder="Energie Kosten"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-input type="text" [(ngModel)]="parkRate" placeholder="Nutzungsentgeld Parken"></ion-input>
+                </ion-item>
+            </div>
+            <ion-item>
+                <ion-label>kWh Tarif</ion-label>
+                <ion-radio value="kwh"></ion-radio>
+            </ion-item>
+            <div padding *ngIf="tarif == 'kwh'">
+                <ion-item>
+                    <ion-input type="text" [(ngModel)]="energyRate" placeholder="Energie Kosten"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-input type="text" [(ngModel)]="parkRate" placeholder="Nutzungsentgeld Parken"></ion-input>
+                </ion-item>
+            </div>
+        </ion-list>
+    </div>
 
-  </div>
-
-  <button ion-button (click)="publish()">Publish</button>
+    <button ion-button (click)="publish()">Publish</button>
 </ion-content>

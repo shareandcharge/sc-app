@@ -3,6 +3,8 @@ import {NavController, ViewController, LoadingController} from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
 import {Platform} from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
+import {AuthService} from "../../../services/auth.service";
+
 
 
 @Component({
@@ -16,7 +18,7 @@ export class AddStationPage {
     service: any;
     dayHours: any;
     days: any;
-    station: any;
+    locObject: any;
     address: any;
     weekdays: any;
     from: any;
@@ -36,7 +38,7 @@ export class AddStationPage {
 
     defaultZoom = 16;
 
-    constructor(public navCtrl: NavController, private loadingCtrl: LoadingController, platform: Platform, private viewCtrl: ViewController) {
+    constructor(public navCtrl: NavController,public auth : AuthService, private loadingCtrl: LoadingController, platform: Platform, private viewCtrl: ViewController) {
 
 
         this.service = new google.maps.places.AutocompleteService();
@@ -210,7 +212,7 @@ export class AddStationPage {
 
                 let marker = new google.maps.Marker({
                     position: place.geometry.location,
-                    map: this.map
+                    map: me.map
                 });
             }
             else {
@@ -272,17 +274,25 @@ export class AddStationPage {
 
     continueAddStation() {
 
-        this.station = {
+        let userAddress = "";
+        if(this.auth.getUser() != null){
+            userAddress = this.auth.getUser().address;
+        }
+        this.locObject = {
+            "owner" : userAddress,
             "address": this.address,
-            "openingHours": {
-                "days": this.weekdays,
-                "from": this.from,
-                "to": this.to
-            },
-            "descriptions": this.descriptions
+            "latitude" : this.map.getCenter().lat(),
+            "longitude" : this.map.getCenter().lng(),
+            "descriptions": this.descriptions,
+            "stations": {
+                "openingHours": this.days,
+                "problemSolver": this.problemSolver
+            }
         };
 
-        this.navCtrl.push(AddStationImagePage);
+        this.navCtrl.push(AddStationImagePage , {
+            "loc" : this.locObject
+        });
     }
 
     updateSelectedDays(e) {

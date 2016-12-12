@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController , ModalController , ActionSheetController , reorderArray} from 'ionic-angular';
+import {NavController, ViewController , ModalController , ActionSheetController , reorderArray , NavParams} from 'ionic-angular';
 import {PlugTypesPage} from '../plug-types/plug-types';
 import {Camera} from 'ionic-native';
 
@@ -12,11 +12,16 @@ export class AddStationImagePage {
 
     images:any;
     public base64Image: string;
+    locObject:any;
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController , public modalCtrl: ModalController , private actionSheetCtrl:ActionSheetController) {
+    constructor(public navCtrl:NavController, private viewCtrl:ViewController , private navParams : NavParams,public modalCtrl: ModalController , private actionSheetCtrl:ActionSheetController) {
         if (typeof this.images == "undefined") {
             this.images = [];
         }
+
+        this.locObject = this.navParams.get("loc");
+
+        console.log( this.locObject);
     }
 
     ionViewDidLoad() {
@@ -88,7 +93,11 @@ export class AddStationImagePage {
     }
 
     continueAddStation() {
-        this.navCtrl.push(PlugTypesPage);
+
+        this.locObject.stations.images = this.images;
+        this.navCtrl.push(PlugTypesPage , {
+            "loc" : this.locObject
+        });
     }
 
     deleteImg(img){
