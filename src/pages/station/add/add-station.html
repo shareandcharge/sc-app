@@ -18,7 +18,8 @@
             <ion-col>
 
                 <div class="image-wrapper">
-
+                    <div #map id="map">
+                    </div>
                 </div>
 
                 <ion-item no-lines>
@@ -63,20 +64,26 @@
                 </div>
 
                 <div *ngIf="segmentTabs == 'custom'">
-                        <ion-item *ngFor="let day of days">
-                            <ion-label>{{day.text}}</ion-label>
-                            <ion-checkbox [(ngModel)]="day.enabled" (ngModelChange)="updateCustomSelectedDays($event)"></ion-checkbox>
-                            <ion-select [(ngModel)]="day.from">
-                                <ion-option value="from" selected="true">From</ion-option>
-                                <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
-                            </ion-select>
-                            <ion-select [(ngModel)]="day.to">
-                                <ion-option value="from" selected="true">To</ion-option>
-                                <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
-                            </ion-select>
-                        </ion-item>
+                    <ion-item *ngFor="let day of days">
+                        <ion-label>{{day.text}}</ion-label>
+                        <ion-checkbox [(ngModel)]="day.enabled"
+                                      (ngModelChange)="updateCustomSelectedDays($event)"></ion-checkbox>
+                        <ion-select [(ngModel)]="day.from">
+                            <ion-option value="from" selected="true">From</ion-option>
+                            <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
+                        </ion-select>
+                        <ion-select [(ngModel)]="day.to">
+                            <ion-option value="from" selected="true">To</ion-option>
+                            <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
+                        </ion-select>
+                    </ion-item>
                 </div>
 
+
+                <ion-item no-lines>
+                    <ion-label floating>Problemlöser</ion-label>
+                    <ion-textarea [(ngModel)]="problemSolver"></ion-textarea>
+                </ion-item>
 
                 <ion-item no-lines>
                     <ion-label floating>Descriptions</ion-label>

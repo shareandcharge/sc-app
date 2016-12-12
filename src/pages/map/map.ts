@@ -8,6 +8,7 @@ import {MapFilterPage} from './filter/filter';
 import {LocationDetailPage} from '../location/location-details';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AuthService} from "../../services/auth.service";
+import {LoginPage} from "../login/login";
 
 
 
@@ -141,7 +142,14 @@ export class MapPage {
     }
 
     myCarsModal() {
-        this.navCtrl.setRoot(MyCarsPage);
+        if(this.auth.loggedIn()){
+            this.navCtrl.push(MyCarsPage);
+        }
+        else{
+            this.navCtrl.setRoot(LoginPage , {
+                "dest" : MyCarsPage
+            });
+        }
     }
 
 

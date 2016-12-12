@@ -7,8 +7,11 @@ import {MyStationsPage} from '../my-stations/my-stations'
   templateUrl: 'set-tariff.html'
 })
 export class SetTariffPage {
+  segmentTabs:any;
+  constructor(public navCtrl: NavController) {
+    this.segmentTabs = 'default';
 
-  constructor(public navCtrl: NavController) {}
+  }
 
   ionViewDidLoad() {
   }

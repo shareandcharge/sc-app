@@ -32,4 +32,13 @@ export class MapSettingsPage {
                 break;
         }
     }
+
+    setView(view){
+        if(view == 'list'){
+
+        }
+        else{
+
+        }
+    }
 }

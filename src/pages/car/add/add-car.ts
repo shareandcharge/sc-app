@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, ModalController, NavParams , ActionSheetController} from 'ionic-angular';
 import {CarManufacturerPage} from '../manufacturer/car-manufacturer';
-import {CustomizeCarPage} from '../customize/customize-car';
 import {MyCarsPage} from '../my-cars/my-cars';
 import {Camera} from 'ionic-native';
 import {CarService} from "../../../services/car.service";

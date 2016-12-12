@@ -1,6 +1,9 @@
-import {Component} from '@angular/core';
-import {NavController, ViewController} from 'ionic-angular';
+import {Component, ViewChild, ElementRef} from '@angular/core';
+import {NavController, ViewController ,LoadingController} from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
+import {Platform} from 'ionic-angular';
+import {Geolocation} from 'ionic-native';
+
 
 @Component({
     selector: 'page-add-station',
@@ -16,8 +19,21 @@ export class AddStationPage {
     from:any;
     to:any;
     descriptions:any;
+    problemSolver:any;
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController) {
+    defaultCenterLat = 52.502145;
+    defaultCenterLng = 13.414476;
+
+    @ViewChild('map') mapElement: ElementRef;
+    map: any;
+    placesService: any;
+    private platform;
+    location:any;
+    mapDefaultControlls:boolean;
+
+    defaultZoom = 16;
+
+    constructor(public navCtrl:NavController, private loadingCtrl: LoadingController ,platform: Platform ,private viewCtrl:ViewController) {
 
         this.segmentTabs = 'default';
 
@@ -72,7 +88,7 @@ export class AddStationPage {
         this.days = [
             {
                 "text": "Monday",
-                "enabled": true,
+                "enabled": false,
                 "key" : "monday",
                 "from": "",
                 "to" : ""
@@ -86,7 +102,7 @@ export class AddStationPage {
             },
             {
                 "text": "Wednesday",
-                "enabled": true,
+                "enabled": false,
                 "key" : "wednesday",
                 "from": "",
                 "to" : ""
@@ -100,7 +116,7 @@ export class AddStationPage {
             },
             {
                 "text": "Friday",
-                "enabled": true,
+                "enabled": false,
                 "key" : "friday",
                 "from": "",
                 "to" : ""
@@ -121,7 +137,67 @@ export class AddStationPage {
             }
         ]
 
+        this.platform = platform;
+        if(this.platform.is("core")){
+            this.mapDefaultControlls = false;
+        }
+        else{
+            this.mapDefaultControlls = true;
+        }
+
+        this.initializeApp();
+
     }
+
+    initializeApp() {
+        this.platform.ready().then(() => {
+            console.log('Platform ready');
+            this.loadMap();
+
+        });
+    }
+
+    loadMap(){
+
+        let loader = this.loadingCtrl.create({
+            content: "Loading map ...",
+        });
+        loader.present();
+
+        let latLng = new google.maps.LatLng(this.defaultCenterLat, this.defaultCenterLng);
+
+        let mapOptions = {
+            center: latLng,
+            zoom: this.defaultZoom,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false,
+            fullscreenControl: false,
+            disableDefaultUI: this.mapDefaultControlls
+        };
+
+        this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+
+        Geolocation.getCurrentPosition().then((position) => {
+            let initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            this.map.setCenter(initialLocation);
+            let marker = new google.maps.Marker({
+                position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                map: this.map
+            });
+
+            console.log(marker);
+        }, (err) => {
+            console.log(err);
+            loader.dismissAll();
+        });
+
+
+        google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
+            loader.dismissAll();
+        });
+
+    }
+
 
 
     ionViewDidLoad() {

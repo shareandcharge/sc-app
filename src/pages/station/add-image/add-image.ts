@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController , ModalController , ActionSheetController , reorderArray} from 'ionic-angular';
-import {SetTariffPage} from '../set-tariff/set-tariff';
+import {PlugTypesPage} from '../plug-types/plug-types';
 import {Camera} from 'ionic-native';
 
 
@@ -88,7 +88,7 @@ export class AddStationImagePage {
     }
 
     continueAddStation() {
-        this.navCtrl.push(SetTariffPage);
+        this.navCtrl.push(PlugTypesPage);
     }
 
     deleteImg(img){
