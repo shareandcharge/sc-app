@@ -123,7 +123,8 @@ export class AddCarPage {
             sourceType: sourceType,
             allowEdit: true,
             targetWidth: 1000,
-            targetHeight: 1000
+            targetHeight: 588,
+            correctOrientation: true
         }).then((imageData) => {
             // imageData is a base64 encoded string
             this.base64Image = "data:image/jpeg;base64," + imageData;

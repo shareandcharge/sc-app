@@ -2,19 +2,22 @@ form.blocky {
 
 }
 
+.text-input {
+  border-radius: 4px !important; // @todo ;(
+}
+
 .item-ios.item-label-floating .text-input,
 .item-label-floating .text-input-md {
-  background-color: #f3f3f3;
+  background-color: #fff;
   margin: 0;
   padding: 10px 14px;
-  border-radius: 2px;
+  //border-radius: 2px;
 }
 
 .label.label-ios[floating],
 .label.label-md[floating] {
   transform: translate3d(14px, 38px, 0);
 }
-
 
 ion-select {
   &.select-multiline {
@@ -27,6 +30,6 @@ ion-select {
   }
 }
 
-.alert-checkbox-label{
+.alert-checkbox-label {
   font-size: 17px;
 }

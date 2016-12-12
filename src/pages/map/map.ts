@@ -9,7 +9,7 @@ import {LocationDetailPage} from '../location/location-details';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
-
+import {AddCarPage} from "../car/add/add-car";
 
 
 declare var google;
@@ -31,14 +31,14 @@ export class MapPage {
     defaultCenterLng = 10.6679155;
     defaultZoom = 8;
     currentPositionZoom = 13;
-    mapDefaultControlls:boolean;
+    mapDefaultControlls: boolean;
 
-    constructor(public popoverCtrl: PopoverController,public auth: AuthService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
         this.platform = platform;
-        if(this.platform.is("core")){
+        if (this.platform.is("core")) {
             this.mapDefaultControlls = false;
         }
-        else{
+        else {
             this.mapDefaultControlls = true;
         }
 
@@ -126,15 +126,15 @@ export class MapPage {
 
         let me = this;
         marker.addListener('click', function () {
-            let locDetails = me.modalCtrl.create(LocationDetailPage , {
+            let locDetails = me.modalCtrl.create(LocationDetailPage, {
                 "location": location
             });
 
             locDetails.present();
 
-         /*   me.navCtrl.push(LocationDetailPage, {
-                "location": location
-            });*/
+            /*   me.navCtrl.push(LocationDetailPage, {
+             "location": location
+             });*/
         });
 
         // let content = location.name;
@@ -142,13 +142,25 @@ export class MapPage {
     }
 
     myCarsModal() {
-        if(this.auth.loggedIn()){
+        if (this.auth.loggedIn()) {
             this.navCtrl.push(MyCarsPage);
         }
-        else{
-            this.navCtrl.setRoot(LoginPage , {
-                "dest" : MyCarsPage
+        else {
+            this.navCtrl.setRoot(LoginPage, {
+                "dest": MyCarsPage
             });
+        }
+    }
+
+    addCarModal() {
+        if (this.auth.loggedIn()) {
+            this.navCtrl.push(AddCarPage);
+        }
+        else {
+            let modal = this.modalCtrl.create(LoginPage, {
+                "dest": AddCarPage
+            });
+            modal.present();
         }
     }
 
