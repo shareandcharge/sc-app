@@ -12,12 +12,13 @@ import {MapPage} from '../map/map';
 export class ProfilePage {
     public base64Image: string;
 
-    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController , private auth: AuthService) {
+    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController , public auth: AuthService) {
     }
 
     ionViewDidLoad() {
     }
 
+    dummy() {}
     presentActionSheet() {
         let actionSheet = this.actionSheetCtrl.create({
             title: 'Add Photo',

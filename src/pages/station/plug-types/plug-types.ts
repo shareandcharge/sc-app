@@ -10,6 +10,10 @@ export class PlugTypesPage {
 
   constructor(public navCtrl: NavController) {}
 
+  plugTypes;
+  power;
+  kwh;
+
   ionViewDidLoad() {
   }
 
