@@ -1,0 +1,27 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>My Stations</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="addStation()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item *ngFor="let item of stations" (click)="editStation(item.id)">
+      <button ion-item>
+        {{item.address}}
+      </button>
+    </ion-item>
+  </ion-list>
+
+
+</ion-content>

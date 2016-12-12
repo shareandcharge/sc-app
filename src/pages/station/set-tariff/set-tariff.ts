@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import {MyStationsPage} from '../my-stations/my-stations'
 
 @Component({
   selector: 'page-set-tariff',
@@ -13,7 +14,7 @@ export class SetTariffPage {
   }
 
   publish(){
-
+      this.navCtrl.setRoot(MyStationsPage);
   }
 
 }

@@ -31,6 +31,7 @@ import {Http} from '@angular/http';
 import {Storage} from '@ionic/storage';
 import {AuthService} from "../services/auth.service";
 import {ProfilePage} from '../pages/profile/profile';
+import {MyStationsPage} from '../pages/station/my-stations/my-stations';
 
 let storage = new Storage();
 
@@ -69,6 +70,7 @@ export function getAuthHttp(http) {
         DashboardPage,
         AccountSettingsPage,
         ProfilePage,
+        MyStationsPage,
         TabsPage,
     ],
     imports: [
@@ -102,6 +104,7 @@ export function getAuthHttp(http) {
         DashboardPage,
         AccountSettingsPage,
         ProfilePage,
+        MyStationsPage,
         TabsPage
     ],
     providers: [
