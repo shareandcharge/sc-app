@@ -1,0 +1,15 @@
+.segment.segment-ios .segment-button {
+  font-size: 1.6rem;
+  &:first-of-type {
+    border-radius: 16px 0 0 16px;
+  }
+  &:last-of-type {
+    border-radius: 0 16px 16px 0;
+  }
+  background: #fff;
+}
+
+.segment.segment-borderless .segment-button {
+  border-color: transparent;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,.3);
+}

@@ -12,6 +12,7 @@ import {LoginPage} from "../login/login";
 import {LocationService} from "../../services/location.service";
 
 
+import {AddCarPage} from "../car/add/add-car";
 
 
 declare var google;
@@ -156,6 +157,18 @@ export class MapPage {
         }
     }
 
+    addCarModal() {
+        if (this.auth.loggedIn()) {
+            this.navCtrl.push(AddCarPage);
+        }
+        else {
+            let modal = this.modalCtrl.create(LoginPage, {
+                "dest": AddCarPage
+            });
+            modal.present();
+        }
+    }
+
 
     mapSettingsPopOver(e) {
         let popover = this.popoverCtrl.create(MapSettingsPage, {
@@ -265,7 +278,6 @@ export class MapPage {
     }
 
     addDummyMarkers() {
-      /*
         let dummys = [
 
             {
@@ -558,7 +570,7 @@ export class MapPage {
                 "title": "My yash"
             }
 
-        ];*/
+        ];
 
         this.locationService.getLocations().subscribe(locations => {
             this.locations = locations;
