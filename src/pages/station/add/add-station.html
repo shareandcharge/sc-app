@@ -24,8 +24,14 @@
 
                 <ion-item no-lines>
                     <ion-label floating>Type Station Address</ion-label>
-                    <ion-input type="text" [(ngModel)]="address"></ion-input>
+                    <ion-input type="text" [(ngModel)]="address" (input)="updateSearch()" ></ion-input>
                 </ion-item>
+                <ion-list>
+                    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+                        <ion-icon name="pin" item-left></ion-icon>
+                        {{ item.description }}
+                    </ion-item>
+                </ion-list>
 
                 <ion-segment color="primary" [(ngModel)]="segmentTabs" padding>
                     <ion-segment-button value="default">
