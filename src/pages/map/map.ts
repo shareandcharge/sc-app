@@ -235,7 +235,7 @@ export class MapPage {
             me.centerCurrentPosition();
         });
 
-        this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
+        this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
     }
 
     addMapFilterControl() {
@@ -248,7 +248,7 @@ export class MapPage {
 
         var controlText = document.createElement('div');
         controlText.id = 'mapFilterText';
-        controlText.innerHTML = '<ion-icon name="filter" role="img" class="icon icon-ios ion-ios-funnel" aria-label="filter" ng-reflect-name="filter"></ion-icon>';
+        controlText.innerHTML = '<ion-icon name="filter" role="img" class="icon icon-ios ion-ios-options" aria-label="filter" ng-reflect-name="filter"></ion-icon>';
         controlUI.appendChild(controlText);
 
         let me = this;
@@ -257,7 +257,7 @@ export class MapPage {
             me.presentFilterModal()
         });
 
-        this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
+        this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
     }
 
     addDummyMarkers() {

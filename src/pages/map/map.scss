@@ -11,6 +11,45 @@
   height: 100%;
 }
 
+.bar-button-large {
+  font-size: 2.2rem;
+}
+
+#mapCenterUI, #mapFilterUI {
+  position: relative;
+  background-color: map-get($colors, primary);
+  border: 1px solid map-get($colors, primary);
+  box-shadow: 0 0 6px 1px rgba(0,0,0,.3);
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-left: 2px;
+}
+
+#mapCenterUI {
+  border-radius: 16px 0 0 16px;
+  right: -3px;
+  border-right-color: rgba(255, 255, 255, 0.5);
+}
+#mapFilterUI {
+  left: -3px;
+  border-radius: 0 16px 16px 0;
+}
+
+#mapCenterText, #mapFilterText {
+  color: #fff;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 18px;
+  line-height: 25px;
+  padding: 4px 18px 1px;
+}
+
+
+
+
+
+
+
 .button-right {
   position: absolute;
   right: 10px;

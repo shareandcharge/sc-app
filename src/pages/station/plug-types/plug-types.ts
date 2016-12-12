@@ -19,8 +19,8 @@ export class PlugTypesPage {
 
     }
 
-    ionViewDidLoad() {
-    }
+  ionViewDidLoad() {
+  }
 
     nextPage() {
         this.locObject.stations.plugTypes = this.plugTypes;
