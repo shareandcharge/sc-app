@@ -122,8 +122,8 @@ export class AddCarPage {
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: sourceType,
             allowEdit: true,
-            targetWidth: 1000,
-            targetHeight: 588,
+            targetWidth: 800,
+            targetHeight: 800,
             correctOrientation: true
         }).then((imageData) => {
             // imageData is a base64 encoded string

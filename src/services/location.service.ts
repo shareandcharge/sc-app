@@ -26,6 +26,18 @@ export class LocationService {
             .catch(this.handleError);
     }
 
+    getLocationsUser(userAddress: string) {
+        return this.getLocations().map(res => {
+            let locations = [];
+            res.forEach(location => {
+                if (location.owner == userAddress) {
+                    locations.push(location);
+                }
+            });
+            return locations;
+        });
+    }
+
     searchLocations(bounds?: any) {
         let checkBounds = <boolean>bounds;
         return this.getLocations().map(res => {
