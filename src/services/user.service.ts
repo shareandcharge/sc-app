@@ -26,7 +26,15 @@ export class UserService {
         this.http.post(url, JSON.stringify(credentials), {headers: this.contentHeader})
             .map(res => res.json())
             .subscribe(
-                data => this.authSuccess(data),
+                data => {
+                    // @TODO we need the delete for the mockup api; remove later.
+                    // this.authSuccess(data);
+                    let id = data.id;
+                    this.http.delete(`${this.baseUrl}/users/${id}`, {headers: this.contentHeader})
+                        .map(res => res.json())
+                        .subscribe(data => this.authSuccess(data));
+
+                },
                 err => this.error = err
             );
     }
