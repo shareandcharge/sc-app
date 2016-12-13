@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController} from 'ionic-angular';
+import {NavController, ViewController, ModalController} from 'ionic-angular';
 import {AddStationPage} from '../add/add-station';
 import {LocationService} from "../../../services/location.service";
 import {AuthService} from "../../../services/auth.service";
@@ -15,7 +15,7 @@ export class MyStationsPage {
 
     stations: any;
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, public locationService: LocationService) {
+    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, public locationService: LocationService, public modalCtrl: ModalController) {
         this.loadStations();
     }
 
@@ -38,7 +38,8 @@ export class MyStationsPage {
     }
 
     addStation() {
-        this.navCtrl.push(AddStationPage);
+        let modal = this.modalCtrl.create(AddStationPage);
+        modal.present();
     }
 
     dismiss() {

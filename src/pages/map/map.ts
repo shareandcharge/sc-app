@@ -13,6 +13,7 @@ import {LocationService} from "../../services/location.service";
 
 
 import {AddCarPage} from "../car/add/add-car";
+import {CarService} from "../../services/car.service";
 
 
 declare var google;
@@ -20,7 +21,7 @@ declare var google;
 @Component({
     selector: 'page-map',
     templateUrl: 'map.html',
-    providers: [LocationService]
+    providers: [LocationService, CarService]
 })
 export class MapPage {
 
@@ -34,11 +35,11 @@ export class MapPage {
     defaultCenterLat = 51.6054624;
     defaultCenterLng = 10.6679155;
     defaultZoom = 8;
-    currentPositionZoom = 13;
+    currentPositionZoom = 16;
     mapDefaultControlls:boolean;
     locations:any;
 
-    constructor(public popoverCtrl: PopoverController,public auth: AuthService, public locationService: LocationService ,platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+    constructor(public popoverCtrl: PopoverController,public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
         this.platform = platform;
         if(this.platform.is("core")){
             this.mapDefaultControlls = false;
@@ -159,7 +160,10 @@ export class MapPage {
 
     addCarModal() {
         if (this.auth.loggedIn()) {
-            this.navCtrl.push(AddCarPage);
+            let modal = this.modalCtrl.create(AddCarPage, {
+                "mode": "enter"
+            });
+            modal.present();
         }
         else {
             let modal = this.modalCtrl.create(LoginPage, {
@@ -169,6 +173,12 @@ export class MapPage {
         }
     }
 
+    hasCars() {
+        return false;
+        // this.carService.getCars().subscribe(cars => {
+        //     return cars.length > 0;
+        // })
+    }
 
     mapSettingsPopOver(e) {
         let popover = this.popoverCtrl.create(MapSettingsPage, {

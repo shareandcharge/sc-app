@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {NavController, NavParams, ModalController} from 'ionic-angular';
 import {AddCarPage} from '../add/add-car';
 import {CarService} from "../../../services/car.service";
 
@@ -15,7 +15,7 @@ export class MyCarsPage {
     mode: any;
     noCars = false;
 
-    constructor(public navCtrl: NavController, private navParams: NavParams, private carService: CarService) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, private carService: CarService, public modalCtrl: ModalController) {
 
         this.loadCars();
 
@@ -35,19 +35,29 @@ export class MyCarsPage {
     }
 
     addCar() {
-        this.navCtrl.setRoot(AddCarPage, {
+        let modal = this.modalCtrl.create(AddCarPage, {
             "mode": "add"
         });
+        modal.present();
+
+        // this.navCtrl.setRoot(AddCarPage, {
+        //     "mode": "add"
+        // });
     }
 
     editCar(id) {
 
         var index = this.cars.findIndex(c => c.id === id);
-
-        this.navCtrl.push(AddCarPage, {
+        let modal = this.modalCtrl.create(AddCarPage, {
             "car": this.cars[index],
             "mode": "edit"
         });
+        modal.present();
+
+        // this.navCtrl.push(AddCarPage, {
+        //     "car": this.cars[index],
+        //     "mode": "edit"
+        // });
     }
 
     doRefresh(refresher) {

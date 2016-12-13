@@ -16,9 +16,12 @@
 
 <ion-content>
   <ion-fab top right>
-    <button ion-fab (click)="addCarModal()" class="button-add-car">
+
+    <button ion-fab (click)="addCarModal()" class="button-add-car" *ngIf="!hasCars()">
       <img src="assets/icons/add-car.png">
-      <!--<ion-icon name="add"></ion-icon>-->
+    </button>
+    <button ion-fab (click)="myCarsModal()" class="button-add-car" *ngIf="hasCars()">
+      <ion-icon name="ios-car"></ion-icon>
     </button>
     <!--<ion-fab-list>
       <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>

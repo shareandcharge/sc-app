@@ -58,11 +58,11 @@ export class AddCarPage {
          }*/
 
         if (this.mode == "edit") {
-            this.saveButtonText = "Update";
+            this.saveButtonText = "Aktualisieren";
             this.showDeleteButton = true;
         }
         else {
-            this.saveButtonText = "Save";
+            this.saveButtonText = "Speichern";
             this.showDeleteButton = false;
         }
     }
@@ -147,18 +147,18 @@ export class AddCarPage {
     deleteCar() {
 
         let alert = this.alertCtrl.create({
-            title: 'Confirm delete',
-            message: 'Do you want to delete this car?',
+            title: 'Löschen bestätigen',
+            message: 'Möchten Sie dieses Auto wirklich löschen?',
             buttons: [
                 {
-                    text: 'Cancel',
+                    text: 'Nein',
                     role: 'cancel',
                     handler: () => {
                         console.log('Cancel clicked');
                     }
                 },
                 {
-                    text: 'Ok',
+                    text: 'Ja, löschen',
                     handler: () => {
                         this.carService.deleteCar(this.car.id).subscribe(c => {
                             console.log("deleted car " , c);

@@ -1,10 +1,11 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Add a Car</ion-title>
+        <ion-title *ngIf="mode!='edit'">Auto hinzufügen</ion-title>
+        <ion-title *ngIf="mode=='edit'">Auto bearbeiten</ion-title>
         <ion-buttons start>
             <button ion-button (click)="skipAddingCar()">
-                Skip
+                Abbrechen
             </button>
         </ion-buttons>
     </ion-navbar>
@@ -92,7 +93,7 @@
 
             <div padding text-center>
                 <button ion-button round (click)="saveCar()">{{saveButtonText}}</button>
-                <button *ngIf="showDeleteButton" ion-button (click)="deleteCar()">Delete</button>
+                <button *ngIf="showDeleteButton" color="danger" round ion-button (click)="deleteCar()">Löschen</button>
             </div>
         </ion-list>
     </div>
