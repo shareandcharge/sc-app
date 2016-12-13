@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController , NavParams} from 'ionic-angular';
+import {NavController, ViewController, ModalController, NavParams, LoadingController} from 'ionic-angular';
 import {SignupPage} from '../signup/signup';
 import {UserService} from "../../services/user.service";
 import {AuthService} from "../../services/auth.service";
@@ -16,7 +16,7 @@ export class LoginPage {
     destination: any;
 
 
-    constructor(public navCtrl: NavController, private navParams : NavParams,private viewCtrl: ViewController, public modalCtrl: ModalController, private userService: UserService, public auth: AuthService) {
+    constructor(public navCtrl: NavController, private navParams : NavParams,private viewCtrl: ViewController, public modalCtrl: ModalController, private userService: UserService, public auth: AuthService, private loadingCtrl: LoadingController) {
         this.destination = navParams.get("dest");
     }
 
@@ -34,14 +34,20 @@ export class LoginPage {
     }
 
     submitForm() {
-        this.userService.login(this.credentials.email, this.credentials.password);
+        let loader = this.loadingCtrl.create({
+            content: "Login ...",
+        });
+        loader.present();
 
-        this.viewCtrl.dismiss();
+        this.userService.login(this.credentials.email, this.credentials.password).subscribe(res => {
+            loader.dismissAll();
+            this.viewCtrl.dismiss();
 
-        if(typeof this.destination != 'undefined'){
-            console.log(this.destination);
-            this.navCtrl.push(this.destination);
-        }
+            if(typeof this.destination != 'undefined'){
+                console.log(this.destination);
+                this.navCtrl.push(this.destination);
+            }
+        });
     }
 
     loginFacebook() {

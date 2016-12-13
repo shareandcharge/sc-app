@@ -23,24 +23,23 @@ export class UserService {
         // let url = `${this.baseUrl}/users/login`;
         let url = `${this.baseUrl}/users`;
 
-        this.http.post(url, JSON.stringify(credentials), {headers: this.contentHeader})
-            .map(res => res.json())
-            .subscribe(
-                data => {
-                    // @TODO we need the delete for the mockup api; remove later.
-                    // this.authSuccess(data);
-                    let id = data.id;
-                    this.http.delete(`${this.baseUrl}/users/${id}`, {headers: this.contentHeader})
-                        .map(res => res.json())
-                        .subscribe(data => this.authSuccess(data));
+        return this.http.post(url, JSON.stringify(credentials), {headers: this.contentHeader})
+            .map(res => {
+                let data = res.json();
+                this.authSuccess(data);
 
-                },
-                err => this.error = err
-            );
+                // @TODO we need the delete for the mockup api; remove later.
+                let id = data.id;
+                this.http.delete(`${this.baseUrl}/users/${id}`, {headers: this.contentHeader})
+                    .map(res => res.json())
+                    .subscribe(() => {
+                    });
+
+            });
     }
 
     authSuccess(data) {
-        console.log('LOGIN SUCCESS:', data);
+        // console.log('LOGIN SUCCESS:', data);
         this.error = null;
         let token = data.token;
         let user = new User().deserialize(data.user);
