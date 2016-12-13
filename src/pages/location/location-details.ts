@@ -19,6 +19,7 @@ export class LocationDetailPage {
     private platform;
     mapDefaultControlls:boolean;
 
+    showOpeningHours:boolean = false;
 
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController,private navParams: NavParams, platform: Platform,  private viewCtrl:ViewController , private loadingCtrl: LoadingController) {
@@ -71,10 +72,10 @@ export class LocationDetailPage {
     loadMap(){
 
         console.log("loading the map");
-        let loader = this.loadingCtrl.create({
-            content: "Loading map ...",
-        });
-        loader.present();
+        // let loader = this.loadingCtrl.create({
+        //     content: "Loading map ...",
+        // });
+        // loader.present();
 
         let latLng = new google.maps.LatLng(this.location.latitude, this.location.longitude);
 
@@ -98,7 +99,7 @@ export class LocationDetailPage {
         console.log(marker);
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
-            loader.dismissAll();
+            // loader.dismissAll();
         });
 
     }
