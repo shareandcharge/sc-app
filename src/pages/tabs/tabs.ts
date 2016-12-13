@@ -11,6 +11,7 @@ import {MyCarsPage} from '../car/my-cars/my-cars';
 import {DashboardPage} from '../dashboard/dashboard';
 import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
+import {MyStationsPage} from "../station/my-stations/my-stations";
 
 
 @Component({
@@ -20,7 +21,7 @@ export class TabsPage {
 
     tab1Root: any = MapPage;
     tab2Root: any = AboutPage;
-    tab3Root: any = AddStationPage;
+    tab3Root: any = MyStationsPage;
     tab4Root: any = DashboardPage;
     tab5Root: any = WalletPage;
 
@@ -51,8 +52,17 @@ export class TabsPage {
     }
 
     addStationModal() {
-        let modal = this.modalCtrl.create(AddStationPage);
-        modal.present();
+        if (this.auth.loggedIn()) {
+            let modal = this.modalCtrl.create(AddStationPage);
+            modal.present();
+        }
+        else {
+            let modal = this.modalCtrl.create(LoginPage, {
+                "dest": AddStationPage
+            });
+            modal.present();
+        }
+
     }
 
     myCarsModal() {

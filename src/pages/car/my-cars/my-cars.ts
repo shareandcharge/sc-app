@@ -17,15 +17,18 @@ export class MyCarsPage {
 
     constructor(public navCtrl: NavController, private navParams: NavParams, private carService: CarService) {
 
-        this.carService.getCars().subscribe(cars => {
-            this.cars = cars;
-            console.log("the cars inside subscribe are ", this.cars);
-        });
-
+        this.loadCars();
 
         this.newCar = navParams.get("newCar");
         this.mode = navParams.get("mode");
 
+    }
+
+    loadCars() {
+        this.carService.getCars().subscribe(cars => {
+            this.cars = cars;
+            console.log("the cars inside subscribe are ", this.cars);
+        });
     }
 
     ionViewDidLoad() {
@@ -46,4 +49,13 @@ export class MyCarsPage {
             "mode": "edit"
         });
     }
+
+    doRefresh(refresher) {
+        this.loadCars();
+        setTimeout(() => {
+            console.log('Async operation has ended');
+            refresher.complete();
+        }, 1000);
+    }
+
 }

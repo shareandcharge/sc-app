@@ -63,31 +63,31 @@ export class AddStationPage {
 
         this.weekdays = [
             {
-                "text": "Monday",
+                "text": "Montag",
                 "key": "monday"
             },
             {
-                "text": "Tuesday",
+                "text": "Dienstag",
                 "key": "tuesday"
             },
             {
-                "text": "Wednesday",
+                "text": "Mittwoch",
                 "key": "wednesday"
             },
             {
-                "text": "Thursday",
+                "text": "Donnerstag",
                 "key": "thursday"
             },
             {
-                "text": "Friday",
+                "text": "Freitag",
                 "key": "friday"
             },
             {
-                "text": "Saturday",
+                "text": "Samstag",
                 "key": "saturday"
             },
             {
-                "text": "Sunday",
+                "text": "Sonntag",
                 "key": "sunday"
             }
         ];
