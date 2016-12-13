@@ -11,4 +11,9 @@
   &.button-microsoft {
     background-color: map_get($brand-color, microsoft);
   }
+
+  &.button-ios-white, &.button-md-white {
+    background-color: #fff;
+    color: map_get($colors, primary);
+  }
 }

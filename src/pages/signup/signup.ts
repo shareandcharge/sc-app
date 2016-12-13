@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController , ViewController , ModalController} from 'ionic-angular';
 import { LoginPage } from '../login/login';
+import {AuthService} from "../../services/auth.service";
 
 
 @Component({
@@ -9,7 +10,9 @@ import { LoginPage } from '../login/login';
 })
 export class SignupPage {
 
-  constructor(public navCtrl: NavController , private viewCtrl: ViewController , public modalCtrl: ModalController) {}
+  credentials = {"email": "", "password": ""};
+
+  constructor(public navCtrl: NavController , private viewCtrl: ViewController , public modalCtrl: ModalController, public auth: AuthService) {}
 
   ionViewDidLoad() {
     //console.log('Hello SignupPage Page');

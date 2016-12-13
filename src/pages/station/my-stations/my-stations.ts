@@ -72,4 +72,10 @@ export class MyStationsPage {
     console.log(id);
   }
 
+  favorite(item) {}
+
+  share(item) {}
+
+  unread(item) {}
+
 }
