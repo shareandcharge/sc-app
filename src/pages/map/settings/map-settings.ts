@@ -11,8 +11,13 @@ export class MapSettingsPage {
     mapViewType:'roadMap';
     map:any;
 
+    setViewType:any;
+    getViewType:any;
+
     constructor(public navCtrl:NavController, private viewCtrl:ViewController, private navParams:NavParams) {
         this.map = navParams.get("map");
+        this.setViewType = navParams.get('setViewType');
+        this.getViewType = navParams.get('getViewType');
     }
 
     ionViewDidLoad() {
@@ -33,12 +38,8 @@ export class MapSettingsPage {
         }
     }
 
-    setView(view){
-        if(view == 'list'){
-
-        }
-        else{
-
-        }
+    setView = (view) => {
+        this.setViewType(view);
+        this.viewCtrl.dismiss();
     }
 }

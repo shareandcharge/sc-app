@@ -6,11 +6,11 @@
             </ion-list-header>
             <ion-item>
                 <ion-label>Map View</ion-label>
-                <ion-radio value="mapView" checked (click)="setView('map')"></ion-radio>
+                <ion-radio value="mapView" [checked]="getViewType()=='map'" (click)="setView('map')"></ion-radio>
             </ion-item>
             <ion-item>
                 <ion-label>List View</ion-label>
-                <ion-radio value="listView" (click)="setView('list')"></ion-radio>
+                <ion-radio value="listView" [checked]="getViewType()=='list'" (click)="setView('list')"></ion-radio>
             </ion-item>
         </ion-list>
         <ion-list radio-group>
