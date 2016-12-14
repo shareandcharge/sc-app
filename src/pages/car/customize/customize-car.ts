@@ -31,7 +31,7 @@ export class CustomizeCarPage {
         this.car = navParams.get("car");
 
         this.selectPlugTypesOptions = {
-            title: 'Select Plug Type'
+                title: 'Select Plug Type'
         };
 
         if (typeof this.car.model != "undefined") {

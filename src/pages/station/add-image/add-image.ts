@@ -13,6 +13,7 @@ export class AddStationImagePage {
     images:any;
     public base64Image: string;
     locObject:any;
+    flowMode: any;
 
     constructor(public navCtrl:NavController, private viewCtrl:ViewController , private navParams : NavParams,public modalCtrl: ModalController , private actionSheetCtrl:ActionSheetController) {
         if (typeof this.images == "undefined") {
@@ -20,8 +21,13 @@ export class AddStationImagePage {
         }
 
         this.locObject = this.navParams.get("loc");
+        this.flowMode = this.navParams.get("mode");
 
-        console.log( this.locObject);
+
+        if(typeof this.locObject.stations.images != 'undefined') {
+            this.images = this.locObject.stations.images;
+            console.log(this.images);
+        }
     }
 
     ionViewDidLoad() {
@@ -96,7 +102,8 @@ export class AddStationImagePage {
 
         this.locObject.stations.images = this.images;
         this.navCtrl.push(PlugTypesPage , {
-            "loc" : this.locObject
+            "loc" : this.locObject,
+            "mode": this.flowMode
         });
     }
 

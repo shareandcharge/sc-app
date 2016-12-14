@@ -113,5 +113,6 @@
         </ion-list>
     </div>
 
-    <button ion-button (click)="publish()">Publish</button>
+    <button ion-button (click)="publish()">{{buttonText}}</button>
+    <button *ngIf="flowMode == 'edit'" ion-button (click)="deleteStation()">Delete</button>
 </ion-content>

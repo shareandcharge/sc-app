@@ -45,7 +45,7 @@
                 <div *ngIf="segmentTabs == 'default'">
                     <ion-item no-lines>
                         <ion-label>Von</ion-label>
-                        <ion-select [(ngModel)]="from">
+                        <ion-select [(ngModel)]="from" (ngModelChange)="updateSelectedDays()">
                             <ion-option value="9" selected="true">9:00</ion-option>
                             <ion-option value="10">10:00</ion-option>
                             <ion-option value="11">11:00</ion-option>
@@ -62,7 +62,7 @@
 
                     <ion-item no-lines>
                         <ion-label>Bis</ion-label>
-                        <ion-select [(ngModel)]="to">
+                        <ion-select [(ngModel)]="to" (ngModelChange)="updateSelectedDays()">
                             <ion-option value="9" selected="true">9:00</ion-option>
                             <ion-option value="10">10:00</ion-option>
                             <ion-option value="11">11:00</ion-option>
@@ -79,30 +79,33 @@
 
                     <ion-item no-lines>
                         <ion-label>Tage</ion-label>
-                        <ion-select multiple="true" [(ngModel)]="weekdays" (ngModelChange)="updateSelectedDays($event)">
-                            <ion-option *ngFor="let d of days" [value]="d.text">
-                                {{d.text}}
-                            </ion-option>
+                        <ion-select multiple="true" [(ngModel)]="weekdays" (ngModelChange)="updateSelectedDays()">
+                            <ion-option value="monday">Montag</ion-option>
+                            <ion-option value="tuesday">Dienstag</ion-option>
+                            <ion-option value="wednesday">Mittwoch</ion-option>
+                            <ion-option value="thirsday">Donnerstag</ion-option>
+                            <ion-option value="friday">Fritag</ion-option>
+                            <ion-option value="saturday">Samstag</ion-option>
+                            <ion-option value="sunday">Sonntag</ion-option>
                         </ion-select>
                     </ion-item>
                 </div>
 
                 <div *ngIf="segmentTabs == 'custom'">
-                    <ion-item *ngFor="let day of days">
+                    <ion-item *ngFor="let day of customDays">
                         <ion-label>{{day.text}}</ion-label>
                         <ion-checkbox [(ngModel)]="day.enabled"
-                                      (ngModelChange)="updateCustomSelectedDays($event)"></ion-checkbox>
-                        <ion-select [(ngModel)]="day.from">
+                                      (ngModelChange)="updateCustomSelectedDays()"></ion-checkbox>
+                        <ion-select [(ngModel)]="day.from" (ngModelChange)="updateCustomSelectedDays()">
                             <ion-option value="from" selected="true">From</ion-option>
                             <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                         </ion-select>
-                        <ion-select [(ngModel)]="day.to">
+                        <ion-select [(ngModel)]="day.to" (ngModelChange)="updateCustomSelectedDays()">
                             <ion-option value="from" selected="true">To</ion-option>
                             <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </div>
-
 
                 <ion-item no-lines>
                     <ion-label floating>Problemlöser</ion-label>
@@ -118,5 +121,6 @@
     </ion-grid>
     <div>
         <button ion-button (click)="continueAddStation()">Weiter</button>
+        <button *ngIf="flowMode == 'edit'" ion-button (click)="deleteStation()">Delete</button>
     </div>
 </ion-content>

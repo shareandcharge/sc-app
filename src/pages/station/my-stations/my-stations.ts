@@ -38,7 +38,9 @@ export class MyStationsPage {
     }
 
     addStation() {
-        let modal = this.modalCtrl.create(AddStationPage);
+        let modal = this.modalCtrl.create(AddStationPage , {
+            "mode" : 'add'
+        });
         modal.present();
     }
 
@@ -46,8 +48,12 @@ export class MyStationsPage {
         this.viewCtrl.dismiss();
     }
 
-    editStation(id) {
-        console.log(id);
+    editStation(obj) {
+        console.log(obj);
+        this.navCtrl.push(AddStationPage , {
+            "loc": obj,
+            "mode": 'edit'
+        })
     }
 
     favorite(item) {

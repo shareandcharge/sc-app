@@ -18,7 +18,7 @@
   </ion-refresher>
 
   <ion-list>
-    <ion-item-sliding  *ngFor="let item of stations" (click)="editStation(item.id)">
+    <ion-item-sliding  *ngFor="let item of stations" (click)="editStation(item)">
       <button ion-item>
         <ion-avatar item-left>
           <img src="{{item.stations.images[0]}}" *ngIf="item.stations.images.length">
