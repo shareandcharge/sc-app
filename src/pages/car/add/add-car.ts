@@ -174,6 +174,10 @@ export class AddCarPage {
 
     }
 
+    dummy(){
+        console.log(this.car.plugTypes);
+    }
+
     saveCar() {
         if (this.mode == "edit") {
             /*  this.cars[index].plateNumber = this.plateNumber;

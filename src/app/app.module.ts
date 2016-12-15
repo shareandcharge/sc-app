@@ -32,6 +32,7 @@ import {Storage} from '@ionic/storage';
 import {AuthService} from "../services/auth.service";
 import {ProfilePage} from '../pages/profile/profile';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
+import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
 import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
 
 let storage = new Storage();
@@ -73,6 +74,7 @@ export function getAuthHttp(http) {
         ProfilePage,
         MyStationsPage,
         PlugTypesPage,
+        StationMapDetailPage,
         TabsPage,
     ],
     imports: [
@@ -108,6 +110,7 @@ export function getAuthHttp(http) {
         ProfilePage,
         MyStationsPage,
         PlugTypesPage,
+        StationMapDetailPage,
         TabsPage
     ],
     providers: [

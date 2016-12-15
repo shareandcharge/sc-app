@@ -79,7 +79,7 @@
                 </ion-item>
 
                 <ion-item>
-                    <ion-select [(ngModel)]="car.plugTypes" [selectOptions]="selectPlugTypesOptions" multiple="true" class="select-multiline" placeholder="Please Select ...">
+                    <ion-select [(ngModel)]="car.plugTypes" [selectOptions]="selectPlugTypesOptions" (ngModelChange)="dummy()" multiple="true" class="select-multiline" placeholder="Please Select ...">
                         <ion-option>Schuko-Steckdose</ion-option>
                         <ion-option>CEE-Stecker</ion-option>
                         <ion-option>Typ 1</ion-option>
