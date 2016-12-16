@@ -1,32 +1,31 @@
-
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>My Cars</ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="addCar()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>My Cars</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="addCar()">
+                <ion-icon name="add"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
-  <ion-list>
-    <ion-item *ngFor="let item of cars" (click)="editCar(item.id)">
-      <ion-avatar item-left>
-        <img src="">
-      </ion-avatar>
-      <h2>{{item.plateNumber}}</h2>
-      <h3>{{item.manufacturer}} {{item.model}}</h3>
-    </ion-item>
-  </ion-list>
+    <ion-list>
+        <ion-item *ngFor="let item of cars" (click)="editCar(item)">
+            <ion-avatar item-left>
+                <img src="">
+            </ion-avatar>
+            <h2>{{item.plateNumber}}</h2>
+            <h3>{{item.manufacturer}} {{item.model}}</h3>
+        </ion-item>
+    </ion-list>
 
 
 </ion-content>

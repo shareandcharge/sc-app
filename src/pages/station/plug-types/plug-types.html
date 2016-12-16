@@ -10,7 +10,7 @@
 
 <ion-content padding>
   <ion-item>
-    <ion-select [(ngModel)]="plugTypes"  multiple="true" class="select-multiline" placeholder="Steckertypen" [selectOptions]="selectPlugOptions">
+    <ion-select [(ngModel)]="plugTypes"  multiple="true" class="select-multiline" placeholder="Steckertypen" [selectOptions]="">
       <ion-option>Schuko-Steckdose</ion-option>
       <ion-option>CEE-Stecker</ion-option>
       <ion-option>Typ 1</ion-option>
@@ -22,7 +22,7 @@
   </ion-item>
 
   <ion-item>
-    <ion-select [(ngModel)]="power" multiple="true" class="select-multiline" placeholder="Leistung" [selectOptions]="selectPowerOptions">
+    <ion-select [(ngModel)]="power" multiple="true" class="select-multiline" placeholder="Leistung" [selectOptions]="">
       <ion-option>2.4</ion-option>
       <ion-option>4.3</ion-option>
     </ion-select>

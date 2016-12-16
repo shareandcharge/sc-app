@@ -49,14 +49,6 @@ export class AddCarPage {
             this.plateNumber = this.car.plateNumber;
         }
 
-        /*  if(typeof this.selectedPlate != 'undefined'){
-         var index =  this.cars.findIndex(c => c.plateNumber === this.selectedPlate);
-         this.manufacturerName = this.cars[index].manufacturerName;
-         this.model = this.cars[index].model;
-         this.carInfo = this.cars[index].manufacturerName + " , " + this.cars[index].model.name;
-         this.plateNumber = this.cars[index].plateNumber;
-         }*/
-
         if (this.mode == "edit") {
             this.saveButtonText = "Aktualisieren";
             this.showDeleteButton = true;
@@ -68,20 +60,6 @@ export class AddCarPage {
     }
 
     ionViewDidLoad() {
-    }
-
-    addPhoto() {
-        /*console.log("Add Photo");
-        Camera.getPicture({
-            destinationType: Camera.DestinationType.DATA_URL,
-            targetWidth: 1000,
-            targetHeight: 1000
-        }).then((imageData) => {
-            // imageData is a base64 encoded string
-            this.base64Image = "data:image/jpeg;base64," + imageData;
-        }, (err) => {
-            console.log(err);
-        });*/
     }
 
     presentActionSheet() {
@@ -133,11 +111,17 @@ export class AddCarPage {
     }
 
     skipAddingCar() {
-        console.log(" Skip Add Car");
         this.viewCtrl.dismiss();
     }
 
     selectModdel() {
+        // let modal = this.modalCtrl.create(CarManufacturerPage, {
+        //     "mode": this.mode,
+        //     "car": this.car
+        //
+        // });
+        // modal.present();
+
         this.navCtrl.push(CarManufacturerPage, {
             "mode": this.mode,
             "car": this.car
