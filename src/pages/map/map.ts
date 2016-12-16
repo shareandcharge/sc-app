@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef, ApplicationRef} from '@angular/core';
+import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, ModalController, LoadingController, PopoverController} from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
 import {Platform} from 'ionic-angular';
