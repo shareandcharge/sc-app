@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController, NavParams , ActionSheetController , AlertController} from 'ionic-angular';
+import {NavController, ViewController, ModalController, NavParams , ActionSheetController , AlertController, App} from 'ionic-angular';
 import {CarManufacturerPage} from '../manufacturer/car-manufacturer';
 import {MyCarsPage} from '../my-cars/my-cars';
 import {Camera} from 'ionic-native';
@@ -29,7 +29,7 @@ export class AddCarPage {
     segmentTabs:any;
 
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController ,private alertCtrl: AlertController ,private actionSheetCtrl : ActionSheetController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService) {
+    constructor(private app: App, public navCtrl:NavController, private viewCtrl:ViewController ,private alertCtrl: AlertController ,private actionSheetCtrl : ActionSheetController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService) {
 
         this.segmentTabs = 'preset';
         this.car = navParams.get("car");
@@ -111,8 +111,7 @@ export class AddCarPage {
     }
 
     skipAddingCar() {
-        this.navCtrl.pop();
-        // this.viewCtrl.dismiss();
+        this.app.navPop();
     }
 
     selectModdel() {
@@ -164,28 +163,22 @@ export class AddCarPage {
     }
 
     saveCar() {
+        let me = this;
+
         if (this.mode == "edit") {
             /*  this.cars[index].plateNumber = this.plateNumber;
              this.cars[index].manufacturerName = this.manufacturerName;
              this.cars[index].model = this.model;*/
 
             this.carService.updateCar(this.car).subscribe(c => {
-
-                this.navCtrl.push(MyCarsPage, {
-                    "newCar": this.car,
-                    "mode": this.mode
-                });
                 console.log("updated car " , c);
+                me.app.navPop();
             });
         }
         else{
             this.carService.createCar(this.car).subscribe( c => {
                 console.log("created car " , c);
-
-                this.navCtrl.push(MyCarsPage, {
-                    "newCar": this.car,
-                    "mode": this.mode
-                });
+                me.app.navPop();
             });
         }
     }

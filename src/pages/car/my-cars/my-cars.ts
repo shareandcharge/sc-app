@@ -3,6 +3,7 @@ import {NavController, ModalController} from 'ionic-angular';
 import {AddCarPage} from '../add/add-car';
 import {CarService} from "../../../services/car.service";
 import {Car} from "../../../models/car";
+import {CarWrapperPage} from "../car-wrapper";
 
 
 @Component({
@@ -36,14 +37,14 @@ export class MyCarsPage {
     }
 
     addCar() {
-        let modal = this.modalCtrl.create(AddCarPage, {
+        let modal = this.modalCtrl.create(CarWrapperPage, {
             "mode": "add"
         });
         modal.present();
     }
 
     editCar(car) {
-        let modal = this.modalCtrl.create(AddCarPage, {
+        let modal = this.modalCtrl.create(CarWrapperPage, {
             "car": car,
             "mode": "edit"
         });

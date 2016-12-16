@@ -1,4 +1,5 @@
 import {Component} from '@angular/core'
+import {NavParams} from 'ionic-angular';
 import {AddCarPage} from "./add/add-car";
 
 @Component({
@@ -6,5 +7,11 @@ import {AddCarPage} from "./add/add-car";
     templateUrl: 'car-wrapper.html',
 })
 export class CarWrapperPage {
-    rootPage = AddCarPage;
+    rootPage:any;
+    rootParams:any;
+
+    constructor(private params : NavParams) {
+        this.rootPage = AddCarPage;
+        this.rootParams = params;
+    }
 }
