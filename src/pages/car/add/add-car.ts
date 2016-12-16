@@ -111,7 +111,8 @@ export class AddCarPage {
     }
 
     skipAddingCar() {
-        this.viewCtrl.dismiss();
+        this.navCtrl.pop();
+        // this.viewCtrl.dismiss();
     }
 
     selectModdel() {
@@ -170,7 +171,7 @@ export class AddCarPage {
 
             this.carService.updateCar(this.car).subscribe(c => {
 
-                this.navCtrl.setRoot(MyCarsPage, {
+                this.navCtrl.push(MyCarsPage, {
                     "newCar": this.car,
                     "mode": this.mode
                 });
@@ -181,7 +182,7 @@ export class AddCarPage {
             this.carService.createCar(this.car).subscribe( c => {
                 console.log("created car " , c);
 
-                this.navCtrl.setRoot(MyCarsPage, {
+                this.navCtrl.push(MyCarsPage, {
                     "newCar": this.car,
                     "mode": this.mode
                 });
