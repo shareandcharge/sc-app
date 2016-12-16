@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController, NavParams , ActionSheetController , AlertController} from 'ionic-angular';
+import {
+    NavController, ViewController, ModalController, NavParams, ActionSheetController, AlertController,
+    Platform
+} from 'ionic-angular';
 import {CarManufacturerPage} from '../manufacturer/car-manufacturer';
 import {MyCarsPage} from '../my-cars/my-cars';
 import {Camera} from 'ionic-native';
@@ -23,13 +26,13 @@ export class AddCarPage {
     mode:any;
     saveButtonText:any;
     showDeleteButton:any;
-    public base64Image:string;
+
     car:Car;
     cars:any[];
     segmentTabs:any;
 
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController ,private alertCtrl: AlertController ,private actionSheetCtrl : ActionSheetController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService) {
+    constructor(public navCtrl:NavController, private viewCtrl:ViewController ,private alertCtrl: AlertController ,private actionSheetCtrl : ActionSheetController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService, public platform: Platform) {
 
         this.segmentTabs = 'preset';
         this.car = navParams.get("car");
@@ -62,25 +65,22 @@ export class AddCarPage {
     ionViewDidLoad() {
     }
 
-    presentActionSheet() {
+    selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
             title: 'Add Photo',
             buttons: [
                 {
                     text: 'Take a Photo',
-                    handler: () => {
-                        this.takePhoto('camera');
-                    }
-                }, {
+                    handler: () => this.takePhoto('camera')
+                },
+                {
                     text: 'Add from Gallery',
-                    handler: () => {
-                        this.takePhoto('Gallery');
-                    }
-                }, {
+                    handler: () => this.takePhoto('Gallery')
+                },
+                {
                     text: 'Cancel',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
+                    role: 'cancel',
+                    icon: !this.platform.is('ios') ? 'close' : null
                 }
             ]
         });
@@ -104,7 +104,7 @@ export class AddCarPage {
             correctOrientation: true
         }).then((imageData) => {
             // imageData is a base64 encoded string
-            this.base64Image = "data:image/jpeg;base64," + imageData;
+            this.car.image = "data:image/jpeg;base64," + imageData;
         }, (err) => {
             console.log(err);
         });
@@ -178,14 +178,15 @@ export class AddCarPage {
             });
         }
         else{
-            this.carService.createCar(this.car).subscribe( c => {
-                console.log("created car " , c);
-
-                this.navCtrl.setRoot(MyCarsPage, {
-                    "newCar": this.car,
-                    "mode": this.mode
-                });
-            });
+            console.log("created car " , this.car);
+            // this.carService.createCar(this.car).subscribe( c => {
+            //     console.log("created car " , c);
+            //
+            //     this.navCtrl.setRoot(MyCarsPage, {
+            //         "newCar": this.car,
+            //         "mode": this.mode
+            //     });
+            // });
         }
     }
 }
