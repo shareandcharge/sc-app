@@ -213,7 +213,8 @@ export class MapPage {
         }
         else {
             let modal = this.modalCtrl.create(LoginPage, {
-                "dest": CarWrapperPage
+                "dest": CarWrapperPage,
+                'mode' : 'modal'
             });
             modal.present();
         }
