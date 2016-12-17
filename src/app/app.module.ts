@@ -34,6 +34,7 @@ import {ProfilePage} from '../pages/profile/profile';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
 import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
 import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
+import {AddPermissionsPage} from '../pages/station/set-tariff/add-permissions/add-permissions';
 
 let storage = new Storage();
 
@@ -75,6 +76,7 @@ export function getAuthHttp(http) {
         MyStationsPage,
         PlugTypesPage,
         StationMapDetailPage,
+        AddPermissionsPage,
         TabsPage,
     ],
     imports: [
@@ -111,6 +113,7 @@ export function getAuthHttp(http) {
         MyStationsPage,
         PlugTypesPage,
         StationMapDetailPage,
+        AddPermissionsPage,
         TabsPage
     ],
     providers: [

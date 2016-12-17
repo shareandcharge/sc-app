@@ -14,8 +14,12 @@ export class PlugTypesPage {
     flowMode:any;
     powerOptions:any;
     plugOptions:any;
+    accessControl:any;
 
     constructor(public navCtrl: NavController, private navParams: NavParams) {
+
+        this.accessControl = false;
+        this.kwh = false;
 
         this.powerOptions = [
            "2.4","4.3" ,"6.4"
@@ -25,7 +29,7 @@ export class PlugTypesPage {
             "Schuko-Steckdose" , "CEE-Stecker" ,"Typ 1" , "Typ 2" , "Combo" , "CHAdeMO" , "Tesla Supercharger"
         ];
 
-        this.locObject = this.navParams.get("loc");
+        this.locObject = this.navParams.get("location");
         this.flowMode = this.navParams.get("mode");
         console.log(this.locObject);
 
@@ -34,25 +38,35 @@ export class PlugTypesPage {
         }
 
         if(this.locObject.stations.power != 'undefined'){
-            this.plugTypes = this.locObject.stations.power;
+            this.power = this.locObject.stations.power;
+        }
+
+        if(this.locObject.stations.accessControl != 'undefined'){
+            this.accessControl = this.locObject.stations.accessControl;
         }
 
         if(this.locObject.stations.kwh != 'undefined'){
             this.kwh = this.locObject.stations.kwh;
         }
-
     }
 
     ionViewDidLoad() {
     }
 
+
     nextPage() {
+
+        if(!this.accessControl){
+            this.kwh = false
+        }
+
         this.locObject.stations.plugTypes = this.plugTypes;
         this.locObject.stations.power = this.power;
+        this.locObject.stations.accessControl = this.accessControl;
         this.locObject.stations.kwh = this.kwh;
 
         this.navCtrl.push(SetTariffPage, {
-            "loc": this.locObject,
+            "location": this.locObject,
             "mode": this.flowMode
         });
     }

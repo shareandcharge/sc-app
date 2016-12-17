@@ -24,7 +24,7 @@
 
                 <ion-item no-lines>
                     <ion-label floating>Type Station Address</ion-label>
-                    <ion-input type="text" [(ngModel)]="address" (input)="updateSearch()" ></ion-input>
+                    <ion-input type="text" [(ngModel)]="locObject.address" (input)="updateSearch()" ></ion-input>
                 </ion-item>
                 <ion-list>
                     <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
@@ -83,7 +83,7 @@
                             <ion-option value="monday">Montag</ion-option>
                             <ion-option value="tuesday">Dienstag</ion-option>
                             <ion-option value="wednesday">Mittwoch</ion-option>
-                            <ion-option value="thirsday">Donnerstag</ion-option>
+                            <ion-option value="thursday">Donnerstag</ion-option>
                             <ion-option value="friday">Fritag</ion-option>
                             <ion-option value="saturday">Samstag</ion-option>
                             <ion-option value="sunday">Sonntag</ion-option>
@@ -92,7 +92,7 @@
                 </div>
 
                 <div *ngIf="segmentTabs == 'custom'">
-                    <ion-item *ngFor="let day of customDays">
+                    <ion-item *ngFor="let day of locObject.stations.openingHours">
                         <ion-label>{{day.text}}</ion-label>
                         <ion-checkbox [(ngModel)]="day.enabled"
                                       (ngModelChange)="updateCustomSelectedDays()"></ion-checkbox>
@@ -109,12 +109,12 @@
 
                 <ion-item no-lines>
                     <ion-label floating>Problemlöser</ion-label>
-                    <ion-textarea [(ngModel)]="problemSolver"></ion-textarea>
+                    <ion-textarea [(ngModel)]="locObject.problemSolver"></ion-textarea>
                 </ion-item>
 
                 <ion-item no-lines>
                     <ion-label floating>Beschreibung</ion-label>
-                    <ion-textarea [(ngModel)]="descriptions"></ion-textarea>
+                    <ion-textarea [(ngModel)]="locObject.descriptions"></ion-textarea>
                 </ion-item>
             </ion-col>
         </ion-row>

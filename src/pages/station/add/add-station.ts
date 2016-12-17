@@ -73,10 +73,6 @@ export class AddStationPage {
                 "title": "11:00"
             },
             {
-                "value": "11",
-                "title": "11:00"
-            },
-            {
                 "value": "12",
                 "title": "12:00"
             },
@@ -226,21 +222,38 @@ export class AddStationPage {
             this.mapDefaultControlls = true;
         }
 
-        if (typeof navParams.get("loc") != 'undefined') {
+        if (typeof navParams.get("location") != 'undefined') {
 
-            this.locObject = navParams.get("loc");
-            this.defaultCenterLat = this.locObject.latitude;
+            console.log("the object is")
+
+            this.locObject = navParams.get("location");
+          /*  this.defaultCenterLat = this.locObject.latitude;
             this.defaultCenterLng = this.locObject.longitude;
             this.address = this.locObject.address;
-            this.descriptions = this.locObject.descriptions;
+            this.descriptions = this.locObject.descriptions;*/
 
             if (typeof this.locObject.stations.openingHours != 'undefined') {
-                this.weekdays = this.locObject.stations.openingHours.weekdays;
+               /* this.weekdays = this.locObject.stations.openingHours.weekdays;
                 this.from = this.locObject.stations.openingHours.from;
-                this.to = this.locObject.stations.openingHours.to;
-                this.updateSelectedDays();
+                this.to = this.locObject.stations.openingHours.to;*/
+                this.updateCustomSelectedDays();
             }
         }
+        else{
+            this.locObject = {
+                "owner": "",
+                "address": "",
+                "latitude": "52.502145",
+                "longitude": "13.414476",
+                "descriptions": "",
+                "stations": {
+                    "openingHours": this.customDays,
+                    "problemSolver": ""
+                }
+            };
+        }
+
+        console.log(this.locObject);
 
         this.initializeApp();
     }
@@ -281,13 +294,13 @@ export class AddStationPage {
     }
 
     updateSearch() {
-        if (this.address == '') {
+        if (this.locObject.address == '') {
             this.autocompleteItems = [];
             return;
         }
         let me = this;
         this.service.getPlacePredictions({
-            input: this.address,
+            input: this.locObject.address,
             componentRestrictions: {country: 'DE'}
         }, function (predictions, status) {
             me.autocompleteItems = [];
@@ -304,7 +317,7 @@ export class AddStationPage {
 
         this.centerToPlace(item);
 
-        this.address = item.description;
+        this.locObject.address = item.description;
     }
 
     centerToPlace(place) {
@@ -412,12 +425,6 @@ export class AddStationPage {
     continueAddStation() {
 
 
-        let openingHours = {
-            "weekdays": this.weekdays,
-            "from": this.from,
-            "to": this.to
-        };
-
         if (this.flowMode == 'add') {
             let userAddress = "";
             if (this.auth.getUser() != null) {
@@ -433,29 +440,30 @@ export class AddStationPage {
                 );
             });*/
 
-            this.locObject = {
+            /*this.locObject = {
                 "owner": userAddress,
                 "address": this.address,
                 "latitude": this.map.getCenter().lat(),
                 "longitude": this.map.getCenter().lng(),
                 "descriptions": this.descriptions,
                 "stations": {
-                    "openingHours": openingHours,
+                    "openingHours": this.customDays,
                     "problemSolver": this.problemSolver
                 }
-            };
-        }
-        else {
-            this.locObject.address = this.address;
+            };*/
+
+            this.locObject.owner = userAddress;
             this.locObject.latitude = this.map.getCenter().lat();
             this.locObject.longitude = this.map.getCenter().lng();
-            this.locObject.descriptions = this.descriptions;
-            this.locObject.stations.openingHours = openingHours;
-            this.locObject.stations.problemSolver = this.problemSolver;
+            this.locObject.stations.openingHours = this.customDays;
+        }
+        else {
+            this.locObject.latitude = this.map.getCenter().lat();
+            this.locObject.longitude = this.map.getCenter().lng();
         }
 
         this.navCtrl.push(AddStationImagePage, {
-            "loc": this.locObject,
+            "location": this.locObject,
             "mode": this.flowMode
         });
     }
@@ -472,7 +480,7 @@ export class AddStationPage {
         console.log("to " , this.to);
 
         let me = this;
-        this.customDays.forEach(d => {
+        this.locObject.stations.openingHours.forEach(d => {
             d.enabled = false;
             d.from = "";
             d.to = "";
@@ -480,7 +488,8 @@ export class AddStationPage {
 
 
         this.weekdays.forEach(wd => {
-            this.customDays.forEach(d => {
+            this.locObject.stations.openingHours.forEach(d => {
+                console.log(wd , d.key);
                 if (wd == d.key) {
                     d.enabled = true;
                     d.from = me.from;
@@ -490,18 +499,20 @@ export class AddStationPage {
         });
     }
 
-    updateCustomSelectedDays(e) {
+    updateCustomSelectedDays() {
         this.weekdays = [];
         this.from = [];
         this.to = [];
 
-        this.customDays.forEach(d => {
+        console.log("days are " , this.locObject.stations.openingHours);
+
+        this.locObject.stations.openingHours.forEach(d => {
             if (d.enabled) {
                 /*let data = {
                  "text" : d.text,
                  };*/
-                this.from.push(d.from);
-                this.to.push(d.to);
+                this.from = d.from;
+                this.to = d.to;
                 this.weekdays.push(d.key);
             }
         });

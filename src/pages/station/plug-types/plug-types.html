@@ -30,12 +30,12 @@
 
   <ion-item>
     <ion-label>Zugangskontrolle</ion-label>
-    <ion-checkbox></ion-checkbox>
+    <ion-checkbox [(ngModel)]="accessControl"></ion-checkbox>
   </ion-item>
 
   <ion-item>
     <ion-label>kWh abrechnung</ion-label>
-    <ion-checkbox [(ngModel)]="kwh"></ion-checkbox>
+    <ion-checkbox [(ngModel)]="kwh" disabled="{{!accessControl}}"></ion-checkbox>
   </ion-item>
 
   <button ion-button (click)="nextPage()">Weiter</button>

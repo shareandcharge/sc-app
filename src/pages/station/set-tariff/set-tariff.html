@@ -9,109 +9,120 @@
 
 <ion-content padding>
 
-    <ion-segment color="primary" [(ngModel)]="segmentTabs" padding>
-        <ion-segment-button value="default">
-            Öffentlicher Tarif
-        </ion-segment-button>
-        <ion-segment-button value="custom">
-            Sondertarif
-        </ion-segment-button>
-    </ion-segment>
 
-    <div *ngIf="segmentTabs == 'default'">
-        <ion-list radio-group [(ngModel)]="tarif">
-            <ion-item>
-                <ion-label>Flatrate</ion-label>
-                <ion-radio value="flatrate" checked></ion-radio>
-            </ion-item>
-            <div padding *ngIf="tarif == 'flatrate'">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col width-50>
-                            <ion-item>
-                                <ion-input type="text" [(ngModel)]="energyRate"
-                                           placeholder="Euro per charge"></ion-input>
-                            </ion-item>
-                        </ion-col>
-                        <ion-col width-50>
-                            + 3 Euro S&C fee
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
+    <ion-list>
+        <ion-item>
+            <ion-label left>Öffentlicher Tarif</ion-label>
+            <ion-toggle [(ngModel)]="togglePublic" (ngModelChange)="changeTogglePublic()"></ion-toggle>
+        </ion-item>
+        <div padding="true" *ngIf="togglePublic">
+            <div *ngIf="flatrateTarif">
+                Flatrate Per charge
+                <ion-input type="text" [(ngModel)]="energyRate"
+                           placeholder="0.00"></ion-input>
+                <ion-range min="0" max="20" [(ngModel)]="energyRate" pin="true">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
             </div>
-            <ion-item>
-                <ion-label>Stundentarif</ion-label>
-                <ion-radio value="stundentarif"></ion-radio>
-            </ion-item>
-            <div padding *ngIf="tarif == 'stundentarif'">
-                <ion-item>
-                    <ion-input type="text" [(ngModel)]="energyRate" placeholder="Energie Kosten"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-input type="text" [(ngModel)]="parkRate" placeholder="Nutzungsentgeld Parken"></ion-input>
-                </ion-item>
+
+            <div *ngIf="hourlyTarif">
+                <ion-segment color="primary" [(ngModel)]="hourlyTarifTabs" padding>
+                    <ion-segment-button value="flatrate">
+                        Flatrate
+                    </ion-segment-button>
+                    <ion-segment-button value="hourly">
+                        Stündentarif
+                    </ion-segment-button>
+                </ion-segment>
+
+                <div *ngIf="hourlyTarifTabs == 'flatrate'">
+                    Flatrate Per charge
+                    <ion-input type="text" [(ngModel)]="energyRate"
+                               placeholder="0.00"></ion-input>
+                    <ion-range min="0" max="20" [(ngModel)]="energyRate" pin="true">
+                        <ion-label range-left>0</ion-label>
+                        <ion-label range-right>20</ion-label>
+                    </ion-range>
+                </div>
+                <div *ngIf="hourlyTarifTabs == 'hourly'">
+                    Energiekosten
+                    <ion-input type="text" [(ngModel)]="hourlyRate"
+                               placeholder="0.00"></ion-input>
+                    <ion-range min="0" max="20" [(ngModel)]="hourlyRate" pin="true">
+                        <ion-label range-left>0</ion-label>
+                        <ion-label range-right>20</ion-label>
+                    </ion-range>
+
+                    Nutzungsentgel Parken
+                    <ion-input type="text" [(ngModel)]="parkRate"
+                               placeholder="0.00"></ion-input>
+                    <ion-range min="0" max="20" [(ngModel)]="parkRate" pin="true">
+                        <ion-label range-left>0</ion-label>
+                        <ion-label range-right>20</ion-label>
+                    </ion-range>
+
+                    estimated price per hour depends on the battery
+                </div>
             </div>
-            <ion-item>
-                <ion-label>kWh Tarif</ion-label>
-                <ion-radio value="kwh"></ion-radio>
-            </ion-item>
-            <div padding *ngIf="tarif == 'kwh'">
-                <ion-item>
-                    <ion-input type="text" [(ngModel)]="energyRate" placeholder="Energie Kosten"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-input type="text" [(ngModel)]="parkRate" placeholder="Nutzungsentgeld Parken"></ion-input>
-                </ion-item>
+
+            <div *ngIf="kwhTarif">
+                <ion-segment color="primary" [(ngModel)]="kwhTarifTabs" padding>
+                    <ion-segment-button value="flatrate">
+                        Flatrate
+                    </ion-segment-button>
+                    <ion-segment-button value="kwh">
+                        kWh
+                    </ion-segment-button>
+                </ion-segment>
+
+                <div *ngIf="kwhTarifTabs == 'flatrate'">
+                    Flatrate Per charge
+                    <ion-input type="text" [(ngModel)]="energyRate"
+                               placeholder="0.00"></ion-input>
+                    <ion-range min="0" max="20" [(ngModel)]="energyRate" pin="true">
+                        <ion-label range-left>0</ion-label>
+                        <ion-label range-right>20</ion-label>
+                    </ion-range>
+                </div>
+                <div *ngIf="kwhTarifTabs == 'kwh'">
+                    Energiekosten
+                    <ion-input type="text" [(ngModel)]="kwhRate"
+                               placeholder="0.00"></ion-input>
+                    <ion-range min="0" max="20" [(ngModel)]="kwhRate" pin="true">
+                        <ion-label range-left>0</ion-label>
+                        <ion-label range-right>20</ion-label>
+                    </ion-range>
+
+                    Nutzungsentgel Parken
+                    <ion-input type="text" [(ngModel)]="parkRate"
+                               placeholder="0.00"></ion-input>
+                    <ion-range min="0" max="20" [(ngModel)]="parkRate" pin="true">
+                        <ion-label range-left>0</ion-label>
+                        <ion-label range-right>20</ion-label>
+                    </ion-range>
+
+                    estimated price per hour depends on the battery
+                </div>
             </div>
-        </ion-list>
-    </div>
-    <div *ngIf="segmentTabs == 'custom'">
-        <ion-list radio-group [(ngModel)]="tarif">
-            <ion-item>
-                <ion-label>Flatrate</ion-label>
-                <ion-radio value="flatrate" checked></ion-radio>
-            </ion-item>
-            <div padding *ngIf="tarif == 'flatrate'">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col width-50>
-                            <ion-item>
-                                <ion-input type="text" [(ngModel)]="energyRate"
-                                           placeholder="Euro per charge"></ion-input>
-                            </ion-item>
-                        </ion-col>
-                        <ion-col width-50>
-                            + 3 Euro S&C fee
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </div>
-            <ion-item>
-                <ion-label>Stundentarif</ion-label>
-                <ion-radio value="stundentarif"></ion-radio>
-            </ion-item>
-            <div padding *ngIf="tarif == 'stundentarif'">
-                <ion-item>
-                    <ion-input type="text" [(ngModel)]="energyRate" placeholder="Energie Kosten"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-input type="text" [(ngModel)]="parkRate" placeholder="Nutzungsentgeld Parken"></ion-input>
-                </ion-item>
-            </div>
-            <ion-item>
-                <ion-label>kWh Tarif</ion-label>
-                <ion-radio value="kwh"></ion-radio>
-            </ion-item>
-            <div padding *ngIf="tarif == 'kwh'">
-                <ion-item>
-                    <ion-input type="text" [(ngModel)]="energyRate" placeholder="Energie Kosten"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-input type="text" [(ngModel)]="parkRate" placeholder="Nutzungsentgeld Parken"></ion-input>
-                </ion-item>
-            </div>
-        </ion-list>
-    </div>
+        </div>
+        <ion-item>
+            <ion-label left>Sondertarif</ion-label>
+            <ion-toggle [(ngModel)]="togglePrivate" (ngModelChange)="changeTogglePrivate()"></ion-toggle>
+        </ion-item>
+        <div padding="true" *ngIf="togglePrivate">
+            <ion-label>Permission List({{permissions.length}}) <ion-icon name="menu" (click)="addPermission()"></ion-icon>
+            </ion-label>
+            Flatrate Per charge
+            <ion-input type="text" [(ngModel)]="energyRate"
+                       placeholder="0.00"></ion-input>
+            <ion-range min="0" max="20" [(ngModel)]="energyRate" pin="true">
+                <ion-label range-left>0</ion-label>
+                <ion-label range-right>20</ion-label>
+            </ion-range>
+        </div>
+    </ion-list>
+
 
     <button ion-button (click)="publish()">{{buttonText}}</button>
     <button *ngIf="flowMode == 'edit'" ion-button (click)="deleteStation()">Delete</button>

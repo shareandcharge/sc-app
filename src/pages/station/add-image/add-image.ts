@@ -20,7 +20,7 @@ export class AddStationImagePage {
             this.images = [];
         }
 
-        this.locObject = this.navParams.get("loc");
+        this.locObject = this.navParams.get("location");
         this.flowMode = this.navParams.get("mode");
 
 
@@ -102,7 +102,7 @@ export class AddStationImagePage {
 
         this.locObject.stations.images = this.images;
         this.navCtrl.push(PlugTypesPage , {
-            "loc" : this.locObject,
+            "location" : this.locObject,
             "mode": this.flowMode
         });
     }
