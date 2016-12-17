@@ -39,6 +39,10 @@ export class MapPage {
     mapDefaultControlls:boolean;
     locations:any;
 
+    viewType:string;
+
+    visibleLocations = [];
+
     constructor(public popoverCtrl: PopoverController,public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
         this.platform = platform;
         if(this.platform.is("core")){
@@ -51,6 +55,8 @@ export class MapPage {
         this.address = {
             place: ''
         };
+
+        this.viewType = 'map';
 
         this.initializeApp();
     }
@@ -87,6 +93,37 @@ export class MapPage {
         });
     }
 
+    setViewType = (viewType) => {
+        if (viewType === 'list') {
+            let me = this;
+
+            var bounds = {
+                latFrom: 0,
+                latTo: 0,
+                lngFrom: 0,
+                lngTo: 0
+            };
+
+            var googleBounds = me.map.getBounds();
+
+            bounds.latFrom = googleBounds.getSouthWest().lat();
+            bounds.latTo = googleBounds.getNorthEast().lat();
+            bounds.lngFrom = googleBounds.getSouthWest().lng();
+            bounds.lngTo = googleBounds.getNorthEast().lng();
+
+            me.locationService.searchLocations(bounds).subscribe(locations => {
+                me.visibleLocations = locations;
+                this.viewType = viewType;
+            });
+        } else {
+            this.viewType = viewType;
+        }
+    };
+
+    getViewType = () => {
+        return this.viewType;
+    };
+
     loadMap() {
         let loader = this.loadingCtrl.create({
             content: "Loading map ...",
@@ -116,8 +153,16 @@ export class MapPage {
             me.addDummyMarkers();
             loader.dismissAll();
         });
+
+
     }
 
+
+    showLocationDetails(location) {
+        this.navCtrl.push(LocationDetailPage, {
+            location : location
+        });
+    }
     // createMarker() {
     //     this.addMarker(this.map.getCenter());
     // }
@@ -182,7 +227,9 @@ export class MapPage {
 
     mapSettingsPopOver(e) {
         let popover = this.popoverCtrl.create(MapSettingsPage, {
-            map: this.map
+            map: this.map,
+            setViewType : this.setViewType,
+            getViewType : this.getViewType
         });
 
         popover.present({
@@ -212,8 +259,10 @@ export class MapPage {
     showAddressModal() {
         let modal = this.modalCtrl.create(AutocompletePage);
         modal.onDidDismiss(place => {
+
             if (place) {
                 console.log('DATA:', place);
+                this.viewType = 'map';
                 this.address.place = place;
                 this.centerToPlace(place);
             }
