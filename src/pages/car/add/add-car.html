@@ -17,11 +17,14 @@
     <div class="top-container" padding="">
 
         <div class="inner-content">
-            <img [src]="car.image" *ngIf="car.image">
+
         </div>
 
-        <button class="image-button" (click)="selectPhoto()">
-            Foto hinzufügen
+        <button class="image-button filled" (click)="selectPhoto()" *ngIf="car.hasImage()"
+                [ngStyle]="{'background-image':'url(' + car.imageBase64 + ')'}">
+        </button>
+        <button class="image-button" (click)="selectPhoto()" *ngIf="!car.hasImage()">
+            <span>Foto hinzufügen</span>
         </button>
 
         <ion-list no-lines>

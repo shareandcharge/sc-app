@@ -24,13 +24,19 @@ page-add-car {
     width: $_button_size;
     height: $_button_size;
     display: block;
+    overflow: hidden;
     margin: 20px auto 15px auto;
     padding: 16px;
-    border-radius: $_button_size/2;
-    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2) no-repeat center center;
+    background-size: cover;
     color: inherit;
     font-size: 1.6rem;
     line-height: 2rem;
+
+    &.filled {
+      border: 2px solid #fff;
+    }
   }
 
   .input-plate {

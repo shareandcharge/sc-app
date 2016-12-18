@@ -17,22 +17,22 @@ import {Car} from '../../../models/car';
 })
 
 export class AddCarPage {
-    manufacturerName:'';
-    modelName:'';
-    model:any;
-    carInfo:any;
-    imgSource:any;
-    plateNumber:'';
-    mode:any;
-    saveButtonText:any;
-    showDeleteButton:any;
+    manufacturerName: '';
+    modelName: '';
+    model: any;
+    carInfo: any;
+    imgSource: any;
+    plateNumber: '';
+    mode: any;
+    saveButtonText: any;
+    showDeleteButton: any;
 
-    car:Car;
-    cars:any[];
-    segmentTabs:any;
+    car: Car;
+    cars: any[];
+    segmentTabs: any;
 
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController ,private alertCtrl: AlertController ,private actionSheetCtrl : ActionSheetController, public modalCtrl:ModalController, private navParams:NavParams , private carService: CarService, public platform: Platform) {
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private alertCtrl: AlertController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, public platform: Platform) {
 
         this.segmentTabs = 'preset';
         this.car = navParams.get("car");
@@ -104,7 +104,7 @@ export class AddCarPage {
             correctOrientation: true
         }).then((imageData) => {
             // imageData is a base64 encoded string
-            this.car.image = "data:image/jpeg;base64," + imageData;
+            this.car.imageBase64 = "data:image/jpeg;base64," + imageData;
         }, (err) => {
             console.log(err);
         });
@@ -145,7 +145,7 @@ export class AddCarPage {
                     text: 'Ja, löschen',
                     handler: () => {
                         this.carService.deleteCar(this.car.id).subscribe(c => {
-                            console.log("deleted car " , c);
+                            console.log("deleted car ", c);
                             this.navCtrl.setRoot(MyCarsPage, {
                                 "mode": this.mode
                             });
@@ -158,7 +158,7 @@ export class AddCarPage {
 
     }
 
-    dummy(){
+    dummy() {
         console.log(this.car.plugTypes);
     }
 
@@ -174,19 +174,18 @@ export class AddCarPage {
                     "newCar": this.car,
                     "mode": this.mode
                 });
-                console.log("updated car " , c);
+                console.log("updated car ", c);
             });
         }
-        else{
-            console.log("created car " , this.car);
-            // this.carService.createCar(this.car).subscribe( c => {
-            //     console.log("created car " , c);
-            //
-            //     this.navCtrl.setRoot(MyCarsPage, {
-            //         "newCar": this.car,
-            //         "mode": this.mode
-            //     });
-            // });
+        else {
+            this.carService.createCar(this.car).subscribe(c => {
+                console.log("created car ", c);
+
+                this.navCtrl.setRoot(MyCarsPage, {
+                    "newCar": this.car,
+                    "mode": this.mode
+                });
+            });
         }
     }
 }
