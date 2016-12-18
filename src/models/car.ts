@@ -8,6 +8,7 @@ export class Car implements Serializable<Car> {
     accuCapacity: any;
     averageDistance: any;
     plugTypes: any[];
+    imageBase64: any;
 
     constructor() {
         this.id = '';
@@ -17,15 +18,12 @@ export class Car implements Serializable<Car> {
         this.accuCapacity = '';
         this.averageDistance = '';
         this.plugTypes = [];
+        this.imageBase64 = '';
     }
 
-    /*  setPlateNumber(plateNumber) {
-     this.plateNumber = plateNumber;
-     }
-
-     getPlateNumber() {
-     return this.plateNumber;
-     }*/
+    hasImage() {
+        return (typeof this.imageBase64 === "string" && this.imageBase64 !== '');
+    }
 
     deserialize(input) {
         this.id = input.id;
@@ -34,6 +32,7 @@ export class Car implements Serializable<Car> {
         this.model = input.model;
         this.accuCapacity = input.accuCapacity;
         this.plugTypes = input.plugTypes;
+        this.imageBase64 = input.imageBase64;
 
         return this;
     }

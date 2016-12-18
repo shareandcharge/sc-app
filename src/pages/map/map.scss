@@ -42,6 +42,7 @@
   border-radius: 28px 0 0 28px;
   right: 0;
 }
+
 #mapFilterUI {
   left: -3px;
   border-radius: 0 28px 28px 0;
@@ -52,17 +53,11 @@
   color: #fff;
   //color: map-get($colors, primary);
 
-  font-family: Roboto,Arial,sans-serif;
-  font-size: 2.4rem;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 2.2rem;
   line-height: 25px;
-  padding: 6px 24px 4px;
+  padding: 6px 20px 4px;
 }
-
-
-
-
-
-
 
 .button-right {
   position: absolute;

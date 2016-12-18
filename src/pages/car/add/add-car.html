@@ -14,34 +14,38 @@
 
 
 <ion-content>
-    <div class="top-image-container">
+    <div class="top-container" padding="">
 
         <div class="inner-content">
-            <img [src]="base64Image" *ngIf="base64Image">
+
         </div>
-        <ion-fab top right>
-            <button ion-fab (click)="presentActionSheet()">
-                <ion-icon name="add"></ion-icon>
-            </button>
-        </ion-fab>
+
+        <button class="image-button filled" (click)="selectPhoto()" *ngIf="car.hasImage()"
+                [ngStyle]="{'background-image':'url(' + car.imageBase64 + ')'}">
+        </button>
+        <button class="image-button" (click)="selectPhoto()" *ngIf="!car.hasImage()">
+            <span>Foto hinzufügen</span>
+        </button>
+
+        <ion-list no-lines>
+            <ion-item class="input-plate">
+                <ion-input type="text" [(ngModel)]="car.plateNumber" placeholder="Kennzeichen"></ion-input>
+            </ion-item>
+        </ion-list>
+
+        <ion-segment color="primary" [(ngModel)]="segmentTabs" class="segment-borderless">
+            <ion-segment-button value="preset">
+                Preset
+            </ion-segment-button>
+            <ion-segment-button value="custom">
+                Customize
+            </ion-segment-button>
+        </ion-segment>
     </div>
 
     <div padding class="bottom-container">
         <ion-list no-lines>
-            <ion-item class="input-plate">
-                <!--<ion-label floating>Plate number</ion-label>-->
-                <ion-input type="text" [(ngModel)]="car.plateNumber" placeholder="Plate number"></ion-input>
-            </ion-item>
 
-
-            <ion-segment color="primary" [(ngModel)]="segmentTabs" padding class="segment-borderless">
-                <ion-segment-button value="preset">
-                    Preset
-                </ion-segment-button>
-                <ion-segment-button value="custom">
-                    Customize
-                </ion-segment-button>
-            </ion-segment>
 
             <div *ngIf="segmentTabs == 'preset'">
                 <ion-list *ngIf="car.manufacturer == ''">

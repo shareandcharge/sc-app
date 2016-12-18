@@ -1,28 +1,42 @@
 page-add-car {
 
-  .top-image-container {
-    @include aspect-ratio(16, 9);
-
+  .top-container {
     $_top: lighten(map_get($colors, secondary), 0);
     $_bottom: lighten(map_get($colors, primary), 30);
 
     background-color: $_top;
     background-image: linear-gradient(45deg, $_top, $_bottom);
 
-    //border-bottom: 2px solid transparent;
-    
-    img {
-      width: 100%;
-      height: auto;
-    }
-    .inner-content {
-      overflow: hidden;
+    color: #fff;
+
+    margin-bottom: 16px;
+
+    ion-segment {
+      position: absolute;
+      left: 32px;
+      right: 32px;
+      width: auto;
     }
   }
 
-  .bottom-container {
-    position: relative;
-    top: -90px;
+  .image-button {
+    $_button_size: 130px;
+    width: $_button_size;
+    height: $_button_size;
+    display: block;
+    overflow: hidden;
+    margin: 20px auto 15px auto;
+    padding: 16px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2) no-repeat center center;
+    background-size: cover;
+    color: inherit;
+    font-size: 1.6rem;
+    line-height: 2rem;
+
+    &.filled {
+      border: 2px solid #fff;
+    }
   }
 
   .input-plate {
@@ -30,9 +44,17 @@ page-add-car {
     background-color: transparent;
     input.text-input {
       @include placeholder(#fff);
-      background-color: rgba(255, 255, 255, 0.4);
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
       padding: 10px 14px;
       margin: 0;
+      text-align: center;
     }
   }
+
+  .bottom-container {
+    //position: relative;
+    //top: -90px;
+  }
+
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
-import {tokenNotExpired} from 'angular2-jwt';
+// import {tokenNotExpired} from 'angular2-jwt';
 import {User} from "../models/user";
 
 @Injectable()

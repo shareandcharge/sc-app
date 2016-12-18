@@ -18,12 +18,13 @@
     </ion-refresher>
 
     <ion-list>
-        <ion-item *ngFor="let item of cars" (click)="editCar(item)">
-            <ion-avatar item-left>
-                <img src="">
+        <ion-item *ngFor="let car of cars" (click)="editCar(car)">
+            <ion-avatar item-left class="car-image">
+                <img *ngIf="car.hasImage()" [ngStyle]="{'background-image':'url(' + car.imageBase64 + ')'}">
+                <div *ngIf="!car.hasImage()" class="car-default"><ion-icon name="ios-car"></ion-icon></div>
             </ion-avatar>
-            <h2>{{item.plateNumber}}</h2>
-            <h3>{{item.manufacturer}} {{item.model}}</h3>
+            <h2>{{car.plateNumber}}</h2>
+            <h3>{{car.manufacturer}} {{car.model}}</h3>
         </ion-item>
     </ion-list>
 

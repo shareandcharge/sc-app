@@ -1,3 +1,23 @@
 page-my-cars {
+  .car-image {
+    img, .car-default {
+      background: rgba(255, 255, 255, 0.2) no-repeat center center;
+      background-size: cover;
+      border: 2px solid #fff;
+    }
+    .car-default {
+      padding: 2px;
+      min-width: inherit;
+      min-height: inherit;
+      text-align: center;
+      border-radius: 50%;
+      ion-icon {
+        vertical-align: middle;
+        position: relative;
+        top: 3px;
+        color: #666;
+      }
+    }
+  }
 
 }

@@ -3,7 +3,6 @@ import {NavController, ViewController, ModalController, NavParams, LoadingContro
 import {SignupPage} from '../signup/signup';
 import {UserService} from "../../services/user.service";
 import {AuthService} from "../../services/auth.service";
-import {MyCarsPage} from "../car/my-cars/my-cars";
 
 @Component({
     selector: 'page-login',
