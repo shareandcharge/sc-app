@@ -44,7 +44,8 @@ export class CarService {
             .catch(this.handleError);
     }
 
-    createCar(car: Car): Observable<Car> {
+    // createCar(car: Car): Observable<Car> {
+    createCar(car: Car) {
         return this.http.post(`${this.baseUrl}/cars`, JSON.stringify(car), {headers: this.contentHeader})
             .map(res =>  {
                 return new Car().deserialize(res.json());

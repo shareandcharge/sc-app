@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ModalController} from 'ionic-angular';
-import {AddCarPage} from '../add/add-car';
+import {NavController, ModalController, AlertController, LoadingController, Events, ItemSliding} from 'ionic-angular';
 import {CarService} from "../../../services/car.service";
 import {Car} from "../../../models/car";
 import {CarWrapperPage} from "../car-wrapper";
@@ -16,7 +15,9 @@ export class MyCarsPage {
 
     errorMessage: string;
 
-    constructor(public navCtrl: NavController, private carService: CarService, public modalCtrl: ModalController) {
+    constructor(public navCtrl: NavController, private carService: CarService, public modalCtrl: ModalController, private alertCtrl: AlertController, private loadingCtrl: LoadingController, public events: Events) {
+        //-- if we add/edit a car (from the modal wrapper)
+        this.events.subscribe('cars:updated', () => this.getCars());
     }
 
     ngOnInit() {
@@ -25,6 +26,7 @@ export class MyCarsPage {
     ionViewWillEnter() {
         this.getCars();
     };
+
 
     getCars() {
         let observable = this.carService.getCars();
@@ -49,6 +51,33 @@ export class MyCarsPage {
             "mode": "edit"
         });
         modal.present();
+    }
+
+    deleteCar(car: Car, itemSliding: ItemSliding) {
+
+        let alert = this.alertCtrl.create({
+            title: 'Löschen bestätigen',
+            message: 'Möchten Sie dieses Auto wirklich löschen?',
+            buttons: [
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    handler: () => itemSliding.close()
+                },
+                {
+                    text: 'Ja, löschen',
+                    handler: () => {
+                        let loader = this.loadingCtrl.create({content: "Lösche Auto ..."});
+                        loader.present();
+                        this.carService.deleteCar(car.id).subscribe(() => {
+                            this.getCars().subscribe(() => loader.dismissAll());
+                        });
+                    }
+                }
+            ]
+        });
+        alert.present();
+
     }
 
     doRefresh(refresher) {

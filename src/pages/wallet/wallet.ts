@@ -51,7 +51,7 @@ export class WalletPage {
     }
 
     addMoney() {
-        console.log("add the money");
+        console.log("form the money");
         let modal = this.modalCtrl.create(AddMoneyPage);
         modal.onDidDismiss(data => {
             if(parseFloat(data)){

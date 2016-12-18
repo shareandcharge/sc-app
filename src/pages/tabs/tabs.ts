@@ -3,7 +3,7 @@ import {ModalController} from 'ionic-angular';
 
 import {MapPage} from '../map/map';
 import {AboutPage} from '../about/about';
-import {AddCarPage} from '../car/add/add-car';
+import {CarFormPage} from '../car/form/car-form';
 import {SignupPage} from '../signup/signup';
 import {AddStationPage} from '../station/add/add-station';
 import {WalletPage} from '../wallet/wallet';
@@ -46,7 +46,7 @@ export class TabsPage {
     }
 
     addCarModal() {
-        let modal = this.modalCtrl.create(AddCarPage);
+        let modal = this.modalCtrl.create(CarFormPage);
         modal.present();
 
     }

@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>My Cars</ion-title>
+        <ion-title>Meine Autos</ion-title>
         <ion-buttons end>
             <button ion-button (click)="addCar()">
                 <ion-icon name="add"></ion-icon>
@@ -18,14 +18,22 @@
     </ion-refresher>
 
     <ion-list>
-        <ion-item *ngFor="let car of cars" (click)="editCar(car)">
-            <ion-avatar item-left class="car-image">
-                <img *ngIf="car.hasImage()" [ngStyle]="{'background-image':'url(' + car.imageBase64 + ')'}">
-                <div *ngIf="!car.hasImage()" class="car-default"><ion-icon name="ios-car"></ion-icon></div>
-            </ion-avatar>
-            <h2>{{car.plateNumber}}</h2>
-            <h3>{{car.manufacturer}} {{car.model}}</h3>
-        </ion-item>
+        <ion-item-sliding *ngFor="let car of cars" #itemSliding>
+            <button ion-item (click)="editCar(car)">
+                <ion-avatar item-left class="car-image">
+                    <img *ngIf="car.hasImage()" [ngStyle]="{'background-image':'url(' + car.imageBase64 + ')'}">
+                    <div *ngIf="!car.hasImage()" class="car-default">
+                        <ion-icon name="ios-car"></ion-icon>
+                    </div>
+                </ion-avatar>
+                <h2>{{car.plateNumber}}</h2>
+                <h3>{{car.manufacturer}} {{car.model}}</h3>
+            </button>
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="deleteCar(car, itemSliding)">Löschen</button>
+            </ion-item-options>
+
+        </ion-item-sliding>
     </ion-list>
 
 

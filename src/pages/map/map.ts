@@ -12,7 +12,7 @@ import {LoginPage} from "../login/login";
 import {LocationService} from "../../services/location.service";
 
 
-import {AddCarPage} from "../car/add/add-car";
+import {CarFormPage} from "../car/form/car-form";
 import {CarService} from "../../services/car.service";
 import {CarWrapperPage} from "../car/car-wrapper";
 

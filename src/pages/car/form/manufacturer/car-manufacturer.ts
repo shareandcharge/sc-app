@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, NavParams} from 'ionic-angular';
-import {CarService} from "../../../services/car.service";
+import {CarService} from "../../../../services/car.service";
 import {CarModelPage} from "../model/car-model";
-import {Car} from '../../../models/car';
+import {Car} from '../../../../models/car';
 
 
 @Component({
@@ -11,11 +11,12 @@ import {Car} from '../../../models/car';
     providers: [CarService]
 })
 export class CarManufacturerPage {
-    manufacturers:any;
-    plateNumber:any;
-    mode:any;
-    car:Car;
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController, private carService:CarService, private navParams:NavParams) {
+    manufacturers: any;
+    plateNumber: any;
+    mode: any;
+    car: Car;
+
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private carService: CarService, private navParams: NavParams) {
         this.manufacturers = this.carService.getManufacturers();
         this.car = navParams.get("car");
         this.mode = navParams.get("mode");

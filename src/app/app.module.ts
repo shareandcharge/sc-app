@@ -7,16 +7,15 @@ import {LoginPage} from '../pages/login/login';
 import {MapPage} from '../pages/map/map';
 import {AutocompletePage} from '../pages/map/autocomplete/autocomplete';
 import {AddStationPage} from '../pages/station/add/add-station';
-import {CarManufacturerPage} from '../pages/car/manufacturer/car-manufacturer';
-import {CarModelPage} from '../pages/car/model/car-model';
+import {CarManufacturerPage} from '../pages/car/form/manufacturer/car-manufacturer';
+import {CarModelPage} from '../pages/car/form/model/car-model';
+import {CarFormPage} from '../pages/car/form/car-form';
 import {MapSettingsPage} from '../pages/map/settings/map-settings';
-import {CustomizeCarPage} from '../pages/car/customize/customize-car';
 import {TabsPage} from '../pages/tabs/tabs';
 import {MapFilterPage} from "../pages/map/filter/filter";
 import {LocationDetailPage} from "../pages/location/location-details";
 import {MyCarsPage} from '../pages/car/my-cars/my-cars';
 import {MapDetailPage} from '../pages/location/details-map/map';
-import {AddCarPage} from '../pages/car/add/add-car';
 import {AddStationImagePage} from '../pages/station/add-image/add-image';
 import {SetTariffPage} from '../pages/station/set-tariff/set-tariff';
 import {WalletPage} from '../pages/wallet/wallet';
@@ -25,7 +24,7 @@ import {WalletOptionsPage} from '../pages/wallet/options/wallet-options';
 import {AddReviewPage} from '../pages/review/add-review';
 import {DashboardPage} from '../pages/dashboard/dashboard';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
-import { Ionic2RatingModule } from 'ionic2-rating';
+import {Ionic2RatingModule} from 'ionic2-rating';
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {Http} from '@angular/http';
 import {Storage} from '@ionic/storage';
@@ -57,12 +56,11 @@ export function getAuthHttp(http) {
         SignupPage,
         LoginPage,
         CarWrapperPage,
-        AddCarPage,
+        CarFormPage,
         AddStationPage,
         CarManufacturerPage,
         CarModelPage,
         MapSettingsPage,
-        CustomizeCarPage,
         LocationDetailPage,
         MyCarsPage,
         MapDetailPage,
@@ -82,7 +80,10 @@ export function getAuthHttp(http) {
         TabsPage,
     ],
     imports: [
-        IonicModule.forRoot(MyApp),
+        IonicModule.forRoot(MyApp, {
+                backButtonText: 'Zurück',
+            }, {}
+        ),
         Ionic2RatingModule
     ],
     bootstrap: [IonicApp],
@@ -95,12 +96,11 @@ export function getAuthHttp(http) {
         SignupPage,
         LoginPage,
         CarWrapperPage,
-        AddCarPage,
+        CarFormPage,
         AddStationPage,
         CarManufacturerPage,
         CarModelPage,
         MapSettingsPage,
-        CustomizeCarPage,
         LocationDetailPage,
         MyCarsPage,
         MapDetailPage,
