@@ -34,6 +34,7 @@ import {ProfilePage} from '../pages/profile/profile';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
 import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
 import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
+import {CarWrapperPage} from "../pages/car/car-wrapper";
 import {AddPermissionsPage} from '../pages/station/set-tariff/add-permissions/add-permissions';
 
 let storage = new Storage();
@@ -55,6 +56,7 @@ export function getAuthHttp(http) {
         AutocompletePage,
         SignupPage,
         LoginPage,
+        CarWrapperPage,
         AddCarPage,
         AddStationPage,
         CarManufacturerPage,
@@ -92,6 +94,7 @@ export function getAuthHttp(http) {
         AutocompletePage,
         SignupPage,
         LoginPage,
+        CarWrapperPage,
         AddCarPage,
         AddStationPage,
         CarManufacturerPage,

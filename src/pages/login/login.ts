@@ -13,10 +13,12 @@ export class LoginPage {
 
     credentials = {"email": "", "password": ""};
     destination: any;
+    mode: any;
 
 
     constructor(public navCtrl: NavController, private navParams : NavParams,private viewCtrl: ViewController, public modalCtrl: ModalController, private userService: UserService, public auth: AuthService, private loadingCtrl: LoadingController) {
         this.destination = navParams.get("dest");
+        this.mode = navParams.get('mode') || 'page';
     }
 
     ionViewDidLoad() {
@@ -44,7 +46,13 @@ export class LoginPage {
 
             if(typeof this.destination != 'undefined'){
                 console.log(this.destination);
-                this.navCtrl.push(this.destination);
+
+                if (this.mode === 'page') {
+                    this.navCtrl.push(this.destination);
+                } else if (this.mode === 'modal') {
+                    let modal = this.modalCtrl.create(this.destination);
+                    modal.present();
+                }
             }
         });
     }

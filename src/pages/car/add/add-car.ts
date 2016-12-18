@@ -1,6 +1,11 @@
 import {Component} from '@angular/core';
 import {
-    NavController, ViewController, ModalController, NavParams, ActionSheetController, AlertController,
+    NavController,
+    ModalController,
+    NavParams,
+    ActionSheetController,
+    AlertController,
+    App,
     Platform
 } from 'ionic-angular';
 import {CarManufacturerPage} from '../manufacturer/car-manufacturer';
@@ -32,7 +37,7 @@ export class AddCarPage {
     segmentTabs: any;
 
 
-    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private alertCtrl: AlertController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, public platform: Platform) {
+    constructor(private app: App, public navCtrl: NavController, private alertCtrl: AlertController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform) {
 
         this.segmentTabs = 'preset';
         this.car = navParams.get("car");
@@ -111,7 +116,7 @@ export class AddCarPage {
     }
 
     skipAddingCar() {
-        this.viewCtrl.dismiss();
+        this.app.navPop();
     }
 
     selectModdel() {
@@ -163,28 +168,22 @@ export class AddCarPage {
     }
 
     saveCar() {
+        let me = this;
+
         if (this.mode == "edit") {
             /*  this.cars[index].plateNumber = this.plateNumber;
              this.cars[index].manufacturerName = this.manufacturerName;
              this.cars[index].model = this.model;*/
 
             this.carService.updateCar(this.car).subscribe(c => {
-
-                this.navCtrl.setRoot(MyCarsPage, {
-                    "newCar": this.car,
-                    "mode": this.mode
-                });
                 console.log("updated car ", c);
+                me.app.navPop();
             });
         }
         else {
             this.carService.createCar(this.car).subscribe(c => {
                 console.log("created car ", c);
-
-                this.navCtrl.setRoot(MyCarsPage, {
-                    "newCar": this.car,
-                    "mode": this.mode
-                });
+                me.app.navPop();
             });
         }
     }

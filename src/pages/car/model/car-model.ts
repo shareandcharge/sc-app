@@ -32,10 +32,13 @@ export class CarModelPage {
     itemSelected(model) {
 
         this.car.model = model.name;
-        this.navCtrl.setRoot(AddCarPage, {
+
+        let options = {
             "mode": this.mode,
             "car": this.car
-        });
+        };
+
+        this.navCtrl.popToRoot(options);
     }
 
 }

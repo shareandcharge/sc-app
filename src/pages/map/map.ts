@@ -14,6 +14,7 @@ import {LocationService} from "../../services/location.service";
 
 import {AddCarPage} from "../car/add/add-car";
 import {CarService} from "../../services/car.service";
+import {CarWrapperPage} from "../car/car-wrapper";
 
 
 declare var google;
@@ -203,14 +204,15 @@ export class MapPage {
 
     addCarModal() {
         if (this.auth.loggedIn()) {
-            let modal = this.modalCtrl.create(AddCarPage, {
+            let modal = this.modalCtrl.create(CarWrapperPage, {
                 "mode": "enter"
             });
             modal.present();
         }
         else {
             let modal = this.modalCtrl.create(LoginPage, {
-                "dest": AddCarPage
+                "dest": CarWrapperPage,
+                'mode' : 'modal'
             });
             modal.present();
         }
