@@ -25,6 +25,14 @@ export class Car implements Serializable<Car> {
         return (typeof this.imageBase64 === "string" && this.imageBase64 !== '');
     }
 
+    /**
+     * returns a string for usage as 'src' parameter
+     * @returns {string}
+     */
+    get displayImageSrc(): string {
+        return this.hasImage() ? this.imageBase64 : 'assets/images/car-default.png';
+    }
+
     deserialize(input) {
         this.id = input.id;
         this.plateNumber = input.plateNumber;

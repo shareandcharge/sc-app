@@ -21,10 +21,7 @@
         <ion-item-sliding *ngFor="let car of cars" #itemSliding>
             <button ion-item (click)="editCar(car)">
                 <ion-avatar item-left class="car-image">
-                    <img *ngIf="car.hasImage()" [ngStyle]="{'background-image':'url(' + car.imageBase64 + ')'}">
-                    <div *ngIf="!car.hasImage()" class="car-default">
-                        <ion-icon name="ios-car"></ion-icon>
-                    </div>
+                    <img [ngStyle]="{'background-image':'url(' + car.displayImageSrc + ')'}">
                 </ion-avatar>
                 <h2>{{car.plateNumber}}</h2>
                 <h3>{{car.manufacturer}} {{car.model}}</h3>

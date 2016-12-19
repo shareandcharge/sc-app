@@ -10,21 +10,54 @@ export class CarService {
 
     private tmpManuData: Array<any>;
 
-
     private baseUrl: string = 'http://5834821b62f23712003730c0.mockapi.io/api/v1';
     private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
+    private activeCar: Car;
+
+    private tmpActiveOverwrite: boolean = false;
+
     constructor(private http: Http) {
         this.setTempData();
+    }
+
+    setActiveCar(car: Car) {
+        this.activeCar = car;
+    }
+
+    /**
+     * Get active car of user
+     * @TODO this will only return a result after the list has been loaded...
+     * @returns {Car}
+     */
+    getActiveCar() {
+        return this.activeCar;
     }
 
     getCars(): Observable<Car[]> {
         return this.http.get(this.baseUrl + '/cars')
             .map(res => {
                 let cars = [];
-                res.json().forEach(input => {
+                let data = res.json();
+
+                data.forEach(input => {
                     cars.push(new Car().deserialize(input));
                 });
+
+                //-- @TODO the final API will sent the current car in a separate field
+                if (cars.length) {
+                    /**
+                     * @TODO this `tmpActiveOverwrite` is only here because the mockup api does not save the active car.
+                     *      So once we set it, it won't be overwritten by the list loading.
+                     *      When we wired the real api, this should be removed
+                     */
+                    if (!this.tmpActiveOverwrite) {
+                        this.tmpActiveOverwrite = true;
+
+                        this.setActiveCar(cars[0]);
+                    }
+                }
+
                 return cars;
             })
             .catch(this.handleError);

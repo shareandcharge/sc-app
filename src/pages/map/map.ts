@@ -1,5 +1,8 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, ModalController, LoadingController, PopoverController} from 'ionic-angular';
+import {
+    NavController, ModalController, LoadingController, PopoverController, Events,
+    FabContainer
+} from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
 import {Platform} from 'ionic-angular';
 import {AutocompletePage} from './autocomplete/autocomplete';
@@ -12,6 +15,7 @@ import {LoginPage} from "../login/login";
 import {LocationService} from "../../services/location.service";
 import {CarService} from "../../services/car.service";
 import {CarWrapperPage} from "../car/car-wrapper";
+import {Car} from "../../models/car";
 
 
 declare var google;
@@ -34,21 +38,20 @@ export class MapPage {
     defaultCenterLng = 10.6679155;
     defaultZoom = 8;
     currentPositionZoom = 16;
-    mapDefaultControlls:boolean;
-    locations:any;
+    mapDefaultControlls: boolean;
+    locations: any;
 
-    viewType:string;
+    viewType: string;
 
     visibleLocations = [];
 
-    constructor(public popoverCtrl: PopoverController,public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+    cars: Car[];
+    activeCar: Car;
+    activeCarSrc: string;
+
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events) {
         this.platform = platform;
-        if(this.platform.is("core")){
-            this.mapDefaultControlls = false;
-        }
-        else{
-            this.mapDefaultControlls = true;
-        }
+        this.mapDefaultControlls = !this.platform.is("core");
 
         this.address = {
             place: ''
@@ -56,23 +59,42 @@ export class MapPage {
 
         this.viewType = 'map';
 
+        //-- whenever the cars change or user loggs in, refresh the infos we need for the "switch car button"
+        this.events.subscribe('cars:updated', () => this.refreshCarInfo());
+        this.events.subscribe('auth:login', () => this.refreshCarInfo());
+
         this.initializeApp();
     }
 
     initializeApp() {
         this.platform.ready().then(() => {
-            console.log('Platform ready');
         });
     }
 
     ionViewDidLoad() {
-        console.log("view loaded.");
         this.loadMap();
     }
 
-    /*ionViewLoaded(){
-     this.loadMap();
-     }*/
+    private refreshCarInfo() {
+        let observable = this.carService.getCars();
+        observable.subscribe(cars => {
+            this.cars = cars;
+            this.activeCar = this.carService.getActiveCar();
+            console.log('FRESH IN MAP: ', cars);
+        });
+
+    }
+
+    hasCars() {
+        return this.cars instanceof Array && this.cars.length;
+    }
+
+    setActiveCar(car: Car, fab: FabContainer) {
+        this.activeCar = car;
+        this.carService.setActiveCar(car);
+        this.events.publish('cars:updated');
+        fab.close();
+    }
 
     centerCurrentPosition() {
         let loader = this.loadingCtrl.create({
@@ -156,15 +178,15 @@ export class MapPage {
 
     showLocationDetails(location) {
         this.navCtrl.push(LocationDetailPage, {
-            location : location
+            location: location
         });
     }
+
     // createMarker() {
     //     this.addMarker(this.map.getCenter());
     // }
 
     addMarker(location) {
-        console.log('ADD MARKER: ', location);
         let marker = new google.maps.Marker({
             map: this.map,
             animation: google.maps.Animation.DROP,
@@ -173,30 +195,24 @@ export class MapPage {
 
         let me = this;
         marker.addListener('click', function () {
-            let locDetails = me.modalCtrl.create(LocationDetailPage , {
+            let locDetails = me.modalCtrl.create(LocationDetailPage, {
                 "location": location
             });
 
             locDetails.present();
 
-         /*   me.navCtrl.push(LocationDetailPage, {
-                "location": location
-            });*/
+            /*   me.navCtrl.push(LocationDetailPage, {
+             "location": location
+             });*/
         });
 
         // let content = location.name;
         // this.addInfoWindow(marker, content);
     }
 
-    myCarsModal() {
-        if(this.auth.loggedIn()){
-            this.navCtrl.push(MyCarsPage);
-        }
-        else{
-            this.navCtrl.setRoot(LoginPage , {
-                "dest" : MyCarsPage
-            });
-        }
+    gotoMyCars(fab: FabContainer) {
+        fab.close();
+        this.navCtrl.push(MyCarsPage);
     }
 
     addCarModal() {
@@ -209,24 +225,17 @@ export class MapPage {
         else {
             let modal = this.modalCtrl.create(LoginPage, {
                 "dest": CarWrapperPage,
-                'mode' : 'modal'
+                'mode': 'modal'
             });
             modal.present();
         }
     }
 
-    hasCars() {
-        return false;
-        // this.carService.getCars().subscribe(cars => {
-        //     return cars.length > 0;
-        // })
-    }
-
     mapSettingsPopOver(e) {
         let popover = this.popoverCtrl.create(MapSettingsPage, {
             map: this.map,
-            setViewType : this.setViewType,
-            getViewType : this.getViewType
+            setViewType: this.setViewType,
+            getViewType: this.getViewType
         });
 
         popover.present({

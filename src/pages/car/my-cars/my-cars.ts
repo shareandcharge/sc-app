@@ -70,7 +70,7 @@ export class MyCarsPage {
                         this.carService.deleteCar(car.id)
                             .finally(() => loader.dismissAll())
                             .subscribe(
-                                () => this.getCars(),
+                                () => this.events.publish('cars:updated'),
                                 error => this.displayError(<any>error, 'Auto löschen')
                             )
                         ;

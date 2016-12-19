@@ -1,6 +1,5 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, NavParams, ViewController, LoadingController, Platform, ModalController} from 'ionic-angular';
-import {CarService} from "../../services/car.service";
 import {MapDetailPage} from "./details-map/map";
 import {AddReviewPage} from "../review/add-review";
 

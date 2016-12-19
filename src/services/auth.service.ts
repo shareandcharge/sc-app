@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
 // import {tokenNotExpired} from 'angular2-jwt';
 import {User} from "../models/user";
+import {Events} from "ionic-angular";
 
 @Injectable()
 export class AuthService {
@@ -10,7 +11,7 @@ export class AuthService {
     storage: Storage;
     user: User;
 
-    constructor() {
+    constructor(private events: Events) {
         this.storage = new Storage();
         this.user = null;
     }
@@ -29,11 +30,13 @@ export class AuthService {
     login(token: string, user: User) {
         this.storage.set(this.TOKEN_NAME, token);
         this.user = user;
+        this.events.publish('auth:login');
     }
 
     logout() {
         this.storage.remove(this.TOKEN_NAME);
         this.user = null;
+        this.events.publish('auth:logout');
     }
 
     getUser() {
