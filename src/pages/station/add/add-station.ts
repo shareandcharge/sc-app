@@ -11,7 +11,7 @@ import {StationMapDetailPage} from "./station-add-map/map";
 @Component({
     selector: 'page-add-station',
     templateUrl: 'add-station.html',
-    providers: [LocationService]
+    providers: []
 })
 export class AddStationPage {
     segmentTabs: any;

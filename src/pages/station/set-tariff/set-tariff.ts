@@ -8,7 +8,7 @@ import {AddPermissionsPage} from './add-permissions/add-permissions';
 @Component({
     selector: 'page-set-tariff',
     templateUrl: 'set-tariff.html',
-    providers: [LocationService]
+    providers: []
 
 })
 export class SetTariffPage {

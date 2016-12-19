@@ -7,7 +7,7 @@ import {Car} from '../../../../models/car';
 @Component({
     selector: 'page-car-model',
     templateUrl: 'car-model.html',
-    providers: [CarService]
+    providers: []
 })
 export class CarModelPage {
     manufacturerId: any;

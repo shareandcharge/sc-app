@@ -8,7 +8,7 @@ import {CarWrapperPage} from "../car-wrapper";
 @Component({
     selector: 'page-my-cars',
     templateUrl: 'my-cars.html',
-    providers: [CarService]
+    providers: []
 })
 export class MyCarsPage {
     cars: Car[];

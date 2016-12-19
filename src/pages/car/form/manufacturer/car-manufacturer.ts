@@ -8,7 +8,7 @@ import {Car} from '../../../../models/car';
 @Component({
     selector: 'page-car-manufacturer',
     templateUrl: 'car-manufacturer.html',
-    providers: [CarService]
+    providers: []
 })
 export class CarManufacturerPage {
     manufacturers: any;

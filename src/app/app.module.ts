@@ -29,6 +29,9 @@ import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {Http} from '@angular/http';
 import {Storage} from '@ionic/storage';
 import {AuthService} from "../services/auth.service";
+import {CarService} from "../services/car.service";
+import {LocationService} from "../services/location.service";
+import {UserService} from "../services/user.service";
 import {ProfilePage} from '../pages/profile/profile';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
 import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
@@ -126,6 +129,9 @@ export function getAuthHttp(http) {
             deps: [Http]
         },
         AuthService,
+        CarService,
+        LocationService,
+        UserService,
         Storage
     ]
 })

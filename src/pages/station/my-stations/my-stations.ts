@@ -8,7 +8,7 @@ import {AuthService} from "../../../services/auth.service";
 @Component({
     selector: 'page-my-stations',
     templateUrl: 'my-stations.html',
-    providers: [LocationService]
+    providers: []
 })
 
 export class MyStationsPage {

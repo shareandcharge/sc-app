@@ -10,7 +10,7 @@ import {Car} from "../../models/car";
 @Component({
     selector: 'page-about',
     templateUrl: 'about.html',
-    providers: [CarService]
+    providers: []
 
 })
 export class AboutPage {

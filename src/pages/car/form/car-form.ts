@@ -16,7 +16,7 @@ import {Car} from '../../../models/car';
 @Component({
     selector: 'page-add-car',
     templateUrl: 'car-form.html',
-    providers: [CarService]
+    providers: []
 })
 
 export class CarFormPage {

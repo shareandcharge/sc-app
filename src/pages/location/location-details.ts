@@ -8,7 +8,7 @@ import {AddReviewPage} from "../review/add-review";
 @Component({
     selector: 'location-details',
     templateUrl: 'location-details.html',
-    providers: [CarService]
+    providers: []
 })
 export class LocationDetailPage {
     location: any;

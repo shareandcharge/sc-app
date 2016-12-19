@@ -19,7 +19,7 @@ declare var google;
 @Component({
     selector: 'page-map',
     templateUrl: 'map.html',
-    providers: [LocationService, CarService]
+    providers: []
 })
 export class MapPage {
 
