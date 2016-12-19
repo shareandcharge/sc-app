@@ -5,7 +5,7 @@ import {
     NavParams,
     ActionSheetController,
     App,
-    Platform, LoadingController, Events
+    Platform, LoadingController, Events, AlertController
 } from 'ionic-angular';
 import {CarManufacturerPage} from './manufacturer/car-manufacturer';
 import {Camera} from 'ionic-native';
@@ -24,7 +24,7 @@ export class CarFormPage {
     mode: any;
     segmentTabs: any;
 
-    constructor(private app: App, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events) {
+    constructor(private app: App, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private alertCtrl: AlertController) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -97,16 +97,35 @@ export class CarFormPage {
         let me = this;
 
         if (this.mode == "edit") {
-            this.carService.updateCar(this.car).subscribe(() => {
-                this.events.publish('cars:updated');
-                me.navCtrl.parent.pop().then(() => loader.dismissAll());
-            });
+            this.carService.updateCar(this.car)
+                .finally(() => loader.dismissAll())
+                .subscribe(
+                    () => {
+                        this.events.publish('cars:updated');
+                        me.navCtrl.parent.pop();
+                    },
+                    error => this.displayError(<any>error, 'Auto aktualisieren'));
         }
         else {
-            this.carService.createCar(this.car).subscribe((c) => {
-                this.events.publish('cars:updated');
-                me.navCtrl.parent.pop().then(() => loader.dismissAll());
-            });
+            this.carService.createCar(this.car)
+                .finally(() => loader.dismissAll())
+                .subscribe(
+                    () => {
+                        this.events.publish('cars:updated');
+                        me.navCtrl.parent.pop();
+                    },
+                    error => this.displayError(<any>error, 'Auto anlegen')
+                );
         }
+    }
+
+    displayError(message: any, subtitle?: string) {
+        let alert = this.alertCtrl.create({
+            title: 'Fehler',
+            subTitle: subtitle,
+            message: message,
+            buttons: ['Schließen']
+        });
+        alert.present();
     }
 }

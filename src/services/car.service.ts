@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response} from '@angular/http';
 import {Observable} from "rxjs";
+import {Car} from "../models/car";
 
 import 'rxjs/add/operator/map';
-import {Car} from "../models/car";
 
 @Injectable()
 export class CarService {
@@ -38,7 +38,7 @@ export class CarService {
             .catch(this.handleError);
     }
 
-    updateCar(car: Car) {
+    updateCar(car: Car): Observable<Car> {
         return this.http.put(`${this.baseUrl}/cars/${car.id}`, JSON.stringify(car), {headers: this.contentHeader})
             .map(res => res.json())
             .catch(this.handleError);
@@ -73,7 +73,7 @@ export class CarService {
     }
 
     getManufacturers() {
-        var manu = this.tmpManuData.map(manu => {
+        let manu = this.tmpManuData.map(manu => {
             return {"id": manu.id, "name": manu.name};
         });
 
@@ -84,14 +84,13 @@ export class CarService {
     }
 
     getModels(manufacturerId) {
-        var a = this.tmpManuData.filter(manu => {
+        let a = this.tmpManuData.filter(manu => {
             return (manu.id == manufacturerId);
         });
 
-        var models = a.pop().models;
+        let models = a.pop().models;
         models.sort((a, b) => {
             return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-            ;
         });
 
         return models;

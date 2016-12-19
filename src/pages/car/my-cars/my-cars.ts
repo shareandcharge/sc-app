@@ -13,8 +13,6 @@ import {CarWrapperPage} from "../car-wrapper";
 export class MyCarsPage {
     cars: Car[];
 
-    errorMessage: string;
-
     constructor(public navCtrl: NavController, private carService: CarService, public modalCtrl: ModalController, private alertCtrl: AlertController, private loadingCtrl: LoadingController, public events: Events) {
         //-- if we add/edit a car (from the modal wrapper)
         this.events.subscribe('cars:updated', () => this.getCars());
@@ -32,7 +30,7 @@ export class MyCarsPage {
         let observable = this.carService.getCars();
         observable.subscribe(
             cars => this.cars = cars,
-            error => this.errorMessage = <any>error
+            error => this.displayError(<any>error, 'Liste - Meine Autos')
         );
 
         return observable;
@@ -69,9 +67,13 @@ export class MyCarsPage {
                     handler: () => {
                         let loader = this.loadingCtrl.create({content: "Lösche Auto ..."});
                         loader.present();
-                        this.carService.deleteCar(car.id).subscribe(() => {
-                            this.getCars().subscribe(() => loader.dismissAll());
-                        });
+                        this.carService.deleteCar(car.id)
+                            .finally(() => loader.dismissAll())
+                            .subscribe(
+                                () => this.getCars(),
+                                error => this.displayError(<any>error, 'Auto löschen')
+                            )
+                        ;
                     }
                 }
             ]
@@ -84,4 +86,13 @@ export class MyCarsPage {
         this.getCars().subscribe(() => refresher.complete());
     }
 
+    displayError(message: any, subtitle?: string) {
+        let alert = this.alertCtrl.create({
+            title: 'Fehler',
+            subTitle: subtitle,
+            message: message,
+            buttons: ['Schließen']
+        });
+        alert.present();
+    }
 }
