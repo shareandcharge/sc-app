@@ -281,7 +281,7 @@ export class AddStationPage {
             //map.clearOverlays();
             //map.setMapOnAll(null);
 
-            let marker = new google.maps.Marker({
+            new google.maps.Marker({
                 draggable: true,
                 position: new google.maps.LatLng(location.lat, location.lng),
                 map: map
@@ -337,7 +337,7 @@ export class AddStationPage {
                 me.map.setCenter(place.geometry.location);
                 me.map.setZoom(16);
 
-                let marker = new google.maps.Marker({
+                /*let marker = */new google.maps.Marker({
                     draggable: true,
                     position: place.geometry.location,
                     map: me.map

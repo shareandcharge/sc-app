@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {CarService} from "../../../../services/car.service";
-import {AddCarPage} from "../form/form-car";
 import {Car} from '../../../../models/car';
 
 

@@ -67,8 +67,9 @@ export class CarFormPage {
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: sourceType,
             allowEdit: true,
-            targetWidth: 800,
-            targetHeight: 800,
+            targetWidth: 300,
+            targetHeight: 300,
+            quality: 50,
             correctOrientation: true
         }).then((imageData) => {
             // imageData is a base64 encoded string

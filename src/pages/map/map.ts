@@ -10,9 +10,6 @@ import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
 import {LocationService} from "../../services/location.service";
-
-
-import {CarFormPage} from "../car/form/car-form";
 import {CarService} from "../../services/car.service";
 import {CarWrapperPage} from "../car/car-wrapper";
 

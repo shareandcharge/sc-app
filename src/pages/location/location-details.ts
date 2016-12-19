@@ -1,5 +1,5 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, NavParams , ViewController , Slides , LoadingController , Platform , ModalController} from 'ionic-angular';
+import {NavController, NavParams, ViewController, LoadingController, Platform, ModalController} from 'ionic-angular';
 import {CarService} from "../../services/car.service";
 import {MapDetailPage} from "./details-map/map";
 import {AddReviewPage} from "../review/add-review";
@@ -12,24 +12,24 @@ import {AddReviewPage} from "../review/add-review";
 })
 export class LocationDetailPage {
     location: any;
-    slideOptions:any;
+    slideOptions: any;
     @ViewChild('map') mapElement: ElementRef;
     map: any;
     defaultZoom = 16;
     private platform;
-    mapDefaultControlls:boolean;
+    mapDefaultControlls: boolean;
 
-    showOpeningHours:boolean = false;
+    showOpeningHours: boolean = false;
 
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController,private navParams: NavParams, platform: Platform,  private viewCtrl:ViewController , private loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController) {
 
         this.location = navParams.get("location");
         this.platform = platform;
-        if(this.platform.is("core")){
+        if (this.platform.is("core")) {
             this.mapDefaultControlls = false;
         }
-        else{
+        else {
             this.mapDefaultControlls = true;
         }
         this.slideOptions = {
@@ -43,16 +43,16 @@ export class LocationDetailPage {
     ionViewDidLoad() {
     }
 
-/*    itemSelected() {
-    }*/
+    /*    itemSelected() {
+     }*/
 
-    dismiss(){
+    dismiss() {
         this.viewCtrl.dismiss();
     }
 
-    detailedMap(){
-        this.navCtrl.push(MapDetailPage ,{
-            "location" : this.location
+    detailedMap() {
+        this.navCtrl.push(MapDetailPage, {
+            "location": this.location
         });
     }
 
@@ -64,12 +64,12 @@ export class LocationDetailPage {
         });
     }
 
-    feedback(){
+    feedback() {
         let modal = this.modalCtrl.create(AddReviewPage);
         modal.present();
     }
 
-    loadMap(){
+    loadMap() {
 
         console.log("loading the map");
         // let loader = this.loadingCtrl.create({
