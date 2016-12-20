@@ -1,8 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import {Http, Headers, Response} from '@angular/http';
 import {AuthService} from './auth.service'
 import {Storage} from '@ionic/storage';
+import {Observable} from "rxjs";
 import {User} from "../models/user";
+
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserService {
@@ -44,5 +47,46 @@ export class UserService {
         let token = data.token;
         let user = new User().deserialize(data.user);
         this.auth.login(token, user);
+    }
+
+    getUser(id): Observable<User> {
+        return this.http.get(`${this.baseUrl}/users/${id}`)
+            .map(res => {
+                return new User().deserialize(res.json());
+            })
+            .catch(this.handleError);
+    }
+
+    updateUser(user: User): Observable<User> {
+        return this.http.put(`${this.baseUrl}/users/${user.id}`, JSON.stringify(user), {headers: this.contentHeader})
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    createUser(user: User) {
+        return this.http.post(`${this.baseUrl}/users`, JSON.stringify(user), {headers: this.contentHeader})
+            .map(res =>  {
+                return new User().deserialize(res.json());
+            })
+            .catch(this.handleError);
+    }
+
+    deleteUser(id) {
+        return this.http.delete(`${this.baseUrl}/users/${id}`, {headers: this.contentHeader})
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    private handleError(error: Response | any) {
+        let errMsg: string;
+        if (error instanceof Response) {
+            const body = error.json() || '';
+            const err = body.error || JSON.stringify(body);
+            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Observable.throw(errMsg);
     }
 }
