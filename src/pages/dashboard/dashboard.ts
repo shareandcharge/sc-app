@@ -5,7 +5,6 @@ import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AddReviewPage} from '../review/add-review';
 import {AccountSettingsPage} from './account-settings/account-settings';
 import {AuthService} from "../../services/auth.service";
-import {MapPage} from "../map/map";
 
 
 @Component({
@@ -75,7 +74,7 @@ export class DashboardPage {
   logOut(){
     console.log("logout");
     this.auth.logout();
-    this.navCtrl.setRoot(MapPage);
+    this.navCtrl.parent.select(0);
   }
 
   feedback(){

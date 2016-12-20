@@ -64,6 +64,7 @@ export class MapPage {
         //-- whenever the cars change or user loggs in, refresh the infos we need for the "switch car button"
         this.events.subscribe('cars:updated', () => this.refreshCarInfo());
         this.events.subscribe('auth:login', () => this.refreshCarInfo());
+        this.events.subscribe('auth:logout', () => this.refreshCarInfo());
 
         this.initializeApp();
     }
@@ -82,9 +83,7 @@ export class MapPage {
         observable.subscribe(cars => {
             this.cars = cars;
             this.activeCar = this.carService.getActiveCar();
-            console.log('FRESH IN MAP: ', cars);
         });
-
     }
 
     hasCars() {

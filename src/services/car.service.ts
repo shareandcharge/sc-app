@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Car} from "../models/car";
 
 import 'rxjs/add/operator/map';
+import {AuthService} from "./auth.service";
 
 @Injectable()
 export class CarService {
@@ -17,7 +18,7 @@ export class CarService {
 
     private tmpActiveOverwrite: boolean = false;
 
-    constructor(private http: Http) {
+    constructor(private auth: AuthService, private http: Http) {
         this.setTempData();
     }
 
@@ -35,6 +36,12 @@ export class CarService {
     }
 
     getCars(): Observable<Car[]> {
+        if (!this.auth.loggedIn()) {
+            this.tmpActiveOverwrite = false;
+            this.activeCar = null;
+            return Observable.of([]);
+        }
+
         return this.http.get(this.baseUrl + '/cars')
             .map(res => {
                 let cars = [];

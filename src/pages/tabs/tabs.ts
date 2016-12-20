@@ -1,10 +1,9 @@
-import {Component} from '@angular/core';
-import {ModalController} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {ModalController, Tabs} from 'ionic-angular';
 
 import {MapPage} from '../map/map';
 import {AboutPage} from '../about/about';
 import {CarFormPage} from '../car/form/car-form';
-import {SignupPage} from '../signup/signup';
 import {AddStationPage} from '../station/add/add-station';
 import {WalletPage} from '../wallet/wallet';
 import {MyCarsPage} from '../car/my-cars/my-cars';
@@ -19,30 +18,31 @@ import {MyStationsPage} from "../station/my-stations/my-stations";
 })
 export class TabsPage {
 
-    tab1Root: any = MapPage;
-    tab2Root: any = AboutPage;
-    tab3Root: any = MyStationsPage;
-    tab4Root: any = DashboardPage;
-    tab5Root: any = WalletPage;
+    tab1Root = MapPage;
+    tab2Root = AboutPage;
+    tab3Root = MyStationsPage;
+    tab4Root = DashboardPage;
+    tab5Root = WalletPage;
+
+    @ViewChild('tabs') tabRef: Tabs;
+
+    private tempTabIndex = 3;
 
     constructor(public modalCtrl: ModalController, public auth: AuthService) {
-
-        if (auth.loggedIn()) {
-
-        }
-        else {
-
-        }
     }
 
-    signUpModal() {
-        let modal = this.modalCtrl.create(SignupPage);
-        modal.present();
-    }
+    loginModal(data?) {
+        let modal = this.modalCtrl.create(LoginPage, data);
 
-    loginModal() {
-        let modal = this.modalCtrl.create(LoginPage);
-        modal.present();
+        /**
+         * This tab switching is a workaround to refresh the map view after login.
+         * We could not find another working solution.
+         */
+        let selectedTab = this.tabRef.getSelected();
+        modal.present().then(() => this.tabRef.select(this.tempTabIndex));
+        modal.onWillDismiss(() => {
+            this.tabRef.select(selectedTab);
+        });
     }
 
     addCarModal() {
@@ -57,12 +57,10 @@ export class TabsPage {
             modal.present();
         }
         else {
-            let modal = this.modalCtrl.create(LoginPage, {
+            this.loginModal({
                 "dest": AddStationPage
             });
-            modal.present();
         }
-
     }
 
     myCarsModal() {

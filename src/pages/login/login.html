@@ -61,10 +61,8 @@
     <ion-grid class="fullpage" *ngIf="auth.loggedIn()">
         <ion-row>
             <ion-col>
-
-                <h1>Hello</h1>
-                {{ auth.getUser().displayName}}
-                <button ion-button (click)="logout()">Logout</button>
+                <!-- actually we don't show anything here :) -->
+                <!-- but keep the nice gradient screen for a millisec -->
             </ion-col>
         </ion-row>
     </ion-grid>
