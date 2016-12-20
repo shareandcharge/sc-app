@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController} from 'ionic-angular';
+import {NavController, ActionSheetController, Platform, AlertController, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {AuthService} from "../../services/auth.service";
 import {MapPage} from '../map/map';
+import {User} from "../../models/user";
+import {UserService} from "../../services/user.service";
 
 
 @Component({
@@ -10,34 +12,33 @@ import {MapPage} from '../map/map';
     templateUrl: 'profile.html'
 })
 export class ProfilePage {
-    public base64Image: string;
+    user:User;
 
-    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController , public auth: AuthService) {
+    constructor(public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController , public auth: AuthService, public userService: UserService, private platform: Platform, public events: Events) {
+        this.user = auth.getUser();
     }
 
     ionViewDidLoad() {
     }
 
     dummy() {}
-    presentActionSheet() {
+
+    selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Add Photo',
+            title: 'Bild auswählen',
             buttons: [
                 {
-                    text: 'Take a Photo',
-                    handler: () => {
-                        this.takePhoto('camera');
-                    }
-                }, {
-                    text: 'Add from Gallery',
-                    handler: () => {
-                        this.takePhoto('Gallery');
-                    }
-                }, {
-                    text: 'Cancel',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
+                    text: 'Kamera',
+                    handler: () => this.takePhoto('camera')
+                },
+                {
+                    text: 'Mediathek',
+                    handler: () => this.takePhoto('Gallery')
+                },
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    icon: !this.platform.is('ios') ? 'close' : null
                 }
             ]
         });
@@ -59,16 +60,37 @@ export class ProfilePage {
             allowEdit: true,
             targetHeight: 1000
         }).then((imageData) => {
-            this.base64Image = "data:image/jpeg;base64," + imageData;
+            this.user.imageBase64 = "data:image/jpeg;base64," + imageData;
+            this.updateUser();
+
         }, (err) => {
             console.log(err);
         });
+    }
+
+    updateUser() {
+        this.userService.updateUser(this.user)
+            .subscribe(
+                () => {
+                    this.events.publish('users:updated');
+                },
+                error => this.displayError(<any>error, 'Benutzer aktualisieren'));
     }
 
     logout() {
         this.auth.logout();
         console.log("logged Out");
         this.navCtrl.setRoot(MapPage);
+    }
+
+    displayError(message: any, subtitle?: string) {
+        let alert = this.alertCtrl.create({
+            title: 'Fehler',
+            subTitle: subtitle,
+            message: message,
+            buttons: ['Schließen']
+        });
+        alert.present();
     }
 
 }

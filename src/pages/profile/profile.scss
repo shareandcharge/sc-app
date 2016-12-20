@@ -1,23 +1,40 @@
 page-profile {
+    .top-container {
+        $_top: lighten(map_get($colors, secondary), 0);
+        $_bottom: lighten(map_get($colors, primary), 30);
 
-    .top-div{
-        height: 150px;
-        background-color: grey;
-        position: relative;
+        background-color: $_top;
+        background-image: linear-gradient(45deg, $_top, $_bottom);
+
+        color: #fff;
+
+        margin-bottom: 16px;
+
+        ion-segment {
+            position: absolute;
+            left: 32px;
+            right: 32px;
+            width: auto;
+        }
     }
-    .image-holder{
-        position: absolute;
-        left: 10px;
-        bottom: 20%;
-        height: 80px;
-        width: 80px;
-        border-radius: 40px;
-        background-color: white;
-        text-align: center;
-        padding-top: 20px;
 
-        img{
+    .image-button {
+        $_button_size: 130px;
+        width: $_button_size;
+        height: $_button_size;
+        display: block;
+        overflow: hidden;
+        margin: 20px auto 15px auto;
+        padding: 16px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2) no-repeat center center;
+        background-size: cover;
+        color: inherit;
+        font-size: 1.6rem;
+        line-height: 2rem;
 
+        &.filled {
+            border: 2px solid #fff;
         }
     }
 }
