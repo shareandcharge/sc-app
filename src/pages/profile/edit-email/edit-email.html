@@ -1,0 +1,17 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Email bearbeiten</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="editEmail" (ngSubmit)="updateUser()">
+        <ion-item>
+            <ion-label>Email Adresse</ion-label>
+            <ion-input type="text" formControlName="email"></ion-input>
+        </ion-item>
+        <button ion-button type="submit">Speichern</button>
+    </form>
+</ion-content>
