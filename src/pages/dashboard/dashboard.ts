@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController, ActionSheetController} from 'ionic-angular';
+import {NavController, ActionSheetController, Platform, AlertController, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AddReviewPage} from '../review/add-review';
