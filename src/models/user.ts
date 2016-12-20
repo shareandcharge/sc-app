@@ -6,6 +6,7 @@ export class User implements Serializable<User> {
     firstName: string;
     lastName: string;
     address: string;
+    imageBase64: any;
 
     constructor() {
         this.id = '';
@@ -13,6 +14,15 @@ export class User implements Serializable<User> {
         this.firstName = '';
         this.lastName = '';
         this.address = '';
+        this.imageBase64 = '';
+    }
+
+    hasImage() {
+        return (typeof this.imageBase64 === "string" && this.imageBase64 !== '');
+    }
+
+    get displayImageSrc(): string {
+        return this.hasImage() ? this.imageBase64 : 'assets/images/user-default.png';
     }
 
     get displayName() {

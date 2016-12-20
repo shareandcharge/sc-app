@@ -7,18 +7,20 @@
 </ion-header>
 
 <ion-content>
-    <div class="top-div">
-        <div class="image-holder" (click)="presentActionSheet()">
-        <span *ngIf="!base64Image">
-          Add <br> Photo
-        </span>
-            <ion-thumbnail>
-                <img [src]="base64Image" *ngIf="base64Image">
-            </ion-thumbnail>
+    <div class="top-container" padding="">
+
+        <div class="inner-content">
+
         </div>
+
+        <button class="image-button filled" (click)="selectPhoto()" *ngIf="user.hasImage()"
+                [ngStyle]="{'background-image':'url(' + user.imageBase64 + ')'}">
+        </button>
+        <button class="image-button" (click)="selectPhoto()" *ngIf="!user.hasImage()">
+            <span>Foto hinzufügen</span>
+        </button>
         <div class="text-holder" *ngIf="auth.loggedIn()">
-            You are logged in as <br>
-            <h3>{{auth.getUser().email}}</h3>
+            You are logged in as <strong>{{user.email}}</strong>
         </div>
     </div>
 
