@@ -38,6 +38,8 @@ export class MapPage {
     defaultCenterLng = 10.6679155;
     defaultZoom = 8;
     currentPositionZoom = 16;
+    currentPositionMarker:any;
+
     mapDefaultControlls: boolean;
     locations: any;
 
@@ -106,11 +108,25 @@ export class MapPage {
             let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             this.map.setZoom(this.currentPositionZoom);
             this.map.setCenter(latLng);
+            this.updateCurrentPositionMarker(latLng);
+
             loader.dismissAll();
         }, (err) => {
             console.log(err);
             loader.dismissAll();
         });
+    }
+
+    updateCurrentPositionMarker(latLng) {
+        if (typeof this.currentPositionMarker === 'undefined') {
+            let me = this;
+
+            this.currentPositionMarker = new google.maps.Marker({
+                map: me.map
+            });
+        }
+
+        this.currentPositionMarker.setPosition(latLng);
     }
 
     setViewType = (viewType) => {
