@@ -40,18 +40,26 @@ $brand-color: (
 // iOS only Sass variables can go here
 
 $text-input-ios-background-color: map-get($colors, light);
-$toolbar-ios-active-color: map-get($colors, secondary);
-$toolbar-ios-inactive-color: map-get($colors, dark);
+
+$tabs-ios-tab-color-active: map-get($colors, secondary);
+$tabs-ios-tab-color-inactive: map-get($colors, dark);
+
 $segment-button-ios-opacity-hover: 0.8;
 $segment-button-ios-opacity-active: 1;
 
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
+$tabs-md-tab-color-active: map-get($colors, secondary);
+$tabs-md-tab-color-inactive: map-get($colors, dark);
+$tabs-md-tab-opacity: 1;
 
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
+$tabs-wp-tab-color-active: map-get($colors, secondary);
+$tabs-wp-tab-color: map-get($colors, dark);
+$tabs-wp-tab-opacity: 1;
 
 // App Theme
 // --------------------------------------------------
@@ -62,6 +70,7 @@ $segment-button-ios-opacity-active: 1;
 
 @import "ionic.theme.default";
 @import "mixins";
+@import "custom-icon-font";
 @import "content";
 @import "grid";
 @import "header";
