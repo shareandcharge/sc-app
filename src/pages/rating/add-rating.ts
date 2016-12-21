@@ -4,13 +4,11 @@ import {RatingService} from "../../services/rating.service";
 import {Rating} from "../../models/rating";
 import {Location} from "../../models/location";
 import {AuthService} from "../../services/auth.service";
-import {Ionic2Rating} from "ionic2-rating";
 
 
 @Component({
     selector: 'page-add-rating',
-    templateUrl: 'add-rating.html',
-    entryComponents : [Ionic2Rating]
+    templateUrl: 'add-rating.html'
 })
 export class AddRatingPage {
     rating: Rating = new Rating();
@@ -31,15 +29,12 @@ export class AddRatingPage {
 
         let me = this;
 
-        console.log(this.rating);
-        /*
         this.ratingService.createRating(this.location.id, this.rating)
             .subscribe(
                 () => {
                     me.viewCtrl.dismiss();
                 },
                 error => this.displayError(<any>error, 'Rating erstellen'));
-        */
     }
 
     displayError(message: any, subtitle?: string) {
