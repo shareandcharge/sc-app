@@ -161,7 +161,12 @@ export class SetTariffPage {
                 });
             }
         } else {
-            console.log('Mindestens einer der beiden Tarife muss ausgewählt sein!');
+            let alert = this.alertCtrl.create({
+                title: 'Bitte wähle eine Tarifoption',
+                subTitle: 'Es muss mindestens ein Tarifoption ausgewählt sein.',
+                buttons: ['Ok']
+            });
+            alert.present();
         }
     }
 
