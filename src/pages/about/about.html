@@ -1,29 +1,18 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      About
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>
+            Info
+        </ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+    <h1 color="secondary">Was ist Share&Charge?</h1>
 
-  <h1>Cars from mockup api</h1>
-  <div *ngFor="let car of carList">
-    <strong>{{car.id}}</strong>: {{car.plateNumber}}, {{car.manufacturer}}, {{car.model}}
-  </div>
+    <p>Von Privat für Privat.</p>
 
+    <p>Share&Charge macht private Ladeinfrastruktur für jedermann zugänglich und abrechenbar.</p>
 
-  <h1>Manufacturers</h1>
-  <div *ngFor="let manufacturer of manufacturers">
-    {{ manufacturer.name }}
-  </div>
+    <p>Anmelden um Teil der Community zu werden!</p>
 
-  <h2>Models vw</h2>
-  <div *ngFor="let model of modelsVw">
-    {{ model.name }} {{model.battery}}
-  </div>
-
-
-  <button (click)="testLocationDetails()">Test Location Details</button>
 </ion-content>
