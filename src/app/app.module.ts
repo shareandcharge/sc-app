@@ -38,6 +38,8 @@ import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
 import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
 import {CarWrapperPage} from "../pages/car/car-wrapper";
 import {AddPermissionsPage} from '../pages/station/set-tariff/add-permissions/add-permissions';
+import {EditEmailPage} from "../pages/profile/edit-email/edit-email";
+import {EditNamePage} from "../pages/profile/edit-name/edit-name";
 
 let storage = new Storage();
 
@@ -81,6 +83,8 @@ export function getAuthHttp(http) {
         StationMapDetailPage,
         AddPermissionsPage,
         TabsPage,
+        EditEmailPage,
+        EditNamePage,
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -120,7 +124,9 @@ export function getAuthHttp(http) {
         PlugTypesPage,
         StationMapDetailPage,
         AddPermissionsPage,
-        TabsPage
+        TabsPage,
+        EditEmailPage,
+        EditNamePage,
     ],
     providers: [
         {

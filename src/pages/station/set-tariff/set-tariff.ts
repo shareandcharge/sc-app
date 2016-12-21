@@ -13,37 +13,19 @@ import {AddPermissionsPage} from './add-permissions/add-permissions';
 })
 export class SetTariffPage {
     locObject: any;
-    segmentTabs: any;
-    energyRate: any;
-    kwhRate: any;
-    parkRate: any;
+
     flowMode: any;
     buttonText: any;
-    togglePublic: any;
-    togglePrivate: any;
-    hourlyTarif: any;
-    kwhTarif: any;
-    hourlyTarifTabs: any;
-    kwhTarifTabs: any;
-    flatrateTarif: any;
-    hourlyRate: any;
-    permissions: any;
+
+    hourlyTarif = false;
+    kwhTarif = false;
+
+    tarifObject:any;
+
 
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService) {
-        this.permissions = [];
-
-        this.hourlyTarifTabs = 'flatrate';
-        this.kwhTarifTabs = 'flatrate';
-
-        this.hourlyTarif = false;
-        this.kwhTarif = false;
-        this.flatrateTarif = true;
-
         this.locObject = this.navParams.get("location");
         this.flowMode = this.navParams.get("mode");
-
-        this.togglePublic = false;
-        this.togglePrivate = false;
 
         if (this.flowMode == 'edit') {
             this.buttonText = "Update";
@@ -52,67 +34,70 @@ export class SetTariffPage {
             this.buttonText = "Publish";
         }
 
+
+
         if (this.locObject.stations.accessControl) {
             this.hourlyTarif = true;
-            this.flatrateTarif = false;
             if (this.locObject.stations.kwh) {
                 this.kwhTarif = true;
                 this.hourlyTarif = false;
             }
         }
 
+        this.tarifObject = {
+            public : {
+                active : false,
+                selected : 'flatrate',
+                flatrate : {
+                    flatrateRate : 0
+                },
+                hourly : {
+                    hourlyRate : 0,
+                    parkRate : 0
+                },
+                kwh : {
+                    kwhRate : 0,
+                    parkRate : 0
+                }
+            },
+            private : {
+                active : false,
+                selected : 'flatrate',
+                flatrate : {
+                    flatrateRate : 0
+                },
+                hourly : {
+                    hourlyRate : 0,
+                    parkRate : 0
+                },
+                kwh : {
+                    kwhRate : 0,
+                    parkRate : 0
+                },
+                permissions: []
+            }
+        }
+
         if (typeof this.locObject.stations.tarif != 'undefined') {
+            this.tarifObject = this.locObject.stations.tarif;
 
-            if (typeof this.locObject.stations.tarif.permissions != 'undefined') {
-                console.log("getting tarif");
-                this.permissions = this.locObject.stations.tarif.permissions;
+            if (!this.hourlyTarif && this.tarifObject.private.selected == 'hourly') {
+                this.tarifObject.private.selected = 'flatrate';
             }
-
-            this.energyRate = this.locObject.stations.tarif.flatrate;
-            if (this.locObject.stations.tarif.type == 'public') {
-                this.togglePublic = true;
-
-                if (this.locObject.stations.tarif.tarif == 'flatrate') {
-                    this.energyRate = this.locObject.stations.tarif.rate;
-                }
-                else {
-                    this.hourlyRate = this.locObject.stations.tarif.rate;
-                    this.kwhRate = this.locObject.stations.tarif.rate;
-                    this.parkRate = this.locObject.stations.tarif.parking;
-                }
+            if (!this.hourlyTarif && this.tarifObject.public.selected == 'hourly') {
+                this.tarifObject.public.selected = 'flatrate';
             }
-            else {
-                this.togglePrivate = true;
-                this.energyRate = this.locObject.stations.tarif.rate;
+            if (!this.kwhTarif && this.tarifObject.private.selected == 'kwh') {
+                this.tarifObject.private.selected = 'flatrate';
             }
-
+            if (!this.kwhTarif && this.tarifObject.public.selected == 'kwh') {
+                this.tarifObject.public.selected = 'flatrate';
+            }
         }
         else {
-            this.locObject.stations.tarif = {};
+            this.locObject.stations.tarif = this.tarifObject;
         }
 
-    }
-
-    changeTogglePublic() {
-        if (this.togglePublic) {
-            this.togglePublic = true;
-            this.togglePrivate = false;
-        }
-        /*else{
-         this.togglePublic =  false;
-         this.togglePrivate = true;
-         }*/
-    }
-
-    changeTogglePrivate() {
-        if (this.togglePrivate) {
-            this.togglePublic = false;
-            this.togglePrivate = true;
-        }
-        /*  else{
-         this.togglePublic =  true;
-         this.togglePrivate = false;
-         }*/
     }
 
     ionViewDidLoad() {
@@ -144,78 +129,40 @@ export class SetTariffPage {
     }
 
     addPermission() {
-
         let modal = this.modalCtrl.create(AddPermissionsPage, {
-            "permissions": this.permissions
+            "permissions": this.tarifObject.private.permissions
         });
 
         modal.onDidDismiss(permissions => {
-            this.permissions = permissions;
-            console.log(this.permissions);
+            this.tarifObject.private.permissions = permissions;
+            console.log(this.tarifObject.private.permissions);
         });
 
         modal.present();
     }
 
     publish() {
+        if (this.tarifObject.public.active || this.tarifObject.private.active) {
+            this.locObject.stations.tarif = this.tarifObject;
 
-        let tarifObject;
 
-        if (this.togglePublic) {
-            let tarif, rate;
-
-            if (this.flatrateTarif) {
-                tarif = "flatrate";
-                rate = this.energyRate;
+            if (this.flowMode == 'add') {
+                this.locationService.createLocation(this.locObject).subscribe(l => {
+                    this.navCtrl.setRoot(MyStationsPage);
+                    console.log("created location ", l);
+                });
             }
-            else if (this.hourlyTarif) {
-                tarif = "hourly";
-                rate = this.hourlyRate;
-            }
+
             else {
-                tarif = "kwh";
-                rate = this.kwhRate;
+                this.locationService.updateLocation(this.locObject).subscribe(l => {
+
+                    this.navCtrl.setRoot(MyStationsPage);
+                    console.log("updated location ", l);
+                });
             }
-
-            tarifObject = {
-                "type": "public",
-                "tarif": tarif,
-                "rate": rate,
-                "flatrate": this.energyRate,
-                "parking": this.parkRate
-            }
+        } else {
+            console.log('Mindestens einer der beiden Tarife muss ausgewählt sein!');
         }
-        else {
-
-            console.log("permissions are ", this.permissions);
-            tarifObject = {
-                "type": "private",
-                "rate": this.energyRate,
-                "flatrate": this.energyRate,
-                "permissions": this.permissions
-            };
-        }
-
-        this.locObject.stations.tarif = tarifObject;
-
-        console.log(this.locObject.stations.tarif);
-
-
-        if (this.flowMode == 'add') {
-            this.locationService.createLocation(this.locObject).subscribe(l => {
-                this.navCtrl.setRoot(MyStationsPage);
-                console.log("created location ", l);
-            });
-        }
-
-        else {
-            this.locationService.updateLocation(this.locObject).subscribe(l => {
-
-                this.navCtrl.setRoot(MyStationsPage);
-                console.log("updated location ", l);
-            });
-        }
-
     }
 
 }

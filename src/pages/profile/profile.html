@@ -22,16 +22,12 @@
     </div>
 
     <ion-list>
-        <button ion-item (click)="dummy()">
+        <button ion-item (click)="editName()">
             Name
         </button>
-        <button ion-item (click)="dummy()">
+        <button ion-item (click)="editEmail()">
             Email
         </button>
-        <button ion-item (click)="dummy()">
-            Password
-        </button>
-
     </ion-list>
 
     <ion-grid class="fullpage" *ngIf="auth.loggedIn()">

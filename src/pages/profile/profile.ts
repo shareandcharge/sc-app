@@ -5,6 +5,8 @@ import {AuthService} from "../../services/auth.service";
 import {MapPage} from '../map/map';
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
+import {EditEmailPage} from "./edit-email/edit-email";
+import {EditNamePage} from "./edit-name/edit-name";
 
 
 @Component({
@@ -93,4 +95,15 @@ export class ProfilePage {
         alert.present();
     }
 
+    editEmail() {
+        this.navCtrl.push(EditEmailPage, {
+            'parent' : this
+        });
+    }
+
+    editName() {
+        this.navCtrl.push(EditNamePage, {
+            'parent' : this
+        });
+    }
 }
