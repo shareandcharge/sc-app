@@ -304,9 +304,11 @@ export class AddStationPage {
             componentRestrictions: {country: 'DE'}
         }, function (predictions, status) {
             me.autocompleteItems = [];
-            predictions.forEach(function (prediction) {
-                me.autocompleteItems.push(prediction);
-            });
+            if (predictions != null) {
+                predictions.forEach(function (prediction) {
+                    me.autocompleteItems.push(prediction);
+                });
+            }
         });
     }
 
