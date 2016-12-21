@@ -40,9 +40,12 @@ export class LocationDetailPage {
             loop: true
         };
 
-        this.getRatings();
         this.initializeApp();
 
+    }
+
+    ionViewWillEnter() {
+        this.getRatings();
     }
 
     ionViewDidLoad() {
