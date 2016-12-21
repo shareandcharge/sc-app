@@ -4,5 +4,8 @@ ion-header.transparent {
     background: transparent;
     border-color: transparent;
   }
+  &.header-md::after {
+    display: none;
+  }
 }
 
