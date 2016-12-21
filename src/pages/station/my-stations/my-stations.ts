@@ -3,6 +3,7 @@ import {NavController, ViewController, ModalController} from 'ionic-angular';
 import {AddStationPage} from '../add/add-station';
 import {LocationService} from "../../../services/location.service";
 import {AuthService} from "../../../services/auth.service";
+import {StationWrapperPage} from "../station-wrapper";
 
 
 @Component({
@@ -38,7 +39,7 @@ export class MyStationsPage {
     }
 
     addStation() {
-        let modal = this.modalCtrl.create(AddStationPage , {
+        let modal = this.modalCtrl.create(StationWrapperPage , {
             "mode" : 'add'
         });
         modal.present();

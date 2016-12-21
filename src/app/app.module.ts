@@ -41,6 +41,7 @@ import {AddPermissionsPage} from '../pages/station/set-tariff/add-permissions/ad
 import {EditEmailPage} from "../pages/profile/edit-email/edit-email";
 import {EditNamePage} from "../pages/profile/edit-name/edit-name";
 import {AddRatingPage} from "../pages/rating/add-rating";
+import {StationWrapperPage} from "../pages/station/station-wrapper";
 
 let storage = new Storage();
 
@@ -86,6 +87,7 @@ export function getAuthHttp(http) {
         TabsPage,
         EditEmailPage,
         EditNamePage,
+        StationWrapperPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -128,6 +130,7 @@ export function getAuthHttp(http) {
         TabsPage,
         EditEmailPage,
         EditNamePage,
+        StationWrapperPage
     ],
     providers: [
         {

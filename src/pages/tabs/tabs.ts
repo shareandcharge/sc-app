@@ -11,6 +11,7 @@ import {DashboardPage} from '../dashboard/dashboard';
 import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
 import {MyStationsPage} from "../station/my-stations/my-stations";
+import {StationWrapperPage} from "../station/station-wrapper";
 
 
 @Component({
@@ -39,6 +40,7 @@ export class TabsPage {
          * We could not find another working solution.
          */
         let selectedTab = this.tabRef.getSelected();
+
         modal.present().then(() => this.tabRef.select(this.tempTabIndex));
         modal.onWillDismiss(() => {
             this.tabRef.select(selectedTab);
@@ -53,12 +55,14 @@ export class TabsPage {
 
     addStationModal() {
         if (this.auth.loggedIn()) {
-            let modal = this.modalCtrl.create(AddStationPage);
+            let modal = this.modalCtrl.create(StationWrapperPage);
             modal.present();
+
         }
         else {
             this.loginModal({
-                "dest": AddStationPage
+                "dest": StationWrapperPage,
+                'mode' : 'modal'
             });
         }
     }

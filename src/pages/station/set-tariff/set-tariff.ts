@@ -148,7 +148,7 @@ export class SetTariffPage {
 
             if (this.flowMode == 'add') {
                 this.locationService.createLocation(this.locObject).subscribe(l => {
-                    this.navCtrl.setRoot(MyStationsPage);
+                    this.navCtrl.parent.pop();
                     console.log("created location ", l);
                 });
             }
@@ -156,7 +156,7 @@ export class SetTariffPage {
             else {
                 this.locationService.updateLocation(this.locObject).subscribe(l => {
 
-                    this.navCtrl.setRoot(MyStationsPage);
+                    this.navCtrl.parent.pop();
                     console.log("updated location ", l);
                 });
             }

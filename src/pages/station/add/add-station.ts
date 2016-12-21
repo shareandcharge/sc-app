@@ -421,7 +421,7 @@ export class AddStationPage {
     }
 
     skipAddingStation() {
-        this.viewCtrl.dismiss();
+        this.navCtrl.parent.pop();
     }
 
     continueAddStation() {
@@ -468,10 +468,6 @@ export class AddStationPage {
             "location": this.locObject,
             "mode": this.flowMode
         });
-    }
-
-    dismiss() {
-        this.viewCtrl.dismiss();
     }
 
     updateSelectedDays() {

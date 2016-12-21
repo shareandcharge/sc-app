@@ -34,7 +34,7 @@ export class AddStationImagePage {
     }
 
     skipAddingImage() {
-        this.viewCtrl.dismiss();
+        this.navCtrl.parent.pop();
     }
 
   /*  AddImage(){

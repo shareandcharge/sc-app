@@ -80,7 +80,7 @@ export class CarFormPage {
     }
 
     skipAddingCar() {
-        this.app.navPop();
+        this.navCtrl.parent.pop();
     }
 
     selectModdel() {
