@@ -67,25 +67,24 @@
         <p>Jupp Schmitz, +49 123 465768</p>
 
         <h6>Bewertungen:</h6>
-        <p>
-            <ion-icon name="md-star" color="secondary"></ion-icon>
-            <ion-icon name="md-star" color="secondary"></ion-icon>
-            <ion-icon name="md-star" color="secondary"></ion-icon>
-            <ion-icon name="md-star" color="secondary"></ion-icon>
-            <ion-icon name="md-star-half" color="secondary"></ion-icon>
-            Good food, good power. I really like it here. Nothing much to say. Mollis molestie lorem quisque ut erat
-            curabitur gravida nisi at nibh in hac.
-        </p>
-        <hr>
-        <p>
-            <ion-icon name="md-star" color="secondary"></ion-icon>
-            <ion-icon name="md-star-half" color="secondary"></ion-icon>
-            <ion-icon name="md-star-outline" color="secondary"></ion-icon>
-            <ion-icon name="md-star-outline" color="secondary"></ion-icon>
-            <ion-icon name="md-star-outline" color="secondary"></ion-icon>
-            Schlechtes Essen, dreckige Toilette, Stecker klebt.
-        </p>
-        <button ion-button color="secondary" small round outline (click)="feedback()">+ Bewertung schreiben</button>
+
+        <div *ngFor="let rating of ratings">
+            <p>
+                <span *ngFor="let i of fullStars(rating.value)">
+                    <ion-icon name="md-star" color="secondary"></ion-icon>
+                </span>
+                <span *ngIf="displayHalfStars(rating.value)">
+                    <ion-icon name="md-star-half" color="secondary"></ion-icon>
+                </span>
+                <span *ngFor="let i of emptyStars(rating.value)">
+                    <ion-icon name="md-star-outline" color="secondary" ></ion-icon>
+                </span>
+                {{rating.remark}}
+            </p>
+            <hr>
+        </div>
+
+        <button ion-button color="secondary" small round outline (click)="feedback()" *ngIf="authService.loggedIn()">+ Bewertung schreiben</button>
     </div>
 
 </ion-content>

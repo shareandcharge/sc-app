@@ -11,7 +11,7 @@ export class Rating implements Serializable<Rating> {
         this.id = null;
         this.createdAt = null;
         this.user = null;
-        this.value = null;
+        this.value = 0;
         this.remark = '';
     }
 

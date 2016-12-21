@@ -8,18 +8,18 @@
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Add Review</ion-title>
+    <ion-title>Add Rating</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
   <ion-item>
-    Add Review
+    Add Rating
   </ion-item>
-  <rating [(ngModel)]="rate"></rating>
+  <rating [(ngModel)]="rating.value"></rating>
   <ion-item>
-    <ion-textarea [(ngModel)]="desc"></ion-textarea>
+    <ion-textarea [(ngModel)]="rating.remark"></ion-textarea>
   </ion-item>
-  <button ion-button (click)="submitReview()" padding>Submit</button>
+  <button ion-button (click)="submitRating()" padding>Submit</button>
 </ion-content>

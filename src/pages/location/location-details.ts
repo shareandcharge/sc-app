@@ -1,7 +1,10 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, NavParams, ViewController, LoadingController, Platform, ModalController} from 'ionic-angular';
 import {MapDetailPage} from "./details-map/map";
-import {AddReviewPage} from "../review/add-review";
+import {AddRatingPage} from "../rating/add-rating";
+import {AuthService} from "../../services/auth.service";
+import {RatingService} from "../../services/rating.service";
+import {Rating} from "../../models/rating";
 
 
 @Component({
@@ -17,11 +20,12 @@ export class LocationDetailPage {
     defaultZoom = 16;
     private platform;
     mapDefaultControlls: boolean;
+    ratings: Array<Rating> = [];
 
     showOpeningHours: boolean = false;
 
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, public authService: AuthService, public ratingService: RatingService) {
 
         this.location = navParams.get("location");
         this.platform = platform;
@@ -35,6 +39,8 @@ export class LocationDetailPage {
             initialSlide: 1,
             loop: true
         };
+
+        this.getRatings();
         this.initializeApp();
 
     }
@@ -64,8 +70,29 @@ export class LocationDetailPage {
     }
 
     feedback() {
-        let modal = this.modalCtrl.create(AddReviewPage);
+        let modal = this.modalCtrl.create(AddRatingPage, {
+            'location' : this.location
+        });
         modal.present();
+    }
+
+    getRatings() {
+        let observable = this.ratingService.getRatings(this.location.id);
+        observable.subscribe(
+            ratings => this.ratings = ratings
+        );
+    }
+
+    fullStars(value: number): Array<number> {
+        return Array(Math.floor(value));
+    }
+
+    displayHalfStars(value: number): boolean {
+        return Math.floor(value) != value;
+    }
+
+    emptyStars(value: number): Array<number> {
+        return Array(5 - Math.ceil(value));
     }
 
     loadMap() {

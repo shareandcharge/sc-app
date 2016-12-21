@@ -21,7 +21,6 @@ import {SetTariffPage} from '../pages/station/set-tariff/set-tariff';
 import {WalletPage} from '../pages/wallet/wallet';
 import {AddMoneyPage} from '../pages/wallet/add/add-money';
 import {WalletOptionsPage} from '../pages/wallet/options/wallet-options';
-import {AddReviewPage} from '../pages/review/add-review';
 import {DashboardPage} from '../pages/dashboard/dashboard';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
 import {Ionic2RatingModule} from 'ionic2-rating';
@@ -32,6 +31,7 @@ import {AuthService} from "../services/auth.service";
 import {CarService} from "../services/car.service";
 import {LocationService} from "../services/location.service";
 import {UserService} from "../services/user.service";
+import {RatingService} from "../services/rating.service";
 import {ProfilePage} from '../pages/profile/profile';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
 import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
@@ -40,6 +40,7 @@ import {CarWrapperPage} from "../pages/car/car-wrapper";
 import {AddPermissionsPage} from '../pages/station/set-tariff/add-permissions/add-permissions';
 import {EditEmailPage} from "../pages/profile/edit-email/edit-email";
 import {EditNamePage} from "../pages/profile/edit-name/edit-name";
+import {AddRatingPage} from "../pages/rating/add-rating";
 
 let storage = new Storage();
 
@@ -74,7 +75,7 @@ export function getAuthHttp(http) {
         WalletPage,
         AddMoneyPage,
         WalletOptionsPage,
-        AddReviewPage,
+        AddRatingPage,
         DashboardPage,
         AccountSettingsPage,
         ProfilePage,
@@ -116,7 +117,7 @@ export function getAuthHttp(http) {
         WalletPage,
         AddMoneyPage,
         WalletOptionsPage,
-        AddReviewPage,
+        AddRatingPage,
         DashboardPage,
         AccountSettingsPage,
         ProfilePage,
@@ -138,7 +139,8 @@ export function getAuthHttp(http) {
         CarService,
         LocationService,
         UserService,
-        Storage
+        Storage,
+        RatingService
     ]
 })
 export class AppModule {
