@@ -38,7 +38,8 @@
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard",
-    "cordova-plugin-transport-security"
+    "cordova-plugin-transport-security",
+    "cordova-plugin-contacts"
   ],
   "cordovaPlatforms": [
     "ios",
