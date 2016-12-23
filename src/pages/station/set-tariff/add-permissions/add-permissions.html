@@ -14,13 +14,13 @@
 <ion-content padding>
     <ion-list>
         <ion-item>
-            <button ion-button>Add from Contacts</button>
+            <button ion-button (click)="pickFromContacts()">Add from Contacts</button>
         </ion-item>
         <br/>
         <ion-input [(ngModel)]="input" placeholder="Add Email"></ion-input>
         <button right ion-button (click)="submit()">Add</button>
         <ion-item *ngFor="let c of permissions">
-            {{c.text}}
+            {{c.email}}
             <ion-icon right name="trash" (click)="delete(c.id)"></ion-icon>
         </ion-item>
     </ion-list>
