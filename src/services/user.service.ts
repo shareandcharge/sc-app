@@ -57,6 +57,17 @@ export class UserService {
             .catch(this.handleError);
     }
 
+    getUserForEmail(email: string): Observable<User> {
+        // this is just a stub
+        // TODO: change implementation as soon as backend service is implemented
+
+        let user = new User();
+        user.id = 123;
+        user.email = "user@user.de";
+
+        return Observable.of(user);
+    }
+
     updateUser(user: User): Observable<User> {
         return this.http.put(`${this.baseUrl}/users/${user.id}`, JSON.stringify(user), {headers: this.contentHeader})
             .map(res => res.json())

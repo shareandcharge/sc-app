@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams, ViewController, AlertController} from 'ionic-angular';
 import {Contacts, Contact} from "ionic-native";
 import {User} from "../../../../models/user";
+import {UserService} from "../../../../services/user.service";
 
 @Component({
     selector: 'page-add-permissions',
@@ -11,7 +12,7 @@ export class AddPermissionsPage {
     permissions: any;
     input: any;
 
-    constructor(public navCtrl: NavController, private navParams: NavParams , private viewCtrl: ViewController, public alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, private navParams: NavParams , private viewCtrl: ViewController, public alertCtrl: AlertController, public userService: UserService) {
         this.permissions = navParams.get("permissions");
     }
 
@@ -19,18 +20,7 @@ export class AddPermissionsPage {
     }
 
     submit() {
-        let user = this.getUserForEmail(this.input);
-
-        if (user != null) {
-            this.addUserToPermissionList(user);
-        } else {
-            let alert = this.alertCtrl.create({
-                title: 'E-Mail-Adresse nicht registriert',
-                subTitle: 'Die angegebene E-Mail-Adresse ist nicht bei S&C registriert.',
-                buttons: ['Ok']
-            });
-            alert.present();
-        }
+        this.addValidEmail(this.input);
     }
 
     pickFromContacts() {
@@ -70,16 +60,7 @@ export class AddPermissionsPage {
             return;
         }
 
-        for (let emailObject of contactEmails) {
-            let user = this.getUserForEmail(emailObject.value);
-
-            if (user != null) {
-                this.addUserToPermissionList(user);
-                return
-            }
-        }
-
-        // none of the found addresses is registered in the app
+        this.addFirstValidEmail(contactEmails);
 
         let alert = this.alertCtrl.create({
             title: 'Keine registrierte E-Mail-Adresse gefunden',
@@ -90,14 +71,48 @@ export class AddPermissionsPage {
 
     }
 
-    getUserForEmail(emailAddress: string): User {
-        // dummy data until the service is implemented
+    addValidEmail(emailAddress) {
+        this.userService.getUserForEmail(emailAddress).subscribe(
+            user => {
+                if (user != null) {
+                    this.addUserToPermissionList(user);
+                } else {
+                    let alert = this.alertCtrl.create({
+                        title: 'E-Mail-Adresse nicht registriert',
+                        subTitle: 'Die angegebene E-Mail-Adresse ist nicht bei S&C registriert.',
+                        buttons: ['Ok']
+                    });
+                    alert.present();
+                }
+            }
+        );
+    }
 
-        let user = new User();
-        user.id = 123;
-        user.email = "lorem@ipsum.de";
+    addFirstValidEmail(contactEmails) {
+        let emailObject = contactEmails.shift();
 
-        return user;
+        if (typeof emailObject === 'undefined') {
+            return;
+        }
+
+        this.userService.getUserForEmail(emailObject.value).subscribe(
+            user => {
+                if (user != null) {
+                    this.addUserToPermissionList(user);
+                } else {
+                    if (contactEmails.length == 0) {
+                        let alert = this.alertCtrl.create({
+                            title: 'Keine registrierte E-Mail-Adresse gefunden',
+                            subTitle: 'Keiner der gefundenen E-Mail-Adressen ist bei S&C registriert.',
+                            buttons: ['Ok']
+                        });
+                        alert.present();
+                    } else {
+                        this.addFirstValidEmail(contactEmails);
+                    }
+                }
+            }
+        );
     }
 
     delete(id) {
