@@ -34,8 +34,8 @@ export class MapPage {
     placesService: any;
     private platform;
 
-    defaultCenterLat = 51.6054624;
-    defaultCenterLng = 10.6679155;
+    defaultCenterLat = 52.5074592;
+    defaultCenterLng = 13.2860649;
     defaultZoom = 8;
     currentPositionZoom = 16;
     currentPositionMarker:any;
@@ -192,9 +192,15 @@ export class MapPage {
 
 
     showLocationDetails(location) {
-        this.navCtrl.push(LocationDetailPage, {
-            location: location
+        let locDetails = this.modalCtrl.create(LocationDetailPage, {
+            "locationId": location.id
         });
+
+        locDetails.present();
+
+        // this.navCtrl.push(LocationDetailPage, {
+        //     locationId: location.id
+        // });
     }
 
     // createMarker() {
@@ -210,11 +216,12 @@ export class MapPage {
 
         let me = this;
         marker.addListener('click', function () {
-            let locDetails = me.modalCtrl.create(LocationDetailPage, {
-                "location": location
-            });
-
-            locDetails.present();
+            me.showLocationDetails(location);
+            // let locDetails = me.modalCtrl.create(LocationDetailPage, {
+            //     "location": location
+            // });
+            //
+            // locDetails.present();
 
             /*   me.navCtrl.push(LocationDetailPage, {
              "location": location
