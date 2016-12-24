@@ -7,8 +7,8 @@ export class Location implements Serializable<Location> {
     description: string;
     images: Array<string>;
     contact: string;
-    latitude: string;
-    longitude: string;
+    latitude: any;
+    longitude: any;
     address: string;
     stations: any;
 

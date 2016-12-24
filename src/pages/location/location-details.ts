@@ -5,7 +5,9 @@ import {AddRatingPage} from "../rating/add-rating";
 import {AuthService} from "../../services/auth.service";
 import {RatingService} from "../../services/rating.service";
 import {Rating} from "../../models/rating";
-
+import {LocationService} from "../../services/location.service";
+import {Location} from "../../models/location";
+import {LaunchNavigator, LaunchNavigatorOptions} from 'ionic-native';
 
 @Component({
     selector: 'location-details',
@@ -13,46 +15,50 @@ import {Rating} from "../../models/rating";
     providers: []
 })
 export class LocationDetailPage {
-    location: any;
+    location: Location;
     slideOptions: any;
     @ViewChild('map') mapElement: ElementRef;
     map: any;
     defaultZoom = 16;
-    private platform;
-    mapDefaultControlls: boolean;
+
+    showMapDefaultControlls: boolean;
     ratings: Array<Rating> = [];
 
     showOpeningHours: boolean = false;
 
+    isDesktop: boolean;
+    isIOS: boolean;
+    isAndroid: boolean;
+    isWindows: boolean;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, public authService: AuthService, public ratingService: RatingService) {
+    private locationId: number;
 
-        this.location = navParams.get("location");
-        this.platform = platform;
-        if (this.platform.is("core")) {
-            this.mapDefaultControlls = false;
-        }
-        else {
-            this.mapDefaultControlls = true;
-        }
+    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService) {
+
+        this.location = new Location();
+        this.locationId = navParams.get("locationId");
+
+        console.log(this.locationId);
+
+        this.isDesktop = platform.is("core");
+        this.isIOS = platform.is("ios");
+        this.isAndroid = platform.is("android");
+        this.isWindows = platform.is("windows");
+
+        this.showMapDefaultControlls = !this.isDesktop;
+
         this.slideOptions = {
             initialSlide: 1,
             loop: true
         };
-
-        this.initializeApp();
-
     }
 
     ionViewWillEnter() {
-        this.getRatings();
+        this.getLocationDetail();
     }
 
     ionViewDidLoad() {
     }
-
-    /*    itemSelected() {
-     }*/
 
     dismiss() {
         this.viewCtrl.dismiss();
@@ -64,19 +70,23 @@ export class LocationDetailPage {
         });
     }
 
-    initializeApp() {
-        this.platform.ready().then(() => {
-            console.log('Platform ready');
-            this.loadMap();
-
-        });
-    }
-
     feedback() {
         let modal = this.modalCtrl.create(AddRatingPage, {
-            'location' : this.location
+            'location': this.location
         });
         modal.present();
+    }
+
+    getLocationDetail() {
+        let observable = this.locationService.getLocation(this.locationId);
+        observable.subscribe(
+            location => {
+                this.location = location;
+                this.loadMap();
+                this.getRatings();
+            }
+        );
+        return observable;
     }
 
     getRatings() {
@@ -100,7 +110,6 @@ export class LocationDetailPage {
 
     loadMap() {
 
-        console.log("loading the map");
         // let loader = this.loadingCtrl.create({
         //     content: "Loading map ...",
         // });
@@ -114,7 +123,7 @@ export class LocationDetailPage {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
             fullscreenControl: false,
-            disableDefaultUI: this.mapDefaultControlls
+            disableDefaultUI: this.showMapDefaultControlls
 
         };
 
@@ -133,4 +142,21 @@ export class LocationDetailPage {
 
     }
 
+    openMapsApp() {
+        if (this.isDesktop) {
+            let coords = this.location.latitude + "," + this.location.longitude;
+            window.open("http://maps.google.com/?q=" + coords, '_system');
+        }
+        else {
+            let options: LaunchNavigatorOptions = {
+                appSelectionDialogHeader: 'App auswählen',
+                appSelectionCancelButton: 'Abbrechen'
+            };
+            LaunchNavigator.navigate([this.location.latitude, this.location.longitude], options)
+                .then(
+                    success => console.log('map app launched'),
+                    error => alert('App konnte nicht gestartet werden: ' + error)
+                );
+        }
+    }
 }

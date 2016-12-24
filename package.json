@@ -38,7 +38,11 @@
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard",
-    "cordova-plugin-transport-security"
+    "cordova-plugin-camera",
+    "cordova-plugin-compat",
+    "cordova-plugin-transport-security",
+    "cordova-plugin-actionsheet",
+    "uk.co.workingedge.phonegap.plugin.launchnavigator"
   ],
   "cordovaPlatforms": [
     "ios",

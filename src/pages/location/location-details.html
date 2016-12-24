@@ -11,11 +11,11 @@
 </ion-header>
 
 <ion-content class="content-white">
-    <div class="image-wrapper" (click)="detailedMap()">
-        <div #map id="map">
+    <div class="image-wrapper">
+        <div #map id="map" (click)="detailedMap()">
         </div>
         <ion-fab right bottom edge>
-            <button ion-fab color="white" class="button-shadow">
+            <button ion-fab color="white" class="button-shadow" (click)="openMapsApp()">
                 <ion-icon name="ios-navigate-outline"></ion-icon>
             </button>
         </ion-fab>
