@@ -40,7 +40,10 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-transport-security",
     "cordova-plugin-camera",
-    "cordova-plugin-contacts"
+    "cordova-plugin-contacts",
+    "cordova-plugin-compat",
+    "cordova-plugin-actionsheet",
+    "uk.co.workingedge.phonegap.plugin.launchnavigator"
   ],
   "cordovaPlatforms": [
     "ios",

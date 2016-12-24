@@ -4,7 +4,6 @@ import {ModalController, Tabs} from 'ionic-angular';
 import {MapPage} from '../map/map';
 import {AboutPage} from '../about/about';
 import {CarFormPage} from '../car/form/car-form';
-import {AddStationPage} from '../station/add/add-station';
 import {WalletPage} from '../wallet/wallet';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {DashboardPage} from '../dashboard/dashboard';
