@@ -61,14 +61,6 @@ export class AddPermissionsPage {
         }
 
         this.addFirstValidEmail(contactEmails);
-
-        let alert = this.alertCtrl.create({
-            title: 'Keine registrierte E-Mail-Adresse gefunden',
-            subTitle: 'Keiner der gefundenen E-Mail-Adressen ist bei S&C registriert.',
-            buttons: ['Ok']
-        });
-        alert.present();
-
     }
 
     addValidEmail(emailAddress) {
