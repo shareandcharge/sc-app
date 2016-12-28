@@ -42,4 +42,8 @@ export class AuthService {
     getUser() {
         return this.user;
     }
+
+    getToken() {
+        return this.storage.get(this.TOKEN_NAME);
+    }
 }

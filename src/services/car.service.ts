@@ -5,20 +5,21 @@ import {Car} from "../models/car";
 
 import 'rxjs/add/operator/map';
 import {AuthService} from "./auth.service";
+import {HttpService} from "./http.service";
 
 @Injectable()
 export class CarService {
 
     private tmpManuData: Array<any>;
 
-    private baseUrl: string = 'http://5834821b62f23712003730c0.mockapi.io/api/v1';
+    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
     private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
     private activeCar: Car;
 
     private tmpActiveOverwrite: boolean = false;
 
-    constructor(private auth: AuthService, private http: Http) {
+    constructor(private auth: AuthService, private http: Http, private httpService: HttpService) {
         this.setTempData();
     }
 
@@ -42,10 +43,11 @@ export class CarService {
             return Observable.of([]);
         }
 
-        return this.http.get(this.baseUrl + '/cars')
+        this.httpService.get(this.baseUrl + '/users/cars')
             .map(res => {
                 let cars = [];
-                let data = res.json();
+                let data = res.json().cars;
+
 
                 data.forEach(input => {
                     cars.push(new Car().deserialize(input));
@@ -71,7 +73,7 @@ export class CarService {
     }
 
     getCar(id): Observable<Car> {
-        return this.http.get(`${this.baseUrl}/cars/${id}`)
+        return this.http.get(`${this.baseUrl}/users/cars/${id}`, {headers: this.contentHeader})
             .map(res => {
                 return new Car().deserialize(res.json());
             })

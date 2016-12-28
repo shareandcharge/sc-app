@@ -42,6 +42,7 @@ import {EditEmailPage} from "../pages/profile/edit-email/edit-email";
 import {EditNamePage} from "../pages/profile/edit-name/edit-name";
 import {AddRatingPage} from "../pages/rating/add-rating";
 import {StationWrapperPage} from "../pages/station/station-wrapper";
+import {HttpService} from "../services/http.service";
 
 let storage = new Storage();
 
@@ -143,7 +144,8 @@ export function getAuthHttp(http) {
         LocationService,
         UserService,
         Storage,
-        RatingService
+        RatingService,
+        HttpService
     ]
 })
 export class AppModule {

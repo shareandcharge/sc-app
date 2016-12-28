@@ -8,7 +8,7 @@ import {Location} from "../models/location";
 @Injectable()
 export class LocationService {
 
-    private baseUrl: string = 'http://5834821b62f23712003730c0.mockapi.io/api/v1';
+    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
     private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
     constructor(private http: Http) {
