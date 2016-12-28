@@ -10,35 +10,26 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserService {
 
-    baseUrl: string = 'http://5834821b62f23712003730c0.mockapi.io/api/v1';
+    baseUrl: string = 'https://api-test.shareandcharge.com/v1';
 
     contentHeader: Headers = new Headers({"Content-Type": "application/json"});
     storage: Storage = new Storage();
 
     error: string;
 
-    constructor(private http: Http, private auth: AuthService) {
-    }
+    constructor(private http: Http, private auth: AuthService) {}
 
     login(email: string, password: string) {
         let credentials = {'email': email, 'password': password};
 
         // let url = `${this.baseUrl}/users/login`;
-        let url = `${this.baseUrl}/users`;
+        let url = `${this.baseUrl}/users/login`;
 
         return this.http.post(url, JSON.stringify(credentials), {headers: this.contentHeader})
             .map(res => {
                 let data = res.json();
                 this.authSuccess(data);
-
-                // @TODO we need the delete for the mockup api; remove later.
-                let id = data.id;
-                this.http.delete(`${this.baseUrl}/users/${id}`, {headers: this.contentHeader})
-                    .map(res => res.json())
-                    .subscribe(() => {
-                    });
-
-            });
+            }).catch(this.handleError);
     }
 
     authSuccess(data) {
