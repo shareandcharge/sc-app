@@ -74,10 +74,13 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    createUser(user: User) {
-        return this.http.post(`${this.baseUrl}/users`, JSON.stringify(user), {headers: this.contentHeader})
+    createUser(signUpObject) {
+        return this.http.post(`${this.baseUrl}/users`, JSON.stringify(signUpObject), {headers: this.contentHeader})
             .map(res =>  {
-                return new User().deserialize(res.json());
+                let data = res.json();
+
+                this.authSuccess(data);
+                return new User().deserialize(data);
             })
             .catch(this.handleError);
     }
