@@ -11,7 +11,7 @@ import {UserService} from "../../services/user.service";
 })
 export class SignupPage {
 
-  signUpObject = {"email": "", "authentification": {"type" : "password", "password": ""}};
+  signUpObject = {"email": "", "authentification": {"type" : "passwd", "password": ""}};
 
   constructor(public navCtrl: NavController , private viewCtrl: ViewController , public modalCtrl: ModalController, public auth: AuthService, public userService: UserService, public loadingCtrl: LoadingController) {}
 
