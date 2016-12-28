@@ -1,47 +1,49 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
-import {AuthService} from './auth.service'
+import {Response} from '@angular/http';
 import {Storage} from '@ionic/storage';
 import {Observable} from "rxjs";
 import {User} from "../models/user";
 
 import 'rxjs/add/operator/map';
+import {HttpService} from "./http.service";
+import {AuthService} from "./auth.service";
 
 @Injectable()
 export class UserService {
 
     baseUrl: string = 'https://api-test.shareandcharge.com/v1';
 
-    contentHeader: Headers = new Headers({"Content-Type": "application/json"});
     storage: Storage = new Storage();
 
     error: string;
 
-    constructor(private http: Http, private auth: AuthService) {}
+    constructor(private httpService: HttpService, private authService: AuthService) {}
 
     login(email: string, password: string) {
         let credentials = {'email': email, 'password': password};
 
-        // let url = `${this.baseUrl}/users/login`;
         let url = `${this.baseUrl}/users/login`;
 
-        return this.http.post(url, JSON.stringify(credentials), {headers: this.contentHeader})
+        return this.httpService.post(url, JSON.stringify(credentials))
             .map(res => {
                 let data = res.json();
                 this.authSuccess(data);
-            }).catch(this.handleError);
+            })
+            .catch(this.handleError);
     }
 
     authSuccess(data) {
-        // console.log('LOGIN SUCCESS:', data);
         this.error = null;
         let token = data.token;
         let user = new User().deserialize(data.user);
-        this.auth.login(token, user);
+        this.authService.login(token, user);
     }
 
+    /*
+     * WARNING: not implemented by the backend
+     */
     getUser(id): Observable<User> {
-        return this.http.get(`${this.baseUrl}/users/${id}`)
+        return this.httpService.get(`${this.baseUrl}/users/${id}`)
             .map(res => {
                 return new User().deserialize(res.json());
             })
@@ -60,21 +62,24 @@ export class UserService {
     }
 
     updateUser(user: User): Observable<User> {
-        return this.http.put(`${this.baseUrl}/users/${user.id}`, JSON.stringify(user), {headers: this.contentHeader})
+        return this.httpService.put(`${this.baseUrl}/users`, JSON.stringify(user))
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     createUser(user: User) {
-        return this.http.post(`${this.baseUrl}/users`, JSON.stringify(user), {headers: this.contentHeader})
+        return this.httpService.post(`${this.baseUrl}/users`, JSON.stringify(user))
             .map(res =>  {
                 return new User().deserialize(res.json());
             })
             .catch(this.handleError);
     }
 
+    /*
+     * WARNING: not implemented by the backend
+     */
     deleteUser(id) {
-        return this.http.delete(`${this.baseUrl}/users/${id}`, {headers: this.contentHeader})
+        return this.httpService.delete(`${this.baseUrl}/users/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
     }
