@@ -8,6 +8,7 @@ import {Rating} from "../../models/rating";
 import {LocationService} from "../../services/location.service";
 import {Location} from "../../models/location";
 import {LaunchNavigator, LaunchNavigatorOptions} from 'ionic-native';
+import {ChargingPage} from './charging/charging'
 
 @Component({
     selector: 'location-details',
@@ -158,5 +159,12 @@ export class LocationDetailPage {
                     error => alert('App konnte nicht gestartet werden: ' + error)
                 );
         }
+    }
+
+    charge(){
+        this.navCtrl.push(ChargingPage ,
+            {
+                "location" : this.location
+            });
     }
 }

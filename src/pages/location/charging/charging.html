@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Charging Progress</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div class="top-div">
+    <ion-list>
+      <ion-item no-lines>
+        <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/station-default.png"></ion-thumbnail>
+        <ion-label>Rellinghauser Strasse</ion-label>
+        <ion-avatar item-right>
+          <img src="">
+        </ion-avatar>
+      </ion-item>
+      <ion-item no-lines>
+        <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/station-default.png"></ion-thumbnail>
+        <ion-label>Flatrate: 13</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+  <ion-item>
+    <ion-range min="0" max="32" [(ngModel)]="chargingTime" step="1" (ngModelChange)="convertToHours()">
+      <ion-label range-left>0</ion-label>
+      <ion-label range-right>8</ion-label>
+    </ion-range>
+  </ion-item>
+  <ion-label>{{chargingTimeHours}}</ion-label>
+
+  <button ion-button round (click)="startCharging()" disabled="{{buttonDeactive}}">
+    <span *ngIf="countingDown">Stop</span>
+    <span *ngIf="!countingDown">Start</span>
+  </button>
+
+</ion-content>
