@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 
 import 'rxjs/add/operator/map';
 import {Location} from "../models/location";
+import {AuthHttp} from "angular2-jwt";
 
 @Injectable()
 export class LocationService {
@@ -11,11 +12,11 @@ export class LocationService {
     private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
     private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
-    constructor(private http: Http) {
+    constructor(private authHttp: AuthHttp) {
     }
 
     getLocations() {
-        return this.http.get(this.baseUrl + '/locations')
+        return this.authHttp.get(this.baseUrl + '/locations')
             .map(res => {
                 let locations = [];
                 res.json().forEach(input => {
@@ -61,7 +62,7 @@ export class LocationService {
     }
 
     getLocation(id): Observable<Location> {
-        return this.http.get(`${this.baseUrl}/locations/${id}`)
+        return this.authHttp.get(`${this.baseUrl}/locations/${id}`)
             .map(res => {
                 return new Location().deserialize(res.json());
             })
@@ -69,13 +70,19 @@ export class LocationService {
     }
 
     updateLocation(location: Location) {
-        return this.http.put(`${this.baseUrl}/locations/${location.id}`, JSON.stringify(location), {headers: this.contentHeader})
+        if (location.name === '') {
+            location.name = location.address;
+        }
+
+        return this.authHttp.put(`${this.baseUrl}/locations/${location.id}`, JSON.stringify(location), {headers: this.contentHeader})
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     createLocation(location: Location): Observable<Location> {
-        return this.http.post(`${this.baseUrl}/locations`, JSON.stringify(location), {headers: this.contentHeader})
+        location.name = location.address;
+
+        return this.authHttp.post(`${this.baseUrl}/locations`, JSON.stringify(location), {headers: this.contentHeader})
             .map(res => {
                 return new Location().deserialize(res.json());
             })
@@ -83,7 +90,7 @@ export class LocationService {
     }
 
     deleteLocation(id) {
-        return this.http.delete(`${this.baseUrl}/locations/${id}`, {headers: this.contentHeader})
+        return this.authHttp.delete(`${this.baseUrl}/locations/${id}`, {headers: this.contentHeader})
             .map(res => res.json())
             .catch(this.handleError);
     }

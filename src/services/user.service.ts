@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Response} from '@angular/http';
+import {Response, Http} from '@angular/http';
 import {Storage} from '@ionic/storage';
 import {Observable} from "rxjs";
 import {User} from "../models/user";
 
 import 'rxjs/add/operator/map';
-import {HttpService} from "./http.service";
 import {AuthService} from "./auth.service";
+import {AuthHttp} from "angular2-jwt";
 
 @Injectable()
 export class UserService {
@@ -17,14 +17,14 @@ export class UserService {
 
     error: string;
 
-    constructor(private httpService: HttpService, private authService: AuthService) {}
+    constructor(private authService: AuthService, private authHttp: AuthHttp) {}
 
     login(email: string, password: string) {
         let credentials = {'email': email, 'password': password};
 
         let url = `${this.baseUrl}/users/login`;
 
-        return this.httpService.post(url, JSON.stringify(credentials))
+        return this.authHttp.post(url, JSON.stringify(credentials))
             .map(res => {
                 let data = res.json();
                 this.authSuccess(data);
@@ -43,7 +43,7 @@ export class UserService {
      * WARNING: not implemented by the backend
      */
     getUser(id): Observable<User> {
-        return this.httpService.get(`${this.baseUrl}/users/${id}`)
+        return this.authHttp.get(`${this.baseUrl}/users/${id}`)
             .map(res => {
                 return new User().deserialize(res.json());
             })
@@ -62,13 +62,16 @@ export class UserService {
     }
 
     updateUser(user: User): Observable<User> {
-        return this.httpService.put(`${this.baseUrl}/users`, JSON.stringify(user))
+        user.profile.firstname = user.firstName;
+        user.profile.lastname = user.lastName;
+
+        return this.authHttp.put(`${this.baseUrl}/users`, JSON.stringify(user))
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     createUser(user: User) {
-        return this.httpService.post(`${this.baseUrl}/users`, JSON.stringify(user))
+        return this.authHttp.post(`${this.baseUrl}/users`, JSON.stringify(user))
             .map(res =>  {
                 return new User().deserialize(res.json());
             })
@@ -79,7 +82,7 @@ export class UserService {
      * WARNING: not implemented by the backend
      */
     deleteUser(id) {
-        return this.httpService.delete(`${this.baseUrl}/users/${id}`)
+        return this.authHttp.delete(`${this.baseUrl}/users/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
     }

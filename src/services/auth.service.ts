@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
-// import {tokenNotExpired} from 'angular2-jwt';
+import {tokenNotExpired} from 'angular2-jwt';
 import {User} from "../models/user";
 import {Events} from "ionic-angular";
 
@@ -17,20 +17,14 @@ export class AuthService {
     }
 
     loggedIn() {
-        // return tokenNotExpired();
-
-        //-- @TODO
         return this.user !== null;
-        //
-        // this.storage.get('id_token').then(token => {
-            // console.log(tokenNotExpired(null, token)); // Returns true/false
-        // });
     }
 
     login(token: string, user: User) {
-        this.storage.set(this.TOKEN_NAME, token);
-        this.user = user;
-        this.events.publish('auth:login');
+        this.storage.set(this.TOKEN_NAME, token).then(() => {
+            this.user = user;
+            this.events.publish('auth:login');
+        });
     }
 
     logout() {

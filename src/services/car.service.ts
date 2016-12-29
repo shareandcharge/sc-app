@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {Car} from "../models/car";
 
 import 'rxjs/add/operator/map';
-import {HttpService} from "./http.service";
+import {AuthHttp} from "angular2-jwt";
 
 @Injectable()
 export class CarService {
@@ -15,7 +15,7 @@ export class CarService {
 
     private activeCar: Car = null;
 
-    constructor(private httpService: HttpService) {
+    constructor(private authHttp: AuthHttp) {
         this.setTempData();
     }
 
@@ -28,7 +28,7 @@ export class CarService {
     }
 
     getCars(): Observable<Car[]> {
-        return this.httpService.get(this.baseUrl + '/users/cars')
+        return this.authHttp.get(this.baseUrl + '/users/cars')
             .map(res => {
 
                 let cars = [];
@@ -45,11 +45,10 @@ export class CarService {
 
                 return cars;
             })
-            .catch(this.handleError);
     }
 
     getCar(id): Observable<Car> {
-        return this.httpService.get(`${this.baseUrl}/users/cars/${id}`)
+        return this.authHttp.get(`${this.baseUrl}/users/cars/${id}`)
             .map(res => {
                 return new Car().deserialize(res.json());
             })
@@ -57,14 +56,14 @@ export class CarService {
     }
 
     updateCar(car: Car): Observable<Car> {
-        return this.httpService.put(`${this.baseUrl}/users/cars/${car.id}`, JSON.stringify(car))
+        return this.authHttp.put(`${this.baseUrl}/users/cars/${car.id}`, JSON.stringify(car))
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     // createCar(car: Car): Observable<Car> {
     createCar(car: Car) {
-        return this.httpService.post(`${this.baseUrl}/users/:address/cars`, JSON.stringify(car))
+        return this.authHttp.post(`${this.baseUrl}/users/:address/cars`, JSON.stringify(car))
             .map(res =>  {
                 return new Car().deserialize(res.json());
             })
@@ -72,7 +71,7 @@ export class CarService {
     }
 
     deleteCar(id) {
-        return this.httpService.delete(`${this.baseUrl}/users/cars/${id}`)
+        return this.authHttp.delete(`${this.baseUrl}/users/cars/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
     }
