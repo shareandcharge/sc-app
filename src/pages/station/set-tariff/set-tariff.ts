@@ -145,6 +145,9 @@ export class SetTariffPage {
         if (this.tarifObject.public.active || this.tarifObject.private.active) {
             this.locObject.stations.tarif = this.tarifObject;
 
+            let station = this.locObject.stations;
+            this.locObject.stations = [station];
+
 
             if (this.flowMode == 'add') {
                 this.locationService.createLocation(this.locObject).subscribe(l => {

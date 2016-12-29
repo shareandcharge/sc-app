@@ -83,6 +83,9 @@ export class MapPage {
         observable.subscribe(cars => {
             this.cars = cars;
             this.activeCar = this.carService.getActiveCar();
+        }, () => {
+            this.cars = null;
+            this.activeCar = null;
         });
     }
 
