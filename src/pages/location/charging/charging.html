@@ -30,6 +30,11 @@
     </ion-range>
   </ion-item>
   <ion-label>{{chargingTimeHours}}</ion-label>
+  <ion-item no-lines>
+    <canvas id="circleProgressBar" width="210" height="210">
+    </canvas>
+  </ion-item>
+
 
   <button ion-button round (click)="startCharging()" disabled="{{buttonDeactive}}">
     <span *ngIf="countingDown">Stop</span>

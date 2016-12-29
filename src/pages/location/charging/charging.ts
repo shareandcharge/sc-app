@@ -59,8 +59,44 @@ export class ChargingPage {
         else{
             this.buttonDeactive = true;
         }
+
+
+        var c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
+        let ctx: CanvasRenderingContext2D = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.strokeStyle = 'blue';
+        ctx.lineCap = 'square';
+        ctx.beginPath();
+        ctx.font = "20px Arial";
+        ctx.fillText(this.chargingTimeHours ,65, c.height/2);
+        let fullCircle = 2*Math.PI;
+        let progress = ((fullCircle * this.chargingTime) / 32) - (Math.PI / 2);
+        if(this.chargingTime == 32) {
+            progress = 3.5 * Math.PI;
+        }
+        if(this.chargingTime == 0) {
+            progress = 1.5*Math.PI;
+        }
+        console.log("progress is" , progress);
+        ctx.arc(101,101,100,1.5*Math.PI,progress);
+        ctx.stroke();
+
     }
 
+
+    makeTimeString(data){
+        let hours = Math.floor(data / 3600);
+        let minutes =  Math.floor((data % 3600 ) / 60);
+        let seconds = Math.floor((data % 3600 ) % 60);
+
+        let h = hours < 10 ? "0" + hours : hours;
+        let m = minutes < 10 ? "0" + minutes : minutes;
+        let s = seconds < 10 ? "0" + seconds : seconds;
+
+
+        let finalString = h + ':' + m + ':' + s ;
+        return finalString;
+    }
 
     countDown() {
         if (this.countingDown) {
@@ -80,18 +116,9 @@ export class ChargingPage {
                         text: 'Yes',
                         handler: () => {
                             let chargedTime = this.selectedChargingTime - this.timer;
-                            let hours = Math.floor(chargedTime / 3600);
-                            let minutes =  Math.floor((chargedTime % 3600 ) / 60);
-                            let seconds = Math.floor((chargedTime % 3600 ) % 60);
-
-                            let h = hours < 10 ? "0" + hours : hours;
-                            let m = minutes < 10 ? "0" + minutes : minutes;
-                            let s = seconds < 10 ? "0" + seconds : seconds;
-
-                            let chargedTimeString = h + ':' + m + ':' + s ;
+                            let chargedTimeString = this.makeTimeString(chargedTime);
                             this.countingDown = false;
                             clearInterval(this.myCounter);
-                            console.log(chargedTimeString);
                             this.chargingTime = 0;
                             this.convertToHours();
                             this.navCtrl.push(ChargingCompletePage , {
@@ -120,14 +147,42 @@ export class ChargingPage {
                 me.seconds = me.seconds < 10 ? "0" + me.seconds : me.seconds;
 
                 me.updateTimerString();
+                me.updateCanvas();
                 console.log(me.chargingTimeHours);
                 if (--me.timer < 0) {
                     me.timer = 0;
                     clearInterval(me.myCounter);
                     me.countingDown = false;
+                    let chargedTimeString = me.makeTimeString(me.selectedChargingTime);
+
+                    me.navCtrl.push(ChargingCompletePage , {
+                        "chargedTime" : chargedTimeString
+                    });
                 }
             }, 1000);
         }
 
+    }
+
+    updateCanvas(){
+        var c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
+        let ctx: CanvasRenderingContext2D = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.strokeStyle = 'blue';
+        ctx.lineCap = 'square';
+        ctx.beginPath();
+        ctx.font = "20px Arial";
+        ctx.fillText(this.chargingTimeHours ,65, c.height/2);
+        let fullCircle = 2*Math.PI;
+        let progress = ((fullCircle * this.timer) / (8 * 3600)) - (Math.PI / 2);
+        if(this.chargingTime == 32) {
+            progress = 3.5 * Math.PI;
+        }
+        if(this.chargingTime == 0) {
+            progress = 1.5*Math.PI;
+        }
+        console.log("progress is" , progress);
+        ctx.arc(101,101,100,1.5*Math.PI,progress);
+        ctx.stroke();
     }
 }
