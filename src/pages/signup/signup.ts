@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController , ViewController , ModalController} from 'ionic-angular';
+import {NavController, ViewController, ModalController, LoadingController} from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import {AuthService} from "../../services/auth.service";
+import {UserService} from "../../services/user.service";
 
 
 @Component({
@@ -10,9 +11,9 @@ import {AuthService} from "../../services/auth.service";
 })
 export class SignupPage {
 
-  credentials = {"email": "", "password": ""};
+  signUpObject = {"email": "", "authentification": {"type" : "passwd", "password": ""}};
 
-  constructor(public navCtrl: NavController , private viewCtrl: ViewController , public modalCtrl: ModalController, public auth: AuthService) {}
+  constructor(public navCtrl: NavController , private viewCtrl: ViewController , public modalCtrl: ModalController, public auth: AuthService, public userService: UserService, public loadingCtrl: LoadingController) {}
 
   ionViewDidLoad() {
     //console.log('Hello SignupPage Page');
@@ -28,8 +29,16 @@ export class SignupPage {
     this.viewCtrl.dismiss();
   }
 
-  logForm(){
-    console.log("Signup");
+  signUp() {
+    let loader = this.loadingCtrl.create({
+      content: "Signing up ...",
+    });
+    loader.present();
+
+    this.userService.createUser(this.signUpObject).subscribe(res => {
+      loader.dismissAll();
+      this.viewCtrl.dismiss();
+    });
   }
 
   loginFacebook(){
