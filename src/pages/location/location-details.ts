@@ -116,7 +116,7 @@ export class LocationDetailPage {
         // });
         // loader.present();
 
-        let latLng = new google.maps.LatLng(this.location.latitude, this.location.longitude);
+        let latLng = new google.maps.LatLng(this.location.lat, this.location.lng);
 
         let mapOptions = {
             center: latLng,
@@ -131,7 +131,7 @@ export class LocationDetailPage {
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
         let marker = new google.maps.Marker({
-            position: new google.maps.LatLng(this.location.latitude, this.location.longitude),
+            position: new google.maps.LatLng(this.location.lat, this.location.lng),
             map: this.map
         });
 
@@ -145,7 +145,7 @@ export class LocationDetailPage {
 
     openMapsApp() {
         if (this.isDesktop) {
-            let coords = this.location.latitude + "," + this.location.longitude;
+            let coords = this.location.lat + "," + this.location.lng;
             window.open("http://maps.google.com/?q=" + coords, '_system');
         }
         else {
@@ -153,7 +153,7 @@ export class LocationDetailPage {
                 appSelectionDialogHeader: 'App auswählen',
                 appSelectionCancelButton: 'Abbrechen'
             };
-            LaunchNavigator.navigate([this.location.latitude, this.location.longitude], options)
+            LaunchNavigator.navigate([this.location.lat, this.location.lng], options)
                 .then(
                     success => console.log('map app launched'),
                     error => alert('App konnte nicht gestartet werden: ' + error)

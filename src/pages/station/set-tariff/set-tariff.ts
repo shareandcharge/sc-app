@@ -3,6 +3,7 @@ import {NavController, NavParams, AlertController, ModalController} from 'ionic-
 import {MyStationsPage} from '../my-stations/my-stations';
 import {LocationService} from "../../../services/location.service";
 import {AddPermissionsPage} from './add-permissions/add-permissions';
+import {Location} from "../../../models/location";
 
 
 @Component({
@@ -12,7 +13,7 @@ import {AddPermissionsPage} from './add-permissions/add-permissions';
 
 })
 export class SetTariffPage {
-    locObject: any;
+    locObject: Location;
 
     flowMode: any;
     buttonText: any;
@@ -144,6 +145,9 @@ export class SetTariffPage {
     publish() {
         if (this.tarifObject.public.active || this.tarifObject.private.active) {
             this.locObject.stations.tarif = this.tarifObject;
+
+            let station = this.locObject.stations;
+            this.locObject.stations = [station];
 
 
             if (this.flowMode == 'add') {

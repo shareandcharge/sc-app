@@ -7,6 +7,7 @@ export class User implements Serializable<User> {
     lastName: string;
     address: string;
     imageBase64: any;
+    profile: any;
 
     constructor() {
         this.id = '';
@@ -15,6 +16,7 @@ export class User implements Serializable<User> {
         this.lastName = '';
         this.address = '';
         this.imageBase64 = '';
+        this.profile = {};
     }
 
     hasImage() {
@@ -32,8 +34,8 @@ export class User implements Serializable<User> {
     deserialize(input) {
         this.id = input.id;
         this.email = input.email;
-        this.firstName = input.firstname;
-        this.lastName = input.lastname;
+        this.firstName = input.profile.firstname;
+        this.lastName = input.profile.lastname;
         this.address = input.address;
 
         return this;

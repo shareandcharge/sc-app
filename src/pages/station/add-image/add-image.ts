@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, ViewController , ModalController , ActionSheetController , reorderArray , NavParams} from 'ionic-angular';
 import {PlugTypesPage} from '../plug-types/plug-types';
 import {Camera} from 'ionic-native';
+import {Location} from "../../../models/location";
 
 
 @Component({
@@ -12,7 +13,7 @@ export class AddStationImagePage {
 
     images:any;
     public base64Image: string;
-    locObject:any;
+    locObject: Location;
     flowMode: any;
 
     constructor(public navCtrl:NavController, private viewCtrl:ViewController , private navParams : NavParams,public modalCtrl: ModalController , private actionSheetCtrl:ActionSheetController) {
