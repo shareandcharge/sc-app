@@ -16,6 +16,7 @@ import {LocationService} from "../../services/location.service";
 import {CarService} from "../../services/car.service";
 import {CarWrapperPage} from "../car/car-wrapper";
 import {Car} from "../../models/car";
+import {Location} from "../../models/location";
 
 
 declare var google;
@@ -41,7 +42,7 @@ export class MapPage {
     currentPositionMarker:any;
 
     mapDefaultControlls: boolean;
-    locations: any;
+    locations: Array<Location>;
 
     viewType: string;
 
@@ -210,11 +211,11 @@ export class MapPage {
     //     this.addMarker(this.map.getCenter());
     // }
 
-    addMarker(location) {
+    addMarker(location: Location) {
         let marker = new google.maps.Marker({
             map: this.map,
             animation: google.maps.Animation.DROP,
-            position: new google.maps.LatLng(location.latitude, location.longitude)
+            position: new google.maps.LatLng(location.lat, location.lng)
         });
 
         let me = this;

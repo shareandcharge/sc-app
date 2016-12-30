@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController} from 'ionic-angular';
 import {SetTariffPage} from '../set-tariff/set-tariff';
+import {Location} from "../../../models/location";
 
 @Component({
     selector: 'page-plug-types',
     templateUrl: 'plug-types.html'
 })
 export class PlugTypesPage {
-    locObject: any;
+    locObject: Location;
     power: any;
     plugTypes: any;
     kwh: any;

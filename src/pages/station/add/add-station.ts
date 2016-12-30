@@ -7,6 +7,7 @@ import {AuthService} from "../../../services/auth.service";
 import {LocationService} from "../../../services/location.service";
 import {MyStationsPage} from "../my-stations/my-stations";
 import {StationMapDetailPage} from "./station-add-map/map";
+import {Location} from "../../../models/location";
 
 @Component({
     selector: 'page-add-station',
@@ -20,7 +21,7 @@ export class AddStationPage {
     service: any;
     dayHours: any;
     days: any;
-    locObject: any;
+    locObject: Location;
     address: any;
     weekdays: any;
     from: any[];
@@ -240,17 +241,7 @@ export class AddStationPage {
             }
         }
         else{
-            this.locObject = {
-                "owner": "",
-                "address": "",
-                "latitude": "52.502145",
-                "longitude": "13.414476",
-                "descriptions": "",
-                "stations": {
-                    "openingHours": this.customDays,
-                    "problemSolver": ""
-                }
-            };
+            this.locObject = new Location();
         }
 
         console.log(this.locObject);
@@ -394,11 +385,11 @@ export class AddStationPage {
             });
         }
         else{
-            let initialLocation = new google.maps.LatLng(this.locObject.latitude, this.locObject.longitude);
+            let initialLocation = new google.maps.LatLng(this.locObject.lat, this.locObject.lng);
             this.map.setCenter(initialLocation);
             marker = new google.maps.Marker({
                 draggable: true,
-                position: new google.maps.LatLng(this.locObject.latitude, this.locObject.longitude),
+                position: new google.maps.LatLng(this.locObject.lat, this.locObject.lng),
                 map: this.map
             });
 
@@ -455,13 +446,13 @@ export class AddStationPage {
             };*/
 
             this.locObject.owner = userAddress;
-            this.locObject.latitude = this.map.getCenter().lat();
-            this.locObject.longitude = this.map.getCenter().lng();
+            this.locObject.lat = this.map.getCenter().lat();
+            this.locObject.lng = this.map.getCenter().lng();
             this.locObject.stations.openingHours = this.customDays;
         }
         else {
-            this.locObject.latitude = this.map.getCenter().lat();
-            this.locObject.longitude = this.map.getCenter().lng();
+            this.locObject.lat = this.map.getCenter().lat();
+            this.locObject.lng = this.map.getCenter().lng();
         }
 
         this.navCtrl.push(AddStationImagePage, {
