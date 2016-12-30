@@ -34,8 +34,12 @@ export class User implements Serializable<User> {
     deserialize(input) {
         this.id = input.id;
         this.email = input.email;
-        this.firstName = input.profile.firstname;
-        this.lastName = input.profile.lastname;
+
+        if (typeof input.profile !== 'undefined') {
+            this.firstName = input.profile.firstname;
+            this.lastName = input.profile.lastname;
+        }
+
         this.address = input.address;
 
         return this;
