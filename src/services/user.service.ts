@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Response, Http} from '@angular/http';
+import {Response} from '@angular/http';
 import {Storage} from '@ionic/storage';
 import {Observable} from "rxjs";
 import {User} from "../models/user";
