@@ -23,6 +23,8 @@ export class SetTariffPage {
 
     tarifObject:any;
 
+    tarifMap: {};
+
 
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService) {
         this.locObject = this.navParams.get("location");
@@ -77,7 +79,7 @@ export class SetTariffPage {
                 },
                 permissions: []
             }
-        }
+        };
 
         if (typeof this.locObject.stations.tarif != 'undefined') {
             this.tarifObject = this.locObject.stations.tarif;
@@ -98,6 +100,12 @@ export class SetTariffPage {
         else {
             this.locObject.stations.tarif = this.tarifObject;
         }
+
+        this.tarifMap = {
+            'hourly' : 0,
+            'kwh' : 1,
+            'flatrate' : 2
+        };
 
     }
 
@@ -144,9 +152,26 @@ export class SetTariffPage {
 
     publish() {
         if (this.tarifObject.public.active || this.tarifObject.private.active) {
-            this.locObject.stations.tarif = this.tarifObject;
+
+            let connector = {
+                weekcalendar: {},
+                priceprovider: {
+                    priceperhour: this.tarifObject.public.hourly.hourlyRate,
+                    priceperkw: this.tarifObject.public.kwh.kwhRate,
+                    contracttype: this.tarifObject.public.active ? this.tarifMap[this.tarifObject.public.selected] : '',
+
+                    priceperhourwhitelist: this.tarifObject.private.hourly.hourlyRate,
+                    priceperkwwhitelist: this.tarifObject.private.kwh.kwhRate,
+                    contracttypewhitelist: this.tarifObject.private.active ? this.tarifMap[this.tarifObject.private.selected] : '',
+
+                    whitelist: this.tarifObject.private.permissions
+                }
+            };
 
             let station = this.locObject.stations;
+            station.active = true;
+            station.connectors = [connector];
+
             this.locObject.stations = [station];
 
 
