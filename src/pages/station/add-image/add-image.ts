@@ -93,15 +93,19 @@ export class AddStationImagePage {
         }).then((imageData) => {
             // imageData is a base64 encoded string
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            this.images.push(this.base64Image);
+
+            let image = {
+                'data' : this.base64Image
+            };
+
+            this.images.push(image);
         }, (err) => {
             console.log(err);
         });
     }
 
     continueAddStation() {
-
-        this.locObject.stations.images = this.images;
+        this.locObject.images = this.images;
         this.navCtrl.push(PlugTypesPage , {
             "location" : this.locObject,
             "mode": this.flowMode
@@ -109,7 +113,6 @@ export class AddStationImagePage {
     }
 
     deleteImg(img){
-
         let index = this.images.indexOf(img);
 
         if(index > -1){

@@ -17,7 +17,7 @@
     <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
         <ion-item-sliding *ngFor="let img of images">
             <ion-item>
-                <img [src]="img">
+                <img [src]="img.data">
             </ion-item>
             <ion-item-options>
                 <button (click)="deleteImg(img)" danger>
