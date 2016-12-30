@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
 import {Observable} from "rxjs";
 
 import 'rxjs/add/operator/map';
@@ -10,13 +9,12 @@ import {AuthHttp} from "angular2-jwt";
 export class LocationService {
 
     private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
-    private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
     constructor(private authHttp: AuthHttp) {
     }
 
     getLocations(): Observable<Array<Location>> {
-        return this.authHttp.get(this.baseUrl + '/locations?offset=0&limit=20')
+        return this.authHttp.get(this.baseUrl + '/locations')
             .map(res => {
                 console.log(res);
                 let locations = [];
@@ -75,7 +73,7 @@ export class LocationService {
             location.name = location.address;
         }
 
-        return this.authHttp.post(`${this.baseUrl}/locations/${location.id}`, JSON.stringify(location), {headers: this.contentHeader})
+        return this.authHttp.post(`${this.baseUrl}/locations/${location.id}`, JSON.stringify(location))
             .map(res => res.json())
             .catch(this.handleError);
     }
@@ -83,7 +81,7 @@ export class LocationService {
     createLocation(location: Location): Observable<Location> {
         location.name = location.address;
 
-        return this.authHttp.post(`${this.baseUrl}/locations`, JSON.stringify(location), {headers: this.contentHeader})
+        return this.authHttp.post(`${this.baseUrl}/locations`, JSON.stringify(location))
             .map(res => {
                 return new Location().deserialize(res.json());
             })
@@ -91,7 +89,7 @@ export class LocationService {
     }
 
     deleteLocation(id) {
-        return this.authHttp.delete(`${this.baseUrl}/locations/${id}`, {headers: this.contentHeader})
+        return this.authHttp.delete(`${this.baseUrl}/locations/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
     }
