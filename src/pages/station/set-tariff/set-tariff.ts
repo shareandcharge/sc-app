@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, ModalController} from 'ionic-angular';
+import {NavController, NavParams, AlertController, ModalController, Events} from 'ionic-angular';
 import {MyStationsPage} from '../my-stations/my-stations';
 import {LocationService} from "../../../services/location.service";
 import {AddPermissionsPage} from './add-permissions/add-permissions';
@@ -24,7 +24,7 @@ export class SetTariffPage {
     tarifObject:any;
 
 
-    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService) {
+    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events) {
         this.locObject = this.navParams.get("location");
         this.flowMode = this.navParams.get("mode");
 
@@ -153,7 +153,7 @@ export class SetTariffPage {
             if (this.flowMode == 'add') {
                 this.locationService.createLocation(this.locObject).subscribe(l => {
                     this.navCtrl.parent.pop();
-                    console.log("created location ", l);
+                    this.events.publish('locations:updated', l);
                 });
             }
 
@@ -161,7 +161,7 @@ export class SetTariffPage {
                 this.locationService.updateLocation(this.locObject).subscribe(l => {
 
                     this.navCtrl.parent.pop();
-                    console.log("updated location ", l);
+                    this.events.publish('locations:updated', l);
                 });
             }
         } else {

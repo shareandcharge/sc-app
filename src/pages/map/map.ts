@@ -67,6 +67,8 @@ export class MapPage {
         this.events.subscribe('auth:login', () => this.refreshCarInfo());
         this.events.subscribe('auth:logout', () => this.refreshCarInfo());
 
+        this.events.subscribe('locations:updated', (location) => this.addMarker(location));
+
         this.initializeApp();
     }
 

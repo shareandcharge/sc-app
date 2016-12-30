@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController} from 'ionic-angular';
+import {NavController, ViewController, ModalController, Events} from 'ionic-angular';
 import {AddStationPage} from '../add/add-station';
 import {LocationService} from "../../../services/location.service";
 import {AuthService} from "../../../services/auth.service";
@@ -16,8 +16,8 @@ export class MyStationsPage {
 
     stations: any;
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, public locationService: LocationService, public modalCtrl: ModalController) {
-        this.loadStations();
+    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, public locationService: LocationService, public modalCtrl: ModalController, private events: Events) {
+        this.events.subscribe('locations:updated', () => this.loadStations());
     }
 
 
@@ -33,6 +33,10 @@ export class MyStationsPage {
     delete(id) {
         this.locationService.deleteLocation(id).subscribe(locations => {
         });
+    }
+
+    ionViewWillEnter() {
+        this.loadStations();
     }
 
     ionViewDidLoad() {
