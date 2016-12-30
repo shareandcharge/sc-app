@@ -5,6 +5,7 @@ import {Car} from "../models/car";
 
 import 'rxjs/add/operator/map';
 import {AuthHttp} from "angular2-jwt";
+import {AuthService} from "./auth.service";
 
 @Injectable()
 export class CarService {
@@ -15,7 +16,7 @@ export class CarService {
 
     private activeCar: Car = null;
 
-    constructor(private authHttp: AuthHttp) {
+    constructor(private authHttp: AuthHttp, private auth: AuthService) {
         this.setTempData();
     }
 
@@ -28,6 +29,10 @@ export class CarService {
     }
 
     getCars(): Observable<Car[]> {
+        if (!this.auth.loggedIn()) {
+            return Observable.of(null);
+        }
+
         return this.authHttp.get(this.baseUrl + '/users/cars')
             .map(res => {
 
@@ -35,6 +40,7 @@ export class CarService {
                 let data = res.json();
 
                 data.cars.list.forEach(input => {
+                    console.log(input);
                     let car = new Car().deserialize(input);
                     cars.push(car);
 
@@ -71,7 +77,7 @@ export class CarService {
     }
 
     deleteCar(id) {
-        return this.authHttp.delete(`${this.baseUrl}/users/cars/${id}`)
+        return this.authHttp.delete(`${this.baseUrl}/users/:address/cars/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
     }

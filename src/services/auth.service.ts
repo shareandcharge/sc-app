@@ -17,6 +17,7 @@ export class AuthService {
     }
 
     loggedIn() {
+        // TODO: solve async loading of token from storage
         return this.user !== null;
     }
 

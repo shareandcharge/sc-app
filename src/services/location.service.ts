@@ -15,9 +15,10 @@ export class LocationService {
     constructor(private authHttp: AuthHttp) {
     }
 
-    getLocations() {
-        return this.authHttp.get(this.baseUrl + '/locations')
+    getLocations(): Observable<Array<Location>> {
+        return this.authHttp.get(this.baseUrl + '/locations?offset=0&limit=20')
             .map(res => {
+                console.log(res);
                 let locations = [];
                 res.json().forEach(input => {
                     locations.push(new Location().deserialize(input));
@@ -45,8 +46,8 @@ export class LocationService {
 
             let locations = [];
             res.forEach(location => {
-                let lat = location.latitude;
-                let lng = location.longitude;
+                let lat = location.lat;
+                let lng = location.lng;
 
                 if (checkBounds && lat >= bounds.latFrom && lat <= bounds.latTo && lng >= bounds.lngFrom && lng <= bounds.lngTo) {
                     locations.push(location);
@@ -74,7 +75,7 @@ export class LocationService {
             location.name = location.address;
         }
 
-        return this.authHttp.put(`${this.baseUrl}/locations/${location.id}`, JSON.stringify(location), {headers: this.contentHeader})
+        return this.authHttp.post(`${this.baseUrl}/locations/${location.id}`, JSON.stringify(location), {headers: this.contentHeader})
             .map(res => res.json())
             .catch(this.handleError);
     }
