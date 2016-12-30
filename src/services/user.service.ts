@@ -40,10 +40,11 @@ export class UserService {
     }
 
     /*
-     * WARNING: not implemented by the backend
+     * WARNING: query by address is not implemented by the backend, yet
      */
-    getUser(id): Observable<User> {
-        return this.authHttp.get(`${this.baseUrl}/users/${id}`)
+    getUser(address?): Observable<User> {
+        let url = address ? `users/${address}` : 'users';
+        return this.authHttp.get(`${this.baseUrl}/${url}`)
             .map(res => {
                 return new User().deserialize(res.json());
             })
