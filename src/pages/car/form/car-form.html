@@ -1,0 +1,104 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title *ngIf="mode!='edit'">Elektroauto hinzufügen</ion-title>
+        <ion-title *ngIf="mode=='edit'">Elektroauto bearbeiten</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="skipAddingCar()">
+                Abbrechen
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <div class="top-container" padding="">
+
+        <div class="inner-content">
+
+        </div>
+
+        <button class="image-button filled" (click)="selectPhoto()" *ngIf="car.hasImage()"
+                [ngStyle]="{'background-image':'url(' + car.imageBase64 + ')'}">
+        </button>
+        <button class="image-button" (click)="selectPhoto()" *ngIf="!car.hasImage()">
+            <span>Foto hinzufügen</span>
+        </button>
+
+        <ion-list no-lines>
+            <ion-item class="input-plate">
+                <ion-input type="text" [(ngModel)]="car.plateNumber" placeholder="Kennzeichen" autocapitalize="characters"></ion-input>
+            </ion-item>
+        </ion-list>
+
+        <ion-segment color="primary" [(ngModel)]="segmentTabs" class="segment-borderless">
+            <ion-segment-button value="preset">
+                Preset
+            </ion-segment-button>
+            <ion-segment-button value="custom">
+                Konfiguration
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+
+    <div padding class="bottom-container">
+        <ion-list>
+            <div *ngIf="segmentTabs == 'preset'">
+                <ion-list>
+                    <button ion-item (click)="selectModdel()" detail-none>
+                        <ion-icon name="ios-list" item-right></ion-icon>
+                        <span *ngIf="car.manufacturer == ''">Hersteller &amp; Modell</span>
+                        <span *ngIf="car.manufacturer != ''">{{car.manufacturer}} {{car.model}}</span>
+                    </button>
+                </ion-list>
+            </div>
+        </ion-list>
+
+        <ion-list no-lines="">
+            <div *ngIf="segmentTabs == 'custom'">
+                <ion-item>
+                    <ion-label floating>Hersteller</ion-label>
+                    <ion-input type="text" [(ngModel)]="car.manufacturer"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Modell</ion-label>
+                    <ion-input type="text" [(ngModel)]="car.model"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Durchschnittliche Reichweite</ion-label>
+                    <ion-input type="text" [(ngModel)]="car.averageDistance"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Batteriekapazität</ion-label>
+                    <ion-input type="text" [(ngModel)]="car.accuCapacity"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label>Steckertypen</ion-label>
+                </ion-item>
+
+                <ion-item>
+                    <ion-select [(ngModel)]="car.plugTypes" [selectOptions]="selectPlugTypesOptions" multiple="true" class="select-multiline" placeholder="Bitte wählen ...">
+                        <ion-option>Schuko-Steckdose</ion-option>
+                        <ion-option>CEE-Stecker</ion-option>
+                        <ion-option>Typ 1</ion-option>
+                        <ion-option>Typ 2</ion-option>
+                        <ion-option>Combo</ion-option>
+                        <ion-option>CHAdeMO</ion-option>
+                        <ion-option>Tesla Supercharger</ion-option>
+                    </ion-select>
+                </ion-item>
+            </div>
+
+            <div padding text-center>
+                <button ion-button round (click)="saveCar()">
+                    <span *ngIf="mode!='edit'">Speichern</span>
+                    <span *ngIf="mode=='edit'">Aktualisieren</span>
+                </button>
+            </div>
+        </ion-list>
+    </div>
+
+</ion-content>

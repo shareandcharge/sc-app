@@ -1,0 +1,113 @@
+<ion-header class="transparent">
+    <ion-navbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span color="primary" showWhen="ios">Schließen</span>
+                <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+            </button>
+        </ion-buttons>
+        <!--<ion-title>Location</ion-title>-->
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="content-white">
+    <div class="image-wrapper">
+        <div #map id="map" (click)="detailedMap()">
+        </div>
+        <ion-fab right bottom edge>
+            <button ion-fab color="white" class="button-shadow" (click)="openMapsApp()">
+                <ion-icon name="ios-navigate-outline"></ion-icon>
+            </button>
+        </ion-fab>
+    </div>
+    <div padding>
+        <p><strong>{{location.address}}, {{location.city}}</strong></p>
+        <p *ngIf="!showOpeningHours">
+            Öffnungszeiten: 10:00 Uhr - 18:00
+            <ion-icon (click)="showOpeningHours = !showOpeningHours" name="ios-arrow-down"></ion-icon>
+        </p>
+        <p *ngIf="showOpeningHours">
+            Öffnungszeiten:
+            <ion-icon (click)="showOpeningHours = !showOpeningHours" name="ios-arrow-up"></ion-icon>
+            <br>
+            Mo. - Do. 10:00 - 18:00 Uhr<br>
+            Fr. - Sa. 10:00 - 16:00 Uhr<br>
+            So. geschlossen
+        </p>
+        <hr>
+        <div text-left="" style="float: left">
+            <img src="assets/images/plugs/combo.svg" style="width: 32px">
+            <img src="assets/images/plugs/chademo.svg" style="width: 32px">
+        </div>
+        <div text-right="" style="float: right">
+            7,4 kW<br>Max.
+        </div>
+        <div style="clear: both">
+        </div>
+        <hr>
+        <br><br>
+    </div>
+
+    <div>
+        <ion-slides>
+            <ion-slide *ngFor="let img of location.images">
+                <img src="{{img}}">
+            </ion-slide>
+        </ion-slides>
+    </div>
+    <div padding="">
+        <h6>Über diese Station:</h6>
+        <p>
+            {{location.description}}
+        </p>
+
+        <hr>
+
+        <h6>Problemlöser:</h6>
+        <p>Jupp Schmitz, +49 123 465768</p>
+
+        <h6>Bewertungen:</h6>
+
+        <div *ngFor="let rating of ratings">
+            <p>
+                <span *ngFor="let i of fullStars(rating.value)">
+                    <ion-icon name="md-star" color="secondary"></ion-icon>
+                </span>
+                <span *ngIf="displayHalfStars(rating.value)">
+                    <ion-icon name="md-star-half" color="secondary"></ion-icon>
+                </span>
+                <span *ngFor="let i of emptyStars(rating.value)">
+                    <ion-icon name="md-star-outline" color="secondary" ></ion-icon>
+                </span>
+                {{rating.remark}}
+            </p>
+            <hr>
+        </div>
+
+        <button ion-button color="secondary" small round outline (click)="feedback()" *ngIf="authService.loggedIn()">+ Bewertung schreiben</button>
+    </div>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-grid>
+            <ion-row>
+                <ion-col center="">
+                    <strong>1,60 - 3,20 €/kWH</strong><br>
+                    <ion-icon name="md-star" color="secondary"></ion-icon>
+                    <ion-icon name="md-star" color="secondary"></ion-icon>
+                    <ion-icon name="md-star" color="secondary"></ion-icon>
+                    <ion-icon name="md-star-half" color="secondary"></ion-icon>
+                    <ion-icon name="md-star-outline" color="secondary"></ion-icon>
+                </ion-col>
+                <ion-col text-right="">
+                    <button ion-button round color="primary" class="btn-start-charging" (click)="charge()">
+                        Laden
+                    </button>
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

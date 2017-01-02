@@ -1,0 +1,23 @@
+page-add-station {
+    .image-wrapper {
+        background-color: #eee;
+        overflow: hidden;
+        height: 180px;
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
+}
+
+.add-image-icon{
+    right: auto;
+    left: auto;
+    height: 200px;
+    width: 200px;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    line-height: 200px;
+    background-color: grey;
+}

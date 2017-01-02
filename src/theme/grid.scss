@@ -1,0 +1,14 @@
+ion-grid.fullpage {
+  padding: 0;
+  min-height: 100%;
+  > ion-row {
+    flex: 1;
+    > ion-col {
+      padding: 0;
+    }
+  }
+}
+
+ion-col.nopadding {
+  padding: 0;
+}

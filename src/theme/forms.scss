@@ -1,0 +1,35 @@
+form.blocky {
+
+}
+
+.text-input {
+  border-radius: 4px !important; // @todo ;(
+}
+
+.item-ios.item-label-floating .text-input,
+.item-label-floating .text-input-md {
+  background-color: #fff;
+  margin: 0;
+  padding: 10px 14px;
+  //border-radius: 2px;
+}
+
+.label.label-ios[floating],
+.label.label-md[floating] {
+  transform: translate3d(14px, 38px, 0);
+}
+
+ion-select {
+  &.select-multiline {
+    max-width: 100%;
+    padding-left: 0;
+    padding-top: 0;
+    .select-text {
+      white-space: normal;
+    }
+  }
+}
+
+.alert-checkbox-label {
+  font-size: 17px;
+}

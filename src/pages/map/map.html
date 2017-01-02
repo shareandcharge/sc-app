@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons start>
+            <button ion-button (click)="showAddressModal()" color="dark" large>
+                <ion-icon name="search"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Map</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="mapSettingsPopOver($event)" color="dark" large>
+                <ion-icon name="settings"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-fab top right *ngIf="!hasCars()">
+        <button ion-fab (click)="addCarModal()" class="button-add-car">
+            <ion-icon name="cust-add-car"></ion-icon>
+        </button>
+    </ion-fab>
+
+    <ion-fab top right *ngIf="hasCars()" #fabCar>
+        <button ion-fab class="fab-image">
+            <div class="image-wrapper">
+                <img [ngStyle]="{'background-image':'url(' + activeCar.displayImageSrc + ')'}">
+            </div>
+        </button>
+        <ion-fab-list side="bottom">
+            <button ion-fab *ngFor="let car of cars" class="fab-image" (click)="setActiveCar(car, fabCar)">
+                <div class="image-wrapper">
+                    <img [ngStyle]="{'background-image':'url(' + car.displayImageSrc + ')'}">
+                </div>
+            </button>
+            <button ion-fab (click)="gotoMyCars(fabCar)"><ion-icon name="ios-car"></ion-icon></button>
+        </ion-fab-list>
+    </ion-fab>
+
+    <ion-list [hidden]="viewType == 'map'">
+        <ion-item *ngFor="let location of visibleLocations" (click)="showLocationDetails(location)">
+            {{location.address}}
+        </ion-item>
+    </ion-list>
+
+    <div class="map-container" [hidden]="viewType == 'list'">
+        <div #map id="map">
+        </div>
+    </div>
+
+</ion-content>

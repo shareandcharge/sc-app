@@ -1,0 +1,34 @@
+<ion-content>
+    <div class="container">
+        <ion-list radio-group>
+            <ion-list-header>
+                Display
+            </ion-list-header>
+            <ion-item>
+                <ion-label>Map View</ion-label>
+                <ion-radio value="mapView" [checked]="getViewType()=='map'" (click)="setView('map')"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>List View</ion-label>
+                <ion-radio value="listView" [checked]="getViewType()=='list'" (click)="setView('list')"></ion-radio>
+            </ion-item>
+        </ion-list>
+        <ion-list radio-group>
+            <ion-list-header>
+                Map view
+            </ion-list-header>
+            <ion-item>
+                <ion-label>Road Map</ion-label>
+                <ion-radio value="ROADMAP" (click)="setMapView('ROADMAP')" checked ></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>Satellite</ion-label>
+                <ion-radio value="SATELLITE" (click)="setMapView('SATELLITE')"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>Hybrid</ion-label>
+                <ion-radio value="HYBRID" (click)="setMapView('HYBRID')"></ion-radio>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>

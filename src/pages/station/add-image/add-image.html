@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Add Image</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="skipAddingImage()">
+                Abbrechen
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <progress-bar [progress]="30"></progress-bar>
+    <ion-item no-lines>
+        Add Images
+    </ion-item>
+    <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
+        <ion-item-sliding *ngFor="let img of images">
+            <ion-item>
+                <img src="{{img.src}}">
+            </ion-item>
+            <ion-item-options>
+                <button (click)="deleteImg(img)" danger>
+                    <ion-icon name="trash"></ion-icon>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+
+    <div class="add-image-icon" (click)="presentActionSheet()">
+        <ion-icon name="add"></ion-icon>
+    </div>
+
+    <div>
+        <button ion-button (click)="continueAddStation()">Continue</button>
+    </div>
+</ion-content>

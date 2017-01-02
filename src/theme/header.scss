@@ -1,0 +1,11 @@
+ion-header.transparent {
+  .toolbar .toolbar-background,
+  .toolbar-background-ios {
+    background: transparent;
+    border-color: transparent;
+  }
+  &.header-md::after {
+    display: none;
+  }
+}
+

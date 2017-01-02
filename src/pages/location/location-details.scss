@@ -1,0 +1,27 @@
+location-details {
+  .image-wrapper {
+    background-color: #eee;
+    height: 180px;
+    position: relative;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .scroll-content {
+    margin-top: 0 !important; // @TODO
+  }
+
+  ion-footer {
+    box-shadow: 0px -3px 17px rgba(50, 50, 50, 0.3);
+  }
+}
+
+.btn-start-charging {
+  //font-size: 26px;
+  //font-weight: bold;
+  //padding-top: 5px;
+  //padding-bottom: 5px;
+}
+

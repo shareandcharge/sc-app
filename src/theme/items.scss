@@ -1,0 +1,11 @@
+ion-item.item-ios {
+  $_size: 3.6rem;
+  ion-thumbnail.thumbnail-small img  {
+    max-width: $_size;
+    max-height: $_size;
+  }
+  ion-thumbnail {
+    min-width: $_size;
+    min-height: $_size;
+  }
+}
