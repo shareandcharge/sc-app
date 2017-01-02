@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Response, Http} from '@angular/http';
+import {Response} from '@angular/http';
 import {Storage} from '@ionic/storage';
 import {Observable} from "rxjs";
 import {User} from "../models/user";
@@ -64,6 +64,9 @@ export class UserService {
     updateUser(user: User): Observable<User> {
         user.profile.firstname = user.firstName;
         user.profile.lastname = user.lastName;
+        user.profile.imageBase64 = user.imageBase64;
+
+        user.imageBase64 = '';
 
         return this.authHttp.put(`${this.baseUrl}/users`, JSON.stringify(user))
             .map(res => res.json())
