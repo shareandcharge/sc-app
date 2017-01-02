@@ -2,11 +2,13 @@ export class Connector {
 
     priceprovider : any;
     weekcalendar: Array<any>;
-    plugtypes: string;
-    power: number;
+    plugtype: string;
+    wattpower: number;
 
-    accessControl: boolean;
-    kwh: boolean;
+    metadata: {
+        accessControl: boolean,
+        kwh: boolean
+    };
 
     priceProviderTariffTypes: Array<string>;
 
@@ -75,11 +77,13 @@ export class Connector {
                 'to' : 0
             }];
 
-        this.plugtypes = '';
-        this.power = 0;
+        this.plugtype = '';
+        this.wattpower = 0;
 
-        this.accessControl = false;
-        this.kwh = false;
+        this.metadata = {
+            accessControl : false,
+            kwh : false
+        }
 
         this.priceProviderTariffTypes = [
             'invalid',
@@ -245,12 +249,10 @@ export class Connector {
         this.priceprovider = this.toFrontendPriceProvider(input.priceprovider);
         this.weekcalendar = input.weekcalendar;
 
-        // TODO: ask Simon about the names
-        this.accessControl = input.accessControl;
-        this.kwh = input.kwh;
+        this.metadata = input.metadata;
 
-        this.plugtypes = input.plugtypes;
-        this.power = input.power;
+        this.plugtype = input.plugtypes;
+        this.wattpower = input.power;
 
         return this;
     }

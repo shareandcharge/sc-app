@@ -38,9 +38,9 @@ export class SetTariffPage {
             this.buttonText = "Publish";
         }
 
-        if (this.connector.accessControl) {
+        if (this.connector.metadata.accessControl) {
             this.hourlyTariff = true;
-            if (this.connector.kwh) {
+            if (this.connector.metadata.kwh) {
                 this.kwhTariff = true;
                 this.hourlyTariff = false;
             }
