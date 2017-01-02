@@ -44,14 +44,17 @@ import {AddRatingPage} from "../pages/rating/add-rating";
 import {StationWrapperPage} from "../pages/station/station-wrapper";
 import {ChargingPage} from "../pages/location/charging/charging";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
+import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
 let storage = new Storage();
 
 export function getAuthHttp(http) {
     return new AuthHttp(new AuthConfig({
+        headerName: 'x-access-token',
+        headerPrefix : ' ',
         noJwtError: true,
-        globalHeaders: [{'Accept': 'application/json'}],
-        tokenGetter: (() => storage.get('id_token')),
+        globalHeaders: [{'Accept': 'application/json'}, {'Content-Type': 'application/json'}],
+        tokenGetter: (() => storage.get('id_token').then((token) => { return token; })),
     }), http);
 }
 
@@ -91,7 +94,8 @@ export function getAuthHttp(http) {
         EditNamePage,
         StationWrapperPage,
         ChargingPage,
-        ChargingCompletePage
+        ChargingCompletePage,
+        ProgressBarComponent
     ],
     imports: [
         IonicModule.forRoot(MyApp, {

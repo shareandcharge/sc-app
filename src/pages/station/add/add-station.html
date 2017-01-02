@@ -13,14 +13,15 @@
 
 
 <ion-content>
+    <progress-bar [progress]="10"></progress-bar>
+    <div class="image-wrapper">
+        <div #map id="map" (click)="detailedMap()">
+        </div>
+    </div>
     <ion-grid>
         <ion-row>
             <ion-col>
 
-                <div class="image-wrapper">
-                    <div #map id="map" (click)="detailedMap()">
-                    </div>
-                </div>
 
                 <ion-item no-lines>
                     <ion-label floating>Type Station Address</ion-label>
@@ -80,27 +81,26 @@
                     <ion-item no-lines>
                         <ion-label>Tage</ion-label>
                         <ion-select multiple="true" [(ngModel)]="weekdays" (ngModelChange)="updateSelectedDays()">
-                            <ion-option value="monday">Montag</ion-option>
-                            <ion-option value="tuesday">Dienstag</ion-option>
-                            <ion-option value="wednesday">Mittwoch</ion-option>
-                            <ion-option value="thursday">Donnerstag</ion-option>
-                            <ion-option value="friday">Fritag</ion-option>
-                            <ion-option value="saturday">Samstag</ion-option>
-                            <ion-option value="sunday">Sonntag</ion-option>
+                            <ion-option value="0">Montag</ion-option>
+                            <ion-option value="1">Dienstag</ion-option>
+                            <ion-option value="2">Mittwoch</ion-option>
+                            <ion-option value="3">Donnerstag</ion-option>
+                            <ion-option value="4">Freitag</ion-option>
+                            <ion-option value="5">Samstag</ion-option>
+                            <ion-option value="6">Sonntag</ion-option>
                         </ion-select>
                     </ion-item>
                 </div>
 
                 <div *ngIf="segmentTabs == 'custom'">
-                    <ion-item *ngFor="let day of locObject.stations.openingHours">
-                        <ion-label>{{day.text}}</ion-label>
-                        <ion-checkbox [(ngModel)]="day.enabled"
-                                      (ngModelChange)="updateCustomSelectedDays()"></ion-checkbox>
-                        <ion-select [(ngModel)]="day.from" (ngModelChange)="updateCustomSelectedDays()">
+                    <ion-item *ngFor="let day of connector.weekcalendar.hours; let i = index;">
+                        <ion-label>{{days[i]}}</ion-label>
+                        <ion-checkbox [(ngModel)]="day.from != day.to"></ion-checkbox>
+                        <ion-select [(ngModel)]="day.from">
                             <ion-option value="from" selected="true">From</ion-option>
                             <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                         </ion-select>
-                        <ion-select [(ngModel)]="day.to" (ngModelChange)="updateCustomSelectedDays()">
+                        <ion-select [(ngModel)]="day.to">
                             <ion-option value="from" selected="true">To</ion-option>
                             <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                         </ion-select>

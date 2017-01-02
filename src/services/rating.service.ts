@@ -2,17 +2,18 @@ import {Injectable} from "@angular/core";
 import {Headers, Http} from "@angular/http";
 import {Observable} from "rxjs";
 import {Rating} from "../models/rating";
+import {AuthHttp} from "angular2-jwt";
 
 @Injectable()
 export class RatingService {
-    private baseUrl: string = 'http://5834821b62f23712003730c0.mockapi.io/api/v1/locations/';
+    private baseUrl: string = 'https://api-test.shareandcharge.com/v1/locations/';
     private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private authHttp: AuthHttp) {
     }
 
     getRatings(locationId: number): Observable<Array<Rating>> {
-        return this.http.get(this.baseUrl + locationId + '/ratings')
+        return this.authHttp.get(this.baseUrl + locationId + '/ratings')
             .map(res => {
                 let ratings = [];
                 res.json().forEach(input => {
@@ -24,7 +25,7 @@ export class RatingService {
     }
 
     getRating(locationId: number, ratingId: number): Observable<Rating> {
-        return this.http.get(this.baseUrl + locationId + '/ratings/' + ratingId)
+        return this.authHttp.get(this.baseUrl + locationId + '/ratings/' + ratingId)
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
@@ -32,7 +33,7 @@ export class RatingService {
     }
 
     createRating(locationId: number, rating: Rating): Observable<Rating> {
-        return this.http.post(this.baseUrl + locationId + '/ratings', JSON.stringify(rating), {headers: this.contentHeader})
+        return this.authHttp.post(this.baseUrl + locationId + '/ratings', JSON.stringify(rating), {headers: this.contentHeader})
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
@@ -40,7 +41,7 @@ export class RatingService {
     }
 
     updateRating(locationId: number, rating: Rating): Observable<Rating> {
-        return this.http.put(this.baseUrl + locationId + '/ratings', JSON.stringify(rating), {headers: this.contentHeader})
+        return this.authHttp.put(this.baseUrl + locationId + '/ratings', JSON.stringify(rating), {headers: this.contentHeader})
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
@@ -48,7 +49,7 @@ export class RatingService {
     }
 
     deleteRating(locationId: number, ratingId: number): Observable<Rating> {
-        return this.http.delete(this.baseUrl + locationId + '/ratings/' + ratingId)
+        return this.authHttp.delete(this.baseUrl + locationId + '/ratings/' + ratingId)
             .map(res => {
                 return new Rating().deserialize(res.json());
             })

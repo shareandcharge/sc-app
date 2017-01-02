@@ -1,22 +1,22 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
 import {Observable} from "rxjs";
 
 import 'rxjs/add/operator/map';
 import {Location} from "../models/location";
+import {AuthHttp} from "angular2-jwt";
 
 @Injectable()
 export class LocationService {
 
-    private baseUrl: string = 'http://5834821b62f23712003730c0.mockapi.io/api/v1';
-    private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
+    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
 
-    constructor(private http: Http) {
+    constructor(private authHttp: AuthHttp) {
     }
 
-    getLocations() {
-        return this.http.get(this.baseUrl + '/locations')
+    getLocations(): Observable<Array<Location>> {
+        return this.authHttp.get(this.baseUrl + '/locations')
             .map(res => {
+                console.log(res);
                 let locations = [];
                 res.json().forEach(input => {
                     locations.push(new Location().deserialize(input));
@@ -44,8 +44,8 @@ export class LocationService {
 
             let locations = [];
             res.forEach(location => {
-                let lat = location.latitude;
-                let lng = location.longitude;
+                let lat = location.lat;
+                let lng = location.lng;
 
                 if (checkBounds && lat >= bounds.latFrom && lat <= bounds.latTo && lng >= bounds.lngFrom && lng <= bounds.lngTo) {
                     locations.push(location);
@@ -61,7 +61,7 @@ export class LocationService {
     }
 
     getLocation(id): Observable<Location> {
-        return this.http.get(`${this.baseUrl}/locations/${id}`)
+        return this.authHttp.get(`${this.baseUrl}/locations/${id}`)
             .map(res => {
                 return new Location().deserialize(res.json());
             })
@@ -69,13 +69,13 @@ export class LocationService {
     }
 
     updateLocation(location: Location) {
-        return this.http.put(`${this.baseUrl}/locations/${location.id}`, JSON.stringify(location), {headers: this.contentHeader})
+        return this.authHttp.post(`${this.baseUrl}/locations/${location.id}`, location.serialize())
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     createLocation(location: Location): Observable<Location> {
-        return this.http.post(`${this.baseUrl}/locations`, JSON.stringify(location), {headers: this.contentHeader})
+        return this.authHttp.post(`${this.baseUrl}/locations`, location.serialize())
             .map(res => {
                 return new Location().deserialize(res.json());
             })
@@ -83,7 +83,7 @@ export class LocationService {
     }
 
     deleteLocation(id) {
-        return this.http.delete(`${this.baseUrl}/locations/${id}`, {headers: this.contentHeader})
+        return this.authHttp.delete(`${this.baseUrl}/locations/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
     }

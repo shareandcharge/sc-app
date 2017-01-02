@@ -7,6 +7,9 @@ import {AuthService} from "../../../services/auth.service";
 import {LocationService} from "../../../services/location.service";
 import {MyStationsPage} from "../my-stations/my-stations";
 import {StationMapDetailPage} from "./station-add-map/map";
+import {Location} from "../../../models/location";
+import {Station} from "../../../models/station";
+import {Connector} from "../../../models/connector";
 
 @Component({
     selector: 'page-add-station',
@@ -20,7 +23,6 @@ export class AddStationPage {
     service: any;
     dayHours: any;
     days: any;
-    locObject: any;
     address: any;
     weekdays: any;
     from: any[];
@@ -29,6 +31,10 @@ export class AddStationPage {
     problemSolver: any;
     flowMode: any;
     customDays:any;
+
+    locObject: Location;
+    station: Station;
+    connector: Connector;
 
     defaultCenterLat = 52.502145;
     defaultCenterLng = 13.414476;
@@ -61,156 +67,61 @@ export class AddStationPage {
 
         this.dayHours = [
             {
-                "value": "9",
+                "value": 9,
                 "title": "9:00"
             },
             {
-                "value": "10",
+                "value": 10,
                 "title": "10:00"
             },
             {
-                "value": "11",
+                "value": 11,
                 "title": "11:00"
             },
             {
-                "value": "12",
+                "value": 12,
                 "title": "12:00"
             },
             {
-                "value": "13",
+                "value": 13,
                 "title": "13:00"
             },
             {
-                "value": "14",
+                "value": 14,
                 "title": "14:00"
             },
             {
-                "value": "15",
+                "value": 15,
                 "title": "15:00"
             },
             {
-                "value": "16",
+                "value": 16,
                 "title": "16:00"
             },
             {
-                "value": "17",
+                "value": 17,
                 "title": "17:00"
             },
             {
-                "value": "18",
+                "value": 18,
                 "title": "18:00"
             },
             {
-                "value": "19",
+                "value": 19,
                 "title": "19:00"
-            }
-        ];
-
-
-        this.customDays = [
-            {
-                "text": "Monday",
-                "enabled": false,
-                "key": "monday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Tuesday",
-                "enabled": false,
-                "key": "tuesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Wednesday",
-                "enabled": false,
-                "key": "wednesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Thursday",
-                "enabled": false,
-                "key": "thursday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Friday",
-                "enabled": false,
-                "key": "friday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Saturday",
-                "enabled": false,
-                "key": "saturday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Sunday",
-                "enabled": false,
-                "key": "sunday",
-                "from": "",
-                "to": ""
             }
         ];
 
         this.weekdays = [];
 
         this.days = [
-            {
-                "text": "Monday",
-                "enabled": false,
-                "key": "monday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Tuesday",
-                "enabled": false,
-                "key": "tuesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Wednesday",
-                "enabled": false,
-                "key": "wednesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Thursday",
-                "enabled": false,
-                "key": "thursday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Friday",
-                "enabled": false,
-                "key": "friday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Saturday",
-                "enabled": false,
-                "key": "saturday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Sunday",
-                "enabled": false,
-                "key": "sunday",
-                "from": "",
-                "to": ""
-            }
+            "Montag",
+            "Dienstag",
+            "Mittwoch",
+            "Donnerstag",
+            "Freitag",
+            "Samstag",
+            "Sonntag"
         ];
 
 
@@ -227,30 +138,16 @@ export class AddStationPage {
             console.log("the object is")
 
             this.locObject = navParams.get("location");
-          /*  this.defaultCenterLat = this.locObject.latitude;
-            this.defaultCenterLng = this.locObject.longitude;
-            this.address = this.locObject.address;
-            this.descriptions = this.locObject.descriptions;*/
-
-            if (typeof this.locObject.stations.openingHours != 'undefined') {
-               /* this.weekdays = this.locObject.stations.openingHours.weekdays;
-                this.from = this.locObject.stations.openingHours.from;
-                this.to = this.locObject.stations.openingHours.to;*/
-                this.updateCustomSelectedDays();
-            }
         }
         else{
-            this.locObject = {
-                "owner": "",
-                "address": "",
-                "latitude": "52.502145",
-                "longitude": "13.414476",
-                "descriptions": "",
-                "stations": {
-                    "openingHours": this.customDays,
-                    "problemSolver": ""
-                }
-            };
+            // create new location, station and connector
+            this.locObject = new Location();
+
+            this.station = new Station();
+            this.locObject.stations.push(this.station);
+
+            this.connector = new Connector;
+            this.station.connectors.push(this.connector);
         }
 
         console.log(this.locObject);
@@ -394,11 +291,11 @@ export class AddStationPage {
             });
         }
         else{
-            let initialLocation = new google.maps.LatLng(this.locObject.latitude, this.locObject.longitude);
+            let initialLocation = new google.maps.LatLng(this.locObject.lat, this.locObject.lng);
             this.map.setCenter(initialLocation);
             marker = new google.maps.Marker({
                 draggable: true,
-                position: new google.maps.LatLng(this.locObject.latitude, this.locObject.longitude),
+                position: new google.maps.LatLng(this.locObject.lat, this.locObject.lng),
                 map: this.map
             });
 
@@ -425,43 +322,19 @@ export class AddStationPage {
     }
 
     continueAddStation() {
-
-
         if (this.flowMode == 'add') {
             let userAddress = "";
             if (this.auth.getUser() != null) {
                 userAddress = this.auth.getUser().address;
             }
-            /*this.weekdays.forEach(wd => {
-                openingHours.push(
-                    {
-                        "text" : wd.text;
-                        "key": wd.key;
-                        "from" : this.from[];
-                    }
-                );
-            });*/
-
-            /*this.locObject = {
-                "owner": userAddress,
-                "address": this.address,
-                "latitude": this.map.getCenter().lat(),
-                "longitude": this.map.getCenter().lng(),
-                "descriptions": this.descriptions,
-                "stations": {
-                    "openingHours": this.customDays,
-                    "problemSolver": this.problemSolver
-                }
-            };*/
 
             this.locObject.owner = userAddress;
-            this.locObject.latitude = this.map.getCenter().lat();
-            this.locObject.longitude = this.map.getCenter().lng();
-            this.locObject.stations.openingHours = this.customDays;
+            this.locObject.lat = this.map.getCenter().lat();
+            this.locObject.lng = this.map.getCenter().lng();
         }
         else {
-            this.locObject.latitude = this.map.getCenter().lat();
-            this.locObject.longitude = this.map.getCenter().lng();
+            this.locObject.lat = this.map.getCenter().lat();
+            this.locObject.lng = this.map.getCenter().lng();
         }
 
         this.navCtrl.push(AddStationImagePage, {
@@ -471,54 +344,10 @@ export class AddStationPage {
     }
 
     updateSelectedDays() {
-
-
-        console.log("weekdays model is now " , this.weekdays);
-        console.log("from " , this.from);
-        console.log("to " , this.to);
-
-        let me = this;
-        this.locObject.stations.openingHours.forEach(d => {
-            d.enabled = false;
-            d.from = "";
-            d.to = "";
-        });
-
-
-        this.weekdays.forEach(wd => {
-            this.locObject.stations.openingHours.forEach(d => {
-                console.log(wd , d.key);
-                if (wd == d.key) {
-                    d.enabled = true;
-                    d.from = me.from;
-                    d.to = me.to;
-                }
-            });
-        });
-    }
-
-    updateCustomSelectedDays() {
-        this.weekdays = [];
-        this.from = [];
-        this.to = [];
-
-        console.log("days are " , this.locObject.stations.openingHours);
-
-        this.locObject.stations.openingHours.forEach(d => {
-            if (d.enabled) {
-                /*let data = {
-                 "text" : d.text,
-                 };*/
-                this.from = d.from;
-                this.to = d.to;
-                this.weekdays.push(d.key);
-            }
-        });
-
-        console.log("weekdays model is now " , this.weekdays);
-        console.log("from " , this.from);
-        console.log("to " , this.to);
-
+        for (let weekday of this.weekdays) {
+            this.connector.weekcalendar.hours[weekday].from = +this.from;
+            this.connector.weekcalendar.hours[weekday].to = +this.to;
+        }
     }
 
     deleteStation(){

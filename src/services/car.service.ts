@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
+import {Response} from '@angular/http';
 import {Observable} from "rxjs";
 import {Car} from "../models/car";
 
 import 'rxjs/add/operator/map';
+import {AuthHttp} from "angular2-jwt";
 import {AuthService} from "./auth.service";
 
 @Injectable()
@@ -11,14 +12,11 @@ export class CarService {
 
     private tmpManuData: Array<any>;
 
-    private baseUrl: string = 'http://5834821b62f23712003730c0.mockapi.io/api/v1';
-    private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
+    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
 
-    private activeCar: Car;
+    private activeCar: Car = null;
 
-    private tmpActiveOverwrite: boolean = false;
-
-    constructor(private auth: AuthService, private http: Http) {
+    constructor(private authHttp: AuthHttp, private auth: AuthService) {
         this.setTempData();
     }
 
@@ -26,52 +24,37 @@ export class CarService {
         this.activeCar = car;
     }
 
-    /**
-     * Get active car of user
-     * @TODO this will only return a result after the list has been loaded...
-     * @returns {Car}
-     */
     getActiveCar() {
         return this.activeCar;
     }
 
     getCars(): Observable<Car[]> {
         if (!this.auth.loggedIn()) {
-            this.tmpActiveOverwrite = false;
-            this.activeCar = null;
-            return Observable.of([]);
+            return Observable.of(null);
         }
 
-        return this.http.get(this.baseUrl + '/cars')
+        return this.authHttp.get(this.baseUrl + '/users/cars')
             .map(res => {
+
                 let cars = [];
                 let data = res.json();
 
-                data.forEach(input => {
-                    cars.push(new Car().deserialize(input));
-                });
+                data.cars.list.forEach(input => {
+                    console.log(input);
+                    let car = new Car().deserialize(input);
+                    cars.push(car);
 
-                //-- @TODO the final API will sent the current car in a separate field
-                if (cars.length) {
-                    /**
-                     * @TODO this `tmpActiveOverwrite` is only here because the mockup api does not save the active car.
-                     *      So once we set it, it won't be overwritten by the list loading.
-                     *      When we wired the real api, this should be removed
-                     */
-                    if (!this.tmpActiveOverwrite) {
-                        this.tmpActiveOverwrite = true;
-
-                        this.setActiveCar(cars[0]);
+                    if (car.id === data.cars.current) {
+                        this.setActiveCar(car);
                     }
-                }
+                });
 
                 return cars;
             })
-            .catch(this.handleError);
     }
 
     getCar(id): Observable<Car> {
-        return this.http.get(`${this.baseUrl}/cars/${id}`)
+        return this.authHttp.get(`${this.baseUrl}/users/cars/${id}`)
             .map(res => {
                 return new Car().deserialize(res.json());
             })
@@ -79,14 +62,14 @@ export class CarService {
     }
 
     updateCar(car: Car): Observable<Car> {
-        return this.http.put(`${this.baseUrl}/cars/${car.id}`, JSON.stringify(car), {headers: this.contentHeader})
+        return this.authHttp.put(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${car.id}`, JSON.stringify(car))
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     // createCar(car: Car): Observable<Car> {
     createCar(car: Car) {
-        return this.http.post(`${this.baseUrl}/cars`, JSON.stringify(car), {headers: this.contentHeader})
+        return this.authHttp.post(`${this.baseUrl}/users/${this.auth.getUser().address}/cars`, JSON.stringify(car))
             .map(res =>  {
                 return new Car().deserialize(res.json());
             })
@@ -94,7 +77,7 @@ export class CarService {
     }
 
     deleteCar(id) {
-        return this.http.delete(`${this.baseUrl}/cars/${id}`, {headers: this.contentHeader})
+        return this.authHttp.delete(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
     }
@@ -135,17 +118,6 @@ export class CarService {
 
         return models;
     }
-
-    // getManufacturers() {
-    //     return this.http.get('/manufacturers')
-    //         .map(res => res.json())
-    //         .catch(this.handleError);
-    // }
-
-    // private handleError(error: Response) {
-    //     console.error(error);
-    //     return Observable.throw(error.json().error || 'Server error');
-    // }
 
 
     setTempData() {

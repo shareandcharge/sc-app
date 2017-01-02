@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, ViewController , ModalController , ActionSheetController , reorderArray , NavParams} from 'ionic-angular';
 import {PlugTypesPage} from '../plug-types/plug-types';
 import {Camera} from 'ionic-native';
+import {Location} from "../../../models/location";
 
 
 @Component({
@@ -12,7 +13,7 @@ export class AddStationImagePage {
 
     images:any;
     public base64Image: string;
-    locObject:any;
+    locObject: Location;
     flowMode: any;
 
     constructor(public navCtrl:NavController, private viewCtrl:ViewController , private navParams : NavParams,public modalCtrl: ModalController , private actionSheetCtrl:ActionSheetController) {
@@ -24,9 +25,8 @@ export class AddStationImagePage {
         this.flowMode = this.navParams.get("mode");
 
 
-        if(typeof this.locObject.stations.images != 'undefined') {
-            this.images = this.locObject.stations.images;
-            console.log(this.images);
+        if(typeof this.locObject.images != 'undefined') {
+            this.images = this.locObject.images;
         }
     }
 
@@ -91,16 +91,21 @@ export class AddStationImagePage {
             targetHeight: 450
         }).then((imageData) => {
             // imageData is a base64 encoded string
-            this.base64Image = "data:image/jpeg;base64," + imageData;
-            this.images.push(this.base64Image);
+            this.base64Image = imageData;
+
+            let image = {
+                'data' : this.base64Image,
+                'src' : 'data:image/jpeg;base64,' + imageData
+            };
+
+            this.images.push(image);
         }, (err) => {
             console.log(err);
         });
     }
 
     continueAddStation() {
-
-        this.locObject.stations.images = this.images;
+        this.locObject.images = this.images;
         this.navCtrl.push(PlugTypesPage , {
             "location" : this.locObject,
             "mode": this.flowMode
@@ -108,7 +113,6 @@ export class AddStationImagePage {
     }
 
     deleteImg(img){
-
         let index = this.images.indexOf(img);
 
         if(index > -1){
