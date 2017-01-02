@@ -1,6 +1,6 @@
 export class Connector {
     priceprovider : any;
-    weekcalendar: Array<any>;
+    weekcalendar: any;
     plugtypes: Array<string>;
     power: Array<string>;
 
@@ -45,35 +45,38 @@ export class Connector {
         };
 
 
-        this.weekcalendar = [
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            }];
+        this.weekcalendar = {
+            'hours' : [
+                {
+                    'from' : 0,
+                    'to' : 0
+                },
+                {
+                    'from' : 0,
+                    'to' : 0
+                },
+                {
+                    'from' : 0,
+                    'to' : 0
+                },
+                {
+                    'from' : 0,
+                    'to' : 0
+                },
+                {
+                    'from' : 0,
+                    'to' : 0
+                },
+                {
+                    'from' : 0,
+                    'to' : 0
+                },
+                {
+                    'from' : 0,
+                    'to' : 0
+                }
+            ]
+        };
 
         this.plugtypes = [];
         this.power = [];

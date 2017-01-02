@@ -345,8 +345,8 @@ export class AddStationPage {
 
     updateSelectedDays() {
         for (let weekday of this.weekdays) {
-            this.connector.weekcalendar[weekday].from = +this.from;
-            this.connector.weekcalendar[weekday].to = +this.to;
+            this.connector.weekcalendar.hours[weekday].from = +this.from;
+            this.connector.weekcalendar.hours[weekday].to = +this.to;
         }
     }
 
