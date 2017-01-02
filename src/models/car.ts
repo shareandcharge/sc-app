@@ -41,6 +41,7 @@ export class Car implements Serializable<Car> {
         this.accuCapacity = input.accuCapacity;
         this.plugTypes = input.plugTypes;
         this.imageBase64 = input.imageBase64;
+        this.averageDistance = input.averageDistance;
 
         return this;
     }

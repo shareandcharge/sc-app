@@ -62,14 +62,14 @@ export class CarService {
     }
 
     updateCar(car: Car): Observable<Car> {
-        return this.authHttp.put(`${this.baseUrl}/users/cars/${car.id}`, JSON.stringify(car))
+        return this.authHttp.put(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${car.id}`, JSON.stringify(car))
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     // createCar(car: Car): Observable<Car> {
     createCar(car: Car) {
-        return this.authHttp.post(`${this.baseUrl}/users/:address/cars`, JSON.stringify(car))
+        return this.authHttp.post(`${this.baseUrl}/users/${this.auth.getUser().address}/cars`, JSON.stringify(car))
             .map(res =>  {
                 return new Car().deserialize(res.json());
             })
@@ -77,7 +77,7 @@ export class CarService {
     }
 
     deleteCar(id) {
-        return this.authHttp.delete(`${this.baseUrl}/users/:address/cars/${id}`)
+        return this.authHttp.delete(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
     }

@@ -14,7 +14,7 @@ import {StationWrapperPage} from "../station-wrapper";
 
 export class MyStationsPage {
 
-    stations: any;
+    stations: Array<Location>;
 
     constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, public locationService: LocationService, public modalCtrl: ModalController, private events: Events) {
         this.events.subscribe('locations:updated', () => this.loadStations());

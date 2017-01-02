@@ -38,6 +38,7 @@ export class User implements Serializable<User> {
         if (typeof input.profile !== 'undefined') {
             this.firstName = input.profile.firstname;
             this.lastName = input.profile.lastname;
+            this.imageBase64 = input.profile.imageBase64;
         }
 
         this.address = input.address;

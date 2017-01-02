@@ -21,7 +21,7 @@
     <ion-item-sliding  *ngFor="let item of stations" (click)="editStation(item)">
       <button ion-item>
         <ion-avatar item-left>
-          <img src="{{item.images[0]}}" *ngIf="item.images.length">
+          <img src="{{item.images[0].src}}" *ngIf="item.images.length">
           <img src="assets/icons/station.svg" *ngIf="!item.images.length">
         </ion-avatar>
         {{item.address}}
