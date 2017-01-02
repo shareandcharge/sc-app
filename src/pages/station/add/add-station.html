@@ -13,14 +13,15 @@
 
 
 <ion-content>
+    <progress-bar [progress]="10"></progress-bar>
+    <div class="image-wrapper">
+        <div #map id="map" (click)="detailedMap()">
+        </div>
+    </div>
     <ion-grid>
         <ion-row>
             <ion-col>
 
-                <div class="image-wrapper">
-                    <div #map id="map" (click)="detailedMap()">
-                    </div>
-                </div>
 
                 <ion-item no-lines>
                     <ion-label floating>Type Station Address</ion-label>
