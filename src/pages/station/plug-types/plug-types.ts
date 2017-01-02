@@ -36,10 +36,10 @@ export class PlugTypesPage {
     }
 
     nextPage() {
-        if (this.connector.plugtypes.length > 0) {
+        if (this.connector.plugtype != '') {
 
-            if (!this.connector.accessControl) {
-                this.connector.kwh = false
+            if (!this.connector.metadata.accessControl) {
+                this.connector.metadata.kwh = false
             }
 
             this.navCtrl.push(SetTariffPage, {
@@ -49,7 +49,7 @@ export class PlugTypesPage {
         } else {
             let alert = this.alertCtrl.create({
                 title: 'Bitte wähle einen Steckertyp',
-                subTitle: 'Es muss mindestens ein Steckertyp ausgewählt sein.',
+                subTitle: 'Es muss ein Steckertyp ausgewählt sein.',
                 buttons: ['Ok']
             });
             alert.present();

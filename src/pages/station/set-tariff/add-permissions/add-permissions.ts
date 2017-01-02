@@ -37,13 +37,7 @@ export class AddPermissionsPage {
             index = parseInt(this.permissions[this.permissions.length - 1].id) + 1;
         }
 
-        let permission = {
-            "id": index,
-            "userId": user.id,
-            "email" : user.email
-        };
-
-        this.permissions.push(permission);
+        this.permissions.push(user.email);
         this.input = "";
     }
 

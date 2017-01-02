@@ -38,9 +38,9 @@ export class SetTariffPage {
             this.buttonText = "Publish";
         }
 
-        if (this.connector.accessControl) {
+        if (this.connector.metadata.accessControl) {
             this.hourlyTariff = true;
-            if (this.connector.kwh) {
+            if (this.connector.metadata.kwh) {
                 this.kwhTariff = true;
                 this.hourlyTariff = false;
             }
@@ -91,8 +91,8 @@ export class SetTariffPage {
 
     publish() {
         if (this.priceprovider.public.active || this.priceprovider.private.active) {
+            // we need to convert the provider to the format used in the backend
             this.connector.priceprovider = this.connector.toBackendPriceProvider(this.priceprovider);
-
 
             if (this.flowMode == 'add') {
                 this.locationService.createLocation(this.locObject).subscribe(l => {
