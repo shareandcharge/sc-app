@@ -5,7 +5,7 @@ export class Location implements Serializable<Location> {
     owner: string;
     name: string;
     description: string;
-    images: Array<string>;
+    images: Array<any>;
     contact: string;
     lat: any;
     lng: any;
@@ -44,6 +44,13 @@ export class Location implements Serializable<Location> {
         this.name = input.name;
         this.description = input.description;
         this.images = input.images;
+
+        for (var image of this.images) {
+            if (typeof image.url !== 'undefined') {
+                image.src = 'https://api-test.shareandcharge.com' + image.url;
+            }
+        }
+
         this.contact = input.contact;
         this.lat = input.lat;
         this.lng = input.lng;

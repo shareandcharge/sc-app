@@ -25,9 +25,8 @@ export class AddStationImagePage {
         this.flowMode = this.navParams.get("mode");
 
 
-        if(typeof this.locObject.stations.images != 'undefined') {
-            this.images = this.locObject.stations.images;
-            console.log(this.images);
+        if(typeof this.locObject.images != 'undefined') {
+            this.images = this.locObject.images;
         }
     }
 
@@ -92,10 +91,11 @@ export class AddStationImagePage {
             targetHeight: 450
         }).then((imageData) => {
             // imageData is a base64 encoded string
-            this.base64Image = "data:image/jpeg;base64," + imageData;
+            this.base64Image = imageData;
 
             let image = {
-                'data' : this.base64Image
+                'data' : this.base64Image,
+                'src' : 'data:image/jpeg;base64,' + imageData
             };
 
             this.images.push(image);
