@@ -1,8 +1,9 @@
 export class Connector {
+
     priceprovider : any;
     weekcalendar: Array<any>;
-    plugtypes: Array<string>;
-    power: Array<string>;
+    plugtypes: string;
+    power: number;
 
     accessControl: boolean;
     kwh: boolean;
@@ -44,7 +45,6 @@ export class Connector {
             }
         };
 
-
         this.weekcalendar = [
             {
                 'from' : 0,
@@ -75,8 +75,8 @@ export class Connector {
                 'to' : 0
             }];
 
-        this.plugtypes = [];
-        this.power = [];
+        this.plugtypes = '';
+        this.power = 0;
 
         this.accessControl = false;
         this.kwh = false;

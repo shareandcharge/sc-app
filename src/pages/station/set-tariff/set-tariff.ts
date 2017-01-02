@@ -91,8 +91,8 @@ export class SetTariffPage {
 
     publish() {
         if (this.priceprovider.public.active || this.priceprovider.private.active) {
+            // we need to convert the provider to the format used in the backend
             this.connector.priceprovider = this.connector.toBackendPriceProvider(this.priceprovider);
-
 
             if (this.flowMode == 'add') {
                 this.locationService.createLocation(this.locObject).subscribe(l => {
