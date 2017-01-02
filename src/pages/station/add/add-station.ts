@@ -67,156 +67,61 @@ export class AddStationPage {
 
         this.dayHours = [
             {
-                "value": "9",
+                "value": 9,
                 "title": "9:00"
             },
             {
-                "value": "10",
+                "value": 10,
                 "title": "10:00"
             },
             {
-                "value": "11",
+                "value": 11,
                 "title": "11:00"
             },
             {
-                "value": "12",
+                "value": 12,
                 "title": "12:00"
             },
             {
-                "value": "13",
+                "value": 13,
                 "title": "13:00"
             },
             {
-                "value": "14",
+                "value": 14,
                 "title": "14:00"
             },
             {
-                "value": "15",
+                "value": 15,
                 "title": "15:00"
             },
             {
-                "value": "16",
+                "value": 16,
                 "title": "16:00"
             },
             {
-                "value": "17",
+                "value": 17,
                 "title": "17:00"
             },
             {
-                "value": "18",
+                "value": 18,
                 "title": "18:00"
             },
             {
-                "value": "19",
+                "value": 19,
                 "title": "19:00"
-            }
-        ];
-
-
-        this.customDays = [
-            {
-                "text": "Monday",
-                "enabled": false,
-                "key": "monday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Tuesday",
-                "enabled": false,
-                "key": "tuesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Wednesday",
-                "enabled": false,
-                "key": "wednesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Thursday",
-                "enabled": false,
-                "key": "thursday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Friday",
-                "enabled": false,
-                "key": "friday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Saturday",
-                "enabled": false,
-                "key": "saturday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Sunday",
-                "enabled": false,
-                "key": "sunday",
-                "from": "",
-                "to": ""
             }
         ];
 
         this.weekdays = [];
 
         this.days = [
-            {
-                "text": "Monday",
-                "enabled": false,
-                "key": "monday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Tuesday",
-                "enabled": false,
-                "key": "tuesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Wednesday",
-                "enabled": false,
-                "key": "wednesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Thursday",
-                "enabled": false,
-                "key": "thursday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Friday",
-                "enabled": false,
-                "key": "friday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Saturday",
-                "enabled": false,
-                "key": "saturday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Sunday",
-                "enabled": false,
-                "key": "sunday",
-                "from": "",
-                "to": ""
-            }
+            "Montag",
+            "Dienstag",
+            "Mittwoch",
+            "Donnerstag",
+            "Freitag",
+            "Samstag",
+            "Sonntag"
         ];
 
 
@@ -233,17 +138,6 @@ export class AddStationPage {
             console.log("the object is")
 
             this.locObject = navParams.get("location");
-          /*  this.defaultCenterLat = this.locObject.latitude;
-            this.defaultCenterLng = this.locObject.longitude;
-            this.address = this.locObject.address;
-            this.descriptions = this.locObject.descriptions;*/
-
-            if (typeof this.connector.weekcalendar != 'undefined') {
-               /* this.weekdays = this.locObject.stations.openingHours.weekdays;
-                this.from = this.locObject.stations.openingHours.from;
-                this.to = this.locObject.stations.openingHours.to;*/
-                this.updateCustomSelectedDays();
-            }
         }
         else{
             // create new location, station and connector
@@ -428,8 +322,6 @@ export class AddStationPage {
     }
 
     continueAddStation() {
-
-
         if (this.flowMode == 'add') {
             let userAddress = "";
             if (this.auth.getUser() != null) {
@@ -452,40 +344,10 @@ export class AddStationPage {
     }
 
     updateSelectedDays() {
-        console.log("weekdays model is now " , this.weekdays);
-        console.log("from " , this.from);
-        console.log("to " , this.to);
-
         for (let weekday of this.weekdays) {
-            this.connector.weekcalendar[weekday].from = this.from;
-            this.connector.weekcalendar[weekday].to = this.to;
+            this.connector.weekcalendar[weekday].from = +this.from;
+            this.connector.weekcalendar[weekday].to = +this.to;
         }
-        
-        console.log(this.connector);
-    }
-
-    updateCustomSelectedDays() {
-        this.weekdays = [];
-        this.from = [];
-        this.to = [];
-
-        console.log("days are " , this.connector.weekcalendar);
-
-        this.connector.weekcalendar.forEach(d => {
-            if (d.enabled) {
-                /*let data = {
-                 "text" : d.text,
-                 };*/
-                this.from = d.from;
-                this.to = d.to;
-                this.weekdays.push(d.key);
-            }
-        });
-
-        console.log("weekdays model is now " , this.weekdays);
-        console.log("from " , this.from);
-        console.log("to " , this.to);
-
     }
 
     deleteStation(){
