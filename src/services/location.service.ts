@@ -69,19 +69,13 @@ export class LocationService {
     }
 
     updateLocation(location: Location) {
-        if (location.name === '') {
-            location.name = location.address;
-        }
-
-        return this.authHttp.post(`${this.baseUrl}/locations/${location.id}`, JSON.stringify(location))
+        return this.authHttp.post(`${this.baseUrl}/locations/${location.id}`, location.serialize())
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     createLocation(location: Location): Observable<Location> {
-        location.name = location.address;
-
-        return this.authHttp.post(`${this.baseUrl}/locations`, JSON.stringify(location))
+        return this.authHttp.post(`${this.baseUrl}/locations`, location.serialize())
             .map(res => {
                 return new Location().deserialize(res.json());
             })

@@ -8,6 +8,8 @@ import {LocationService} from "../../../services/location.service";
 import {MyStationsPage} from "../my-stations/my-stations";
 import {StationMapDetailPage} from "./station-add-map/map";
 import {Location} from "../../../models/location";
+import {Station} from "../../../models/station";
+import {Connector} from "../../../models/connector";
 
 @Component({
     selector: 'page-add-station',
@@ -21,7 +23,6 @@ export class AddStationPage {
     service: any;
     dayHours: any;
     days: any;
-    locObject: Location;
     address: any;
     weekdays: any;
     from: any[];
@@ -30,6 +31,10 @@ export class AddStationPage {
     problemSolver: any;
     flowMode: any;
     customDays:any;
+
+    locObject: Location;
+    station: Station;
+    connector: Connector;
 
     defaultCenterLat = 52.502145;
     defaultCenterLng = 13.414476;
@@ -233,7 +238,7 @@ export class AddStationPage {
             this.address = this.locObject.address;
             this.descriptions = this.locObject.descriptions;*/
 
-            if (typeof this.locObject.stations.openingHours != 'undefined') {
+            if (typeof this.connector.weekcalendar != 'undefined') {
                /* this.weekdays = this.locObject.stations.openingHours.weekdays;
                 this.from = this.locObject.stations.openingHours.from;
                 this.to = this.locObject.stations.openingHours.to;*/
@@ -241,7 +246,14 @@ export class AddStationPage {
             }
         }
         else{
+            // create new location, station and connector
             this.locObject = new Location();
+
+            this.station = new Station();
+            this.locObject.stations.push(this.station);
+
+            this.connector = new Connector;
+            this.station.connectors.push(this.connector);
         }
 
         console.log(this.locObject);
@@ -423,32 +435,10 @@ export class AddStationPage {
             if (this.auth.getUser() != null) {
                 userAddress = this.auth.getUser().address;
             }
-            /*this.weekdays.forEach(wd => {
-                openingHours.push(
-                    {
-                        "text" : wd.text;
-                        "key": wd.key;
-                        "from" : this.from[];
-                    }
-                );
-            });*/
-
-            /*this.locObject = {
-                "owner": userAddress,
-                "address": this.address,
-                "latitude": this.map.getCenter().lat(),
-                "longitude": this.map.getCenter().lng(),
-                "descriptions": this.descriptions,
-                "stations": {
-                    "openingHours": this.customDays,
-                    "problemSolver": this.problemSolver
-                }
-            };*/
 
             this.locObject.owner = userAddress;
             this.locObject.lat = this.map.getCenter().lat();
             this.locObject.lng = this.map.getCenter().lng();
-            this.locObject.stations.openingHours = this.customDays;
         }
         else {
             this.locObject.lat = this.map.getCenter().lat();
@@ -462,30 +452,16 @@ export class AddStationPage {
     }
 
     updateSelectedDays() {
-
-
         console.log("weekdays model is now " , this.weekdays);
         console.log("from " , this.from);
         console.log("to " , this.to);
 
-        let me = this;
-        this.locObject.stations.openingHours.forEach(d => {
-            d.enabled = false;
-            d.from = "";
-            d.to = "";
-        });
-
-
-        this.weekdays.forEach(wd => {
-            this.locObject.stations.openingHours.forEach(d => {
-                console.log(wd , d.key);
-                if (wd == d.key) {
-                    d.enabled = true;
-                    d.from = me.from;
-                    d.to = me.to;
-                }
-            });
-        });
+        for (let weekday of this.weekdays) {
+            this.connector.weekcalendar[weekday].from = this.from;
+            this.connector.weekcalendar[weekday].to = this.to;
+        }
+        
+        console.log(this.connector);
     }
 
     updateCustomSelectedDays() {
@@ -493,9 +469,9 @@ export class AddStationPage {
         this.from = [];
         this.to = [];
 
-        console.log("days are " , this.locObject.stations.openingHours);
+        console.log("days are " , this.connector.weekcalendar);
 
-        this.locObject.stations.openingHours.forEach(d => {
+        this.connector.weekcalendar.forEach(d => {
             if (d.enabled) {
                 /*let data = {
                  "text" : d.text,

@@ -4,6 +4,7 @@ import {MyStationsPage} from '../my-stations/my-stations';
 import {LocationService} from "../../../services/location.service";
 import {AddPermissionsPage} from './add-permissions/add-permissions';
 import {Location} from "../../../models/location";
+import {Connector} from "../../../models/connector";
 
 
 @Component({
@@ -14,20 +15,20 @@ import {Location} from "../../../models/location";
 })
 export class SetTariffPage {
     locObject: Location;
+    connector: Connector;
+    priceprovider: any;
 
     flowMode: any;
     buttonText: any;
 
-    hourlyTarif = false;
-    kwhTarif = false;
-
-    tarifObject:any;
-
-    tarifMap: {};
-
+    hourlyTariff = false;
+    kwhTariff = false;
 
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events) {
         this.locObject = this.navParams.get("location");
+        this.connector = this.locObject.stations[0].connectors[0];
+        this.priceprovider = this.connector.priceprovider;
+
         this.flowMode = this.navParams.get("mode");
 
         if (this.flowMode == 'edit') {
@@ -37,75 +38,13 @@ export class SetTariffPage {
             this.buttonText = "Publish";
         }
 
-
-
-        if (this.locObject.stations.accessControl) {
-            this.hourlyTarif = true;
-            if (this.locObject.stations.kwh) {
-                this.kwhTarif = true;
-                this.hourlyTarif = false;
+        if (this.connector.accessControl) {
+            this.hourlyTariff = true;
+            if (this.connector.kwh) {
+                this.kwhTariff = true;
+                this.hourlyTariff = false;
             }
         }
-
-        this.tarifObject = {
-            public : {
-                active : false,
-                selected : 'flatrate',
-                flatrate : {
-                    flatrateRate : 0
-                },
-                hourly : {
-                    hourlyRate : 0,
-                    parkRate : 0
-                },
-                kwh : {
-                    kwhRate : 0,
-                    parkRate : 0
-                }
-            },
-            private : {
-                active : false,
-                selected : 'flatrate',
-                flatrate : {
-                    flatrateRate : 0
-                },
-                hourly : {
-                    hourlyRate : 0,
-                    parkRate : 0
-                },
-                kwh : {
-                    kwhRate : 0,
-                    parkRate : 0
-                },
-                permissions: []
-            }
-        };
-
-        if (typeof this.locObject.stations.tarif != 'undefined') {
-            this.tarifObject = this.locObject.stations.tarif;
-
-            if (!this.hourlyTarif && this.tarifObject.private.selected == 'hourly') {
-                this.tarifObject.private.selected = 'flatrate';
-            }
-            if (!this.hourlyTarif && this.tarifObject.public.selected == 'hourly') {
-                this.tarifObject.public.selected = 'flatrate';
-            }
-            if (!this.kwhTarif && this.tarifObject.private.selected == 'kwh') {
-                this.tarifObject.private.selected = 'flatrate';
-            }
-            if (!this.kwhTarif && this.tarifObject.public.selected == 'kwh') {
-                this.tarifObject.public.selected = 'flatrate';
-            }
-        }
-        else {
-            this.locObject.stations.tarif = this.tarifObject;
-        }
-
-        this.tarifMap = {
-            'hourly' : 0,
-            'kwh' : 1,
-            'flatrate' : 2
-        };
 
     }
 
@@ -139,40 +78,20 @@ export class SetTariffPage {
 
     addPermission() {
         let modal = this.modalCtrl.create(AddPermissionsPage, {
-            "permissions": this.tarifObject.private.permissions
+            "permissions": this.priceprovider.private.permissions
         });
 
         modal.onDidDismiss(permissions => {
-            this.tarifObject.private.permissions = permissions;
-            console.log(this.tarifObject.private.permissions);
+            this.priceprovider.private.permissions = permissions;
+            console.log(this.priceprovider.private.permissions);
         });
 
         modal.present();
     }
 
     publish() {
-        if (this.tarifObject.public.active || this.tarifObject.private.active) {
-
-            let connector = {
-                weekcalendar: {},
-                priceprovider: {
-                    priceperhour: this.tarifObject.public.hourly.hourlyRate,
-                    priceperkw: this.tarifObject.public.kwh.kwhRate,
-                    contracttype: this.tarifObject.public.active ? this.tarifMap[this.tarifObject.public.selected] : '',
-
-                    priceperhourwhitelist: this.tarifObject.private.hourly.hourlyRate,
-                    priceperkwwhitelist: this.tarifObject.private.kwh.kwhRate,
-                    contracttypewhitelist: this.tarifObject.private.active ? this.tarifMap[this.tarifObject.private.selected] : '',
-
-                    whitelist: this.tarifObject.private.permissions
-                }
-            };
-
-            let station = this.locObject.stations;
-            station.active = true;
-            station.connectors = [connector];
-
-            this.locObject.stations = [station];
+        if (this.priceprovider.public.active || this.priceprovider.private.active) {
+            this.connector.priceprovider = this.connector.toBackendPriceProvider(this.priceprovider);
 
 
             if (this.flowMode == 'add') {

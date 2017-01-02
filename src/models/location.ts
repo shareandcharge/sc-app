@@ -1,4 +1,5 @@
 import {Serializable} from './serializable';
+import {Station} from "./station";
 
 export class Location implements Serializable<Location> {
     id: any;
@@ -10,18 +11,8 @@ export class Location implements Serializable<Location> {
     lat: any;
     lng: any;
     address: string;
-    stations: any;
+    stations: Array<Station>;
     active: boolean;
-
-    // TODO: update Model and reflect changes in create location flow
-    // Location {
-    //     stations [ Station ]
-    // }
-    //
-    // Station {
-    //     active: ...
-    //     connectors [ Conenctor ]
-    // }
 
     constructor() {
         this.id = '';
@@ -33,30 +24,37 @@ export class Location implements Serializable<Location> {
         this.lat = '';
         this.lng = '';
         this.address = '';
-        this.stations = {};
+        this.stations = [];
         this.active = true;
     }
 
-    deserialize(input) {
+    serialize() {
+        return JSON.stringify(this);
+    }
 
+    deserialize(input): Location {
         this.id = input.id;
         this.owner = input.owner;
         this.name = input.name;
         this.description = input.description;
-        this.images = input.images;
+        this.contact = input.contact;
+        this.lat = input.lat;
+        this.lng = input.lng;
+        this.address = input.address;
+        this.active = input.active;
 
+        this.images = input.images;
         for (var image of this.images) {
             if (typeof image.url !== 'undefined') {
                 image.src = 'https://api-test.shareandcharge.com' + image.url;
             }
         }
 
-        this.contact = input.contact;
-        this.lat = input.lat;
-        this.lng = input.lng;
-        this.address = input.address;
-        this.stations = input.stations;
-        this.active = input.active;
+        let deserializedStations = [];
+        for (let station of input.stations) {
+            deserializedStations.push(new Station().deserialize(station));
+        }
+        this.stations = deserializedStations;
 
         return this;
     }
