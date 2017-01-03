@@ -35,7 +35,7 @@
             </ion-item>
         </ion-list>
 
-        <ion-segment color="primary" [(ngModel)]="segmentTabs" padding>
+        <ion-segment color="primary" [(ngModel)]="segmentTabs" (click)="resetWeekcalendar()" padding>
             <ion-segment-button value="default">
                 Öffnungszeiten
             </ion-segment-button>
@@ -88,11 +88,9 @@
                 <ion-label>{{days[i]}}</ion-label>
                 <ion-checkbox [(ngModel)]="day.from != day.to"></ion-checkbox>
                 <ion-select [(ngModel)]="day.from" placeholder="Von">
-                    <!--<ion-option value="from" selected="true">From</ion-option>-->
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
                 <ion-select [(ngModel)]="day.to" placeholder="Bis">
-                    <!--<ion-option value="from" selected="true">To</ion-option>-->
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
             </ion-item>

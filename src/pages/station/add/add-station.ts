@@ -32,8 +32,8 @@ export class AddStationPage {
     days: any;
     address: any;
     weekdays: any;
-    from: any[];
-    to: any[];
+    from: any;
+    to: any;
     descriptions: any;
     problemSolver: any;
     flowMode: any;
@@ -65,8 +65,8 @@ export class AddStationPage {
             this.flowMode = "add";
         }
 
-        this.from = [];
-        this.to = [];
+        this.from = 0;
+        this.to = 0;
 
         this.service = new google.maps.places.AutocompleteService();
         this.autocompleteItems = [];
@@ -169,10 +169,11 @@ export class AddStationPage {
         this.mapDefaultControlls = !this.platform.is("core");
 
         if (typeof navParams.get("location") != 'undefined') {
-
             this.locObject = navParams.get("location");
             this.station = this.locObject.stations[0];
             this.connector = this.station.connectors[0];
+
+            this.initalizeWeekcalendar();
         }
         else {
             // create new location, station and connector
@@ -196,9 +197,43 @@ export class AddStationPage {
         });
     }
 
-    detailedMap() {
-        let modal = this.modalCtrl.create(StationMapDetailPage, {
-            "position": this.marker.getPosition()
+    initalizeWeekcalendar() {
+        let from;
+        let to;
+        let weekdays = [];
+
+        this.connector.weekcalendar.hours.forEach((day, index) => {
+            if (day.from != day.to) {
+                if (typeof from === 'undefined') {
+                    from = day.from;
+                }
+
+                if (typeof to === 'undefined') {
+                    to = day.to;
+                }
+
+                if (day.from != from || day.to != to) {
+                    weekdays = [];
+                    return false;
+                }
+
+                weekdays.push(index);
+            }
+        });
+
+        if (weekdays.length) {
+            this.from = from;
+            this.to = to;
+            this.weekdays = weekdays;
+
+            this.updateSelectedDays();
+        }
+    }
+
+    detailedMap(){
+        let modal = this.modalCtrl.create(StationMapDetailPage ,{
+            "lat" : this.map.getCenter().lat(),
+            "lng" : this.map.getCenter().lng()
         });
 
         modal.onDidDismiss((position) => this.positionMarker(position.lat(), position.lng()));
@@ -342,7 +377,18 @@ export class AddStationPage {
         }
     }
 
-    deleteStation() {
+    resetWeekcalendar() {
+        for (let day of this.connector.weekcalendar.hours) {
+            day.from = 0;
+            day.to = 0;
+
+            this.weekdays = [];
+            this.from = 0;
+            this.to = 0;
+        }
+    }
+
+    deleteStation(){
         let alert = this.alertCtrl.create({
             title: 'Löschen bestätigen',
             message: 'Möchten Sie dieses Station wirklich löschen?',
