@@ -1,7 +1,9 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Station hinzufügen</ion-title>
+        <ion-title *ngIf="flowMode=='edit'">Ladestation bearbeiten</ion-title>
+        <ion-title *ngIf="flowMode=='add'">Ladestation hinzufügen</ion-title>
+
         <ion-buttons end>
             <button ion-button color="dark" icon-only="" (click)="skipAddingStation()">
                 <ion-icon name="close"></ion-icon>
@@ -99,18 +101,17 @@
         <ion-list no-lines="">
             <ion-item>
                 <ion-label floating>Problemlöser</ion-label>
-                <ion-textarea [(ngModel)]="locObject.problemSolver"></ion-textarea>
+                <ion-textarea [(ngModel)]="locObject.problemSolver" rows="4"></ion-textarea>
             </ion-item>
 
             <ion-item>
                 <ion-label floating>Beschreibung</ion-label>
-                <ion-textarea [(ngModel)]="locObject.descriptions"></ion-textarea>
+                <ion-textarea [(ngModel)]="locObject.descriptions" rows="4"></ion-textarea>
             </ion-item>
         </ion-list>
 
-        <div>
-            <button ion-button (click)="continueAddStation()">Weiter</button>
-            <button *ngIf="flowMode == 'edit'" ion-button (click)="deleteStation()">Delete</button>
+        <div padding text-center>
+            <button ion-button round (click)="continueAddStation()">Weiter</button>
         </div>
     </div>
 </ion-content>
