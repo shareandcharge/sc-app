@@ -13,6 +13,9 @@ export class Location implements Serializable<Location> {
     address: string;
     stations: Array<Station>;
     active: boolean;
+    metadata: {
+        problemSolver : string
+    }
 
     constructor() {
         this.id = '';
@@ -26,6 +29,9 @@ export class Location implements Serializable<Location> {
         this.address = '';
         this.stations = [];
         this.active = true;
+        this.metadata = {
+            problemSolver: ''
+        };
     }
 
     serialize() {
@@ -42,6 +48,7 @@ export class Location implements Serializable<Location> {
         this.lng = input.lng;
         this.address = input.address;
         this.active = input.active;
+        this.metadata = input.metadata;
 
         this.images = input.images;
         for (var image of this.images) {

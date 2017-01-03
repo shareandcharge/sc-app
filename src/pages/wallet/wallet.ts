@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, ModalController, PopoverController} from 'ionic-angular';
 import {AddMoneyPage} from './add/add-money';
 import {WalletOptionsPage} from './options/wallet-options';
+import {PaymentService} from "../../services/payment.service";
 
 @Component({
     selector: 'page-wallet',
@@ -14,40 +15,37 @@ export class WalletPage {
     hasMoney = false;
     noTransaction = true;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private popoverCtrl: PopoverController, private paymentService: PaymentService) {
         this.currentBalance = "32,00";
-        this.paymentHistory = [
-            {
-                "type": "+",
-                "amount": "18.2",
-                "date": new Date(),
-            },
-            {
-                "type": "-",
-                "amount": "28.2",
-                "date": new Date(),
-            },
-            {
-                "type": "+",
-                "amount": "48.2",
-                "date": new Date(),
-            }
-        ];
 
         if (typeof this.currentBalance != 'undefined') {
             this.hasMoney = true;
         }
 
-        if (typeof this.paymentHistory != 'undefined') {
-            if (this.paymentHistory.length > 0) {
-                this.noTransaction = false;
-            }
-        }
-
+        this.getHistory();
+        this.getBalance();
     }
 
     ionViewDidLoad() {
         //console.log('Hello WalletPage Page');
+    }
+
+    getHistory() {
+        this.paymentService.getHistory().subscribe((history) => {
+            this.paymentHistory = history;
+
+            if (typeof this.paymentHistory != 'undefined') {
+                if (this.paymentHistory.length > 0) {
+                    this.noTransaction = false;
+                }
+            }
+        });
+    }
+
+    getBalance() {
+        this.paymentService.getBalance().subscribe((balance) => {
+            this.currentBalance = balance;
+        });
     }
 
     addMoney() {

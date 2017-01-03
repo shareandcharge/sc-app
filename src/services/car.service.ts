@@ -40,11 +40,9 @@ export class CarService {
                 let data = res.json();
 
                 data.cars.list.forEach(input => {
-                    console.log(input);
                     let car = new Car().deserialize(input);
                     cars.push(car);
-
-                    if (car.id === data.cars.current) {
+                    if (+car.id === data.cars.current) {
                         this.setActiveCar(car);
                     }
                 });
@@ -80,6 +78,25 @@ export class CarService {
         return this.authHttp.delete(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
+    }
+
+    selectAsActiveCar(car: Car) {
+        let postData = {
+            'current' : car.id
+        };
+
+        return this.authHttp.post(`${this.baseUrl}/users/${this.auth.getUser().address}/cars`, JSON.stringify(postData))
+            .map(res => {
+                let data = res.json();
+
+                if (data.current == car.id) {
+                    this.setActiveCar(car);
+                } else {
+                    Observable.throw("error while selecting car as active");
+                }
+
+                return data;
+            });
     }
 
     private handleError(error: Response | any) {
