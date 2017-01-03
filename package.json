@@ -43,6 +43,7 @@
     "cordova-plugin-contacts",
     "cordova-plugin-compat",
     "cordova-plugin-actionsheet",
+    "cordova-plugin-badge@0.7.4",
     "uk.co.workingedge.phonegap.plugin.launchnavigator"
   ],
   "cordovaPlatforms": [

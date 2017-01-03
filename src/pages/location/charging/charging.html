@@ -23,10 +23,13 @@
         </ion-list>
     </div>
 
+
+    <ion-label text-center *ngIf="countingDown" >{{chargingTimeHours}}</ion-label>
     <ion-item no-lines>
         <canvas id="circleProgressBar" width="280" height="280">
         </canvas>
     </ion-item>
+
 
     <button ion-button round color="danger" (click)="startCharging()" *ngIf="countingDown">
         Stop
