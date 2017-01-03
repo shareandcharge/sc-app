@@ -53,11 +53,13 @@ export class MyStationsPage {
     }
 
     editStation(obj) {
-        let modal = this.modalCtrl.create(StationWrapperPage , {
-            "location": obj,
-            "mode": 'edit'
+        this.locationService.getLocation(obj.id).subscribe((location) => {
+            let modal = this.modalCtrl.create(StationWrapperPage , {
+                "location": location,
+                "mode": 'edit'
+            });
+            modal.present();
         });
-        modal.present();
     }
 
     favorite(item) {
