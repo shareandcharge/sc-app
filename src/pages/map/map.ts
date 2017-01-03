@@ -55,7 +55,6 @@ export class MapPage {
     constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
-
         this.address = {
             place: ''
         };

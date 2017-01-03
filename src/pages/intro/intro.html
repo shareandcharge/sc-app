@@ -1,0 +1,56 @@
+<ion-header class="transparent">
+
+    <ion-navbar>
+        <ion-title></ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="goToHome()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <div class="top-container">
+        <ion-slides #mySlider [options]="slideOptions" (ionDidChange)="SlideChanged()">
+
+            <ion-slide>
+                <img src="../../assets/icons/search.png"/>
+                <h2>Ladestation finden</h2>
+                <p>
+                    Suche auf unserer interaktiven Karte nach Ladestationen in Deiner Nähe. Mit Hilfe der Filter kannst Du spezifisch nach Deinen Suchkreterien filtern.
+                </p>
+            </ion-slide>
+
+            <ion-slide>
+                <img src="../../assets/icons/reg-station.png"/>
+                <h2>Ladestation registrieren</h2>
+                <p>
+                    Du besitzt eine Ladestation? Registiere sie und entscheide wer wann und zu welchem Tarif bei Dir laden kann.
+                </p>
+            </ion-slide>
+
+            <ion-slide>
+                <img src="../../assets/icons/wallet-intro.png"/>
+                <h2>Konto</h2>
+                <p>
+                    Dein Konto gibt dir eine Übersicht über alle Deine Transaktionen. Lade dein Konto ganz einfach auf, lass Dir Dein Guthaben auszahlen, oder spende Dein Guthaben an eine gemeinnützige Organisation.
+                </p>
+            </ion-slide>
+
+        </ion-slides>
+        <div class="bottom-container">
+            <ion-grid>
+                <ion-row>
+                    <ion-col width-50 text-left>
+                        <a href="#" class="dark" (click)="goToHome()">Überspringen</a>
+                    </ion-col>
+                    <ion-col width-50 text-right>
+                        <a href="#" (click)="changeSlide()">{{sliderText}}</a>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </div>
+</ion-content>
