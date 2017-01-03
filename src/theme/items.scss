@@ -9,3 +9,8 @@ ion-item.item-ios {
     min-height: $_size;
   }
 }
+
+.item-partial-cover .item-cover {
+  // to be able to have a clickable icon on the right
+  width: 80%;
+}
