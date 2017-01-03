@@ -15,7 +15,7 @@
 
 
 <ion-content padding="">
-    <ion-list no-lines *ngIf="!teamMembers || teamMembers.length == 0">
+    <ion-list no-lines *ngIf="!images || images.length == 0">
         <ion-item>
             Foto hinzufügen (optional)
         </ion-item>
@@ -27,20 +27,30 @@
     </ion-list>
 
 
+    <div *ngIf="images && images.length > 0">
+        <button ion-button="" block large clear (click)="presentActionSheet()">
+            <ion-icon name="cust-add-photo"></ion-icon>
+            Foto hinzufügen
+        </button>
+    </div>
+
     <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
-        <ion-item-sliding *ngFor="let img of images">
+        <ion-item-sliding *ngFor="let img of images" #itemSliding>
             <ion-item>
-                <img src="{{img.src}}">
+                <ion-thumbnail item-left>
+                    <img src="{{img.src}}">
+                </ion-thumbnail>
             </ion-item>
-            <ion-item-options>
-                <button (click)="deleteImg(img)" danger>
-                    <ion-icon name="trash"></ion-icon>
-                </button>
+
+
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="deleteImg(img, itemSliding)">Löschen</button>
             </ion-item-options>
+
         </ion-item-sliding>
     </ion-list>
 
-    <div>
-        <button ion-button (click)="continueAddStation()">Continue</button>
+    <div padding text-center>
+        <button ion-button round (click)="continueAddStation()">Weiter</button>
     </div>
 </ion-content>
