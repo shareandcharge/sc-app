@@ -237,26 +237,16 @@ export class AddStationPage {
         };
         console.log('Place request: ', request);
         this.placesService = new google.maps.places.PlacesService(this.map);
-        this.placesService.getDetails(request, callback);
-
-        let me = this;
-
-        function callback(place, status) {
+        this.placesService.getDetails(request, (place, status) => {
 
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 console.log('Place detail:', place);
-                me.map.panTo(place.geometry.location);
-
-                me.marker = new google.maps.Marker({
-                    draggable: true,
-                    position: place.geometry.location,
-                    map: me.map
-                });
+                this.positionMarker(place.geometry.location.lat(), place.geometry.location.lng());
             }
             else {
                 console.log('Place err: ', status);
             }
-        }
+        });
     }
 
 
