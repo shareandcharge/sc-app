@@ -214,6 +214,7 @@ export class AddStationPage {
 
                 if (day.from != from || day.to != to) {
                     weekdays = [];
+                    this.segmentTabs = 'custom';
                     return false;
                 }
 
