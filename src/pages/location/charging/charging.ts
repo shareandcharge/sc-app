@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController} from 'ionic-angular';
-import {ChargingCompletePage} from './charging-complete/charging-complete'
+import {ChargingCompletePage} from './charging-complete/charging-complete';
+import {Badge} from 'ionic-native';
 
 @Component({
     selector: 'page-charging',
@@ -30,6 +31,10 @@ export class ChargingPage {
         this.mouseDragging = false;
         this.canvasX = 140;
         this.canvasY = 140;
+
+        /* document.addEventListener('pause', () => {
+
+         });*/
     }
 
     ionViewDidLoad() {
@@ -172,7 +177,7 @@ export class ChargingPage {
         ctx.lineCap = 'square';
         ctx.beginPath();
         ctx.font = "35px Arial";
-        this.chargingTimeHours = this.chargingTimeHours.substring(0,5);
+        this.chargingTimeHours = this.chargingTimeHours.substring(0, 5);
         ctx.fillText(this.chargingTimeHours, 95, c.height / 2 + 10);
 
 
@@ -186,13 +191,13 @@ export class ChargingPage {
         let endOfArcY = Math.round(this.canvasY + Math.sin(radiant) * 100);
 
         ctx.fillStyle = 'white';
-        ctx.shadowBlur=3;
-        ctx.shadowColor="black";
+        ctx.shadowBlur = 3;
+        ctx.shadowColor = "black";
         ctx.beginPath();
-        ctx.arc(endOfArcX, endOfArcY, 15 , 0, 2 * Math.PI);
+        ctx.arc(endOfArcX, endOfArcY, 15, 0, 2 * Math.PI);
         ctx.fill();
 
-        ctx.shadowBlur=0;
+        ctx.shadowBlur = 0;
 
         this.chargingTime = time;
     }
@@ -213,7 +218,6 @@ export class ChargingPage {
 
     countDown() {
         if (this.countingDown) {
-
             let alert = this.alertCtrl.create({
                 title: 'Stop Charging Confirmation',
                 message: 'Are you sure you want to stop?',
@@ -239,6 +243,7 @@ export class ChargingPage {
                             this.updateTimerString();
                             //this.updateCanvas();
                             this.initiateCanvas();
+                            Badge.clear();
                             this.navCtrl.push(ChargingCompletePage, {
                                 "chargedTime": chargedTimeString
                             });
@@ -250,8 +255,10 @@ export class ChargingPage {
 
         }
         else {
+            Badge.set(1);
             this.countingDown = true;
             this.selectedChargingTime = this.chargingTime;
+            this.chargingTimeHours = this.chargingTimeHours + ":00";
             let me = this;
             me.timer = (this.hours * 3600) + (this.minutes * 60);
             me.selectedChargingTime = me.timer;
@@ -272,11 +279,12 @@ export class ChargingPage {
                     me.countingDown = false;
                     let chargedTimeString = me.makeTimeString(me.selectedChargingTime);
                     me.initiateCanvas();
+                    Badge.clear();
                     me.navCtrl.push(ChargingCompletePage, {
                         "chargedTime": chargedTimeString
                     });
                 }
-            }, 10);
+            }, 1000);
         }
 
     }
@@ -312,7 +320,7 @@ export class ChargingPage {
         ctx.lineCap = 'square';
         ctx.beginPath();
         ctx.font = "30px Arial";
-        ctx.fillText(this.chargingTimeHours, 95, c.height / 2 + 10);
+        //ctx.fillText(this.chargingTimeHours, 80, c.height / 2 + 10);
 
         let fullCircle = 2 * Math.PI;
         let progress = ((fullCircle * this.timer) / (8 * 3600)) - (Math.PI / 2);
