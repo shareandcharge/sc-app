@@ -58,7 +58,10 @@ export class MyApp {
     }
 
     refreshUser() {
-        this.userService.getUser().subscribe((user) => this.authService.setUser(user));
+        this.userService.getUser().subscribe((user) => {
+            this.authService.setUser(user);
+            this.events.publish('user:refreshed');
+        });
     }
 
 }
