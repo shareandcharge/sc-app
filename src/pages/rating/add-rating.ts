@@ -16,7 +16,7 @@ export class AddRatingPage {
 
     constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController, public ratingService: RatingService, public authService: AuthService, public alertCtrl: AlertController) {
         this.location = navParams.get('location');
-        this.rating.value = 2.5;
+        this.rating.rating = 2.5;
     }
 
     dismiss() {

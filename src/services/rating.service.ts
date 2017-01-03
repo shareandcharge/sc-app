@@ -16,9 +16,12 @@ export class RatingService {
         return this.authHttp.get(this.baseUrl + locationId + '/ratings')
             .map(res => {
                 let ratings = [];
-                res.json().forEach(input => {
-                    ratings.push(new Rating().deserialize(input));
-                });
+                if (res.json() != null) {
+                    console.log(res.json());
+                    res.json().forEach(input => {
+                        ratings.push(new Rating().deserialize(input));
+                    });
+                }
                 return ratings;
             })
             .catch(this.handleError);
