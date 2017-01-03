@@ -42,7 +42,7 @@ export class CarService {
                 data.cars.list.forEach(input => {
                     let car = new Car().deserialize(input);
                     cars.push(car);
-                    if (+car.id === data.cars.current) {
+                    if (+car.id == data.cars.current) {
                         this.setActiveCar(car);
                     }
                 });
