@@ -99,11 +99,8 @@ export class SetTariffPage {
                     this.navCtrl.parent.pop();
                     this.events.publish('locations:updated', l);
                 });
-            }
-
-            else {
+            } else {
                 this.locationService.updateLocation(this.locObject).subscribe(l => {
-
                     this.navCtrl.parent.pop();
                     this.events.publish('locations:updated', l);
                 });

@@ -55,7 +55,7 @@ export class MyStationsPage {
 
     editStation(obj) {
         console.log(obj);
-        this.navCtrl.push(AddStationPage , {
+        this.navCtrl.push(StationWrapperPage , {
             "location": obj,
             "mode": 'edit'
         })

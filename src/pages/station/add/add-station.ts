@@ -138,6 +138,8 @@ export class AddStationPage {
             console.log("the object is")
 
             this.locObject = navParams.get("location");
+            this.station = this.locObject.stations[0];
+            this.connector = this.station.connectors[0];
         }
         else{
             // create new location, station and connector

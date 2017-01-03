@@ -1,9 +1,12 @@
 export class Connector {
-
+    id: any;
     priceprovider : any;
-    weekcalendar: any;
     plugtype: string;
     wattpower: number;
+
+    weekcalendar: {
+        'hours' : Array<any>
+    };
 
     metadata: {
         accessControl: boolean,
@@ -80,6 +83,7 @@ export class Connector {
             ]
         };
 
+        this.id = '';
         this.plugtype = '';
         this.wattpower = 0;
 
@@ -157,8 +161,9 @@ export class Connector {
             let tariff = frontendPriceProvider.private;
             tariff.active = true;
             tariff.selected = this.priceProviderTariffTypes[backendPriceProvider.contracttypewhitelist];
+            tariff.permissions = backendPriceProvider.whitelist;
 
-            switch (backendPriceProvider.contracttype) {
+            switch (backendPriceProvider.contracttypewhitelist) {
                 case 1: {
                     tariff.flatrate.flatrateRate = backendPriceProvider.priceperhourwhitelist;
                     break;
@@ -219,7 +224,7 @@ export class Connector {
             let tariff = frontendPriceProvider.private;
             let tariffType = this.priceProviderTariffTypes.indexOf(tariff.selected);
 
-            backendPriceProvider.contracttype = tariffType;
+            backendPriceProvider.contracttypewhitelist = tariffType;
             backendPriceProvider.whitelist = tariff.permissions;
 
             switch(tariffType) {
@@ -249,13 +254,15 @@ export class Connector {
     }
 
     deserialize(input) {
+        this.id = input.id;
+
         this.priceprovider = this.toFrontendPriceProvider(input.priceprovider);
         this.weekcalendar = input.weekcalendar;
 
         this.metadata = input.metadata;
 
-        this.plugtype = input.plugtypes;
-        this.wattpower = input.power;
+        this.plugtype = input.plugtype;
+        this.wattpower = input.wattpower;
 
         return this;
     }
