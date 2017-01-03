@@ -166,7 +166,7 @@ export class MapPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
-            content: "Loading map ...",
+            content: "Lade Karte ...",
         });
         loader.present();
 

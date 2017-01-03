@@ -10,7 +10,7 @@
 
 <ion-content padding>
   <ion-item>
-    <ion-select [(ngModel)]="connector.plugtypes"  multiple="true" class="select-multiline" placeholder="Steckertypen" [selectOptions]="">
+    <ion-select [(ngModel)]="connector.plugtype"  multiple="false" class="select-multiline" placeholder="Steckertyp" [selectOptions]="">
       <ion-option>Schuko-Steckdose</ion-option>
       <ion-option>CEE-Stecker</ion-option>
       <ion-option>Typ 1</ion-option>
@@ -22,20 +22,20 @@
   </ion-item>
 
   <ion-item>
-    <ion-select [(ngModel)]="connector.power" multiple="true" class="select-multiline" placeholder="Leistung" [selectOptions]="">
-      <ion-option>2.4</ion-option>
-      <ion-option>4.3</ion-option>
+    <ion-select [(ngModel)]="connector.wattpower" multiple="false" class="select-multiline" placeholder="Leistung" [selectOptions]="">
+      <ion-option>2</ion-option>
+      <ion-option>4</ion-option>
     </ion-select>
   </ion-item>
 
   <ion-item>
     <ion-label>Zugangskontrolle</ion-label>
-    <ion-checkbox [(ngModel)]="connector.accessControl"></ion-checkbox>
+    <ion-checkbox [(ngModel)]="connector.metadata.accessControl"></ion-checkbox>
   </ion-item>
 
   <ion-item>
     <ion-label>kWh abrechnung</ion-label>
-    <ion-checkbox [(ngModel)]="connector.kwh" disabled="{{!accessControl}}"></ion-checkbox>
+    <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{!connector.metadata.accessControl}}"></ion-checkbox>
   </ion-item>
 
   <button ion-button (click)="nextPage()">Weiter</button>

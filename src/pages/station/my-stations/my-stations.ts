@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, ModalController, Events} from 'ionic-angular';
-import {AddStationPage} from '../add/add-station';
 import {LocationService} from "../../../services/location.service";
 import {AuthService} from "../../../services/auth.service";
 import {StationWrapperPage} from "../station-wrapper";
@@ -54,11 +53,11 @@ export class MyStationsPage {
     }
 
     editStation(obj) {
-        console.log(obj);
-        this.navCtrl.push(AddStationPage , {
+        let modal = this.modalCtrl.create(StationWrapperPage , {
             "location": obj,
             "mode": 'edit'
-        })
+        });
+        modal.present();
     }
 
     favorite(item) {

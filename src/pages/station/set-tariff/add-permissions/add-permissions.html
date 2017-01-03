@@ -19,8 +19,8 @@
         <br/>
         <ion-input [(ngModel)]="input" placeholder="Add Email"></ion-input>
         <button right ion-button (click)="submit()">Add</button>
-        <ion-item *ngFor="let c of permissions">
-            {{c.email}}
+        <ion-item *ngFor="let email of permissions">
+            {{email}}
             <ion-icon right name="trash" (click)="delete(c.id)"></ion-icon>
         </ion-item>
     </ion-list>

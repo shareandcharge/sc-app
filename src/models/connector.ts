@@ -1,11 +1,17 @@
 export class Connector {
+    id: any;
     priceprovider : any;
-    weekcalendar: any;
-    plugtypes: Array<string>;
-    power: Array<string>;
+    plugtype: string;
+    wattpower: number;
 
-    accessControl: boolean;
-    kwh: boolean;
+    weekcalendar: {
+        'hours' : Array<any>
+    };
+
+    metadata: {
+        accessControl: boolean,
+        kwh: boolean
+    };
 
     priceProviderTariffTypes: Array<string>;
 
@@ -44,7 +50,6 @@ export class Connector {
             }
         };
 
-
         this.weekcalendar = {
             'hours' : [
                 {
@@ -78,11 +83,14 @@ export class Connector {
             ]
         };
 
-        this.plugtypes = [];
-        this.power = [];
+        this.id = '';
+        this.plugtype = '';
+        this.wattpower = 0;
 
-        this.accessControl = false;
-        this.kwh = false;
+        this.metadata = {
+            accessControl : false,
+            kwh : false
+        }
 
         this.priceProviderTariffTypes = [
             'invalid',
@@ -153,8 +161,9 @@ export class Connector {
             let tariff = frontendPriceProvider.private;
             tariff.active = true;
             tariff.selected = this.priceProviderTariffTypes[backendPriceProvider.contracttypewhitelist];
+            tariff.permissions = backendPriceProvider.whitelist;
 
-            switch (backendPriceProvider.contracttype) {
+            switch (backendPriceProvider.contracttypewhitelist) {
                 case 1: {
                     tariff.flatrate.flatrateRate = backendPriceProvider.priceperhourwhitelist;
                     break;
@@ -215,7 +224,7 @@ export class Connector {
             let tariff = frontendPriceProvider.private;
             let tariffType = this.priceProviderTariffTypes.indexOf(tariff.selected);
 
-            backendPriceProvider.contracttype = tariffType;
+            backendPriceProvider.contracttypewhitelist = tariffType;
             backendPriceProvider.whitelist = tariff.permissions;
 
             switch(tariffType) {
@@ -245,15 +254,15 @@ export class Connector {
     }
 
     deserialize(input) {
+        this.id = input.id;
+
         this.priceprovider = this.toFrontendPriceProvider(input.priceprovider);
         this.weekcalendar = input.weekcalendar;
 
-        // TODO: ask Simon about the names
-        this.accessControl = input.accessControl;
-        this.kwh = input.kwh;
+        this.metadata = input.metadata;
 
-        this.plugtypes = input.plugtypes;
-        this.power = input.power;
+        this.plugtype = input.plugtype;
+        this.wattpower = input.wattpower;
 
         return this;
     }

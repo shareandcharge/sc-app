@@ -51,15 +51,13 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    getUserForEmail(email: string): Observable<User> {
-        // this is just a stub
-        // TODO: change implementation as soon as backend service is implemented
+    userExists(email: string) {
+        let object = {
+            'email': email
+        };
 
-        let user = new User();
-        user.id = 123;
-        user.email = "user@user.de";
-
-        return Observable.of(user);
+        return this.authHttp.post(`${this.baseUrl}/users/exists`, JSON.stringify(object))
+            .map(res => res.json());
     }
 
     updateUser(user: User): Observable<User> {

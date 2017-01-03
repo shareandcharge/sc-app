@@ -31,19 +31,8 @@ export class AddPermissionsPage {
         });
     }
 
-    addUserToPermissionList(user: User) {
-        let index = 1;
-        if (this.permissions.length > 0) {
-            index = parseInt(this.permissions[this.permissions.length - 1].id) + 1;
-        }
-
-        let permission = {
-            "id": index,
-            "userId": user.id,
-            "email" : user.email
-        };
-
-        this.permissions.push(permission);
+    addUserToPermissionList(email: string) {
+        this.permissions.push(email);
         this.input = "";
     }
 
@@ -64,10 +53,10 @@ export class AddPermissionsPage {
     }
 
     addValidEmail(emailAddress) {
-        this.userService.getUserForEmail(emailAddress).subscribe(
-            user => {
-                if (user != null) {
-                    this.addUserToPermissionList(user);
+        this.userService.userExists(emailAddress).subscribe(
+            res => {
+                if (res.exists) {
+                    this.addUserToPermissionList(emailAddress);
                 } else {
                     let alert = this.alertCtrl.create({
                         title: 'E-Mail-Adresse nicht registriert',
@@ -87,10 +76,10 @@ export class AddPermissionsPage {
             return;
         }
 
-        this.userService.getUserForEmail(emailObject.value).subscribe(
-            user => {
-                if (user != null) {
-                    this.addUserToPermissionList(user);
+        this.userService.userExists(emailObject.value).subscribe(
+            res => {
+                if (res.exists) {
+                    this.addUserToPermissionList(emailObject.value);
                 } else {
                     if (contactEmails.length == 0) {
                         let alert = this.alertCtrl.create({

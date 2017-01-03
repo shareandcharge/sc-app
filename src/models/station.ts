@@ -1,6 +1,7 @@
 import {Connector} from "./connector";
 
 export class Station {
+    id: any;
     name: string;
     active: boolean;
     connectors: Array<Connector>;
@@ -16,6 +17,7 @@ export class Station {
     }
 
     deserialize(input): Station {
+        this.id = input.id;
         this.name = input.name;
         this.active = input.active;
 
