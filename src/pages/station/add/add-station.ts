@@ -1,5 +1,12 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, ViewController, LoadingController, NavParams , AlertController ,ModalController} from 'ionic-angular';
+import {
+    NavController,
+    ViewController,
+    LoadingController,
+    NavParams,
+    AlertController,
+    ModalController
+} from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
 import {Platform} from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
@@ -30,7 +37,7 @@ export class AddStationPage {
     descriptions: any;
     problemSolver: any;
     flowMode: any;
-    customDays:any;
+    customDays: any;
 
     locObject: Location;
     station: Station;
@@ -41,6 +48,7 @@ export class AddStationPage {
 
     @ViewChild('map') mapElement: ElementRef;
     map: any;
+    marker: any;
     placesService: any;
     private platform;
     location: any;
@@ -48,7 +56,7 @@ export class AddStationPage {
 
     defaultZoom = 16;
 
-    constructor(public navCtrl: NavController,private modalCtrl: ModalController ,public locationService: LocationService,private alertCtrl: AlertController ,public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private viewCtrl: ViewController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public locationService: LocationService, private alertCtrl: AlertController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private viewCtrl: ViewController) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -67,8 +75,24 @@ export class AddStationPage {
 
         this.dayHours = [
             {
+                "value": 5,
+                "title": "05:00"
+            },
+            {
+                "value": 6,
+                "title": "06:00"
+            },
+            {
+                "value": 7,
+                "title": "07:00"
+            },
+            {
+                "value": 8,
+                "title": "08:00"
+            },
+            {
                 "value": 9,
-                "title": "9:00"
+                "title": "09:00"
             },
             {
                 "value": 10,
@@ -109,7 +133,23 @@ export class AddStationPage {
             {
                 "value": 19,
                 "title": "19:00"
-            }
+            },
+            {
+                "value": 20,
+                "title": "20:00"
+            },
+            {
+                "value": 21,
+                "title": "21:00"
+            },
+            {
+                "value": 22,
+                "title": "22:00"
+            },
+            {
+                "value": 23,
+                "title": "23:00"
+            },
         ];
 
         this.weekdays = [];
@@ -126,22 +166,15 @@ export class AddStationPage {
 
 
         this.platform = platform;
-        if (this.platform.is("core")) {
-            this.mapDefaultControlls = false;
-        }
-        else {
-            this.mapDefaultControlls = true;
-        }
+        this.mapDefaultControlls = !this.platform.is("core");
 
         if (typeof navParams.get("location") != 'undefined') {
-
-            console.log("the object is")
 
             this.locObject = navParams.get("location");
             this.station = this.locObject.stations[0];
             this.connector = this.station.connectors[0];
         }
-        else{
+        else {
             // create new location, station and connector
             this.locObject = new Location();
 
@@ -159,35 +192,16 @@ export class AddStationPage {
 
     initializeApp() {
         this.platform.ready().then(() => {
-            console.log('Platform ready');
             this.loadMap();
-
         });
     }
 
-    detailedMap(){
-        let modal = this.modalCtrl.create(StationMapDetailPage ,{
-            "lat" : this.map.getCenter().lat(),
-            "lng" : this.map.getCenter().lng()
+    detailedMap() {
+        let modal = this.modalCtrl.create(StationMapDetailPage, {
+            "position": this.marker.getPosition()
         });
 
-        let map = this.map;
-
-        modal.onDidDismiss(location => {
-            console.log('DIS:', location);
-            let initialLocation = new google.maps.LatLng(location.lat, location.lng);
-            map.setCenter(initialLocation);
-            //map.clearOverlays();
-            //map.setMapOnAll(null);
-
-            new google.maps.Marker({
-                draggable: true,
-                position: new google.maps.LatLng(location.lat, location.lng),
-                map: map
-            });
-
-            console.log("update map");
-        });
+        modal.onDidDismiss((position) => this.positionMarker(position.lat(), position.lng()));
 
         modal.present();
     }
@@ -212,8 +226,6 @@ export class AddStationPage {
     }
 
     chooseItem(item: any) {
-        //console.log('modal > chooseItem > item > ', item);
-
         this.autocompleteItems = [];
 
         this.centerToPlace(item);
@@ -227,41 +239,50 @@ export class AddStationPage {
         };
         console.log('Place request: ', request);
         this.placesService = new google.maps.places.PlacesService(this.map);
-        this.placesService.getDetails(request, callback);
-
-        let me = this;
-
-        function callback(place, status) {
+        this.placesService.getDetails(request, (place, status) => {
 
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 console.log('Place detail:', place);
-                me.map.setCenter(place.geometry.location);
-                me.map.setZoom(16);
-
-                /*let marker = */new google.maps.Marker({
-                    draggable: true,
-                    position: place.geometry.location,
-                    map: me.map
-                });
+                this.positionMarker(place.geometry.location.lat(), place.geometry.location.lng());
             }
             else {
                 console.log('Place err: ', status);
             }
-        }
+        });
     }
 
 
-    loadMap() {
+    positionMarker(lat, lng, panTo = true) {
+        let latLng = new google.maps.LatLng(lat, lng);
 
+        if (null == this.marker) {
+            this.marker = new google.maps.Marker({
+                draggable: true,
+                position: latLng,
+                map: this.map
+            });
+        }
+        else {
+            this.marker.setPosition(latLng);
+        }
+
+        if (panTo) {
+            this.map.panTo(latLng);
+        }
+
+        google.maps.event.addListener(this.marker, 'dragend', () => {
+            setTimeout(() => this.map.panTo(this.marker.getPosition()), 200);
+        });
+    }
+
+    loadMap() {
         let loader = this.loadingCtrl.create({
-            content: "Loading map ...",
+            content: "Lade Karte ...",
         });
         loader.present();
 
-        let latLng = new google.maps.LatLng(this.defaultCenterLat, this.defaultCenterLng);
-
         let mapOptions = {
-            center: latLng,
+            center: new google.maps.LatLng(this.defaultCenterLat, this.defaultCenterLng),
             zoom: this.defaultZoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
@@ -270,53 +291,22 @@ export class AddStationPage {
         };
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-        let marker;
 
-        if(this.flowMode == 'add'){
+        if (this.flowMode == 'add') {
             Geolocation.getCurrentPosition().then((position) => {
-                let initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                this.map.setCenter(initialLocation);
-                marker = new google.maps.Marker({
-                    draggable: true,
-                    position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                    map: this.map
-                });
-
-                google.maps.event.addListener(marker, 'dragend', function(evt){
-                    this.map.setCenter(marker.position);
-                    marker.setMap(this.map);
-                });
-
+                this.positionMarker(position.coords.latitude, position.coords.longitude);
             }, (err) => {
                 console.log(err);
-                loader.dismissAll();
+                this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
             });
         }
-        else{
-            let initialLocation = new google.maps.LatLng(this.locObject.lat, this.locObject.lng);
-            this.map.setCenter(initialLocation);
-            marker = new google.maps.Marker({
-                draggable: true,
-                position: new google.maps.LatLng(this.locObject.lat, this.locObject.lng),
-                map: this.map
-            });
-
-            google.maps.event.addListener(marker, 'dragend', function(evt){
-                this.map.setCenter(marker.position);
-                marker.setMap(this.map);
-            });
+        else {
+            this.positionMarker(this.locObject.lat, this.locObject.lng);
         }
-
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
             loader.dismissAll();
         });
-
-    }
-
-
-    ionViewDidLoad() {
-        console.log('Hello AddStationPage Page');
     }
 
     skipAddingStation() {
@@ -352,7 +342,7 @@ export class AddStationPage {
         }
     }
 
-    deleteStation(){
+    deleteStation() {
         let alert = this.alertCtrl.create({
             title: 'Löschen bestätigen',
             message: 'Möchten Sie dieses Station wirklich löschen?',

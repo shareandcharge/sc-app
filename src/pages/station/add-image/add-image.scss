@@ -1,23 +1,22 @@
-page-add-station {
-    .image-wrapper {
-        background-color: #eee;
-        overflow: hidden;
-        height: 180px;
-        img {
-            width: 100%;
-            height: auto;
+page-add-image {
+    //.image-wrapper {
+    //    background-color: #eee;
+    //    overflow: hidden;
+    //    height: 180px;
+    //    img {
+    //        width: 100%;
+    //        height: auto;
+    //    }
+    //}
+
+    .add-image-button {
+        background-color: white;
+        border-radius: 2px;
+        width: 100%;
+        text-align: center;
+        ion-icon {
+            font-size: 130px;
+            color: #aaa;
         }
     }
-}
-
-.add-image-icon{
-    right: auto;
-    left: auto;
-    height: 200px;
-    width: 200px;
-    color: white;
-    font-size: 30px;
-    text-align: center;
-    line-height: 200px;
-    background-color: grey;
 }
