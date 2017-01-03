@@ -63,6 +63,7 @@ export class MapPage {
 
         //-- whenever the cars change or user loggs in, refresh the infos we need for the "switch car button"
         this.events.subscribe('cars:updated', () => this.refreshCarInfo());
+        this.events.subscribe('user:refreshed', () => this.refreshCarInfo());
         this.events.subscribe('auth:login', () => this.refreshCarInfo());
         this.events.subscribe('auth:logout', () => this.refreshCarInfo());
 
@@ -96,9 +97,12 @@ export class MapPage {
     }
 
     setActiveCar(car: Car, fab: FabContainer) {
-        this.activeCar = car;
-        this.carService.setActiveCar(car);
-        this.events.publish('cars:updated');
+        this.carService.selectAsActiveCar(car).subscribe((response) => {
+            this.activeCar = car;
+            this.events.publish('cars:updated');
+        });
+
+
         fab.close();
     }
 
