@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
 import {
     NavController,
-    ViewController,
     ModalController,
     ActionSheetController,
     reorderArray,
-    NavParams
+    NavParams, ItemSliding, AlertController
 } from 'ionic-angular';
 import {PlugTypesPage} from '../plug-types/plug-types';
 import {Camera} from 'ionic-native';
@@ -23,7 +22,7 @@ export class AddStationImagePage {
     locObject: Location;
     flowMode: any;
 
-    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private navParams: NavParams, public modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController) {
+    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams, public modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController) {
         if (typeof this.images == "undefined") {
             this.images = [];
         }
@@ -37,25 +36,9 @@ export class AddStationImagePage {
         }
     }
 
-    ionViewDidLoad() {
-    }
-
-    skipAddingImage() {
+    close() {
         this.navCtrl.parent.pop();
     }
-
-    /*  AddImage(){
-     let modal = this.modalCtrl.create(StationImageSelectPage , {
-     "images": this.images
-     });
-
-     modal.onDidDismiss(data => {
-     console.log('MODAL DATA ', data);
-     this.images = data;
-     });
-
-     modal.present();
-     }*/
 
     presentActionSheet() {
         let actionSheet = this.actionSheetCtrl.create({
@@ -92,8 +75,10 @@ export class AddStationImagePage {
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: sourceType,
             targetWidth: 800,
+            targetHeight: 450,
+            quality: 70,
             allowEdit: true,
-            targetHeight: 450
+            correctOrientation: true
         }).then((imageData) => {
             // imageData is a base64 encoded string
             this.base64Image = imageData;
@@ -117,12 +102,30 @@ export class AddStationImagePage {
         });
     }
 
-    deleteImg(img) {
-        let index = this.images.indexOf(img);
+    deleteImg(img, itemSliding: ItemSliding) {
+        let alert = this.alertCtrl.create({
+            title: 'Löschen bestätigen',
+            message: 'Möchten Sie dieses Foto wirklich löschen?',
+            buttons: [
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    handler: () => itemSliding.close()
+                },
+                {
+                    text: 'Ja, löschen',
+                    handler: () => {
+                        let index = this.images.indexOf(img);
 
-        if (index > -1) {
-            this.images.splice(index, 1);
-        }
+                        if (index > -1) {
+                            this.images.splice(index, 1);
+                        }
+
+                    }
+                }
+            ]
+        });
+        alert.present();
     }
 
     reorderItems(indexes) {

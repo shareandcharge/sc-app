@@ -1,43 +1,83 @@
-
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Anschluss wählen</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title *ngIf="flowMode=='edit'">Ladestation bearbeiten</ion-title>
+        <ion-title *ngIf="flowMode=='add'">Ladestation hinzufügen</ion-title>
 
+        <ion-buttons end>
+            <button ion-button color="dark" icon-only="" (click)="close()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+    <progress-bar [progress]="60"></progress-bar>
 </ion-header>
 
 
 <ion-content padding>
-  <ion-item>
-    <ion-select [(ngModel)]="connector.plugtype"  multiple="false" class="select-multiline" placeholder="Steckertyp" [selectOptions]="">
-      <ion-option>Schuko-Steckdose</ion-option>
-      <ion-option>CEE-Stecker</ion-option>
-      <ion-option>Typ 1</ion-option>
-      <ion-option>Typ 2</ion-option>
-      <ion-option>Combo</ion-option>
-      <ion-option>CHAdeMO</ion-option>
-      <ion-option>Tesla Supercharger</ion-option>
-    </ion-select>
-  </ion-item>
+    <ion-list no-lines="">
 
-  <ion-item>
-    <ion-select [(ngModel)]="connector.wattpower" multiple="false" class="select-multiline" placeholder="Leistung" [selectOptions]="">
-      <ion-option>2</ion-option>
-      <ion-option>4</ion-option>
-    </ion-select>
-  </ion-item>
+        <ion-list-header>
+            Anschluss wählen
+        </ion-list-header>
 
-  <ion-item>
-    <ion-label>Zugangskontrolle</ion-label>
-    <ion-checkbox [(ngModel)]="connector.metadata.accessControl"></ion-checkbox>
-  </ion-item>
+        <ion-item>
+            <ion-label>Steckertyp</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-select [(ngModel)]="connector.plugtype"
+                        multiple="false" class="select-multiline"
+                        [selectOptions]=""
+                        placeholder="Bitte wählen ..."
+                        cancelText="Abbrechen" okText="OK"
+            >
+                <ion-option>Schuko-Steckdose</ion-option>
+                <ion-option>CEE-Stecker</ion-option>
+                <ion-option>Typ 1</ion-option>
+                <ion-option>Typ 2</ion-option>
+                <ion-option>Combo</ion-option>
+                <ion-option>CHAdeMO</ion-option>
+                <ion-option>Tesla Supercharger</ion-option>
+            </ion-select>
+        </ion-item>
 
-  <ion-item>
-    <ion-label>kWh abrechnung</ion-label>
-    <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{!connector.metadata.accessControl}}"></ion-checkbox>
-  </ion-item>
+        <ion-item>
+            <ion-label>Leistung</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-select [(ngModel)]="connector.wattpower"
+                        multiple="false" class="select-multiline"
+                        [selectOptions]=""
+                        placeholder="Bitte wählen ..."
+                        cancelText="Abbrechen" okText="OK"
+            >
+                <ion-option value="2.3">2.3 kWh</ion-option>
+                <ion-option value="3.7">3.7 kWh</ion-option>
+                <ion-option value="4.6">4.6 kWh</ion-option>
+                <ion-option value="7.4">7.4 kWh</ion-option>
+                <ion-option value="11">11 kWh</ion-option>
+                <ion-option value="22">22 kWh</ion-option>
+                <ion-option value="43">43 kWh</ion-option>
 
-  <button ion-button (click)="nextPage()">Weiter</button>
+            </ion-select>
+        </ion-item>
 
+        <ion-item>
+            <ion-checkbox [(ngModel)]="connector.metadata.accessControl" class="item-partial-cover"></ion-checkbox>
+            <ion-label>Share&Charge Modul</ion-label>
+            <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('accessControl')" color="primary"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+            <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{!connector.metadata.accessControl}}" class="item-partial-cover"></ion-checkbox>
+            <ion-label>KWh genaue Abrechnung</ion-label>
+            <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('kwh')" color="primary"></ion-icon>
+        </ion-item>
+
+    </ion-list>
+
+    <div padding text-center>
+        <button ion-button round (click)="nextPage()" text-uppercase>Weiter</button>
+    </div>
 </ion-content>

@@ -12,17 +12,17 @@ export class PlugTypesPage {
     locObject: Location;
     connector: Connector;
 
-    flowMode:any;
-    powerOptions:any;
-    plugOptions:any;
+    flowMode: any;
+    powerOptions: any;
+    plugOptions: any;
 
     constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController) {
         this.powerOptions = [
-           "2.4","4.3","6.4"
+            "2.4", "4.3", "6.4"
         ];
 
         this.plugOptions = [
-            "Schuko-Steckdose" , "CEE-Stecker" ,"Typ 1" , "Typ 2" , "Combo" , "CHAdeMO" , "Tesla Supercharger"
+            "Schuko-Steckdose", "CEE-Stecker", "Typ 1", "Typ 2", "Combo", "CHAdeMO", "Tesla Supercharger"
         ];
 
         this.locObject = this.navParams.get("location");
@@ -30,9 +30,6 @@ export class PlugTypesPage {
 
         this.flowMode = this.navParams.get("mode");
         console.log(this.locObject);
-    }
-
-    ionViewDidLoad() {
     }
 
     nextPage() {
@@ -55,6 +52,30 @@ export class PlugTypesPage {
             alert.present();
         }
 
+    }
+
+    showHelp(type) {
+        let message = "";
+
+        if ("accessControl" === type) {
+            message = "Wähle diese Option sofern deine Ladestation über WLAN, GSM, sowie einen " +
+                "Light Client verfügt, der die Ladestation über die Share&Charge App steuern kann.";
+        }
+        else if ("kwh" === type) {
+            message = "Wähle diese Option sofern dein Ladepunkt über einen geeichten Stromzähler verfügt " +
+                "& der Zählerstand automatisch an das Share&Charge Backend gesendet wird.";
+        }
+
+        let alert = this.alertCtrl.create({
+            title: 'Info',
+            message: message,
+            buttons: ['Ok']
+        });
+        alert.present();
+    }
+
+    close() {
+        this.navCtrl.parent.pop();
     }
 
 }
