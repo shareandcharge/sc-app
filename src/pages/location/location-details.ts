@@ -36,12 +36,12 @@ export class LocationDetailPage {
 
     private locationId: number;
 
-    chargingProgress:number;
+    chargingProgress: number;
 
-    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService ,private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService) {
+    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService) {
 
         this.chargingProgress = this.chargingService.getChargingProgress();
-        console.log("charging progress is" , this.chargingProgress);
+        console.log("charging progress is", this.chargingProgress);
 
         this.location = new Location();
         this.locationId = navParams.get("locationId");
@@ -161,15 +161,19 @@ export class LocationDetailPage {
             LaunchNavigator.navigate([this.location.lat, this.location.lng], options)
                 .then(
                     success => console.log('map app launched'),
-                    error => alert('App konnte nicht gestartet werden: ' + error)
+                    error => {
+                        if ('cancelled' !== error) {
+                            alert('App konnte nicht gestartet werden: ' + error);
+                        }
+                    }
                 );
         }
     }
 
-    charge(){
-        this.navCtrl.push(ChargingPage ,
+    charge() {
+        this.navCtrl.push(ChargingPage,
             {
-                "location" : this.location
+                "location": this.location
             });
     }
 }
