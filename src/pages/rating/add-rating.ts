@@ -16,7 +16,7 @@ export class AddRatingPage {
 
     constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController, public ratingService: RatingService, public authService: AuthService, public alertCtrl: AlertController) {
         this.location = navParams.get('location');
-        this.rating.value = 2.5;
+        this.rating.rating = 2.5;
     }
 
     dismiss() {
@@ -38,12 +38,12 @@ export class AddRatingPage {
     }
 
     displayError(message: any, subtitle?: string) {
-    let alert = this.alertCtrl.create({
-        title: 'Fehler',
-        subTitle: subtitle,
-        message: message,
-        buttons: ['Schließen']
-    });
-    alert.present();
-}
+        let alert = this.alertCtrl.create({
+            title: 'Fehler',
+            subTitle: subtitle,
+            message: message,
+            buttons: ['Schließen']
+        });
+        alert.present();
+    }
 }

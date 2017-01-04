@@ -19,6 +19,7 @@ export class RatingService {
                 res.json().forEach(input => {
                     ratings.push(new Rating().deserialize(input));
                 });
+
                 return ratings;
             })
             .catch(this.handleError);

@@ -70,13 +70,13 @@
 
         <div *ngFor="let rating of ratings">
             <p>
-                <span *ngFor="let i of fullStars(rating.value)">
+                <span *ngFor="let i of fullStars(rating.rating)">
                     <ion-icon name="md-star" color="secondary"></ion-icon>
                 </span>
-                <span *ngIf="displayHalfStars(rating.value)">
+                <span *ngIf="displayHalfStars(rating.rating)">
                     <ion-icon name="md-star-half" color="secondary"></ion-icon>
                 </span>
-                <span *ngFor="let i of emptyStars(rating.value)">
+                <span *ngFor="let i of emptyStars(rating.rating)">
                     <ion-icon name="md-star-outline" color="secondary" ></ion-icon>
                 </span>
                 {{rating.remark}}
