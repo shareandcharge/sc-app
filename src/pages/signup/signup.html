@@ -28,10 +28,9 @@
                     </div>
                     <ion-list no-lines class="list-tac">
                         <ion-item>
-                            <ion-label>Ich stimme den AGBs zu.</ion-label>
                             <ion-checkbox color="light" checked="false" required [(ngModel)]="termsAccept" name="termsAccept">
-                                Ich stimme den AGBs zu.
                             </ion-checkbox>
+                            <ion-label>Ich stimme den <a color="light" (click)="openTerms()">AGBs</a> zu.</ion-label>
                         </ion-item>
                     </ion-list>
                     <div padding="" text-center="">
@@ -46,25 +45,25 @@
             </ion-col>
         </ion-row>
         <!--<ion-row bottom="">-->
-            <!--<ion-col>-->
-                <!--<ion-row wrap>-->
-                    <!--<ion-col width-33>-->
-                        <!--<button ion-button icon-only round color="white" (click)="loginFacebook()">-->
-                            <!--<ion-icon name="logo-facebook"></ion-icon>-->
-                        <!--</button>-->
-                    <!--</ion-col>-->
-                    <!--<ion-col width-33 text-center="">-->
-                        <!--<button ion-button icon-only round color="white" (click)="loginGoogle()">-->
-                            <!--<ion-icon name="logo-googleplus"></ion-icon>-->
-                        <!--</button>-->
-                    <!--</ion-col>-->
-                    <!--<ion-col width-33 text-right="">-->
-                        <!--<button ion-button icon-only round color="white" (click)="loginMicrosoft()">-->
-                            <!--<ion-icon name="logo-windows"></ion-icon>-->
-                        <!--</button>-->
-                    <!--</ion-col>-->
-                <!--</ion-row>-->
-            <!--</ion-col>-->
+        <!--<ion-col>-->
+        <!--<ion-row wrap>-->
+        <!--<ion-col width-33>-->
+        <!--<button ion-button icon-only round color="white" (click)="loginFacebook()">-->
+        <!--<ion-icon name="logo-facebook"></ion-icon>-->
+        <!--</button>-->
+        <!--</ion-col>-->
+        <!--<ion-col width-33 text-center="">-->
+        <!--<button ion-button icon-only round color="white" (click)="loginGoogle()">-->
+        <!--<ion-icon name="logo-googleplus"></ion-icon>-->
+        <!--</button>-->
+        <!--</ion-col>-->
+        <!--<ion-col width-33 text-right="">-->
+        <!--<button ion-button icon-only round color="white" (click)="loginMicrosoft()">-->
+        <!--<ion-icon name="logo-windows"></ion-icon>-->
+        <!--</button>-->
+        <!--</ion-col>-->
+        <!--</ion-row>-->
+        <!--</ion-col>-->
         <!--</ion-row>-->
     </ion-grid>
 

@@ -3,6 +3,7 @@ import {IonicApp, IonicModule} from 'ionic-angular';
 import {MyApp} from './app.component';
 import {AboutPage} from '../pages/about/about';
 import {SignupPage} from '../pages/signup/signup';
+import {TermsPage} from '../pages/signup/terms';
 import {LoginPage} from '../pages/login/login';
 import {MapPage} from '../pages/map/map';
 import {AutocompletePage} from '../pages/map/autocomplete/autocomplete';
@@ -75,6 +76,7 @@ export function getAuthHttp(http) {
         MapFilterPage,
         AutocompletePage,
         SignupPage,
+        TermsPage,
         LoginPage,
         CarWrapperPage,
         CarFormPage,
@@ -123,6 +125,7 @@ export function getAuthHttp(http) {
         MapFilterPage,
         AutocompletePage,
         SignupPage,
+        TermsPage,
         LoginPage,
         CarWrapperPage,
         CarFormPage,

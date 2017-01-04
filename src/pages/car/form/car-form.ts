@@ -4,7 +4,6 @@ import {
     ModalController,
     NavParams,
     ActionSheetController,
-    App,
     Platform, LoadingController, Events, AlertController
 } from 'ionic-angular';
 import {CarManufacturerPage} from './manufacturer/car-manufacturer';

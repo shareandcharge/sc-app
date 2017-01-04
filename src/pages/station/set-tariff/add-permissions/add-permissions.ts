@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, ViewController, AlertController} from 'ionic-angular';
 import {Contacts, Contact} from "ionic-native";
-import {User} from "../../../../models/user";
 import {UserService} from "../../../../services/user.service";
 
 @Component({

@@ -3,6 +3,7 @@ import {NavController, ViewController, ModalController, LoadingController} from 
 import {LoginPage} from '../login/login';
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
+import {TermsPage} from "./terms";
 
 
 @Component({
@@ -27,6 +28,11 @@ export class SignupPage {
         let modalLogin = this.modalCtrl.create(LoginPage);
         modalLogin.present();
         this.viewCtrl.dismiss();
+    }
+
+    openTerms() {
+        let modal = this.modalCtrl.create(TermsPage);
+        modal.present();
     }
 
     signUp() {
