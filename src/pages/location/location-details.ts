@@ -39,8 +39,6 @@ export class LocationDetailPage {
         this.location = new Location();
         this.locationId = navParams.get("locationId");
 
-        console.log(this.locationId);
-
         this.isDesktop = platform.is("core");
         this.isIOS = platform.is("ios");
         this.isAndroid = platform.is("android");

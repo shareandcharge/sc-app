@@ -38,12 +38,12 @@ export class AddRatingPage {
     }
 
     displayError(message: any, subtitle?: string) {
-    let alert = this.alertCtrl.create({
-        title: 'Fehler',
-        subTitle: subtitle,
-        message: message,
-        buttons: ['Schließen']
-    });
-    alert.present();
-}
+        let alert = this.alertCtrl.create({
+            title: 'Fehler',
+            subTitle: subtitle,
+            message: message,
+            buttons: ['Schließen']
+        });
+        alert.present();
+    }
 }
