@@ -41,6 +41,8 @@ export class MapPage {
     currentPositionZoom = 16;
     currentPositionMarker:any;
 
+    locationMarkers: Array<any>;
+
     mapDefaultControlls: boolean;
     locations: Array<Location>;
 
@@ -52,6 +54,8 @@ export class MapPage {
     activeCar: Car;
     activeCarSrc: string;
 
+    toggledPlugs: Array<number>;
+
     constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
@@ -59,7 +63,10 @@ export class MapPage {
             place: ''
         };
 
+        this.locationMarkers = [];
         this.viewType = 'map';
+
+        this.toggledPlugs = [];
 
         //-- whenever the cars change or user loggs in, refresh the infos we need for the "switch car button"
         this.events.subscribe('cars:updated', () => this.refreshCarInfo());
@@ -86,6 +93,11 @@ export class MapPage {
         observable.subscribe(cars => {
             this.cars = cars;
             this.activeCar = this.carService.getActiveCar();
+
+            if (this.activeCar != null) {
+                let plugTypes = this.activeCar.plugTypes;
+                this.loadLocationsForPlugTypes(plugTypes);
+            }
         }, () => {
             this.cars = null;
             this.activeCar = null;
@@ -192,11 +204,13 @@ export class MapPage {
         let me = this;
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
-            me.addLocationMarkers();
-            loader.dismissAll();
+            me.locationService.getLocations().subscribe((locations) => {
+                me.locations = locations;
+                me.updateLocationMarkers();
+
+                loader.dismissAll();
+            });
         });
-
-
     }
 
 
@@ -206,15 +220,7 @@ export class MapPage {
         });
 
         locDetails.present();
-
-        // this.navCtrl.push(LocationDetailPage, {
-        //     locationId: location.id
-        // });
     }
-
-    // createMarker() {
-    //     this.addMarker(this.map.getCenter());
-    // }
 
     addMarker(location: Location) {
         let marker = new google.maps.Marker({
@@ -226,19 +232,9 @@ export class MapPage {
         let me = this;
         marker.addListener('click', function () {
             me.showLocationDetails(location);
-            // let locDetails = me.modalCtrl.create(LocationDetailPage, {
-            //     "location": location
-            // });
-            //
-            // locDetails.present();
-
-            /*   me.navCtrl.push(LocationDetailPage, {
-             "location": location
-             });*/
         });
 
-        // let content = location.name;
-        // this.addInfoWindow(marker, content);
+        this.locationMarkers.push(marker);
     }
 
     gotoMyCars(fab: FabContainer) {
@@ -289,8 +285,27 @@ export class MapPage {
     }
 
     presentFilterModal() {
-        let filter = this.modalCtrl.create(MapFilterPage);
+        // convert string ids to numbers
+        this.toggledPlugs = this.toggledPlugs.map((i) => +i);
+
+        let filter = this.modalCtrl.create(MapFilterPage, {
+            'toggledPlugs' : this.toggledPlugs
+        });
         filter.present();
+
+        filter.onDidDismiss(plugTypes => {
+            if (plugTypes) {
+                this.loadLocationsForPlugTypes(plugTypes);
+            }
+        });
+    }
+
+    loadLocationsForPlugTypes(plugTypes: Array<any>) {
+        this.locationService.getLocationsPlugTypes(plugTypes.join()).subscribe(locations => {
+            this.toggledPlugs = plugTypes;
+            this.locations = locations;
+            this.updateLocationMarkers();
+        });
     }
 
     showAddressModal() {
@@ -373,13 +388,18 @@ export class MapPage {
         this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
     }
 
-    addLocationMarkers() {
-        this.locationService.getLocations().subscribe(locations => {
-            this.locations = locations;
-            let me = this;
-            this.locations.forEach(function (location) {
-                me.addMarker(location);
+    updateLocationMarkers() {
+        if (this.locationMarkers.length) {
+            this.locationMarkers.forEach((marker) => {
+                marker.setMap(null);
             });
+
+            this.locationMarkers = [];
+        }
+
+        let me = this;
+        this.locations.forEach(function (location) {
+            me.addMarker(location);
         });
     }
 }

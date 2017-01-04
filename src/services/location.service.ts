@@ -38,6 +38,18 @@ export class LocationService {
         });
     }
 
+    getLocationsPlugTypes(plugTypes: string) {
+        return this.authHttp.get(this.baseUrl + '/locations?plugType=' + plugTypes)
+            .map(res => {
+                let locations = [];
+                res.json().forEach(input => {
+                    locations.push(new Location().deserialize(input));
+                });
+                return locations;
+            })
+            .catch(this.handleError);
+    }
+
     searchLocations(bounds?: any) {
         let checkBounds = <boolean>bounds;
         return this.getLocations().map(res => {
