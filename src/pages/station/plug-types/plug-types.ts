@@ -16,6 +16,8 @@ export class PlugTypesPage {
     powerOptions:any;
     plugOptions:any;
 
+    wattpowerTemp: any;
+
     constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController) {
         this.powerOptions = [
            "2.4","4.3","6.4"
@@ -29,10 +31,14 @@ export class PlugTypesPage {
         this.connector = this.locObject.stations[0].connectors[0];
 
         this.flowMode = this.navParams.get("mode");
-        console.log(this.locObject);
+        this.wattpowerTemp = this.connector.wattpower / 1000;
     }
 
     ionViewDidLoad() {
+    }
+
+    updateWattpower() {
+        this.connector.wattpower = this.wattpowerTemp * 1000;
     }
 
     nextPage() {

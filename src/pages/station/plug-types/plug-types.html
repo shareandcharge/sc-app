@@ -22,9 +22,10 @@
   </ion-item>
 
   <ion-item>
-    <ion-select [(ngModel)]="connector.wattpower" multiple="false" class="select-multiline" placeholder="Leistung" [selectOptions]="">
-      <ion-option>2</ion-option>
-      <ion-option>4</ion-option>
+    <ion-select [(ngModel)]="wattpowerTemp" (ngModelChange)="updateWattpower()" multiple="false" class="select-multiline" placeholder="Leistung" [selectOptions]="">
+      <ion-option>2.4</ion-option>
+      <ion-option>4.3</ion-option>
+      <ion-option>6.4</ion-option>
     </ion-select>
   </ion-item>
 
