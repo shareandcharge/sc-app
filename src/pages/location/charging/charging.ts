@@ -32,37 +32,42 @@ export class ChargingPage {
         this.mouseDragging = false;
         this.canvasX = 140;
         this.canvasY = 140;
-
         this.chargingProgress = this.chargingService.getChargingProgress();
-
-        console.log("timer is " ,this.timer);
-
-        /* document.addEventListener('pause', () => {
-
-         });*/
     }
 
     ionViewDidLoad() {
 
-        let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
+        if(this.chargingProgress  > 0){
+            let me = this;
+            setInterval(function () {
+                me.chargingTimeHours = me.makeTimeString(me.chargingService.getRemainingTime());
+            } , 1000);
+            this.buttonDeactive = true;
+            this.countingDown = true;
+        }
 
-        document.body.addEventListener("touchstart", function (e) {
-            if (e.target == c) {
-                e.preventDefault();
-            }
-        }, false);
-        document.body.addEventListener("touchend", function (e) {
-            if (e.target == c) {
-                e.preventDefault();
-            }
-        }, false);
-        document.body.addEventListener("touchmove", function (e) {
-            if (e.target == c) {
-                e.preventDefault();
-            }
-        }, false);
+        else{
+            let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
-        this.initiateCanvas();
+            document.body.addEventListener("touchstart", function (e) {
+                if (e.target == c) {
+                    e.preventDefault();
+                }
+            }, false);
+            document.body.addEventListener("touchend", function (e) {
+                if (e.target == c) {
+                    e.preventDefault();
+                }
+            }, false);
+            document.body.addEventListener("touchmove", function (e) {
+                if (e.target == c) {
+                    e.preventDefault();
+                }
+            }, false);
+
+            this.initiateCanvas();
+        }
+
     }
 
     initiateCanvas() {
@@ -226,8 +231,9 @@ export class ChargingPage {
     }
 
     countDown() {
-        console.log("timer is" , this.timer);
-        if (this.timer >= 0) {
+        console.log("charging progress on button push " , this.chargingProgress);
+        if (this.chargingProgress > 0) {
+            console.log("stopping the timer");
             let alert = this.alertCtrl.create({
                 title: 'Stop Charging Confirmation',
                 message: 'Are you sure you want to stop?',
@@ -241,7 +247,9 @@ export class ChargingPage {
                     {
                         text: 'Yes',
                         handler: () => {
-                            let chargedTime = this.selectedChargingTime - this.timer;
+                            this.chargingService.stopCharging();
+                            let chargedTime = this.chargingService.chargedTime();
+                            this.chargingProgress = 0;
                             let chargedTimeString = this.makeTimeString(chargedTime);
                             this.countingDown = false;
                             clearInterval(this.myCounter);
@@ -297,7 +305,7 @@ export class ChargingPage {
                         "chargedTime": chargedTimeString
                     });
                 }
-            }, 100);
+            }, 1000);
         }
     }
 

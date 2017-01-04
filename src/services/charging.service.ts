@@ -24,13 +24,20 @@ export class ChargingService {
     stopCharging() {
         clearInterval(this.counter);
         this.progress = 0;
+        this.chargingTime = 0;
+        this.timer = 0;
     }
 
     getRemainingTime(){
         return this.timer;
     }
 
+    chargedTime(){
+        return this.chargingTime - this.timer;
+    }
+
     countDown(time) {
+        this.progress = 1;
         let me = this;
         me.timer = time;
         me.counter = setInterval(function () {
@@ -39,6 +46,9 @@ export class ChargingService {
             }
             let chargedTime = me.chargingTime - me.timer;
             me.progress = Math.floor((100 * chargedTime) / me.chargingTime);
+            if(me.progress < 1){
+                me.progress = 1;
+            }
             console.log("progress is" , me.progress);
 
         }, 1000);

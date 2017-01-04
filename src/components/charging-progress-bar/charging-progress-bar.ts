@@ -11,8 +11,9 @@ export class ChargingProgressBarComponent {
 
     constructor(private chargingService: ChargingService) {
         let me = this;
+        this.progress = 0;
         setInterval(function () {
-            me.progress =  me.chargingService.getChargingProgress();
-        } , 1000);
+            me.progress = me.chargingService.getChargingProgress();
+        }, 1000);
     }
 }
