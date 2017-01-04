@@ -35,18 +35,22 @@ export class ChargingPage {
         this.chargingProgress = this.chargingService.getChargingProgress();
     }
 
+    ionViewWillLeave() {
+        console.log("leaving the page ");
+    }
+
     ionViewDidLoad() {
 
-        if(this.chargingProgress  > 0){
+        if (this.chargingProgress > 0) {
             let me = this;
             setInterval(function () {
                 me.chargingTimeHours = me.makeTimeString(me.chargingService.getRemainingTime());
-            } , 1000);
+            }, 1000);
             this.buttonDeactive = true;
             this.countingDown = true;
         }
 
-        else{
+        else {
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
             document.body.addEventListener("touchstart", function (e) {
@@ -166,7 +170,6 @@ export class ChargingPage {
 
         let time = Math.floor((((8 * 60 * 60) + 100) * deg) / 360);
 
-        console.log("time is " , time);
         if (time > 600) {
             this.buttonDeactive = false;
         }
@@ -174,7 +177,6 @@ export class ChargingPage {
             this.buttonDeactive = true;
         }
 
-        console.log(this.buttonDeactive);
 
         this.hours = Math.floor(time / 3600);
         this.minutes = Math.floor(Math.floor((time % 3600 ) / 60) / 10) * 10;
@@ -231,9 +233,7 @@ export class ChargingPage {
     }
 
     countDown() {
-        console.log("charging progress on button push " , this.chargingProgress);
         if (this.chargingProgress > 0) {
-            console.log("stopping the timer");
             let alert = this.alertCtrl.create({
                 title: 'Stop Charging Confirmation',
                 message: 'Are you sure you want to stop?',
@@ -247,8 +247,9 @@ export class ChargingPage {
                     {
                         text: 'Yes',
                         handler: () => {
-                            this.chargingService.stopCharging();
                             let chargedTime = this.chargingService.chargedTime();
+                            this.chargingService.stopCharging();
+                            console.log("charged time is" , chargedTime);
                             this.chargingProgress = 0;
                             let chargedTimeString = this.makeTimeString(chargedTime);
                             this.countingDown = false;
@@ -279,7 +280,7 @@ export class ChargingPage {
             this.chargingTimeHours = this.chargingTimeHours + ":00";
             let me = this;
             me.timer = (this.hours * 3600) + (this.minutes * 60);
-            me.chargingService.setChargingTime(me.timer);
+            me.chargingService.startCharging(me.timer);
             me.chargingProgress = me.chargingService.getChargingProgress();
             me.selectedChargingTime = me.timer;
             me.myCounter = setInterval(function () {
@@ -298,7 +299,7 @@ export class ChargingPage {
                     me.timer = 0;
                     clearInterval(me.myCounter);
                     me.countingDown = false;
-                    let chargedTimeString = me.makeTimeString(me.selectedChargingTime);
+                    let chargedTimeString = me.makeTimeString(me.chargingService.chargedTime());
                     me.initiateCanvas();
                     Badge.clear();
                     me.navCtrl.push(ChargingCompletePage, {
@@ -311,7 +312,7 @@ export class ChargingPage {
 
     updateCanvas() {
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
-        if( c != null){
+        if (c != null) {
             let ctx: CanvasRenderingContext2D = c.getContext("2d");
             ctx.clearRect(0, 0, c.width, c.height);
 

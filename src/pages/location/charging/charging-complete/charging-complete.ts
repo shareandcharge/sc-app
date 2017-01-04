@@ -18,6 +18,11 @@ export class ChargingCompletePage {
   }
 
   ionViewDidLoad() {
+    console.log("LOADING COMPONENT");
+  }
+
+  ionViewWillLeave() {
+    console.log("leaving the page ");
   }
 
 }

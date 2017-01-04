@@ -8,12 +8,21 @@ import {ChargingService} from '../../services/charging.service';
 })
 export class ChargingProgressBarComponent {
     @Input('progress') progress;
+    charging: boolean;
 
     constructor(private chargingService: ChargingService) {
+        this.charging = this.chargingService.isCharging();
+        this.progress = this.chargingService.getChargingProgress();
         let me = this;
-        this.progress = 0;
+
         setInterval(function () {
+            console.log("component interval");
             me.progress = me.chargingService.getChargingProgress();
         }, 1000);
     }
+
+    ionViewDidLoad() {
+        console.log("component  loaded *****");
+    }
 }
+

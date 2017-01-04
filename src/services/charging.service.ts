@@ -1,5 +1,7 @@
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "angular2-jwt";
+import {Events} from "ionic-angular";
+
 
 @Injectable()
 export class ChargingService {
@@ -8,20 +10,31 @@ export class ChargingService {
     private progress: number = 0;
     counter: any;
     timer:number = 0;
+    charging:boolean;
 
-    constructor(private authHttp: AuthHttp) {
+    public interval:any;
+
+    constructor(private authHttp: AuthHttp, private events: Events) {
     }
 
     getChargingProgress() {
         return this.progress;
     }
 
-    setChargingTime(seconds) {
+    isCharging(){
+        return this.charging;
+    }
+
+    startCharging(seconds) {
+        this.events.publish('charging:onStart');
+
+        this.charging = true;
         this.chargingTime = seconds;
         this.countDown(seconds);
     }
 
     stopCharging() {
+        this.charging = false;
         clearInterval(this.counter);
         this.progress = 0;
         this.chargingTime = 0;
@@ -49,8 +62,6 @@ export class ChargingService {
             if(me.progress < 1){
                 me.progress = 1;
             }
-            console.log("progress is" , me.progress);
-
         }, 1000);
     }
 }
