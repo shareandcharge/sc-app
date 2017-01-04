@@ -46,11 +46,12 @@
             <ion-label>Leistung</ion-label>
         </ion-item>
         <ion-item>
-            <ion-select [(ngModel)]="connector.wattpower"
+            <ion-select [(ngModel)]="wattpowerTemp"
                         multiple="false" class="select-multiline"
                         [selectOptions]=""
                         placeholder="Bitte wählen ..."
                         cancelText="Abbrechen" okText="OK"
+                        (ngModelChange)="updateWattpower()"
             >
                 <ion-option value="2.3">2.3 kWh</ion-option>
                 <ion-option value="3.7">3.7 kWh</ion-option>
