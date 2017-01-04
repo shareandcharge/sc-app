@@ -23,6 +23,8 @@ export class SetTariffPage {
     hourlyTariff = false;
     kwhTariff = false;
 
+    displayPriceMap: any;
+
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events) {
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
@@ -44,7 +46,6 @@ export class SetTariffPage {
                 this.hourlyTariff = false;
             }
         }
-
     }
 
     showHelp(type) {
@@ -68,6 +69,10 @@ export class SetTariffPage {
             buttons: ['Ok']
         });
         alert.present();
+    }
+
+    updatePriceProvider(from, to, property) {
+        to[property] = Math.round(from.target.value * 100);
     }
 
     addPermission() {
@@ -109,4 +114,7 @@ export class SetTariffPage {
         }
     }
 
+    close() {
+        this.navCtrl.parent.pop();
+    }
 }
