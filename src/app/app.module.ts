@@ -47,6 +47,7 @@ import {ChargingCompletePage} from "../pages/location/charging/charging-complete
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
 import {IntroPage} from "../pages/intro/intro";
 import {PaymentService} from "../services/payment.service";
+import {ConfigService} from "../services/config.service";
 
 
 
@@ -162,7 +163,8 @@ export function getAuthHttp(http) {
         UserService,
         Storage,
         RatingService,
-        PaymentService
+        PaymentService,
+        ConfigService
     ]
 })
 export class AppModule {
