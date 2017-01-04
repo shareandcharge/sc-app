@@ -105,6 +105,7 @@ export function getAuthHttp(http) {
         ChargingPage,
         ChargingCompletePage,
         ProgressBarComponent,
+        ChargingProgressBarComponent,
         IntroPage
     ],
     imports: [
@@ -166,7 +167,7 @@ export function getAuthHttp(http) {
         Storage,
         RatingService,
         PaymentService,
-        ChargingService
+        ChargingService,
         PaymentService,
         ConfigService
     ]
