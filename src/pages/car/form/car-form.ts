@@ -11,6 +11,7 @@ import {CarManufacturerPage} from './manufacturer/car-manufacturer';
 import {Camera} from 'ionic-native';
 import {CarService} from "../../../services/car.service";
 import {Car} from '../../../models/car';
+import {ConfigService} from "../../../services/config.service";
 
 
 @Component({
@@ -23,11 +24,16 @@ export class CarFormPage {
     car: Car;
     mode: any;
     segmentTabs: any;
+    plugOptions: any;
 
-    constructor(private app: App, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private alertCtrl: AlertController) {
+    constructor(private configService : ConfigService, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private alertCtrl: AlertController) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
+
+        this.configService.getPlugTypes().subscribe((plugTypes) => {
+            this.plugOptions = plugTypes;
+        });
     }
 
     ionViewDidLoad() {
