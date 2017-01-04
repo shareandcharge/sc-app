@@ -16,17 +16,22 @@
         <ion-row>
             <ion-col>
                 <h1 text-center>Willkommen bei Share&Charge</h1>
+
+                <div *ngIf="error" class="alert-box alert-box-danger" margin>{{ error }}</div>
+
                 <form (ngSubmit)="signUp()">
                     <div padding="">
-                        <ion-input type="text" [(ngModel)]="signUpObject.email" name="email" placeholder="E-Mail"></ion-input>
+                        <ion-input type="email" required [(ngModel)]="signUpObject.email" name="email" placeholder="E-Mail"></ion-input>
                     </div>
                     <div padding="">
-                        <ion-input type="password" [(ngModel)]="signUpObject.authentification.password" name="password" placeholder="Passwort"></ion-input>
+                        <ion-input type="password" minlength="7" required [(ngModel)]="signUpObject.authentification.password" name="password" placeholder="Passwort"></ion-input>
                     </div>
                     <ion-list no-lines class="list-tac">
                         <ion-item>
                             <ion-label>Ich stimme den AGBs zu.</ion-label>
-                            <ion-checkbox color="light" checked="false">Ich stimme den AGBs zu.</ion-checkbox>
+                            <ion-checkbox color="light" checked="false" required [(ngModel)]="termsAccept" name="termsAccept">
+                                Ich stimme den AGBs zu.
+                            </ion-checkbox>
                         </ion-item>
                     </ion-list>
                     <div padding="" text-center="">

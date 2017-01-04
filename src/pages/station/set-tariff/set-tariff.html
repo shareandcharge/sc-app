@@ -1,157 +1,444 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Set Tariff</ion-title>
+        <ion-title *ngIf="flowMode=='edit'">Ladestation bearbeiten</ion-title>
+        <ion-title *ngIf="flowMode=='add'">Ladestation hinzufügen</ion-title>
+
+        <ion-buttons end>
+            <button ion-button color="dark" icon-only="" (click)="close()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 
+    <progress-bar [progress]="95"></progress-bar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
+    <p padding="">
+        Meine Tarife wählen
+    </p>
 
-    <ion-list>
+    <ion-list class="ion-list-white">
         <ion-item>
-            <ion-label left>Öffentlicher Tarif</ion-label>
-            <ion-toggle [(ngModel)]="priceprovider.public.active"></ion-toggle>
+            <ion-label left>Community Tarif</ion-label>
+            <ion-toggle [(ngModel)]="priceprovider.public.active" color="secondary"></ion-toggle>
         </ion-item>
-        <div padding="true" *ngIf="priceprovider.public.active">
-            <div>
-                <ion-segment color="primary" [(ngModel)]="priceprovider.public.selected" padding>
-                    <ion-segment-button value="flatrate" *ngIf="hourlyTariff || kwhTariff">
-                        Flatrate
-                    </ion-segment-button>
-                    <ion-segment-button value="hourly" *ngIf="hourlyTariff">
-                        Stundentarif
-                    </ion-segment-button>
-                    <ion-segment-button value="kwh" *ngIf="kwhTariff">
-                        kWh
-                    </ion-segment-button>
-                </ion-segment>
 
-                <div *ngIf="priceprovider.public.selected == 'flatrate'">
-                    Flatrate Per charge
-                    <ion-input type="text" [(ngModel)]="priceprovider.public.flatrate.flatrateRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.public.flatrate.flatrateRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
+        <div padding class="background-color-white tariff-box" *ngIf="priceprovider.public.active">
+            <ion-segment color="primary" [(ngModel)]="priceprovider.public.selected" padding *ngIf="hourlyTariff || kwhTariff">
+                <ion-segment-button value="flatrate" *ngIf="hourlyTariff || kwhTariff">
+                    Flatrate
+                </ion-segment-button>
+                <ion-segment-button value="hourly" *ngIf="hourlyTariff">
+                    Stundentarif
+                </ion-segment-button>
+                <ion-segment-button value="kwh" *ngIf="kwhTariff">
+                    KWh genauer Tarif
+                </ion-segment-button>
+            </ion-segment>
+
+
+            <div *ngIf="priceprovider.public.selected == 'flatrate'" padding>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Flatrate pro Ladung</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('flatrate')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="number"
+                                   [value]="priceprovider.public.flatrate.flatrateRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.public.flatrate, 'flatrateRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€</label>
+                    </div>
                 </div>
-                <div *ngIf="priceprovider.public.selected == 'hourly'">
-                    Energiekosten
-                    <ion-input type="text" [(ngModel)]="priceprovider.public.hourly.hourlyRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.public.hourly.hourlyRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.flatrate.flatrateRate" pin="false">
+                    <ion-label range-left>0€</ion-label>
+                    <ion-label range-right>20€</ion-label>
+                </ion-range>
+            </div>
 
-                    Nutzungsentgel Parken
-                    <ion-input type="text" [(ngModel)]="priceprovider.public.hourly.parkRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.public.hourly.parkRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
 
-                    estimated price per hour depends on the battery
+            <div *ngIf="priceprovider.public.selected == 'hourly'" padding>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Deine Energiekosten</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="text"
+                                   [value]="priceprovider.public.hourly.hourlyRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.public.hourly, 'hourlyRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€/kwH</label>
+                    </div>
                 </div>
-                <div *ngIf="priceprovider.public.selected == 'kwh'">
-                    Energiekosten
-                    <ion-input type="text" [(ngModel)]="priceprovider.public.kwh.kwhRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.public.kwh.kwhRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.hourly.hourlyRate" pin="false">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
 
-                    Nutzungsentgel Parken
-                    <ion-input type="text" [(ngModel)]="priceprovider.public.kwh.parkRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.public.kwh.parkRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
+                <hr>
 
-                    estimated price per hour depends on the battery
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Parkkosten</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('parking')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="text"
+                                   [value]="priceprovider.public.hourly.parkRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.public.hourly, 'parkRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€</label>
+                    </div>
                 </div>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.hourly.parkRate" pin="false">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
+
+                <hr>
+
+                <p>Geschätzter Stündlicher Tarif</p>
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+
+
+            <div *ngIf="priceprovider.public.selected == 'kwh'">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Deine Energiekosten</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="text"
+                                   [value]="priceprovider.public.kwh.kwhRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.public.kwh, 'kwhRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€/kwH</label>
+                    </div>
+                </div>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.kwh.kwhRate" pin="false">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
+
+                <hr>
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Parkkosten</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('parking')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="text"
+                                   [value]="priceprovider.public.kwh.parkRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.public.kwh, 'parkRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€</label>
+                    </div>
+                </div>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.kwh.parkRate" pin="false">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
+
+                <hr>
+
+                <p>Geschätzter Stündlicher Tarif</p>
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+
             </div>
         </div>
+
+        <!---------------------------------------------------------------------------->
+
         <ion-item>
-            <ion-label left>Sondertarif</ion-label>
-            <ion-toggle [(ngModel)]="priceprovider.private.active"></ion-toggle>
+            <ion-label left>Familie & Freunde Tarif</ion-label>
+            <ion-toggle [(ngModel)]="priceprovider.private.active" color="secondary"></ion-toggle>
         </ion-item>
-        <div padding="true" *ngIf="priceprovider.private.active">
-            <ion-label>
-                Permission List({{priceprovider.private.permissions.length}}) <ion-icon name="menu" (click)="addPermission()"></ion-icon>
-            </ion-label>
 
-            <div>
-                <ion-segment color="primary" [(ngModel)]="priceprovider.private.selected" padding>
-                    <ion-segment-button value="flatrate" *ngIf="hourlyTariff || kwhTariff">
-                        Flatrate
-                    </ion-segment-button>
-                    <ion-segment-button value="hourly" *ngIf="hourlyTariff">
-                        Stundentarif
-                    </ion-segment-button>
-                    <ion-segment-button value="kwh" *ngIf="kwhTariff">
-                        kWh
-                    </ion-segment-button>
-                </ion-segment>
+        <div padding class="background-color-white tariff-box" *ngIf="priceprovider.private.active">
+            <ion-list no-lines>
+                <ion-item class="lines-inner-bottom" (click)="addPermission()">
+                    Familie & Freunde ({{priceprovider.private.permissions.length}})
+                    <ion-icon name="ios-list" item-right></ion-icon>
+                </ion-item>
+            </ion-list>
+            <ion-segment color="primary" [(ngModel)]="priceprovider.private.selected" padding>
+                <ion-segment-button value="flatrate" *ngIf="hourlyTariff || kwhTariff">
+                    Flatrate
+                </ion-segment-button>
+                <ion-segment-button value="hourly" *ngIf="hourlyTariff">
+                    Stundentarif
+                </ion-segment-button>
+                <ion-segment-button value="kwh" *ngIf="kwhTariff">
+                    KWh genauer Tarif
+                </ion-segment-button>
+            </ion-segment>
 
-                <div *ngIf="priceprovider.private.selected == 'flatrate'">
-                    Flatrate Per charge
-                    <ion-input type="text" [(ngModel)]="priceprovider.private.flatrate.flatrateRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.private.flatrate.flatrateRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
+
+            <div *ngIf="priceprovider.private.selected == 'flatrate'" padding>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Flatrate pro Ladung</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('flatrate')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="text"
+                                   [value]="priceprovider.private.flatrate.flatrateRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.private.flatrate, 'flatrateRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€</label>
+                    </div>
                 </div>
-                <div *ngIf="priceprovider.private.selected == 'hourly'">
-                    Energiekosten
-                    <ion-input type="text" [(ngModel)]="priceprovider.private.hourly.hourlyRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.private.hourly.hourlyRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.flatrate.flatrateRate" pin="false">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
+            </div>
 
-                    Nutzungsentgel Parken
-                    <ion-input type="text" [(ngModel)]="priceprovider.private.hourly.parkRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.private.hourly.parkRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
-
-                    estimated price per hour depends on the battery
+            <div *ngIf="priceprovider.private.selected == 'hourly'" padding>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Deine Energiekosten</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="text"
+                                   [value]="priceprovider.private.hourly.hourlyRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.private.hourly, 'hourlyRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€/kwH</label>
+                    </div>
                 </div>
-                <div *ngIf="priceprovider.private.selected == 'kwh'">
-                    Energiekosten
-                    <ion-input type="text" [(ngModel)]="priceprovider.private.kwh.kwhRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.private.kwh.kwhRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.hourly.hourlyRate" pin="false">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
 
-                    Nutzungsentgel Parken
-                    <ion-input type="text" [(ngModel)]="priceprovider.private.kwh.parkRate"
-                               placeholder="0.00"></ion-input>
-                    <ion-range min="0" max="20" [(ngModel)]="priceprovider.private.kwh.parkRate" pin="true">
-                        <ion-label range-left>0</ion-label>
-                        <ion-label range-right>20</ion-label>
-                    </ion-range>
+                <hr>
 
-                    estimated price per hour depends on the battery
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Parkkosten</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('parking')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="text"
+                                   [value]="priceprovider.private.hourly.parkRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.private.hourly, 'parkRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€</label>
+                    </div>
                 </div>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.hourly.parkRate" pin="false">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
+
+                <hr>
+
+                <p>Geschätzter Stündlicher Tarif</p>
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <div *ngIf="priceprovider.private.selected == 'kwh'">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Deine Energiekosten</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="text"
+                                   [value]="priceprovider.private.kwh.kwhRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.private.kwh, 'kwhRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€/kwH</label>
+                    </div>
+                </div>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.kwh.kwhRate" pin="false">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
+
+                <hr>
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-50="" class="nopadding">Parkkosten</ion-col>
+                        <ion-col width-50="" class="nopadding" text-right="">
+                            <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('parking')"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <div class="input-box">
+                    <div class="input-box-inner">
+                        <ion-input type="text"
+                                   [value]="priceprovider.private.kwh.parkRate / 100"
+                                   (change)="updatePriceProvider($event, priceprovider.private.kwh, 'parkRate')"
+                                   placeholder="0,00"></ion-input>
+                        <label>€</label>
+                    </div>
+                </div>
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.kwh.parkRate" pin="false">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>20</ion-label>
+                </ion-range>
+
+                <hr>
+
+                <p>Geschätzter Stündlicher Tarif</p>
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                        <ion-col width-33="" class="nopadding" text-center>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br>
+                            Kapazität<br>
+                            0,00
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
             </div>
         </div>
     </ion-list>
 
+    <div padding text-center>
+        <button ion-button round (click)="publish()" [disabled]="(!priceprovider.private.active) && (!priceprovider.public.active)" text-uppercase>
+            {{buttonText}}
+        </button>
+    </div>
 
-    <button ion-button (click)="publish()">{{buttonText}}</button>
-    <button *ngIf="flowMode == 'edit'" ion-button (click)="deleteStation()">Delete</button>
 </ion-content>

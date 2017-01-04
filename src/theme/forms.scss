@@ -19,6 +19,13 @@ form.blocky {
   transform: translate3d(14px, 38px, 0);
 }
 
+.input-white {
+  background-color: #fff;
+  .text-input-ios {
+    margin-left: 11px;
+  }
+}
+
 ion-select {
   &.select-multiline {
     max-width: 100%;
@@ -32,4 +39,44 @@ ion-select {
 
 .alert-checkbox-label {
   font-size: 17px;
+}
+
+$_input_box_width: 100px;
+.input-box {
+  text-align: center;
+  margin-top: 20px;
+  ion-input {
+    display: inline-block;
+    width: $_input_box_width;
+    background-color: map_get($colors, light);
+    font-size: 20px;
+    border-radius: 4px;
+    input {
+      text-align: center;
+      padding: 10px !important; // jaja, just not to need to overwrite it for _all_ devices
+      margin: 0 !important;
+    }
+  }
+}
+.input-box-inner {
+  display: inline-block;
+  position: relative;
+  label {
+    position: absolute;
+    left: $_input_box_width + 10;
+    top: 14px;
+    font-size: 16px;
+  }
+}
+
+.item-ios .button-pull-left.item-button,
+.item-ios .button-pull-left.item-button[icon-only]
+ {
+  margin-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 21px 14px;
+  font-size: inherit;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }

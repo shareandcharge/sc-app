@@ -49,6 +49,7 @@ import {IntroPage} from "../pages/intro/intro";
 import {PaymentService} from "../services/payment.service";
 import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
 import {ChargingService} from "../services/charging.service";
+import {ConfigService} from "../services/config.service";
 
 
 
@@ -104,8 +105,7 @@ export function getAuthHttp(http) {
         ChargingPage,
         ChargingCompletePage,
         ProgressBarComponent,
-        IntroPage,
-        ChargingProgressBarComponent
+        IntroPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -167,6 +167,8 @@ export function getAuthHttp(http) {
         RatingService,
         PaymentService,
         ChargingService
+        PaymentService,
+        ConfigService
     ]
 })
 export class AppModule {

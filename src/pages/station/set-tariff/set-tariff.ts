@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, ModalController, Events} from 'ionic-angular';
-import {MyStationsPage} from '../my-stations/my-stations';
 import {LocationService} from "../../../services/location.service";
 import {AddPermissionsPage} from './add-permissions/add-permissions';
 import {Location} from "../../../models/location";
@@ -24,6 +23,8 @@ export class SetTariffPage {
     hourlyTariff = false;
     kwhTariff = false;
 
+    displayPriceMap: any;
+
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events) {
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
@@ -32,10 +33,10 @@ export class SetTariffPage {
         this.flowMode = this.navParams.get("mode");
 
         if (this.flowMode == 'edit') {
-            this.buttonText = "Update";
+            this.buttonText = "Veröffentlichen";
         }
         else {
-            this.buttonText = "Publish";
+            this.buttonText = "Veröffentlichen";
         }
 
         if (this.connector.metadata.accessControl) {
@@ -45,35 +46,33 @@ export class SetTariffPage {
                 this.hourlyTariff = false;
             }
         }
-
     }
 
-    ionViewDidLoad() {
-    }
+    showHelp(type) {
+        let message = "";
 
-    deleteStation() {
+        switch (type) {
+            case "flatrate":
+                message = "Pauschaler Betrag für eine maximale Ladedauer von 8 Stunden.";
+                break;
+            case "hourly":
+                message = "Hier trägst Du die Energiekosten ein, die Du an Deinen Energieversorger bezahlst.";
+                break;
+            case "parking":
+                message = "Hier trägst Du die Kosten ein, die Lader an Dich für die Nutzung deines Parkplatzes zahlen sollen.";
+                break;
+        }
+
         let alert = this.alertCtrl.create({
-            title: 'Löschen bestätigen',
-            message: 'Möchten Sie dieses Station wirklich löschen?',
-            buttons: [
-                {
-                    text: 'Nein',
-                    role: 'cancel',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
-                },
-                {
-                    text: 'Ja, löschen',
-                    handler: () => {
-                        this.locationService.deleteLocation(this.locObject.id).subscribe(locations => {
-                            this.navCtrl.setRoot(MyStationsPage);
-                        });
-                    }
-                }
-            ]
+            title: 'Info',
+            message: message,
+            buttons: ['Ok']
         });
         alert.present();
+    }
+
+    updatePriceProvider(from, to, property) {
+        to[property] = Math.round(from.target.value * 100);
     }
 
     addPermission() {
@@ -115,4 +114,7 @@ export class SetTariffPage {
         }
     }
 
+    close() {
+        this.navCtrl.parent.pop();
+    }
 }

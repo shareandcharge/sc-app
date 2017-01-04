@@ -12,6 +12,7 @@
 $text-color: #000;
 $background-color: #F5F6F7;
 $toolbar-background: #fff;
+$border-radius: 4px;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -26,7 +27,8 @@ $colors: (
         secondary: #A46EF1,
         danger: #f53d3d,
         light: #f4f4f4,
-        dark: #222
+        dark: #222,
+        grey: #F5F6F7
 );
 
 $brand-color: (
@@ -80,6 +82,7 @@ $tabs-wp-tab-opacity: 1;
 @import "items";
 @import "segment";
 @import "popover";
+@import "alert-box";
 
 // Ionicons
 // --------------------------------------------------

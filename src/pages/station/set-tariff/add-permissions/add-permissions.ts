@@ -19,7 +19,9 @@ export class AddPermissionsPage {
     ionViewDidLoad() {
     }
 
-    submit() {
+    submitEmail() {
+        if (!this.input) return;
+        this.input = this.input.toLowerCase();
         this.addValidEmail(this.input);
     }
 
@@ -79,7 +81,7 @@ export class AddPermissionsPage {
         this.userService.userExists(emailObject.value).subscribe(
             res => {
                 if (res.exists) {
-                    this.addUserToPermissionList(emailObject.value);
+                    this.addUserToPermissionList(emailObject.value.toLowerCase());
                 } else {
                     if (contactEmails.length == 0) {
                         let alert = this.alertCtrl.create({
@@ -96,8 +98,26 @@ export class AddPermissionsPage {
         );
     }
 
-    delete(id) {
-        this.permissions.splice(this.permissions.findIndex(i => i.id === id), 1);
+    deleteEmail(deleteEmail) {
+        deleteEmail = deleteEmail.toLowerCase();
+
+        let alert = this.alertCtrl.create({
+            title: 'Löschen bestätigen',
+            message: 'Möchtest Du dieses E-Mail Adresse aus dem Tarif entfernen?',
+            buttons: [
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel'
+                },
+                {
+                    text: 'Ja, löschen',
+                    handler: () => {
+                        this.permissions.splice(this.permissions.findIndex(email => deleteEmail === email.toLowerCase()), 1);
+                    }
+                }
+            ]
+        });
+        alert.present();
     }
 
     dismiss(){

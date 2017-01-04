@@ -14,14 +14,11 @@ export class LoginPage {
     credentials = {"email": "", "password": ""};
     destination: any;
     mode: any;
+    error: string;
 
-
-    constructor(public navCtrl: NavController, private navParams : NavParams,private viewCtrl: ViewController, public modalCtrl: ModalController, private userService: UserService, public auth: AuthService, private loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController, public modalCtrl: ModalController, private userService: UserService, public auth: AuthService, private loadingCtrl: LoadingController) {
         this.destination = navParams.get("dest");
         this.mode = navParams.get('mode') || 'page';
-    }
-
-    ionViewDidLoad() {
     }
 
     dismiss() {
@@ -40,21 +37,26 @@ export class LoginPage {
         });
         loader.present();
 
-        this.userService.login(this.credentials.email, this.credentials.password).subscribe(res => {
-            loader.dismissAll();
-            this.viewCtrl.dismiss();
+        this.userService.login(this.credentials.email, this.credentials.password).subscribe(
+            (success) => {
+                loader.dismissAll();
+                this.viewCtrl.dismiss();
 
-            if(typeof this.destination != 'undefined'){
-                console.log(this.destination);
+                if (typeof this.destination != 'undefined') {
+                    console.log(this.destination);
 
-                if (this.mode === 'page') {
-                    this.navCtrl.push(this.destination);
-                } else if (this.mode === 'modal') {
-                    let modal = this.modalCtrl.create(this.destination);
-                    modal.present();
+                    if (this.mode === 'page') {
+                        this.navCtrl.push(this.destination);
+                    } else if (this.mode === 'modal') {
+                        let modal = this.modalCtrl.create(this.destination);
+                        modal.present();
+                    }
                 }
-            }
-        });
+            },
+            (error) => {
+                this.error = error;
+                loader.dismissAll();
+            });
     }
 
     loginFacebook() {

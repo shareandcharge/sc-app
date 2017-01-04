@@ -1,5 +1,7 @@
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "angular2-jwt";
+import {Response} from "@angular/http";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class PaymentService {
@@ -16,4 +18,17 @@ export class PaymentService {
         return this.authHttp.get(this.baseUrl + '/wallet/balance')
             .map(res => res.json());
     }
+
+    private handleError(error: Response | any) {
+        let errMsg: string;
+        if (error instanceof Response) {
+            const body = error.json() || '';
+            errMsg = body.message  || JSON.stringify(body);
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Observable.throw(errMsg);
+    }
+
 }
