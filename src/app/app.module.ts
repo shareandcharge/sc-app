@@ -48,6 +48,8 @@ import {ChargingCompletePage} from "../pages/location/charging/charging-complete
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
 import {IntroPage} from "../pages/intro/intro";
 import {PaymentService} from "../services/payment.service";
+import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
+import {ChargingService} from "../services/charging.service";
 import {ConfigService} from "../services/config.service";
 
 
@@ -105,6 +107,7 @@ export function getAuthHttp(http) {
         ChargingPage,
         ChargingCompletePage,
         ProgressBarComponent,
+        ChargingProgressBarComponent,
         IntroPage
     ],
     imports: [
@@ -166,6 +169,8 @@ export function getAuthHttp(http) {
         UserService,
         Storage,
         RatingService,
+        PaymentService,
+        ChargingService,
         PaymentService,
         ConfigService
     ]

@@ -8,7 +8,9 @@ import {Rating} from "../../models/rating";
 import {LocationService} from "../../services/location.service";
 import {Location} from "../../models/location";
 import {LaunchNavigator, LaunchNavigatorOptions} from 'ionic-native';
-import {ChargingPage} from './charging/charging'
+import {ChargingPage} from './charging/charging';
+import {ChargingService} from '../../services/charging.service';
+
 
 @Component({
     selector: 'location-details',
@@ -34,7 +36,12 @@ export class LocationDetailPage {
 
     private locationId: number;
 
-    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService) {
+    chargingProgress:number;
+
+    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService ,private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService) {
+
+        this.chargingProgress = this.chargingService.getChargingProgress();
+        console.log("charging progress is" , this.chargingProgress);
 
         this.location = new Location();
         this.locationId = navParams.get("locationId");
