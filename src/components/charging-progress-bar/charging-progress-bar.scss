@@ -1,0 +1,8 @@
+charging-progress-bar {
+  display: block;
+  width: 100%;
+  .progress-inner {
+    min-height: 5px;
+    background-color: darkred;
+  }
+}

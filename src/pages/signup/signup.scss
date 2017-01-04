@@ -18,6 +18,13 @@ page-signup {
   form {
     .list-tac {
       margin-bottom: 0;
+      .item-cover {
+        // to make the link in the label click-able
+        width: 40%;
+      }
+    }
+    a {
+      text-decoration: underline;
     }
     input.text-input {
       font-size: 1.7rem;

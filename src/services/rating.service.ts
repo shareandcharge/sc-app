@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Headers, Http} from "@angular/http";
+import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {Rating} from "../models/rating";
 import {AuthHttp} from "angular2-jwt";
@@ -57,9 +57,16 @@ export class RatingService {
             .catch(this.handleError);
     }
 
-    handleError(error) {
-        console.error(error);
-        return Observable.throw(error.json().error || 'Ratings server error');
+    private handleError(error: Response | any) {
+        let errMsg: string;
+        if (error instanceof Response) {
+            const body = error.json() || '';
+            errMsg = body.message  || JSON.stringify(body);
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Observable.throw(errMsg);
     }
 }
 

@@ -16,17 +16,21 @@
         <ion-row>
             <ion-col>
                 <h1 text-center>Willkommen bei Share&Charge</h1>
+
+                <div *ngIf="error" class="alert-box alert-box-danger" margin>{{ error }}</div>
+
                 <form (ngSubmit)="signUp()">
                     <div padding="">
-                        <ion-input type="text" [(ngModel)]="signUpObject.email" name="email" placeholder="E-Mail"></ion-input>
+                        <ion-input type="email" required [(ngModel)]="signUpObject.email" name="email" placeholder="E-Mail"></ion-input>
                     </div>
                     <div padding="">
-                        <ion-input type="password" [(ngModel)]="signUpObject.authentification.password" name="password" placeholder="Passwort"></ion-input>
+                        <ion-input type="password" minlength="7" required [(ngModel)]="signUpObject.authentification.password" name="password" placeholder="Passwort"></ion-input>
                     </div>
                     <ion-list no-lines class="list-tac">
                         <ion-item>
-                            <ion-label>Ich stimme den AGBs zu.</ion-label>
-                            <ion-checkbox color="light" checked="false">Ich stimme den AGBs zu.</ion-checkbox>
+                            <ion-checkbox color="light" checked="false" required [(ngModel)]="termsAccept" name="termsAccept">
+                            </ion-checkbox>
+                            <ion-label>Ich stimme den <a color="light" (click)="openTerms()">AGBs</a> zu.</ion-label>
                         </ion-item>
                     </ion-list>
                     <div padding="" text-center="">
@@ -41,25 +45,25 @@
             </ion-col>
         </ion-row>
         <!--<ion-row bottom="">-->
-            <!--<ion-col>-->
-                <!--<ion-row wrap>-->
-                    <!--<ion-col width-33>-->
-                        <!--<button ion-button icon-only round color="white" (click)="loginFacebook()">-->
-                            <!--<ion-icon name="logo-facebook"></ion-icon>-->
-                        <!--</button>-->
-                    <!--</ion-col>-->
-                    <!--<ion-col width-33 text-center="">-->
-                        <!--<button ion-button icon-only round color="white" (click)="loginGoogle()">-->
-                            <!--<ion-icon name="logo-googleplus"></ion-icon>-->
-                        <!--</button>-->
-                    <!--</ion-col>-->
-                    <!--<ion-col width-33 text-right="">-->
-                        <!--<button ion-button icon-only round color="white" (click)="loginMicrosoft()">-->
-                            <!--<ion-icon name="logo-windows"></ion-icon>-->
-                        <!--</button>-->
-                    <!--</ion-col>-->
-                <!--</ion-row>-->
-            <!--</ion-col>-->
+        <!--<ion-col>-->
+        <!--<ion-row wrap>-->
+        <!--<ion-col width-33>-->
+        <!--<button ion-button icon-only round color="white" (click)="loginFacebook()">-->
+        <!--<ion-icon name="logo-facebook"></ion-icon>-->
+        <!--</button>-->
+        <!--</ion-col>-->
+        <!--<ion-col width-33 text-center="">-->
+        <!--<button ion-button icon-only round color="white" (click)="loginGoogle()">-->
+        <!--<ion-icon name="logo-googleplus"></ion-icon>-->
+        <!--</button>-->
+        <!--</ion-col>-->
+        <!--<ion-col width-33 text-right="">-->
+        <!--<button ion-button icon-only round color="white" (click)="loginMicrosoft()">-->
+        <!--<ion-icon name="logo-windows"></ion-icon>-->
+        <!--</button>-->
+        <!--</ion-col>-->
+        <!--</ion-row>-->
+        <!--</ion-col>-->
         <!--</ion-row>-->
     </ion-grid>
 
