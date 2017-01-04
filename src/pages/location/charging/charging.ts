@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController} from 'ionic-angular';
 import {ChargingCompletePage} from './charging-complete/charging-complete';
 import {Badge} from 'ionic-native';
+import {ChargingService} from '../../../services/charging.service';
 
 @Component({
     selector: 'page-charging',
@@ -20,17 +21,21 @@ export class ChargingPage {
     buttonDeactive: any;
     selectedChargingTime: any;
     mouseDragging: any;
+    chargingProgress: any;
     canvasX: any;
     canvasY: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService) {
         this.location = navParams.get("location");
         this.chargingTime = 0;
-        this.countingDown = false;
-        this.buttonDeactive = true;
+        this.buttonDeactive = false;
         this.mouseDragging = false;
         this.canvasX = 140;
         this.canvasY = 140;
+
+        this.chargingProgress = this.chargingService.getChargingProgress();
+
+        console.log("timer is " ,this.timer);
 
         /* document.addEventListener('pause', () => {
 
@@ -155,12 +160,16 @@ export class ChargingPage {
         ctx.stroke();
 
         let time = Math.floor((((8 * 60 * 60) + 100) * deg) / 360);
+
+        console.log("time is " , time);
         if (time > 600) {
-            this.buttonDeactive = null;
+            this.buttonDeactive = false;
         }
         else {
             this.buttonDeactive = true;
         }
+
+        console.log(this.buttonDeactive);
 
         this.hours = Math.floor(time / 3600);
         this.minutes = Math.floor(Math.floor((time % 3600 ) / 60) / 10) * 10;
@@ -217,7 +226,8 @@ export class ChargingPage {
     }
 
     countDown() {
-        if (this.countingDown) {
+        console.log("timer is" , this.timer);
+        if (this.timer >= 0) {
             let alert = this.alertCtrl.create({
                 title: 'Stop Charging Confirmation',
                 message: 'Are you sure you want to stop?',
@@ -261,6 +271,8 @@ export class ChargingPage {
             this.chargingTimeHours = this.chargingTimeHours + ":00";
             let me = this;
             me.timer = (this.hours * 3600) + (this.minutes * 60);
+            me.chargingService.setChargingTime(me.timer);
+            me.chargingProgress = me.chargingService.getChargingProgress();
             me.selectedChargingTime = me.timer;
             me.myCounter = setInterval(function () {
                 me.hours = Math.floor(me.timer / 3600);
@@ -273,6 +285,7 @@ export class ChargingPage {
 
                 me.updateTimerString();
                 me.updateCanvas();
+
                 if (--me.timer < 0) {
                     me.timer = 0;
                     clearInterval(me.myCounter);
@@ -284,50 +297,49 @@ export class ChargingPage {
                         "chargedTime": chargedTimeString
                     });
                 }
-            }, 1000);
+            }, 100);
         }
-
     }
 
     updateCanvas() {
-
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
-        let ctx: CanvasRenderingContext2D = c.getContext("2d");
-        ctx.clearRect(0, 0, c.width, c.height);
+        if( c != null){
+            let ctx: CanvasRenderingContext2D = c.getContext("2d");
+            ctx.clearRect(0, 0, c.width, c.height);
 
-        ctx.lineWidth = 26;
-        ctx.strokeStyle = '#E6F0FD';
-        ctx.beginPath();
-        ctx.arc(this.canvasX, this.canvasY, 110, 0, 2 * Math.PI);
-        ctx.stroke();
+            ctx.lineWidth = 26;
+            ctx.strokeStyle = '#E6F0FD';
+            ctx.beginPath();
+            ctx.arc(this.canvasX, this.canvasY, 110, 0, 2 * Math.PI);
+            ctx.stroke();
 
-        let gradientLightened = ctx.createLinearGradient(0, 0, 360, 0);
-        gradientLightened.addColorStop(0, '#C4C7DE');
-        gradientLightened.addColorStop(1, '#D5DDF7');
+            let gradientLightened = ctx.createLinearGradient(0, 0, 360, 0);
+            gradientLightened.addColorStop(0, '#C4C7DE');
+            gradientLightened.addColorStop(1, '#D5DDF7');
 
-        let gradient = ctx.createLinearGradient(0, 0, 360, 0);
-        gradient.addColorStop(0, '#A46EF1');
-        gradient.addColorStop(1, '#006EF1');
+            let gradient = ctx.createLinearGradient(0, 0, 360, 0);
+            gradient.addColorStop(0, '#A46EF1');
+            gradient.addColorStop(1, '#006EF1');
 
-        ctx.strokeStyle = gradientLightened;
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(this.canvasX, this.canvasY, 97, 0, 2 * Math.PI);
-        ctx.stroke();
+            ctx.strokeStyle = gradientLightened;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(this.canvasX, this.canvasY, 97, 0, 2 * Math.PI);
+            ctx.stroke();
 
+            ctx.fillStyle = '#006EF1';
+            ctx.lineCap = 'square';
+            ctx.beginPath();
+            ctx.font = "30px Arial";
+            //ctx.fillText(this.chargingTimeHours, 80, c.height / 2 + 10);
 
-        ctx.fillStyle = '#006EF1';
-        ctx.lineCap = 'square';
-        ctx.beginPath();
-        ctx.font = "30px Arial";
-        //ctx.fillText(this.chargingTimeHours, 80, c.height / 2 + 10);
+            let fullCircle = 2 * Math.PI;
+            let progress = ((fullCircle * this.timer) / (8 * 3600)) - (Math.PI / 2);
 
-        let fullCircle = 2 * Math.PI;
-        let progress = ((fullCircle * this.timer) / (8 * 3600)) - (Math.PI / 2);
-
-        ctx.strokeStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(this.canvasX, this.canvasY, 97, 1.5 * Math.PI, progress);
-        ctx.stroke();
+            ctx.strokeStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(this.canvasX, this.canvasY, 97, 1.5 * Math.PI, progress);
+            ctx.stroke();
+        }
     }
 }

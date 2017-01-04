@@ -3,7 +3,7 @@
     <ion-navbar>
         <ion-title>Charging Progress</ion-title>
     </ion-navbar>
-
+    <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
 
@@ -23,19 +23,17 @@
         </ion-list>
     </div>
 
-
-    <ion-label text-center *ngIf="countingDown" >{{chargingTimeHours}}</ion-label>
+    <ion-label text-center>{{timer}}</ion-label>
     <ion-item no-lines>
         <canvas id="circleProgressBar" width="280" height="280">
         </canvas>
     </ion-item>
 
-
     <button ion-button round color="danger" (click)="startCharging()" *ngIf="countingDown">
         Stop
     </button>
 
-    <button ion-button round (click)="startCharging()" disabled="{{buttonDeactive}}" *ngIf="!countingDown">
+    <button ion-button round (click)="startCharging()" [disabled]="buttonDeactive" *ngIf="!countingDown">
         Start
     </button>
 

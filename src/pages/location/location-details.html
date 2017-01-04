@@ -8,6 +8,7 @@
         </ion-buttons>
         <!--<ion-title>Location</ion-title>-->
     </ion-navbar>
+    <charging-progress-bar *ngIf="chargingProgress > 0" [progress]="chargingProgress"></charging-progress-bar>
 </ion-header>
 
 <ion-content class="content-white">

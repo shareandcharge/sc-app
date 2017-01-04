@@ -17,6 +17,8 @@ import {CarService} from "../../services/car.service";
 import {CarWrapperPage} from "../car/car-wrapper";
 import {Car} from "../../models/car";
 import {Location} from "../../models/location";
+import {ChargingService} from '../../services/charging.service';
+
 
 
 declare var google;
@@ -52,7 +54,9 @@ export class MapPage {
     activeCar: Car;
     activeCarSrc: string;
 
-    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events) {
+    chargingProgress:number;
+
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events , private chargingService: ChargingService) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -60,6 +64,9 @@ export class MapPage {
         };
 
         this.viewType = 'map';
+
+        this.chargingProgress = this.chargingService.getChargingProgress();
+        console.log("charging progress is" , this.chargingProgress);
 
         //-- whenever the cars change or user loggs in, refresh the infos we need for the "switch car button"
         this.events.subscribe('cars:updated', () => this.refreshCarInfo());
