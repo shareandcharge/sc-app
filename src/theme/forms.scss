@@ -19,6 +19,13 @@ form.blocky {
   transform: translate3d(14px, 38px, 0);
 }
 
+.input-white {
+  background-color: #fff;
+  .text-input-ios {
+    margin-left: 11px;
+  }
+}
+
 ion-select {
   &.select-multiline {
     max-width: 100%;
@@ -60,4 +67,16 @@ $_input_box_width: 100px;
     top: 14px;
     font-size: 16px;
   }
+}
+
+.item-ios .button-pull-left.item-button,
+.item-ios .button-pull-left.item-button[icon-only]
+ {
+  margin-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 21px 14px;
+  font-size: inherit;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
