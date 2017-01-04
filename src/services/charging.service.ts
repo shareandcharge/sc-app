@@ -15,6 +15,10 @@ export class ChargingService {
     public interval:any;
 
     constructor(private authHttp: AuthHttp, private events: Events) {
+        let me = this;
+        setInterval(function () {
+            me.events.publish('charging:update');
+        } , 1000)
     }
 
     getChargingProgress() {
@@ -26,7 +30,7 @@ export class ChargingService {
     }
 
     startCharging(seconds) {
-        this.events.publish('charging:onStart');
+        this.events.publish('charging:update');
 
         this.charging = true;
         this.chargingTime = seconds;

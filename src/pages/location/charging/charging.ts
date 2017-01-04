@@ -43,7 +43,8 @@ export class ChargingPage {
 
         if (this.chargingProgress > 0) {
             let me = this;
-            setInterval(function () {
+            clearInterval(this.myCounter)
+            this.myCounter = setInterval(function () {
                 me.chargingTimeHours = me.makeTimeString(me.chargingService.getRemainingTime());
             }, 1000);
             this.buttonDeactive = true;
@@ -249,7 +250,7 @@ export class ChargingPage {
                         handler: () => {
                             let chargedTime = this.chargingService.chargedTime();
                             this.chargingService.stopCharging();
-                            console.log("charged time is" , chargedTime);
+                            console.log("charged time is", chargedTime);
                             this.chargingProgress = 0;
                             let chargedTimeString = this.makeTimeString(chargedTime);
                             this.countingDown = false;
@@ -260,7 +261,7 @@ export class ChargingPage {
                             this.minutes = "00";
                             this.seconds = "00";
                             this.updateTimerString();
-                            //this.updateCanvas();
+                            this.updateCanvas();
                             this.initiateCanvas();
                             Badge.clear();
                             this.navCtrl.push(ChargingCompletePage, {
