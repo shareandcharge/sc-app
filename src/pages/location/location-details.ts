@@ -10,6 +10,10 @@ import {Location} from "../../models/location";
 import {LaunchNavigator, LaunchNavigatorOptions} from 'ionic-native';
 import {ChargingPage} from './charging/charging';
 import {ChargingService} from '../../services/charging.service';
+import {Connector} from "../../models/connector";
+import {Station} from "../../models/station";
+import {ConfigService} from "../../services/config.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 
 @Component({
@@ -19,6 +23,9 @@ import {ChargingService} from '../../services/charging.service';
 })
 export class LocationDetailPage {
     location: Location;
+    station: Station;
+    connector: Connector;
+
     slideOptions: any;
     @ViewChild('map') mapElement: ElementRef;
     map: any;
@@ -38,12 +45,25 @@ export class LocationDetailPage {
 
     chargingProgress: number;
 
-    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService) {
+    weekdays: any;
+
+    plugTypes: any;
+    plugSvg: any;
+
+    openingHours: any;
+    today: number;
+
+    averageRating: number;
+
+    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer) {
 
         this.chargingProgress = this.chargingService.getChargingProgress();
         console.log("charging progress is", this.chargingProgress);
 
         this.location = new Location();
+        this.station = new Station();
+        this.connector = new Connector();
+
         this.locationId = navParams.get("locationId");
 
         this.isDesktop = platform.is("core");
@@ -57,6 +77,29 @@ export class LocationDetailPage {
             initialSlide: 1,
             loop: true
         };
+
+        this.weekdays = [
+            'Mo.',
+            'Di.',
+            'Mi.',
+            'Do.',
+            'Fr.',
+            'Sa.',
+            'So.'
+        ];
+
+        this.plugTypes = [];
+
+        this.plugSvg = '';
+
+        this.loadOpeningHours();
+
+        this.today = new Date().getDay() - 1;
+        if (this.today == -1) {
+            this.today = 6;
+        }
+
+        this.averageRating = -1;
     }
 
     ionViewWillEnter() {
@@ -88,8 +131,18 @@ export class LocationDetailPage {
         observable.subscribe(
             location => {
                 this.location = location;
+                this.station = this.location.stations[0];
+                this.connector = this.station.connectors[0];
+
+                this.loadOpeningHours();
+
                 this.loadMap();
                 this.getRatings();
+
+                this.configService.getPlugTypes().subscribe((plugTypes) => {
+                    this.plugTypes = plugTypes;
+                    this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
+                });
             }
         );
         return observable;
@@ -98,19 +151,76 @@ export class LocationDetailPage {
     getRatings() {
         let observable = this.ratingService.getRatings(this.location.id);
         observable.subscribe(
-            ratings => this.ratings = ratings
+            ratings => {
+                this.ratings = ratings;
+                this.averageRating = this.getAverageRating();
+            }
         );
     }
 
+    loadOpeningHours() {
+        this.openingHours = [];
+
+        this.weekdays.forEach((name, index) => {
+            let weekday = {
+                'name' : name,
+                'fromTo' : this.getOpeningHoursForDay(index)
+            };
+
+            this.openingHours.push(weekday);
+        })
+    }
+
+    getOpeningHoursForDay(day: number) {
+        let hours = this.connector.weekcalendar.hours;
+
+        if (hours[day].from == hours[day].to) {
+            return "geschlossen";
+        }
+
+        return hours[day].from + ':00 - ' + hours[day].to + ':00 Uhr';
+    }
+
+    getSvgForPlug(plugId: number) {
+        let plugSvg = '';
+
+        this.plugTypes.forEach((plug) => {
+            if (plug.id == plugId) {
+                plugSvg = plug.svg;
+            }
+        });
+
+        return this.sanitizer.bypassSecurityTrustHtml(plugSvg);
+    }
+
+    getAverageRating() {
+        let ratingSum = 0;
+
+        this.ratings.forEach((rating) => {
+            ratingSum += rating.rating;
+        });
+
+        let averageRating = -1;
+        if (this.ratings.length) {
+            // rounds to the nearest 0.5
+            averageRating = Math.round((ratingSum / this.ratings.length) * 2) / 2;
+        }
+
+        return averageRating;
+    }
+
     fullStars(value: number): Array<number> {
+        console.log('fullStars for', value, ':', Array(Math.floor(value)));
         return Array(Math.floor(value));
     }
 
     displayHalfStars(value: number): boolean {
+        console.log('halfStars for', value, ':', Math.floor(value) != value);
         return Math.floor(value) != value;
     }
 
     emptyStars(value: number): Array<number> {
+        console.log('emptyStars for', value, ':', Array(5 - Math.ceil(value)));
         return Array(5 - Math.ceil(value));
     }
 
