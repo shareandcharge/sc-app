@@ -1,0 +1,12 @@
+.alert-box {
+  padding: $content-padding;
+  margin-bottom: $content-margin;
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+}
+
+.alert-box-danger {
+  border-color: map_get($colors, danger);
+  background-color: lighten(map_get($colors, danger), 34%);
+  color: darken(map_get($colors, danger), 10%);
+}

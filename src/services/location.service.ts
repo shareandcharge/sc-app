@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import 'rxjs/add/operator/map';
 import {Location} from "../models/location";
 import {AuthHttp} from "angular2-jwt";
+import {Response} from "@angular/http";
 
 @Injectable()
 export class LocationService {
@@ -88,9 +89,15 @@ export class LocationService {
             .catch(this.handleError);
     }
 
-    handleError(error) {
-        console.error(error);
-        return Observable.throw(error.json().error || 'Locations server error');
+    private handleError(error: Response | any) {
+        let errMsg: string;
+        if (error instanceof Response) {
+            const body = error.json() || '';
+            errMsg = body.message  || JSON.stringify(body);
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Observable.throw(errMsg);
     }
-
 }
