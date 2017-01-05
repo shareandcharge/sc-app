@@ -14,15 +14,11 @@ export class ChargingProgressBarComponent {
         this.charging = this.chargingService.isCharging();
         this.progress = this.chargingService.getChargingProgress();
 
-        this.events.subscribe('charging:update', (progress , charging) => this.updateComponent(progress , charging));
+        this.events.subscribe('charging:update', (progress, charging) => this.updateComponent(progress, charging));
 
     }
 
-    ionViewDidLoad() {
-        console.log("component  loaded *****");
-    }
-
-    updateComponent(progress , charging) {
+    updateComponent(progress, charging) {
         this.progress = progress;
         this.charging = charging;
     }

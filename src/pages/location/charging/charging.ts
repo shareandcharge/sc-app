@@ -22,6 +22,7 @@ export class ChargingPage {
     chargingProgress: any;
     canvasX: any;
     canvasY: any;
+    charging: boolean;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController) {
         this.location = navParams.get("location");
@@ -31,25 +32,28 @@ export class ChargingPage {
         this.canvasX = 140;
         this.canvasY = 140;
         this.chargingProgress = this.chargingService.getChargingProgress();
+        this.charging = this.chargingService.isCharging();
     }
 
-    ionViewWillLeave() {
-        console.log("leaving the page ");
+    ionViewDidLeave(){
+        clearInterval(this.myCounter);
     }
 
     ionViewDidLoad() {
-
-        if (this.chargingProgress > 0) {
-            let me = this;
+        if (this.charging) {
+            console.log("charging");
             clearInterval(this.myCounter)
-            this.myCounter = setInterval(function () {
-                me.chargingTimeHours = me.makeTimeString(me.chargingService.getRemainingTime());
+            this.myCounter = setInterval(() => {
+                this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
+                this.timer = this.chargingService.getRemainingTime();
+                this.updateCanvas();
             }, 1000);
             this.buttonDeactive = true;
             this.countingDown = true;
         }
 
         else {
+            console.log("NOTTT charging");
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
             document.body.addEventListener("touchstart", function (e) {
@@ -87,6 +91,7 @@ export class ChargingPage {
 
         let ctx: CanvasRenderingContext2D = c.getContext("2d");
         ctx.clearRect(0, 0, c.width, c.height);
+        console.log("clearing the canvas" ,  c.width, c.height);
         this.drawSlideBar(this.canvasX + 1, 10);
     }
 
@@ -175,7 +180,6 @@ export class ChargingPage {
         else {
             this.buttonDeactive = true;
         }
-
 
         this.hours = Math.floor(time / 3600);
         this.minutes = Math.floor(Math.floor((time % 3600 ) / 60) / 10) * 10;
@@ -331,8 +335,6 @@ export class ChargingPage {
             ctx.lineCap = 'square';
             ctx.beginPath();
             ctx.font = "30px Arial";
-            //ctx.fillText(this.chargingTimeHours, 80, c.height / 2 + 10);
-
             let fullCircle = 2 * Math.PI;
             let progress = ((fullCircle * this.timer) / (8 * 3600)) - (Math.PI / 2);
 
@@ -347,9 +349,9 @@ export class ChargingPage {
         this.viewCtrl.dismiss();
     }
 
-    chargingCompletedModal(chargedTime){
+    chargingCompletedModal(chargedTime) {
         this.viewCtrl.dismiss({
-            "chargedTime" : chargedTime
+            "chargedTime": chargedTime
         });
     }
 
