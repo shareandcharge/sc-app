@@ -24,7 +24,7 @@
         <ion-list no-lines>
             <ion-item>
                 <ion-label floating>Adresse der Station</ion-label>
-                <ion-input type="text" [(ngModel)]="locObject.address" (input)="updateSearch()"></ion-input>
+                <ion-input type="text" class="input-white" [(ngModel)]="locObject.address" (input)="updateSearch()"></ion-input>
             </ion-item>
         </ion-list>
         <ion-list>
@@ -47,14 +47,14 @@
         <ion-list no-lines="" *ngIf="segmentTabs == 'default'">
             <ion-item>
                 <ion-label>Von</ion-label>
-                <ion-select [(ngModel)]="from" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK">
+                <ion-select class="input-white" [(ngModel)]="from" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK" placeholder="Uhrzeit">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
             </ion-item>
 
             <ion-item>
                 <ion-label>Bis</ion-label>
-                <ion-select [(ngModel)]="to" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK">
+                <ion-select class="input-white" [(ngModel)]="to" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK" placeholder="Uhrzeit">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
             </ion-item>
@@ -66,7 +66,7 @@
                 <ion-select multiple="true"
                             [(ngModel)]="weekdays" (ngModelChange)="updateSelectedDays()"
                             [selectOptions]="{title:'Tage wählen'}"
-                            class="select-multiline"
+                            class="select-multiline input-white"
                             placeholder="Bitte wählen ..."
                             cancelText="Abbrechen" okText="OK"
                 >
@@ -86,10 +86,11 @@
             <ion-item *ngFor="let day of connector.weekcalendar.hours; let i = index;">
                 <ion-label>{{days[i]}}</ion-label>
                 <ion-checkbox [(ngModel)]="day.from != day.to"></ion-checkbox>
-                <ion-select [(ngModel)]="day.from" placeholder="Von">
+                <ion-select [(ngModel)]="day.from" placeholder="Von" class="input-white small margin-right-xs">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
-                <ion-select [(ngModel)]="day.to" placeholder="Bis">
+
+                <ion-select [(ngModel)]="day.to" placeholder="Bis" class="input-white small">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
             </ion-item>
@@ -97,13 +98,13 @@
 
         <ion-list no-lines="">
             <ion-item>
-                <ion-label floating>Problemlöser</ion-label>
-                <ion-textarea [(ngModel)]="locObject.metadata.problemSolver" rows="4"></ion-textarea>
+                <ion-label stacked>Problemlöser</ion-label>
+                <ion-textarea class="input-white" [(ngModel)]="locObject.metadata.problemSolver" rows="3"></ion-textarea>
             </ion-item>
 
             <ion-item>
-                <ion-label floating>Beschreibung</ion-label>
-                <ion-textarea [(ngModel)]="locObject.description" rows="4"></ion-textarea>
+                <ion-label stacked>Beschreibung</ion-label>
+                <ion-textarea class="input-white" [(ngModel)]="locObject.description" rows="3"></ion-textarea>
             </ion-item>
         </ion-list>
 

@@ -16,7 +16,7 @@ export class AddRatingPage {
 
     constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController, public ratingService: RatingService, public authService: AuthService, public alertCtrl: AlertController) {
         this.location = navParams.get('location');
-        this.rating.rating = 2.5;
+        this.rating.rating = 5;
     }
 
     dismiss() {
@@ -27,14 +27,27 @@ export class AddRatingPage {
         this.rating.createdAt = new Date();
         this.rating.user = this.authService.getUser().id;
 
-        let me = this;
-
         this.ratingService.createRating(this.location.id, this.rating)
             .subscribe(
-                () => {
-                    me.viewCtrl.dismiss();
-                },
-                error => this.displayError(<any>error, 'Rating erstellen'));
+                () => this.ratingSubmitted(),
+                (error) => this.displayError(<any>error, 'Rating erstellen'));
+    }
+
+    ratingSubmitted() {
+        let alert = this.alertCtrl.create({
+                title: "Bewertung gespeichert",
+                message: "Vielen Dank für Deine Bewertung.",
+                buttons: [
+                    {
+                        text: 'OK',
+                        role: 'cancel',
+                        handler: () => this.viewCtrl.dismiss()
+                    }
+                ]
+
+            })
+            ;
+        alert.present();
     }
 
     displayError(message: any, subtitle?: string) {

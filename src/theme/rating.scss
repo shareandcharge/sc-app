@@ -1,0 +1,22 @@
+/**
+ * because the component injects (very specific) styles,
+ * we have to use some !important here :(
+ */
+
+rating {
+  ul.rating {
+    padding: 0 4px 0 0;
+    margin: 0;
+    display: inline-block !important;
+    li {
+      padding: 0 1px 0 !important;
+    }
+    color: map_get($colors, secondary);
+  }
+  &.large ul.rating {
+    li {
+      margin-right: 14px;
+      font-size: 22px;
+    }
+  }
+}

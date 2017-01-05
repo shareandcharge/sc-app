@@ -1,36 +1,36 @@
-form.blocky {
 
+.cloned-input {
+  // While an input is focused and the screen scrolled, ionic creates a clone of the input.
+  // This clone is misaligned due to the margin. Don't know why, bug?
+  margin-left: 0 !important;
 }
 
-.text-input {
-  border-radius: 4px !important; // @todo ;(
-}
-
-.item-ios.item-label-floating .text-input,
-.item-label-floating .text-input-md {
-  background-color: #fff;
-  margin: 0;
-  padding: 10px 14px;
-  //border-radius: 2px;
+.item-input ion-label {
+  color: #666;
+  .input-has-value &, .input-has-focus & {
+    //color: #000;
+  }
 }
 
 .label.label-ios[floating],
 .label.label-md[floating] {
-  transform: translate3d(14px, 38px, 0);
+  transform: translate3d(14px, 39px, 0);
 }
 
-.input-white {
+.input-white .text-input, ion-select.input-white {
   background-color: #fff;
-  .text-input-ios {
-    margin-left: 11px;
-  }
+  padding: 10px 14px;
+  border-radius: $border-radius;
+}
+
+ion-select.input-white.small {
+  padding: 8px;
 }
 
 ion-select {
   &.select-multiline {
-    max-width: 100%;
-    padding-left: 0;
-    padding-top: 0;
+    max-width: calc(100% - 8px);
+    width: calc(100% - 8px);
     .select-text {
       white-space: normal;
     }
@@ -58,6 +58,7 @@ $_input_box_width: 100px;
     }
   }
 }
+
 .input-box-inner {
   display: inline-block;
   position: relative;
@@ -70,13 +71,10 @@ $_input_box_width: 100px;
 }
 
 .item-ios .button-pull-left.item-button,
-.item-ios .button-pull-left.item-button[icon-only]
- {
+.item-ios .button-pull-left.item-button[icon-only] {
   margin-left: 0;
   margin-top: 0;
   margin-bottom: 0;
-  padding: 21px 14px;
+  padding: 20px 14px;
   font-size: inherit;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
 }

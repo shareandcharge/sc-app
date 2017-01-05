@@ -12,3 +12,7 @@ ion-grid.fullpage {
 ion-col.nopadding {
   padding: 0;
 }
+
+ion-grid.nopadding, ion-grid.nopadding ion-col {
+  padding: 0;
+}

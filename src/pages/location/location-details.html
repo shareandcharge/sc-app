@@ -20,27 +20,43 @@
         </ion-fab>
     </div>
     <div padding>
-        <p><strong>{{location.address}}, {{location.city}}</strong></p>
-        <p *ngIf="!showOpeningHours">
+        <p>
+            <strong>{{location.address}}, {{location.city}}</strong>
+        </p>
+
+
+        <div *ngIf="!showOpeningHours" margin-bottom>
             Öffnungszeiten: {{openingHours[today].fromTo}}
             <ion-icon (click)="showOpeningHours = !showOpeningHours" name="ios-arrow-down"></ion-icon>
-        </p>
-        <p *ngIf="showOpeningHours">
+        </div>
+        <div *ngIf="showOpeningHours" margin-bottom>
             Öffnungszeiten:
             <ion-icon (click)="showOpeningHours = !showOpeningHours" name="ios-arrow-up"></ion-icon>
-            <br><br>
-            <span *ngFor="let day of openingHours">{{day.name}}: {{day.fromTo}}<br></span>
-        </p>
+
+            <table>
+                <tr *ngFor="let day of openingHours">
+                    <td>{{day.name}}:</td>
+                    <td>{{day.fromTo}}</td>
+                </tr>
+            </table>
+        </div>
+
         <hr>
-        <div text-left="" style="float: left; width: 40px;">
-            <span item-content [innerHtml]="plugSvg"></span>
-        </div>
-        <div *ngIf="connector.wattpower > 0" text-right="" style="float: right">
-            {{connector.wattpower / 1000}} kW<br>Max.
-        </div>
-        <div style="clear: both">
-        </div>
-        <hr>
+
+        <ion-grid class="nopadding" margin-top>
+            <ion-row>
+                <ion-col width-50 class="nopadding">
+                    <span [innerHtml]="plugSvg" class="plug-icon"></span>
+                </ion-col>
+                <ion-col width-50 text-right>
+                    <span *ngIf="connector.wattpower > 0" class="kw-box">
+                        <strong>{{connector.wattpower / 1000}} kW</strong>
+                        <br>max.
+                    </span>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
     </div>
 
     <div>
@@ -50,16 +66,20 @@
             </ion-slide>
         </ion-slides>
     </div>
+
     <div padding="">
-        <h6>Über diese Station:</h6>
-        <p>
-            {{location.description}}
-        </p>
+        <div *ngIf="location.description">
+            <h6>Über diese Station:</h6>
+            <p>
+                {{location.description}}
+            </p>
+            <hr>
+        </div>
 
-        <hr>
-
-        <h6>Problemlöser:</h6>
-        <p>{{location.metadata.problemSolver}}</p>
+        <div *ngIf="location.metadata.problemSolver">
+            <h6>Problemlöser:</h6>
+            <p>{{location.metadata.problemSolver}}</p>
+        </div>
 
         <h6>Bewertungen:</h6>
 
@@ -79,21 +99,20 @@
 </ion-content>
 
 <ion-footer>
-    <ion-toolbar>
+    <ion-toolbar color="light">
         <ion-grid>
             <ion-row>
-                <ion-col center="">
+                <ion-col center>
                     <strong>1,60 - 3,20 €/kWH</strong><br>
                     <span *ngIf="averageRating != -1">
                         <rating [(ngModel)]="averageRating" readonly="true"></rating>
                     </span>
                 </ion-col>
-                <ion-col text-right="">
-                    <button ion-button round color="primary" class="btn-start-charging" (click)="charge()">
+                <ion-col text-right>
+                    <button ion-button round color="primary" text-uppercase (click)="charge()">
                         <span *ngIf="!charging">Laden</span>
                         <span *ngIf="charging">Ladefortschritt</span>
                     </button>
-
                 </ion-col>
             </ion-row>
         </ion-grid>

@@ -44,10 +44,10 @@
     </div>
 
     <div padding class="bottom-container">
-        <ion-list>
+        <ion-list no-lines="">
             <div *ngIf="segmentTabs == 'preset'">
                 <ion-list>
-                    <button ion-item (click)="selectModdel()" detail-none>
+                    <button ion-item (click)="selectModdel()" detail-none class="lines-inner-bottom">
                         <ion-icon name="ios-list" item-right></ion-icon>
                         <span *ngIf="car.manufacturer == ''">Hersteller &amp; Modell</span>
                         <span *ngIf="car.manufacturer != ''">{{car.manufacturer}} {{car.model}}</span>
@@ -60,19 +60,19 @@
             <div *ngIf="segmentTabs == 'custom'">
                 <ion-item>
                     <ion-label floating>Hersteller</ion-label>
-                    <ion-input type="text" [(ngModel)]="car.manufacturer"></ion-input>
+                    <ion-input class="input-white" type="text" [(ngModel)]="car.manufacturer"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Modell</ion-label>
-                    <ion-input type="text" [(ngModel)]="car.model"></ion-input>
+                    <ion-input class="input-white" type="text" [(ngModel)]="car.model"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Durchschnittliche Reichweite</ion-label>
-                    <ion-input type="text" [(ngModel)]="car.averageDistance"></ion-input>
+                    <ion-input class="input-white" type="text" [(ngModel)]="car.averageDistance"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Batteriekapazität</ion-label>
-                    <ion-input type="text" [(ngModel)]="car.accuCapacity"></ion-input>
+                    <ion-input class="input-white" type="text" [(ngModel)]="car.accuCapacity"></ion-input>
                 </ion-item>
 
                 <ion-item>
@@ -80,7 +80,7 @@
                 </ion-item>
 
                 <ion-item>
-                    <ion-select [(ngModel)]="car.plugTypes" [selectOptions]="selectPlugTypesOptions" multiple="true" class="select-multiline" placeholder="Bitte wählen ...">
+                    <ion-select [(ngModel)]="car.plugTypes" [selectOptions]="selectPlugTypesOptions" multiple="true" class="select-multiline input-white" placeholder="Bitte wählen ...">
                         <ion-option *ngFor="let plug of plugOptions" value="{{plug.id}}">{{plug.name}}</ion-option>
                     </ion-select>
                 </ion-item>
