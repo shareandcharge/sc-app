@@ -13,7 +13,7 @@
             </button>
         </ion-buttons>
     </ion-navbar>
-
+    <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
 
@@ -36,7 +36,7 @@
         <ion-item *ngFor="let tr of paymentHistory">
             <ion-icon name="close" (click)="deleteTransaction(tr)"></ion-icon>
             &nbsp;&nbsp;{{tr.type}}{{tr.amount}}
-            &nbsp;<small>{{tr.date}}</small>
+            <small>{{tr.date}}</small>
         </ion-item>
     </ion-list>
 

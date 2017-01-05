@@ -2,6 +2,11 @@
 
     <ion-navbar>
         <ion-title>Charging Progress</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
     <charging-progress-bar></charging-progress-bar>
 </ion-header>

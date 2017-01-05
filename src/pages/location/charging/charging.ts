@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController} from 'ionic-angular';
-import {ChargingCompletePage} from './charging-complete/charging-complete';
-import {Badge} from 'ionic-native';
+import {NavController, NavParams, AlertController, ViewController} from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 
 @Component({
@@ -25,7 +23,7 @@ export class ChargingPage {
     canvasX: any;
     canvasY: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController) {
         this.location = navParams.get("location");
         this.chargingTime = 0;
         this.buttonDeactive = false;
@@ -263,19 +261,14 @@ export class ChargingPage {
                             this.updateTimerString();
                             this.updateCanvas();
                             this.initiateCanvas();
-                            Badge.clear();
-                            this.navCtrl.push(ChargingCompletePage, {
-                                "chargedTime": chargedTimeString
-                            });
+                            this.chargingCompletedModal(chargedTimeString);
                         }
                     }
                 ]
             });
             alert.present();
-
         }
         else {
-            Badge.set(1);
             this.countingDown = true;
             this.selectedChargingTime = this.chargingTime;
             this.chargingTimeHours = this.chargingTimeHours + ":00";
@@ -284,28 +277,25 @@ export class ChargingPage {
             me.chargingService.startCharging(me.timer);
             me.chargingProgress = me.chargingService.getChargingProgress();
             me.selectedChargingTime = me.timer;
-            me.myCounter = setInterval(function () {
-                me.hours = Math.floor(me.timer / 3600);
-                me.minutes = Math.floor((me.timer % 3600 ) / 60);
-                me.seconds = Math.floor((me.timer % 3600) % 60);
+            me.myCounter = setInterval(() => {
+                this.hours = Math.floor(me.timer / 3600);
+                this.minutes = Math.floor((me.timer % 3600 ) / 60);
+                this.seconds = Math.floor((me.timer % 3600) % 60);
 
-                me.hours = me.hours < 10 ? "0" + me.hours : me.hours;
-                me.minutes = me.minutes < 10 ? "0" + me.minutes : me.minutes;
-                me.seconds = me.seconds < 10 ? "0" + me.seconds : me.seconds;
+                this.hours = me.hours < 10 ? "0" + me.hours : me.hours;
+                this.minutes = me.minutes < 10 ? "0" + me.minutes : me.minutes;
+                this.seconds = me.seconds < 10 ? "0" + me.seconds : me.seconds;
 
-                me.updateTimerString();
-                me.updateCanvas();
+                this.updateTimerString();
+                this.updateCanvas();
 
-                if (--me.timer < 0) {
-                    me.timer = 0;
+                if (--this.timer < 0) {
+                    this.timer = 0;
                     clearInterval(me.myCounter);
-                    me.countingDown = false;
+                    this.countingDown = false;
                     let chargedTimeString = me.makeTimeString(me.chargingService.chargedTime());
-                    me.initiateCanvas();
-                    Badge.clear();
-                    me.navCtrl.push(ChargingCompletePage, {
-                        "chargedTime": chargedTimeString
-                    });
+                    this.initiateCanvas();
+                    this.chargingCompletedModal(chargedTimeString);
                 }
             }, 1000);
         }
@@ -352,4 +342,15 @@ export class ChargingPage {
             ctx.stroke();
         }
     }
+
+    dismiss() {
+        this.viewCtrl.dismiss();
+    }
+
+    chargingCompletedModal(chargedTime){
+        this.viewCtrl.dismiss({
+            "chargedTime" : chargedTime
+        });
+    }
+
 }

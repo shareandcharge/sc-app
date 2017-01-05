@@ -2,7 +2,11 @@ charging-progress-bar {
   display: block;
   width: 100%;
   .progress-inner {
+    height: 10px;
     min-height: 5px;
-    background-color: darkred;
+    $bottomLeft: map_get($colors, secondary);
+    $topRight: map_get($colors, primary);
+    background-color: $bottomLeft;
+    background-image: linear-gradient(45deg, $bottomLeft, $topRight);
   }
 }

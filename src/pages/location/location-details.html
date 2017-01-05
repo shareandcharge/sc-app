@@ -1,5 +1,4 @@
 <ion-header class="transparent">
-    <charging-progress-bar *ngIf="chargingProgress > 0" [progress]="chargingProgress"></charging-progress-bar>
     <ion-navbar>
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
@@ -72,7 +71,9 @@
             <hr>
         </div>
 
-        <button ion-button color="secondary" small round outline (click)="feedback()" *ngIf="authService.loggedIn()">+ Bewertung schreiben</button>
+        <button ion-button color="secondary" small round outline (click)="feedback()" *ngIf="authService.loggedIn()">+
+            Bewertung schreiben
+        </button>
     </div>
 
 </ion-content>
@@ -89,7 +90,8 @@
                 </ion-col>
                 <ion-col text-right="">
                     <button ion-button round color="primary" class="btn-start-charging" (click)="charge()">
-                        Laden
+                        <span *ngIf="!charging">Laden</span>
+                        <span *ngIf="charging">Ladefortschritt</span>
                     </button>
 
                 </ion-col>

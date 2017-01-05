@@ -14,6 +14,8 @@ import {Connector} from "../../models/connector";
 import {Station} from "../../models/station";
 import {ConfigService} from "../../services/config.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {LoginPage} from "../login/login";
+import {ChargingCompletePage} from "./charging/charging-complete/charging-complete";
 
 
 @Component({
@@ -43,7 +45,7 @@ export class LocationDetailPage {
 
     private locationId: number;
 
-    chargingProgress: number;
+    charging: boolean;
 
     weekdays: any;
 
@@ -57,8 +59,7 @@ export class LocationDetailPage {
 
     constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer) {
 
-        this.chargingProgress = this.chargingService.getChargingProgress();
-        console.log("charging progress is", this.chargingProgress);
+        this.charging = this.chargingService.isCharging();
 
         this.location = new Location();
         this.station = new Station();
@@ -163,8 +164,8 @@ export class LocationDetailPage {
 
         this.weekdays.forEach((name, index) => {
             let weekday = {
-                'name' : name,
-                'fromTo' : this.getOpeningHoursForDay(index)
+                'name': name,
+                'fromTo': this.getOpeningHoursForDay(index)
             };
 
             this.openingHours.push(weekday);
@@ -280,10 +281,28 @@ export class LocationDetailPage {
         }
     }
 
+    loginModal(data?) {
+        let modal = this.modalCtrl.create(LoginPage, data);
+        modal.present();
+    }
+
     charge() {
-        this.navCtrl.push(ChargingPage,
-            {
-                "location": this.location
+        if (this.authService.loggedIn()) {
+            let chargingModal = this.modalCtrl.create(ChargingPage);
+
+            chargingModal.onDidDismiss(data => {
+                if (data) {
+                    let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
+                    chargingCompletedModal.present();
+                }
             });
+            chargingModal.present();
+        }
+        else {
+            this.loginModal({
+                "dest": LocationDetailPage,
+                'mode': 'modal'
+            });
+        }
     }
 }

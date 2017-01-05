@@ -10,26 +10,21 @@ export class ChargingProgressBarComponent {
     @Input('progress') progress;
     charging: boolean;
 
-    constructor(private chargingService: ChargingService ,  private events:Events) {
+    constructor(private chargingService: ChargingService, private events: Events) {
         this.charging = this.chargingService.isCharging();
         this.progress = this.chargingService.getChargingProgress();
-        let me = this;
 
-        this.events.subscribe('charging:update', () => this.updateComponent());
+        this.events.subscribe('charging:update', (progress , charging) => this.updateComponent(progress , charging));
 
-        /*setInterval(function () {
-            console.log("component interval");
-            me.progress = me.chargingService.getChargingProgress();
-        }, 1000);*/
     }
 
     ionViewDidLoad() {
         console.log("component  loaded *****");
     }
 
-    updateComponent(){
-        console.log("component interval");
-        this.progress = this.chargingService.getChargingProgress();
+    updateComponent(progress , charging) {
+        this.progress = progress;
+        this.charging = charging;
     }
 }
 

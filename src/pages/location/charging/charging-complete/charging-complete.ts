@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams , ViewController} from 'ionic-angular';
 
 
 @Component({
@@ -8,7 +8,7 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ChargingCompletePage {
   chargedTime:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams , private viewCtrl: ViewController) {
     this.chargedTime = navParams.get("chargedTime");
   }
 
@@ -18,6 +18,10 @@ export class ChargingCompletePage {
 
   ionViewWillLeave() {
     console.log("leaving the page ");
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 
 }
