@@ -8,12 +8,6 @@ page-login {
     color: #fff;
   }
 
-  //.toolbar {
-  //  .toolbar-background {
-  //    background: transparent;
-  //    border-color: transparent;
-  //  }
-  //}
   ion-item.item {
     background-color: transparent;
   }
@@ -26,10 +20,11 @@ page-login {
     input.text-input {
       font-size: 1.7rem;
       color: #fff;
-      @include placeholder(#fff);
+      @include placeholder(#eee);
       background-color: rgba(255, 255, 255, 0.25);
       padding: 10px 14px;
       margin: 0;
+      border-radius: $border-radius;
     }
   }
 }
