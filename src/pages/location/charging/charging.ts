@@ -1,15 +1,21 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, ViewController} from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
+import {Connector} from "../../../models/connector";
+import {LocationService} from "../../../services/location.service";
+import {Location} from "../../../models/location";
+import {CarService} from "../../../services/car.service";
 
 @Component({
     selector: 'page-charging',
     templateUrl: 'charging.html'
 })
 export class ChargingPage {
-    location: any;
+    location: Location;
     chargingTime: any;
     chargingTimeHours: any;
+    chargingPrice: any;
+    connector: Connector;
     hours: any;
     minutes: any;
     seconds: any;
@@ -24,9 +30,11 @@ export class ChargingPage {
     canvasY: any;
     charging: boolean;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
+        this.connector = this.location.stations[0].connectors[0];
         this.chargingTime = 0;
+        this.chargingPrice = 0;
         this.buttonDeactive = false;
         this.mouseDragging = false;
         this.canvasX = 140;
@@ -126,6 +134,13 @@ export class ChargingPage {
             let rect = canvas.getBoundingClientRect();
             self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
         }
+
+        this.locationService.getPrice(this.connector.id, {
+            'timeToLoad' : this.chargingTime,
+            'wattPower' : this.carService.getActiveCar().maxCharging
+        }).subscribe((response) => {
+            this.chargingPrice = response.min
+        });
     }
 
     circleRange_mouseMove(self, e) {
