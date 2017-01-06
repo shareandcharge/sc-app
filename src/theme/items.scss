@@ -26,3 +26,14 @@ ion-item.item-ios {
     border-bottom: .55px solid #000 !important;
   }
 }
+
+.no-outer-lines {
+  &.list-ios > .item-block:last-child,
+  &.list-ios > .item-wrapper:last-child .item-block {
+    border-bottom: none;
+  }
+  &.list-ios > .item-block:first-child,
+  &.list-ios > .item-wrapper:first-child .item-block {
+    border-top: none;
+  }
+}

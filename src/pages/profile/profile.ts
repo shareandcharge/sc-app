@@ -2,12 +2,11 @@ import {Component} from '@angular/core';
 import {NavController, ActionSheetController, Platform, AlertController, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {AuthService} from "../../services/auth.service";
-import {MapPage} from '../map/map';
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {EditEmailPage} from "./edit-email/edit-email";
 import {EditNamePage} from "./edit-name/edit-name";
-import {EditAddressPage} from "./edit-address/edit-address";
+import {EditProfilePage} from "./edit-profile/edit-profile";
 
 
 @Component({
@@ -15,17 +14,16 @@ import {EditAddressPage} from "./edit-address/edit-address";
     templateUrl: 'profile.html'
 })
 export class ProfilePage {
-    user:User;
+    user: User;
 
-    constructor(public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController , public auth: AuthService, public userService: UserService, private platform: Platform, public events: Events) {
-        this.user = auth.getUser();
-        console.log(this.user);
+    constructor(public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events) {
+        this.events.subscribe('users:updated', () => this.loadUser());
+        this.loadUser()
     }
 
-    ionViewDidLoad() {
+    loadUser() {
+        this.user = this.authService.getUser();
     }
-
-    dummy() {}
 
     selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
@@ -76,15 +74,22 @@ export class ProfilePage {
         this.userService.updateUser(this.user)
             .subscribe(
                 () => {
+                    this.authService.setUser(this.user);
                     this.events.publish('users:updated');
                 },
                 error => this.displayError(<any>error, 'Benutzer aktualisieren'));
     }
 
-    logout() {
-        this.auth.logout();
-        console.log("logged Out");
-        this.navCtrl.setRoot(MapPage);
+    editEmail() {
+        this.navCtrl.push(EditEmailPage, {
+            'user': this.user
+        });
+    }
+
+    editProfile() {
+        this.navCtrl.push(EditProfilePage, {
+            'user': this.user
+        });
     }
 
     displayError(message: any, subtitle?: string) {
@@ -95,23 +100,5 @@ export class ProfilePage {
             buttons: ['Schließen']
         });
         alert.present();
-    }
-
-    editEmail() {
-        this.navCtrl.push(EditEmailPage, {
-            'parent' : this
-        });
-    }
-
-    editName() {
-        this.navCtrl.push(EditNamePage, {
-            'parent' : this
-        });
-    }
-
-    editAddress() {
-        this.navCtrl.push(EditAddressPage, {
-            'parent' : this
-        });
     }
 }
