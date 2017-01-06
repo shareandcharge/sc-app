@@ -35,6 +35,7 @@ import {LocationService} from "../services/location.service";
 import {UserService} from "../services/user.service";
 import {RatingService} from "../services/rating.service";
 import {ProfilePage} from '../pages/profile/profile';
+import {NotificationsPage} from '../pages/notifications/notifications';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
 import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
 import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
@@ -98,6 +99,7 @@ export function getAuthHttp(http) {
         HelpPage,
         AccountSettingsPage,
         ProfilePage,
+        NotificationsPage,
         MyStationsPage,
         PlugTypesPage,
         StationMapDetailPage,
@@ -148,6 +150,7 @@ export function getAuthHttp(http) {
         HelpPage,
         AccountSettingsPage,
         ProfilePage,
+        NotificationsPage,
         MyStationsPage,
         PlugTypesPage,
         StationMapDetailPage,

@@ -3,6 +3,7 @@ import {NavController, AlertController, LoadingController} from 'ionic-angular';
 import {ProfilePage} from '../../profile/profile'
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
+import {NotificationsPage} from "../../notifications/notifications";
 
 @Component({
     selector: 'page-account-settings',
@@ -13,10 +14,6 @@ export class AccountSettingsPage {
     constructor(private navCtrl: NavController, private authService: AuthService, private userService: UserService, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
     }
 
-
-    notifs() {
-
-    }
 
     deleteAccountConfirm() {
         let alert = this.alertCtrl.create({
@@ -58,6 +55,10 @@ export class AccountSettingsPage {
 
     profile() {
         this.navCtrl.push(ProfilePage);
+    }
+
+    notifications() {
+        this.navCtrl.push(NotificationsPage);
     }
 
     displayError(message: any, subtitle?: string) {
