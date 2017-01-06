@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, LOCALE_ID} from '@angular/core';
 import {IonicApp, IonicModule} from 'ionic-angular';
 import {MyApp} from './app.component';
 import {AboutPage} from '../pages/about/about';
@@ -170,6 +170,12 @@ export function getAuthHttp(http) {
             provide: AuthHttp,
             useFactory: getAuthHttp,
             deps: [Http]
+        },
+        {
+            provide: LOCALE_ID,
+            useValue: "de-DE"
+            //deps: [SettingsService],      //some service handling global settings
+            //useFactory: (settingsService) => settingsService.getLanguage()  //returns locale string
         },
         AuthService,
         CarService,
