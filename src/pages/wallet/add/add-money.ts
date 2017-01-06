@@ -1,26 +1,51 @@
-import { Component } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, ViewController} from 'ionic-angular';
+import {User} from "../../../models/user";
+import {AuthService} from "../../../services/auth.service";
+import {PaymentService} from "../../../services/payment.service";
+import {PaymentProviderScreenPage} from "./payment-provider-screen/payment-provider-screen";
 
 @Component({
-  selector: 'page-add-money',
-  templateUrl: 'add-money.html'
+    selector: 'page-add-money',
+    templateUrl: 'add-money.html'
 })
 export class AddMoneyPage {
-  amount:any;
-  constructor(public navCtrl: NavController , private viewCtrl: ViewController) {
+    user: User;
+    displayAmount: any;
 
-  }
+    payInObject: any;
 
-  ionViewDidLoad() {
-  }
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private authService: AuthService, private paymenrService: PaymentService) {
+        this.user = this.authService.getUser();
+        this.displayAmount = "0.00";
 
-  dismiss(){
-    this.viewCtrl.dismiss(this.amount);
-  }
+        this.payInObject = {
+            'type' : 'paypal',
+            'amount' : 0,
+            'details' : {
+                'success_url' : 'Http://www.google.de'
+            }
+        }
+    }
 
-  addMoney(){
-    console.log(this.amount);
-    this.viewCtrl.dismiss(this.amount);
-  }
+    ionViewDidLoad() {
+    }
+
+    dismiss() {
+        this.viewCtrl.dismiss();
+    }
+
+    addMoney() {
+        this.payInObject.amount = this.displayAmount * 100;
+
+        this.paymenrService.payIn(this.payInObject).subscribe((response) => {
+            if (response.client_action === 'redirect') {
+                let redirectUrl = response.action_data.url;
+                this.navCtrl.push(PaymentProviderScreenPage, {
+                    'pspUrl' : redirectUrl
+                });
+            }
+        })
+    }
 
 }

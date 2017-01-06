@@ -1,21 +1,32 @@
 <ion-header>
 
-  <ion-navbar>
+    <ion-navbar>
 
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <span color="primary" showWhen="ios">Close</span>
-        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
-      </button>
-    </ion-buttons>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span color="primary" showWhen="ios">Close</span>
+                <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+            </button>
+        </ion-buttons>
 
-    <ion-title>Add Money</ion-title>
-  </ion-navbar>
+        <ion-title>Add Money</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <ion-input type="number" [(ngModel)]="amount" placeholder="0,00 Eur"></ion-input>
-  <button ion-button (click)="addMoney()">Add Money</button>
+    <ion-item>
+        <ion-label>Zahlungsmethode</ion-label>
+        <ion-select [(ngModel)]="payInObject.type">
+            <ion-option value="paypal">PayPal</ion-option>
+            <ion-option value="sofort">Sofortüberweisung</ion-option>
+            <ion-option value="cc">Kreditkarte</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-item>
+        <ion-label>Menge</ion-label>
+        <ion-input type="number" [(ngModel)]="displayAmount" placeholder="0,00 Eur"></ion-input>
+    </ion-item>
+    <button ion-button (click)="addMoney()">Add Money</button>
 </ion-content>

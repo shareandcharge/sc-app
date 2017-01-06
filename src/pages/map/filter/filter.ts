@@ -1,4 +1,4 @@
-import {Component, Pipe, Sanitizer} from '@angular/core';
+import {Component} from '@angular/core';
 import {ViewController, NavParams} from 'ionic-angular';
 import {ConfigService} from "../../../services/config.service";
 import {DomSanitizer} from "@angular/platform-browser";

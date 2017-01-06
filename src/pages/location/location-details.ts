@@ -16,6 +16,7 @@ import {ConfigService} from "../../services/config.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {LoginPage} from "../login/login";
 import {ChargingCompletePage} from "./charging/charging-complete/charging-complete";
+import {CarService} from "../../services/car.service";
 
 
 @Component({
@@ -57,7 +58,10 @@ export class LocationDetailPage {
 
     averageRating: number;
 
-    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer) {
+    minPrice: any;
+    maxPrice: any;
+
+    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer, private carService: CarService) {
 
         this.charging = this.chargingService.isCharging();
 
@@ -101,6 +105,9 @@ export class LocationDetailPage {
         }
 
         this.averageRating = -1;
+
+        this.maxPrice = 0;
+        this.minPrice = 0;
     }
 
     ionViewWillEnter() {
@@ -140,6 +147,8 @@ export class LocationDetailPage {
                 this.loadMap();
                 this.getRatings();
 
+                this.getPrice();
+
                 this.configService.getPlugTypes().subscribe((plugTypes) => {
                     this.plugTypes = plugTypes;
                     this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
@@ -147,6 +156,22 @@ export class LocationDetailPage {
             }
         );
         return observable;
+    }
+
+    getPrice() {
+        let priceObject:any = {};
+
+        let currentUser = this.authService.getUser();
+        let activeCar = this.carService.getActiveCar();
+
+        if (currentUser !== null && activeCar !== null) {
+            priceObject.wattPower = activeCar.maxCharging;
+        }
+
+        this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
+           this.maxPrice = response.max;
+           this.minPrice = response.min;
+        });
     }
 
     getRatings() {
@@ -288,10 +313,14 @@ export class LocationDetailPage {
 
     charge() {
         if (this.authService.loggedIn()) {
-            let chargingModal = this.modalCtrl.create(ChargingPage);
+            let chargingModal = this.modalCtrl.create(ChargingPage, {
+                'location' : this.location
+            });
 
             chargingModal.onDidDismiss(data => {
                 if (data) {
+                    data.location = this.location;
+
                     let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
                     chargingCompletedModal.present();
                 }

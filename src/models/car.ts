@@ -9,7 +9,7 @@ export class Car implements Serializable<Car> {
     averageDistance: any;
     plugTypes: any[];
     imageBase64: any;
-    maxCharging: any;
+    maxCharging: number;
 
     constructor() {
         this.id = '';
@@ -20,7 +20,7 @@ export class Car implements Serializable<Car> {
         this.averageDistance = '';
         this.plugTypes = [];
         this.imageBase64 = '';
-        this.maxCharging = ''
+        this.maxCharging = 0;
     }
 
     hasImage() {
