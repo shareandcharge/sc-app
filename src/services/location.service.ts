@@ -104,6 +104,12 @@ export class LocationService {
             .catch(this.handleError);
     }
 
+    getPrice(connectorId, priceObject) {
+        return this.authHttp.post(this.baseUrl + '/connectors/' + connectorId + '/price', JSON.stringify(priceObject))
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     private handleError(error: Response | any) {
         let errMsg: string;
         if (error instanceof Response) {
