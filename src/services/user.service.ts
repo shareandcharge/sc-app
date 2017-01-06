@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
-import {Storage} from '@ionic/storage';
 import {Observable} from "rxjs";
 import {User} from "../models/user";
 
@@ -12,8 +11,6 @@ import {AuthHttp} from "angular2-jwt";
 export class UserService {
 
     baseUrl: string = 'https://api-test.shareandcharge.com/v1';
-
-    storage: Storage = new Storage();
 
     error: string;
 
@@ -77,11 +74,12 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    /*
-     * WARNING: not implemented by the backend
-     */
-    deleteUser(id) {
-        return this.authHttp.delete(`${this.baseUrl}/users/${id}`)
+    deleteUser(address?) {
+        if (!address) {
+            address = this.authService.getUser().address;
+        }
+
+        return this.authHttp.delete(`${this.baseUrl}/users/${address}`)
             .map(res => res.json())
             .catch(this.handleError);
     }

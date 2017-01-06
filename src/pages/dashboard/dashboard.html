@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <ion-list>
+    <ion-list padding-top="" padding-right="" class="no-outer-lines">
         <button ion-item (click)="settings()">
             Profil Einstellungen
         </button>
@@ -28,12 +28,12 @@
         <button ion-item (click)="help()">
             Hilfe
         </button>
-        <button ion-item (click)="feedback()">
+        <button ion-item (click)="feedback()" *ngIf="false">
             Feedback
         </button>
 
         <button ion-item (click)="logOut()" class="color-secondary">
-            Logout
+            Abmelden
         </button>
     </ion-list>
 </ion-content>

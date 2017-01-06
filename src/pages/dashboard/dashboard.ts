@@ -79,7 +79,7 @@ export class DashboardPage {
     }
 
     feedback() {
-        this.navCtrl.push(AddRatingPage);
+
     }
 
     settings() {
