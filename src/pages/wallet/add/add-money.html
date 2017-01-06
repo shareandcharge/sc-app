@@ -18,15 +18,15 @@
 <ion-content padding>
     <ion-item>
         <ion-label>Zahlungsmethode</ion-label>
-        <ion-select [(ngModel)]="paymentMethod">
+        <ion-select [(ngModel)]="payInObject.type">
             <ion-option value="paypal">PayPal</ion-option>
             <ion-option value="sofort">Sofortüberweisung</ion-option>
-            <ion-option value="creditcard">Kreditkarte</ion-option>
+            <ion-option value="cc">Kreditkarte</ion-option>
         </ion-select>
     </ion-item>
     <ion-item>
         <ion-label>Menge</ion-label>
-        <ion-input type="number" [(ngModel)]="amount" placeholder="0,00 Eur"></ion-input>
+        <ion-input type="number" [(ngModel)]="payInObject.amount" placeholder="0,00 Eur"></ion-input>
     </ion-item>
     <button ion-button (click)="addMoney()">Add Money</button>
 </ion-content>
