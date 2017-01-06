@@ -37,6 +37,8 @@
             </ion-select>
         </ion-item>
 
+        <div *ngIf="errorMessages.plugType" class="alert-box alert-box-danger" margin>{{ errorMessages.plugType }}</div>
+
         <ion-item>
             <ion-label>Leistung</ion-label>
         </ion-item>
@@ -60,14 +62,18 @@
             </ion-select>
         </ion-item>
 
+        <div *ngIf="errorMessages.capacity" class="alert-box alert-box-danger" margin>{{ errorMessages.capacity }}</div>
+
         <ion-item>
             <ion-checkbox [(ngModel)]="connector.metadata.accessControl" class="item-partial-cover"></ion-checkbox>
             <ion-label>Share&Charge Modul</ion-label>
-            <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('accessControl')" color="primary"></ion-icon>
+            <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('accessControl')"
+                      color="primary"></ion-icon>
         </ion-item>
 
         <ion-item>
-            <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{!connector.metadata.accessControl}}" class="item-partial-cover"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{!connector.metadata.accessControl}}"
+                          class="item-partial-cover"></ion-checkbox>
             <ion-label>KWh genaue Abrechnung</ion-label>
             <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('kwh')" color="primary"></ion-icon>
         </ion-item>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController, ActionSheetController, Platform, AlertController, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {MyCarsPage} from '../car/my-cars/my-cars';
@@ -7,6 +7,7 @@ import {AccountSettingsPage} from './account-settings/account-settings';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
+import {HelpPage} from "../help/help";
 
 
 @Component({
@@ -19,12 +20,13 @@ export class DashboardPage {
     user: User;
 
     constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public auth: AuthService, public platform: Platform, public userService: UserService, public alertCtrl: AlertController, public events: Events) {
-        this.user = auth.getUser();
+        this.events.subscribe('users:updated', () => this.loadUser());
+        this.loadUser()
     }
 
-    ionViewDidLoad() {
+    loadUser() {
+        this.user = this.auth.getUser();
     }
-
 
     selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
@@ -70,14 +72,14 @@ export class DashboardPage {
         });
     }
 
-  logOut(){
-    console.log("logout");
-    this.auth.logout();
-    this.navCtrl.parent.select(0);
-  }
+    logOut() {
+        console.log("logout");
+        this.auth.logout();
+        this.navCtrl.parent.select(0);
+    }
 
     feedback() {
-        this.navCtrl.push(AddRatingPage);
+
     }
 
     settings() {
@@ -85,7 +87,7 @@ export class DashboardPage {
     }
 
     help() {
-        console.log("Help");
+        this.navCtrl.push(HelpPage);
     }
 
     myCars() {

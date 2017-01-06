@@ -80,7 +80,6 @@ export class MapPage {
         this.events.subscribe('auth:logout', () => this.refreshCarInfo());
 
         this.events.subscribe('locations:updated', (location) => this.refreshLocations());
-        //this.events.subscribe('locations:deleted', () => this.updateLocationMarkers());
         this.initializeApp();
     }
 

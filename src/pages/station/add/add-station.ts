@@ -51,6 +51,8 @@ export class AddStationPage {
 
     defaultZoom = 16;
 
+    errorMessages: any;
+
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams) {
 
         if (typeof navParams.get("mode") != 'undefined') {
@@ -183,6 +185,7 @@ export class AddStationPage {
 
             this.cloneWeekcalendar();
         }
+        this.clearErrorMessages();
 
         this.initializeApp();
     }
@@ -367,30 +370,61 @@ export class AddStationPage {
     }
 
     continueAddStation() {
+
         if (this.segmentTabs === 'custom') {
             this.connector.weekcalendar = this.customWeekCalendar;
         }
+        if (this.validateForm()) {
+            if (this.flowMode == 'add') {
+                let userAddress = "";
+                if (this.auth.getUser() != null) {
+                    userAddress = this.auth.getUser().address;
+                }
 
-
-        if (this.flowMode == 'add') {
-            let userAddress = "";
-            if (this.auth.getUser() != null) {
-                userAddress = this.auth.getUser().address;
+                this.locObject.owner = userAddress;
+                this.locObject.lat = this.map.getCenter().lat();
+                this.locObject.lng = this.map.getCenter().lng();
+            }
+            else {
+                this.locObject.lat = this.map.getCenter().lat();
+                this.locObject.lng = this.map.getCenter().lng();
             }
 
-            this.locObject.owner = userAddress;
-            this.locObject.lat = this.map.getCenter().lat();
-            this.locObject.lng = this.map.getCenter().lng();
+            this.navCtrl.push(AddStationImagePage, {
+                "location": this.locObject,
+                "mode": this.flowMode
+            });
         }
-        else {
-            this.locObject.lat = this.map.getCenter().lat();
-            this.locObject.lng = this.map.getCenter().lng();
-        }
+    }
 
-        this.navCtrl.push(AddStationImagePage, {
-            "location": this.locObject,
-            "mode": this.flowMode
-        });
+    clearErrorMessages() {
+        this.errorMessages = {
+            "address": '',
+            "openingHours": ''
+        }
+    }
+
+    validateForm() {
+        let hasError = false;
+        this.clearErrorMessages();
+        if (!this.locObject.address) {
+            hasError = true;
+            this.errorMessages.address = 'Bitte geben Sie eine Adresse ein';
+        }
+        if (!this.isOpeningHoursSelected()) {
+            hasError = true;
+            this.errorMessages.openingHours = 'Bitte wählen Sie die Öffnungszeiten';
+        }
+        return !hasError;
+    }
+
+    isOpeningHoursSelected() {
+        for (let item of this.connector.weekcalendar.hours) {
+            if (item.from > 0 && item.to > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     updateSelectedDays() {

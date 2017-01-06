@@ -27,6 +27,9 @@ export class LocationService {
             .catch(this.handleError);
     }
 
+    /**
+     * @TODO should have an endpoint or parameter; not read _all_ locations
+     */
     getLocationsUser(userAddress: string) {
         return this.getLocations().map(res => {
             let locations = [];

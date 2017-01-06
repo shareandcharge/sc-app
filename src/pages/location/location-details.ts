@@ -57,6 +57,9 @@ export class LocationDetailPage {
 
     averageRating: number;
 
+    minPrice: any;
+    maxPrice: any;
+
     constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer) {
 
         this.charging = this.chargingService.isCharging();
@@ -101,6 +104,9 @@ export class LocationDetailPage {
         }
 
         this.averageRating = -1;
+
+        this.maxPrice = 0;
+        this.minPrice = 0;
     }
 
     ionViewWillEnter() {
@@ -140,6 +146,8 @@ export class LocationDetailPage {
                 this.loadMap();
                 this.getRatings();
 
+                this.getPrice();
+
                 this.configService.getPlugTypes().subscribe((plugTypes) => {
                     this.plugTypes = plugTypes;
                     this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
@@ -147,6 +155,28 @@ export class LocationDetailPage {
             }
         );
         return observable;
+    }
+
+    getPrice() {
+        let priceObject:any = {};
+
+        let currentUser = this.authService.getUser();
+
+        if (currentUser !== null) {
+            let currentCar = currentUser.cars.current;
+
+            for (let car of currentUser.cars.list) {
+                if (car.id == currentCar && car.maxCharging) {
+                    priceObject.wattPower = car.maxCharging;
+                    break;
+                }
+            }
+        }
+
+        this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
+           this.maxPrice = response.max;
+           this.minPrice = response.min;
+        });
     }
 
     getRatings() {

@@ -12,7 +12,6 @@ import {CarService} from "../../../services/car.service";
 import {Car} from '../../../models/car';
 import {ConfigService} from "../../../services/config.service";
 
-
 @Component({
     selector: 'page-add-car',
     templateUrl: 'car-form.html',
@@ -24,18 +23,28 @@ export class CarFormPage {
     mode: any;
     segmentTabs: any;
     plugOptions: any;
+    errorMessages: any;
 
-    constructor(private configService : ConfigService, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private alertCtrl: AlertController) {
+    constructor(private configService: ConfigService, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private alertCtrl: AlertController) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
-
         this.configService.getPlugTypes().subscribe((plugTypes) => {
             this.plugOptions = plugTypes;
         });
+
+        this.clearErrorMessages();
     }
 
     ionViewDidLoad() {
+    }
+
+    clearErrorMessages() {
+        this.errorMessages = {
+            "plateNumber": '',
+            "capacity": '',
+            "plugType": ''
+        }
     }
 
     selectPhoto() {
@@ -96,32 +105,57 @@ export class CarFormPage {
     }
 
     saveCar() {
-        let loader = this.loadingCtrl.create({content: "Speichere Auto ..."});
-        loader.present();
+        if (this.validateForm()) {
+            let loader = this.loadingCtrl.create({content: "Speichere Auto ..."});
+            loader.present();
 
-        let me = this;
+            let me = this;
 
-        if (this.mode == "edit") {
-            this.carService.updateCar(this.car)
-                .finally(() => loader.dismissAll())
-                .subscribe(
-                    () => {
-                        this.events.publish('cars:updated');
-                        me.navCtrl.parent.pop();
-                    },
-                    error => this.displayError(<any>error, 'Auto aktualisieren'));
+            if (this.mode == "edit") {
+                this.carService.updateCar(this.car)
+                    .finally(() => loader.dismissAll())
+                    .subscribe(
+                        () => {
+                            this.events.publish('cars:updated');
+                            me.navCtrl.parent.pop();
+                        },
+                        error => this.displayError(<any>error, 'Auto aktualisieren'));
+            }
+            else {
+                this.carService.createCar(this.car)
+                    .finally(() => loader.dismissAll())
+                    .subscribe(
+                        () => {
+                            this.events.publish('cars:updated');
+                            me.navCtrl.parent.pop();
+                        },
+                        error => this.displayError(<any>error, 'Auto anlegen')
+                    );
+            }
         }
-        else {
-            this.carService.createCar(this.car)
-                .finally(() => loader.dismissAll())
-                .subscribe(
-                    () => {
-                        this.events.publish('cars:updated');
-                        me.navCtrl.parent.pop();
-                    },
-                    error => this.displayError(<any>error, 'Auto anlegen')
-                );
+    }
+
+    validateForm() {
+        let hasError = false;
+        this.clearErrorMessages();
+        this.segmentTabs = 'custom';
+
+        if (!this.car.plateNumber) {
+            hasError = true;
+            this.errorMessages.plateNumber = 'Bitte geben Sie eine Kennzeichen ein';
         }
+
+        if (!this.car.accuCapacity) {
+            hasError = true;
+            this.errorMessages.capacity = 'Bitte geben Sie eine Batteriekapazität ein';
+        }
+
+        if (this.car.plugTypes.length == 0) {
+            hasError = true;
+            this.errorMessages.plugType = 'Bitte geben Sie einen Steckertyp ein';
+        }
+
+        return !hasError
     }
 
     displayError(message: any, subtitle?: string) {

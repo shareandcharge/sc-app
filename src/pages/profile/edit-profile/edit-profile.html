@@ -1,0 +1,53 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Name und Anschrift bearbeiten</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="editAddress" (ngSubmit)="updateUser()">
+        <ion-list no-lines="">
+            <ion-item>
+                <ion-label floating>Vorname</ion-label>
+                <ion-input type="text" class="input-white" formControlName="firstName"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Nachname</ion-label>
+                <ion-input type="text" class="input-white" formControlName="lastName"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Straße und Hausnummer</ion-label>
+                <ion-input type="text" class="input-white" formControlName="address"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Postleitzahl</ion-label>
+                <ion-input type="tel" class="input-white" formControlName="postalCode"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Stadt</ion-label>
+                <ion-input type="text" class="input-white" formControlName="city"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Land</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-select formControlName="country"
+                            multiple="false"
+                            class="select-multiline input-white"
+                            [selectOptions]=""
+                            placeholder="Bitte wählen ..."
+                            cancelText="Abbrechen" okText="OK"
+                >
+                    <ion-option value="de" selected>Deutschland</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+        <div padding text-center>
+            <button type="submit" ion-button round text-uppercase="">Speichern</button>
+        </div>
+    </form>
+
+</ion-content>

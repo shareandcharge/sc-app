@@ -103,7 +103,8 @@
         <ion-grid>
             <ion-row>
                 <ion-col center>
-                    <strong>1,60 - 3,20 €/kWH</strong><br>
+                    <strong *ngIf="minPrice == maxPrice">{{maxPrice}} €/kWH</strong><br>
+                    <strong *ngIf="minPrice != maxPrice">{{minPrice}} - {{maxPrice}} €/kWH</strong><br>
                     <span *ngIf="averageRating != -1">
                         <rating [(ngModel)]="averageRating" readonly="true"></rating>
                     </span>
