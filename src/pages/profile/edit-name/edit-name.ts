@@ -26,8 +26,8 @@ export class EditNamePage {
     }
 
     updateUser() {
-        this.parent.user.profile.firstName = this.editName.value.firstName;
-        this.parent.user.profile.lastName = this.editName.value.lastName;
+        this.parent.user.profile.firstname = this.editName.value.firstName;
+        this.parent.user.profile.lastname = this.editName.value.lastName;
         this.parent.updateUser();
 
         this.navCtrl.pop();
