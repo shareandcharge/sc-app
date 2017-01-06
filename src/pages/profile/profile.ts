@@ -22,9 +22,7 @@ export class ProfilePage {
     }
 
     loadUser() {
-        console.log('OK, got update.');
         this.user = this.authService.getUser();
-        console.log('NEW user: ', this.user);
     }
 
     selectPhoto() {
@@ -84,12 +82,11 @@ export class ProfilePage {
 
     editEmail() {
         this.navCtrl.push(EditEmailPage, {
-            'parent': this
+            'user': this.user
         });
     }
 
     editProfile() {
-        console.log('Profile with: ', this.user);
         this.navCtrl.push(EditProfilePage, {
             'user': this.user
         });

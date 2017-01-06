@@ -1,7 +1,6 @@
 import {Component} from "@angular/core";
 import {NavParams, NavController, AlertController, Events} from "ionic-angular";
 import {User} from "../../../models/user";
-import {ProfilePage} from "../profile";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
@@ -13,7 +12,6 @@ import {AuthService} from "../../../services/auth.service";
 })
 export class EditProfilePage {
     user: User;
-    parent: ProfilePage;
 
     editAddress: FormGroup;
 
@@ -58,5 +56,4 @@ export class EditProfilePage {
         });
         alert.present();
     }
-
 }
