@@ -6,38 +6,33 @@
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
 <ion-content>
-    <div class="top-container" padding="">
-
-        <div class="inner-content">
-
-        </div>
-
+    <div class="top-container" padding="" text-center="">
         <button class="image-button filled" (click)="selectPhoto()" *ngIf="user.hasImage()"
                 [ngStyle]="{'background-image':'url(' + user.profile.imageBase64 + ')'}">
         </button>
         <button class="image-button" (click)="selectPhoto()" *ngIf="!user.hasImage()">
             <span>Foto hinzufügen</span>
         </button>
-        <div class="text-holder" *ngIf="auth.loggedIn()">
-            You are logged in as <strong>{{user.email}}</strong>
+        <div>
+            <strong>{{user.email}}</strong>
         </div>
     </div>
 
     <ion-list>
         <button ion-item (click)="settings()">
-            Account Settings
+            Profil Einstellungen
         </button>
         <button ion-item (click)="myCars()">
-            My Cars
+            Meine Elektroautos
         </button>
         <button ion-item (click)="help()">
-            Help
+            Hilfe
         </button>
         <button ion-item (click)="feedback()">
-            Give Us Feedback
+            Feedback
         </button>
 
-        <button ion-item (click)="logOut()">
+        <button ion-item (click)="logOut()" class="color-secondary">
             Logout
         </button>
     </ion-list>
