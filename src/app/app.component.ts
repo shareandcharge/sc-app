@@ -39,10 +39,8 @@ export class MyApp {
                 this.loader.dismiss();
             });
         });
-
         this.presentLoading();
     }
-
 
     checkExistingToken() {
         this.events.subscribe('auth:refresh:user', () => this.refreshUser());
