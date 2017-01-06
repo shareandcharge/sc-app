@@ -41,7 +41,6 @@ import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
 import {CarWrapperPage} from "../pages/car/car-wrapper";
 import {AddPermissionsPage} from '../pages/station/set-tariff/add-permissions/add-permissions';
 import {EditEmailPage} from "../pages/profile/edit-email/edit-email";
-import {EditNamePage} from "../pages/profile/edit-name/edit-name";
 import {AddRatingPage} from "../pages/rating/add-rating";
 import {StationWrapperPage} from "../pages/station/station-wrapper";
 import {ChargingPage} from "../pages/location/charging/charging";
@@ -52,7 +51,7 @@ import {PaymentService} from "../services/payment.service";
 import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
 import {ChargingService} from "../services/charging.service";
 import {ConfigService} from "../services/config.service";
-import {EditAddressPage} from "../pages/profile/edit-address/edit-address";
+import {EditProfilePage} from "../pages/profile/edit-profile/edit-profile";
 
 
 
@@ -105,14 +104,13 @@ export function getAuthHttp(http) {
         AddPermissionsPage,
         TabsPage,
         EditEmailPage,
-        EditNamePage,
         StationWrapperPage,
         ChargingPage,
         ChargingCompletePage,
         ProgressBarComponent,
         ChargingProgressBarComponent,
         IntroPage,
-        EditAddressPage
+        EditProfilePage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -156,12 +154,11 @@ export function getAuthHttp(http) {
         AddPermissionsPage,
         TabsPage,
         EditEmailPage,
-        EditNamePage,
         StationWrapperPage,
         ChargingPage,
         ChargingCompletePage,
         IntroPage,
-        EditAddressPage
+        EditProfilePage
     ],
     providers: [
         {
