@@ -74,6 +74,11 @@
                     <ion-input class="input-white" type="text" [(ngModel)]="car.averageDistance"></ion-input>
                 </ion-item>
                 <ion-item>
+                    <ion-label floating>Max. Stromstärke</ion-label>
+                    <ion-input class="input-white" type="number" [(ngModel)]="car.maxCharging"></ion-input>
+                </ion-item>
+                <div *ngIf="errorMessages.maxCharging" class="alert-box alert-box-danger" margin>{{ errorMessages.maxCharging }}</div>
+                <ion-item>
                     <ion-label floating>Batteriekapazität</ion-label>
                     <ion-input class="input-white" type="text" [(ngModel)]="car.accuCapacity"></ion-input>
                 </ion-item>

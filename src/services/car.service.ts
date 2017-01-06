@@ -35,7 +35,6 @@ export class CarService {
 
         return this.authHttp.get(this.baseUrl + '/users/cars')
             .map(res => {
-
                 let cars = [];
                 let data = res.json();
 
@@ -53,10 +52,16 @@ export class CarService {
 
 
     getCarsList(): Observable<Car[]> {
-        return this.authHttp.get(this.baseUrl + '/users/predefinedCars')
-            .map(res => {
-                return res.json();
-            })
+        //if (typeof this.tmpManuData == 'undefined') {
+            console.log("fetching from server");
+            return this.authHttp.get(this.baseUrl + '/users/predefinedCars')
+                .map(res => {
+                    this.convertCarList(res.json());
+                    return res.json();
+                })
+        //}
+       /* else {
+        }*/
     }
 
     getCar(id): Observable<Car> {
@@ -120,14 +125,6 @@ export class CarService {
     }
 
     getManufacturers() {
-        if(!this.tmpManuData){
-            let observable = this.getCarsList();
-            observable.subscribe(
-                cars => this.convertCarList(cars),
-                error => console.log(error)
-            );
-        }
-
         let manu = this.tmpManuData.map(manu => {
             return {"id": manu.id, "name": manu.name};
         });
@@ -139,14 +136,6 @@ export class CarService {
     }
 
     getModels(manufacturerId) {
-        if(!this.tmpManuData){
-            let observable = this.getCarsList();
-            observable.subscribe(
-                cars => this.convertCarList(cars),
-                error => console.log(error)
-            );
-        }
-
         let a = this.tmpManuData.filter(manu => {
             return (manu.id == manufacturerId);
         });
@@ -158,7 +147,6 @@ export class CarService {
 
         return models;
     }
-
 
     convertCarList(input) {
         let cars = [];

@@ -17,7 +17,11 @@ export class CarManufacturerPage {
     car: Car;
 
     constructor(public navCtrl: NavController, private viewCtrl: ViewController, private carService: CarService, private navParams: NavParams) {
-        this.manufacturers = this.carService.getManufacturers();
+
+       this.carService.getCarsList().subscribe((res) => {
+           this.manufacturers = this.carService.getManufacturers();
+       });
+
         this.car = navParams.get("car");
         this.mode = navParams.get("mode");
     }

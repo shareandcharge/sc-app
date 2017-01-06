@@ -43,7 +43,8 @@ export class CarFormPage {
         this.errorMessages = {
             "plateNumber": '',
             "capacity": '',
-            "plugType": ''
+            "plugType": '',
+            "maxCharging": ''
         }
     }
 
@@ -148,6 +149,11 @@ export class CarFormPage {
         if (!this.car.accuCapacity) {
             hasError = true;
             this.errorMessages.capacity = 'Bitte geben Sie eine Batteriekapazität ein';
+        }
+
+        if (!this.car.maxCharging) {
+            hasError = true;
+            this.errorMessages.maxCharging = 'Bitte geben Sie eine Max. Stromstärke ein';
         }
 
         if (this.car.plugTypes.length == 0) {
