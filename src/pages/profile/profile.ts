@@ -19,6 +19,7 @@ export class ProfilePage {
 
     constructor(public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController , public auth: AuthService, public userService: UserService, private platform: Platform, public events: Events) {
         this.user = auth.getUser();
+        console.log(this.user);
     }
 
     ionViewDidLoad() {
@@ -63,7 +64,7 @@ export class ProfilePage {
             allowEdit: true,
             targetHeight: 1000
         }).then((imageData) => {
-            this.user.imageBase64 = "data:image/jpeg;base64," + imageData;
+            this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
             this.updateUser();
 
         }, (err) => {

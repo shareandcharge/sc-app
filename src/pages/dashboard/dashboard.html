@@ -13,7 +13,7 @@
         </div>
 
         <button class="image-button filled" (click)="selectPhoto()" *ngIf="user.hasImage()"
-                [ngStyle]="{'background-image':'url(' + user.imageBase64 + ')'}">
+                [ngStyle]="{'background-image':'url(' + user.profile.imageBase64 + ')'}">
         </button>
         <button class="image-button" (click)="selectPhoto()" *ngIf="!user.hasImage()">
             <span>Foto hinzufügen</span>

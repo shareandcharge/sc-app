@@ -20,14 +20,14 @@ export class EditNamePage {
         this.user = this.parent.user;
 
         this.editName = this.formBuilder.group({
-            firstName : this.user.firstName,
-            lastName : this.user.lastName
+            firstName : this.user.profile.firstname,
+            lastName : this.user.profile.lastname
         });
     }
 
     updateUser() {
-        this.parent.user.firstName = this.editName.value.firstName;
-        this.parent.user.lastName = this.editName.value.lastName;
+        this.parent.user.profile.firstName = this.editName.value.firstName;
+        this.parent.user.profile.lastName = this.editName.value.lastName;
         this.parent.updateUser();
 
         this.navCtrl.pop();
