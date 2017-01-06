@@ -7,37 +7,24 @@
 </ion-header>
 
 <ion-content>
-    <div class="top-container" padding="">
-
-        <div class="inner-content">
-
-        </div>
-
+    <div class="top-container" padding="" text-center="">
         <button class="image-button filled" (click)="selectPhoto()" *ngIf="user.hasImage()"
                 [ngStyle]="{'background-image':'url(' + user.profile.imageBase64 + ')'}">
         </button>
         <button class="image-button" (click)="selectPhoto()" *ngIf="!user.hasImage()">
             <span>Foto hinzufügen</span>
         </button>
+        <div>
+            <strong>{{user.email}}</strong>
+        </div>
     </div>
 
-    <ion-list>
-        <button ion-item (click)="editName()">
-            Name
+    <ion-list padding-top="" padding-right="" class="no-outer-lines">
+        <button ion-item (click)="editProfile()">
+            Name und Anschrift
         </button>
         <button ion-item (click)="editEmail()">
             Email
         </button>
-        <button ion-item (click)="editAddress()">
-            Adresse
-        </button>
     </ion-list>
-
-    <ion-grid class="fullpage" *ngIf="auth.loggedIn()">
-        <ion-row>
-            <ion-col>
-                <button ion-button (click)="logout()">Logout</button>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
 </ion-content>

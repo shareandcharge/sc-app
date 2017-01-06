@@ -23,6 +23,7 @@ import {WalletPage} from '../pages/wallet/wallet';
 import {AddMoneyPage} from '../pages/wallet/add/add-money';
 import {WalletOptionsPage} from '../pages/wallet/options/wallet-options';
 import {DashboardPage} from '../pages/dashboard/dashboard';
+import {HelpPage} from '../pages/help/help';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
 import {Ionic2RatingModule} from 'ionic2-rating';
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
@@ -34,13 +35,13 @@ import {LocationService} from "../services/location.service";
 import {UserService} from "../services/user.service";
 import {RatingService} from "../services/rating.service";
 import {ProfilePage} from '../pages/profile/profile';
+import {NotificationsPage} from '../pages/notifications/notifications';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
 import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
 import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
 import {CarWrapperPage} from "../pages/car/car-wrapper";
 import {AddPermissionsPage} from '../pages/station/set-tariff/add-permissions/add-permissions';
 import {EditEmailPage} from "../pages/profile/edit-email/edit-email";
-import {EditNamePage} from "../pages/profile/edit-name/edit-name";
 import {AddRatingPage} from "../pages/rating/add-rating";
 import {StationWrapperPage} from "../pages/station/station-wrapper";
 import {ChargingPage} from "../pages/location/charging/charging";
@@ -51,7 +52,7 @@ import {PaymentService} from "../services/payment.service";
 import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
 import {ChargingService} from "../services/charging.service";
 import {ConfigService} from "../services/config.service";
-import {EditAddressPage} from "../pages/profile/edit-address/edit-address";
+import {EditProfilePage} from "../pages/profile/edit-profile/edit-profile";
 
 
 
@@ -95,22 +96,23 @@ export function getAuthHttp(http) {
         WalletOptionsPage,
         AddRatingPage,
         DashboardPage,
+        HelpPage,
         AccountSettingsPage,
         ProfilePage,
+        NotificationsPage,
         MyStationsPage,
         PlugTypesPage,
         StationMapDetailPage,
         AddPermissionsPage,
         TabsPage,
         EditEmailPage,
-        EditNamePage,
         StationWrapperPage,
         ChargingPage,
         ChargingCompletePage,
         ProgressBarComponent,
         ChargingProgressBarComponent,
         IntroPage,
-        EditAddressPage
+        EditProfilePage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -145,20 +147,21 @@ export function getAuthHttp(http) {
         WalletOptionsPage,
         AddRatingPage,
         DashboardPage,
+        HelpPage,
         AccountSettingsPage,
         ProfilePage,
+        NotificationsPage,
         MyStationsPage,
         PlugTypesPage,
         StationMapDetailPage,
         AddPermissionsPage,
         TabsPage,
         EditEmailPage,
-        EditNamePage,
         StationWrapperPage,
         ChargingPage,
         ChargingCompletePage,
         IntroPage,
-        EditAddressPage
+        EditProfilePage
     ],
     providers: [
         {

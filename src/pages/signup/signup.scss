@@ -12,7 +12,7 @@ page-signup {
   }
 
   .content {
-    @include sc-gradient();
+    @include sc-gradient-dark();
   }
 
   form {
