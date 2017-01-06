@@ -37,7 +37,6 @@ export class StationMapDetailPage {
 
     initializeApp() {
         this.platform.ready().then(() => {
-            console.log('Platform ready');
             this.loadMap();
         });
     }

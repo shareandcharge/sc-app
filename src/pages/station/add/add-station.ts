@@ -231,10 +231,12 @@ export class AddStationPage {
         }
     }
 
-    detailedMap(){
-        let modal = this.modalCtrl.create(StationMapDetailPage ,{
-            "lat" : this.map.getCenter().lat(),
-            "lng" : this.map.getCenter().lng()
+    detailedMap() {
+        // don't open detail map if we don't have a marker, yet
+        if (!this.marker) return;
+
+        let modal = this.modalCtrl.create(StationMapDetailPage, {
+            "position": this.marker.getPosition()
         });
 
         modal.onDidDismiss((position) => this.positionMarker(position.lat(), position.lng()));
