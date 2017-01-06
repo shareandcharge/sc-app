@@ -7,6 +7,7 @@ import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {EditEmailPage} from "./edit-email/edit-email";
 import {EditNamePage} from "./edit-name/edit-name";
+import {EditAddressPage} from "./edit-address/edit-address";
 
 
 @Component({
@@ -103,6 +104,12 @@ export class ProfilePage {
 
     editName() {
         this.navCtrl.push(EditNamePage, {
+            'parent' : this
+        });
+    }
+
+    editAddress() {
+        this.navCtrl.push(EditAddressPage, {
             'parent' : this
         });
     }
