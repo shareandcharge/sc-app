@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {NavController, ModalController, PopoverController} from 'ionic-angular';
+import {NavController, ModalController, PopoverController, AlertController} from 'ionic-angular';
 import {AddMoneyPage} from './add/add-money';
 import {WalletOptionsPage} from './options/wallet-options';
 import {PaymentService} from "../../services/payment.service";
+import {AuthService} from "../../services/auth.service";
+import {EditProfilePage} from "../profile/edit-profile/edit-profile";
 
 @Component({
     selector: 'page-wallet',
@@ -15,7 +17,7 @@ export class WalletPage {
     hasMoney = false;
     noTransaction = true;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private popoverCtrl: PopoverController, private paymentService: PaymentService) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private popoverCtrl: PopoverController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController) {
         this.currentBalance = "32,00";
 
         if (typeof this.currentBalance != 'undefined') {
@@ -26,8 +28,34 @@ export class WalletPage {
         this.getBalance();
     }
 
-    ionViewDidLoad() {
-        //console.log('Hello WalletPage Page');
+    ionViewWillEnter() {
+        let currentUser = this.authService.getUser();
+        let userProfile = currentUser.profile;
+
+        if (userProfile.firstname === '' ||
+            userProfile.lastname === '' ||
+            userProfile.address === '' ||
+            userProfile.country === '' ||
+            userProfile.postalCode === '' ||
+            userProfile.city === '') {
+
+            let alert = this.alertCtrl.create({
+                title: 'Daten unvollständig',
+                message: 'Um auf dein Wallet zugreifen zu können musst du zunächst dein Profil vervollständigen',
+                buttons: [
+                    {
+                        text: 'Ok',
+                        handler : () => {
+                            this.navCtrl.push(EditProfilePage, {
+                                'user' : currentUser
+                            });
+                        }
+                    }
+                ]
+            });
+
+            alert.present();
+        }
     }
 
     getHistory() {

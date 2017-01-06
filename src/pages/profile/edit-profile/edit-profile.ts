@@ -19,8 +19,8 @@ export class EditProfilePage {
         this.user = navParams.get('user');
 
         this.editAddress = this.formBuilder.group({
-            firstName: this.user.profile.firstName,
-            lastName: this.user.profile.lastName,
+            firstName: this.user.profile.firstname,
+            lastName: this.user.profile.lastname,
             address: this.user.profile.address,
             city: this.user.profile.city,
             country: this.user.profile.country,
@@ -29,8 +29,8 @@ export class EditProfilePage {
     }
 
     updateUser() {
-        this.user.profile.firstName = this.editAddress.value.firstName;
-        this.user.profile.lastName = this.editAddress.value.lastName;
+        this.user.profile.firstname = this.editAddress.value.firstName;
+        this.user.profile.lastname = this.editAddress.value.lastName;
         this.user.profile.address = this.editAddress.value.address;
         this.user.profile.address = this.editAddress.value.address;
         this.user.profile.city = this.editAddress.value.city;
