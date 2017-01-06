@@ -25,6 +25,7 @@ export class MyStationsPage {
 
     constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController, public locationService: LocationService, public modalCtrl: ModalController, private events: Events) {
         this.events.subscribe('locations:updated', () => this.loadStations());
+        this.events.subscribe('locations:deleted', () => this.loadStations());
     }
 
 
@@ -55,8 +56,8 @@ export class MyStationsPage {
                         this.locationService.deleteLocation(station.id)
                             .finally(() => loader.dismissAll())
                             .subscribe(
-                                () => this.events.publish('locations:updated', station),
-                                //() => this.events.publish('locations:deleted' , station),
+                                //() => this.events.publish('locations:updated', station),
+                                () => this.events.publish('locations:deleted' , station),
                                 error => this.displayError(<any>error, 'Station löschen')
                             )
                     }
