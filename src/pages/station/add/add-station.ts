@@ -1,18 +1,14 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
 import {
     NavController,
-    ViewController,
     LoadingController,
     NavParams,
-    AlertController,
     ModalController
 } from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
 import {Platform} from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
 import {AuthService} from "../../../services/auth.service";
-import {LocationService} from "../../../services/location.service";
-import {MyStationsPage} from "../my-stations/my-stations";
 import {StationMapDetailPage} from "./station-add-map/map";
 import {Location} from "../../../models/location";
 import {Station} from "../../../models/station";
@@ -24,9 +20,10 @@ import {Connector} from "../../../models/connector";
     providers: []
 })
 export class AddStationPage {
+    @ViewChild('map') mapElement: ElementRef;
+
     segmentTabs: any;
     autocompleteItems: any;
-    autocomplete: any;
     service: any;
     dayHours: any;
     days: any;
@@ -34,10 +31,7 @@ export class AddStationPage {
     weekdays: any;
     from: any;
     to: any;
-    descriptions: any;
-    problemSolver: any;
     flowMode: any;
-    customDays: any;
 
     locObject: Location;
     station: Station;
@@ -46,7 +40,6 @@ export class AddStationPage {
     defaultCenterLat = 52.502145;
     defaultCenterLng = 13.414476;
 
-    @ViewChild('map') mapElement: ElementRef;
     map: any;
     marker: any;
     placesService: any;
@@ -56,7 +49,7 @@ export class AddStationPage {
 
     defaultZoom = 16;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public locationService: LocationService, private alertCtrl: AlertController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private viewCtrl: ViewController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -186,7 +179,7 @@ export class AddStationPage {
             this.station.connectors.push(this.connector);
         }
 
-        console.log(this.locObject);
+        // console.log(this.locObject);
 
         this.initializeApp();
     }
@@ -275,16 +268,15 @@ export class AddStationPage {
         let request = {
             placeId: place.place_id
         };
-        console.log('Place request: ', request);
+
         this.placesService = new google.maps.places.PlacesService(this.map);
         this.placesService.getDetails(request, (place, status) => {
 
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-                console.log('Place detail:', place);
                 this.positionMarker(place.geometry.location.lat(), place.geometry.location.lng());
             }
             else {
-                console.log('Place err: ', status);
+                console.error('Place err: ', status);
             }
         });
     }
@@ -309,7 +301,25 @@ export class AddStationPage {
         }
 
         google.maps.event.addListener(this.marker, 'dragend', () => {
+            this.setAddressFromMarker();
             setTimeout(() => this.map.panTo(this.marker.getPosition()), 200);
+        });
+
+        this.setAddressFromMarker();
+    }
+
+    /**
+     * reverse geocode address for marker and set in location if field in location is empty
+     */
+    setAddressFromMarker() {
+        if (this.locObject.address) return;
+
+        let geocoder = new google.maps.Geocoder;
+
+        geocoder.geocode({'location': this.marker.getPosition()}, (results, status) => {
+            if (status !== google.maps.GeocoderStatus.OK || !results[0]) return;
+
+            this.locObject.address = results[0].formatted_address;
         });
     }
 
@@ -334,7 +344,7 @@ export class AddStationPage {
             Geolocation.getCurrentPosition().then((position) => {
                 this.positionMarker(position.coords.latitude, position.coords.longitude);
             }, (err) => {
-                console.log(err);
+                console.error(err);
                 this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
             });
         }

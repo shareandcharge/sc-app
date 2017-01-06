@@ -23,8 +23,9 @@
     <div padding="">
         <ion-list no-lines>
             <ion-item>
-                <ion-label floating>Adresse der Station</ion-label>
-                <ion-input type="text" class="input-white" [(ngModel)]="locObject.address" (input)="updateSearch()"></ion-input>
+                <!-- floating label does not work with clearInput (?) -->
+                <ion-label stacked>Adresse der Station</ion-label>
+                <ion-input type="text" class="input-white" [(ngModel)]="locObject.address" (input)="updateSearch()" clearInput></ion-input>
             </ion-item>
         </ion-list>
         <ion-list>
