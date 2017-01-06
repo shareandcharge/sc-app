@@ -11,17 +11,19 @@ import {PaymentProviderScreenPage} from "./payment-provider-screen/payment-provi
 })
 export class AddMoneyPage {
     user: User;
+    displayAmount: any;
 
-    payInObject = {};
+    payInObject: any;
 
     constructor(public navCtrl: NavController, private viewCtrl: ViewController, private authService: AuthService, private paymenrService: PaymentService) {
         this.user = this.authService.getUser();
+        this.displayAmount = "0.00";
 
         this.payInObject = {
             'type' : 'paypal',
             'amount' : 0,
             'details' : {
-                'success_url' : 'http://www.google.de'
+                'success_url' : 'Http://www.google.de'
             }
         }
     }
@@ -34,6 +36,8 @@ export class AddMoneyPage {
     }
 
     addMoney() {
+        this.payInObject.amount = this.displayAmount * 100;
+
         this.paymenrService.payIn(this.payInObject).subscribe((response) => {
             if (response.client_action === 'redirect') {
                 let redirectUrl = response.action_data.url;
