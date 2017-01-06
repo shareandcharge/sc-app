@@ -18,6 +18,7 @@ export class PlugTypesPage {
     plugOptions: any;
 
     wattpowerTemp: any;
+    errorMessages: any;
 
     constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController, private configService: ConfigService) {
         this.powerOptions = [
@@ -34,6 +35,8 @@ export class PlugTypesPage {
 
         this.flowMode = this.navParams.get("mode");
         this.wattpowerTemp = this.connector.wattpower / 1000;
+
+        this.clearErrorMessages();
     }
 
     ionViewDidLoad() {
@@ -44,25 +47,15 @@ export class PlugTypesPage {
     }
 
     nextPage() {
-        if (this.connector.plugtype != '') {
-
+        if (this.validateForm()) {
             if (!this.connector.metadata.accessControl) {
                 this.connector.metadata.kwh = false
             }
-
             this.navCtrl.push(SetTariffPage, {
                 "location": this.locObject,
                 "mode": this.flowMode
             });
-        } else {
-            let alert = this.alertCtrl.create({
-                title: 'Bitte wähle einen Steckertyp',
-                subTitle: 'Es muss ein Steckertyp ausgewählt sein.',
-                buttons: ['Ok']
-            });
-            alert.present();
         }
-
     }
 
     showHelp(type) {
@@ -89,4 +82,25 @@ export class PlugTypesPage {
         this.navCtrl.parent.pop();
     }
 
+    clearErrorMessages() {
+        this.errorMessages = {
+            "plugType": '',
+            "capacity": ''
+        }
+    }
+
+    validateForm() {
+        let hasError = false;
+        this.clearErrorMessages();
+        if (this.connector.plugtype.length == 0) {
+            hasError = true;
+            this.errorMessages.plugType = 'Bitte wählen Sie einen Steckertyp';
+        }
+        if (!this.wattpowerTemp) {
+            hasError = true;
+
+            this.errorMessages.capacity = 'Bitte wählen Sie eine Leistung';
+        }
+        return !hasError;
+    }
 }

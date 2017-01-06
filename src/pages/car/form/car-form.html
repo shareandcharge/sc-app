@@ -33,6 +33,7 @@
                            placeholder="Kennzeichen"
                            autocapitalize="characters"></ion-input>
             </ion-item>
+            <div *ngIf="errorMessages.plateNumber" class="alert-box alert-box-danger" margin>{{ errorMessages.plateNumber }}</div>
         </ion-list>
 
         <ion-segment color="primary" [(ngModel)]="segmentTabs" class="segment-borderless">
@@ -76,6 +77,7 @@
                     <ion-label floating>Batteriekapazität</ion-label>
                     <ion-input class="input-white" type="text" [(ngModel)]="car.accuCapacity"></ion-input>
                 </ion-item>
+                <div *ngIf="errorMessages.capacity" class="alert-box alert-box-danger" margin>{{ errorMessages.capacity }}</div>
 
                 <ion-item>
                     <ion-label>Steckertypen</ion-label>
@@ -87,6 +89,7 @@
                         <ion-option *ngFor="let plug of plugOptions" value="{{plug.id}}">{{plug.name}}</ion-option>
                     </ion-select>
                 </ion-item>
+                <div *ngIf="errorMessages.plugType" class="alert-box alert-box-danger" margin>{{ errorMessages.plugType }}</div>
             </div>
 
             <div padding text-center>

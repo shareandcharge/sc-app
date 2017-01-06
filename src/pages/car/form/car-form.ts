@@ -23,18 +23,28 @@ export class CarFormPage {
     mode: any;
     segmentTabs: any;
     plugOptions: any;
+    errorMessages: any;
 
     constructor(private configService: ConfigService, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private alertCtrl: AlertController) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
-
         this.configService.getPlugTypes().subscribe((plugTypes) => {
             this.plugOptions = plugTypes;
         });
+
+        this.clearErrorMessages();
     }
 
     ionViewDidLoad() {
+    }
+
+    clearErrorMessages() {
+        this.errorMessages = {
+            "plateNumber": '',
+            "capacity": '',
+            "plugType": ''
+        }
     }
 
     selectPhoto() {
@@ -95,7 +105,7 @@ export class CarFormPage {
     }
 
     saveCar() {
-        if(this.validateForm()){
+        if (this.validateForm()) {
             let loader = this.loadingCtrl.create({content: "Speichere Auto ..."});
             loader.present();
 
@@ -125,28 +135,27 @@ export class CarFormPage {
         }
     }
 
-    validateForm(){
-        console.log(this.car.plugTypes.length);
+    validateForm() {
+        let hasError = false;
+        this.clearErrorMessages();
+        this.segmentTabs = 'custom';
 
-        if(!this.car.plateNumber){
-            this.displayError('Bitte geben Sie eine Kennzeichen ein');
-            this.segmentTabs = 'preset';
-            return false;
+        if (!this.car.plateNumber) {
+            hasError = true;
+            this.errorMessages.plateNumber = 'Bitte geben Sie eine Kennzeichen ein';
         }
 
-        if(!this.car.accuCapacity){
-            this.displayError('Bitte geben Sie eine Batteriekapazität ein');
-            this.segmentTabs = 'custom';
-            return false;
+        if (!this.car.accuCapacity) {
+            hasError = true;
+            this.errorMessages.capacity = 'Bitte geben Sie eine Batteriekapazität ein';
         }
 
-        if(this.car.plugTypes.length == 0){
-            this.displayError('Bitte wählen Sie einen Steckertyp');
-            this.segmentTabs = 'custom';
-            return false;
+        if (this.car.plugTypes.length == 0) {
+            hasError = true;
+            this.errorMessages.plugType = 'Bitte geben Sie einen Steckertyp ein';
         }
 
-        return true;
+        return !hasError
     }
 
     displayError(message: any, subtitle?: string) {

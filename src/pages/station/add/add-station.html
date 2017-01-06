@@ -27,6 +27,7 @@
                 <ion-label stacked>Adresse der Station</ion-label>
                 <ion-input type="text" class="input-white" [(ngModel)]="locObject.address" (input)="updateSearch()" clearInput></ion-input>
             </ion-item>
+            <div *ngIf="errorMessages.address" class="alert-box alert-box-danger" margin>{{ errorMessages.address }}</div>
         </ion-list>
         <ion-list>
             <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
@@ -80,7 +81,7 @@
                     <ion-option value="6">Sonntag</ion-option>
                 </ion-select>
             </ion-item>
-
+            <div *ngIf="errorMessages.openingHours" class="alert-box alert-box-danger" margin>{{ errorMessages.openingHours }}</div>
         </ion-list>
 
         <ion-list no-lines="" *ngIf="segmentTabs == 'custom'">
@@ -95,6 +96,7 @@
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
             </ion-item>
+            <div *ngIf="errorMessages.openingHours" class="alert-box alert-box-danger" margin>{{ errorMessages.openingHours }}</div>
         </ion-list>
 
         <ion-list no-lines="">

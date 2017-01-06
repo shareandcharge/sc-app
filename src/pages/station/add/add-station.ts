@@ -3,8 +3,7 @@ import {
     NavController,
     LoadingController,
     NavParams,
-    ModalController,
-    AlertController
+    ModalController
 } from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
 import {Platform} from 'ionic-angular';
@@ -52,7 +51,9 @@ export class AddStationPage {
 
     defaultZoom = 16;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private alertCtrl: AlertController) {
+    errorMessages: any;
+
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -184,6 +185,7 @@ export class AddStationPage {
 
             this.cloneWeekcalendar();
         }
+        this.clearErrorMessages();
 
         this.initializeApp();
     }
@@ -369,13 +371,10 @@ export class AddStationPage {
 
     continueAddStation() {
 
+        if (this.segmentTabs === 'custom') {
+            this.connector.weekcalendar = this.customWeekCalendar;
+        }
         if (this.validateForm()) {
-
-            if (this.segmentTabs === 'custom') {
-                this.connector.weekcalendar = this.customWeekCalendar;
-            }
-
-
             if (this.flowMode == 'add') {
                 let userAddress = "";
                 if (this.auth.getUser() != null) {
@@ -398,13 +397,34 @@ export class AddStationPage {
         }
     }
 
-    validateForm() {
-        if (!this.locObject.address) {
-            this.displayError('Bitte geben Sie eine Adresse ein');
-            return false;
+    clearErrorMessages() {
+        this.errorMessages = {
+            "address": '',
+            "openingHours": ''
         }
+    }
 
-        return true;
+    validateForm() {
+        let hasError = false;
+        this.clearErrorMessages();
+        if (!this.locObject.address) {
+            hasError = true;
+            this.errorMessages.address = 'Bitte geben Sie eine Adresse ein';
+        }
+        if (!this.isOpeningHoursSelected()) {
+            hasError = true;
+            this.errorMessages.openingHours = 'Bitte wählen Sie die Öffnungszeiten';
+        }
+        return !hasError;
+    }
+
+    isOpeningHoursSelected() {
+        for (let item of this.connector.weekcalendar.hours) {
+            if (item.from > 0 && item.to > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     updateSelectedDays() {
@@ -427,15 +447,5 @@ export class AddStationPage {
 
     cloneWeekcalendar() {
         this.customWeekCalendar = JSON.parse(JSON.stringify(this.connector.weekcalendar));
-    }
-
-    displayError(message: any, subtitle?: string) {
-        let alert = this.alertCtrl.create({
-            title: 'Fehler',
-            subTitle: subtitle,
-            message: message,
-            buttons: ['Schließen']
-        });
-        alert.present();
     }
 }
