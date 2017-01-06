@@ -25,7 +25,7 @@
 
     <div *ngIf="hasMoney" align="center">
         <h2>Current Balance</h2>
-        <h2>{{currentBalance}} Eur</h2>
+        <h2>{{currentBalance / 100}} Eur</h2>
     </div>
     <br/>
     <ion-list>
@@ -35,7 +35,7 @@
         <h2 *ngIf="noTransaction">You have no history</h2>
         <ion-item *ngFor="let tr of paymentHistory">
             <ion-icon name="close" (click)="deleteTransaction(tr)"></ion-icon>
-            &nbsp;&nbsp;{{tr.type}}{{tr.amount}}
+            &nbsp;&nbsp;{{tr.type}}{{tr.amount / 100}}
             <small>{{tr.date}}</small>
         </ion-item>
     </ion-list>

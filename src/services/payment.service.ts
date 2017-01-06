@@ -19,6 +19,11 @@ export class PaymentService {
             .map(res => res.json());
     }
 
+    payIn(payInObject) {
+        return this.authHttp.post(this.baseUrl + '/wallet/payIn', JSON.stringify(payInObject))
+            .map(res => res.json());
+    }
+
     private handleError(error: Response | any) {
         let errMsg: string;
         if (error instanceof Response) {
