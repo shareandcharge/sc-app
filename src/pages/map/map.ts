@@ -79,8 +79,8 @@ export class MapPage {
         this.events.subscribe('auth:login', () => this.refreshCarInfo());
         this.events.subscribe('auth:logout', () => this.refreshCarInfo());
 
-        this.events.subscribe('locations:updated', (location) => this.addMarker(location));
-        this.events.subscribe('locations:deleted', () => this.updateLocationMarkers());
+        this.events.subscribe('locations:updated', (location) => this.refreshLocations());
+        //this.events.subscribe('locations:deleted', () => this.updateLocationMarkers());
         this.initializeApp();
     }
 
@@ -209,15 +209,17 @@ export class MapPage {
         let me = this;
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
-            me.locationService.getLocations().subscribe((locations) => {
-                me.locations = locations;
-                me.updateLocationMarkers();
-
-                loader.dismissAll();
-            });
+            me.refreshLocations();
+            loader.dismissAll();
         });
     }
 
+    refreshLocations() {
+        this.locationService.getLocations().subscribe((locations) => {
+            this.locations = locations;
+            this.updateLocationMarkers();
+        });
+    }
 
     showLocationDetails(location) {
         let locDetails = this.modalCtrl.create(LocationDetailPage, {
@@ -277,7 +279,6 @@ export class MapPage {
 
 
     addInfoWindow(marker, content) {
-
         let infoWindow = new google.maps.InfoWindow({
             content: content,
             enableEventPropagation: true
