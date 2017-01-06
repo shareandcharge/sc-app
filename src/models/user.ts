@@ -3,44 +3,35 @@ import {Serializable} from './serializable';
 export class User implements Serializable<User> {
     id: any;
     email: string;
-    firstName: string;
-    lastName: string;
     address: string;
-    imageBase64: any;
     profile: any;
+    cars: any;
 
     constructor() {
         this.id = '';
         this.email = '';
-        this.firstName = '';
-        this.lastName = '';
         this.address = '';
-        this.imageBase64 = '';
         this.profile = {};
+        this.cars = {};
     }
 
     hasImage() {
-        return (typeof this.imageBase64 === "string" && this.imageBase64 !== '');
+        return (typeof this.profile.imageBase64 === "string" && this.profile.imageBase64 !== '');
     }
 
     get displayImageSrc(): string {
-        return this.hasImage() ? this.imageBase64 : 'assets/images/user-default.png';
+        return this.hasImage() ? this.profile.imageBase64 : 'assets/images/user-default.png';
     }
 
     get displayName() {
-        return `${this.firstName} ${this.lastName}`;
+        return `${this.profile.firstName} ${this.profile.lastName}`;
     }
 
     deserialize(input) {
         this.id = input.id;
         this.email = input.email;
-
-        if (typeof input.profile !== 'undefined') {
-            this.firstName = input.profile.firstname;
-            this.lastName = input.profile.lastname;
-            this.imageBase64 = input.profile.imageBase64;
-        }
-
+        this.profile = input.profile;
+        this.cars = input.cars;
         this.address = input.address;
 
         return this;
