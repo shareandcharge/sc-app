@@ -23,7 +23,10 @@ export class ChargingService {
     checkChargingState() {
         console.log("checking charge state..");
         this.storage.get("isCharging").then(charging => {
-            if (!charging) return;
+            if (!charging){
+                Badge.clear();
+                return
+            };
             this.charging = true;
             this.storage.get("chargingTime").then(chargingTime => {
                 this.chargingTime = chargingTime;
@@ -44,7 +47,6 @@ export class ChargingService {
     }
 
     startCharging(seconds) {
-        Badge.set(1);
         this.charging = true;
         this.chargingTime = seconds;
         this.events.publish('charging:update', this.progress);
@@ -81,6 +83,7 @@ export class ChargingService {
     }
 
     countDown(time) {
+        Badge.set(1);
         this.progress = 1;
         let me = this;
         me.timer = time;
