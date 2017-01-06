@@ -47,6 +47,8 @@ export class AddStationPage {
     location: any;
     mapDefaultControlls: boolean;
 
+    customWeekCalendar: any;
+
     defaultZoom = 16;
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams) {
@@ -166,7 +168,8 @@ export class AddStationPage {
             this.station = this.locObject.stations[0];
             this.connector = this.station.connectors[0];
 
-            this.initalizeWeekcalendar();
+            this.cloneWeekcalendar();
+            this.initializeWeekcalendar();
         }
         else {
             // create new location, station and connector
@@ -177,9 +180,9 @@ export class AddStationPage {
 
             this.connector = new Connector;
             this.station.connectors.push(this.connector);
-        }
 
-        // console.log(this.locObject);
+            this.cloneWeekcalendar();
+        }
 
         this.initializeApp();
     }
@@ -190,7 +193,7 @@ export class AddStationPage {
         });
     }
 
-    initalizeWeekcalendar() {
+    initializeWeekcalendar() {
         let from;
         let to;
         let weekdays = [];
@@ -208,6 +211,8 @@ export class AddStationPage {
                 if (day.from != from || day.to != to) {
                     weekdays = [];
                     this.segmentTabs = 'custom';
+
+                    this.resetWeekcalendar();
                     return false;
                 }
 
@@ -362,6 +367,11 @@ export class AddStationPage {
     }
 
     continueAddStation() {
+        if (this.segmentTabs === 'custom') {
+            this.connector.weekcalendar = this.customWeekCalendar;
+        }
+
+
         if (this.flowMode == 'add') {
             let userAddress = "";
             if (this.auth.getUser() != null) {
@@ -399,5 +409,9 @@ export class AddStationPage {
             this.from = 0;
             this.to = 0;
         }
+    }
+
+    cloneWeekcalendar() {
+        this.customWeekCalendar = JSON.parse(JSON.stringify(this.connector.weekcalendar));
     }
 }
