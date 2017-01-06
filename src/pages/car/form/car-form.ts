@@ -12,7 +12,6 @@ import {CarService} from "../../../services/car.service";
 import {Car} from '../../../models/car';
 import {ConfigService} from "../../../services/config.service";
 
-
 @Component({
     selector: 'page-add-car',
     templateUrl: 'car-form.html',
@@ -25,7 +24,7 @@ export class CarFormPage {
     segmentTabs: any;
     plugOptions: any;
 
-    constructor(private configService : ConfigService, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private alertCtrl: AlertController) {
+    constructor(private configService: ConfigService, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private alertCtrl: AlertController) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -96,32 +95,58 @@ export class CarFormPage {
     }
 
     saveCar() {
-        let loader = this.loadingCtrl.create({content: "Speichere Auto ..."});
-        loader.present();
+        if(this.validateForm()){
+            let loader = this.loadingCtrl.create({content: "Speichere Auto ..."});
+            loader.present();
 
-        let me = this;
+            let me = this;
 
-        if (this.mode == "edit") {
-            this.carService.updateCar(this.car)
-                .finally(() => loader.dismissAll())
-                .subscribe(
-                    () => {
-                        this.events.publish('cars:updated');
-                        me.navCtrl.parent.pop();
-                    },
-                    error => this.displayError(<any>error, 'Auto aktualisieren'));
+            if (this.mode == "edit") {
+                this.carService.updateCar(this.car)
+                    .finally(() => loader.dismissAll())
+                    .subscribe(
+                        () => {
+                            this.events.publish('cars:updated');
+                            me.navCtrl.parent.pop();
+                        },
+                        error => this.displayError(<any>error, 'Auto aktualisieren'));
+            }
+            else {
+                this.carService.createCar(this.car)
+                    .finally(() => loader.dismissAll())
+                    .subscribe(
+                        () => {
+                            this.events.publish('cars:updated');
+                            me.navCtrl.parent.pop();
+                        },
+                        error => this.displayError(<any>error, 'Auto anlegen')
+                    );
+            }
         }
-        else {
-            this.carService.createCar(this.car)
-                .finally(() => loader.dismissAll())
-                .subscribe(
-                    () => {
-                        this.events.publish('cars:updated');
-                        me.navCtrl.parent.pop();
-                    },
-                    error => this.displayError(<any>error, 'Auto anlegen')
-                );
+    }
+
+    validateForm(){
+        console.log(this.car.plugTypes.length);
+
+        if(!this.car.plateNumber){
+            this.displayError('Bitte geben Sie eine Kennzeichen ein');
+            this.segmentTabs = 'preset';
+            return false;
         }
+
+        if(!this.car.accuCapacity){
+            this.displayError('Bitte geben Sie eine Batteriekapazität ein');
+            this.segmentTabs = 'custom';
+            return false;
+        }
+
+        if(this.car.plugTypes.length == 0){
+            this.displayError('Bitte wählen Sie einen Steckertyp');
+            this.segmentTabs = 'custom';
+            return false;
+        }
+
+        return true;
     }
 
     displayError(message: any, subtitle?: string) {

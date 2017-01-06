@@ -3,7 +3,8 @@ import {
     NavController,
     LoadingController,
     NavParams,
-    ModalController
+    ModalController,
+    AlertController
 } from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
 import {Platform} from 'ionic-angular';
@@ -51,7 +52,7 @@ export class AddStationPage {
 
     defaultZoom = 16;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private alertCtrl: AlertController) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -367,30 +368,43 @@ export class AddStationPage {
     }
 
     continueAddStation() {
-        if (this.segmentTabs === 'custom') {
-            this.connector.weekcalendar = this.customWeekCalendar;
-        }
 
+        if (this.validateForm()) {
 
-        if (this.flowMode == 'add') {
-            let userAddress = "";
-            if (this.auth.getUser() != null) {
-                userAddress = this.auth.getUser().address;
+            if (this.segmentTabs === 'custom') {
+                this.connector.weekcalendar = this.customWeekCalendar;
             }
 
-            this.locObject.owner = userAddress;
-            this.locObject.lat = this.map.getCenter().lat();
-            this.locObject.lng = this.map.getCenter().lng();
+
+            if (this.flowMode == 'add') {
+                let userAddress = "";
+                if (this.auth.getUser() != null) {
+                    userAddress = this.auth.getUser().address;
+                }
+
+                this.locObject.owner = userAddress;
+                this.locObject.lat = this.map.getCenter().lat();
+                this.locObject.lng = this.map.getCenter().lng();
+            }
+            else {
+                this.locObject.lat = this.map.getCenter().lat();
+                this.locObject.lng = this.map.getCenter().lng();
+            }
+
+            this.navCtrl.push(AddStationImagePage, {
+                "location": this.locObject,
+                "mode": this.flowMode
+            });
         }
-        else {
-            this.locObject.lat = this.map.getCenter().lat();
-            this.locObject.lng = this.map.getCenter().lng();
+    }
+
+    validateForm() {
+        if (!this.locObject.address) {
+            this.displayError('Bitte geben Sie eine Adresse ein');
+            return false;
         }
 
-        this.navCtrl.push(AddStationImagePage, {
-            "location": this.locObject,
-            "mode": this.flowMode
-        });
+        return true;
     }
 
     updateSelectedDays() {
@@ -413,5 +427,15 @@ export class AddStationPage {
 
     cloneWeekcalendar() {
         this.customWeekCalendar = JSON.parse(JSON.stringify(this.connector.weekcalendar));
+    }
+
+    displayError(message: any, subtitle?: string) {
+        let alert = this.alertCtrl.create({
+            title: 'Fehler',
+            subTitle: subtitle,
+            message: message,
+            buttons: ['Schließen']
+        });
+        alert.present();
     }
 }
