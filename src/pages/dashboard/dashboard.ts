@@ -63,7 +63,7 @@ export class DashboardPage {
             allowEdit: true,
             targetHeight: 1000
         }).then((imageData) => {
-            this.user.imageBase64 = "data:image/jpeg;base64," + imageData;
+            this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
             this.updateUser();
         }, (err) => {
             console.log(err);

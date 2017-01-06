@@ -33,6 +33,8 @@ export class EditAddressPage {
         this.parent.user.profile.country = this.editAddress.value.country;
         this.parent.user.profile.postalCode = this.editAddress.value.postalCode;
 
+        console.log(this.parent.user);
+
         this.parent.updateUser();
 
         this.navCtrl.pop();
