@@ -33,7 +33,6 @@ export class MyStationsPage {
         userAddress = this.auth.getUser().address;
         this.locationService.getLocationsUser(userAddress).subscribe(locations => {
             this.stations = locations;
-            console.log("the locations inside subscribe are ", this.stations);
         });
     }
 
@@ -51,12 +50,12 @@ export class MyStationsPage {
                 {
                     text: 'Ja, löschen',
                     handler: () => {
-                        let loader = this.loadingCtrl.create({content: "Lösche Auto ..."});
+                        let loader = this.loadingCtrl.create({content: "Lösche Station ..."});
                         loader.present();
                         this.locationService.deleteLocation(station.id)
                             .finally(() => loader.dismissAll())
                             .subscribe(
-                                () => this.events.publish('locations:updated' , station),
+                                () => this.events.publish('locations:updated', station),
                                 //() => this.events.publish('locations:deleted' , station),
                                 error => this.displayError(<any>error, 'Station löschen')
                             )
@@ -69,9 +68,6 @@ export class MyStationsPage {
 
     ionViewWillEnter() {
         this.loadStations();
-    }
-
-    ionViewDidLoad() {
     }
 
     addStation() {
@@ -93,15 +89,6 @@ export class MyStationsPage {
             });
             modal.present();
         });
-    }
-
-    favorite(item) {
-    }
-
-    share(item) {
-    }
-
-    unread(item) {
     }
 
     doRefresh(refresher) {

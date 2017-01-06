@@ -388,29 +388,4 @@ export class AddStationPage {
             this.to = 0;
         }
     }
-
-    deleteStation(){
-        let alert = this.alertCtrl.create({
-            title: 'Löschen bestätigen',
-            message: 'Möchten Sie dieses Station wirklich löschen?',
-            buttons: [
-                {
-                    text: 'Nein',
-                    role: 'cancel',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
-                },
-                {
-                    text: 'Ja, löschen',
-                    handler: () => {
-                        this.locationService.deleteLocation(this.locObject.id).subscribe(locations => {
-                            this.navCtrl.setRoot(MyStationsPage);
-                        });
-                    }
-                }
-            ]
-        });
-        alert.present();
-    }
 }
