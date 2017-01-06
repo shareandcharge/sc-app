@@ -7,6 +7,7 @@ import {AccountSettingsPage} from './account-settings/account-settings';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
+import {HelpPage} from "../help/help";
 
 
 @Component({
@@ -86,7 +87,7 @@ export class DashboardPage {
     }
 
     help() {
-        console.log("Help");
+        this.navCtrl.push(HelpPage);
     }
 
     myCars() {

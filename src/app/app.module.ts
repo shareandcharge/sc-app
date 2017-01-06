@@ -23,6 +23,7 @@ import {WalletPage} from '../pages/wallet/wallet';
 import {AddMoneyPage} from '../pages/wallet/add/add-money';
 import {WalletOptionsPage} from '../pages/wallet/options/wallet-options';
 import {DashboardPage} from '../pages/dashboard/dashboard';
+import {HelpPage} from '../pages/help/help';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
 import {Ionic2RatingModule} from 'ionic2-rating';
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
@@ -95,6 +96,7 @@ export function getAuthHttp(http) {
         WalletOptionsPage,
         AddRatingPage,
         DashboardPage,
+        HelpPage,
         AccountSettingsPage,
         ProfilePage,
         MyStationsPage,
@@ -145,6 +147,7 @@ export function getAuthHttp(http) {
         WalletOptionsPage,
         AddRatingPage,
         DashboardPage,
+        HelpPage,
         AccountSettingsPage,
         ProfilePage,
         MyStationsPage,
