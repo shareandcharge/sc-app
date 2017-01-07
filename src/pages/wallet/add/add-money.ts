@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController} from 'ionic-angular';
-import {User} from "../../../models/user";
+import {NavController, ViewController, ModalController} from 'ionic-angular';
 import {AuthService} from "../../../services/auth.service";
 import {PaymentService} from "../../../services/payment.service";
 import {PaymentProviderScreenPage} from "./payment-provider-screen/payment-provider-screen";
@@ -10,25 +9,21 @@ import {PaymentProviderScreenPage} from "./payment-provider-screen/payment-provi
     templateUrl: 'add-money.html'
 })
 export class AddMoneyPage {
-    user: User;
     displayAmount: any;
 
     payInObject: any;
 
-    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private authService: AuthService, private paymenrService: PaymentService) {
-        this.user = this.authService.getUser();
-        this.displayAmount = "0.00";
-
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private authService: AuthService, private paymentService: PaymentService, private modalCtrl: ModalController) {
         this.payInObject = {
-            'type' : 'paypal',
-            'amount' : 0,
-            'details' : {
-                'success_url' : 'Http://www.google.de'
+            'type': 'cc',
+            'amount': 0,
+            'details': {
+                'success_url': 'http://www.delodi.net'
             }
         }
     }
 
-    ionViewDidLoad() {
+    ionViewWillEnter() {
     }
 
     dismiss() {
@@ -38,14 +33,24 @@ export class AddMoneyPage {
     addMoney() {
         this.payInObject.amount = this.displayAmount * 100;
 
-        this.paymenrService.payIn(this.payInObject).subscribe((response) => {
+        this.paymentService.payIn(this.payInObject).subscribe((response) => {
             if (response.client_action === 'redirect') {
-                let redirectUrl = response.action_data.url;
-                this.navCtrl.push(PaymentProviderScreenPage, {
-                    'pspUrl' : redirectUrl
+                this.showExternalPaymentScreen(response.action_data.url).then(() => {
+                    this.dismiss();
                 });
             }
-        })
+        });
     }
 
+    showExternalPaymentScreen(redirectUrl) {
+        let modal = this.modalCtrl.create(PaymentProviderScreenPage, {
+            'pspUrl': redirectUrl
+        });
+
+        modal.present();
+
+        return new Promise((resolve, reject) => {
+            modal.onDidDismiss(() => resolve());
+        });
+    }
 }

@@ -72,7 +72,7 @@ export class WalletPage {
 
         let alert = this.alertCtrl.create({
             title: 'Daten unvollständig',
-            message: 'Um auf Zahlungsvorgänge durchführen zu können musst Du zunächst Dein Profil vervollständigen.',
+            message: 'Um Zahlungsvorgänge durchführen zu können musst Du zunächst Dein Profil vervollständigen.',
             buttons: [
                 {
                     text: 'Ok',

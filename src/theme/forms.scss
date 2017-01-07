@@ -42,6 +42,7 @@ ion-select {
 }
 
 $_input_box_width: 100px;
+$_input_box_width_xl: 160px;
 .input-box {
   text-align: center;
   margin-top: 20px;
@@ -57,6 +58,17 @@ $_input_box_width: 100px;
       margin: 0 !important;
     }
   }
+  &.input-box-white {
+    ion-input {
+      background-color: #fff;
+    }
+  }
+  &.input-box-xl {
+    ion-input {
+      width: $_input_box_width_xl;
+      font-size: 40px;
+    }
+  }
 }
 
 .input-box-inner {
@@ -64,11 +76,17 @@ $_input_box_width: 100px;
   position: relative;
   label {
     position: absolute;
-    left: $_input_box_width + 10;
-    top: 14px;
+    right: -20px;
+    top: 13px;
     font-size: 16px;
   }
 }
+.input-box-xl .input-box-inner label {
+  font-size: 28px;
+  right: -30px;
+  top: 18px;
+}
+
 
 .item-ios .button-pull-left.item-button,
 .item-ios .button-pull-left.item-button[icon-only] {
