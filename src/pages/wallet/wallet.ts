@@ -14,16 +14,9 @@ export class WalletPage {
 
     currentBalance: any;
     paymentHistory: any;
-    hasMoney = false;
     noTransaction = true;
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private popoverCtrl: PopoverController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController) {
-        this.currentBalance = "32,00";
-
-        if (typeof this.currentBalance != 'undefined') {
-            this.hasMoney = true;
-        }
-
         this.getHistory();
         this.getBalance();
     }
@@ -45,9 +38,9 @@ export class WalletPage {
                 buttons: [
                     {
                         text: 'Ok',
-                        handler : () => {
+                        handler: () => {
                             this.navCtrl.push(EditProfilePage, {
-                                'user' : currentUser
+                                'user': currentUser
                             });
                         }
                     }
@@ -80,7 +73,7 @@ export class WalletPage {
         console.log("form the money");
         let modal = this.modalCtrl.create(AddMoneyPage);
         modal.onDidDismiss(data => {
-            if(parseFloat(data)){
+            if (parseFloat(data)) {
                 let balance;
                 balance = parseFloat(this.currentBalance) + parseFloat(data);
                 this.currentBalance = balance;

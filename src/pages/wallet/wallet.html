@@ -6,7 +6,7 @@
                 <ion-icon name="menu"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title>Wallet</ion-title>
+        <ion-title>Konto</ion-title>
         <ion-buttons end>
             <button ion-button (click)="addMoney()">
                 <ion-icon name="add"></ion-icon>
@@ -17,27 +17,26 @@
 </ion-header>
 
 
-<ion-content padding>
-    <div *ngIf="!hasMoney" align="center">
-        <h2>Your Wallet is Empty</h2>
-        <button ion-button (click)="addMoney()">Add Money</button>
+<ion-content>
+    <div class="top-container" padding="" text-center="">
+        <h2>{{(currentBalance / 100) | currency:'EUR':true:'1.2-2'}}</h2>
+        <h3>Guthaben</h3>
     </div>
 
-    <div *ngIf="hasMoney" align="center">
-        <h2>Current Balance</h2>
-        <h2>{{currentBalance / 100}} Eur</h2>
-    </div>
-    <br/>
+    <h1>Meine Zahlungsvorgänge</h1>
+
     <ion-list>
-        <ion-list-header>
-            Payment History
-        </ion-list-header>
-        <h2 *ngIf="noTransaction">You have no history</h2>
         <ion-item *ngFor="let tr of paymentHistory">
             <ion-icon name="close" (click)="deleteTransaction(tr)"></ion-icon>
             &nbsp;&nbsp;{{tr.type}}{{tr.amount / 100}}
             <small>{{tr.date}}</small>
         </ion-item>
     </ion-list>
+
+
+
+    <div padding text-center *ngIf="noTransaction">
+        <button ion-button text-uppercase round (click)="addMoney()">Konto aufladen</button>
+    </div>
 
 </ion-content>

@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {NavController, ActionSheetController, Platform, AlertController, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {MyCarsPage} from '../car/my-cars/my-cars';
-import {AddRatingPage} from '../rating/add-rating';
 import {AccountSettingsPage} from './account-settings/account-settings';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";

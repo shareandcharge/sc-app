@@ -5,7 +5,6 @@ import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {EditEmailPage} from "./edit-email/edit-email";
-import {EditNamePage} from "./edit-name/edit-name";
 import {EditProfilePage} from "./edit-profile/edit-profile";
 
 
