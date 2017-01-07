@@ -17,38 +17,11 @@ export class WalletPage {
     noTransaction = true;
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private popoverCtrl: PopoverController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController) {
-        this.getHistory();
-        this.getBalance();
     }
 
     ionViewWillEnter() {
-        let currentUser = this.authService.getUser();
-        let userProfile = currentUser.profile;
-
-        if (userProfile.firstname === '' ||
-            userProfile.lastname === '' ||
-            userProfile.address === '' ||
-            userProfile.country === '' ||
-            userProfile.postalCode === '' ||
-            userProfile.city === '') {
-
-            let alert = this.alertCtrl.create({
-                title: 'Daten unvollständig',
-                message: 'Um auf dein Wallet zugreifen zu können musst du zunächst dein Profil vervollständigen',
-                buttons: [
-                    {
-                        text: 'Ok',
-                        handler: () => {
-                            this.navCtrl.push(EditProfilePage, {
-                                'user': currentUser
-                            });
-                        }
-                    }
-                ]
-            });
-
-            alert.present();
-        }
+        this.getHistory();
+        this.getBalance();
     }
 
     getHistory() {
@@ -70,7 +43,8 @@ export class WalletPage {
     }
 
     addMoney() {
-        console.log("form the money");
+        if (!this.checkProfileComplete()) return;
+
         let modal = this.modalCtrl.create(AddMoneyPage);
         modal.onDidDismiss(data => {
             if (parseFloat(data)) {
@@ -87,10 +61,43 @@ export class WalletPage {
     }
 
     walletOptions(e) {
-
         let popover = this.popoverCtrl.create(WalletOptionsPage);
         popover.present({
             ev: e
         });
+    }
+
+    checkProfileComplete() {
+        if (this.profileComplete()) return true;
+
+        let alert = this.alertCtrl.create({
+            title: 'Daten unvollständig',
+            message: 'Um auf Zahlungsvorgänge durchführen zu können musst Du zunächst Dein Profil vervollständigen.',
+            buttons: [
+                {
+                    text: 'Ok',
+                    handler: () => {
+                        this.navCtrl.push(EditProfilePage, {
+                            'user': this.authService.getUser()
+                        });
+                    }
+                }
+            ]
+        });
+
+        alert.present();
+
+        return false;
+    }
+
+    profileComplete() {
+        let userProfile = this.authService.getUser().profile;
+
+        return !(userProfile.firstname === '' ||
+        userProfile.lastname === '' ||
+        userProfile.address === '' ||
+        userProfile.country === '' ||
+        userProfile.postalCode === '' ||
+        userProfile.city === '');
     }
 }

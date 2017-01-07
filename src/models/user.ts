@@ -24,7 +24,7 @@ export class User implements Serializable<User> {
     }
 
     get displayName() {
-        return `${this.profile.firstName} ${this.profile.lastName}`;
+        return `${this.profile.firstname} ${this.profile.lastname}`;
     }
 
     deserialize(input) {
