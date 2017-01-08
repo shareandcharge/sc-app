@@ -18,7 +18,7 @@
 
 
 <ion-content>
-    <div class="top-container" padding="" text-center="">
+    <div class="top-container" padding="" text-center="" (click)="addMoney()">
         <h2>{{(currentBalance / 100) | currency:'EUR':true:'1.2-2'}}</h2>
         <h3>Guthaben</h3>
     </div>
@@ -27,12 +27,15 @@
 
     <ion-list>
         <ion-item *ngFor="let tr of paymentHistory">
-            <ion-icon name="close" (click)="deleteTransaction(tr)"></ion-icon>
-            &nbsp;&nbsp;{{tr.type}}{{tr.amount / 100}}
-            <small>{{tr.date}}</small>
+            <span
+                    class="amount"
+                    [ngClass]="{'number-positive': tr.amount>0, 'number-negative': tr.amount<0}"
+            >
+                {{tr.amount / 100 | currency:'EUR':true:'1.2-2'}}
+            </span>
+            <small item-right>({{tr.type}}) {{tr.date | date:'short'}}</small>
         </ion-item>
     </ion-list>
-
 
 
     <div padding text-center *ngIf="noTransaction">

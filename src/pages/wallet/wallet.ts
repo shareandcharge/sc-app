@@ -56,10 +56,6 @@ export class WalletPage {
         modal.present();
     }
 
-    deleteTransaction(tr) {
-        console.log("delete ", tr);
-    }
-
     walletOptions(e) {
         let popover = this.popoverCtrl.create(WalletOptionsPage);
         popover.present({
