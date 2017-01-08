@@ -229,8 +229,10 @@ export class MapPage {
     }
 
     addMarker(location: Location) {
+        let icon = location.active ? 'marker-available.png' : 'marker-busy.png';
         let marker = new google.maps.Marker({
             map: this.map,
+            icon: `assets/icons/${icon}`,
             animation: google.maps.Animation.DROP,
             position: new google.maps.LatLng(location.lat, location.lng)
         });
