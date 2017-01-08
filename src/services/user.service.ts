@@ -1,20 +1,22 @@
 import {Injectable} from '@angular/core';
-import {Response} from '@angular/http';
 import {Observable} from "rxjs";
 import {User} from "../models/user";
 
 import 'rxjs/add/operator/map';
 import {AuthService} from "./auth.service";
 import {AuthHttp} from "angular2-jwt";
+import {AbstractApiService} from "./abstract.api.service";
 
 @Injectable()
-export class UserService {
+export class UserService extends AbstractApiService {
 
     baseUrl: string = 'https://api-test.shareandcharge.com/v1';
 
     error: string;
 
-    constructor(private authService: AuthService, private authHttp: AuthHttp) {}
+    constructor(private authService: AuthService, private authHttp: AuthHttp) {
+        super();
+    }
 
     login(email: string, password: string) {
         let credentials = {'email': email, 'password': password};
@@ -82,17 +84,5 @@ export class UserService {
         return this.authHttp.delete(`${this.baseUrl}/users/${address}`)
             .map(res => res.json())
             .catch(this.handleError);
-    }
-
-    private handleError(error: Response | any) {
-        let errMsg: string;
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            errMsg = body.message  || JSON.stringify(body);
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        console.error(errMsg);
-        return Observable.throw(errMsg);
     }
 }

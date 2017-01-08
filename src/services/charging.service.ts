@@ -3,11 +3,12 @@ import {AuthHttp} from "angular2-jwt";
 import {Events , ToastController} from "ionic-angular";
 import {Storage} from '@ionic/storage';
 import {Badge} from 'ionic-native';
+import {AbstractApiService} from "./abstract.api.service";
 
 
 
 @Injectable()
-export class ChargingService {
+export class ChargingService extends AbstractApiService {
     //private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
     private chargingTime: number = 0;
     private progress: number = 0;
@@ -18,6 +19,7 @@ export class ChargingService {
     public interval: any;
 
     constructor(private authHttp: AuthHttp, private events: Events, private storage: Storage , private toastCtrl: ToastController) {
+        super();
     }
 
     checkChargingState() {

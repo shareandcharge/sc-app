@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-import {Response} from '@angular/http';
 import {Observable} from "rxjs";
 import {Car} from "../models/car";
 
 import 'rxjs/add/operator/map';
 import {AuthHttp} from "angular2-jwt";
 import {AuthService} from "./auth.service";
+import {AbstractApiService} from "./abstract.api.service";
 
 @Injectable()
-export class CarService {
+export class CarService extends AbstractApiService {
 
     private tmpManuData: Array<any>;
 
@@ -17,7 +17,7 @@ export class CarService {
     private activeCar: Car = null;
 
     constructor(private authHttp: AuthHttp, private auth: AuthService) {
-
+        super();
     }
 
     setActiveCar(car: Car) {
@@ -53,12 +53,11 @@ export class CarService {
 
     getCarsList(): Observable<Car[]> {
         //if (typeof this.tmpManuData == 'undefined') {
-            console.log("fetching from server");
             return this.authHttp.get(this.baseUrl + '/users/predefinedCars')
                 .map(res => {
                     this.convertCarList(res.json());
                     return res.json();
-                })
+                });
         //}
        /* else {
         }*/
@@ -110,18 +109,6 @@ export class CarService {
 
                 return data;
             });
-    }
-
-    private handleError(error: Response | any) {
-        let errMsg: string;
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            errMsg = body.message || JSON.stringify(body);
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        console.error(errMsg);
-        return Observable.throw(errMsg);
     }
 
     getManufacturers() {

@@ -1,15 +1,17 @@
 import {Injectable} from "@angular/core";
-import {Headers, Http, Response} from "@angular/http";
+import {Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import {Rating} from "../models/rating";
 import {AuthHttp} from "angular2-jwt";
+import {AbstractApiService} from "./abstract.api.service";
 
 @Injectable()
-export class RatingService {
+export class RatingService extends AbstractApiService {
     private baseUrl: string = 'https://api-test.shareandcharge.com/v1/locations/';
     private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
-    constructor(private http: Http, private authHttp: AuthHttp) {
+    constructor(private authHttp: AuthHttp) {
+        super();
     }
 
     getRatings(locationId: number): Observable<Array<Rating>> {
@@ -55,18 +57,6 @@ export class RatingService {
                 return new Rating().deserialize(res.json());
             })
             .catch(this.handleError);
-    }
-
-    private handleError(error: Response | any) {
-        let errMsg: string;
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            errMsg = body.message  || JSON.stringify(body);
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        console.error(errMsg);
-        return Observable.throw(errMsg);
     }
 }
 
