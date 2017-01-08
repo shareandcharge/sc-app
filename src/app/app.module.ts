@@ -21,7 +21,6 @@ import {AddStationImagePage} from '../pages/station/add-image/add-image';
 import {SetTariffPage} from '../pages/station/set-tariff/set-tariff';
 import {WalletPage} from '../pages/wallet/wallet';
 import {AddMoneyPage} from '../pages/wallet/add/add-money';
-import {WalletOptionsPage} from '../pages/wallet/options/wallet-options';
 import {DashboardPage} from '../pages/dashboard/dashboard';
 import {HelpPage} from '../pages/help/help';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
@@ -93,7 +92,6 @@ export function getAuthHttp(http) {
         SetTariffPage,
         WalletPage,
         AddMoneyPage,
-        WalletOptionsPage,
         AddRatingPage,
         DashboardPage,
         HelpPage,
@@ -145,7 +143,6 @@ export function getAuthHttp(http) {
         SetTariffPage,
         WalletPage,
         AddMoneyPage,
-        WalletOptionsPage,
         AddRatingPage,
         DashboardPage,
         HelpPage,

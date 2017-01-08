@@ -1,11 +1,9 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-buttons start>
-            <button ion-button (click)="walletOptions($event)">
-                <ion-icon name="menu"></ion-icon>
-            </button>
-        </ion-buttons>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
         <ion-title>Konto</ion-title>
         <ion-buttons end>
             <button ion-button (click)="addMoney()">
@@ -16,8 +14,23 @@
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
+<ion-menu [content]="mycontent">
+    <ion-header>
+        <ion-toolbar>
+            <ion-title></ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <ion-item>Zahlungsvorgänge</ion-item>
+            <ion-item>Auszahlung</ion-item>
+            <ion-item>Rechnungen</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
 
-<ion-content>
+
+<ion-content #mycontent>
     <div class="top-container" padding="" text-center="" (click)="addMoney()">
         <h2>{{(currentBalance / 100) | currency:'EUR':true:'1.2-2'}}</h2>
         <h3>Guthaben</h3>

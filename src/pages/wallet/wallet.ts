@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
-import {NavController, ModalController, PopoverController, AlertController} from 'ionic-angular';
+import {NavController, ModalController, AlertController} from 'ionic-angular';
 import {AddMoneyPage} from './add/add-money';
-import {WalletOptionsPage} from './options/wallet-options';
 import {PaymentService} from "../../services/payment.service";
 import {AuthService} from "../../services/auth.service";
 import {EditProfilePage} from "../profile/edit-profile/edit-profile";
@@ -16,7 +15,7 @@ export class WalletPage {
     paymentHistory: any;
     noTransaction = true;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private popoverCtrl: PopoverController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController) {
     }
 
     ionViewWillEnter() {
@@ -54,13 +53,6 @@ export class WalletPage {
             }
         });
         modal.present();
-    }
-
-    walletOptions(e) {
-        let popover = this.popoverCtrl.create(WalletOptionsPage);
-        popover.present({
-            ev: e
-        });
     }
 
     checkProfileComplete() {
