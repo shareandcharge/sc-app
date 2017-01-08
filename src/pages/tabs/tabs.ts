@@ -1,16 +1,14 @@
 import {Component, ViewChild} from '@angular/core';
 import {ModalController, Tabs} from 'ionic-angular';
-
 import {MapPage} from '../map/map';
 import {AboutPage} from '../about/about';
-import {CarFormPage} from '../car/form/car-form';
 import {WalletPage} from '../wallet/wallet';
-import {MyCarsPage} from '../car/my-cars/my-cars';
 import {DashboardPage} from '../dashboard/dashboard';
 import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
 import {MyStationsPage} from "../station/my-stations/my-stations";
 import {StationWrapperPage} from "../station/station-wrapper";
+import {SignupPage} from "../signup/signup";
 
 
 @Component({
@@ -31,8 +29,16 @@ export class TabsPage {
     constructor(public modalCtrl: ModalController, public auth: AuthService) {
     }
 
+    signupModal(data?) {
+        this.displayModal(SignupPage, data);
+    }
+
     loginModal(data?) {
-        let modal = this.modalCtrl.create(LoginPage, data);
+        this.displayModal(LoginPage, data);
+    }
+
+    displayModal(page, data) {
+        let modal = this.modalCtrl.create(page, data);
 
         /**
          * This tab switching is a workaround to refresh the map view after login.
@@ -44,12 +50,6 @@ export class TabsPage {
         modal.onWillDismiss(() => {
             this.tabRef.select(selectedTab);
         });
-    }
-
-    addCarModal() {
-        let modal = this.modalCtrl.create(CarFormPage);
-        modal.present();
-
     }
 
     addStationModal() {
@@ -64,10 +64,5 @@ export class TabsPage {
                 'mode' : 'modal'
             });
         }
-    }
-
-    myCarsModal() {
-        let modal = this.modalCtrl.create(MyCarsPage);
-        modal.present();
     }
 }
