@@ -10,6 +10,7 @@ rating {
     display: inline-block !important;
     li {
       padding: 0 1px 0 !important;
+      display: inline-block !important;
     }
     color: map_get($colors, secondary);
   }

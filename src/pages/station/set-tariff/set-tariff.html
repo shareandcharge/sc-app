@@ -27,7 +27,7 @@
             <ion-toggle [(ngModel)]="priceprovider.public.active" color="secondary"></ion-toggle>
         </ion-item>
 
-        <div padding class="background-color-white tariff-box" *ngIf="priceprovider.public.active">
+        <div padding class="content-white tariff-box" *ngIf="priceprovider.public.active">
             <ion-segment color="primary" [(ngModel)]="priceprovider.public.selected" padding *ngIf="hourlyTariff || kwhTariff">
                 <ion-segment-button value="flatrate" *ngIf="hourlyTariff || kwhTariff">
                     Flatrate
@@ -233,7 +233,7 @@
             <ion-toggle [(ngModel)]="priceprovider.private.active" color="secondary"></ion-toggle>
         </ion-item>
 
-        <div padding class="background-color-white tariff-box" *ngIf="priceprovider.private.active">
+        <div padding class="content-white tariff-box" *ngIf="priceprovider.private.active">
             <ion-list no-lines>
                 <ion-item class="lines-inner-bottom" (click)="addPermission()">
                     Familie & Freunde ({{priceprovider.private.permissions.length}})

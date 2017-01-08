@@ -99,15 +99,22 @@
 </ion-content>
 
 <ion-footer>
+    <charging-progress-bar></charging-progress-bar>
     <ion-toolbar color="light">
         <ion-grid>
             <ion-row>
                 <ion-col center>
-                    <strong *ngIf="minPrice == maxPrice">{{maxPrice}} €/kWH</strong><br>
-                    <strong *ngIf="minPrice != maxPrice">{{minPrice}} - {{maxPrice}} €/kWH</strong><br>
-                    <span *ngIf="averageRating != -1">
+                    <div class="footer-price">
+                        <strong *ngIf="minPrice == maxPrice">
+                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWH
+                        </strong>
+                        <strong *ngIf="minPrice != maxPrice">
+                            {{(minPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWH - {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWH
+                        </strong>
+                    </div>
+                    <div *ngIf="averageRating != -1" class="footer-rating">
                         <rating [(ngModel)]="averageRating" readonly="true"></rating>
-                    </span>
+                    </div>
                 </ion-col>
                 <ion-col text-right>
                     <button ion-button round color="primary" text-uppercase (click)="charge()">

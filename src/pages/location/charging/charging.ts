@@ -5,6 +5,7 @@ import {Connector} from "../../../models/connector";
 import {LocationService} from "../../../services/location.service";
 import {Location} from "../../../models/location";
 import {CarService} from "../../../services/car.service";
+import {Car} from "../../../models/car";
 
 @Component({
     selector: 'page-charging',
@@ -30,6 +31,8 @@ export class ChargingPage {
     canvasY: any;
     charging: boolean;
 
+    activeCar: Car;
+
     constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
         this.connector = this.location.stations[0].connectors[0];
@@ -43,8 +46,12 @@ export class ChargingPage {
         this.charging = this.chargingService.isCharging();
     }
 
-    ionViewDidLeave(){
+    ionViewDidLeave() {
         clearInterval(this.myCounter);
+    }
+
+    ionViewWillEnter() {
+        this.activeCar = this.carService.getActiveCar();
     }
 
     ionViewDidLoad() {
@@ -99,7 +106,7 @@ export class ChargingPage {
 
         let ctx: CanvasRenderingContext2D = c.getContext("2d");
         ctx.clearRect(0, 0, c.width, c.height);
-        console.log("clearing the canvas" ,  c.width, c.height);
+        console.log("clearing the canvas", c.width, c.height);
         this.drawSlideBar(this.canvasX + 1, 10);
     }
 
@@ -136,8 +143,8 @@ export class ChargingPage {
         }
 
         this.locationService.getPrice(this.connector.id, {
-            'timeToLoad' : this.chargingTime,
-            'wattPower' : this.carService.getActiveCar().maxCharging
+            'timeToLoad': this.chargingTime,
+            'wattPower': this.carService.getActiveCar().maxCharging
         }).subscribe((response) => {
             this.chargingPrice = response.min
         });
@@ -189,12 +196,7 @@ export class ChargingPage {
 
         let time = Math.floor((((8 * 60 * 60) + 100) * deg) / 360);
 
-        if (time > 600) {
-            this.buttonDeactive = false;
-        }
-        else {
-            this.buttonDeactive = true;
-        }
+        this.buttonDeactive = time <= 600;
 
         this.hours = Math.floor(time / 3600);
         this.minutes = Math.floor(Math.floor((time % 3600 ) / 60) / 10) * 10;
@@ -210,9 +212,9 @@ export class ChargingPage {
         ctx.fillStyle = '#006EF1';
         ctx.lineCap = 'square';
         ctx.beginPath();
-        ctx.font = "35px Arial";
+        ctx.font = "48px Arial";
         this.chargingTimeHours = this.chargingTimeHours.substring(0, 5);
-        ctx.fillText(this.chargingTimeHours, 95, c.height / 2 + 10);
+        ctx.fillText(this.chargingTimeHours, 81, c.height / 2 + 16);
 
 
         ctx.strokeStyle = gradient;
@@ -253,17 +255,17 @@ export class ChargingPage {
     countDown() {
         if (this.chargingProgress > 0) {
             let alert = this.alertCtrl.create({
-                title: 'Stop Charging Confirmation',
-                message: 'Are you sure you want to stop?',
+                title: 'Ladevorgang stoppen',
+                message: 'Bist Du sicher, dass Du den Ladevorgang jetzt stoppen möchtest?',
                 buttons: [
                     {
-                        text: 'No',
+                        text: 'Abbrechen',
                         role: 'cancel',
                         handler: () => {
                         }
                     },
                     {
-                        text: 'Yes',
+                        text: 'Ja, jetzt stoppen',
                         handler: () => {
                             let chargedTime = this.chargingService.chargedTime();
                             this.chargingService.stopCharging();
@@ -322,42 +324,43 @@ export class ChargingPage {
 
     updateCanvas() {
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
-        if (c != null) {
-            let ctx: CanvasRenderingContext2D = c.getContext("2d");
-            ctx.clearRect(0, 0, c.width, c.height);
+        if (!c) return;
 
-            ctx.lineWidth = 26;
-            ctx.strokeStyle = '#E6F0FD';
-            ctx.beginPath();
-            ctx.arc(this.canvasX, this.canvasY, 110, 0, 2 * Math.PI);
-            ctx.stroke();
+        let ctx: CanvasRenderingContext2D = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
 
-            let gradientLightened = ctx.createLinearGradient(0, 0, 360, 0);
-            gradientLightened.addColorStop(0, '#C4C7DE');
-            gradientLightened.addColorStop(1, '#D5DDF7');
+        ctx.lineWidth = 26;
+        ctx.strokeStyle = '#E6F0FD';
+        ctx.beginPath();
+        ctx.arc(this.canvasX, this.canvasY, 110, 0, 2 * Math.PI);
+        ctx.stroke();
 
-            let gradient = ctx.createLinearGradient(0, 0, 360, 0);
-            gradient.addColorStop(0, '#A46EF1');
-            gradient.addColorStop(1, '#006EF1');
+        let gradientLightened = ctx.createLinearGradient(0, 0, 360, 0);
+        gradientLightened.addColorStop(0, '#C4C7DE');
+        gradientLightened.addColorStop(1, '#D5DDF7');
 
-            ctx.strokeStyle = gradientLightened;
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(this.canvasX, this.canvasY, 97, 0, 2 * Math.PI);
-            ctx.stroke();
+        let gradient = ctx.createLinearGradient(0, 0, 360, 0);
+        gradient.addColorStop(0, '#A46EF1');
+        gradient.addColorStop(1, '#006EF1');
 
-            ctx.fillStyle = '#006EF1';
-            ctx.lineCap = 'square';
-            ctx.beginPath();
-            ctx.font = "30px Arial";
-            let fullCircle = 2 * Math.PI;
-            let progress = ((fullCircle * this.timer) / (8 * 3600)) - (Math.PI / 2);
+        ctx.strokeStyle = gradientLightened;
+        ctx.lineWidth = 9;
+        ctx.beginPath();
+        ctx.arc(this.canvasX, this.canvasY, 97, 0, 2 * Math.PI);
+        ctx.stroke();
 
-            ctx.strokeStyle = gradient;
-            ctx.beginPath();
-            ctx.arc(this.canvasX, this.canvasY, 97, 1.5 * Math.PI, progress);
-            ctx.stroke();
-        }
+        ctx.fillStyle = '#006EF1';
+        ctx.lineCap = 'square';
+        ctx.beginPath();
+        ctx.font = "30px Arial";
+        let fullCircle = 2 * Math.PI;
+        let progress = ((fullCircle * this.timer) / (8 * 3600)) - (Math.PI / 2);
+
+        ctx.strokeStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(this.canvasX, this.canvasY, 97, 1.5 * Math.PI, progress);
+        ctx.stroke();
+
     }
 
     dismiss() {

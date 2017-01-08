@@ -1,23 +1,38 @@
 page-charging-complete {
-    .top-container {
-        $_top: lighten(map_get($colors, secondary), 0);
-        $_bottom: lighten(map_get($colors, primary), 30);
+  .top-container {
+    @include sc-gradient-light();
 
-        background-color: $_top;
-        background-image: linear-gradient(45deg, $_top, $_bottom);
+    color: #fff;
+    margin-bottom: 32px;
 
-        color: #fff;
+    .image-button {
+      $_button_size: 130px;
+      width: $_button_size;
+      height: $_button_size;
+      display: block;
+      overflow: hidden;
+      margin: 20px auto 15px auto;
+      padding: 16px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2) no-repeat center center;
+      background-size: cover;
+      color: inherit;
+      font-size: 1.6rem;
+      line-height: 2rem;
 
-        margin-bottom: 16px;
-
-        width: 100%;
-        height: 200px;
-
-        ion-segment {
-            position: absolute;
-            left: 32px;
-            right: 32px;
-            width: auto;
-        }
+      &.filled {
+        border: 2px solid #fff;
+      }
     }
+
+    .info-text {
+      font-size: 2rem;
+      margin: 10px 0 20px;
+      ion-icon {
+        font-size: 5rem;
+        position: relative;
+        top: 14px;
+      }
+    }
+  }
 }
