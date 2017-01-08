@@ -4,13 +4,14 @@ import {
     ModalController,
     NavParams,
     ActionSheetController,
-    Platform, LoadingController, Events, AlertController
+    Platform, LoadingController, Events
 } from 'ionic-angular';
 import {CarManufacturerPage} from './manufacturer/car-manufacturer';
 import {Camera} from 'ionic-native';
 import {CarService} from "../../../services/car.service";
 import {Car} from '../../../models/car';
 import {ConfigService} from "../../../services/config.service";
+import {ErrorService} from "../../../services/error.service";
 
 @Component({
     selector: 'page-add-car',
@@ -25,7 +26,7 @@ export class CarFormPage {
     plugOptions: any;
     errorMessages: any;
 
-    constructor(private configService: ConfigService, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private alertCtrl: AlertController) {
+    constructor(private configService: ConfigService, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -120,7 +121,7 @@ export class CarFormPage {
                             this.events.publish('cars:updated');
                             me.navCtrl.parent.pop();
                         },
-                        error => this.displayError(<any>error, 'Auto aktualisieren'));
+                        error => this.errorService.displayErrorWithKey(error, 'Auto aktualisieren'));
             }
             else {
                 this.carService.createCar(this.car)
@@ -130,7 +131,7 @@ export class CarFormPage {
                             this.events.publish('cars:updated');
                             me.navCtrl.parent.pop();
                         },
-                        error => this.displayError(<any>error, 'Auto anlegen')
+                        error => this.errorService.displayErrorWithKey(error, 'Auto anlegen')
                     );
             }
         }
@@ -143,34 +144,24 @@ export class CarFormPage {
 
         if (!this.car.plateNumber) {
             hasError = true;
-            this.errorMessages.plateNumber = 'Bitte geben Sie eine Kennzeichen ein';
+            this.errorMessages.plateNumber = 'Bitte gib das Kennzeichen an.';
         }
 
         if (!this.car.accuCapacity) {
             hasError = true;
-            this.errorMessages.capacity = 'Bitte geben Sie eine Batteriekapazität ein';
+            this.errorMessages.capacity = 'Bitte gib die Batteriekapazität an.';
         }
 
         if (!this.car.maxCharging) {
             hasError = true;
-            this.errorMessages.maxCharging = 'Bitte geben Sie eine Max. Stromstärke ein';
+            this.errorMessages.maxCharging = 'Bitte gib die maximale Stromstärke an.';
         }
 
         if (this.car.plugTypes.length == 0) {
             hasError = true;
-            this.errorMessages.plugType = 'Bitte geben Sie einen Steckertyp ein';
+            this.errorMessages.plugType = 'Bitte gib den Steckertyp an.';
         }
 
         return !hasError
-    }
-
-    displayError(message: any, subtitle?: string) {
-        let alert = this.alertCtrl.create({
-            title: 'Fehler',
-            subTitle: subtitle,
-            message: message,
-            buttons: ['Schließen']
-        });
-        alert.present();
     }
 }

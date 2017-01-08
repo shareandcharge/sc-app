@@ -11,6 +11,7 @@ import {
 import {LocationService} from "../../../services/location.service";
 import {AuthService} from "../../../services/auth.service";
 import {StationWrapperPage} from "../station-wrapper";
+import {ErrorService} from "../../../services/error.service";
 
 
 @Component({
@@ -23,7 +24,7 @@ export class MyStationsPage {
 
     stations: Array<Location>;
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController, public locationService: LocationService, public modalCtrl: ModalController, private events: Events) {
+    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController, public locationService: LocationService, public modalCtrl: ModalController, private events: Events, private errorService: ErrorService) {
         this.events.subscribe('locations:updated', () => this.loadStations());
     }
 
@@ -56,7 +57,7 @@ export class MyStationsPage {
                             .finally(() => loader.dismissAll())
                             .subscribe(
                                 () => this.events.publish('locations:updated' , station),
-                                error => this.displayError(<any>error, 'Station löschen')
+                                error => this.errorService.displayErrorWithKey(error, 'Station löschen')
                             )
                     }
                 }
@@ -97,15 +98,4 @@ export class MyStationsPage {
             refresher.complete();
         }, 1000);
     }
-
-    displayError(message: any, subtitle?: string) {
-        let alert = this.alertCtrl.create({
-            title: 'Fehler',
-            subTitle: subtitle,
-            message: message,
-            buttons: ['Schließen']
-        });
-        alert.present();
-    }
-
 }

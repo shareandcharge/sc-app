@@ -7,9 +7,17 @@ export abstract class AbstractApiService {
 
     handleError(error: Response | any) {
         let errMsg: string;
+        error = error || 'Unbekannter Fehler';
+
         if (error instanceof Response) {
-            const body = error.json() || '';
-            errMsg = body.key || JSON.stringify(body);
+            let body;
+            try {
+                body = error.json();
+            }
+            catch (e) {
+                body = error.text();
+            }
+            errMsg = body.key || body.message || JSON.stringify(body);
         } else {
             errMsg = error.message ? error.message : error.toString();
         }

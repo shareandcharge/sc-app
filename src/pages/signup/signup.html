@@ -17,7 +17,7 @@
             <ion-col>
                 <h1 text-center>Willkommen bei Share&Charge</h1>
 
-                <div *ngIf="error" class="alert-box alert-box-danger" margin>{{ error }}</div>
+                <div *ngIf="error" class="alert-box alert-box-danger" margin>{{ error | translate}}</div>
 
                 <form (ngSubmit)="signUp()">
                     <div padding="">

@@ -4,6 +4,7 @@ import {ProfilePage} from '../../profile/profile'
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
 import {NotificationsPage} from "../../notifications/notifications";
+import {ErrorService} from "../../../services/error.service";
 
 @Component({
     selector: 'page-account-settings',
@@ -11,7 +12,7 @@ import {NotificationsPage} from "../../notifications/notifications";
 })
 export class AccountSettingsPage {
 
-    constructor(private navCtrl: NavController, private authService: AuthService, private userService: UserService, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
+    constructor(private navCtrl: NavController, private authService: AuthService, private userService: UserService, private alertCtrl: AlertController, private loadingCtrl: LoadingController, private errorService: ErrorService) {
     }
 
 
@@ -42,7 +43,7 @@ export class AccountSettingsPage {
                                         this.navCtrl.parent.select(0);
                                     });
                                 },
-                                error => this.displayError(<any>error, 'Profil löschen')
+                                error => this.errorService.displayErrorWithKey(error, 'Profil löschen')
                             )
                         ;
                     }
@@ -59,15 +60,5 @@ export class AccountSettingsPage {
 
     notifications() {
         this.navCtrl.push(NotificationsPage);
-    }
-
-    displayError(message: any, subtitle?: string) {
-        let alert = this.alertCtrl.create({
-            title: 'Fehler',
-            subTitle: subtitle,
-            message: message,
-            buttons: ['Schließen']
-        });
-        alert.present();
     }
 }

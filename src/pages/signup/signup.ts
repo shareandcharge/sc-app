@@ -37,6 +37,12 @@ export class SignupPage {
 
     signUp() {
         this.error = '';
+
+        if ('' === this.signUpObject.email || '' === this.signUpObject.authentification.password) {
+            this.error = 'Bitte gib Deine E-Mail Adresse und ein Passwort an.';
+            return false;
+        }
+
         if (!this.termsAccept) {
             this.error = "Du musst den AGBs zustimmen.";
             return false;
@@ -48,7 +54,7 @@ export class SignupPage {
         loader.present();
 
         this.userService.createUser(this.signUpObject).subscribe(
-            (success) => {
+            () => {
                 loader.dismissAll();
                 this.viewCtrl.dismiss();
             },
@@ -58,17 +64,4 @@ export class SignupPage {
             }
         );
     }
-
-    loginFacebook() {
-        console.log("Login Facebook");
-    }
-
-    loginGoogle() {
-        console.log("Login Google");
-    }
-
-    loginMicrosoft() {
-        console.log("Login Microsoft");
-    }
-
 }

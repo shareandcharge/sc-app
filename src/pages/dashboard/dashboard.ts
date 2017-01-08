@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController, Platform, AlertController, Events} from 'ionic-angular';
+import {NavController, ActionSheetController, Platform, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AccountSettingsPage} from './account-settings/account-settings';
@@ -7,6 +7,7 @@ import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {HelpPage} from "../help/help";
+import {ErrorService} from "../../services/error.service";
 
 
 @Component({
@@ -18,7 +19,7 @@ export class DashboardPage {
     email: any;
     user: User;
 
-    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public auth: AuthService, public platform: Platform, public userService: UserService, public alertCtrl: AlertController, public events: Events) {
+    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public auth: AuthService, public platform: Platform, public userService: UserService, public events: Events, private errorService: ErrorService) {
         this.events.subscribe('users:updated', () => this.loadUser());
         this.loadUser()
     }
@@ -99,17 +100,6 @@ export class DashboardPage {
                 () => {
                     this.events.publish('users:updated');
                 },
-                error => this.displayError(<any>error, 'Benutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
     }
-
-    displayError(message: any, subtitle?: string) {
-        let alert = this.alertCtrl.create({
-            title: 'Fehler',
-            subTitle: subtitle,
-            message: message,
-            buttons: ['Schließen']
-        });
-        alert.present();
-    }
-
 }

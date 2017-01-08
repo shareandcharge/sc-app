@@ -32,13 +32,20 @@ export class LoginPage {
     }
 
     submitForm() {
+        this.error = '';
+
+        if ('' === this.credentials.email || '' === this.credentials.password) {
+            this.error = 'Bitte gib Deine E-Mail Adresse und Dein Passwort ein.';
+            return false;
+        }
+
         let loader = this.loadingCtrl.create({
             content: "Login ...",
         });
         loader.present();
 
         this.userService.login(this.credentials.email, this.credentials.password).subscribe(
-            (success) => {
+            () => {
                 loader.dismissAll();
                 this.viewCtrl.dismiss();
 
@@ -57,18 +64,6 @@ export class LoginPage {
                 this.error = error;
                 loader.dismissAll();
             });
-    }
-
-    loginFacebook() {
-        console.log("Login Facebook");
-    }
-
-    loginGoogle() {
-        console.log("Login Google");
-    }
-
-    loginMicrosoft() {
-        console.log("Login Microsoft");
     }
 
     logout() {

@@ -3,6 +3,7 @@ import {NavController, ModalController, AlertController, LoadingController, Even
 import {CarService} from "../../../services/car.service";
 import {Car} from "../../../models/car";
 import {CarWrapperPage} from "../car-wrapper";
+import {ErrorService} from "../../../services/error.service";
 
 
 @Component({
@@ -13,13 +14,10 @@ import {CarWrapperPage} from "../car-wrapper";
 export class MyCarsPage {
     cars: Car[];
 
-    constructor(public navCtrl: NavController, private carService: CarService, public modalCtrl: ModalController, private alertCtrl: AlertController, private loadingCtrl: LoadingController, public events: Events) {
+    constructor(public navCtrl: NavController, private carService: CarService, public modalCtrl: ModalController, private alertCtrl: AlertController, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService) {
         //-- if we add/edit a car (from the modal wrapper)
         this.events.subscribe('cars:updated', () => this.getCars());
     }
-
-    ngOnInit() {
-    };
 
     ionViewWillEnter() {
         this.getCars();
@@ -30,7 +28,7 @@ export class MyCarsPage {
         let observable = this.carService.getCars();
         observable.subscribe(
             cars => this.cars = cars,
-            error => this.displayError(<any>error, 'Liste - Meine Autos')
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos')
         );
 
         return observable;
@@ -71,7 +69,7 @@ export class MyCarsPage {
                             .finally(() => loader.dismissAll())
                             .subscribe(
                                 () => this.events.publish('cars:updated'),
-                                error => this.displayError(<any>error, 'Auto löschen')
+                                error => this.errorService.displayErrorWithKey(error, 'Auto löschen')
                             )
                         ;
                     }
@@ -84,15 +82,5 @@ export class MyCarsPage {
 
     doRefresh(refresher) {
         this.getCars().subscribe(() => refresher.complete());
-    }
-
-    displayError(message: any, subtitle?: string) {
-        let alert = this.alertCtrl.create({
-            title: 'Fehler',
-            subTitle: subtitle,
-            message: message,
-            buttons: ['Schließen']
-        });
-        alert.present();
     }
 }

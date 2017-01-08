@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController, Platform, AlertController, Events} from 'ionic-angular';
+import {NavController, ActionSheetController, Platform, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {EditEmailPage} from "./edit-email/edit-email";
 import {EditProfilePage} from "./edit-profile/edit-profile";
+import {ErrorService} from "../../services/error.service";
 
 
 @Component({
@@ -15,7 +16,7 @@ import {EditProfilePage} from "./edit-profile/edit-profile";
 export class ProfilePage {
     user: User;
 
-    constructor(public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events) {
+    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events, private errorService: ErrorService) {
         this.events.subscribe('users:updated', () => this.loadUser());
         this.loadUser()
     }
@@ -76,7 +77,7 @@ export class ProfilePage {
                     this.authService.setUser(this.user);
                     this.events.publish('users:updated');
                 },
-                error => this.displayError(<any>error, 'Benutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
     }
 
     editEmail() {
@@ -89,15 +90,5 @@ export class ProfilePage {
         this.navCtrl.push(EditProfilePage, {
             'user': this.user
         });
-    }
-
-    displayError(message: any, subtitle?: string) {
-        let alert = this.alertCtrl.create({
-            title: 'Fehler',
-            subTitle: subtitle,
-            message: message,
-            buttons: ['Schließen']
-        });
-        alert.present();
     }
 }
