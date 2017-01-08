@@ -1,6 +1,11 @@
+import {AuthHttp, AuthConfig} from 'angular2-jwt';
+import {Http} from '@angular/http';
+import {Storage} from '@ionic/storage';
 import {NgModule, LOCALE_ID} from '@angular/core';
 import {IonicApp, IonicModule} from 'ionic-angular';
 import {MyApp} from './app.component';
+
+import {IntroPage} from "../pages/intro/intro";
 import {AboutPage} from '../pages/about/about';
 import {SignupPage} from '../pages/signup/signup';
 import {TermsPage} from '../pages/signup/terms';
@@ -24,15 +29,8 @@ import {AddMoneyPage} from '../pages/wallet/add/add-money';
 import {DashboardPage} from '../pages/dashboard/dashboard';
 import {HelpPage} from '../pages/help/help';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
-import {Ionic2RatingModule} from 'ionic2-rating';
-import {AuthHttp, AuthConfig} from 'angular2-jwt';
-import {Http} from '@angular/http';
-import {Storage} from '@ionic/storage';
-import {AuthService} from "../services/auth.service";
-import {CarService} from "../services/car.service";
-import {LocationService} from "../services/location.service";
-import {UserService} from "../services/user.service";
-import {RatingService} from "../services/rating.service";
+import {EditProfilePage} from "../pages/profile/edit-profile/edit-profile";
+import {PaymentProviderScreenPage} from "../pages/wallet/add/payment-provider-screen/payment-provider-screen";
 import {ProfilePage} from '../pages/profile/profile';
 import {NotificationsPage} from '../pages/notifications/notifications';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
@@ -45,14 +43,22 @@ import {AddRatingPage} from "../pages/rating/add-rating";
 import {StationWrapperPage} from "../pages/station/station-wrapper";
 import {ChargingPage} from "../pages/location/charging/charging";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
-import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
-import {IntroPage} from "../pages/intro/intro";
-import {PaymentService} from "../services/payment.service";
+
 import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
+import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
+
+import {Ionic2RatingModule} from 'ionic2-rating';
+import {TranslateModule} from 'ng2-translate/ng2-translate';
+import {TranslateLoader, TranslateStaticLoader} from "ng2-translate";
+
+import {AuthService} from "../services/auth.service";
+import {CarService} from "../services/car.service";
+import {LocationService} from "../services/location.service";
+import {UserService} from "../services/user.service";
+import {RatingService} from "../services/rating.service";
+import {PaymentService} from "../services/payment.service";
 import {ChargingService} from "../services/charging.service";
 import {ConfigService} from "../services/config.service";
-import {EditProfilePage} from "../pages/profile/edit-profile/edit-profile";
-import {PaymentProviderScreenPage} from "../pages/wallet/add/payment-provider-screen/payment-provider-screen";
 
 
 let storage = new Storage();
@@ -67,6 +73,10 @@ export function getAuthHttp(http) {
             return token;
         })),
     }), http);
+}
+
+export function createTranslateLoader(http: Http) {
+    return new TranslateStaticLoader(http, 'assets/i18n', '.json');
 }
 
 @NgModule({
@@ -118,7 +128,12 @@ export function getAuthHttp(http) {
                 backButtonText: 'Zurück',
             }, {}
         ),
-        Ionic2RatingModule
+        Ionic2RatingModule,
+        TranslateModule.forRoot({
+            provide: TranslateLoader,
+            useFactory: (createTranslateLoader),
+            deps: [Http]
+        })
     ],
     bootstrap: [IonicApp],
     entryComponents: [

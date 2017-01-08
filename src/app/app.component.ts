@@ -8,6 +8,7 @@ import {AuthService} from "../services/auth.service";
 import {UserService} from "../services/user.service";
 import {ChargingService} from "../services/charging.service";
 import {IntroPage} from '../pages/intro/intro';
+import {TranslateService} from "ng2-translate";
 
 
 @Component({
@@ -17,12 +18,15 @@ export class MyApp {
     rootPage: any = TabsPage;
     loader: any;
 
-    constructor(platform: Platform, private authService: AuthService, private userService: UserService, private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController, public storage: Storage) {
+    constructor(platform: Platform, private authService: AuthService, private userService: UserService, private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController, public storage: Storage, private translateService: TranslateService) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             StatusBar.styleDefault();
             Splashscreen.hide();
+
+            translateService.setDefaultLang("de");
+            translateService.use("de");
 
             this.checkExistingToken();
             this.checkChargingProgress();
