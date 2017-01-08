@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
-import {NavController, ModalController, PopoverController, AlertController} from 'ionic-angular';
+import {NavController, ModalController, AlertController} from 'ionic-angular';
 import {AddMoneyPage} from './add/add-money';
-import {WalletOptionsPage} from './options/wallet-options';
 import {PaymentService} from "../../services/payment.service";
 import {AuthService} from "../../services/auth.service";
 import {EditProfilePage} from "../profile/edit-profile/edit-profile";
@@ -14,48 +13,14 @@ export class WalletPage {
 
     currentBalance: any;
     paymentHistory: any;
-    hasMoney = false;
     noTransaction = true;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private popoverCtrl: PopoverController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController) {
-        this.currentBalance = "32,00";
-
-        if (typeof this.currentBalance != 'undefined') {
-            this.hasMoney = true;
-        }
-
-        this.getHistory();
-        this.getBalance();
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController) {
     }
 
     ionViewWillEnter() {
-        let currentUser = this.authService.getUser();
-        let userProfile = currentUser.profile;
-
-        if (userProfile.firstname === '' ||
-            userProfile.lastname === '' ||
-            userProfile.address === '' ||
-            userProfile.country === '' ||
-            userProfile.postalCode === '' ||
-            userProfile.city === '') {
-
-            let alert = this.alertCtrl.create({
-                title: 'Daten unvollständig',
-                message: 'Um auf dein Wallet zugreifen zu können musst du zunächst dein Profil vervollständigen',
-                buttons: [
-                    {
-                        text: 'Ok',
-                        handler : () => {
-                            this.navCtrl.push(EditProfilePage, {
-                                'user' : currentUser
-                            });
-                        }
-                    }
-                ]
-            });
-
-            alert.present();
-        }
+        this.getHistory();
+        this.getBalance();
     }
 
     getHistory() {
@@ -77,10 +42,11 @@ export class WalletPage {
     }
 
     addMoney() {
-        console.log("form the money");
+        if (!this.checkProfileComplete()) return;
+
         let modal = this.modalCtrl.create(AddMoneyPage);
         modal.onDidDismiss(data => {
-            if(parseFloat(data)){
+            if (parseFloat(data)) {
                 let balance;
                 balance = parseFloat(this.currentBalance) + parseFloat(data);
                 this.currentBalance = balance;
@@ -89,15 +55,37 @@ export class WalletPage {
         modal.present();
     }
 
-    deleteTransaction(tr) {
-        console.log("delete ", tr);
+    checkProfileComplete() {
+        if (this.profileComplete()) return true;
+
+        let alert = this.alertCtrl.create({
+            title: 'Daten unvollständig',
+            message: 'Um Zahlungsvorgänge durchführen zu können musst Du zunächst Dein Profil vervollständigen.',
+            buttons: [
+                {
+                    text: 'Ok',
+                    handler: () => {
+                        this.navCtrl.push(EditProfilePage, {
+                            'user': this.authService.getUser()
+                        });
+                    }
+                }
+            ]
+        });
+
+        alert.present();
+
+        return false;
     }
 
-    walletOptions(e) {
+    profileComplete() {
+        let userProfile = this.authService.getUser().profile;
 
-        let popover = this.popoverCtrl.create(WalletOptionsPage);
-        popover.present({
-            ev: e
-        });
+        return !(userProfile.firstname === '' ||
+        userProfile.lastname === '' ||
+        userProfile.address === '' ||
+        userProfile.country === '' ||
+        userProfile.postalCode === '' ||
+        userProfile.city === '');
     }
 }

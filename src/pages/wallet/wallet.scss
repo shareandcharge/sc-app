@@ -1,3 +1,44 @@
 page-wallet {
+  .top-container {
+    @include sc-gradient-light();
 
+    color: #fff;
+
+    h2 {
+      font-size: 3.8rem;
+      padding-top: 35px;
+      margin-bottom: 5px;
+    }
+
+    h3 {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+    }
+  }
+
+  h1 {
+    margin: 0;
+    padding: 10px 0;
+    font-size: 1.6rem;
+    text-align: center;
+    color: map_get($colors, primary);
+    background-color: #fff;
+    border-bottom: 2px solid #ddd;
+  }
+
+  .number-negative:before, .number-positive:before {
+    position: relative;
+    top: -1px;
+    font-weight: bold;
+  }
+
+  .number-negative:before {
+    color: #eb1b61;
+    content: '-';
+  }
+
+  .number-positive:before {
+    color: #24d2b0;
+    content: '+';
+  }
 }

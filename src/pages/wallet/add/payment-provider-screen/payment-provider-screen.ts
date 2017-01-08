@@ -1,4 +1,4 @@
-import {NavParams} from "ionic-angular";
+import {NavParams, ViewController} from "ionic-angular";
 import {Component} from "@angular/core";
 import {DomSanitizer} from "@angular/platform-browser";
 
@@ -9,7 +9,11 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class PaymentProviderScreenPage {
     pspUrl: any;
 
-    constructor(private navParams: NavParams, private sanitizer: DomSanitizer) {
+    constructor(private navParams: NavParams, private sanitizer: DomSanitizer, private viewCtrl: ViewController) {
         this.pspUrl = sanitizer.bypassSecurityTrustResourceUrl(this.navParams.get('pspUrl'));
+    }
+
+    dismiss() {
+        this.viewCtrl.dismiss();
     }
 }
