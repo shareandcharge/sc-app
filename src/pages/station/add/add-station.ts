@@ -293,11 +293,15 @@ export class AddStationPage {
     positionMarker(lat, lng, panTo = true) {
         let latLng = new google.maps.LatLng(lat, lng);
 
+        let image = 'marker-available.png';
+        let icon = `assets/icons/${image}`;
+
         if (null == this.marker) {
             this.marker = new google.maps.Marker({
                 draggable: true,
                 position: latLng,
-                map: this.map
+                map: this.map,
+                icon: icon
             });
         }
         else {

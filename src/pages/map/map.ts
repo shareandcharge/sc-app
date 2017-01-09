@@ -20,7 +20,6 @@ import {Location} from "../../models/location";
 import {ChargingService} from '../../services/charging.service';
 
 
-
 declare var google;
 
 @Component({
@@ -41,7 +40,7 @@ export class MapPage {
     defaultCenterLng = 13.2860649;
     defaultZoom = 8;
     currentPositionZoom = 16;
-    currentPositionMarker:any;
+    currentPositionMarker: any;
 
     locationMarkers: Array<any>;
 
@@ -57,9 +56,9 @@ export class MapPage {
     activeCarSrc: string;
 
     toggledPlugs: Array<number>;
-    chargingProgress:number;
+    chargingProgress: number;
 
-    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events , private chargingService: ChargingService) {
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -71,7 +70,7 @@ export class MapPage {
 
         this.toggledPlugs = [];
         this.chargingProgress = this.chargingService.getChargingProgress();
-        console.log("charging progress is" , this.chargingProgress);
+        console.log("charging progress is", this.chargingProgress);
 
         //-- whenever the cars change or user loggs in, refresh the infos we need for the "switch car button"
         this.events.subscribe('cars:updated', () => this.refreshCarInfo());
@@ -229,10 +228,11 @@ export class MapPage {
     }
 
     addMarker(location: Location) {
-        let icon = location.isRented() ? 'marker-busy.png' : 'marker-available.png';
+        let image = location.isRented() ? 'marker-busy.png' : 'marker-available.png';
+        let icon = `assets/icons/${image}`;
         let marker = new google.maps.Marker({
             map: this.map,
-            icon: `assets/icons/${icon}`,
+            icon: icon,
             animation: google.maps.Animation.DROP,
             position: new google.maps.LatLng(location.lat, location.lng)
         });
@@ -296,7 +296,7 @@ export class MapPage {
         this.toggledPlugs = this.toggledPlugs.map((i) => +i);
 
         let filter = this.modalCtrl.create(MapFilterPage, {
-            'toggledPlugs' : this.toggledPlugs
+            'toggledPlugs': this.toggledPlugs
         });
         filter.present();
 

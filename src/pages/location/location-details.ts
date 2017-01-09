@@ -114,17 +114,15 @@ export class LocationDetailPage {
         this.getLocationDetail();
     }
 
-    ionViewDidLoad() {
-    }
-
     dismiss() {
         this.viewCtrl.dismiss();
     }
 
     detailedMap() {
-        this.navCtrl.push(MapDetailPage, {
+        let modal = this.modalCtrl.create(MapDetailPage, {
             "location": this.location
         });
+        modal.present();
     }
 
     feedback() {
@@ -271,12 +269,14 @@ export class LocationDetailPage {
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
+        let image = this.location.isRented() ? 'marker-busy.png' : 'marker-available.png';
+        let icon = `assets/icons/${image}`;
+
         let marker = new google.maps.Marker({
             position: new google.maps.LatLng(this.location.lat, this.location.lng),
-            map: this.map
+            map: this.map,
+            icon: icon
         });
-
-        console.log(marker);
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
             // loader.dismissAll();

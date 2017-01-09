@@ -1,6 +1,10 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, ModalController, LoadingController, PopoverController , NavParams} from 'ionic-angular';
+import {
+    NavController, LoadingController, NavParams,
+    ViewController
+} from 'ionic-angular';
 import {Platform} from 'ionic-angular';
+import {Location} from "../../../models/location";
 
 
 declare var google;
@@ -19,23 +23,17 @@ export class MapDetailPage {
 
     @ViewChild('map') mapElement: ElementRef;
     map: any;
-    placesService: any;
     private platform;
-    location:any;
-    mapDefaultControlls:boolean;
+    location: Location;
+    mapDefaultControlls: boolean;
 
     defaultZoom = 16;
 
-    constructor(public popoverCtrl: PopoverController, platform: Platform,private navParams: NavParams ,public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+    constructor(private viewCtrl: ViewController, platform: Platform, private navParams: NavParams, public navCtrl: NavController, private loadingCtrl: LoadingController) {
         this.platform = platform;
 
-        if(this.platform.is("core")){
-            this.mapDefaultControlls = false;
-        }
-        else{
-            this.mapDefaultControlls = true;
-        }
-        
+        this.mapDefaultControlls = !this.platform.is("core");
+
         this.location = navParams.get("location");
         this.address = {
             place: ''
@@ -46,25 +44,27 @@ export class MapDetailPage {
 
     initializeApp() {
         this.platform.ready().then(() => {
-            console.log('Platform ready');
             this.loadMap();
 
         });
     }
 
-    ionViewLoaded(){
+    ionViewLoaded() {
         this.loadMap();
     }
 
-    loadMap(){
+    dismiss() {
+        this.viewCtrl.dismiss();
+    }
 
-        console.log("loading the map");
+    loadMap() {
+
         let loader = this.loadingCtrl.create({
             content: "Lade Karte ...",
         });
         loader.present();
 
-        let latLng = new google.maps.LatLng(this.location.latitude, this.location.longitude);
+        let latLng = new google.maps.LatLng(this.location.lat, this.location.lng);
 
         let mapOptions = {
             center: latLng,
@@ -77,12 +77,14 @@ export class MapDetailPage {
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-        let marker = new google.maps.Marker({
-            position: new google.maps.LatLng(this.location.latitude, this.location.longitude),
-            map: this.map
-        });
+        let image = this.location.isRented() ? 'marker-busy.png' : 'marker-available.png';
+        let icon = `assets/icons/${image}`;
 
-        console.log(marker);
+        new google.maps.Marker({
+            position: new google.maps.LatLng(this.location.lat, this.location.lng),
+            map: this.map,
+            icon: icon
+        });
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
             loader.dismissAll();
