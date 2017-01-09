@@ -44,6 +44,8 @@ export class ChargingPage {
         this.canvasY = 140;
         this.chargingProgress = this.chargingService.getChargingProgress();
         this.charging = this.chargingService.isCharging();
+
+        console.log("connector Id is", this.connector.id);
     }
 
     ionViewDidLeave() {
@@ -106,7 +108,6 @@ export class ChargingPage {
 
         let ctx: CanvasRenderingContext2D = c.getContext("2d");
         ctx.clearRect(0, 0, c.width, c.height);
-        console.log("clearing the canvas", c.width, c.height);
         this.drawSlideBar(this.canvasX + 1, 10);
     }
 
@@ -118,7 +119,6 @@ export class ChargingPage {
         let timerString = this.hours + ':' + this.minutes + ':' + this.seconds;
         this.chargingTimeHours = timerString;
     }
-
 
     circleRange_mouseDown() {
         this.mouseDragging = true;
@@ -268,8 +268,11 @@ export class ChargingPage {
                         text: 'Ja, jetzt stoppen',
                         handler: () => {
                             let chargedTime = this.chargingService.chargedTime();
-                            this.chargingService.stopCharging();
-                            console.log("charged time is", chargedTime);
+
+                            //this.chargingService.stopCharging(this.connector.id);
+                            this.chargingService.stopCharging(this.connector.id).subscribe((response) => {
+                            });
+
                             this.chargingProgress = 0;
                             let chargedTimeString = this.makeTimeString(chargedTime);
                             this.countingDown = false;
@@ -295,7 +298,12 @@ export class ChargingPage {
             this.chargingTimeHours = this.chargingTimeHours + ":00";
             let me = this;
             me.timer = (this.hours * 3600) + (this.minutes * 60);
-            me.chargingService.startCharging(me.timer);
+            //me.chargingService.startCharging(me.timer);
+
+            //calling Start Charge and the api Call from service
+            me.chargingService.startCharging(me.connector.id, me.timer, me.activeCar.maxCharging).subscribe((response) => {
+            });
+
             me.chargingProgress = me.chargingService.getChargingProgress();
             me.selectedChargingTime = me.timer;
             me.myCounter = setInterval(() => {
