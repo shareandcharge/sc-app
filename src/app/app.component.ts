@@ -29,7 +29,7 @@ export class MyApp {
             translateService.use("de");
 
             this.checkExistingToken();
-            this.checkChargingProgress();
+
 
             this.storage.get('introShown').then((result) => {
 
@@ -40,7 +40,7 @@ export class MyApp {
                     this.storage.set('introShown', true);
                 }
 
-                // this.loader.dismiss();
+                this.loader.dismiss();
             });
 
             StatusBar.styleDefault();
@@ -107,17 +107,18 @@ export class MyApp {
 
     presentLoading() {
 
-        // this.loader = this.loadingCtrl.create({
-        //     content: "Authenticating..."
-        // });
-        //
-        // this.loader.present();
+        this.loader = this.loadingCtrl.create({
+            content: "Authenticating..."
+        });
+
+        this.loader.present();
 
     }
 
     refreshUser() {
         this.userService.getUser().subscribe((user) => {
             this.authService.setUser(user);
+            this.checkChargingProgress();
             this.events.publish('user:refreshed');
         });
     }

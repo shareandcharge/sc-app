@@ -4,6 +4,8 @@ import {Events, ToastController} from "ionic-angular";
 import {Storage} from '@ionic/storage';
 import {Badge} from 'ionic-native';
 import {AbstractApiService} from "./abstract.api.service";
+import {Observable} from "rxjs";
+import {AuthService} from "./auth.service";
 
 
 @Injectable()
@@ -18,27 +20,46 @@ export class ChargingService extends AbstractApiService {
     connectorId: any;
     public interval: any;
 
-    constructor(private authHttp: AuthHttp, private events: Events, private storage: Storage, private toastCtrl: ToastController) {
+    constructor(private authHttp: AuthHttp, private events: Events, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
         super();
     }
 
     checkChargingState() {
         console.log("checking charge state..");
-        this.storage.get("isCharging").then(charging => {
-            if (!charging) {
-                Badge.clear();
-                return
-            }
-            ;
-            this.charging = true;
-            this.storage.get("chargingTime").then(chargingTime => {
-                this.chargingTime = chargingTime;
-                this.storage.get("timer").then(timer => {
-                    this.startEventInterval();
-                    this.countDown(timer);
-                });
-            });
-        });
+
+        if (!this.auth.loggedIn()) {
+            return;
+        }
+
+        let user = this.auth.getUser();
+
+        this.getConnectors(user.address).subscribe(() => console.log('(OK)'));
+
+        // this.storage.get("isCharging").then(charging => {
+        //     if (!charging) {
+        //         Badge.clear();
+        //         return
+        //     }
+        //     ;
+        //     this.charging = true;
+        //     this.storage.get("chargingTime").then(chargingTime => {
+        //         this.chargingTime = chargingTime;
+        //         this.storage.get("timer").then(timer => {
+        //             this.startEventInterval();
+        //             this.countDown(timer);
+        //         });
+        //     });
+        // });
+    }
+
+    getConnectors(userAddress: string) {
+        return this.authHttp.get(`${this.baseUrl}/connectors/?controller=${userAddress}`)
+            .map(res => {
+                let ret = res.json();
+                console.log(ret);
+                return ret;
+            })
+            .catch(this.handleError);
     }
 
     getChargingProgress() {

@@ -47,11 +47,14 @@
     "cordova-plugin-app-event",
     {
       "id": "phonegap-plugin-push",
-      "locator": "https://github.com/phonegap/phonegap-plugin-push",
+      "locator": "phonegap-plugin-push",
       "variables": {
         "SENDER_ID": "183711573057"
       }
-    }
+    },
+    "cordova-plugin-camera",
+    "cordova-plugin-compat",
+    "cordova-plugin-contacts"
   ],
   "cordovaPlatforms": [
     "ios",

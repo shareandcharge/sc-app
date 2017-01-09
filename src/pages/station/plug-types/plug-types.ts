@@ -34,7 +34,7 @@ export class PlugTypesPage {
         this.connector = this.locObject.stations[0].connectors[0];
 
         this.flowMode = this.navParams.get("mode");
-        this.wattpowerTemp = this.connector.wattpower / 1000;
+        this.wattpowerTemp = this.connector.maxwattpower / 1000;
 
         this.clearErrorMessages();
     }
@@ -43,7 +43,7 @@ export class PlugTypesPage {
     }
 
     updateWattpower() {
-        this.connector.wattpower = this.wattpowerTemp * 1000;
+        this.connector.maxwattpower = this.wattpowerTemp * 1000;
     }
 
     nextPage() {

@@ -43,14 +43,14 @@
 
         <hr>
 
-        <ion-grid class="nopadding" margin-top>
+        <ion-grid class="nopadding" margin-top *ngIf="connector">
             <ion-row>
                 <ion-col width-50 class="nopadding">
                     <span [innerHtml]="plugSvg" class="plug-icon"></span>
                 </ion-col>
                 <ion-col width-50 text-right>
-                    <span *ngIf="connector.wattpower > 0" class="kw-box">
-                        <strong>{{connector.wattpower / 1000}} kW</strong>
+                    <span *ngIf="connector.maxwattpower > 0" class="kw-box">
+                        <strong>{{connector.maxwattpower / 1000}} kW</strong>
                         <br>max.
                     </span>
                 </ion-col>
