@@ -10,4 +10,8 @@ charging-progress-bar {
     background-color: $bottomLeft;
     background-image: linear-gradient(45deg, $bottomLeft, $topRight);
   }
+
+  ion-header & {
+    border-bottom: $hairlines-width solid $toolbar-ios-border-color;
+  }
 }
