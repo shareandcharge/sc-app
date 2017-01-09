@@ -20,7 +20,7 @@ export class Car implements Serializable<Car> {
         this.averageDistance = '';
         this.plugTypes = [];
         this.imageBase64 = '';
-        this.maxCharging = 0;
+        this.maxCharging = null;
     }
 
     hasImage() {
