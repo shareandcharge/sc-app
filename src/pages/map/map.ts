@@ -124,7 +124,7 @@ export class MapPage {
 
     centerCurrentPosition() {
         let loader = this.loadingCtrl.create({
-            content: "Getting your location ...",
+            content: "Ermittle Deinen Standort ...",
         });
         loader.present();
 

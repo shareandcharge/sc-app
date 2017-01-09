@@ -60,7 +60,7 @@ export class MapDetailPage {
 
         console.log("loading the map");
         let loader = this.loadingCtrl.create({
-            content: "Loading map ...",
+            content: "Lade Karte ...",
         });
         loader.present();
 

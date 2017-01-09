@@ -2,7 +2,7 @@
     <ion-navbar>
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
-                <span color="primary" showWhen="ios">Close</span>
+                <span showWhen="ios">Schließen</span>
                 <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
             </button>
         </ion-buttons>
@@ -12,7 +12,7 @@
 </ion-header>
 <ion-content>
     <ion-list>
-        <ion-list-header>Plug type</ion-list-header>
+        <ion-list-header>Steckertyp</ion-list-header>
         <ion-item *ngFor="let plug of plugTypes">
             <span item-content item-left class="plug" [innerHtml]="skipSanitizer(plug.svg)"></span>
             <ion-label>{{plug.name}}</ion-label>

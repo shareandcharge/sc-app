@@ -94,7 +94,6 @@ export class MyStationsPage {
     doRefresh(refresher) {
         this.loadStations();
         setTimeout(() => {
-            console.log('Async operation has ended');
             refresher.complete();
         }, 1000);
     }
