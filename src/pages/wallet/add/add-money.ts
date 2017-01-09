@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, ModalController} from 'ionic-angular';
-import {AuthService} from "../../../services/auth.service";
 import {PaymentService} from "../../../services/payment.service";
 import {PaymentProviderScreenPage} from "./payment-provider-screen/payment-provider-screen";
 
@@ -13,17 +12,15 @@ export class AddMoneyPage {
 
     payInObject: any;
 
-    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private authService: AuthService, private paymentService: PaymentService, private modalCtrl: ModalController) {
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService, private modalCtrl: ModalController) {
         this.payInObject = {
             'type': 'cc',
             'amount': 0,
             'details': {
-                'success_url': 'http://www.delodi.net'
+                'success_url': 'https://api-test.shareandcharge.com/v1/wallet/feedback/success.html',
+                'error_url': 'https://api-test.shareandcharge.com/v1/wallet/feedback/error.html'
             }
         }
-    }
-
-    ionViewWillEnter() {
     }
 
     dismiss() {
