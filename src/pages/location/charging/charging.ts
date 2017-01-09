@@ -35,6 +35,16 @@ export class ChargingPage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
+        console.log("LOCATION IS ", this.location.stations[0].connectors[0]);
+
+        /*if(this.location.stations[0].connectors[0].priceprovider.private.active){
+            console.log(this.location.stations[0].connectors[0].priceprovider.private.selected);
+        }
+
+        if(this.location.stations[0].connectors[0].priceprovider.public.active){
+            console.log(this.location.stations[0].connectors[0].priceprovider.public.selected);
+        }*/
+
         this.connector = this.location.stations[0].connectors[0];
         this.chargingTime = 0;
         this.chargingPrice = 0;
@@ -44,8 +54,6 @@ export class ChargingPage {
         this.canvasY = 140;
         this.chargingProgress = this.chargingService.getChargingProgress();
         this.charging = this.chargingService.isCharging();
-
-        console.log("connector Id is", this.connector.id);
     }
 
     ionViewDidLeave() {
