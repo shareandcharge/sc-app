@@ -29,7 +29,7 @@ export class MyApp {
             translateService.use("de");
 
             this.checkExistingToken();
-            this.checkChargingProgress();
+
 
             this.storage.get('introShown').then((result) => {
 
@@ -68,6 +68,7 @@ export class MyApp {
     refreshUser() {
         this.userService.getUser().subscribe((user) => {
             this.authService.setUser(user);
+            this.checkChargingProgress();
             this.events.publish('user:refreshed');
         });
     }
