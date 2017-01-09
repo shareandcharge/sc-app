@@ -2,7 +2,7 @@ export class Connector {
     id: any;
     priceprovider: any;
     plugtype: string;
-    wattpower: number;
+    maxwattpower: number;
 
     isRented: boolean;  // is called "isrented" in the backend
 
@@ -87,7 +87,7 @@ export class Connector {
 
         this.id = '';
         this.plugtype = '';
-        this.wattpower = 0;
+        this.maxwattpower = 0;
         this.isRented = false;
 
         this.metadata = {
@@ -265,7 +265,7 @@ export class Connector {
         this.metadata = input.metadata;
 
         this.plugtype = input.plugtype;
-        this.wattpower = input.wattpower;
+        this.maxwattpower = input.maxwattpower;
         this.isRented = !!input.isrented; // cast to boolean
 
         return this;
