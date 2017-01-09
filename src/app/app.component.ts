@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Platform, Events, LoadingController} from 'ionic-angular';
-import {StatusBar, Splashscreen} from 'ionic-native';
+import {StatusBar, Splashscreen, Push} from 'ionic-native';
 import {Storage} from '@ionic/storage';
 
 import {TabsPage} from '../pages/tabs/tabs';
@@ -41,6 +41,54 @@ export class MyApp {
                 }
 
                 this.loader.dismiss();
+            });
+
+            StatusBar.styleDefault();
+            let push = Push.init({
+                android: {
+                    senderID: "183711573057"
+                },
+                ios: {
+                    alert: "true",
+                    badge: true,
+                    sound: "false"
+                },
+                windows: {}
+            });
+            push.on('registration', (data) => {
+                console.log(data.registrationId);
+                alert(data.registrationId.toString());
+            });
+            push.on('notification', (data) => {
+                console.log('message', data.message);
+                let self = this;
+                //if user using app and push notification comes
+                if (data.additionalData.foreground) {
+                    alert('New Notif: ' + data.message);
+                    // if application open, show popup
+                    // let confirmAlert = this.alertCtrl.create({
+                    //     title: 'New Notification',
+                    //     message: data.message,
+                    //     buttons: [{
+                    //         text: 'Ignore',
+                    //         role: 'cancel'
+                    //     }, {
+                    //         text: 'View',
+                    //         handler: () => {
+                    //             //TODO: Your logic here
+                    //             // self.nav.push(DetailsPage, {message: data.message});
+                    //         }
+                    //     }]
+                    // });
+                    // confirmAlert.present();
+                } else {
+                    //if user NOT using app and push notification comes
+                    //TODO: Your logic on click of push notification directly
+                    // self.nav.push(DetailsPage, {message: data.message});
+                    console.log("Push notification clicked");
+                }
+            });            push.on('error', (e) => {
+                console.log(e.message);
             });
         });
         this.presentLoading();

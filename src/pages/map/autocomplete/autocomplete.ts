@@ -1,4 +1,4 @@
-import {Component, NgZone, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ViewController, Searchbar} from 'ionic-angular';
 
 declare var google: any;

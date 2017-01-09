@@ -272,7 +272,7 @@ export class LocationDetailPage {
         let image = this.location.isRented() ? 'marker-busy.png' : 'marker-available.png';
         let icon = `assets/icons/${image}`;
 
-        let marker = new google.maps.Marker({
+        new google.maps.Marker({
             position: new google.maps.LatLng(this.location.lat, this.location.lng),
             map: this.map,
             icon: icon
