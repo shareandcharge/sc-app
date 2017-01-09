@@ -53,7 +53,7 @@ export class MyCarsPage {
 
         let alert = this.alertCtrl.create({
             title: 'Löschen bestätigen',
-            message: 'Möchten Sie dieses Auto wirklich löschen?',
+            message: 'Möchtest Du dieses Auto wirklich löschen?',
             buttons: [
                 {
                     text: 'Abbrechen',

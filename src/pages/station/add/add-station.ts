@@ -409,11 +409,11 @@ export class AddStationPage {
         this.clearErrorMessages();
         if (!this.locObject.address) {
             hasError = true;
-            this.errorMessages.address = 'Bitte geben Sie eine Adresse ein';
+            this.errorMessages.address = 'Bitte gib eine Adresse ein.';
         }
         if (!this.isOpeningHoursSelected()) {
             hasError = true;
-            this.errorMessages.openingHours = 'Bitte wählen Sie die Öffnungszeiten';
+            this.errorMessages.openingHours = 'Bitte wähle die Öffnungszeiten.';
         }
         return !hasError;
     }

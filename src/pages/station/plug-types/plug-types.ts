@@ -94,12 +94,12 @@ export class PlugTypesPage {
         this.clearErrorMessages();
         if (this.connector.plugtype.length == 0) {
             hasError = true;
-            this.errorMessages.plugType = 'Bitte wählen Sie einen Steckertyp';
+            this.errorMessages.plugType = 'Bitte wähle den Steckertyp.';
         }
         if (!this.wattpowerTemp) {
             hasError = true;
 
-            this.errorMessages.capacity = 'Bitte wählen Sie eine Leistung';
+            this.errorMessages.capacity = 'Bitte wähle die Leistung.';
         }
         return !hasError;
     }

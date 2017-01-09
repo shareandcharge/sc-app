@@ -41,7 +41,7 @@ export class MyStationsPage {
     deleteStation(station, itemSliding: ItemSliding) {
         let alert = this.alertCtrl.create({
             title: 'Löschen bestätigen',
-            message: 'Möchten Sie diese Station wirklich löschen?',
+            message: 'Möchtest Du diese Station wirklich löschen?',
             buttons: [
                 {
                     text: 'Abbrechen',

@@ -105,7 +105,7 @@ export class AddStationImagePage {
     deleteImg(img, itemSliding: ItemSliding) {
         let alert = this.alertCtrl.create({
             title: 'Löschen bestätigen',
-            message: 'Möchten Sie dieses Foto wirklich löschen?',
+            message: 'Möchtest Du dieses Foto wirklich löschen?',
             buttons: [
                 {
                     text: 'Abbrechen',
