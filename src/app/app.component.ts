@@ -40,7 +40,7 @@ export class MyApp {
                     this.storage.set('introShown', true);
                 }
 
-                // this.loader.dismiss();
+                this.loader.dismiss();
             });
 
             StatusBar.styleDefault();
@@ -107,11 +107,11 @@ export class MyApp {
 
     presentLoading() {
 
-        // this.loader = this.loadingCtrl.create({
-        //     content: "Authenticating..."
-        // });
-        //
-        // this.loader.present();
+        this.loader = this.loadingCtrl.create({
+            content: "Authenticating..."
+        });
+
+        this.loader.present();
 
     }
 

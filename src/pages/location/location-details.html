@@ -43,7 +43,7 @@
 
         <hr>
 
-        <ion-grid class="nopadding" margin-top>
+        <ion-grid class="nopadding" margin-top *ngIf="connector">
             <ion-row>
                 <ion-col width-50 class="nopadding">
                     <span [innerHtml]="plugSvg" class="plug-icon"></span>
