@@ -17,11 +17,14 @@ import {ErrorService} from "../../services/error.service";
 export class DashboardPage {
 
     email: any;
-    user: User;
+    user: User = new User();
 
     constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public auth: AuthService, public platform: Platform, public userService: UserService, public events: Events, private errorService: ErrorService) {
         this.events.subscribe('users:updated', () => this.loadUser());
-        this.loadUser()
+    }
+
+    ionViewWillEnter() {
+        this.loadUser();
     }
 
     loadUser() {

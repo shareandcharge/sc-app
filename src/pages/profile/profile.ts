@@ -14,11 +14,14 @@ import {ErrorService} from "../../services/error.service";
     templateUrl: 'profile.html'
 })
 export class ProfilePage {
-    user: User;
+    user: User = new User();
 
     constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events, private errorService: ErrorService) {
         this.events.subscribe('users:updated', () => this.loadUser());
-        this.loadUser()
+    }
+
+    ionViewWillEnter() {
+        this.loadUser();
     }
 
     loadUser() {
