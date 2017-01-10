@@ -4,7 +4,6 @@ import {Events, ToastController} from "ionic-angular";
 import {Storage} from '@ionic/storage';
 import {Badge} from 'ionic-native';
 import {AbstractApiService} from "./abstract.api.service";
-import {Observable} from "rxjs";
 import {AuthService} from "./auth.service";
 
 

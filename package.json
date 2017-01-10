@@ -54,7 +54,10 @@
     },
     "cordova-plugin-camera",
     "cordova-plugin-compat",
-    "cordova-plugin-contacts"
+    "cordova-plugin-contacts",
+    "cordova-plugin-geolocation",
+    "uk.co.workingedge.phonegap.plugin.launchnavigator",
+    "cordova-plugin-actionsheet"
   ],
   "cordovaPlatforms": [
     "ios",
