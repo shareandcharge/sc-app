@@ -15,9 +15,9 @@
 <ion-content padding class="content-white">
     <ion-fab top right #fabCar *ngIf="activeCar">
         <button ion-fab class="fab-image">
-            <div class="image-wrapper">
+            <span class="image-wrapper">
                 <img [ngStyle]="{'background-image':'url(' + activeCar.displayImageSrc + ')'}">
-            </div>
+            </span>
         </button>
     </ion-fab>
 

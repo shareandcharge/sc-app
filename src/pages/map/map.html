@@ -24,17 +24,19 @@
 
     <ion-fab top right *ngIf="hasCars()" #fabCar>
         <button ion-fab class="fab-image">
-            <div class="image-wrapper">
+            <span class="image-wrapper">
                 <img [ngStyle]="{'background-image':'url(' + activeCar.displayImageSrc + ')'}">
-            </div>
+            </span>
         </button>
         <ion-fab-list side="bottom">
             <button ion-fab *ngFor="let car of cars" class="fab-image" (click)="setActiveCar(car, fabCar)">
-                <div class="image-wrapper">
+                <span class="image-wrapper">
                     <img [ngStyle]="{'background-image':'url(' + car.displayImageSrc + ')'}">
-                </div>
+                </span>
             </button>
-            <button ion-fab (click)="gotoMyCars(fabCar)"><ion-icon name="ios-car"></ion-icon></button>
+            <button ion-fab (click)="gotoMyCars(fabCar)">
+                <ion-icon name="ios-car"></ion-icon>
+            </button>
         </ion-fab-list>
     </ion-fab>
 

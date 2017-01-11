@@ -2,7 +2,7 @@
     <ion-navbar>
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
-                <span color="primary" showWhen="ios">Schließen</span>
+                <span showWhen="ios">Schließen</span>
                 <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
             </button>
         </ion-buttons>
@@ -84,10 +84,8 @@
         <h6>Bewertungen:</h6>
 
         <div *ngFor="let rating of ratings">
-            <p>
-                <rating [(ngModel)]="rating.rating" readonly="true"></rating>
-                {{rating.remark}}
-            </p>
+            <rating [(ngModel)]="rating.rating" readonly="true"></rating>
+            {{rating.remark}}
             <hr>
         </div>
 
