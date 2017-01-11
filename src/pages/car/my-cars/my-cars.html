@@ -4,7 +4,7 @@
         <ion-title>Meine Elektroautos</ion-title>
         <ion-buttons end>
             <button ion-button (click)="addCar()">
-                <ion-icon name="add"></ion-icon>
+                <ion-icon name="md-add"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
@@ -33,5 +33,8 @@
         </ion-item-sliding>
     </ion-list>
 
+    <div padding text-center *ngIf="!cars || !cars.length">
+        <button ion-button text-uppercase round (click)="addCar()">Elektroauto hinzufügen</button>
+    </div>
 
 </ion-content>
