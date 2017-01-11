@@ -12,7 +12,7 @@ import {LocationService} from "../../../services/location.service";
 import {AuthService} from "../../../services/auth.service";
 import {StationWrapperPage} from "../station-wrapper";
 import {ErrorService} from "../../../services/error.service";
-
+import {Location} from "../../../models/location";
 
 @Component({
     selector: 'page-my-stations',

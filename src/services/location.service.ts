@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import {Location} from "../models/location";
 import {AuthHttp} from "angular2-jwt";
 import {AbstractApiService} from "./abstract.api.service";
+import {RequestOptions, URLSearchParams} from "@angular/http";
 
 @Injectable()
 export class LocationService extends AbstractApiService {
@@ -15,10 +16,19 @@ export class LocationService extends AbstractApiService {
         super();
     }
 
-    getLocations(): Observable<Array<Location>> {
-        return this.authHttp.get(this.baseUrl + '/locations')
+    getLocations(params?): Observable<Array<Location>> {
+        let options;
+
+        let searchParams: URLSearchParams = new URLSearchParams();
+        searchParams.set('limit', '9999999');
+
+        if (params) {
+            Object.keys(params).forEach(key => searchParams.set(key, params[key]));
+        }
+        options = new RequestOptions({search: searchParams});
+
+        return this.authHttp.get(this.baseUrl + '/locations', options)
             .map(res => {
-                console.log(res);
                 let locations = [];
                 res.json().forEach(input => {
                     locations.push(new Location().deserialize(input));
@@ -31,28 +41,12 @@ export class LocationService extends AbstractApiService {
     /**
      * @TODO should have an endpoint or parameter; not read _all_ locations
      */
-    getLocationsUser(userAddress: string) {
-        return this.getLocations().map(res => {
-            let locations = [];
-            res.forEach(location => {
-                if (location.owner == userAddress) {
-                    locations.push(location);
-                }
-            });
-            return locations;
-        });
+    getLocationsUser(userAddress: string): Observable<Array<Location>> {
+        return this.getLocations({owner: userAddress, limit: 100});
     }
 
     getLocationsPlugTypes(plugTypes: string) {
-        return this.authHttp.get(this.baseUrl + '/locations?plugType=' + plugTypes)
-            .map(res => {
-                let locations = [];
-                res.json().forEach(input => {
-                    locations.push(new Location().deserialize(input));
-                });
-                return locations;
-            })
-            .catch(this.handleError);
+        return this.getLocations({plugType: plugTypes});
     }
 
     searchLocations(bounds?: any) {
