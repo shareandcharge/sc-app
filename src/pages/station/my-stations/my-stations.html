@@ -3,7 +3,7 @@
         <ion-title>Meine Ladestationen</ion-title>
         <ion-buttons end>
             <button ion-button (click)="addStation()">
-                <ion-icon name="add"></ion-icon>
+                <ion-icon name="md-add"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
@@ -32,5 +32,9 @@
 
         </ion-item-sliding>
     </ion-list>
+
+    <div padding text-center *ngIf="!stations || !stations.length">
+        <button ion-button text-uppercase round (click)="addStation()">Ladestation hinzufügen</button>
+    </div>
 
 </ion-content>

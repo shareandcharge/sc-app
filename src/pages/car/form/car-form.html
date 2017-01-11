@@ -3,9 +3,10 @@
     <ion-navbar>
         <ion-title *ngIf="mode!='edit'">Elektroauto hinzufügen</ion-title>
         <ion-title *ngIf="mode=='edit'">Elektroauto bearbeiten</ion-title>
-        <ion-buttons start>
-            <button ion-button (click)="skipAddingCar()">
-                Abbrechen
+
+        <ion-buttons end>
+            <button ion-button icon-only="" (click)="skipAddingCar()">
+                <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
