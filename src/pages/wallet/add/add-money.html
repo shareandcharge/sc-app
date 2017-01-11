@@ -4,8 +4,7 @@
 
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
-                <span showWhen="ios">Schließen</span>
-                <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+                <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
 
@@ -30,7 +29,7 @@
 
     <div class="input-box input-box-white input-box-xl margin-bottom-xl">
         <div class="input-box-inner">
-            <ion-input type="number" [(ngModel)]="displayAmount" placeholder="0,00"></ion-input>
+            <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="0,00"></ion-input>
             <label>€</label>
         </div>
     </div>

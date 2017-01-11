@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, ViewController, ModalController} from 'ionic-angular';
 import {PaymentService} from "../../../services/payment.service";
 import {PaymentProviderScreenPage} from "./payment-provider-screen/payment-provider-screen";
+import {ErrorService} from "../../../services/error.service";
 
 @Component({
     selector: 'page-add-money',
@@ -12,7 +13,7 @@ export class AddMoneyPage {
 
     payInObject: any;
 
-    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService, private modalCtrl: ModalController) {
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService, private modalCtrl: ModalController, private errorService: ErrorService) {
         this.payInObject = {
             'type': 'cc',
             'amount': 0,
@@ -30,13 +31,16 @@ export class AddMoneyPage {
     addMoney() {
         this.payInObject.amount = this.displayAmount * 100;
 
-        this.paymentService.payIn(this.payInObject).subscribe((response) => {
-            if (response.client_action === 'redirect') {
-                this.showExternalPaymentScreen(response.action_data.url).then(() => {
-                    this.dismiss();
-                });
-            }
-        });
+        this.paymentService.payIn(this.payInObject).subscribe(
+            (response) => {
+                if (response.client_action === 'redirect') {
+                    this.showExternalPaymentScreen(response.action_data.url).then(() => {
+                        this.dismiss();
+                    });
+                }
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Konto aufladen')
+        );
     }
 
     showExternalPaymentScreen(redirectUrl) {

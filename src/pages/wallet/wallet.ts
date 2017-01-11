@@ -79,13 +79,6 @@ export class WalletPage {
     }
 
     profileComplete() {
-        let userProfile = this.authService.getUser().profile;
-
-        return !(userProfile.firstname === '' ||
-        userProfile.lastname === '' ||
-        userProfile.address === '' ||
-        userProfile.country === '' ||
-        userProfile.postalCode === '' ||
-        userProfile.city === '');
+        return this.authService.getUser().isProfileComplete();
     }
 }

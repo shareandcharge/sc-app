@@ -19,20 +19,23 @@ export class EditProfilePage {
     constructor(private userService: UserService, private navParams: NavParams, public navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder, private events: Events, private errorService: ErrorService) {
         this.user = navParams.get('user');
 
+        let profile = this.user.profile;
+
+        if (!profile.country) profile.country = 'de';
+
         this.editAddress = this.formBuilder.group({
-            firstname: this.user.profile.firstname,
-            lastname: this.user.profile.lastname,
-            address: this.user.profile.address,
-            city: this.user.profile.city,
-            country: this.user.profile.country,
-            postalCode: this.user.profile.postalCode
+            firstname: profile.firstname,
+            lastname: profile.lastname,
+            address: profile.address,
+            city: profile.city,
+            country: profile.country,
+            postalCode: profile.postalCode
         });
     }
 
     updateUser() {
         this.user.profile.firstname = this.editAddress.value.firstname;
         this.user.profile.lastname = this.editAddress.value.lastname;
-        this.user.profile.address = this.editAddress.value.address;
         this.user.profile.address = this.editAddress.value.address;
         this.user.profile.city = this.editAddress.value.city;
         this.user.profile.country = this.editAddress.value.country;
