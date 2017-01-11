@@ -21,25 +21,21 @@
         </button>
     </ion-fab>
 
-    <ion-list class="ion-list-white">
-        <ion-item no-lines>
-            <ion-label>
-                <ion-icon name="cust-bulb" color="secondary"></ion-icon>
-                {{this.location.address}}
-            </ion-label>
-        </ion-item>
-        <ion-item no-lines>
-            <ion-label>
-                <ion-icon name="cust-time-money" color="secondary"></ion-icon>
-                {{priceProviderTitle}}: {{priceProviderRate}}
-            </ion-label>
-        </ion-item>
-    </ion-list>
+        <div class="top-item-text">
+            <ion-icon name="cust-station-pin" color="secondary"></ion-icon>
+            <div class="text">{{this.location.address}}</div>
+        </div>
+        <div class="top-item-text">
+            <ion-icon name="cust-time-money" color="secondary"></ion-icon>
+            <div class="text">{{priceProviderTitle}}: {{priceProviderRate}}</div>
+        </div>
 
     <hr>
 
-    <ion-label text-center *ngIf="countingDown" class="big-header">{{chargingTimeHours}}</ion-label>
-    <p text-center><span  *ngIf="!countingDown"> Voraussichtlicher Preis: </span>{{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}}</p>
+    <div text-center *ngIf="countingDown" class="big-header">{{chargingTimeHours}}</div>
+    <div text-center class="price-label"><span *ngIf="!countingDown"> Voraussichtlicher Preis: </span>{{(chargingPrice /
+        100) | currency:'EUR':true:'1.2-2'}}
+    </div>
 
     <canvas id="circleProgressBar" width="280" height="280"></canvas>
 

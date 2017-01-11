@@ -5,6 +5,7 @@ import {Connector} from "../../../models/connector";
 import {LocationService} from "../../../services/location.service";
 import {Location} from "../../../models/location";
 import {CarService} from "../../../services/car.service";
+import {ErrorService} from "../../../services/error.service";
 import {Car} from "../../../models/car";
 
 @Component({
@@ -32,10 +33,11 @@ export class ChargingPage {
     charging: boolean;
     priceProviderTitle: any;
     priceProviderRate: any;
+    canvasImage: any;
 
     activeCar: Car;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
+    constructor(public navCtrl: NavController, private errorService: ErrorService, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
         console.log("LOCATION IS ", this.location.stations[0].connectors[0]);
 
@@ -57,6 +59,8 @@ export class ChargingPage {
         this.canvasY = 140;
         this.chargingProgress = this.chargingService.getChargingProgress();
         this.charging = this.chargingService.isCharging();
+        this.canvasImage = new Image();
+        this.canvasImage.src = 'assets/icons/battery.png';
     }
 
     getPriceTitle(type, selected) {
@@ -100,6 +104,7 @@ export class ChargingPage {
 
     ionViewWillEnter() {
         this.activeCar = this.carService.getActiveCar();
+        console.log("active car is ", this.activeCar);
     }
 
     ionViewDidLoad() {
@@ -315,9 +320,10 @@ export class ChargingPage {
                         handler: () => {
                             let chargedTime = this.chargingService.chargedTime();
 
-                            //this.chargingService.stopCharging(this.connector.id);
-                            this.chargingService.stopCharging(this.connector.id).subscribe((response) => {
-                            });
+                            this.chargingService.stopCharging(this.connector.id).subscribe(
+                                (response) => {
+                                },
+                                error => this.errorService.displayErrorWithKey(error, 'Charging Stop Error'));
 
                             this.chargingProgress = 0;
                             let chargedTimeString = this.makeTimeString(chargedTime);
@@ -346,9 +352,10 @@ export class ChargingPage {
             me.timer = (this.hours * 3600) + (this.minutes * 60);
             //me.chargingService.startCharging(me.timer);
 
-            //calling Start Charge and the api Call from service
-            me.chargingService.startCharging(me.connector.id, me.timer, me.activeCar.maxCharging).subscribe((response) => {
-            });
+            me.chargingService.startCharging(me.connector.id, me.timer, me.activeCar.maxCharging).subscribe(
+                (response) => {
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Charging Start Error'));
 
             me.chargingProgress = me.chargingService.getChargingProgress();
             me.selectedChargingTime = me.timer;
@@ -383,6 +390,7 @@ export class ChargingPage {
         let ctx: CanvasRenderingContext2D = c.getContext("2d");
         ctx.clearRect(0, 0, c.width, c.height);
 
+        ctx.drawImage(this.canvasImage, 110, 85);
         ctx.lineWidth = 26;
         ctx.strokeStyle = '#E6F0FD';
         ctx.beginPath();

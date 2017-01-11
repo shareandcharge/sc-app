@@ -5,7 +5,33 @@ page-charging {
         display: block;
     }
     .big-header{
-        font-size: 50px;
+        font-size: 56px;
         color: map_get($colors, primary);
+    }
+
+    .price-label{
+        margin-top: 10px;
+        color: rgb(153,153,153);
+        font-size: 18px;
+    }
+
+    .top-item-text{
+        margin-right: 50px;
+        display: flex;
+        font-size: larger;
+        padding-bottom: 10px;
+        .text{
+            padding-top: 25px;
+            white-space: normal;
+        }
+    }
+
+    ion-icon {
+        font-size: 6rem;
+        position: relative;
+    }
+
+    hr{
+        width: 90%;
     }
 }

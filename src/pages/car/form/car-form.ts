@@ -13,6 +13,7 @@ import {Car} from '../../../models/car';
 import {ConfigService} from "../../../services/config.service";
 import {ErrorService} from "../../../services/error.service";
 
+
 @Component({
     selector: 'page-add-car',
     templateUrl: 'car-form.html',
