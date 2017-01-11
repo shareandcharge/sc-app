@@ -38,8 +38,8 @@
 
     <hr>
 
-    <ion-label text-center>{{chargingTimeHours}}</ion-label>
-    <p text-center>Voraussichtlicher Preis: {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}}</p>
+    <ion-label text-center *ngIf="countingDown" class="big-header">{{chargingTimeHours}}</ion-label>
+    <p text-center><span  *ngIf="!countingDown"> Voraussichtlicher Preis: </span>{{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}}</p>
 
     <canvas id="circleProgressBar" width="280" height="280"></canvas>
 
