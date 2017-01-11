@@ -98,8 +98,9 @@ export class MapPage {
             this.activeCar = this.carService.getActiveCar();
 
             if (this.activeCar != null) {
-                let plugTypes = this.activeCar.plugTypes;
-                this.loadLocationsForPlugTypes(plugTypes);
+                //-- deactivate auto filter for plugtypes for now; too irritating when not so many poles.
+                // let plugTypes = this.activeCar.plugTypes;
+                // this.loadLocationsForPlugTypes(plugTypes);
             }
         }, () => {
             this.cars = null;
