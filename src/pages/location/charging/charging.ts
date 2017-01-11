@@ -104,12 +104,10 @@ export class ChargingPage {
 
     ionViewWillEnter() {
         this.activeCar = this.carService.getActiveCar();
-        console.log("active car is ", this.activeCar);
     }
 
     ionViewDidLoad() {
         if (this.charging) {
-            console.log("charging");
             clearInterval(this.myCounter)
             this.myCounter = setInterval(() => {
                 this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
@@ -121,7 +119,6 @@ export class ChargingPage {
         }
 
         else {
-            console.log("NOTTT charging");
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
             document.body.addEventListener("touchstart", function (e) {
@@ -193,12 +190,14 @@ export class ChargingPage {
             self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
         }
 
-        this.locationService.getPrice(this.connector.id, {
-            'timeToLoad': this.chargingTime,
-            'wattPower': this.carService.getActiveCar().maxCharging
-        }).subscribe((response) => {
-            this.chargingPrice = response.min
-        });
+        if(this.activeCar != null){
+            this.locationService.getPrice(this.connector.id, {
+                'timeToLoad': this.chargingTime,
+                'wattPower': this.carService.getActiveCar().maxCharging
+            }).subscribe((response) => {
+                this.chargingPrice = response.min
+            });
+        }
     }
 
     circleRange_mouseMove(self, e) {
@@ -247,8 +246,7 @@ export class ChargingPage {
 
         let time = Math.floor((((8 * 60 * 60) + 100) * deg) / 360);
 
-        this.buttonDeactive = time <= 600;
-
+        this.buttonDeactive = (time <= 600) || (this.activeCar == null);
         this.hours = Math.floor(time / 3600);
         this.minutes = Math.floor(Math.floor((time % 3600 ) / 60) / 10) * 10;
         this.seconds = 0;
@@ -287,6 +285,7 @@ export class ChargingPage {
         ctx.shadowBlur = 0;
 
         this.chargingTime = time;
+
     }
 
     makeTimeString(data) {
@@ -350,7 +349,6 @@ export class ChargingPage {
             this.chargingTimeHours = this.chargingTimeHours + ":00";
             let me = this;
             me.timer = (this.hours * 3600) + (this.minutes * 60);
-            //me.chargingService.startCharging(me.timer);
 
             me.chargingService.startCharging(me.connector.id, me.timer, me.activeCar.maxCharging).subscribe(
                 (response) => {
