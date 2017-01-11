@@ -18,6 +18,7 @@ export abstract class AbstractApiService {
                 body = error.text();
             }
             errMsg = body.key || body.message || JSON.stringify(body);
+            errMsg = "api_error." + errMsg;
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
