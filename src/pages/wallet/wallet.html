@@ -46,7 +46,9 @@
             >
                 {{tr.amount / 100 | currency:'EUR':true:'1.2-2'}}
             </span>
-            <small item-right>({{tr.type}}) {{tr.date | date:'short'}}</small>
+            <small item-right>({{tr.type}})
+                {{ tr.timestamp | date:'short'}}
+            </small>
         </ion-item>
     </ion-list>
 

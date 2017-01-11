@@ -11,7 +11,7 @@ import {EditProfilePage} from "../profile/edit-profile/edit-profile";
 })
 export class WalletPage {
 
-    currentBalance: any;
+    currentBalance: any = 0;
     paymentHistory: any;
     noTransaction = true;
 
