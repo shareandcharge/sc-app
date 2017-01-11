@@ -5,7 +5,7 @@
     "not_allowed_to_change": "[TRANSLATE] not_allowed_to_change",
     "internal_invalid_data": "[TRANSLATE] internal_invalid_data",
     "invalid_payment_data": "[TRANSLATE] invalid_payment_data",
-    "incomplete_user_profile": "[TRANSLATE] incomplete_user_profile",
+    "incomplete_user_profile": "Dein Profil ist nicht vollständig ausgefüllt.",
     "unsupported_paymenttype": "[TRANSLATE] unsupported_paymenttype",
     "unauthorized_status_update": "[TRANSLATE] unauthorized_status_update",
     "security_key_not_found": "[TRANSLATE] security_key_not_found",
