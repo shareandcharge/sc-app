@@ -82,12 +82,13 @@
                     <div class="input-box-inner">
                         <ion-input type="text"
                                    [value]="priceprovider.public.hourly.hourlyRate / 100 | number:'1.2-2'"
-                                   (change)="updatePriceProvider($event, priceprovider.public.hourly, 'hourlyRate')"
+                                   (change)="updatePriceProvider($event, priceprovider.public.hourly, 'hourlyRate', 'publicHourly')"
                                    placeholder="0,00"></ion-input>
                         <label>€/kwH</label>
                     </div>
                 </div>
-                <ion-range min="0" max="100" [(ngModel)]="priceprovider.public.hourly.hourlyRate" pin="false">
+                <ion-range min="0" max="100" [(ngModel)]="priceprovider.public.hourly.hourlyRate" pin="false"
+                           (ionChange)="updateEstimationsDebounce('publicHourly')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>1</ion-label>
                 </ion-range>
@@ -107,14 +108,15 @@
                     <div class="input-box-inner">
                         <ion-input type="text"
                                    [value]="priceprovider.public.hourly.parkRate / 100 | number:'1.2-2'"
-                                   (change)="updatePriceProvider($event, priceprovider.public.hourly, 'parkRate')"
+                                   (change)="updatePriceProvider($event, priceprovider.public.hourly, 'parkRate', 'publicHourly')"
                                    placeholder="0,00"></ion-input>
                         <label>€</label>
                     </div>
                 </div>
-                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.hourly.parkRate" pin="false">
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.hourly.parkRate" pin="false"
+                           (ionChange)="updateEstimationsDebounce('publicHourly')">
                     <ion-label range-left>0</ion-label>
-                    <ion-label range-right>20</ion-label>
+                    <ion-label range-right>20H</ion-label>
                 </ion-range>
 
                 <hr>
@@ -127,14 +129,14 @@
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.publicHourly.small / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                         <ion-col width-33="" class="nopadding" text-center>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.publicHourly.medium / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                         <ion-col width-33="" class="nopadding" text-center>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
@@ -142,7 +144,7 @@
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.publicHourly.big / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -162,12 +164,13 @@
                     <div class="input-box-inner">
                         <ion-input type="text"
                                    [value]="priceprovider.public.kwh.kwhRate / 100 | number:'1.2-2'"
-                                   (change)="updatePriceProvider($event, priceprovider.public.kwh, 'kwhRate')"
+                                   (change)="updatePriceProvider($event, priceprovider.public.kwh, 'kwhRate', 'publicKwh')"
                                    placeholder="0,00"></ion-input>
                         <label>€/kwH</label>
                     </div>
                 </div>
-                <ion-range min="0" max="100" [(ngModel)]="priceprovider.public.kwh.kwhRate" pin="false">
+                <ion-range min="0" max="100" [(ngModel)]="priceprovider.public.kwh.kwhRate" pin="false"
+                           (ionChange)="updateEstimationsDebounce('publicKwh')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>1</ion-label>
                 </ion-range>
@@ -186,12 +189,13 @@
                     <div class="input-box-inner">
                         <ion-input type="text"
                                    [value]="priceprovider.public.kwh.parkRate / 100 | number:'1.2-2'"
-                                   (change)="updatePriceProvider($event, priceprovider.public.kwh, 'parkRate')"
+                                   (change)="updatePriceProvider($event, priceprovider.public.kwh, 'parkRate', 'publicKwh')"
                                    placeholder="0,00"></ion-input>
                         <label>€</label>
                     </div>
                 </div>
-                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.kwh.parkRate" pin="false">
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.kwh.parkRate" pin="false"
+                           (ionChange)="updateEstimationsDebounce('publicKwh')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>20</ion-label>
                 </ion-range>
@@ -206,14 +210,14 @@
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.publicKwh.small / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                         <ion-col width-33="" class="nopadding" text-center>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.publicKwh.medium / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                         <ion-col width-33="" class="nopadding" text-center>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
@@ -221,7 +225,7 @@
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.publicKwh.big / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -293,12 +297,13 @@
                     <div class="input-box-inner">
                         <ion-input type="text"
                                    [value]="priceprovider.private.hourly.hourlyRate / 100 | number:'1.2-2'"
-                                   (change)="updatePriceProvider($event, priceprovider.private.hourly, 'hourlyRate')"
+                                   (change)="updatePriceProvider($event, priceprovider.private.hourly, 'hourlyRate', 'privateHourly')"
                                    placeholder="0,00"></ion-input>
                         <label>€/kwH</label>
                     </div>
                 </div>
-                <ion-range min="0" max="100" [(ngModel)]="priceprovider.private.hourly.hourlyRate" pin="false">
+                <ion-range min="0" max="100" [(ngModel)]="priceprovider.private.hourly.hourlyRate" pin="false"
+                           (ionChange)="updateEstimationsDebounce('privateHourly')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>1</ion-label>
                 </ion-range>
@@ -318,12 +323,13 @@
                     <div class="input-box-inner">
                         <ion-input type="text"
                                    [value]="priceprovider.private.hourly.parkRate / 100 | number:'1.2-2'"
-                                   (change)="updatePriceProvider($event, priceprovider.private.hourly, 'parkRate')"
+                                   (change)="updatePriceProvider($event, priceprovider.private.hourly, 'parkRate', 'privateHourly')"
                                    placeholder="0,00"></ion-input>
                         <label>€</label>
                     </div>
                 </div>
-                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.hourly.parkRate" pin="false">
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.hourly.parkRate" pin="false"
+                           (ionChange)="updateEstimationsDebounce('privateHourly')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>20</ion-label>
                 </ion-range>
@@ -338,14 +344,14 @@
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.privateHourly.small / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                         <ion-col width-33="" class="nopadding" text-center>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.privateHourly.medium / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                         <ion-col width-33="" class="nopadding" text-center>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
@@ -353,11 +359,12 @@
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.privateHourly.big / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                     </ion-row>
                 </ion-grid>
             </div>
+
             <div *ngIf="priceprovider.private.selected == 'kwh'">
                 <ion-grid>
                     <ion-row>
@@ -371,12 +378,13 @@
                     <div class="input-box-inner">
                         <ion-input type="text"
                                    [value]="priceprovider.private.kwh.kwhRate / 100 | number:'1.2-2'"
-                                   (change)="updatePriceProvider($event, priceprovider.private.kwh, 'kwhRate')"
+                                   (change)="updatePriceProvider($event, priceprovider.private.kwh, 'kwhRate', 'privateKwh')"
                                    placeholder="0,00"></ion-input>
                         <label>€/kwH</label>
                     </div>
                 </div>
-                <ion-range min="0" max="100" [(ngModel)]="priceprovider.private.kwh.kwhRate" pin="false">
+                <ion-range min="0" max="100" [(ngModel)]="priceprovider.private.kwh.kwhRate" pin="false"
+                           (ionChange)="updateEstimationsDebounce('privateKwh')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>1</ion-label>
                 </ion-range>
@@ -395,12 +403,13 @@
                     <div class="input-box-inner">
                         <ion-input type="text"
                                    [value]="priceprovider.private.kwh.parkRate / 100 | number:'1.2-2'"
-                                   (change)="updatePriceProvider($event, priceprovider.private.kwh, 'parkRate')"
+                                   (change)="updatePriceProvider($event, priceprovider.private.kwh, 'parkRate', 'privateKwh')"
                                    placeholder="0,00"></ion-input>
                         <label>€</label>
                     </div>
                 </div>
-                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.kwh.parkRate" pin="false">
+                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.kwh.parkRate" pin="false"
+                           (ionChange)="updateEstimationsDebounce('privateKwh')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>20</ion-label>
                 </ion-range>
@@ -415,14 +424,14 @@
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.privateKwh.small / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                         <ion-col width-33="" class="nopadding" text-center>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.privateKwh.medium / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                         <ion-col width-33="" class="nopadding" text-center>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
@@ -430,7 +439,7 @@
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <br>
                             Kapazität<br>
-                            0,00
+                            {{(estimatedPrice.privateKwh.big / 100) | currency:'EUR':true:'1.2-2'}}
                         </ion-col>
                     </ion-row>
                 </ion-grid>
