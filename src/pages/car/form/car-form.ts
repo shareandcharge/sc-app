@@ -34,11 +34,7 @@ export class CarFormPage {
         this.configService.getPlugTypes().subscribe((plugTypes) => {
             this.plugOptions = plugTypes;
         });
-
         this.clearErrorMessages();
-    }
-
-    ionViewDidLoad() {
     }
 
     clearErrorMessages() {
@@ -139,6 +135,8 @@ export class CarFormPage {
     }
 
     validateForm() {
+        console.log(this.car);
+
         let hasError = false;
         this.clearErrorMessages();
         this.segmentTabs = 'custom';
