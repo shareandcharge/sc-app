@@ -104,4 +104,16 @@ export class LocationService extends AbstractApiService {
             .map(res => res.json())
             .catch(this.handleError);
     }
+
+    getEstimatedPrice(pricePerHour, pricePerKW) {
+        let searchParams: URLSearchParams = new URLSearchParams();
+        searchParams.set('pricePerHour', pricePerHour);
+        searchParams.set('pricePerKW', pricePerKW);
+
+        let options = new RequestOptions({search: searchParams});
+
+        return this.authHttp.get(this.baseUrl + '/connectors/price', options)
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
 }

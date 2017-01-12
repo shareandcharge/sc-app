@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {NavController, NavParams, AlertController, ModalController, Events} from 'ionic-angular';
 import {LocationService} from "../../../services/location.service";
 import {AddPermissionsPage} from './add-permissions/add-permissions';
 import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
 import {ErrorService} from "../../../services/error.service";
+import {debounce} from "ionic-angular/util/util";
 
 
 @Component({
@@ -24,7 +25,9 @@ export class SetTariffPage {
     hourlyTariff = false;
     kwhTariff = false;
 
-    displayPriceMap: any;
+    updateEstimationsDebounce;
+
+    estimatedPrice: any;
 
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events, private errorService: ErrorService) {
         this.locObject = this.navParams.get("location");
@@ -47,6 +50,37 @@ export class SetTariffPage {
                 this.hourlyTariff = false;
             }
         }
+
+        // when the user switches between hourly/kwh, make sure we have the correct segment selected (or at least one)
+        if (this.priceprovider.public.selected == 'kwh' && !this.kwhTariff) {
+            this.priceprovider.public.selected = 'hourly';
+        }
+        else if (this.priceprovider.public.selected == 'hourly' && !this.hourlyTariff) {
+            this.priceprovider.public.selected = 'kwh';
+        }
+        if (this.priceprovider.private.selected == 'kwh' && !this.kwhTariff) {
+            this.priceprovider.private.selected = 'hourly';
+        }
+        else if (this.priceprovider.private.selected == 'hourly' && !this.hourlyTariff) {
+            this.priceprovider.private.selected = 'kwh';
+        }
+
+        //-- check at least one ist selected
+        this.estimatedPrice = {
+            publicHourly: {small: 0, medium: 0, big: 0},
+            publicKwh: {small: 0, medium: 0, big: 0},
+            privateHourly: {small: 0, medium: 0, big: 0},
+            privateKwh: {small: 0, medium: 0, big: 0}
+        };
+
+        this.updateEstimationsDebounce = debounce((area) => this.updateEstimations(area), 400);
+    }
+
+    ionViewWillEnter() {
+        this.updateEstimations('publicHourly');
+        this.updateEstimations('publicKwh');
+        this.updateEstimations('privateHourly');
+        this.updateEstimations('privateKwh');
     }
 
     showHelp(type) {
@@ -72,9 +106,47 @@ export class SetTariffPage {
         alert.present();
     }
 
-    updatePriceProvider(from, to, property) {
+    updatePriceProvider(from, to, property, area?) {
         let val = from.target.value.replace(/[^0-9,]/g, '').replace(/,/g, '.');
         to[property] = isNaN(val) ? 0 : Math.round(val * 100);
+
+        if (area) {
+            this.updateEstimationsDebounce(area);
+        }
+    }
+
+    updateEstimations(area) {
+        let pricePerHour, pricePerKW;
+
+        switch (area) {
+            case 'publicHourly':
+                pricePerHour = this.priceprovider.public.hourly.parkRate;
+                pricePerKW = this.priceprovider.public.hourly.hourlyRate;
+                break;
+            case 'publicKwh':
+                pricePerHour = this.priceprovider.public.kwh.parkRate;
+                pricePerKW = this.priceprovider.public.kwh.kwhRate;
+                break;
+            case 'privateHourly':
+                pricePerHour = this.priceprovider.private.hourly.parkRate;
+                pricePerKW = this.priceprovider.private.hourly.hourlyRate;
+                break;
+            case 'privateKwh':
+                pricePerHour = this.priceprovider.private.kwh.parkRate;
+                pricePerKW = this.priceprovider.private.kwh.kwhRate;
+                break;
+        }
+        this.locationService.getEstimatedPrice(pricePerHour, pricePerKW)
+            .subscribe(
+                (res) => {
+                    this.estimatedPrice[area] = {
+                        small: res.small.price,
+                        medium: res.medium.price,
+                        big: res.big.price
+                    }
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Geschätzter Tarif')
+            );
     }
 
     addPermission() {
@@ -84,7 +156,6 @@ export class SetTariffPage {
 
         modal.onDidDismiss(permissions => {
             this.priceprovider.private.permissions = permissions;
-            console.log(this.priceprovider.private.permissions);
         });
 
         modal.present();
