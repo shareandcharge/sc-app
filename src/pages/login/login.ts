@@ -55,6 +55,7 @@ export class LoginPage {
                     if (this.mode === 'page') {
                         this.navCtrl.push(this.destination);
                     } else if (this.mode === 'modal') {
+
                         let modal = this.modalCtrl.create(this.destination);
                         modal.present();
                     }

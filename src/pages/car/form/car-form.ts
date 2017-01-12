@@ -32,8 +32,9 @@ export class CarFormPage {
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
         this.configService.getPlugTypes().subscribe((plugTypes) => {
-            this.plugOptions = plugTypes;
-        });
+                this.plugOptions = plugTypes;
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
         this.clearErrorMessages();
     }
 
@@ -85,7 +86,6 @@ export class CarFormPage {
             quality: 50,
             correctOrientation: true
         }).then((imageData) => {
-            // imageData is a base64 encoded string
             this.car.imageBase64 = "data:image/jpeg;base64," + imageData;
         }, (err) => {
             console.log(err);
