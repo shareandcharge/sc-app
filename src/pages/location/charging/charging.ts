@@ -190,13 +190,14 @@ export class ChargingPage {
             self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
         }
 
-        if(this.activeCar != null){
+        if (this.activeCar != null) {
             this.locationService.getPrice(this.connector.id, {
                 'timeToLoad': this.chargingTime,
                 'wattPower': this.carService.getActiveCar().maxCharging
             }).subscribe((response) => {
-                this.chargingPrice = response.min
-            });
+                    this.chargingPrice = response.min
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
         }
     }
 
@@ -432,5 +433,4 @@ export class ChargingPage {
             "chargedTime": chargedTime
         });
     }
-
 }
