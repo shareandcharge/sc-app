@@ -328,10 +328,7 @@ export class LocationDetailPage {
             chargingModal.present();
         }
         else {
-            this.loginModal({
-                "dest": LocationDetailPage,
-                'mode': 'modal'
-            });
+            this.loginModal();
         }
     }
 }
