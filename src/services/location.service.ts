@@ -80,7 +80,7 @@ export class LocationService extends AbstractApiService {
     }
 
     updateLocation(location: Location) {
-        return this.authHttp.post(`${this.baseUrl}/locations/${location.id}`, location.serialize())
+        return this.authHttp.put(`${this.baseUrl}/locations/${location.id}`, location.serialize())
             .map(res => res.json())
             .catch(this.handleError);
     }

@@ -4,6 +4,7 @@ import {LocationService} from "../../../services/location.service";
 import {AddPermissionsPage} from './add-permissions/add-permissions';
 import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
+import {ErrorService} from "../../../services/error.service";
 
 
 @Component({
@@ -25,7 +26,7 @@ export class SetTariffPage {
 
     displayPriceMap: any;
 
-    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events) {
+    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events, private errorService: ErrorService) {
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
         this.priceprovider = this.connector.priceprovider;
@@ -72,7 +73,8 @@ export class SetTariffPage {
     }
 
     updatePriceProvider(from, to, property) {
-        to[property] = Math.round(from.target.value * 100);
+        let val = from.target.value.replace(/[^0-9,]/g, '').replace(/,/g, '.');
+        to[property] = isNaN(val) ? 0 : Math.round(val * 100);
     }
 
     addPermission() {
@@ -94,15 +96,21 @@ export class SetTariffPage {
             this.connector.priceprovider = this.connector.toBackendPriceProvider(this.priceprovider);
 
             if (this.flowMode == 'add') {
-                this.locationService.createLocation(this.locObject).subscribe(l => {
-                    this.navCtrl.parent.pop();
-                    this.events.publish('locations:updated', l);
-                });
+                this.locationService.createLocation(this.locObject).subscribe(
+                    (location) => {
+                        this.navCtrl.parent.pop();
+                        this.events.publish('locations:updated', location);
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Ladestation hinzufügen')
+                );
             } else {
-                this.locationService.updateLocation(this.locObject).subscribe(l => {
-                    this.navCtrl.parent.pop();
-                    this.events.publish('locations:updated', l);
-                });
+                this.locationService.updateLocation(this.locObject).subscribe(
+                    (location) => {
+                        this.navCtrl.parent.pop();
+                        this.events.publish('locations:updated', location);
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Ladestation bearbeiten')
+                );
             }
         } else {
             let alert = this.alertCtrl.create({

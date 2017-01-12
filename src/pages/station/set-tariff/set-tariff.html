@@ -52,10 +52,13 @@
                 </ion-grid>
                 <div class="input-box">
                     <div class="input-box-inner">
-                        <ion-input type="number"
-                                   [value]="priceprovider.public.flatrate.flatrateRate / 100"
+                        <!-- heads up! if we use type="number" we can't use the number pipe. -->
+                        <!-- type="number" <-> localization => not working (stable) -->
+                        <ion-input type="text"
+                                   [value]="priceprovider.public.flatrate.flatrateRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.public.flatrate, 'flatrateRate')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="0,00"
+                        ></ion-input>
                         <label>€</label>
                     </div>
                 </div>
@@ -78,15 +81,15 @@
                 <div class="input-box">
                     <div class="input-box-inner">
                         <ion-input type="text"
-                                   [value]="priceprovider.public.hourly.hourlyRate / 100"
+                                   [value]="priceprovider.public.hourly.hourlyRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.public.hourly, 'hourlyRate')"
                                    placeholder="0,00"></ion-input>
                         <label>€/kwH</label>
                     </div>
                 </div>
-                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.hourly.hourlyRate" pin="false">
+                <ion-range min="0" max="100" [(ngModel)]="priceprovider.public.hourly.hourlyRate" pin="false">
                     <ion-label range-left>0</ion-label>
-                    <ion-label range-right>20</ion-label>
+                    <ion-label range-right>1</ion-label>
                 </ion-range>
 
                 <hr>
@@ -103,7 +106,7 @@
                 <div class="input-box">
                     <div class="input-box-inner">
                         <ion-input type="text"
-                                   [value]="priceprovider.public.hourly.parkRate / 100"
+                                   [value]="priceprovider.public.hourly.parkRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.public.hourly, 'parkRate')"
                                    placeholder="0,00"></ion-input>
                         <label>€</label>
@@ -116,7 +119,7 @@
 
                 <hr>
 
-                <p>Geschätzter Stündlicher Tarif</p>
+                <p>Geschätzter stündlicher Tarif</p>
 
                 <ion-grid>
                     <ion-row>
@@ -158,15 +161,15 @@
                 <div class="input-box">
                     <div class="input-box-inner">
                         <ion-input type="text"
-                                   [value]="priceprovider.public.kwh.kwhRate / 100"
+                                   [value]="priceprovider.public.kwh.kwhRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.public.kwh, 'kwhRate')"
                                    placeholder="0,00"></ion-input>
                         <label>€/kwH</label>
                     </div>
                 </div>
-                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.kwh.kwhRate" pin="false">
+                <ion-range min="0" max="100" [(ngModel)]="priceprovider.public.kwh.kwhRate" pin="false">
                     <ion-label range-left>0</ion-label>
-                    <ion-label range-right>20</ion-label>
+                    <ion-label range-right>1</ion-label>
                 </ion-range>
 
                 <hr>
@@ -182,7 +185,7 @@
                 <div class="input-box">
                     <div class="input-box-inner">
                         <ion-input type="text"
-                                   [value]="priceprovider.public.kwh.parkRate / 100"
+                                   [value]="priceprovider.public.kwh.parkRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.public.kwh, 'parkRate')"
                                    placeholder="0,00"></ion-input>
                         <label>€</label>
@@ -195,7 +198,7 @@
 
                 <hr>
 
-                <p>Geschätzter Stündlicher Tarif</p>
+                <p>Geschätzter stündlicher Tarif</p>
 
                 <ion-grid>
                     <ion-row>
@@ -265,7 +268,7 @@
                 <div class="input-box">
                     <div class="input-box-inner">
                         <ion-input type="text"
-                                   [value]="priceprovider.private.flatrate.flatrateRate / 100"
+                                   [value]="priceprovider.private.flatrate.flatrateRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.private.flatrate, 'flatrateRate')"
                                    placeholder="0,00"></ion-input>
                         <label>€</label>
@@ -289,15 +292,15 @@
                 <div class="input-box">
                     <div class="input-box-inner">
                         <ion-input type="text"
-                                   [value]="priceprovider.private.hourly.hourlyRate / 100"
+                                   [value]="priceprovider.private.hourly.hourlyRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.private.hourly, 'hourlyRate')"
                                    placeholder="0,00"></ion-input>
                         <label>€/kwH</label>
                     </div>
                 </div>
-                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.hourly.hourlyRate" pin="false">
+                <ion-range min="0" max="100" [(ngModel)]="priceprovider.private.hourly.hourlyRate" pin="false">
                     <ion-label range-left>0</ion-label>
-                    <ion-label range-right>20</ion-label>
+                    <ion-label range-right>1</ion-label>
                 </ion-range>
 
                 <hr>
@@ -314,7 +317,7 @@
                 <div class="input-box">
                     <div class="input-box-inner">
                         <ion-input type="text"
-                                   [value]="priceprovider.private.hourly.parkRate / 100"
+                                   [value]="priceprovider.private.hourly.parkRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.private.hourly, 'parkRate')"
                                    placeholder="0,00"></ion-input>
                         <label>€</label>
@@ -327,7 +330,7 @@
 
                 <hr>
 
-                <p>Geschätzter Stündlicher Tarif</p>
+                <p>Geschätzter stündlicher Tarif</p>
 
                 <ion-grid>
                     <ion-row>
@@ -367,15 +370,15 @@
                 <div class="input-box">
                     <div class="input-box-inner">
                         <ion-input type="text"
-                                   [value]="priceprovider.private.kwh.kwhRate / 100"
+                                   [value]="priceprovider.private.kwh.kwhRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.private.kwh, 'kwhRate')"
                                    placeholder="0,00"></ion-input>
                         <label>€/kwH</label>
                     </div>
                 </div>
-                <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.kwh.kwhRate" pin="false">
+                <ion-range min="0" max="100" [(ngModel)]="priceprovider.private.kwh.kwhRate" pin="false">
                     <ion-label range-left>0</ion-label>
-                    <ion-label range-right>20</ion-label>
+                    <ion-label range-right>1</ion-label>
                 </ion-range>
 
                 <hr>
@@ -391,7 +394,7 @@
                 <div class="input-box">
                     <div class="input-box-inner">
                         <ion-input type="text"
-                                   [value]="priceprovider.private.kwh.parkRate / 100"
+                                   [value]="priceprovider.private.kwh.parkRate / 100 | number:'1.2-2'"
                                    (change)="updatePriceProvider($event, priceprovider.private.kwh, 'parkRate')"
                                    placeholder="0,00"></ion-input>
                         <label>€</label>
@@ -404,7 +407,7 @@
 
                 <hr>
 
-                <p>Geschätzter Stündlicher Tarif</p>
+                <p>Geschätzter stündlicher Tarif</p>
 
                 <ion-grid>
                     <ion-row>
