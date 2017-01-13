@@ -4,6 +4,7 @@ import {
     ModalController,
     NavParams,
     ActionSheetController,
+    AlertController,
     Platform, LoadingController, Events
 } from 'ionic-angular';
 import {CarManufacturerPage} from './manufacturer/car-manufacturer';
@@ -12,6 +13,11 @@ import {CarService} from "../../../services/car.service";
 import {Car} from '../../../models/car';
 import {ConfigService} from "../../../services/config.service";
 import {ErrorService} from "../../../services/error.service";
+import {FormBuilder, Validators} from '@angular/forms';
+import {plugTypesValidator} from '../../../validators/plugTypesValidator';
+import {averageDistanceValidator} from '../../../validators/averageDistanceValidator';
+import {maxChargingValidator} from '../../../validators/maxChargingValidator';
+import {accuCapacityValidator} from '../../../validators/accuCapacityValidator';
 
 
 @Component({
@@ -26,8 +32,10 @@ export class CarFormPage {
     segmentTabs: any;
     plugOptions: any;
     errorMessages: any;
+    carForm: any;
+    submitAttempt: boolean = false;
 
-    constructor(private configService: ConfigService, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService) {
+    constructor(private configService: ConfigService, public formBuilder: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -35,15 +43,28 @@ export class CarFormPage {
                 this.plugOptions = plugTypes;
             },
             error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
-        this.clearErrorMessages();
+        this.createErrorMessages();
+
+        this.carForm = formBuilder.group({
+            plateNumber: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(2), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+            manufacturer: ['', Validators.required],
+            model: ['', Validators.required],
+            accuCapacity: ['', Validators.compose([accuCapacityValidator.isValid, Validators.required])],
+            maxCharging: ['', Validators.compose([maxChargingValidator.isValid, Validators.required])],
+            plugTypes: [[''], plugTypesValidator.isValid],
+            averageDistance: ['', averageDistanceValidator.isValid]
+        });
     }
 
-    clearErrorMessages() {
+    createErrorMessages() {
         this.errorMessages = {
-            "plateNumber": '',
-            "capacity": '',
-            "plugType": '',
-            "maxCharging": ''
+            "plateNumber": 'Bitte gib das Kennzeichen an.',
+            "accuCapacity": 'Bitte gib die Batteriekapazität an.',
+            "manufacturer": 'Bitte gib die Hersteller an',
+            "model": 'Bitte gib das Modell an',
+            "plugTypes": 'Bitte gib den Steckertyp an.',
+            "maxCharging": 'Bitte gib die maximale Stromstärke an.',
+            "averageDistance": 'Bitte gib die Durchschnittliche Reichweite an.'
         }
     }
 
@@ -104,7 +125,11 @@ export class CarFormPage {
     }
 
     saveCar() {
-        if (this.validateForm()) {
+        this.submitAttempt = true;
+        this.segmentTabs = 'custom';
+
+        if (this.carForm.valid) {
+            console.log("car form is valid");
             let loader = this.loadingCtrl.create({content: "Speichere Auto ..."});
             loader.present();
 
@@ -132,35 +157,36 @@ export class CarFormPage {
                     );
             }
         }
+        else {
+            console.log("car form is invalid");
+        }
     }
 
-    validateForm() {
-        console.log(this.car);
+    showHelp(field) {
+        let message = "";
 
-        let hasError = false;
-        this.clearErrorMessages();
-        this.segmentTabs = 'custom';
-
-        if (!this.car.plateNumber) {
-            hasError = true;
-            this.errorMessages.plateNumber = 'Bitte gib das Kennzeichen an.';
+        switch (field) {
+            case 'plateNumber':
+                message = "z.B. AA-BB 777";
+                break;
+            case 'maxCharging':
+                message = "max 200";
+                break;
+            case 'accuCapacity':
+                message = "max 150";
+                break;
+            case 'averageDistance':
+                message = "max 1000 , whole number";
+                break;
         }
 
-        if (!this.car.accuCapacity) {
-            hasError = true;
-            this.errorMessages.capacity = 'Bitte gib die Batteriekapazität an.';
+        if(message != ""){
+            let alert = this.alertCtrl.create({
+                title: 'Info',
+                message: message,
+                buttons: ['Ok']
+            });
+            alert.present();
         }
-
-        if (!this.car.maxCharging) {
-            hasError = true;
-            this.errorMessages.maxCharging = 'Bitte gib die maximale Stromstärke an.';
-        }
-
-        if (this.car.plugTypes.length == 0) {
-            hasError = true;
-            this.errorMessages.plugType = 'Bitte gib den Steckertyp an.';
-        }
-
-        return !hasError
     }
 }
