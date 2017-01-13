@@ -1,10 +1,12 @@
 import {Component} from "@angular/core";
-import {NavParams, NavController, Events} from "ionic-angular";
+import {NavParams, NavController, Events, AlertController} from "ionic-angular";
 import {User} from "../../../models/user";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, Validators} from '@angular/forms';
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
 import {ErrorService} from "../../../services/error.service";
+import {postalCodeValidator} from "../../../validators/postalCodeValidator";
+import {countryValidator} from "../../../validators/countryValidator";
 
 
 @Component({
@@ -14,40 +16,71 @@ import {ErrorService} from "../../../services/error.service";
 export class EditProfilePage {
     user: User;
 
-    editAddress: FormGroup;
+    profileForm: any;
+    errorMessages: any;
+    submitAttempt: boolean = false;
 
-    constructor(private userService: UserService, private navParams: NavParams, public navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder, private events: Events, private errorService: ErrorService) {
+    constructor(private userService: UserService, private navParams: NavParams, public alertCtrl: AlertController, public navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder, private events: Events, private errorService: ErrorService) {
         this.user = navParams.get('user');
 
         let profile = this.user.profile;
 
         if (!profile.country) profile.country = 'de';
 
-        this.editAddress = this.formBuilder.group({
-            firstname: profile.firstname,
-            lastname: profile.lastname,
-            address: profile.address,
-            city: profile.city,
-            country: profile.country,
-            postalCode: profile.postalCode
+        this.createErrorMessages();
+
+        this.profileForm = this.formBuilder.group({
+            firstName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(3), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+            lastName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(3), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+            address: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
+            city: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+            country: ['', countryValidator.isValid],
+            postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5), postalCodeValidator.isValid])]
         });
     }
 
-    updateUser() {
-        this.user.profile.firstname = this.editAddress.value.firstname;
-        this.user.profile.lastname = this.editAddress.value.lastname;
-        this.user.profile.address = this.editAddress.value.address;
-        this.user.profile.city = this.editAddress.value.city;
-        this.user.profile.country = this.editAddress.value.country;
-        this.user.profile.postalCode = this.editAddress.value.postalCode;
+    createErrorMessages() {
+        this.errorMessages = {
+            "firstName": 'Bitte gib die Name an.',
+            "lastName": 'Bitte gib die Nachname an.',
+            "address": 'Bitte gib die Adresse an',
+            "city": 'Bitte gib die Stadt an',
+            "country": 'Bitte gib der Land an.',
+            "postalCode": 'Bitte gib die PLZ an.'
+        }
+    }
 
-        this.userService.updateUser(this.user)
-            .subscribe(
-                () => {
-                    this.authService.setUser(this.user);
-                    this.events.publish('users:updated');
-                    this.navCtrl.pop();
-                },
-                error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+    updateUser() {
+        this.submitAttempt = true;
+
+        if (this.profileForm.valid) {
+            this.userService.updateUser(this.user)
+                .subscribe(
+                    () => {
+                        this.authService.setUser(this.user);
+                        this.events.publish('users:updated');
+                        this.navCtrl.pop();
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+        }
+    }
+
+    showHelp(field) {
+        let message = "";
+
+        switch (field) {
+            case 'postalCode':
+                message = "must be between 5 to 10 digits";
+                break;
+        }
+
+        if (message != "") {
+            let alert = this.alertCtrl.create({
+                title: 'Info',
+                message: message,
+                buttons: ['Ok']
+            });
+            alert.present();
+        }
     }
 }
