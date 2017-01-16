@@ -178,6 +178,8 @@ export class ChargingPage {
 
             });
             alert.present();
+        } else {
+            this.startCharging();
         }
     }
 
