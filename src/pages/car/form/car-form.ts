@@ -46,7 +46,7 @@ export class CarFormPage {
         this.createErrorMessages();
 
         this.carForm = formBuilder.group({
-            plateNumber: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(2), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+            plateNumber: ['', Validators.compose([Validators.maxLength(20), Validators.minLength(4), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
             manufacturer: ['', Validators.required],
             model: ['', Validators.required],
             accuCapacity: ['', Validators.compose([accuCapacityValidator.isValid, Validators.required])],
@@ -167,7 +167,7 @@ export class CarFormPage {
 
         switch (field) {
             case 'plateNumber':
-                message = "z.B. AA-BB 777";
+                message = "z.B: AA-BB 777";
                 break;
             case 'maxCharging':
                 message = "max 200";
