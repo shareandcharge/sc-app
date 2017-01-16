@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
-import {NavController, ModalController, AlertController} from 'ionic-angular';
+import {NavController, ModalController, AlertController, Events, ToastController} from 'ionic-angular';
 import {AddMoneyPage} from './add/add-money';
 import {PaymentService} from "../../services/payment.service";
 import {AuthService} from "../../services/auth.service";
 import {EditProfilePage} from "../profile/edit-profile/edit-profile";
+import {Observable} from "rxjs";
+import {of} from "rxjs/observable/of";
 
 @Component({
     selector: 'page-wallet',
@@ -14,13 +16,42 @@ export class WalletPage {
     currentBalance: any = 0;
     paymentHistory: any;
     noTransaction = true;
+    pendingTransactions: Array<any>;
+    intervals = [];
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController) {
+    TRANSACTION_TYPES = {
+        SUCCESS : 'TokenUpdate',
+        PENDING : 'TokenUpdate-pending',
+        RECEIVED : 'Received',
+        SEND : 'Send'
+    };
+
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController) {
+        this.events.subscribe('history:update', () => {
+            this.displayToast();
+            this.refreshData();
+        });
+
+        this.events.subscribe('auth:logout', () => {
+            this.clearAllIntervals();
+        });
     }
 
     ionViewWillEnter() {
+        this.refreshData();
+    }
+
+    refreshData() {
+        this.clearAllIntervals();
         this.getHistory();
         this.getBalance();
+    }
+
+    clearAllIntervals() {
+        while(this.intervals.length) {
+            let interval = this.intervals.pop();
+            clearInterval(interval);
+        }
     }
 
     getHistory() {
@@ -28,9 +59,20 @@ export class WalletPage {
         observable.subscribe((history) => {
             this.paymentHistory = history;
 
-            if (typeof this.paymentHistory != 'undefined') {
+            if (typeof this.paymentHistory !== 'undefined') {
                 if (this.paymentHistory.length > 0) {
                     this.noTransaction = false;
+                    this.pendingTransactions = [];
+
+                    this.paymentHistory.forEach((transaction) => {
+                        if (transaction.type === this.TRANSACTION_TYPES.PENDING) {
+                            this.pendingTransactions.push(transaction);
+                        }
+                    });
+
+                    if (this.pendingTransactions.length > 0) {
+                        this.pollPendingTransactions();
+                    }
                 }
             }
         });
@@ -52,11 +94,7 @@ export class WalletPage {
 
         let modal = this.modalCtrl.create(AddMoneyPage);
         modal.onDidDismiss(data => {
-            if (parseFloat(data)) {
-                let balance;
-                balance = parseFloat(this.currentBalance) + parseFloat(data);
-                this.currentBalance = balance;
-            }
+            this.refreshData();
         });
         modal.present();
     }
@@ -94,5 +132,28 @@ export class WalletPage {
                 refresher.complete();
             })
         })
+    }
+
+    pollPendingTransactions() {
+        this.pendingTransactions.forEach((transaction) => {
+            let orderId = transaction.order.id;
+            this.intervals.push(setInterval(() => this.checkForUpdate(orderId), 3000));
+        })
+    }
+
+    checkForUpdate(orderId) {
+        this.paymentService.getPaymentStatus(orderId).subscribe((res) => {
+            if (res.tokenstatus === 'createToken') {
+                this.events.publish('history:update');
+            }
+        });
+    }
+
+    displayToast() {
+        let toast = this.toastCtrl.create({
+            message : 'Transaktion erfolgreich durchgeführt.',
+            duration: 3000
+        });
+        toast.present();
     }
 }

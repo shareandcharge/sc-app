@@ -43,15 +43,16 @@
     <h1>Meine Zahlungsvorgänge</h1>
 
     <ion-list>
-        <ion-item *ngFor="let tr of paymentHistory">
+        <ion-item *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending'}">
+            <div class="loader" *ngIf="tr.type=='TokenUpdate-pending'"></div>
             <span
                     class="amount"
                     [ngClass]="{'number-positive': tr.amount>0, 'number-negative': tr.amount<0}"
             >
                 {{tr.amount / 100 | currency:'EUR':true:'1.2-2'}}
             </span>
-            <small item-right>({{tr.type}})
-                {{ tr.timestamp | date:'short'}}
+            <small item-right>{{"payment.types." + tr.order.type | translate}},
+                {{ tr.order.timestamp | date:'short'}}
             </small>
         </ion-item>
     </ion-list>
