@@ -19,6 +19,9 @@ export abstract class AbstractApiService {
             }
             errMsg = body.key || body.message || JSON.stringify(body);
             errMsg = "api_error." + errMsg;
+
+            //--@TODO remove after testing
+            if (body.message) alert('DEBUG: ' + body.message);
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
