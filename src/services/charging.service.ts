@@ -70,33 +70,36 @@ export class ChargingService extends AbstractApiService {
     }
 
     startCharging(connectorId, secondsToCharge, maxCharging) {
-        this.charging = true;
-        this.chargingTime = secondsToCharge;
-        this.connectorId = connectorId;
-        this.events.publish('charging:update', this.progress);
-        this.storage.set("chargingTime", this.chargingTime);
-        this.storage.set("isCharging", true);
-        this.startEventInterval();
-        this.countDown(secondsToCharge);
-
         let chargingData = {
             "maxCharging": parseInt(maxCharging),
             "secondsToCharge": secondsToCharge
         };
 
-        return this.authHttp.post(`${this.baseUrl}/connectors/${connectorId}/start`, JSON.stringify(chargingData))
+        console.log("start charging data " , connectorId , " " , chargingData);
+
+        return this.authHttp.post(`${this.baseUrl}/connectors/${connectorId}/start`, JSON.stringify(chargingData) , [{timeout: 3000}])
             .map(res => {
                 res.json();
+
+                this.charging = true;
+                this.chargingTime = secondsToCharge;
+                this.connectorId = connectorId;
+                this.events.publish('charging:update', this.progress);
+                this.storage.set("chargingTime", this.chargingTime);
+                this.storage.set("isCharging", true);
+                this.startEventInterval();
+                this.countDown(secondsToCharge);
+
                 this.events.publish('locations:updated');
             })
             .catch(this.handleError);
     }
 
     stopCharging(connectorId) {
-        this.chargingEnd();
         return this.authHttp.post(`${this.baseUrl}/connectors/${connectorId}/stop`, {})
             .map(res => {
                 res.json();
+                this.chargingEnd();
                 this.events.publish('locations:updated');
             })
             .catch(this.handleError);
