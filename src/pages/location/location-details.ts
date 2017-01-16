@@ -321,6 +321,8 @@ export class LocationDetailPage {
                 if (data) {
                     data.location = this.location;
 
+                    this.navCtrl.popToRoot();
+
                     let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
                     chargingCompletedModal.present();
                 }
