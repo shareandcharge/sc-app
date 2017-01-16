@@ -88,7 +88,6 @@ export class LoginPage {
                     loader.dismissAll();
                 });
         }
-
     }
 
     logout() {

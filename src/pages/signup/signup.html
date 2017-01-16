@@ -25,16 +25,17 @@
                                    formControlName="email"
                                    [(ngModel)]="signUpObject.email" name="email" placeholder="E-Mail"></ion-input>
                     </div>
-                    <div *ngIf="!signUpForm.controls.email.valid && (signUpForm.controls.email.dirty || submitAttempt)"
+                    <div *ngIf="!signUpForm.controls.email.valid && submitAttempt"
                          class="alert-box alert-box-danger" margin>
                         {{ errorMessages.email }}
                     </div>
                     <div padding="">
                         <ion-input type="password"
                                    formControlName="password"
-                                   [(ngModel)]="signUpObject.authentification.password" name="password" placeholder="Passwort"></ion-input>
+                                   [(ngModel)]="signUpObject.authentification.password" name="password"
+                                   placeholder="Passwort"></ion-input>
                     </div>
-                    <div *ngIf="!signUpForm.controls.password.valid && (signUpForm.controls.password.dirty || submitAttempt)"
+                    <div *ngIf="!signUpForm.controls.password.valid && submitAttempt"
                          class="alert-box alert-box-danger" margin>
                         {{ errorMessages.password }}
                         <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('password')"></ion-icon>
@@ -45,10 +46,11 @@
                                           formControlName="terms"
                                           [(ngModel)]="termsAccept" name="termsAccept">
                             </ion-checkbox>
-                            <ion-label>Ich stimme den <a ion-text="" color="light" (click)="openTerms()">AGBs</a> zu.</ion-label>
+                            <ion-label>Ich stimme den <a ion-text="" color="light" (click)="openTerms()">AGBs</a> zu.
+                            </ion-label>
                         </ion-item>
                     </ion-list>
-                    <div *ngIf="!signUpForm.controls.terms.valid && (signUpForm.controls.terms.dirty || submitAttempt)"
+                    <div *ngIf="!signUpForm.controls.terms.valid && submitAttempt"
                          class="alert-box alert-box-danger" margin>
                         {{ errorMessages.terms }}
                     </div>

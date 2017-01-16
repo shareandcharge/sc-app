@@ -25,16 +25,17 @@
                                    formControlName="email"
                                    [(ngModel)]="credentials.email" name="email" placeholder="E-Mail"></ion-input>
                     </div>
-                    <div *ngIf="!loginForm.controls.email.valid && (loginForm.controls.email.dirty || submitAttempt)"
+                    <div *ngIf="!loginForm.controls.email.valid && submitAttempt"
                          class="alert-box alert-box-danger" margin>
                         {{ errorMessages.email }}
                     </div>
                     <div padding="">
                         <ion-input type="password"
                                    formControlName="password"
-                                   [(ngModel)]="credentials.password" name="password" placeholder="Passwort"></ion-input>
+                                   [(ngModel)]="credentials.password" name="password"
+                                   placeholder="Passwort"></ion-input>
                     </div>
-                    <div *ngIf="!loginForm.controls.password.valid && (loginForm.controls.password.dirty || submitAttempt)"
+                    <div *ngIf="!loginForm.controls.password.valid && submitAttempt"
                          class="alert-box alert-box-danger" margin>
                         {{ errorMessages.password }}
                         <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('password')"></ion-icon>

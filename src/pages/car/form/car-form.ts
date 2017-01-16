@@ -180,7 +180,7 @@ export class CarFormPage {
                 break;
         }
 
-        if(message != ""){
+        if (message != "") {
             let alert = this.alertCtrl.create({
                 title: 'Info',
                 message: message,
