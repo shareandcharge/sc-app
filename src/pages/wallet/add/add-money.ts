@@ -29,7 +29,7 @@ export class AddMoneyPage {
     }
 
     addMoney() {
-        this.payInObject.amount = this.displayAmount * 100;
+        this.payInObject.amount = this.convertToDecimal(this.displayAmount) * 100;
 
         this.paymentService.payIn(this.payInObject).subscribe(
             (response) => {
@@ -53,5 +53,9 @@ export class AddMoneyPage {
         return new Promise((resolve, reject) => {
             modal.onDidDismiss(() => resolve());
         });
+    }
+
+    convertToDecimal(input: string) {
+        return parseFloat(input.replace(',', '.'));
     }
 }
