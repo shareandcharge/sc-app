@@ -159,8 +159,104 @@ export class ChargingPage {
         this.drawSlideBar(this.canvasX + 1, 10);
     }
 
+    checkOpeningHours() {
+        if (!this.connector.isOpen()) {
+            let alert = this.alertCtrl.create({
+                title : 'Ladesäule geschlossen',
+                message : 'Sorry, aber leider ist diese Ladesäule gerade geschlossen. Sind Sie sicher, dass Sie die ausdrückliche Erlaubnis haben, jetzt zu laden?',
+                buttons: [
+                    {
+                        text : 'Ja',
+                        handler : () => {
+                            this.startCharging();
+                        }
+                    },
+                    {
+                        text : 'Nein'
+                    }
+                ]
+
+            });
+            alert.present();
+        }
+    }
+
     startCharging() {
-        this.countDown();
+        this.countingDown = true;
+        this.selectedChargingTime = this.chargingTime;
+        this.chargingTimeHours = this.chargingTimeHours + ":00";
+        let me = this;
+        me.timer = (this.hours * 3600) + (this.minutes * 60);
+
+        me.chargingService.startCharging(me.connector.id, me.timer, me.activeCar.maxCharging).subscribe(
+            (response) => {
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Charging Start Error'));
+
+        me.chargingProgress = me.chargingService.getChargingProgress();
+        me.selectedChargingTime = me.timer;
+        me.myCounter = setInterval(() => {
+            this.hours = Math.floor(me.timer / 3600);
+            this.minutes = Math.floor((me.timer % 3600 ) / 60);
+            this.seconds = Math.floor((me.timer % 3600) % 60);
+
+            this.hours = me.hours < 10 ? "0" + me.hours : me.hours;
+            this.minutes = me.minutes < 10 ? "0" + me.minutes : me.minutes;
+            this.seconds = me.seconds < 10 ? "0" + me.seconds : me.seconds;
+
+            this.updateTimerString();
+            this.updateCanvas();
+
+            if (--this.timer < 0) {
+                this.timer = 0;
+                clearInterval(me.myCounter);
+                this.countingDown = false;
+                let chargedTimeString = me.makeTimeString(me.chargingService.chargedTime());
+                this.initiateCanvas();
+                this.chargingCompletedModal(chargedTimeString);
+            }
+        }, 1000);
+    }
+
+    stopCharging() {
+        let alert = this.alertCtrl.create({
+            title: 'Ladevorgang stoppen',
+            message: 'Bist Du sicher, dass Du den Ladevorgang jetzt stoppen möchtest?',
+            buttons: [
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    handler: () => {
+                    }
+                },
+                {
+                    text: 'Ja, jetzt stoppen',
+                    handler: () => {
+                        let chargedTime = this.chargingService.chargedTime();
+
+                        this.chargingService.stopCharging(this.connector.id).subscribe(
+                            (response) => {
+                            },
+                            error => this.errorService.displayErrorWithKey(error, 'Charging Stop Error'));
+
+                        this.chargingProgress = 0;
+                        let chargedTimeString = this.makeTimeString(chargedTime);
+                        this.countingDown = false;
+                        clearInterval(this.myCounter);
+                        this.chargingTime = 0;
+                        this.timer = 0;
+                        this.hours = "00";
+                        this.minutes = "00";
+                        this.seconds = "00";
+                        this.updateTimerString();
+                        this.updateCanvas();
+                        this.initiateCanvas();
+                        this.chargingCompletedModal(chargedTimeString);
+                    }
+                }
+            ]
+        });
+        alert.present();
     }
 
     updateTimerString() {
@@ -301,85 +397,6 @@ export class ChargingPage {
 
         let finalString = h + ':' + m + ':' + s;
         return finalString;
-    }
-
-    countDown() {
-        if (this.chargingProgress > 0) {
-            let alert = this.alertCtrl.create({
-                title: 'Ladevorgang stoppen',
-                message: 'Bist Du sicher, dass Du den Ladevorgang jetzt stoppen möchtest?',
-                buttons: [
-                    {
-                        text: 'Abbrechen',
-                        role: 'cancel',
-                        handler: () => {
-                        }
-                    },
-                    {
-                        text: 'Ja, jetzt stoppen',
-                        handler: () => {
-                            let chargedTime = this.chargingService.chargedTime();
-
-                            this.chargingService.stopCharging(this.connector.id).subscribe(
-                                (response) => {
-                                },
-                                error => this.errorService.displayErrorWithKey(error, 'Charging Stop Error'));
-
-                            this.chargingProgress = 0;
-                            let chargedTimeString = this.makeTimeString(chargedTime);
-                            this.countingDown = false;
-                            clearInterval(this.myCounter);
-                            this.chargingTime = 0;
-                            this.timer = 0;
-                            this.hours = "00";
-                            this.minutes = "00";
-                            this.seconds = "00";
-                            this.updateTimerString();
-                            this.updateCanvas();
-                            this.initiateCanvas();
-                            this.chargingCompletedModal(chargedTimeString);
-                        }
-                    }
-                ]
-            });
-            alert.present();
-        }
-        else {
-            this.countingDown = true;
-            this.selectedChargingTime = this.chargingTime;
-            this.chargingTimeHours = this.chargingTimeHours + ":00";
-            let me = this;
-            me.timer = (this.hours * 3600) + (this.minutes * 60);
-
-            me.chargingService.startCharging(me.connector.id, me.timer, me.activeCar.maxCharging).subscribe(
-                (response) => {
-                },
-                error => this.errorService.displayErrorWithKey(error, 'Charging Start Error'));
-
-            me.chargingProgress = me.chargingService.getChargingProgress();
-            me.selectedChargingTime = me.timer;
-            me.myCounter = setInterval(() => {
-                this.hours = Math.floor(me.timer / 3600);
-                this.minutes = Math.floor((me.timer % 3600 ) / 60);
-                this.seconds = Math.floor((me.timer % 3600) % 60);
-
-                this.hours = me.hours < 10 ? "0" + me.hours : me.hours;
-                this.minutes = me.minutes < 10 ? "0" + me.minutes : me.minutes;
-                this.seconds = me.seconds < 10 ? "0" + me.seconds : me.seconds;
-
-                this.updateTimerString();
-                this.updateCanvas();
-
-                if (--this.timer < 0) {
-                    this.timer = 0;
-                    clearInterval(me.myCounter);
-                    this.countingDown = false;
-                    let chargedTimeString = me.makeTimeString(me.chargingService.chargedTime());
-                    this.initiateCanvas();
-                    this.chargingCompletedModal(chargedTimeString);
-                }
-            }, 1000);
-        }
     }
 
     updateCanvas() {

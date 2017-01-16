@@ -41,11 +41,11 @@
     <canvas id="circleProgressBar" width="280" height="280"></canvas>
 
     <div text-center>
-        <button ion-button round text-uppercase color="danger" (click)="startCharging()" *ngIf="countingDown">
+        <button ion-button round text-uppercase color="danger" (click)="stopCharging()" *ngIf="countingDown">
             Stop
         </button>
 
-        <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive"
+        <button ion-button round text-uppercase (click)="checkOpeningHours()" [disabled]="buttonDeactive"
                 *ngIf="!countingDown">
             Start
         </button>
