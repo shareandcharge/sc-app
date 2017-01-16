@@ -50,7 +50,6 @@ export class AuthService {
     }
 
     setUser(user: User) {
-        console.log('Set user: ', user);
         this.user = user;
     }
 }

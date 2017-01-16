@@ -116,11 +116,18 @@ export class MyApp {
     }
 
     refreshUser() {
-        this.userService.getUser().subscribe((user) => {
-            this.authService.setUser(user);
-            this.checkChargingProgress();
-            this.events.publish('user:refreshed');
-        });
+        this.userService.getUser().subscribe(
+            (user) => {
+                this.authService.setUser(user);
+                this.checkChargingProgress();
+                this.events.publish('user:refreshed');
+            },
+            (error) => {
+                /**
+                 * If we can't refresh the user, the token is expired, user deleted etc.
+                 * For now we just logout the user (which clears the token)
+                 */
+                this.authService.logout();
+            });
     }
-
 }
