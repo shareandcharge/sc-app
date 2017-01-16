@@ -5,6 +5,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
 import {ErrorService} from "../../../services/error.service";
+import {emailValidator} from '../../../validators/emailValidator'
 
 
 @Component({
@@ -23,9 +24,8 @@ export class EditEmailPage {
 
         this.createErrorMessages();
 
-        let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
         this.emailForm = this.formBuilder.group({
-            email: ['', Validators.compose([Validators.maxLength(225), Validators.minLength(8), Validators.pattern(emailRegex), Validators.required])]
+            email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
         });
     }
 
