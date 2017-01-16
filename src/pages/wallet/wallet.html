@@ -31,6 +31,10 @@
 
 
 <ion-content #mycontent>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
     <div class="top-container" padding="" text-center="" (click)="addMoney()">
         <h2>{{(currentBalance / 100) | currency:'EUR':true:'1.2-2'}}</h2>
         <h3>Guthaben</h3>

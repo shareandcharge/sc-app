@@ -24,7 +24,8 @@ export class WalletPage {
     }
 
     getHistory() {
-        this.paymentService.getHistory().subscribe((history) => {
+        let observable = this.paymentService.getHistory();
+        observable.subscribe((history) => {
             this.paymentHistory = history;
 
             if (typeof this.paymentHistory != 'undefined') {
@@ -33,12 +34,17 @@ export class WalletPage {
                 }
             }
         });
+
+        return observable;
     }
 
     getBalance() {
-        this.paymentService.getBalance().subscribe((balance) => {
+        let observable = this.paymentService.getBalance();
+        observable.subscribe((balance) => {
             this.currentBalance = balance;
         });
+
+        return observable;
     }
 
     addMoney() {
@@ -80,5 +86,13 @@ export class WalletPage {
 
     profileComplete() {
         return this.authService.getUser().isProfileComplete();
+    }
+
+    doRefresh(refresher) {
+        this.getHistory().subscribe(() => {
+            this.getBalance().subscribe(() => {
+                refresher.complete();
+            })
+        })
     }
 }
