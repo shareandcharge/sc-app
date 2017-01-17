@@ -62,10 +62,12 @@
                         <label>€</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.flatrate.flatrateRate" pin="false">
                     <ion-label range-left>0€</ion-label>
                     <ion-label range-right>20€</ion-label>
                 </ion-range>
+                -->
             </div>
 
 
@@ -87,11 +89,13 @@
                         <label>€/kwH</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="100" [(ngModel)]="priceprovider.public.hourly.hourlyRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('publicHourly')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>1</ion-label>
                 </ion-range>
+                -->
 
                 <hr>
 
@@ -113,11 +117,13 @@
                         <label>€</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.hourly.parkRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('publicHourly')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>20</ion-label>
                 </ion-range>
+                -->
 
                 <hr>
 
@@ -169,11 +175,13 @@
                         <label>€/kwH</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="100" [(ngModel)]="priceprovider.public.kwh.kwhRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('publicKwh')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>1</ion-label>
                 </ion-range>
+                -->
 
                 <hr>
 
@@ -194,11 +202,13 @@
                         <label>€</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="2000" [(ngModel)]="priceprovider.public.kwh.parkRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('publicKwh')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>20</ion-label>
                 </ion-range>
+                -->
 
                 <hr>
 
@@ -278,10 +288,12 @@
                         <label>€</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.flatrate.flatrateRate" pin="false">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>20</ion-label>
                 </ion-range>
+                -->
             </div>
 
             <div *ngIf="priceprovider.private.selected == 'hourly'" padding>
@@ -302,11 +314,13 @@
                         <label>€/kwH</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="100" [(ngModel)]="priceprovider.private.hourly.hourlyRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('privateHourly')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>1</ion-label>
                 </ion-range>
+                -->
 
                 <hr>
 
@@ -328,11 +342,13 @@
                         <label>€</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.hourly.parkRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('privateHourly')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>20</ion-label>
                 </ion-range>
+                -->
 
                 <hr>
 
@@ -383,11 +399,13 @@
                         <label>€/kwH</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="100" [(ngModel)]="priceprovider.private.kwh.kwhRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('privateKwh')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>1</ion-label>
                 </ion-range>
+                -->
 
                 <hr>
 
@@ -408,11 +426,13 @@
                         <label>€</label>
                     </div>
                 </div>
+                <!--
                 <ion-range min="0" max="2000" [(ngModel)]="priceprovider.private.kwh.parkRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('privateKwh')">
                     <ion-label range-left>0</ion-label>
                     <ion-label range-right>20</ion-label>
                 </ion-range>
+                -->
 
                 <hr>
 
