@@ -127,8 +127,10 @@
                     </div>
                 </div>
 
-                <ion-item>
-                    <ion-label>Steckertypen</ion-label>
+                <ion-item text-wrap>
+                    <ion-label>Steckertypen<br>
+                        <small>
+                        Bitte fügen sie alle Steckerformate hinzu, die ihr Auto unterstützt.</small></ion-label>
                 </ion-item>
                 <ion-item>
                     <ion-select [(ngModel)]="car.plugTypes"
