@@ -34,6 +34,7 @@ export class ChargingPage {
     priceProviderTitle: any;
     priceProviderRate: any;
     canvasImage: any;
+    doScrolling: boolean = true;
 
     activeCar: Car;
 
@@ -122,25 +123,17 @@ export class ChargingPage {
 
             let me = this;
             document.body.addEventListener("touchstart", function (e) {
+                me.doScrolling = true;
                 if (e.target == c) {
                     if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
                         e.preventDefault();
+                        me.doScrolling = false;
                     }
                 }
             }, false);
             document.body.addEventListener("touchend", function (e) {
-                if (e.target == c) {
-                    if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
-                        e.preventDefault();
-                    }
-                }
             }, false);
             document.body.addEventListener("touchmove", function (e) {
-                if (e.target == c) {
-                    if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
-                        e.preventDefault();
-                    }
-                }
             }, false);
 
             this.initiateCanvas();
@@ -298,43 +291,51 @@ export class ChargingPage {
     }
 
     circleRange_mouseUp(self, e) {
-        this.mouseDragging = false;
-        if (!this.countingDown) {
-            self.drawSlideBar(e.offsetX, e.offsetY);
-        }
-    }
-
-    circleRange_touchEnd(self, e, canvas) {
-        this.mouseDragging = false;
-        if (!this.countingDown) {
-            let rect = canvas.getBoundingClientRect();
-            self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
-        }
-
-        if (this.activeCar != null) {
-            this.locationService.getPrice(this.connector.id, {
-                'timeToLoad': this.chargingTime,
-                'wattPower': this.carService.getActiveCar().maxCharging
-            }).subscribe((response) => {
-                    this.chargingPrice = response.min
-                },
-                error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
-        }
-    }
-
-    circleRange_mouseMove(self, e) {
-        if (this.mouseDragging) {
+        if (!this.doScrolling) {
+            this.mouseDragging = false;
             if (!this.countingDown) {
                 self.drawSlideBar(e.offsetX, e.offsetY);
             }
         }
     }
 
-    circleRange_touchMove(self, e, canvas) {
-        if (this.mouseDragging) {
+    circleRange_touchEnd(self, e, canvas) {
+        if (!this.doScrolling) {
+            this.mouseDragging = false;
             if (!this.countingDown) {
                 let rect = canvas.getBoundingClientRect();
                 self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
+            }
+
+            if (this.activeCar != null) {
+                this.locationService.getPrice(this.connector.id, {
+                    'timeToLoad': this.chargingTime,
+                    'wattPower': this.carService.getActiveCar().maxCharging
+                }).subscribe((response) => {
+                        this.chargingPrice = response.min
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
+            }
+        }
+    }
+
+    circleRange_mouseMove(self, e) {
+        if (!this.doScrolling) {
+            if (this.mouseDragging) {
+                if (!this.countingDown) {
+                    self.drawSlideBar(e.offsetX, e.offsetY);
+                }
+            }
+        }
+    }
+
+    circleRange_touchMove(self, e, canvas) {
+        if (!this.doScrolling) {
+            if (this.mouseDragging) {
+                if (!this.countingDown) {
+                    let rect = canvas.getBoundingClientRect();
+                    self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
+                }
             }
         }
     }
