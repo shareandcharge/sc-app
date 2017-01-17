@@ -45,7 +45,7 @@
             Stop
         </button>
 
-        <button ion-button round text-uppercase (click)="checkOpeningHours()" [disabled]="buttonDeactive"
+        <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive"
                 *ngIf="!countingDown">
             Start
         </button>

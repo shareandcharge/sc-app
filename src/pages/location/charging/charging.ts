@@ -159,30 +159,6 @@ export class ChargingPage {
         this.drawSlideBar(this.canvasX + 1, 10);
     }
 
-    checkOpeningHours() {
-        if (!this.connector.isOpen()) {
-            let alert = this.alertCtrl.create({
-                title : 'Ladesäule geschlossen',
-                message : 'Sorry, aber leider ist diese Ladesäule gerade geschlossen. Sind Sie sicher, dass Sie die ausdrückliche Erlaubnis haben, jetzt zu laden?',
-                buttons: [
-                    {
-                        text : 'Ja',
-                        handler : () => {
-                            this.startCharging();
-                        }
-                    },
-                    {
-                        text : 'Nein'
-                    }
-                ]
-
-            });
-            alert.present();
-        } else {
-            this.startCharging();
-        }
-    }
-
     startCharging() {
         this.countingDown = true;
         this.selectedChargingTime = this.chargingTime;

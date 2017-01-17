@@ -115,10 +115,11 @@
                     </div>
                 </ion-col>
                 <ion-col text-right>
-                    <button ion-button round color="primary" text-uppercase (click)="charge()">
+                    <button ion-button round color="primary" text-uppercase (click)="charge()" *ngIf="connector.isOpen()">
                         <span *ngIf="!charging">Laden</span>
                         <span *ngIf="charging">Ladefortschritt</span>
                     </button>
+                    <span *ngIf="!connector.isOpen()">Laden außerhalb der Öffnungszeiten ist leider nicht möglich!</span>
                 </ion-col>
             </ion-row>
         </ion-grid>
