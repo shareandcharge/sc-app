@@ -8,6 +8,7 @@ import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {HelpPage} from "../help/help";
 import {ErrorService} from "../../services/error.service";
+import {IntroPage} from "../intro/intro";
 
 
 @Component({
@@ -83,6 +84,10 @@ export class DashboardPage {
 
     feedback() {
 
+    }
+
+    intro() {
+        this.navCtrl.push(IntroPage);
     }
 
     settings() {

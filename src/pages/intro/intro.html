@@ -11,32 +11,35 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content class="content-white" padding>
     <div class="top-container">
         <ion-slides #mySlider [options]="slideOptions" (ionDidChange)="SlideChanged()">
 
             <ion-slide>
-                <img src="assets/icons/search.png"/>
+                <div class="img-wrapper"><img src="assets/images/intro/01.gif"></div>
                 <h2>Ladestation finden</h2>
-                <p>
-                    Suche auf unserer interaktiven Karte nach Ladestationen in Deiner Nähe. Mit Hilfe der Filter kannst Du spezifisch nach Deinen Suchkreterien filtern.
-                </p>
+                <div class="text-wrapper">
+                    Suche auf unserer interaktiven Karte nach Ladestationen in Deiner Nähe. Mit Hilfe der Filter kannst
+                    Du spezifisch nach Deinen Suchkreterien filtern.
+                </div>
             </ion-slide>
 
             <ion-slide>
-                <img src="assets/icons/reg-station.png"/>
+                <div class="img-wrapper"><img src="assets/images/intro/02.gif"></div>
                 <h2>Ladestation registrieren</h2>
-                <p>
-                    Du besitzt eine Ladestation? Registiere sie und entscheide wer wann und zu welchem Tarif bei Dir laden kann.
-                </p>
+                <div class="text-wrapper">
+                    Du besitzt eine Ladestation? Registiere sie und entscheide wer wann und zu welchem Tarif bei Dir
+                    laden kann.
+                </div>
             </ion-slide>
 
             <ion-slide>
-                <img src="assets/icons/wallet-intro.png"/>
+                <div class="img-wrapper"><img src="assets/images/intro/03.gif"></div>
                 <h2>Konto</h2>
-                <p>
-                    Dein Konto gibt dir eine Übersicht über alle Deine Transaktionen. Lade dein Konto ganz einfach auf, lass Dir Dein Guthaben auszahlen, oder spende Dein Guthaben an eine gemeinnützige Organisation.
-                </p>
+                <div class="text-wrapper">
+                    Dein Konto gibt dir eine Übersicht über alle Deine Transaktionen. Lade dein Konto ganz einfach auf,
+                    lass Dir Dein Guthaben auszahlen, oder spende Dein Guthaben an eine gemeinnützige Organisation.
+                </div>
             </ion-slide>
 
         </ion-slides>
