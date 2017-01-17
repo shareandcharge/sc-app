@@ -21,21 +21,24 @@
         </button>
     </ion-fab>
 
-        <div class="top-item-text">
-            <ion-icon name="cust-station-pin" color="secondary"></ion-icon>
-            <div class="text">{{this.location.address}}</div>
-        </div>
-        <div class="top-item-text">
-            <ion-icon name="cust-time-money" color="secondary"></ion-icon>
-            <div class="text">{{priceProviderTitle}}: {{priceProviderRate}}</div>
-        </div>
+    <div class="top-item-text">
+        <ion-icon name="cust-station-pin" color="secondary"></ion-icon>
+        <div class="text">{{this.location.address}}</div>
+    </div>
+    <div class="top-item-text">
+        <ion-icon name="cust-time-money" color="secondary"></ion-icon>
+        <div class="text">{{priceProviderTitle}}: {{priceProviderRate}}</div>
+    </div>
 
     <hr>
 
     <div text-center *ngIf="countingDown" class="big-header">{{chargingTimeHours}}</div>
-    <div ion-text text-center *ngIf="activeCar == null" color="danger">Du musst erst ein Elektroauto hinzufügen bevor Du laden kannst.</div>
-    <div text-center class="price-label"><span *ngIf="!countingDown"> Voraussichtlicher Preis: </span>{{(chargingPrice /
-        100) | currency:'EUR':true:'1.2-2'}}
+    <div ion-text text-center *ngIf="activeCar == null" color="danger">Du musst erst ein Elektroauto hinzufügen bevor Du
+        laden kannst.
+    </div>
+    <div text-center class="price-label">
+        <span *ngIf="!countingDown"> Voraussichtlicher Preis: </span>
+        {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}}
     </div>
 
     <canvas id="circleProgressBar" width="280" height="280"></canvas>
