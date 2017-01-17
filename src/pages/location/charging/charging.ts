@@ -39,8 +39,6 @@ export class ChargingPage {
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
-        console.log("LOCATION IS ", this.location.stations[0].connectors[0]);
-
         if (this.location.stations[0].connectors[0].priceprovider.private.active) {
             this.getPriceTitle("private", this.location.stations[0].connectors[0].priceprovider.private.selected);
         }
@@ -108,7 +106,7 @@ export class ChargingPage {
 
     ionViewDidLoad() {
         if (this.charging) {
-            clearInterval(this.myCounter)
+            clearInterval(this.myCounter);
             this.myCounter = setInterval(() => {
                 this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
                 this.timer = this.chargingService.getRemainingTime();
@@ -119,20 +117,19 @@ export class ChargingPage {
         }
 
         else {
-            let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
-
+            let me = this;
             document.body.addEventListener("touchstart", function (e) {
-                if (e.target == c) {
+                if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
                     e.preventDefault();
                 }
             }, false);
             document.body.addEventListener("touchend", function (e) {
-                if (e.target == c) {
+                if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
                     e.preventDefault();
                 }
             }, false);
             document.body.addEventListener("touchmove", function (e) {
-                if (e.target == c) {
+                if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
                     e.preventDefault();
                 }
             }, false);
@@ -142,11 +139,28 @@ export class ChargingPage {
 
     }
 
+    isScrollable(x, y) {
+        let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
+        let rect = c.getBoundingClientRect();
+
+        let minRadius = 90;
+        let maxRadius = 120;
+        let centerX = 140;
+        let centerY = 140;
+
+        x = x - rect.left - centerX;
+        y = y - rect.top - centerY;
+
+        let distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        let scrollable = (distance > minRadius) && (distance < maxRadius);
+        return !scrollable;
+    }
+
     initiateCanvas() {
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
-        c.addEventListener('mousedown', (e) => this.circleRange_mouseDown(), false);
-        c.addEventListener('touchstart', (e) => this.circleRange_touchStart(), false);
+        c.addEventListener('mousedown', (e) => this.circleRange_mouseDown(e), false);
+        c.addEventListener('touchstart', (e) => this.circleRange_touchStart(e), false);
 
         c.addEventListener('mouseup', (e) => this.circleRange_mouseUp(this, e), false);
         c.addEventListener('touchend', (e) => this.circleRange_touchEnd(this, e, c), false);
@@ -162,17 +176,17 @@ export class ChargingPage {
     checkOpeningHours() {
         if (!this.connector.isOpen()) {
             let alert = this.alertCtrl.create({
-                title : 'Ladesäule geschlossen',
-                message : 'Sorry, aber leider ist diese Ladesäule gerade geschlossen. Sind Sie sicher, dass Sie die ausdrückliche Erlaubnis haben, jetzt zu laden?',
+                title: 'Ladesäule geschlossen',
+                message: 'Sorry, aber leider ist diese Ladesäule gerade geschlossen. Sind Sie sicher, dass Sie die ausdrückliche Erlaubnis haben, jetzt zu laden?',
                 buttons: [
                     {
-                        text : 'Ja',
-                        handler : () => {
+                        text: 'Ja',
+                        handler: () => {
                             this.startCharging();
                         }
                     },
                     {
-                        text : 'Nein'
+                        text: 'Nein'
                     }
                 ]
 
@@ -266,11 +280,11 @@ export class ChargingPage {
         this.chargingTimeHours = timerString;
     }
 
-    circleRange_mouseDown() {
+    circleRange_mouseDown(e) {
         this.mouseDragging = true;
     }
 
-    circleRange_touchStart() {
+    circleRange_touchStart(e) {
         this.mouseDragging = true;
     }
 
@@ -382,7 +396,6 @@ export class ChargingPage {
         ctx.fill();
 
         ctx.shadowBlur = 0;
-
         this.chargingTime = time;
 
     }
@@ -395,7 +408,6 @@ export class ChargingPage {
         let h = hours < 10 ? "0" + hours : hours;
         let m = minutes < 10 ? "0" + minutes : minutes;
         let s = seconds < 10 ? "0" + seconds : seconds;
-
 
         let finalString = h + ':' + m + ':' + s;
         return finalString;
