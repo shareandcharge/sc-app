@@ -168,8 +168,8 @@ export class ChargingPage {
     initiateCanvas() {
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
-        c.addEventListener('mousedown', (e) => this.circleRange_mouseDown(e), false);
-        c.addEventListener('touchstart', (e) => this.circleRange_touchStart(e), false);
+        c.addEventListener('mousedown', (e) => this.circleRange_mouseDown(), false);
+        c.addEventListener('touchstart', (e) => this.circleRange_touchStart(), false);
 
         c.addEventListener('mouseup', (e) => this.circleRange_mouseUp(this, e), false);
         c.addEventListener('touchend', (e) => this.circleRange_touchEnd(this, e, c), false);
@@ -289,11 +289,11 @@ export class ChargingPage {
         this.chargingTimeHours = timerString;
     }
 
-    circleRange_mouseDown(e) {
+    circleRange_mouseDown() {
         this.mouseDragging = true;
     }
 
-    circleRange_touchStart(e) {
+    circleRange_touchStart() {
         this.mouseDragging = true;
     }
 
