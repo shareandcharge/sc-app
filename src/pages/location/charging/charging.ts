@@ -117,20 +117,29 @@ export class ChargingPage {
         }
 
         else {
+
+            let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
+
             let me = this;
             document.body.addEventListener("touchstart", function (e) {
-                if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
-                    e.preventDefault();
+                if (e.target == c) {
+                    if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
+                        e.preventDefault();
+                    }
                 }
             }, false);
             document.body.addEventListener("touchend", function (e) {
-                if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
-                    e.preventDefault();
+                if (e.target == c) {
+                    if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
+                        e.preventDefault();
+                    }
                 }
             }, false);
             document.body.addEventListener("touchmove", function (e) {
-                if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
-                    e.preventDefault();
+                if (e.target == c) {
+                    if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
+                        e.preventDefault();
+                    }
                 }
             }, false);
 
