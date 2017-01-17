@@ -2,4 +2,20 @@ page-set-tariff {
   .tariff-box {
     border-bottom: 0.55px solid #c8c7cc;
   }
+
+  .input-box {
+    text-align: left;
+  }
+
+  .input-box-inner {
+    position: static !important;
+    padding-left: 33%; // fallback for browsers not supporting calc()
+    padding-left: calc(50% - 50px);
+
+    label {
+      position: relative;
+      left: 0px;
+      top: 0px;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {Platform, Events, LoadingController} from 'ionic-angular';
-import {StatusBar, Splashscreen, Push} from 'ionic-native';
+import {Platform, Events, LoadingController, Config} from 'ionic-angular';
+import {StatusBar, Splashscreen} from 'ionic-native';
 import {Storage} from '@ionic/storage';
 
 import {TabsPage} from '../pages/tabs/tabs';
@@ -18,12 +18,14 @@ export class MyApp {
     rootPage: any = TabsPage;
     loader: any;
 
-    constructor(platform: Platform, private authService: AuthService, private userService: UserService, private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController, public storage: Storage, private translateService: TranslateService) {
+    constructor(platform: Platform, private authService: AuthService, private userService: UserService, private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController, public storage: Storage, private translateService: TranslateService, private config: Config) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             StatusBar.styleDefault();
             Splashscreen.hide();
+
+            config.set('scrollAssist', true);
 
             translateService.setDefaultLang("de");
             translateService.use("de");
