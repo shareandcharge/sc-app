@@ -42,5 +42,10 @@
     "email_already_used": "[TRANSLATE] email_already_used",
     "register_error": "Bitte gib eine gültige E-Mail Adresse an. Das Passwort muss mindestens 7 Zeichen lang sein.",
     "user_update_error": "[TRANSLATE] user_update_error"
+  },
+  "payment": {
+    "types" : {
+      "cc" : "Kreditkarte"
+    }
   }
 }
