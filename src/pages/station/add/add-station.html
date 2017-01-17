@@ -28,6 +28,10 @@
                 <ion-input type="text" class="input-white" [(ngModel)]="locObject.address" (input)="updateSearch()" clearInput></ion-input>
             </ion-item>
             <div *ngIf="errorMessages.address" class="alert-box alert-box-danger" margin>{{ errorMessages.address }}</div>
+            <ion-item>
+                <ion-label stacked>Name der Station</ion-label>
+                <ion-input type="text" class="input-white" [(ngModel)]="locObject.name" placeholder="Typ 2 am Stadtpark"></ion-input>
+            </ion-item>
         </ion-list>
         <ion-list>
             <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
