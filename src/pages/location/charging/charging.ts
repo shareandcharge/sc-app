@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, ViewController} from 'ionic-angular';
+import {NavController, NavParams, AlertController, ViewController, LoadingController} from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 import {Connector} from "../../../models/connector";
 import {LocationService} from "../../../services/location.service";
@@ -37,7 +37,7 @@ export class ChargingPage {
 
     activeCar: Car;
 
-    constructor(public navCtrl: NavController, private errorService: ErrorService, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
+    constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
         console.log("LOCATION IS ", this.location.stations[0].connectors[0]);
 
@@ -160,43 +160,50 @@ export class ChargingPage {
     }
 
     startCharging() {
-        this.countingDown = true;
-        this.selectedChargingTime = this.chargingTime;
-        this.chargingTimeHours = this.chargingTimeHours + ":00";
-        let me = this;
-        me.timer = (this.hours * 3600) + (this.minutes * 60);
+        this.timer = (this.hours * 3600) + (this.minutes * 60);
+        let loader = this.loadingCtrl.create({content: "Starting Charging process.."});
+        loader.present();
 
-        me.chargingService.startCharging(me.connector.id, me.timer, me.activeCar.maxCharging).subscribe(
-            (response) => {
-            },
-            error => this.errorService.displayErrorWithKey(error, 'Charging Start Error'));
+        this.chargingService.startCharging(this.connector.id, this.timer, this.activeCar.maxCharging)
+            .finally(() => loader.dismissAll())
+            .subscribe(
+                (response) => {
+                    console.log("starting charging ", response)
+                    this.countingDown = true;
+                    this.selectedChargingTime = this.chargingTime;
+                    this.chargingTimeHours = this.chargingTimeHours + ":00";
 
-        me.chargingProgress = me.chargingService.getChargingProgress();
-        me.selectedChargingTime = me.timer;
-        me.myCounter = setInterval(() => {
-            this.hours = Math.floor(me.timer / 3600);
-            this.minutes = Math.floor((me.timer % 3600 ) / 60);
-            this.seconds = Math.floor((me.timer % 3600) % 60);
+                    this.chargingProgress = this.chargingService.getChargingProgress();
+                    this.selectedChargingTime = this.timer;
+                    this.myCounter = setInterval(() => {
+                        this.hours = Math.floor(this.timer / 3600);
+                        this.minutes = Math.floor((this.timer % 3600 ) / 60);
+                        this.seconds = Math.floor((this.timer % 3600) % 60);
 
-            this.hours = me.hours < 10 ? "0" + me.hours : me.hours;
-            this.minutes = me.minutes < 10 ? "0" + me.minutes : me.minutes;
-            this.seconds = me.seconds < 10 ? "0" + me.seconds : me.seconds;
+                        this.hours = this.hours < 10 ? "0" + this.hours : this.hours;
+                        this.minutes = this.minutes < 10 ? "0" + this.minutes : this.minutes;
+                        this.seconds = this.seconds < 10 ? "0" + this.seconds : this.seconds;
 
-            this.updateTimerString();
-            this.updateCanvas();
+                        this.updateTimerString();
+                        this.updateCanvas();
 
-            if (--this.timer < 0) {
-                this.timer = 0;
-                clearInterval(me.myCounter);
-                this.countingDown = false;
-                let chargedTimeString = me.makeTimeString(me.chargingService.chargedTime());
-                this.initiateCanvas();
-                this.chargingCompletedModal(chargedTimeString);
-            }
-        }, 1000);
+                        if (--this.timer < 0) {
+                            this.timer = 0;
+                            clearInterval(this.myCounter);
+                            this.countingDown = false;
+                            let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
+                            this.initiateCanvas();
+                            this.chargingCompletedModal(chargedTimeString);
+                        }
+                    }, 1000);
+
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Charging Start Error'));
     }
 
     stopCharging() {
+
+
         let alert = this.alertCtrl.create({
             title: 'Ladevorgang stoppen',
             message: 'Bist Du sicher, dass Du den Ladevorgang jetzt stoppen möchtest?',
@@ -212,24 +219,28 @@ export class ChargingPage {
                     handler: () => {
                         let chargedTime = this.chargingService.chargedTime();
 
-                        this.chargingService.stopCharging(this.connector.id).subscribe(
-                            (response) => {
-                            },
-                            error => this.errorService.displayErrorWithKey(error, 'Charging Stop Error'));
+                        let loader = this.loadingCtrl.create({content: "Stopping Charging process.."});
+                        loader.present();
 
-                        this.chargingProgress = 0;
-                        let chargedTimeString = this.makeTimeString(chargedTime);
-                        this.countingDown = false;
-                        clearInterval(this.myCounter);
-                        this.chargingTime = 0;
-                        this.timer = 0;
-                        this.hours = "00";
-                        this.minutes = "00";
-                        this.seconds = "00";
-                        this.updateTimerString();
-                        this.updateCanvas();
-                        this.initiateCanvas();
-                        this.chargingCompletedModal(chargedTimeString);
+                        this.chargingService.stopCharging(this.connector.id)
+                            .finally(() => loader.dismissAll())
+                            .subscribe(
+                                (response) => {
+                                    this.chargingProgress = 0;
+                                    let chargedTimeString = this.makeTimeString(chargedTime);
+                                    this.countingDown = false;
+                                    clearInterval(this.myCounter);
+                                    this.chargingTime = 0;
+                                    this.timer = 0;
+                                    this.hours = "00";
+                                    this.minutes = "00";
+                                    this.seconds = "00";
+                                    this.updateTimerString();
+                                    this.updateCanvas();
+                                    this.initiateCanvas();
+                                    this.chargingCompletedModal(chargedTimeString);
+                                },
+                                error => this.errorService.displayErrorWithKey(error, 'Charging Stop Error'));
                     }
                 }
             ]
