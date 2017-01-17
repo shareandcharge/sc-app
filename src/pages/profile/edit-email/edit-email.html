@@ -7,12 +7,17 @@
 </ion-header>
 
 <ion-content>
-    <form [formGroup]="editEmail" (ngSubmit)="updateUser()">
+    <form [formGroup]="emailForm" (ngSubmit)="updateUser()">
         <ion-list no-lines="">
             <ion-item>
                 <ion-label floating>Email Adresse</ion-label>
-                <ion-input type="email" class="input-white" formControlName="email"></ion-input>
+                <ion-input type="email" class="input-white" [(ngModel)]="user.email"
+                           formControlName="email"></ion-input>
             </ion-item>
+            <div *ngIf="!emailForm.controls.email.valid && submitAttempt"
+                 class="alert-box alert-box-danger" margin>
+                {{ errorMessages.email }}
+            </div>
             <div padding text-center>
                 <button type="submit" ion-button round text-uppercase="">Speichern</button>
             </div>
