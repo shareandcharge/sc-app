@@ -34,13 +34,12 @@ export class ChargingPage {
     priceProviderTitle: any;
     priceProviderRate: any;
     canvasImage: any;
+    doScrolling: boolean = true;
 
     activeCar: Car;
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
-        console.log("LOCATION IS ", this.location.stations[0].connectors[0]);
-
         if (this.location.stations[0].connectors[0].priceprovider.private.active) {
             this.getPriceTitle("private", this.location.stations[0].connectors[0].priceprovider.private.selected);
         }
@@ -108,11 +107,18 @@ export class ChargingPage {
 
     ionViewDidLoad() {
         if (this.charging) {
-            clearInterval(this.myCounter)
+            clearInterval(this.myCounter);
             this.myCounter = setInterval(() => {
                 this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
                 this.timer = this.chargingService.getRemainingTime();
                 this.updateCanvas();
+                if (this.timer == 0) {
+                    clearInterval(this.myCounter);
+                    this.countingDown = false;
+                    let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
+                    this.initiateCanvas();
+                    this.chargingCompletedModal(chargedTimeString);
+                }
             }, 1000);
             this.buttonDeactive = true;
             this.countingDown = true;
@@ -121,25 +127,41 @@ export class ChargingPage {
         else {
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
+            let me = this;
             document.body.addEventListener("touchstart", function (e) {
+                me.doScrolling = true;
                 if (e.target == c) {
-                    e.preventDefault();
+                    if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
+                        e.preventDefault();
+                        me.doScrolling = false;
+                    }
                 }
             }, false);
             document.body.addEventListener("touchend", function (e) {
-                if (e.target == c) {
-                    e.preventDefault();
-                }
             }, false);
             document.body.addEventListener("touchmove", function (e) {
-                if (e.target == c) {
-                    e.preventDefault();
-                }
             }, false);
 
             this.initiateCanvas();
         }
 
+    }
+
+    isScrollable(x, y) {
+        let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
+        let rect = c.getBoundingClientRect();
+
+        let minRadius = 90;
+        let maxRadius = 120;
+        let centerX = 140;
+        let centerY = 140;
+
+        x = x - rect.left - centerX;
+        y = y - rect.top - centerY;
+
+        let distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        let scrollable = (distance > minRadius) && (distance < maxRadius);
+        return !scrollable;
     }
 
     initiateCanvas() {
@@ -168,7 +190,6 @@ export class ChargingPage {
             .finally(() => loader.dismissAll())
             .subscribe(
                 (response) => {
-                    console.log("starting charging ", response)
                     this.countingDown = true;
                     this.selectedChargingTime = this.chargingTime;
                     this.chargingTimeHours = this.chargingTimeHours + ":00";
@@ -186,7 +207,6 @@ export class ChargingPage {
 
                         this.updateTimerString();
                         this.updateCanvas();
-
                         if (--this.timer < 0) {
                             this.timer = 0;
                             clearInterval(this.myCounter);
@@ -202,8 +222,6 @@ export class ChargingPage {
     }
 
     stopCharging() {
-
-
         let alert = this.alertCtrl.create({
             title: 'Ladevorgang stoppen',
             message: 'Bist Du sicher, dass Du den Ladevorgang jetzt stoppen möchtest?',
@@ -262,43 +280,51 @@ export class ChargingPage {
     }
 
     circleRange_mouseUp(self, e) {
-        this.mouseDragging = false;
-        if (!this.countingDown) {
-            self.drawSlideBar(e.offsetX, e.offsetY);
-        }
-    }
-
-    circleRange_touchEnd(self, e, canvas) {
-        this.mouseDragging = false;
-        if (!this.countingDown) {
-            let rect = canvas.getBoundingClientRect();
-            self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
-        }
-
-        if (this.activeCar != null) {
-            this.locationService.getPrice(this.connector.id, {
-                'timeToLoad': this.chargingTime,
-                'wattPower': this.carService.getActiveCar().maxCharging
-            }).subscribe((response) => {
-                    this.chargingPrice = response.min
-                },
-                error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
-        }
-    }
-
-    circleRange_mouseMove(self, e) {
-        if (this.mouseDragging) {
+        if (!this.doScrolling) {
+            this.mouseDragging = false;
             if (!this.countingDown) {
                 self.drawSlideBar(e.offsetX, e.offsetY);
             }
         }
     }
 
-    circleRange_touchMove(self, e, canvas) {
-        if (this.mouseDragging) {
+    circleRange_touchEnd(self, e, canvas) {
+        if (!this.doScrolling) {
+            this.mouseDragging = false;
             if (!this.countingDown) {
                 let rect = canvas.getBoundingClientRect();
                 self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
+            }
+
+            if (this.activeCar != null) {
+                this.locationService.getPrice(this.connector.id, {
+                    'timeToLoad': this.chargingTime,
+                    'wattPower': this.carService.getActiveCar().maxCharging
+                }).subscribe((response) => {
+                        this.chargingPrice = response.min
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
+            }
+        }
+    }
+
+    circleRange_mouseMove(self, e) {
+        if (!this.doScrolling) {
+            if (this.mouseDragging) {
+                if (!this.countingDown) {
+                    self.drawSlideBar(e.offsetX, e.offsetY);
+                }
+            }
+        }
+    }
+
+    circleRange_touchMove(self, e, canvas) {
+        if (!this.doScrolling) {
+            if (this.mouseDragging) {
+                if (!this.countingDown) {
+                    let rect = canvas.getBoundingClientRect();
+                    self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
+                }
             }
         }
     }
@@ -369,7 +395,6 @@ export class ChargingPage {
         ctx.fill();
 
         ctx.shadowBlur = 0;
-
         this.chargingTime = time;
 
     }
@@ -382,7 +407,6 @@ export class ChargingPage {
         let h = hours < 10 ? "0" + hours : hours;
         let m = minutes < 10 ? "0" + minutes : minutes;
         let s = seconds < 10 ? "0" + seconds : seconds;
-
 
         let finalString = h + ':' + m + ':' + s;
         return finalString;

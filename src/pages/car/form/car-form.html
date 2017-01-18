@@ -35,7 +35,7 @@
                                placeholder="Kennzeichen"
                                autocapitalize="characters"></ion-input>
                 </ion-item>
-                <div *ngIf="!carForm.controls.plateNumber.valid && (carForm.controls.plateNumber.dirty || submitAttempt)"
+                <div *ngIf="!carForm.controls.plateNumber.valid && submitAttempt"
                      class="alert-box alert-box-danger" margin>
                     {{ errorMessages.plateNumber }}
                     <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('plateNumber')"></ion-icon>
