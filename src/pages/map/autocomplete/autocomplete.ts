@@ -19,12 +19,6 @@ export class AutocompletePage {
         this.autocompleteItems = [];
     }
 
-    ionViewDidEnter() {
-        setTimeout(() => {
-            this.searchbar.setFocus();
-        });
-    }
-
     dismiss() {
         this.viewCtrl.dismiss();
     }
