@@ -1,2 +1,4 @@
-<div *ngIf="charging" class="progress-inner" [style.width]="progress + '%'">
+<div *ngIf="charging" class="progress-inner" [style.width]="progress + '%'" (click)="goToCharging()">
+    <div class="charging-overlay">
+    </div>
 </div>

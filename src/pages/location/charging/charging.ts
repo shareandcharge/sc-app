@@ -112,6 +112,13 @@ export class ChargingPage {
                 this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
                 this.timer = this.chargingService.getRemainingTime();
                 this.updateCanvas();
+                if (this.timer == 0) {
+                    clearInterval(this.myCounter);
+                    this.countingDown = false;
+                    let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
+                    this.initiateCanvas();
+                    this.chargingCompletedModal(chargedTimeString);
+                }
             }, 1000);
             this.buttonDeactive = true;
             this.countingDown = true;
@@ -200,7 +207,6 @@ export class ChargingPage {
 
                         this.updateTimerString();
                         this.updateCanvas();
-
                         if (--this.timer < 0) {
                             this.timer = 0;
                             clearInterval(this.myCounter);

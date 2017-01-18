@@ -4,7 +4,9 @@ import {Events, ToastController} from "ionic-angular";
 import {Storage} from '@ionic/storage';
 import {Badge} from 'ionic-native';
 import {AbstractApiService} from "./abstract.api.service";
+import {LocationService} from "./location.service";
 import {AuthService} from "./auth.service";
+import {ErrorService} from "./error.service";
 
 
 @Injectable()
@@ -17,15 +19,14 @@ export class ChargingService extends AbstractApiService {
     timer: number = 0;
     charging: boolean;
     connectorId: any;
+    location: any;
     public interval: any;
 
-    constructor(private authHttp: AuthHttp, private events: Events, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
+    constructor(private authHttp: AuthHttp, private events: Events, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
         super();
     }
 
     checkChargingState() {
-        console.log("checking charge state..");
-
         if (!this.auth.loggedIn()) {
             return;
         }
@@ -33,12 +34,21 @@ export class ChargingService extends AbstractApiService {
         let user = this.auth.getUser();
 
         this.getConnectors(user.address).subscribe((a) => {
-            console.log(a);
             if (a.length > 0) {
+
+                this.getStation(a[0].station).subscribe((res) => {
+                        this.locService.getLocation(res.location).subscribe((loc) => {
+                                this.location = loc;
+                            },
+                            error => this.errorService.displayErrorWithKey(error, 'Get Location Error'));
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Get Station Error'));
+
                 let remainingTime = Math.floor(a[0].timeleft);
                 if (remainingTime > 0) {
                     this.resumeCharging(remainingTime, a[0].secondstorent);
                 }
+
             }
         });
 
@@ -68,6 +78,14 @@ export class ChargingService extends AbstractApiService {
             .catch(this.handleError);
     }
 
+    getStation(stationId) {
+        return this.authHttp.get(`${this.baseUrl}/stations/${stationId}`)
+            .map(res => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
     getChargingProgress() {
         return this.progress;
     }
@@ -92,13 +110,10 @@ export class ChargingService extends AbstractApiService {
         return this.authHttp.post(`${this.baseUrl}/connectors/${connectorId}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
             .map(res => {
                 res.json();
-
-                console.log("inside start service ", res.json());
-
                 this.charging = true;
                 this.chargingTime = secondsToCharge;
                 this.connectorId = connectorId;
-                this.events.publish('charging:update', this.progress);
+                this.events.publish('charging:update', this.location, this.progress);
                 this.storage.set("chargingTime", this.chargingTime);
                 this.storage.set("isCharging", true);
                 this.startEventInterval();
@@ -127,7 +142,7 @@ export class ChargingService extends AbstractApiService {
         this.timer = 0;
         this.connectorId = null;
         this.storage.set("isCharging", false);
-        this.events.publish('charging:update', this.progress);
+        this.events.publish('charging:update', this.location, this.progress);
         clearInterval(this.counter);
         clearInterval(this.eventInterval);
     }
@@ -146,7 +161,7 @@ export class ChargingService extends AbstractApiService {
 
     startEventInterval() {
         this.eventInterval = setInterval(() => {
-            this.events.publish('charging:update', this.progress, this.charging);
+            this.events.publish('charging:update', this.location, this.progress, this.charging);
         }, 1000);
     }
 
@@ -170,7 +185,6 @@ export class ChargingService extends AbstractApiService {
     }
 
     presentToast() {
-        console.log("Toasting");
         let toast = this.toastCtrl.create({
             message: 'Charging Completed',
             duration: 3000
