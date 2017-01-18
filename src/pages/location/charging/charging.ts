@@ -17,6 +17,9 @@ export class ChargingPage {
     chargingTime: any;
     chargingTimeHours: any;
     chargingPrice: any;
+    chargingPricePerHour: any;
+    chargingTypeText: string;
+
     connector: Connector;
     hours: any;
     minutes: any;
@@ -37,6 +40,13 @@ export class ChargingPage {
     doScrolling: boolean = true;
 
     activeCar: Car;
+
+    priceProviderTariffTypes = [
+        'invalid',
+        'flatrate',
+        'hourly',
+        'kwh'
+    ];
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
@@ -103,6 +113,18 @@ export class ChargingPage {
 
     ionViewWillEnter() {
         this.activeCar = this.carService.getActiveCar();
+        if (this.activeCar) {
+            this.locationService.getPrice(this.connector.id, {
+                'secondsToCharge': 60 * 60,
+                'maxCharging': this.activeCar.maxCharging
+            }).subscribe((response) => {
+                    this.chargingPricePerHour = response.min;
+                    this.chargingTypeText = this.priceProviderTariffTypes[response.type];
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Preis ermitteln'));
+
+        }
+
     }
 
     ionViewDidLoad() {
@@ -298,8 +320,8 @@ export class ChargingPage {
 
             if (this.activeCar != null) {
                 this.locationService.getPrice(this.connector.id, {
-                    'timeToLoad': this.chargingTime,
-                    'wattPower': this.carService.getActiveCar().maxCharging
+                    'secondsToCharge': (this.hours * 3600) + (this.minutes * 60),
+                    'maxCharging': this.carService.getActiveCar().maxCharging
                 }).subscribe((response) => {
                         this.chargingPrice = response.min
                     },

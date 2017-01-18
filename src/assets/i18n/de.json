@@ -44,8 +44,16 @@
     "user_update_error": "[TRANSLATE] user_update_error"
   },
   "payment": {
-    "types" : {
-      "cc" : "Kreditkarte"
+    "types": {
+      "cc": "Kreditkarte"
+    }
+  },
+  "tariff": {
+    "types": {
+      "invalid": "unbekannt",
+      "flatrate": "Flatrate",
+      "hourly": "Stundentarif",
+      "kwh": "KWh genauer Tarif"
     }
   }
 }
