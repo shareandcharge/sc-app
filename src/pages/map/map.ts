@@ -91,6 +91,14 @@ export class MapPage {
         this.loadMap();
     }
 
+    ionViewDidEnter() {
+        if (this.map) {
+            //-- we had issues of messed up map views when reopening the app
+            //      this (may) fix it
+            google.maps.event.trigger(this.map, 'resize');
+        }
+    }
+
     private refreshCarInfo() {
         let observable = this.carService.getCars();
         observable.subscribe(cars => {
