@@ -168,7 +168,6 @@ export class ChargingPage {
             .finally(() => loader.dismissAll())
             .subscribe(
                 (response) => {
-                    console.log("starting charging ", response)
                     this.countingDown = true;
                     this.selectedChargingTime = this.chargingTime;
                     this.chargingTimeHours = this.chargingTimeHours + ":00";

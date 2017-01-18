@@ -32,7 +32,15 @@ export class ChargingService extends AbstractApiService {
 
         let user = this.auth.getUser();
 
-        this.getConnectors(user.address).subscribe(() => console.log('(OK)'));
+        this.getConnectors(user.address).subscribe((a) => {
+            console.log(a);
+            if (a.length > 0) {
+                let remainingTime = Math.floor(a[0].timeleft);
+                if (remainingTime > 0) {
+                    this.resumeCharging(remainingTime, a[0].secondstorent);
+                }
+            }
+        });
 
         // this.storage.get("isCharging").then(charging => {
         //     if (!charging) {
@@ -55,7 +63,6 @@ export class ChargingService extends AbstractApiService {
         return this.authHttp.get(`${this.baseUrl}/connectors/?controller=${userAddress}`)
             .map(res => {
                 let ret = res.json();
-                console.log(ret);
                 return ret;
             })
             .catch(this.handleError);
@@ -69,17 +76,24 @@ export class ChargingService extends AbstractApiService {
         return this.charging;
     }
 
+    resumeCharging(remainingTime, totalTime) {
+        this.chargingTime = totalTime;
+        this.charging = true;
+        this.startEventInterval();
+        this.countDown(remainingTime);
+    }
+
     startCharging(connectorId, secondsToCharge, maxCharging) {
         let chargingData = {
             "maxCharging": parseInt(maxCharging),
             "secondsToCharge": secondsToCharge
         };
 
-        console.log("start charging data " , connectorId , " " , chargingData);
-
-        return this.authHttp.post(`${this.baseUrl}/connectors/${connectorId}/start`, JSON.stringify(chargingData) , [{timeout: 3000}])
+        return this.authHttp.post(`${this.baseUrl}/connectors/${connectorId}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
             .map(res => {
                 res.json();
+
+                console.log("inside start service ", res.json());
 
                 this.charging = true;
                 this.chargingTime = secondsToCharge;
