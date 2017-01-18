@@ -1,15 +1,16 @@
 import {Injectable} from "@angular/core";
-import {Push, PushNotification} from "ionic-native";
+import {Push} from "ionic-native";
 import {User} from "../models/user";
 import {UserService} from "./user.service";
 import {AuthService} from "./auth.service";
+import {Platform} from "ionic-angular";
 
 
 @Injectable()
 export class PushNotifictaionService {
 
 
-    constructor(private userService: UserService, private authService: AuthService) {
+    constructor(private userService: UserService, private authService: AuthService, private platform: Platform) {
 
     }
 
@@ -33,14 +34,18 @@ export class PushNotifictaionService {
         push.on('registration', (data) => {
             console.log(data.registrationId);
 
-            if (typeof user.authentification.gcmDeviceTokens === 'undefined') {
-                user.authentification.gcmDeviceTokens = [];
+            let tokenArray = this.platform.is('ios') ? user.authentification.apnDeviceTokens : user.authentification.gcmDeviceTokens;
+
+            if (typeof tokenArray === 'undefined') {
+                tokenArray = [];
             }
 
-            user.authentification.gcmDeviceTokens.push(data.registrationId.toString());
-            this.userService.updateUser(user).subscribe((updatedUser) => {
-                this.authService.setUser(updatedUser);
-            });
+            if (tokenArray.indexOf(data.registrationId) === -1) {
+                tokenArray.push(data.registrationId.toString());
+                this.userService.updateUser(user).subscribe((updatedUser) => {
+                    this.authService.setUser(updatedUser);
+                });
+            }
         });
         push.on('notification', (data) => {
             console.log('message', data.message);
