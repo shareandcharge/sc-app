@@ -39,8 +39,6 @@ export class ChargingPage {
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
-        console.log("LOCATION IS ", this.location.stations[0].connectors[0]);
-
         if (this.location.stations[0].connectors[0].priceprovider.private.active) {
             this.getPriceTitle("private", this.location.stations[0].connectors[0].priceprovider.private.selected);
         }
@@ -113,6 +111,13 @@ export class ChargingPage {
                 this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
                 this.timer = this.chargingService.getRemainingTime();
                 this.updateCanvas();
+                if (this.timer == 0) {
+                    clearInterval(this.myCounter);
+                    this.countingDown = false;
+                    let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
+                    this.initiateCanvas();
+                    this.chargingCompletedModal(chargedTimeString);
+                }
             }, 1000);
             this.buttonDeactive = true;
             this.countingDown = true;
@@ -185,7 +190,6 @@ export class ChargingPage {
 
                         this.updateTimerString();
                         this.updateCanvas();
-
                         if (--this.timer < 0) {
                             this.timer = 0;
                             clearInterval(this.myCounter);
