@@ -52,6 +52,7 @@ export class User implements Serializable<User> {
         this.profile = input.profile;
         this.cars = input.cars;
         this.address = input.address;
+        this.authentification = input.authentification;
 
         return this;
     }

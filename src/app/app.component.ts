@@ -115,9 +115,6 @@ export class MyApp {
             this.userService.updateUser(user).subscribe((updatedUser) => {
                 this.authService.setUser(updatedUser);
             });
-        } else {
-            console.log('device token already present for user');
         }
-        console.log(user);
     }
 }
