@@ -163,7 +163,7 @@ export class LocationDetailPage {
         let activeCar = this.carService.getActiveCar();
 
         if (currentUser !== null && activeCar !== null) {
-            priceObject.wattPower = activeCar.maxCharging;
+            priceObject.maxCharging = activeCar.maxCharging;
         }
 
         this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
