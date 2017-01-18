@@ -22,7 +22,6 @@ export class ChargingCompletePage {
         this.chargedTime = navParams.get("chargedTime");
         this.location = navParams.get('location');
         this.connector = this.location.stations[0].connectors[0];
-
     }
 
     ionViewWillEnter() {

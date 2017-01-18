@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'icomoon';
-    src: url('../assets/fonts/icomoon/icomoon.eot?omdwyc3');
-    src: url('../assets/fonts/icomoon/icomoon.eot?omdwyc3#iefix') format('embedded-opentype'),
-    url('../assets/fonts/icomoon/icomoon.ttf?omdwyc3') format('truetype'),
-    url('../assets/fonts/icomoon/icomoon.woff?omdwyc3') format('woff'),
-    url('../assets/fonts/icomoon/icomoon.svg?omdwyc3#icomoon') format('svg');
+    src: url('../assets/fonts/icomoon/icomoon.eot?omdwyc5');
+    src: url('../assets/fonts/icomoon/icomoon.eot?omdwyc5#iefix') format('embedded-opentype'),
+    url('../assets/fonts/icomoon/icomoon.ttf?omdwyc5') format('truetype'),
+    url('../assets/fonts/icomoon/icomoon.woff?omdwyc5') format('woff'),
+    url('../assets/fonts/icomoon/icomoon.svg?omdwyc5#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -55,3 +55,4 @@
 @include makeIcon(cust-wallet, '\e908');
 @include makeIcon(cust-time-money, '\e909');
 @include makeIcon(cust-station-pin, '\e90a');
+@include makeIcon(cust-battery, '\e90b');

@@ -1,12 +1,13 @@
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "angular2-jwt";
-import {Events, ToastController} from "ionic-angular";
+import {Events, ToastController, ModalController} from "ionic-angular";
 import {Storage} from '@ionic/storage';
 import {Badge} from 'ionic-native';
 import {AbstractApiService} from "./abstract.api.service";
 import {LocationService} from "./location.service";
 import {AuthService} from "./auth.service";
 import {ErrorService} from "./error.service";
+import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete"
 
 
 @Injectable()
@@ -22,7 +23,7 @@ export class ChargingService extends AbstractApiService {
     location: any;
     public interval: any;
 
-    constructor(private authHttp: AuthHttp, private events: Events, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
+    constructor(private authHttp: AuthHttp, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
         super();
     }
 
@@ -95,13 +96,16 @@ export class ChargingService extends AbstractApiService {
     }
 
     resumeCharging(remainingTime, totalTime) {
+        console.log("total time is " , totalTime);
         this.chargingTime = totalTime;
         this.charging = true;
         this.startEventInterval();
         this.countDown(remainingTime);
     }
 
-    startCharging(connectorId, secondsToCharge, maxCharging) {
+    startCharging(connectorId, secondsToCharge, maxCharging , location) {
+        this.location = location;
+
         let chargingData = {
             "maxCharging": parseInt(maxCharging),
             "secondsToCharge": secondsToCharge
@@ -132,6 +136,7 @@ export class ChargingService extends AbstractApiService {
                 this.events.publish('locations:updated');
             })
             .catch(this.handleError);
+
     }
 
     chargingEnd() {
@@ -172,8 +177,9 @@ export class ChargingService extends AbstractApiService {
         me.timer = time;
         me.counter = setInterval(() => {
             if (--this.timer < 0) {
+                console.log("charging time is " , this.chargingTime);
+                this.presentToast(this.chargingTime);
                 this.chargingEnd();
-                this.presentToast();
             }
             let chargedTime = this.chargingTime - this.timer;
             this.progress = Math.floor((100 * chargedTime) / this.chargingTime);
@@ -184,11 +190,26 @@ export class ChargingService extends AbstractApiService {
         }, 1000);
     }
 
-    presentToast() {
+    presentToast(total) {
         let toast = this.toastCtrl.create({
             message: 'Charging Completed',
-            duration: 3000
+            showCloseButton: true,
+            closeButtonText: 'Ok',
+            position: 'top',
+            dismissOnPageChange: false
         });
+
+        toast.onDidDismiss(() => {
+            let data = {
+                "chargedTime" : total,
+                "location" : this.location
+            };
+
+            console.log("modal data is ", data);
+            let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
+            chargingCompletedModal.present();
+        });
+
         toast.present();
     }
 }

@@ -313,24 +313,13 @@ export class LocationDetailPage {
 
     charge() {
         if (this.authService.loggedIn()) {
-            let chargingModal = this.modalCtrl.create(ChargingPage, {
-                'location' : this.location
+            this.viewCtrl.dismiss({
+                "location": this.location
             });
-
-            chargingModal.onDidDismiss(data => {
-                if (data) {
-                    data.location = this.location;
-
-                    this.navCtrl.popToRoot();
-
-                    let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
-                    chargingCompletedModal.present();
-                }
-            });
-            chargingModal.present();
         }
         else {
             this.loginModal();
         }
+
     }
 }
