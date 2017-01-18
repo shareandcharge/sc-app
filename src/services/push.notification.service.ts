@@ -1,21 +1,18 @@
 import {Injectable} from "@angular/core";
 import {Push, PushNotification} from "ionic-native";
-import {User} from "../models/user";
-import {UserService} from "./user.service";
-import {AuthService} from "./auth.service";
-import {Platform} from "ionic-angular";
 
 
 @Injectable()
 export class PushNotificationService {
     push: PushNotification = null;
+    deviceToken: string = '';
 
 
-    constructor(private userService: UserService, private authService: AuthService, private platform: Platform) {
+    constructor() {
 
     }
 
-    registerPushNotification(user: User) {
+    initPushNotification() {
         if (!(window as any).cordova) {
             console.log('Skipping registration of Push Notifications in browser');
             return;
@@ -41,18 +38,7 @@ export class PushNotificationService {
         this.push.on('registration', (data) => {
             console.log(data.registrationId);
 
-            let tokenArray = this.platform.is('ios') ? user.authentification.apnDeviceTokens : user.authentification.gcmDeviceTokens;
-
-            if (typeof tokenArray === 'undefined') {
-                tokenArray = [];
-            }
-
-            if (tokenArray.indexOf(data.registrationId) === -1) {
-                tokenArray.push(data.registrationId.toString());
-                this.userService.updateUser(user).subscribe((updatedUser) => {
-                    this.authService.setUser(updatedUser);
-                });
-            }
+            this.deviceToken = data.registrationId.toString();
         });
         this.push.on('notification', (data) => {
             console.log('message', data.message);
@@ -66,5 +52,9 @@ export class PushNotificationService {
         this.push.on('error', (e) => {
             console.log(e.message);
         });
+    }
+
+    getDeviceToken() {
+        return this.deviceToken;
     }
 }
