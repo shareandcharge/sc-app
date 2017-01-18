@@ -46,7 +46,7 @@ export class CarFormPage {
         this.createErrorMessages();
 
         this.carForm = formBuilder.group({
-            plateNumber: ['', Validators.compose([Validators.maxLength(20), Validators.minLength(4), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+            plateNumber: ['', Validators.compose([Validators.maxLength(20), Validators.minLength(4), Validators.required])],
             manufacturer: ['', Validators.required],
             model: ['', Validators.required],
             accuCapacity: ['', Validators.compose([accuCapacityValidator.isValid, Validators.required])],
@@ -60,11 +60,11 @@ export class CarFormPage {
         this.errorMessages = {
             "plateNumber": 'Bitte gib das Kennzeichen an.',
             "accuCapacity": 'Bitte gib die Batteriekapazität an.',
-            "manufacturer": 'Bitte gib die Hersteller an',
-            "model": 'Bitte gib das Modell an',
-            "plugTypes": 'Bitte gib den Steckertyp an.',
+            "manufacturer": 'Bitte gib den Hersteller an.',
+            "model": 'Bitte gib das Modell an.',
+            "plugTypes": 'Bitte gib die Steckertypen an.',
             "maxCharging": 'Bitte gib die maximale Stromstärke an.',
-            "averageDistance": 'Bitte gib die Durchschnittliche Reichweite an.'
+            "averageDistance": 'Bitte gib die durchschnittliche Reichweite an.'
         }
     }
 

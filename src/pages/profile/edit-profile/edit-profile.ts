@@ -30,9 +30,9 @@ export class EditProfilePage {
         this.createErrorMessages();
 
         this.profileForm = this.formBuilder.group({
-            firstName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(3), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-            lastName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(3), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-            address: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(10), Validators.required])],
+            firstName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+            lastName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+            address: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
             city: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
             country: ['', countryValidator.isValid],
             postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5), postalCodeValidator.isValid])]
@@ -41,12 +41,12 @@ export class EditProfilePage {
 
     createErrorMessages() {
         this.errorMessages = {
-            "firstName": 'Bitte gib die Name an.',
-            "lastName": 'Bitte gib die Nachname an.',
-            "address": 'Bitte gib die Adresse an',
-            "city": 'Bitte gib die Stadt an',
-            "country": 'Bitte gib der Land an.',
-            "postalCode": 'Bitte gib die PLZ an.'
+            "firstName": 'Bitte gib Deinen Namen an.',
+            "lastName": 'Bitte gib Deinen Nachnamen an.',
+            "address": 'Bitte gib Deine Straße und Hausnummer an.',
+            "city": 'Bitte gib Deine Stadt an.',
+            "country": 'Bitte gib Dein Land an.',
+            "postalCode": 'Bitte gib Deine PLZ an.'
         }
     }
 
@@ -70,7 +70,7 @@ export class EditProfilePage {
 
         switch (field) {
             case 'postalCode':
-                message = "must be between 5 to 10 digits";
+                message = "Muss 5 Zeichen lang sein.";
                 break;
         }
 
