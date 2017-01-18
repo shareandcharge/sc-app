@@ -26,6 +26,11 @@ page-wallet {
     border-bottom: 2px solid #ddd;
   }
 
+  .amount:before {
+    display: inline-block;
+    width: 12px;
+  }
+
   .number-negative:before, .number-positive:before {
     position: relative;
     top: -1px;

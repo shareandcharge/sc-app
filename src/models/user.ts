@@ -7,6 +7,7 @@ export class User implements Serializable<User> {
     address: string;
     profile: any;
     cars: any;
+    authentification: any;
 
     constructor() {
         this.id = '';
@@ -14,6 +15,11 @@ export class User implements Serializable<User> {
         this.address = '';
         this.profile = {};
         this.cars = {};
+
+        this.authentification = {};
+
+        this.authentification.apnDeviceTokens = [];
+        this.authentification.gcmDeviceTokens = [];
     }
 
     hasImage() {
@@ -46,6 +52,7 @@ export class User implements Serializable<User> {
         this.profile = input.profile;
         this.cars = input.cars;
         this.address = input.address;
+        this.authentification = input.authentification;
 
         return this;
     }
