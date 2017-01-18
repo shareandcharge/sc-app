@@ -61,7 +61,9 @@ export class UserService extends AbstractApiService {
 
     updateUser(user: User): Observable<User> {
         return this.authHttp.put(`${this.baseUrl}/users`, JSON.stringify(user))
-            .map(res => res.json())
+            .map(res => {
+                return new User().deserialize(res.json())
+            })
             .catch(this.handleError);
     }
 

@@ -1,5 +1,6 @@
 import {Serializable} from './serializable';
-import {isDefined, isBlank} from "ionic-angular/util/util";
+import {isDefined, isBlank, isArray} from "ionic-angular/util/util";
+import {Platform} from "ionic-angular";
 
 export class User implements Serializable<User> {
     id: any;
@@ -44,6 +45,35 @@ export class User implements Serializable<User> {
         });
 
         return allComplete;
+    }
+
+    initTokenArrays() {
+        if (!isArray(this.authentification.apnDeviceTokens)) {
+            this.authentification.apnDeviceTokens = [];
+        }
+
+        if (!isArray(this.authentification.gcmDeviceTokens)) {
+            this.authentification.gcmDeviceTokens = [];
+        }
+    }
+
+    deviceTokenExists(deviceToken) {
+        this.initTokenArrays();
+
+        return this.authentification.apnDeviceTokens.indexOf(deviceToken) !== -1
+            || this.authentification.gcmDeviceTokens.indexOf(deviceToken) !== -1
+    }
+
+    addDeviceToken(deviceToken, platform) {
+        this.initTokenArrays();
+
+        if (platform === 'ios') {
+            this.authentification.apnDeviceTokens.push(deviceToken);
+        }
+
+        if (platform === 'android') {
+            this.authentification.gcmDeviceTokens.push(deviceToken);
+        }
     }
 
     deserialize(input) {

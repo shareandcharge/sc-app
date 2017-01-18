@@ -36,7 +36,7 @@ export class MyApp {
             });
             this.events.subscribe('auth:login', () => {
                 this.updateUserDeviceToken();
-            })
+            });
 
             translateService.setDefaultLang("de");
             translateService.use("de");
@@ -104,16 +104,13 @@ export class MyApp {
         }
 
         let user = this.authService.getUser();
-        let tokenArray = this.platform.is('ios') ? user.authentification.apnDeviceTokens : user.authentification.gcmDeviceTokens;
+        let currentPlatform = this.platform.is('ios') ? 'ios' : 'android';
 
-        if (typeof tokenArray === 'undefined') {
-            tokenArray = [];
-        }
-
-        if (tokenArray.indexOf(deviceToken) === -1) {
-            tokenArray.push(deviceToken);
+        if (!user.deviceTokenExists(deviceToken)) {
+            user.addDeviceToken(deviceToken, currentPlatform);
             this.userService.updateUser(user).subscribe((updatedUser) => {
                 this.authService.setUser(updatedUser);
+                console.log(updatedUser);
             });
         }
     }
