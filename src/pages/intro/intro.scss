@@ -1,36 +1,46 @@
 page-on-boarding {
-    .swiper-pagination-bullet-active {
-        background-color: map_get($colors, primary);
-    }
+  .swiper-pagination-bullet-active {
+    background-color: map_get($colors, primary);
+  }
 
-    .top-container {
-        position: relative;
-        height: 100%;
-    }
+  .top-container {
+    position: relative;
+    height: 100%;
+  }
 
-    .bottom-container {
-        position: absolute;
-        bottom: 10px;
-        width: 100%;
-        z-index: 3;
-    }
+  .bottom-container {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    z-index: 3;
+  }
 
-    h2 {
-        color: map_get($colors, secondary);
-    }
+  h2 {
+    color: map_get($colors, secondary);
+  }
 
-    p {
-        color: rgb(102, 102, 102);
-        padding-bottom: 100px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
+  p {
+    color: rgb(102, 102, 102);
+    padding-bottom: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 
-    a {
-        text-decoration: none;
-    }
+  a {
+    text-decoration: none;
+  }
 
-    .dark {
-        color: rgb(128, 128, 128);
+  .dark {
+    color: rgb(128, 128, 128);
+  }
+
+  ion-slide {
+    img {
+      padding-bottom: 10%;
     }
+    .text-wrapper {
+      height: 200px;
+      padding: 0 16px 16px;
+    }
+  }
 }
