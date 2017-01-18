@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Push} from "ionic-native";
+import {Push, PushNotification} from "ionic-native";
 import {User} from "../models/user";
 import {UserService} from "./user.service";
 import {AuthService} from "./auth.service";
@@ -7,7 +7,8 @@ import {Platform} from "ionic-angular";
 
 
 @Injectable()
-export class PushNotifictaionService {
+export class PushNotificationService {
+    push: PushNotification = null;
 
 
     constructor(private userService: UserService, private authService: AuthService, private platform: Platform) {
@@ -16,11 +17,16 @@ export class PushNotifictaionService {
 
     registerPushNotification(user: User) {
         if (!(window as any).cordova) {
-            console.log('Skipping registration of push in browser');
+            console.log('Skipping registration of Push Notifications in browser');
             return;
         }
 
-        let push = Push.init({
+        if (this.push !== null) {
+            console.log('Push Notification already registered on this device');
+            return;
+        }
+
+        this.push = Push.init({
             android: {
                 senderID: "183711573057"
             },
@@ -31,7 +37,8 @@ export class PushNotifictaionService {
             },
             windows: {}
         });
-        push.on('registration', (data) => {
+
+        this.push.on('registration', (data) => {
             console.log(data.registrationId);
 
             let tokenArray = this.platform.is('ios') ? user.authentification.apnDeviceTokens : user.authentification.gcmDeviceTokens;
@@ -47,21 +54,16 @@ export class PushNotifictaionService {
                 });
             }
         });
-        push.on('notification', (data) => {
+        this.push.on('notification', (data) => {
             console.log('message', data.message);
-            let self = this;
-            //if user using app and push notification comes
+
             if (data.additionalData.foreground) {
-                alert('New Notif: ' + data.message);
-                console.log('Foregroud push');
+                console.log('Foreground push');
             } else {
-                //if user NOT using app and push notification comes
-                //TODO: Your logic on click of push notification directly
-                // self.nav.push(DetailsPage, {message: data.message});
                 console.log("Push notification clicked");
             }
         });
-        push.on('error', (e) => {
+        this.push.on('error', (e) => {
             console.log(e.message);
         });
     }

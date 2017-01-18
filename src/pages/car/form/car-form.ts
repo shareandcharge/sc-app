@@ -18,6 +18,8 @@ import {plugTypesValidator} from '../../../validators/plugTypesValidator';
 import {averageDistanceValidator} from '../../../validators/averageDistanceValidator';
 import {maxChargingValidator} from '../../../validators/maxChargingValidator';
 import {accuCapacityValidator} from '../../../validators/accuCapacityValidator';
+import {PushNotificationService} from "../../../services/push.notification.service";
+import {AuthService} from "../../../services/auth.service";
 
 
 @Component({
@@ -35,7 +37,7 @@ export class CarFormPage {
     carForm: any;
     submitAttempt: boolean = false;
 
-    constructor(private configService: ConfigService, public formBuilder: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService) {
+    constructor(private configService: ConfigService, public formBuilder: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService, private pushNotifcationService: PushNotificationService, private authService: AuthService) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -156,6 +158,8 @@ export class CarFormPage {
                         error => this.errorService.displayErrorWithKey(error, 'Auto anlegen')
                     );
             }
+
+            this.pushNotifcationService.registerPushNotification(this.authService.getUser());
         }
         else {
             console.log("car form is invalid");

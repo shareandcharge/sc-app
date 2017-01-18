@@ -6,6 +6,8 @@ import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
 import {ErrorService} from "../../../services/error.service";
 import {debounce} from "ionic-angular/util/util";
+import {PushNotificationService} from "../../../services/push.notification.service";
+import {AuthService} from "../../../services/auth.service";
 
 
 @Component({
@@ -29,7 +31,7 @@ export class SetTariffPage {
 
     estimatedPrice: any;
 
-    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events, private errorService: ErrorService, private pushNotificationService: PushNotificationService, private authService: AuthService) {
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
         this.priceprovider = this.connector.priceprovider;
@@ -174,6 +176,8 @@ export class SetTariffPage {
                     },
                     error => this.errorService.displayErrorWithKey(error, 'Ladestation hinzufügen')
                 );
+
+                this.pushNotificationService.registerPushNotification(this.authService.getUser());
             } else {
                 this.locationService.updateLocation(this.locObject).subscribe(
                     (location) => {

@@ -60,7 +60,7 @@ import {PaymentService} from "../services/payment.service";
 import {ChargingService} from "../services/charging.service";
 import {ConfigService} from "../services/config.service";
 import {ErrorService} from "../services/error.service";
-import {PushNotifictaionService} from "../services/push.notification.service";
+import {PushNotificationService} from "../services/push.notification.service";
 
 
 let storage = new Storage();
@@ -202,7 +202,7 @@ export function createTranslateLoader(http: Http) {
         PaymentService,
         ConfigService,
         ErrorService,
-        PushNotifictaionService
+        PushNotificationService
     ]
 })
 export class AppModule {
