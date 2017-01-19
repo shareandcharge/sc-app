@@ -12,20 +12,28 @@ page-signup {
   }
 
   .content {
-    @include sc-gradient();
+    @include sc-gradient-dark();
   }
 
   form {
     .list-tac {
       margin-bottom: 0;
+      .item-cover {
+        // to make the link in the label click-able
+        width: 80px;
+      }
+    }
+    a {
+      text-decoration: underline;
     }
     input.text-input {
       font-size: 1.7rem;
       color: #fff;
-      @include placeholder(#fff);
+      @include placeholder(#eee);
       background-color: rgba(255, 255, 255, 0.25);
       padding: 10px 14px;
       margin: 0;
+      border-radius: $border-radius;
     }
     ion-label {
       color: #fff;

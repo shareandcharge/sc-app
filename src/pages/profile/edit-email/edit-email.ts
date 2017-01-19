@@ -1,8 +1,11 @@
 import {Component} from "@angular/core";
-import {NavParams, NavController} from "ionic-angular";
+import {NavParams, NavController, Events} from "ionic-angular";
 import {User} from "../../../models/user";
-import {ProfilePage} from "../profile";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, Validators} from '@angular/forms';
+import {UserService} from "../../../services/user.service";
+import {AuthService} from "../../../services/auth.service";
+import {ErrorService} from "../../../services/error.service";
+import {emailValidator} from '../../../validators/emailValidator'
 
 
 @Component({
@@ -10,24 +13,39 @@ import {FormBuilder, FormGroup} from "@angular/forms";
     templateUrl: 'edit-email.html'
 })
 export class EditEmailPage {
-    user:User;
-    parent:ProfilePage;
+    user: User;
 
-    editEmail:FormGroup;
+    emailForm: any;
+    errorMessages: any;
+    submitAttempt: boolean = false;
 
-    constructor(private navParams : NavParams, public navCtrl : NavController, private formBuilder: FormBuilder) {
-        this.parent = navParams.get('parent');
-        this.user = this.parent.user;
+    constructor(private userService: UserService, private navParams: NavParams, public navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder, private events: Events, private errorService: ErrorService) {
+        this.user = navParams.get('user');
 
-        this.editEmail = this.formBuilder.group({
-            email : this.user.email
+        this.createErrorMessages();
+
+        this.emailForm = this.formBuilder.group({
+            email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
         });
     }
 
-    updateUser() {
-        this.parent.user.email = this.editEmail.value.email;
-        this.parent.updateUser();
+    createErrorMessages() {
+        this.errorMessages = {
+            "email": 'Bitte gib die E-Mail an.',
+        }
+    }
 
-        this.navCtrl.pop();
+    updateUser() {
+        this.submitAttempt = true;
+        if (this.emailForm.valid) {
+            this.userService.updateUser(this.user)
+                .subscribe(
+                    () => {
+                        this.authService.setUser(this.user);
+                        this.events.publish('users:updated');
+                        this.navCtrl.pop();
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+        }
     }
 }

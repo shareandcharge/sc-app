@@ -11,6 +11,8 @@
 
 $text-color: #000;
 $background-color: #F5F6F7;
+$toolbar-background: #fff;
+$border-radius: 4px;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -23,9 +25,11 @@ $background-color: #F5F6F7;
 $colors: (
         primary: #006EF1,
         secondary: #A46EF1,
-        danger: #f53d3d,
+        danger: #ec1b61,
         light: #f4f4f4,
-        dark: #222
+        dark: #222,
+        grey: #F5F6F7,
+        grey_darker: #808080
 );
 
 $brand-color: (
@@ -47,6 +51,8 @@ $tabs-ios-tab-color-inactive: map-get($colors, dark);
 $segment-button-ios-opacity-hover: 0.8;
 $segment-button-ios-opacity-active: 1;
 
+$toolbar-ios-button-color: map_get($colors, dark);
+
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
@@ -54,12 +60,16 @@ $tabs-md-tab-color-active: map-get($colors, secondary);
 $tabs-md-tab-color-inactive: map-get($colors, dark);
 $tabs-md-tab-opacity: 1;
 
+$toolbar-md-button-color: map_get($colors, dark);
+
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
 $tabs-wp-tab-color-active: map-get($colors, secondary);
 $tabs-wp-tab-color: map-get($colors, dark);
 $tabs-wp-tab-opacity: 1;
+
+$toolbar-wp-button-color: map_get($colors, dark);
 
 // App Theme
 // --------------------------------------------------
@@ -70,6 +80,7 @@ $tabs-wp-tab-opacity: 1;
 
 @import "ionic.theme.default";
 @import "mixins";
+@import "utilities";
 @import "custom-icon-font";
 @import "content";
 @import "grid";
@@ -77,8 +88,10 @@ $tabs-wp-tab-opacity: 1;
 @import "buttons";
 @import "forms";
 @import "items";
+@import "rating";
 @import "segment";
 @import "popover";
+@import "alert-box";
 
 // Ionicons
 // --------------------------------------------------

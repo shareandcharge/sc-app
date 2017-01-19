@@ -1,0 +1,59 @@
+<ion-header class="transparent">
+
+    <ion-navbar>
+        <ion-title></ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="goToHome()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content class="content-white" padding>
+    <div class="top-container">
+        <ion-slides #mySlider [options]="slideOptions" (ionDidChange)="SlideChanged()">
+
+            <ion-slide>
+                <div class="img-wrapper"><img src="assets/images/intro/01.gif"></div>
+                <h2>Ladestation finden</h2>
+                <div class="text-wrapper">
+                    Suche auf unserer interaktiven Karte nach Ladestationen in Deiner Nähe. Mit Hilfe der Filter kannst
+                    Du spezifisch nach Deinen Suchkreterien filtern.
+                </div>
+            </ion-slide>
+
+            <ion-slide>
+                <div class="img-wrapper"><img src="assets/images/intro/02.gif"></div>
+                <h2>Ladestation registrieren</h2>
+                <div class="text-wrapper">
+                    Du besitzt eine Ladestation? Registiere sie und entscheide wer wann und zu welchem Tarif bei Dir
+                    laden kann.
+                </div>
+            </ion-slide>
+
+            <ion-slide>
+                <div class="img-wrapper"><img src="assets/images/intro/03.gif"></div>
+                <h2>Konto</h2>
+                <div class="text-wrapper">
+                    Dein Konto gibt dir eine Übersicht über alle Deine Transaktionen. Lade dein Konto ganz einfach auf,
+                    lass Dir Dein Guthaben auszahlen, oder spende Dein Guthaben an eine gemeinnützige Organisation.
+                </div>
+            </ion-slide>
+
+        </ion-slides>
+        <div class="bottom-container">
+            <ion-grid>
+                <ion-row>
+                    <ion-col width-50 text-left>
+                        <a href="#" class="dark" (click)="goToHome()">Überspringen</a>
+                    </ion-col>
+                    <ion-col width-50 text-right>
+                        <a href="#" (click)="changeSlide()">{{sliderText}}</a>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </div>
+</ion-content>

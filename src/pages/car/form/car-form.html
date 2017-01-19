@@ -3,9 +3,10 @@
     <ion-navbar>
         <ion-title *ngIf="mode!='edit'">Elektroauto hinzufügen</ion-title>
         <ion-title *ngIf="mode=='edit'">Elektroauto bearbeiten</ion-title>
-        <ion-buttons start>
-            <button ion-button (click)="skipAddingCar()">
-                Abbrechen
+
+        <ion-buttons end>
+            <button ion-button icon-only="" (click)="skipAddingCar()">
+                <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
@@ -26,12 +27,21 @@
         <button class="image-button" (click)="selectPhoto()" *ngIf="!car.hasImage()">
             <span>Foto hinzufügen</span>
         </button>
-
-        <ion-list no-lines>
-            <ion-item class="input-plate">
-                <ion-input type="text" [(ngModel)]="car.plateNumber" placeholder="Kennzeichen" autocapitalize="characters"></ion-input>
-            </ion-item>
-        </ion-list>
+        <form [formGroup]="carForm">
+            <ion-list no-lines>
+                <ion-item class="input-plate">
+                    <ion-input type="text" [(ngModel)]="car.plateNumber"
+                               formControlName="plateNumber"
+                               placeholder="Kennzeichen"
+                               autocapitalize="characters"></ion-input>
+                </ion-item>
+                <div *ngIf="!carForm.controls.plateNumber.valid && submitAttempt"
+                     class="alert-box alert-box-danger" margin>
+                    {{ errorMessages.plateNumber }}
+                    <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('plateNumber')"></ion-icon>
+                </div>
+            </ion-list>
+        </form>
 
         <ion-segment color="primary" [(ngModel)]="segmentTabs" class="segment-borderless">
             <ion-segment-button value="preset">
@@ -44,10 +54,10 @@
     </div>
 
     <div padding class="bottom-container">
-        <ion-list>
+        <ion-list no-lines="">
             <div *ngIf="segmentTabs == 'preset'">
                 <ion-list>
-                    <button ion-item (click)="selectModdel()" detail-none>
+                    <button ion-item (click)="selectModdel()" detail-none class="lines-inner-bottom">
                         <ion-icon name="ios-list" item-right></ion-icon>
                         <span *ngIf="car.manufacturer == ''">Hersteller &amp; Modell</span>
                         <span *ngIf="car.manufacturer != ''">{{car.manufacturer}} {{car.model}}</span>
@@ -57,48 +67,91 @@
         </ion-list>
 
         <ion-list no-lines="">
-            <div *ngIf="segmentTabs == 'custom'">
-                <ion-item>
-                    <ion-label floating>Hersteller</ion-label>
-                    <ion-input type="text" [(ngModel)]="car.manufacturer"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label floating>Modell</ion-label>
-                    <ion-input type="text" [(ngModel)]="car.model"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label floating>Durchschnittliche Reichweite</ion-label>
-                    <ion-input type="text" [(ngModel)]="car.averageDistance"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label floating>Batteriekapazität</ion-label>
-                    <ion-input type="text" [(ngModel)]="car.accuCapacity"></ion-input>
-                </ion-item>
+            <form [formGroup]="carForm">
+                <div *ngIf="segmentTabs == 'custom'">
+                    <ion-item>
+                        <ion-label floating>Hersteller</ion-label>
+                        <ion-input class="input-white" type="text"
+                                   formControlName="manufacturer"
+                                   [(ngModel)]="car.manufacturer"></ion-input>
+                    </ion-item>
+                    <div *ngIf="!carForm.controls.manufacturer.valid && submitAttempt"
+                         class="alert-box alert-box-danger" margin>
+                        {{ errorMessages.manufacturer }}
+                    </div>
+                    <ion-item>
+                        <ion-label floating>Modell</ion-label>
+                        <ion-input class="input-white" type="text"
+                                   formControlName="model"
+                                   [(ngModel)]="car.model"></ion-input>
+                    </ion-item>
+                    <div *ngIf="!carForm.controls.model.valid &&  submitAttempt"
+                         class="alert-box alert-box-danger" margin>
+                        {{ errorMessages.model }}
+                    </div>
+                    <ion-item>
+                        <ion-label floating>Durchschnittliche Reichweite (km)</ion-label>
+                        <ion-input class="input-white" type="number"
+                                   formControlName="averageDistance"
+                                   [(ngModel)]="car.averageDistance"></ion-input>
+                    </ion-item>
+                    <div *ngIf="!carForm.controls.averageDistance.valid && submitAttempt"
+                         class="alert-box alert-box-danger" margin>
+                        {{ errorMessages.averageDistance }}
+                        <ion-icon name="ios-help-circle-outline" item-right
+                                  (click)="showHelp('averageDistance')"></ion-icon>
+                    </div>
+                    <ion-item>
+                        <ion-label floating>Max. Ladeleistung (kW)</ion-label>
+                        <ion-input class="input-white" type="number"
+                                   formControlName="maxCharging"
+                                   [(ngModel)]="car.maxCharging"></ion-input>
+                    </ion-item>
+                    <div *ngIf="!carForm.controls.maxCharging.valid && submitAttempt"
+                         class="alert-box alert-box-danger" margin>
+                        {{ errorMessages.maxCharging }}
+                        <ion-icon name="ios-help-circle-outline" item-right
+                                  (click)="showHelp('maxCharging')"></ion-icon>
+                    </div>
+                    <ion-item>
+                        <ion-label floating>Batteriekapazität (kWh)</ion-label>
+                        <ion-input class="input-white" type="number"
+                                   formControlName="accuCapacity"
+                                   [(ngModel)]="car.accuCapacity"></ion-input>
+                    </ion-item>
+                    <div *ngIf="!carForm.controls.accuCapacity.valid && submitAttempt"
+                         class="alert-box alert-box-danger" margin>
+                        {{ errorMessages.accuCapacity }}
+                        <ion-icon name="ios-help-circle-outline" item-right
+                                  (click)="showHelp('accuCapacity')"></ion-icon>
+                    </div>
+                </div>
 
-                <ion-item>
-                    <ion-label>Steckertypen</ion-label>
+                <ion-item text-wrap>
+                    <ion-label>Steckertypen<br>
+                        <small>
+                        Bitte fügen sie alle Steckerformate hinzu, die ihr Auto unterstützt.</small></ion-label>
                 </ion-item>
-
                 <ion-item>
-                    <ion-select [(ngModel)]="car.plugTypes" [selectOptions]="selectPlugTypesOptions" multiple="true" class="select-multiline" placeholder="Bitte wählen ...">
-                        <ion-option>Schuko-Steckdose</ion-option>
-                        <ion-option>CEE-Stecker</ion-option>
-                        <ion-option>Typ 1</ion-option>
-                        <ion-option>Typ 2</ion-option>
-                        <ion-option>Combo</ion-option>
-                        <ion-option>CHAdeMO</ion-option>
-                        <ion-option>Tesla Supercharger</ion-option>
+                    <ion-select [(ngModel)]="car.plugTypes"
+                                formControlName="plugTypes"
+                                [selectOptions]="" multiple="true"
+                                class="select-multiline input-white" placeholder="Bitte wählen ...">
+                        <ion-option *ngFor="let plug of plugOptions" value="{{plug.id}}">{{plug.name}}</ion-option>
                     </ion-select>
                 </ion-item>
-            </div>
+                <div *ngIf="!carForm.controls.plugTypes.valid && submitAttempt"
+                     class="alert-box alert-box-danger" margin>
+                    {{ errorMessages.plugTypes }}
+                </div>
 
-            <div padding text-center>
-                <button ion-button round (click)="saveCar()">
-                    <span *ngIf="mode!='edit'">Speichern</span>
-                    <span *ngIf="mode=='edit'">Aktualisieren</span>
-                </button>
-            </div>
+                <div padding text-center>
+                    <button ion-button round (click)="saveCar()">
+                        <span *ngIf="mode!='edit'">Speichern</span>
+                        <span *ngIf="mode=='edit'">Aktualisieren</span>
+                    </button>
+                </div>
+            </form>
         </ion-list>
     </div>
-
 </ion-content>

@@ -8,7 +8,16 @@ import {Rating} from "../../models/rating";
 import {LocationService} from "../../services/location.service";
 import {Location} from "../../models/location";
 import {LaunchNavigator, LaunchNavigatorOptions} from 'ionic-native';
-import {ChargingPage} from './charging/charging'
+import {ChargingPage} from './charging/charging';
+import {ChargingService} from '../../services/charging.service';
+import {Connector} from "../../models/connector";
+import {Station} from "../../models/station";
+import {ConfigService} from "../../services/config.service";
+import {DomSanitizer} from "@angular/platform-browser";
+import {LoginPage} from "../login/login";
+import {ChargingCompletePage} from "./charging/charging-complete/charging-complete";
+import {CarService} from "../../services/car.service";
+
 
 @Component({
     selector: 'location-details',
@@ -17,6 +26,9 @@ import {ChargingPage} from './charging/charging'
 })
 export class LocationDetailPage {
     location: Location;
+    station: Station;
+    connector: Connector;
+
     slideOptions: any;
     @ViewChild('map') mapElement: ElementRef;
     map: any;
@@ -34,12 +46,30 @@ export class LocationDetailPage {
 
     private locationId: number;
 
-    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService) {
+    charging: boolean;
+
+    weekdays: any;
+
+    plugTypes: any;
+    plugSvg: any;
+
+    openingHours: any;
+    today: number;
+
+    averageRating: number;
+
+    minPrice: any;
+    maxPrice: any;
+
+    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer, private carService: CarService) {
+
+        this.charging = this.chargingService.isCharging();
 
         this.location = new Location();
-        this.locationId = navParams.get("locationId");
+        this.station = new Station();
+        this.connector = new Connector();
 
-        console.log(this.locationId);
+        this.locationId = navParams.get("locationId");
 
         this.isDesktop = platform.is("core");
         this.isIOS = platform.is("ios");
@@ -52,13 +82,36 @@ export class LocationDetailPage {
             initialSlide: 1,
             loop: true
         };
+
+        this.weekdays = [
+            'Mo.',
+            'Di.',
+            'Mi.',
+            'Do.',
+            'Fr.',
+            'Sa.',
+            'So.'
+        ];
+
+        this.plugTypes = [];
+
+        this.plugSvg = '';
+
+        this.loadOpeningHours();
+
+        this.today = new Date().getDay() - 1;
+        if (this.today == -1) {
+            this.today = 6;
+        }
+
+        this.averageRating = -1;
+
+        this.maxPrice = 0;
+        this.minPrice = 0;
     }
 
     ionViewWillEnter() {
         this.getLocationDetail();
-    }
-
-    ionViewDidLoad() {
     }
 
     dismiss() {
@@ -66,9 +119,10 @@ export class LocationDetailPage {
     }
 
     detailedMap() {
-        this.navCtrl.push(MapDetailPage, {
+        let modal = this.modalCtrl.create(MapDetailPage, {
             "location": this.location
         });
+        modal.present();
     }
 
     feedback() {
@@ -83,29 +137,114 @@ export class LocationDetailPage {
         observable.subscribe(
             location => {
                 this.location = location;
+                this.station = this.location.stations[0];
+                this.connector = this.station.connectors[0];
+
+                this.loadOpeningHours();
+
                 this.loadMap();
                 this.getRatings();
+
+                this.getPrice();
+
+                this.configService.getPlugTypes().subscribe((plugTypes) => {
+                    this.plugTypes = plugTypes;
+                    this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
+                });
             }
         );
         return observable;
     }
 
+    getPrice() {
+        let priceObject:any = {};
+
+        let currentUser = this.authService.getUser();
+        let activeCar = this.carService.getActiveCar();
+
+        if (currentUser !== null && activeCar !== null) {
+            priceObject.maxCharging = activeCar.maxCharging;
+        }
+
+        this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
+           this.maxPrice = response.max;
+           this.minPrice = response.min;
+        });
+    }
+
     getRatings() {
         let observable = this.ratingService.getRatings(this.location.id);
         observable.subscribe(
-            ratings => this.ratings = ratings
+            ratings => {
+                this.ratings = ratings;
+                this.averageRating = this.getAverageRating();
+            }
         );
     }
 
+    loadOpeningHours() {
+        this.openingHours = [];
+
+        this.weekdays.forEach((name, index) => {
+            let weekday = {
+                'name': name,
+                'fromTo': this.getOpeningHoursForDay(index)
+            };
+
+            this.openingHours.push(weekday);
+        })
+    }
+
+    getOpeningHoursForDay(day: number) {
+        let hours = this.connector.weekcalendar.hours;
+
+        if (hours[day].from == hours[day].to) {
+            return "geschlossen";
+        }
+
+        return hours[day].from + ':00 - ' + hours[day].to + ':00 Uhr';
+    }
+
+    getSvgForPlug(plugId: number) {
+        let plugSvg = '';
+
+        this.plugTypes.forEach((plug) => {
+            if (plug.id == plugId) {
+                plugSvg = plug.svg;
+            }
+        });
+
+        return this.sanitizer.bypassSecurityTrustHtml(plugSvg);
+    }
+
+    getAverageRating() {
+        let ratingSum = 0;
+
+        this.ratings.forEach((rating) => {
+            ratingSum += rating.rating;
+        });
+
+        let averageRating = -1;
+        if (this.ratings.length) {
+            // rounds to the nearest 0.5
+            averageRating = Math.round((ratingSum / this.ratings.length) * 2) / 2;
+        }
+
+        return averageRating;
+    }
+
     fullStars(value: number): Array<number> {
+        console.log('fullStars for', value, ':', Array(Math.floor(value)));
         return Array(Math.floor(value));
     }
 
     displayHalfStars(value: number): boolean {
+        console.log('halfStars for', value, ':', Math.floor(value) != value);
         return Math.floor(value) != value;
     }
 
     emptyStars(value: number): Array<number> {
+        console.log('emptyStars for', value, ':', Array(5 - Math.ceil(value)));
         return Array(5 - Math.ceil(value));
     }
 
@@ -130,12 +269,14 @@ export class LocationDetailPage {
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-        let marker = new google.maps.Marker({
-            position: new google.maps.LatLng(this.location.lat, this.location.lng),
-            map: this.map
-        });
+        let image = this.location.isRented() ? 'marker-busy.png' : 'marker-available.png';
+        let icon = `assets/icons/${image}`;
 
-        console.log(marker);
+        new google.maps.Marker({
+            position: new google.maps.LatLng(this.location.lat, this.location.lng),
+            map: this.map,
+            icon: icon
+        });
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
             // loader.dismissAll();
@@ -156,15 +297,29 @@ export class LocationDetailPage {
             LaunchNavigator.navigate([this.location.lat, this.location.lng], options)
                 .then(
                     success => console.log('map app launched'),
-                    error => alert('App konnte nicht gestartet werden: ' + error)
+                    error => {
+                        if ('cancelled' !== error) {
+                            alert('App konnte nicht gestartet werden: ' + error);
+                        }
+                    }
                 );
         }
     }
 
-    charge(){
-        this.navCtrl.push(ChargingPage ,
-            {
-                "location" : this.location
+    loginModal(data?) {
+        let modal = this.modalCtrl.create(LoginPage, data);
+        modal.present();
+    }
+
+    charge() {
+        if (this.authService.loggedIn()) {
+            this.viewCtrl.dismiss({
+                "location": this.location
             });
+        }
+        else {
+            this.loginModal();
+        }
+
     }
 }

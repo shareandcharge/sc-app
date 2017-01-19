@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, NavParams} from 'ionic-angular';
 import {CarService} from "../../../../services/car.service";
+import {ErrorService} from "../../../../services/error.service";
 import {CarModelPage} from "../model/car-model";
 import {Car} from '../../../../models/car';
 
@@ -16,20 +17,20 @@ export class CarManufacturerPage {
     mode: any;
     car: Car;
 
-    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private carService: CarService, private navParams: NavParams) {
-        this.manufacturers = this.carService.getManufacturers();
+    constructor(public navCtrl: NavController, private errorService: ErrorService, private viewCtrl: ViewController, private carService: CarService, private navParams: NavParams) {
+        this.carService.getManufacturers().subscribe((res) => {
+                this.manufacturers = res;
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos'));
+
         this.car = navParams.get("car");
         this.mode = navParams.get("mode");
     }
 
-    ionViewDidLoad() {
-        //console.log('Hello CarManufacturerPage Page');
-    }
-
     itemSelected(manufacturer) {
-        this.car.manufacturer = manufacturer.name;
+        this.car.manufacturer = manufacturer;
         this.navCtrl.push(CarModelPage, {
-            "manufacturerId": manufacturer.id,
+            "manufacturer": manufacturer,
             "car": this.car,
             "mode": this.mode
         });

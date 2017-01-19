@@ -1,11 +1,7 @@
 page-add-car {
 
   .top-container {
-    $_top: lighten(map_get($colors, secondary), 0);
-    $_bottom: lighten(map_get($colors, primary), 30);
-
-    background-color: $_top;
-    background-image: linear-gradient(45deg, $_top, $_bottom);
+    @include sc-gradient-light();
 
     color: #fff;
 
@@ -50,6 +46,11 @@ page-add-car {
       margin: 0;
       text-align: center;
     }
+  }
+
+  ion-icon{
+    position: absolute;
+    right:10px;
   }
 
   .bottom-container {

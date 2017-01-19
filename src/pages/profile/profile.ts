@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController, Platform, AlertController, Events} from 'ionic-angular';
+import {NavController, ActionSheetController, Platform, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {AuthService} from "../../services/auth.service";
-import {MapPage} from '../map/map';
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {EditEmailPage} from "./edit-email/edit-email";
-import {EditNamePage} from "./edit-name/edit-name";
+import {EditProfilePage} from "./edit-profile/edit-profile";
+import {ErrorService} from "../../services/error.service";
 
 
 @Component({
@@ -14,16 +14,19 @@ import {EditNamePage} from "./edit-name/edit-name";
     templateUrl: 'profile.html'
 })
 export class ProfilePage {
-    user:User;
+    user: User = new User();
 
-    constructor(public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController , public auth: AuthService, public userService: UserService, private platform: Platform, public events: Events) {
-        this.user = auth.getUser();
+    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events, private errorService: ErrorService) {
+        this.events.subscribe('users:updated', () => this.loadUser());
     }
 
-    ionViewDidLoad() {
+    ionViewWillEnter() {
+        this.loadUser();
     }
 
-    dummy() {}
+    loadUser() {
+        this.user = this.authService.getUser();
+    }
 
     selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
@@ -62,7 +65,7 @@ export class ProfilePage {
             allowEdit: true,
             targetHeight: 1000
         }).then((imageData) => {
-            this.user.imageBase64 = "data:image/jpeg;base64," + imageData;
+            this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
             this.updateUser();
 
         }, (err) => {
@@ -74,36 +77,21 @@ export class ProfilePage {
         this.userService.updateUser(this.user)
             .subscribe(
                 () => {
+                    this.authService.setUser(this.user);
                     this.events.publish('users:updated');
                 },
-                error => this.displayError(<any>error, 'Benutzer aktualisieren'));
-    }
-
-    logout() {
-        this.auth.logout();
-        console.log("logged Out");
-        this.navCtrl.setRoot(MapPage);
-    }
-
-    displayError(message: any, subtitle?: string) {
-        let alert = this.alertCtrl.create({
-            title: 'Fehler',
-            subTitle: subtitle,
-            message: message,
-            buttons: ['Schließen']
-        });
-        alert.present();
+                error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
     }
 
     editEmail() {
         this.navCtrl.push(EditEmailPage, {
-            'parent' : this
+            'user': this.user
         });
     }
 
-    editName() {
-        this.navCtrl.push(EditNamePage, {
-            'parent' : this
+    editProfile() {
+        this.navCtrl.push(EditProfilePage, {
+            'user': this.user
         });
     }
 }

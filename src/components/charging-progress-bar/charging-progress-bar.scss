@@ -1,0 +1,41 @@
+charging-progress-bar {
+  position: relative;
+  display: block;
+  width: 100%;
+  background-color: #e5f0fe;
+  .progress-inner {
+    height: 5px;
+    min-height: 5px;
+    $bottomLeft: map_get($colors, secondary);
+    $topRight: map_get($colors, primary);
+    background-color: $bottomLeft;
+    background-image: linear-gradient(45deg, $bottomLeft, $topRight);
+  }
+
+  ion-header & {
+    border-bottom: $hairlines-width solid $toolbar-ios-border-color;
+  }
+
+  .image-overlay {
+    $bottomLeft: map_get($colors, secondary);
+    $topRight: map_get($colors, primary);
+
+    background-image: linear-gradient(45deg, rgba($bottomLeft, 0.5), rgba($topRight, 0.5));
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    ion-icon {
+      font-size: 3.6rem;
+      position: relative;
+      top: 8px;
+    }
+  }
+}
+
+ion-footer charging-progress-bar ion-fab {
+  display: none;
+}

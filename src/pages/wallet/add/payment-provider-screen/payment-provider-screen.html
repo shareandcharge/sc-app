@@ -1,0 +1,19 @@
+<ion-header>
+
+    <ion-navbar>
+
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+
+        <ion-title>Zahlungsvorgang</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <iframe [src]="pspUrl" frameborder="0"></iframe>
+</ion-content>

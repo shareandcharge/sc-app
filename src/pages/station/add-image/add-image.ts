@@ -1,5 +1,11 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController , ModalController , ActionSheetController , reorderArray , NavParams} from 'ionic-angular';
+import {
+    NavController,
+    ModalController,
+    ActionSheetController,
+    reorderArray,
+    NavParams, ItemSliding, AlertController
+} from 'ionic-angular';
 import {PlugTypesPage} from '../plug-types/plug-types';
 import {Camera} from 'ionic-native';
 import {Location} from "../../../models/location";
@@ -11,12 +17,12 @@ import {Location} from "../../../models/location";
 })
 export class AddStationImagePage {
 
-    images:any;
+    images: any;
     public base64Image: string;
     locObject: Location;
     flowMode: any;
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController , private navParams : NavParams,public modalCtrl: ModalController , private actionSheetCtrl:ActionSheetController) {
+    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams, public modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController) {
         if (typeof this.images == "undefined") {
             this.images = [];
         }
@@ -25,50 +31,32 @@ export class AddStationImagePage {
         this.flowMode = this.navParams.get("mode");
 
 
-        if(typeof this.locObject.images != 'undefined') {
+        if (typeof this.locObject.images != 'undefined') {
             this.images = this.locObject.images;
         }
     }
 
-    ionViewDidLoad() {
-    }
-
-    skipAddingImage() {
+    close() {
         this.navCtrl.parent.pop();
     }
 
-  /*  AddImage(){
-        let modal = this.modalCtrl.create(StationImageSelectPage , {
-            "images": this.images
-        });
-
-        modal.onDidDismiss(data => {
-            console.log('MODAL DATA ', data);
-            this.images = data;
-        });
-
-        modal.present();
-    }*/
-
     presentActionSheet() {
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Add Photo',
+            title: 'Foto auswählen',
             buttons: [
                 {
-                    text: 'Take a Photo',
+                    text: 'Kamera',
                     handler: () => {
                         this.takePhoto('camera');
                     }
                 }, {
-                    text: 'Add from Gallery',
+                    text: 'Mediathek',
                     handler: () => {
                         this.takePhoto('Gallery');
                     }
                 }, {
-                    text: 'Cancel',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
+                    text: 'Abbrechen',
+                    role: 'cancel'
                 }
             ]
         });
@@ -87,15 +75,17 @@ export class AddStationImagePage {
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: sourceType,
             targetWidth: 800,
+            targetHeight: 450,
+            quality: 70,
             allowEdit: true,
-            targetHeight: 450
+            correctOrientation: true
         }).then((imageData) => {
             // imageData is a base64 encoded string
             this.base64Image = imageData;
 
             let image = {
-                'data' : this.base64Image,
-                'src' : 'data:image/jpeg;base64,' + imageData
+                'data': this.base64Image,
+                'src': 'data:image/jpeg;base64,' + imageData
             };
 
             this.images.push(image);
@@ -106,21 +96,39 @@ export class AddStationImagePage {
 
     continueAddStation() {
         this.locObject.images = this.images;
-        this.navCtrl.push(PlugTypesPage , {
-            "location" : this.locObject,
+        this.navCtrl.push(PlugTypesPage, {
+            "location": this.locObject,
             "mode": this.flowMode
         });
     }
 
-    deleteImg(img){
-        let index = this.images.indexOf(img);
+    deleteImg(img, itemSliding: ItemSliding) {
+        let alert = this.alertCtrl.create({
+            title: 'Löschen bestätigen',
+            message: 'Möchtest Du dieses Foto wirklich löschen?',
+            buttons: [
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    handler: () => itemSliding.close()
+                },
+                {
+                    text: 'Ja, löschen',
+                    handler: () => {
+                        let index = this.images.indexOf(img);
 
-        if(index > -1){
-            this.images.splice(index, 1);
-        }
+                        if (index > -1) {
+                            this.images.splice(index, 1);
+                        }
+
+                    }
+                }
+            ]
+        });
+        alert.present();
     }
 
-    reorderItems(indexes){
+    reorderItems(indexes) {
         this.images = reorderArray(this.images, indexes);
     }
 

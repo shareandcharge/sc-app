@@ -1,29 +1,36 @@
-form.blocky {
 
+.cloned-input {
+  // While an input is focused and the screen scrolled, ionic creates a clone of the input.
+  // This clone is misaligned due to the margin. Don't know why, bug?
+  margin-left: 0 !important;
 }
 
-.text-input {
-  border-radius: 4px !important; // @todo ;(
-}
-
-.item-ios.item-label-floating .text-input,
-.item-label-floating .text-input-md {
-  background-color: #fff;
-  margin: 0;
-  padding: 10px 14px;
-  //border-radius: 2px;
+.item-input ion-label {
+  color: #666;
+  .input-has-value &, .input-has-focus & {
+    //color: #000;
+  }
 }
 
 .label.label-ios[floating],
 .label.label-md[floating] {
-  transform: translate3d(14px, 38px, 0);
+  transform: translate3d(14px, 39px, 0);
+}
+
+.input-white .text-input, ion-select.input-white {
+  background-color: #fff;
+  padding: 10px 14px;
+  border-radius: $border-radius;
+}
+
+ion-select.input-white.small {
+  padding: 8px;
 }
 
 ion-select {
   &.select-multiline {
-    max-width: 100%;
-    padding-left: 0;
-    padding-top: 0;
+    max-width: calc(100% - 8px);
+    width: calc(100% - 8px);
     .select-text {
       white-space: normal;
     }
@@ -32,4 +39,60 @@ ion-select {
 
 .alert-checkbox-label {
   font-size: 17px;
+}
+
+$_input_box_width: 100px;
+$_input_box_width_xl: 160px;
+.input-box {
+  text-align: center;
+  margin-top: 20px;
+  ion-input {
+    display: inline-block;
+    width: $_input_box_width;
+    background-color: map_get($colors, light);
+    font-size: 20px;
+    border-radius: 4px;
+    input {
+      text-align: center;
+      padding: 10px !important; // jaja, just not to need to overwrite it for _all_ devices
+      margin: 0 !important;
+    }
+  }
+  &.input-box-white {
+    ion-input {
+      background-color: #fff;
+    }
+  }
+  &.input-box-xl {
+    ion-input {
+      width: $_input_box_width_xl;
+      font-size: 40px;
+    }
+  }
+}
+
+.input-box-inner {
+  display: inline-block;
+  position: relative;
+  label {
+    position: absolute;
+    left: 110px;
+    top: 13px;
+    font-size: 16px;
+  }
+}
+.input-box-xl .input-box-inner label {
+  font-size: 28px;
+  left: 175px;
+  top: 18px;
+}
+
+
+.item-ios .button-pull-left.item-button,
+.item-ios .button-pull-left.item-button[icon-only] {
+  margin-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 20px 14px;
+  font-size: inherit;
 }

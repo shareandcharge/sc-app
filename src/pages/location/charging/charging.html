@@ -1,44 +1,63 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Charging Progress</ion-title>
-  </ion-navbar>
-
+    <ion-navbar>
+        <ion-title>Ladevorgang</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
-  <div class="top-div">
-    <ion-list>
-      <ion-item no-lines>
-        <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/station-default.png"></ion-thumbnail>
-        <ion-label>Rellinghauser Strasse</ion-label>
-        <ion-avatar item-right>
-          <img src="">
-        </ion-avatar>
-      </ion-item>
-      <ion-item no-lines>
-        <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/station-default.png"></ion-thumbnail>
-        <ion-label>Flatrate: 13</ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
-  <ion-item>
-    <ion-range min="0" max="32" [(ngModel)]="chargingTime" step="1" (ngModelChange)="convertToHours()">
-      <ion-label range-left>0</ion-label>
-      <ion-label range-right>8</ion-label>
-    </ion-range>
-  </ion-item>
-  <ion-label>{{chargingTimeHours}}</ion-label>
-  <ion-item no-lines>
-    <canvas id="circleProgressBar" width="210" height="210">
-    </canvas>
-  </ion-item>
+<ion-content padding class="content-white">
+    <ion-fab top right #fabCar *ngIf="activeCar">
+        <button ion-fab class="fab-image">
+            <span class="image-wrapper">
+                <img [ngStyle]="{'background-image':'url(' + activeCar.displayImageSrc + ')'}">
+            </span>
+        </button>
+    </ion-fab>
 
+    <div class="top-item-text">
+        <ion-icon name="cust-station-pin" color="secondary"></ion-icon>
+        <div class="text">{{this.location.address}}</div>
+    </div>
+    <div class="top-item-text">
+        <ion-icon name="cust-time-money" color="secondary"></ion-icon>
+        <div class="text">
+            {{"tariff.types." + chargingTypeText|translate}}:
+            {{chargingPricePerHour/100 | currency:'EUR':true:'1.2-2'}}<span *ngIf="chargingTypeText == 'hourly' || chargingTypeText == 'kwh'">/h</span>
+        </div>
+    </div>
 
-  <button ion-button round (click)="startCharging()" disabled="{{buttonDeactive}}">
-    <span *ngIf="countingDown">Stop</span>
-    <span *ngIf="!countingDown">Start</span>
-  </button>
+    <hr>
 
+    <div text-center *ngIf="countingDown" class="big-header">{{chargingTimeHours}}</div>
+    <div ion-text text-center *ngIf="activeCar == null" color="danger">Du musst erst ein Elektroauto hinzufügen bevor Du
+        laden kannst.
+    </div>
+
+    <!-- chargingPrice is "0" when countdown runs ! -->
+    <div text-center class="price-label" *ngIf="!countingDown">
+        <span *ngIf="!countingDown"> Voraussichtlicher Preis: </span>
+        {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}}
+    </div>
+
+    <div class="progress-wrapper">
+        <div class="battery-charging" *ngIf="charging"><img src="assets/images/battery-charging.gif"></div>
+        <canvas id="circleProgressBar" width="280" height="280"></canvas>
+    </div>
+
+    <div text-center>
+        <button ion-button round text-uppercase color="danger" (click)="stopCharging()" *ngIf="countingDown">
+            Stop
+        </button>
+
+        <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive"
+                *ngIf="!countingDown">
+            Start
+        </button>
+    </div>
 </ion-content>

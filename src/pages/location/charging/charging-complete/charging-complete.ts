@@ -1,23 +1,42 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams, ViewController} from 'ionic-angular';
+import {CarService} from "../../../../services/car.service";
+import {LocationService} from "../../../../services/location.service";
+import {Location} from "../../../../models/location";
+import {Connector} from "../../../../models/connector";
+import {Car} from "../../../../models/car";
 
-/*
-  Generated class for the ChargingComplete page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
-  selector: 'page-charging-complete',
-  templateUrl: 'charging-complete.html'
+    selector: 'page-charging-complete',
+    templateUrl: 'charging-complete.html'
 })
 export class ChargingCompletePage {
-  chargedTime:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.chargedTime = navParams.get("chargedTime");
-  }
+    location: Location;
+    connector: Connector;
+    chargedTime: any;
+    chargedPrice: any;
+    activeCar: Car;
 
-  ionViewDidLoad() {
-  }
+    constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private carService: CarService, private locationService: LocationService) {
+        this.chargedTime = navParams.get("chargedTime");
+        this.location = navParams.get('location');
+        this.connector = this.location.stations[0].connectors[0];
+    }
+
+    ionViewWillEnter() {
+        this.activeCar = this.carService.getActiveCar();
+
+        this.locationService.getPrice(this.connector.id, {
+            'secondsToCharge': this.chargedTime,
+            'maxCharging': this.activeCar.maxCharging
+        }).subscribe((response) => {
+            this.chargedPrice = response.min
+        });
+    }
+
+    dismiss() {
+        this.viewCtrl.dismiss();
+    }
 
 }

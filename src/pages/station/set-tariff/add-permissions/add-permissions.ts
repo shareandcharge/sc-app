@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, ViewController, AlertController} from 'ionic-angular';
 import {Contacts, Contact} from "ionic-native";
-import {User} from "../../../../models/user";
 import {UserService} from "../../../../services/user.service";
 
 @Component({
@@ -19,7 +18,9 @@ export class AddPermissionsPage {
     ionViewDidLoad() {
     }
 
-    submit() {
+    submitEmail() {
+        if (!this.input) return;
+        this.input = this.input.toLowerCase();
         this.addValidEmail(this.input);
     }
 
@@ -31,19 +32,8 @@ export class AddPermissionsPage {
         });
     }
 
-    addUserToPermissionList(user: User) {
-        let index = 1;
-        if (this.permissions.length > 0) {
-            index = parseInt(this.permissions[this.permissions.length - 1].id) + 1;
-        }
-
-        let permission = {
-            "id": index,
-            "userId": user.id,
-            "email" : user.email
-        };
-
-        this.permissions.push(permission);
+    addUserToPermissionList(email: string) {
+        this.permissions.push(email);
         this.input = "";
     }
 
@@ -64,10 +54,10 @@ export class AddPermissionsPage {
     }
 
     addValidEmail(emailAddress) {
-        this.userService.getUserForEmail(emailAddress).subscribe(
-            user => {
-                if (user != null) {
-                    this.addUserToPermissionList(user);
+        this.userService.userExists(emailAddress).subscribe(
+            res => {
+                if (res.exists) {
+                    this.addUserToPermissionList(emailAddress);
                 } else {
                     let alert = this.alertCtrl.create({
                         title: 'E-Mail-Adresse nicht registriert',
@@ -87,10 +77,10 @@ export class AddPermissionsPage {
             return;
         }
 
-        this.userService.getUserForEmail(emailObject.value).subscribe(
-            user => {
-                if (user != null) {
-                    this.addUserToPermissionList(user);
+        this.userService.userExists(emailObject.value).subscribe(
+            res => {
+                if (res.exists) {
+                    this.addUserToPermissionList(emailObject.value.toLowerCase());
                 } else {
                     if (contactEmails.length == 0) {
                         let alert = this.alertCtrl.create({
@@ -107,8 +97,26 @@ export class AddPermissionsPage {
         );
     }
 
-    delete(id) {
-        this.permissions.splice(this.permissions.findIndex(i => i.id === id), 1);
+    deleteEmail(deleteEmail) {
+        deleteEmail = deleteEmail.toLowerCase();
+
+        let alert = this.alertCtrl.create({
+            title: 'Löschen bestätigen',
+            message: 'Möchtest Du dieses E-Mail Adresse aus dem Tarif entfernen?',
+            buttons: [
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel'
+                },
+                {
+                    text: 'Ja, löschen',
+                    handler: () => {
+                        this.permissions.splice(this.permissions.findIndex(email => deleteEmail === email.toLowerCase()), 1);
+                    }
+                }
+            ]
+        });
+        alert.present();
     }
 
     dismiss(){

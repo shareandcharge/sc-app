@@ -4,19 +4,31 @@ import {Observable} from "rxjs";
 import 'rxjs/add/operator/map';
 import {Location} from "../models/location";
 import {AuthHttp} from "angular2-jwt";
+import {AbstractApiService} from "./abstract.api.service";
+import {RequestOptions, URLSearchParams} from "@angular/http";
 
 @Injectable()
-export class LocationService {
+export class LocationService extends AbstractApiService {
 
     private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
 
     constructor(private authHttp: AuthHttp) {
+        super();
     }
 
-    getLocations(): Observable<Array<Location>> {
-        return this.authHttp.get(this.baseUrl + '/locations')
+    getLocations(params?): Observable<Array<Location>> {
+        let options;
+
+        let searchParams: URLSearchParams = new URLSearchParams();
+        searchParams.set('limit', '9999999');
+
+        if (params) {
+            Object.keys(params).forEach(key => searchParams.set(key, params[key]));
+        }
+        options = new RequestOptions({search: searchParams});
+
+        return this.authHttp.get(this.baseUrl + '/locations', options)
             .map(res => {
-                console.log(res);
                 let locations = [];
                 res.json().forEach(input => {
                     locations.push(new Location().deserialize(input));
@@ -26,16 +38,15 @@ export class LocationService {
             .catch(this.handleError);
     }
 
-    getLocationsUser(userAddress: string) {
-        return this.getLocations().map(res => {
-            let locations = [];
-            res.forEach(location => {
-                if (location.owner == userAddress) {
-                    locations.push(location);
-                }
-            });
-            return locations;
-        });
+    /**
+     * @TODO should have an endpoint or parameter; not read _all_ locations
+     */
+    getLocationsUser(userAddress: string): Observable<Array<Location>> {
+        return this.getLocations({owner: userAddress, limit: 100});
+    }
+
+    getLocationsPlugTypes(plugTypes: string) {
+        return this.getLocations({plugType: plugTypes});
     }
 
     searchLocations(bounds?: any) {
@@ -69,7 +80,7 @@ export class LocationService {
     }
 
     updateLocation(location: Location) {
-        return this.authHttp.post(`${this.baseUrl}/locations/${location.id}`, location.serialize())
+        return this.authHttp.put(`${this.baseUrl}/locations/${location.id}`, location.serialize())
             .map(res => res.json())
             .catch(this.handleError);
     }
@@ -88,9 +99,21 @@ export class LocationService {
             .catch(this.handleError);
     }
 
-    handleError(error) {
-        console.error(error);
-        return Observable.throw(error.json().error || 'Locations server error');
+    getPrice(connectorId, priceObject) {
+        return this.authHttp.post(this.baseUrl + '/connectors/' + connectorId + '/price', JSON.stringify(priceObject))
+            .map(res => res.json())
+            .catch(this.handleError);
     }
 
+    getEstimatedPrice(pricePerHour, pricePerKW) {
+        let searchParams: URLSearchParams = new URLSearchParams();
+        searchParams.set('pricePerHour', pricePerHour);
+        searchParams.set('pricePerKW', pricePerKW);
+
+        let options = new RequestOptions({search: searchParams});
+
+        return this.authHttp.get(this.baseUrl + '/connectors/price', options)
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
 }

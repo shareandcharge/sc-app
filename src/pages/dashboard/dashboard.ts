@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
-import {NavController, ActionSheetController, Platform, AlertController, Events} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, ActionSheetController, Platform, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {MyCarsPage} from '../car/my-cars/my-cars';
-import {AddRatingPage} from '../rating/add-rating';
 import {AccountSettingsPage} from './account-settings/account-settings';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
+import {HelpPage} from "../help/help";
+import {ErrorService} from "../../services/error.service";
+import {IntroPage} from "../intro/intro";
 
 
 @Component({
@@ -16,15 +18,19 @@ import {UserService} from "../../services/user.service";
 export class DashboardPage {
 
     email: any;
-    user: User;
+    user: User = new User();
 
-    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public auth: AuthService, public platform: Platform, public userService: UserService, public alertCtrl: AlertController, public events: Events) {
-        this.user = auth.getUser();
+    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public auth: AuthService, public platform: Platform, public userService: UserService, public events: Events, private errorService: ErrorService) {
+        this.events.subscribe('users:updated', () => this.loadUser());
     }
 
-    ionViewDidLoad() {
+    ionViewWillEnter() {
+        this.loadUser();
     }
 
+    loadUser() {
+        this.user = this.auth.getUser();
+    }
 
     selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
@@ -63,21 +69,25 @@ export class DashboardPage {
             allowEdit: true,
             targetHeight: 1000
         }).then((imageData) => {
-            this.user.imageBase64 = "data:image/jpeg;base64," + imageData;
+            this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
             this.updateUser();
         }, (err) => {
             console.log(err);
         });
     }
 
-  logOut(){
-    console.log("logout");
-    this.auth.logout();
-    this.navCtrl.parent.select(0);
-  }
+    logOut() {
+        console.log("logout");
+        this.auth.logout();
+        this.navCtrl.parent.select(0);
+    }
 
     feedback() {
-        this.navCtrl.push(AddRatingPage);
+
+    }
+
+    intro() {
+        this.navCtrl.push(IntroPage);
     }
 
     settings() {
@@ -85,7 +95,7 @@ export class DashboardPage {
     }
 
     help() {
-        console.log("Help");
+        this.navCtrl.push(HelpPage);
     }
 
     myCars() {
@@ -98,17 +108,6 @@ export class DashboardPage {
                 () => {
                     this.events.publish('users:updated');
                 },
-                error => this.displayError(<any>error, 'Benutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
     }
-
-    displayError(message: any, subtitle?: string) {
-        let alert = this.alertCtrl.create({
-            title: 'Fehler',
-            subTitle: subtitle,
-            message: message,
-            buttons: ['Schließen']
-        });
-        alert.present();
-    }
-
 }

@@ -24,6 +24,8 @@
     "ionic-native": "2.2.11",
     "ionic2-rating": "0.0.10",
     "ionicons": "3.0.0",
+    "ng2-translate": "^5.0.0",
+    "phonegap-plugin-push": "^2.0.0-rc2",
     "rxjs": "5.0.0-beta.12",
     "zone.js": "0.6.26"
   },
@@ -35,15 +37,27 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-statusbar",
     "cordova-plugin-console",
-    "cordova-plugin-device",
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard",
     "cordova-plugin-transport-security",
+    {
+      "locator": "https://github.com/katzer/cordova-plugin-badge.git",
+      "id": "cordova-plugin-badge"
+    },
+    "cordova-plugin-app-event",
+    {
+      "id": "phonegap-plugin-push",
+      "locator": "phonegap-plugin-push",
+      "variables": {
+        "SENDER_ID": "183711573057"
+      }
+    },
     "cordova-plugin-camera",
-    "cordova-plugin-contacts",
     "cordova-plugin-compat",
-    "cordova-plugin-actionsheet",
-    "uk.co.workingedge.phonegap.plugin.launchnavigator"
+    "cordova-plugin-contacts",
+    "cordova-plugin-geolocation",
+    "uk.co.workingedge.phonegap.plugin.launchnavigator",
+    "cordova-plugin-actionsheet"
   ],
   "cordovaPlatforms": [
     "ios",

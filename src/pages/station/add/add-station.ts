@@ -1,11 +1,14 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, ViewController, LoadingController, NavParams , AlertController ,ModalController} from 'ionic-angular';
+import {
+    NavController,
+    LoadingController,
+    NavParams,
+    ModalController
+} from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
 import {Platform} from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
 import {AuthService} from "../../../services/auth.service";
-import {LocationService} from "../../../services/location.service";
-import {MyStationsPage} from "../my-stations/my-stations";
 import {StationMapDetailPage} from "./station-add-map/map";
 import {Location} from "../../../models/location";
 import {Station} from "../../../models/station";
@@ -17,20 +20,18 @@ import {Connector} from "../../../models/connector";
     providers: []
 })
 export class AddStationPage {
+    @ViewChild('map') mapElement: ElementRef;
+
     segmentTabs: any;
     autocompleteItems: any;
-    autocomplete: any;
     service: any;
     dayHours: any;
     days: any;
     address: any;
     weekdays: any;
-    from: any[];
-    to: any[];
-    descriptions: any;
-    problemSolver: any;
+    from: any;
+    to: any;
     flowMode: any;
-    customDays:any;
 
     locObject: Location;
     station: Station;
@@ -39,16 +40,20 @@ export class AddStationPage {
     defaultCenterLat = 52.502145;
     defaultCenterLng = 13.414476;
 
-    @ViewChild('map') mapElement: ElementRef;
     map: any;
+    marker: any;
     placesService: any;
     private platform;
     location: any;
     mapDefaultControlls: boolean;
 
+    customWeekCalendar: any;
+
     defaultZoom = 16;
 
-    constructor(public navCtrl: NavController,private modalCtrl: ModalController ,public locationService: LocationService,private alertCtrl: AlertController ,public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private viewCtrl: ViewController) {
+    errorMessages: any;
+
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -57,8 +62,8 @@ export class AddStationPage {
             this.flowMode = "add";
         }
 
-        this.from = [];
-        this.to = [];
+        this.from = 0;
+        this.to = 0;
 
         this.service = new google.maps.places.AutocompleteService();
         this.autocompleteItems = [];
@@ -67,185 +72,108 @@ export class AddStationPage {
 
         this.dayHours = [
             {
-                "value": "9",
-                "title": "9:00"
+                "value": 5,
+                "title": "05:00"
             },
             {
-                "value": "10",
+                "value": 6,
+                "title": "06:00"
+            },
+            {
+                "value": 7,
+                "title": "07:00"
+            },
+            {
+                "value": 8,
+                "title": "08:00"
+            },
+            {
+                "value": 9,
+                "title": "09:00"
+            },
+            {
+                "value": 10,
                 "title": "10:00"
             },
             {
-                "value": "11",
+                "value": 11,
                 "title": "11:00"
             },
             {
-                "value": "12",
+                "value": 12,
                 "title": "12:00"
             },
             {
-                "value": "13",
+                "value": 13,
                 "title": "13:00"
             },
             {
-                "value": "14",
+                "value": 14,
                 "title": "14:00"
             },
             {
-                "value": "15",
+                "value": 15,
                 "title": "15:00"
             },
             {
-                "value": "16",
+                "value": 16,
                 "title": "16:00"
             },
             {
-                "value": "17",
+                "value": 17,
                 "title": "17:00"
             },
             {
-                "value": "18",
+                "value": 18,
                 "title": "18:00"
             },
             {
-                "value": "19",
+                "value": 19,
                 "title": "19:00"
-            }
-        ];
-
-
-        this.customDays = [
-            {
-                "text": "Monday",
-                "enabled": false,
-                "key": "monday",
-                "from": "",
-                "to": ""
             },
             {
-                "text": "Tuesday",
-                "enabled": false,
-                "key": "tuesday",
-                "from": "",
-                "to": ""
+                "value": 20,
+                "title": "20:00"
             },
             {
-                "text": "Wednesday",
-                "enabled": false,
-                "key": "wednesday",
-                "from": "",
-                "to": ""
+                "value": 21,
+                "title": "21:00"
             },
             {
-                "text": "Thursday",
-                "enabled": false,
-                "key": "thursday",
-                "from": "",
-                "to": ""
+                "value": 22,
+                "title": "22:00"
             },
             {
-                "text": "Friday",
-                "enabled": false,
-                "key": "friday",
-                "from": "",
-                "to": ""
+                "value": 23,
+                "title": "23:00"
             },
-            {
-                "text": "Saturday",
-                "enabled": false,
-                "key": "saturday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Sunday",
-                "enabled": false,
-                "key": "sunday",
-                "from": "",
-                "to": ""
-            }
         ];
 
         this.weekdays = [];
 
         this.days = [
-            {
-                "text": "Monday",
-                "enabled": false,
-                "key": "monday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Tuesday",
-                "enabled": false,
-                "key": "tuesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Wednesday",
-                "enabled": false,
-                "key": "wednesday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Thursday",
-                "enabled": false,
-                "key": "thursday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Friday",
-                "enabled": false,
-                "key": "friday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Saturday",
-                "enabled": false,
-                "key": "saturday",
-                "from": "",
-                "to": ""
-            },
-            {
-                "text": "Sunday",
-                "enabled": false,
-                "key": "sunday",
-                "from": "",
-                "to": ""
-            }
+            "Montag",
+            "Dienstag",
+            "Mittwoch",
+            "Donnerstag",
+            "Freitag",
+            "Samstag",
+            "Sonntag"
         ];
 
 
         this.platform = platform;
-        if (this.platform.is("core")) {
-            this.mapDefaultControlls = false;
-        }
-        else {
-            this.mapDefaultControlls = true;
-        }
+        this.mapDefaultControlls = !this.platform.is("core");
 
         if (typeof navParams.get("location") != 'undefined') {
-
-            console.log("the object is")
-
             this.locObject = navParams.get("location");
-          /*  this.defaultCenterLat = this.locObject.latitude;
-            this.defaultCenterLng = this.locObject.longitude;
-            this.address = this.locObject.address;
-            this.descriptions = this.locObject.descriptions;*/
+            this.station = this.locObject.stations[0];
+            this.connector = this.station.connectors[0];
 
-            if (typeof this.connector.weekcalendar != 'undefined') {
-               /* this.weekdays = this.locObject.stations.openingHours.weekdays;
-                this.from = this.locObject.stations.openingHours.from;
-                this.to = this.locObject.stations.openingHours.to;*/
-                this.updateCustomSelectedDays();
-            }
+            this.cloneWeekcalendar();
+            this.initializeWeekcalendar();
         }
-        else{
+        else {
             // create new location, station and connector
             this.locObject = new Location();
 
@@ -254,44 +182,65 @@ export class AddStationPage {
 
             this.connector = new Connector;
             this.station.connectors.push(this.connector);
-        }
 
-        console.log(this.locObject);
+            this.cloneWeekcalendar();
+        }
+        this.clearErrorMessages();
 
         this.initializeApp();
     }
 
     initializeApp() {
         this.platform.ready().then(() => {
-            console.log('Platform ready');
             this.loadMap();
-
         });
     }
 
-    detailedMap(){
-        let modal = this.modalCtrl.create(StationMapDetailPage ,{
-            "lat" : this.map.getCenter().lat(),
-            "lng" : this.map.getCenter().lng()
+    initializeWeekcalendar() {
+        let from;
+        let to;
+        let weekdays = [];
+
+        this.connector.weekcalendar.hours.forEach((day, index) => {
+            if (day.from != day.to) {
+                if (typeof from === 'undefined') {
+                    from = day.from;
+                }
+
+                if (typeof to === 'undefined') {
+                    to = day.to;
+                }
+
+                if (day.from != from || day.to != to) {
+                    weekdays = [];
+                    this.segmentTabs = 'custom';
+
+                    this.resetWeekcalendar();
+                    return false;
+                }
+
+                weekdays.push(index);
+            }
         });
 
-        let map = this.map;
+        if (weekdays.length) {
+            this.from = from;
+            this.to = to;
+            this.weekdays = weekdays;
 
-        modal.onDidDismiss(location => {
-            console.log('DIS:', location);
-            let initialLocation = new google.maps.LatLng(location.lat, location.lng);
-            map.setCenter(initialLocation);
-            //map.clearOverlays();
-            //map.setMapOnAll(null);
+            this.updateSelectedDays();
+        }
+    }
 
-            new google.maps.Marker({
-                draggable: true,
-                position: new google.maps.LatLng(location.lat, location.lng),
-                map: map
-            });
+    detailedMap() {
+        // don't open detail map if we don't have a marker, yet
+        if (!this.marker) return;
 
-            console.log("update map");
+        let modal = this.modalCtrl.create(StationMapDetailPage, {
+            "position": this.marker.getPosition()
         });
+
+        modal.onDidDismiss((position) => this.positionMarker(position.lat(), position.lng()));
 
         modal.present();
     }
@@ -316,8 +265,6 @@ export class AddStationPage {
     }
 
     chooseItem(item: any) {
-        //console.log('modal > chooseItem > item > ', item);
-
         this.autocompleteItems = [];
 
         this.centerToPlace(item);
@@ -329,43 +276,73 @@ export class AddStationPage {
         let request = {
             placeId: place.place_id
         };
-        console.log('Place request: ', request);
+
         this.placesService = new google.maps.places.PlacesService(this.map);
-        this.placesService.getDetails(request, callback);
-
-        let me = this;
-
-        function callback(place, status) {
+        this.placesService.getDetails(request, (place, status) => {
 
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-                console.log('Place detail:', place);
-                me.map.setCenter(place.geometry.location);
-                me.map.setZoom(16);
-
-                /*let marker = */new google.maps.Marker({
-                    draggable: true,
-                    position: place.geometry.location,
-                    map: me.map
-                });
+                this.positionMarker(place.geometry.location.lat(), place.geometry.location.lng());
             }
             else {
-                console.log('Place err: ', status);
+                console.error('Place err: ', status);
             }
-        }
+        });
     }
 
 
-    loadMap() {
+    positionMarker(lat, lng, panTo = true) {
+        let latLng = new google.maps.LatLng(lat, lng);
 
+        let image = 'marker-available.png';
+        let icon = `assets/icons/${image}`;
+
+        if (null == this.marker) {
+            this.marker = new google.maps.Marker({
+                draggable: true,
+                position: latLng,
+                map: this.map,
+                icon: icon
+            });
+        }
+        else {
+            this.marker.setPosition(latLng);
+        }
+
+        if (panTo) {
+            this.map.panTo(latLng);
+        }
+
+        google.maps.event.addListener(this.marker, 'dragend', () => {
+            this.setAddressFromMarker();
+            setTimeout(() => this.map.panTo(this.marker.getPosition()), 200);
+        });
+
+        this.setAddressFromMarker();
+    }
+
+    /**
+     * reverse geocode address for marker and set in location if field in location is empty
+     */
+    setAddressFromMarker() {
+        if (this.locObject.address) return;
+
+        let geocoder = new google.maps.Geocoder;
+
+        geocoder.geocode({'location': this.marker.getPosition()}, (results, status) => {
+            if (status !== google.maps.GeocoderStatus.OK || !results[0]) return;
+
+            this.locObject.address = results[0].formatted_address;
+        });
+    }
+
+    loadMap() {
         let loader = this.loadingCtrl.create({
-            content: "Loading map ...",
+            content: "Lade Karte ...",
         });
         loader.present();
 
-        let latLng = new google.maps.LatLng(this.defaultCenterLat, this.defaultCenterLng);
-
         let mapOptions = {
-            center: latLng,
+            center: new google.maps.LatLng(this.defaultCenterLat, this.defaultCenterLng),
             zoom: this.defaultZoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
@@ -374,53 +351,22 @@ export class AddStationPage {
         };
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-        let marker;
 
-        if(this.flowMode == 'add'){
+        if (this.flowMode == 'add') {
             Geolocation.getCurrentPosition().then((position) => {
-                let initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                this.map.setCenter(initialLocation);
-                marker = new google.maps.Marker({
-                    draggable: true,
-                    position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                    map: this.map
-                });
-
-                google.maps.event.addListener(marker, 'dragend', function(evt){
-                    this.map.setCenter(marker.position);
-                    marker.setMap(this.map);
-                });
-
+                this.positionMarker(position.coords.latitude, position.coords.longitude);
             }, (err) => {
-                console.log(err);
-                loader.dismissAll();
+                console.error(err);
+                this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
             });
         }
-        else{
-            let initialLocation = new google.maps.LatLng(this.locObject.lat, this.locObject.lng);
-            this.map.setCenter(initialLocation);
-            marker = new google.maps.Marker({
-                draggable: true,
-                position: new google.maps.LatLng(this.locObject.lat, this.locObject.lng),
-                map: this.map
-            });
-
-            google.maps.event.addListener(marker, 'dragend', function(evt){
-                this.map.setCenter(marker.position);
-                marker.setMap(this.map);
-            });
+        else {
+            this.positionMarker(this.locObject.lat, this.locObject.lng);
         }
-
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
             loader.dismissAll();
         });
-
-    }
-
-
-    ionViewDidLoad() {
-        console.log('Hello AddStationPage Page');
     }
 
     skipAddingStation() {
@@ -429,87 +375,86 @@ export class AddStationPage {
 
     continueAddStation() {
 
+        if (this.segmentTabs === 'custom') {
+            this.connector.weekcalendar = this.customWeekCalendar;
+        }
+        if (this.validateForm()) {
+            if (this.flowMode == 'add') {
+                let userAddress = "";
+                if (this.auth.getUser() != null) {
+                    userAddress = this.auth.getUser().address;
+                }
 
-        if (this.flowMode == 'add') {
-            let userAddress = "";
-            if (this.auth.getUser() != null) {
-                userAddress = this.auth.getUser().address;
+                this.locObject.owner = userAddress;
+                this.locObject.lat = this.map.getCenter().lat();
+                this.locObject.lng = this.map.getCenter().lng();
+            }
+            else {
+                this.locObject.lat = this.map.getCenter().lat();
+                this.locObject.lng = this.map.getCenter().lng();
             }
 
-            this.locObject.owner = userAddress;
-            this.locObject.lat = this.map.getCenter().lat();
-            this.locObject.lng = this.map.getCenter().lng();
+            this.navCtrl.push(AddStationImagePage, {
+                "location": this.locObject,
+                "mode": this.flowMode
+            });
         }
-        else {
-            this.locObject.lat = this.map.getCenter().lat();
-            this.locObject.lng = this.map.getCenter().lng();
-        }
+    }
 
-        this.navCtrl.push(AddStationImagePage, {
-            "location": this.locObject,
-            "mode": this.flowMode
-        });
+    clearErrorMessages() {
+        this.errorMessages = {
+            "address": '',
+            "openingHours": ''
+        }
+    }
+
+    validateForm() {
+        let hasError = false;
+        this.clearErrorMessages();
+        if (!this.locObject.address) {
+            hasError = true;
+            this.errorMessages.address = 'Bitte gib eine Adresse ein.';
+        }
+        if (!this.isOpeningHoursSelected()) {
+            hasError = true;
+            this.errorMessages.openingHours = 'Bitte wähle die Öffnungszeiten.';
+        }
+        return !hasError;
+    }
+
+    isOpeningHoursSelected() {
+        for (let item of this.connector.weekcalendar.hours) {
+            if (item.from > 0 && item.to > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     updateSelectedDays() {
-        console.log("weekdays model is now " , this.weekdays);
-        console.log("from " , this.from);
-        console.log("to " , this.to);
+        for (let day of this.connector.weekcalendar.hours) {
+            day.from = 0;
+            day.to = 0;
+        }
 
         for (let weekday of this.weekdays) {
-            this.connector.weekcalendar[weekday].from = this.from;
-            this.connector.weekcalendar[weekday].to = this.to;
+            this.connector.weekcalendar.hours[weekday].from = +this.from;
+            this.connector.weekcalendar.hours[weekday].to = +this.to;
         }
-        
-        console.log(this.connector);
     }
 
-    updateCustomSelectedDays() {
-        this.weekdays = [];
-        this.from = [];
-        this.to = [];
+    resetWeekcalendar() {
+        for (let day of this.connector.weekcalendar.hours) {
+            day.from = 0;
+            day.to = 0;
 
-        console.log("days are " , this.connector.weekcalendar);
-
-        this.connector.weekcalendar.forEach(d => {
-            if (d.enabled) {
-                /*let data = {
-                 "text" : d.text,
-                 };*/
-                this.from = d.from;
-                this.to = d.to;
-                this.weekdays.push(d.key);
-            }
-        });
-
-        console.log("weekdays model is now " , this.weekdays);
-        console.log("from " , this.from);
-        console.log("to " , this.to);
-
+            this.weekdays = [];
+            this.from = 0;
+            this.to = 0;
+        }
     }
 
-    deleteStation(){
-        let alert = this.alertCtrl.create({
-            title: 'Löschen bestätigen',
-            message: 'Möchten Sie dieses Station wirklich löschen?',
-            buttons: [
-                {
-                    text: 'Nein',
-                    role: 'cancel',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
-                },
-                {
-                    text: 'Ja, löschen',
-                    handler: () => {
-                        this.locationService.deleteLocation(this.locObject.id).subscribe(locations => {
-                            this.navCtrl.setRoot(MyStationsPage);
-                        });
-                    }
-                }
-            ]
-        });
-        alert.present();
+    cloneWeekcalendar() {
+        this.customWeekCalendar = JSON.parse(JSON.stringify(this.connector.weekcalendar));
     }
 }

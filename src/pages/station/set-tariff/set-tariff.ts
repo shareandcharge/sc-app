@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {NavController, NavParams, AlertController, ModalController, Events} from 'ionic-angular';
-import {MyStationsPage} from '../my-stations/my-stations';
 import {LocationService} from "../../../services/location.service";
 import {AddPermissionsPage} from './add-permissions/add-permissions';
 import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
+import {ErrorService} from "../../../services/error.service";
+import {debounce} from "ionic-angular/util/util";
 
 
 @Component({
@@ -24,7 +25,11 @@ export class SetTariffPage {
     hourlyTariff = false;
     kwhTariff = false;
 
-    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events) {
+    updateEstimationsDebounce;
+
+    estimatedPrice: any;
+
+    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events, private errorService: ErrorService) {
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
         this.priceprovider = this.connector.priceprovider;
@@ -32,48 +37,116 @@ export class SetTariffPage {
         this.flowMode = this.navParams.get("mode");
 
         if (this.flowMode == 'edit') {
-            this.buttonText = "Update";
+            this.buttonText = "Veröffentlichen";
         }
         else {
-            this.buttonText = "Publish";
+            this.buttonText = "Veröffentlichen";
         }
 
-        if (this.connector.accessControl) {
+        if (this.connector.metadata.accessControl) {
             this.hourlyTariff = true;
-            if (this.connector.kwh) {
+            if (this.connector.metadata.kwh) {
                 this.kwhTariff = true;
                 this.hourlyTariff = false;
             }
         }
 
+        // when the user switches between hourly/kwh, make sure we have the correct segment selected (or at least one)
+        if (this.priceprovider.public.selected == 'kwh' && !this.kwhTariff) {
+            this.priceprovider.public.selected = 'hourly';
+        }
+        else if (this.priceprovider.public.selected == 'hourly' && !this.hourlyTariff) {
+            this.priceprovider.public.selected = 'kwh';
+        }
+        if (this.priceprovider.private.selected == 'kwh' && !this.kwhTariff) {
+            this.priceprovider.private.selected = 'hourly';
+        }
+        else if (this.priceprovider.private.selected == 'hourly' && !this.hourlyTariff) {
+            this.priceprovider.private.selected = 'kwh';
+        }
+
+        //-- check at least one ist selected
+        this.estimatedPrice = {
+            publicHourly: {small: 0, medium: 0, big: 0},
+            publicKwh: {small: 0, medium: 0, big: 0},
+            privateHourly: {small: 0, medium: 0, big: 0},
+            privateKwh: {small: 0, medium: 0, big: 0}
+        };
+
+        this.updateEstimationsDebounce = debounce((area) => this.updateEstimations(area), 400);
     }
 
-    ionViewDidLoad() {
+    ionViewWillEnter() {
+        this.updateEstimations('publicHourly');
+        this.updateEstimations('publicKwh');
+        this.updateEstimations('privateHourly');
+        this.updateEstimations('privateKwh');
     }
 
-    deleteStation() {
+    showHelp(type) {
+        let message = "";
+
+        switch (type) {
+            case "flatrate":
+                message = "Pauschaler Betrag für eine maximale Ladedauer von 8 Stunden.";
+                break;
+            case "hourly":
+                message = "Hier trägst Du die Energiekosten ein, die Du an Deinen Energieversorger bezahlst.";
+                break;
+            case "parking":
+                message = "Hier trägst Du die Kosten ein, die Lader an Dich für die Nutzung deines Parkplatzes zahlen sollen.";
+                break;
+        }
+
         let alert = this.alertCtrl.create({
-            title: 'Löschen bestätigen',
-            message: 'Möchten Sie dieses Station wirklich löschen?',
-            buttons: [
-                {
-                    text: 'Nein',
-                    role: 'cancel',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
-                },
-                {
-                    text: 'Ja, löschen',
-                    handler: () => {
-                        this.locationService.deleteLocation(this.locObject.id).subscribe(locations => {
-                            this.navCtrl.setRoot(MyStationsPage);
-                        });
-                    }
-                }
-            ]
+            title: 'Info',
+            message: message,
+            buttons: ['Ok']
         });
         alert.present();
+    }
+
+    updatePriceProvider(from, to, property, area?) {
+        let val = from.target.value.replace(/[^0-9,]/g, '').replace(/,/g, '.');
+        to[property] = isNaN(val) ? 0 : Math.round(val * 100);
+
+        if (area) {
+            this.updateEstimationsDebounce(area);
+        }
+    }
+
+    updateEstimations(area) {
+        let pricePerHour, pricePerKW;
+
+        switch (area) {
+            case 'publicHourly':
+                pricePerHour = this.priceprovider.public.hourly.parkRate;
+                pricePerKW = this.priceprovider.public.hourly.hourlyRate;
+                break;
+            case 'publicKwh':
+                pricePerHour = this.priceprovider.public.kwh.parkRate;
+                pricePerKW = this.priceprovider.public.kwh.kwhRate;
+                break;
+            case 'privateHourly':
+                pricePerHour = this.priceprovider.private.hourly.parkRate;
+                pricePerKW = this.priceprovider.private.hourly.hourlyRate;
+                break;
+            case 'privateKwh':
+                pricePerHour = this.priceprovider.private.kwh.parkRate;
+                pricePerKW = this.priceprovider.private.kwh.kwhRate;
+                break;
+        }
+        this.locationService.getEstimatedPrice(pricePerHour, pricePerKW)
+            .subscribe(
+                (res) => {
+                    this.estimatedPrice[area] = {
+                        small: res.small.price,
+                        medium: res.medium.price,
+                        big: res.big.price
+                    }
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Geschätzter Tarif')
+            );
     }
 
     addPermission() {
@@ -83,7 +156,6 @@ export class SetTariffPage {
 
         modal.onDidDismiss(permissions => {
             this.priceprovider.private.permissions = permissions;
-            console.log(this.priceprovider.private.permissions);
         });
 
         modal.present();
@@ -91,22 +163,25 @@ export class SetTariffPage {
 
     publish() {
         if (this.priceprovider.public.active || this.priceprovider.private.active) {
+            // we need to convert the provider to the format used in the backend
             this.connector.priceprovider = this.connector.toBackendPriceProvider(this.priceprovider);
 
-
             if (this.flowMode == 'add') {
-                this.locationService.createLocation(this.locObject).subscribe(l => {
-                    this.navCtrl.parent.pop();
-                    this.events.publish('locations:updated', l);
-                });
-            }
-
-            else {
-                this.locationService.updateLocation(this.locObject).subscribe(l => {
-
-                    this.navCtrl.parent.pop();
-                    this.events.publish('locations:updated', l);
-                });
+                this.locationService.createLocation(this.locObject).subscribe(
+                    (location) => {
+                        this.navCtrl.parent.pop();
+                        this.events.publish('locations:updated', location);
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Ladestation hinzufügen')
+                );
+            } else {
+                this.locationService.updateLocation(this.locObject).subscribe(
+                    (location) => {
+                        this.navCtrl.parent.pop();
+                        this.events.publish('locations:updated', location);
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Ladestation bearbeiten')
+                );
             }
         } else {
             let alert = this.alertCtrl.create({
@@ -118,4 +193,7 @@ export class SetTariffPage {
         }
     }
 
+    close() {
+        this.navCtrl.parent.pop();
+    }
 }

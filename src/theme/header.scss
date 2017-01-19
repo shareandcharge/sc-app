@@ -1,3 +1,8 @@
+ion-header {
+  //@TODO for now we need the header to overlay the fab, for charging progress
+  z-index: 99999 !important;
+}
+
 ion-header.transparent {
   .toolbar .toolbar-background,
   .toolbar-background-ios {

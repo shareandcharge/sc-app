@@ -1,85 +1,99 @@
 export class Connector {
-    priceprovider : any;
-    weekcalendar: Array<any>;
-    plugtypes: Array<string>;
-    power: Array<string>;
+    id: any;
+    priceprovider: any;
+    plugtype: string;
+    maxwattpower: number;
 
-    accessControl: boolean;
-    kwh: boolean;
+    isRented: boolean;  // is called "isrented" in the backend
+
+    weekcalendar: {
+        'hours': Array<any>
+    };
+
+    metadata: {
+        accessControl: boolean,
+        kwh: boolean
+    };
 
     priceProviderTariffTypes: Array<string>;
 
     constructor() {
         this.priceprovider = {
-            public : {
-                active : false,
-                selected : 'flatrate',
-                flatrate : {
-                    flatrateRate : 0
+            public: {
+                active: false,
+                selected: 'flatrate',
+                flatrate: {
+                    flatrateRate: 0
                 },
-                hourly : {
-                    hourlyRate : 0,
-                    parkRate : 0
+                hourly: {
+                    hourlyRate: 0,
+                    parkRate: 0
                 },
-                kwh : {
-                    kwhRate : 0,
-                    parkRate : 0
+                kwh: {
+                    kwhRate: 0,
+                    parkRate: 0
                 }
             },
-            private : {
-                active : false,
-                selected : 'flatrate',
-                flatrate : {
-                    flatrateRate : 0
+            private: {
+                active: false,
+                selected: 'flatrate',
+                flatrate: {
+                    flatrateRate: 0
                 },
-                hourly : {
-                    hourlyRate : 0,
-                    parkRate : 0
+                hourly: {
+                    hourlyRate: 0,
+                    parkRate: 0
                 },
-                kwh : {
-                    kwhRate : 0,
-                    parkRate : 0
+                kwh: {
+                    kwhRate: 0,
+                    parkRate: 0
                 },
                 permissions: []
             }
         };
 
+        this.weekcalendar = {
+            'hours': [
+                {
+                    'from': 0,
+                    'to': 0
+                },
+                {
+                    'from': 0,
+                    'to': 0
+                },
+                {
+                    'from': 0,
+                    'to': 0
+                },
+                {
+                    'from': 0,
+                    'to': 0
+                },
+                {
+                    'from': 0,
+                    'to': 0
+                },
+                {
+                    'from': 0,
+                    'to': 0
+                },
+                {
+                    'from': 0,
+                    'to': 0
+                }
+            ]
+        };
 
-        this.weekcalendar = [
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            },
-            {
-                'from' : 0,
-                'to' : 0
-            }];
+        this.id = '';
+        this.plugtype = '';
+        this.maxwattpower = 0;
+        this.isRented = false;
 
-        this.plugtypes = [];
-        this.power = [];
-
-        this.accessControl = false;
-        this.kwh = false;
+        this.metadata = {
+            accessControl: false,
+            kwh: false
+        };
 
         this.priceProviderTariffTypes = [
             'invalid',
@@ -150,8 +164,9 @@ export class Connector {
             let tariff = frontendPriceProvider.private;
             tariff.active = true;
             tariff.selected = this.priceProviderTariffTypes[backendPriceProvider.contracttypewhitelist];
+            tariff.permissions = backendPriceProvider.whitelist;
 
-            switch (backendPriceProvider.contracttype) {
+            switch (backendPriceProvider.contracttypewhitelist) {
                 case 1: {
                     tariff.flatrate.flatrateRate = backendPriceProvider.priceperhourwhitelist;
                     break;
@@ -173,15 +188,15 @@ export class Connector {
 
     toBackendPriceProvider(frontendPriceProvider) {
         let backendPriceProvider = {
-            priceperhour : 0,
-            priceperkw : 0,
-            contracttype : 0,
+            priceperhour: 0,
+            priceperkw: 0,
+            contracttype: 0,
 
-            priceperhourwhitelist : 0,
-            priceperkwwhitelist : 0,
-            contracttypewhitelist : 0,
+            priceperhourwhitelist: 0,
+            priceperkwwhitelist: 0,
+            contracttypewhitelist: 0,
 
-            whitelist : []
+            whitelist: []
         };
 
         if (frontendPriceProvider.public.active) {
@@ -190,7 +205,7 @@ export class Connector {
 
             backendPriceProvider.contracttype = tariffType;
 
-            switch(tariffType) {
+            switch (tariffType) {
                 case 1: {
                     backendPriceProvider.priceperhour = tariff.flatrate.flatrateRate;
                     break;
@@ -212,10 +227,10 @@ export class Connector {
             let tariff = frontendPriceProvider.private;
             let tariffType = this.priceProviderTariffTypes.indexOf(tariff.selected);
 
-            backendPriceProvider.contracttype = tariffType;
+            backendPriceProvider.contracttypewhitelist = tariffType;
             backendPriceProvider.whitelist = tariff.permissions;
 
-            switch(tariffType) {
+            switch (tariffType) {
                 case 1: {
                     backendPriceProvider.priceperhourwhitelist = tariff.flatrate.flatrateRate;
                     break;
@@ -237,20 +252,43 @@ export class Connector {
         return backendPriceProvider;
     }
 
+
+    /*
+     * checks the weekcalendar whether the connector is open at the time of the request.
+     * returns true if the connector is open, false otherwise
+     */
+    isOpen() {
+        let date = new Date();
+
+        // shifts days by one, so mon = 0, tue = 1, ..., sun = 6
+        let day = date.getDay() - 1;
+        if (day === -1) {
+            day = 6;
+        }
+
+        let hour = date.getHours();
+
+        let isOpen = this.weekcalendar.hours[day].from <= hour
+            && this.weekcalendar.hours[day].to > hour;
+
+        return isOpen;
+    }
+
     serialize(): string {
         return JSON.stringify(this);
     }
 
     deserialize(input) {
+        this.id = input.id;
+
         this.priceprovider = this.toFrontendPriceProvider(input.priceprovider);
         this.weekcalendar = input.weekcalendar;
 
-        // TODO: ask Simon about the names
-        this.accessControl = input.accessControl;
-        this.kwh = input.kwh;
+        this.metadata = input.metadata;
 
-        this.plugtypes = input.plugtypes;
-        this.power = input.power;
+        this.plugtype = input.plugtype;
+        this.maxwattpower = input.maxwattpower;
+        this.isRented = !!input.isrented; // cast to boolean
 
         return this;
     }

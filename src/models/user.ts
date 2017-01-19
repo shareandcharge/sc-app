@@ -1,47 +1,88 @@
 import {Serializable} from './serializable';
+import {isDefined, isBlank, isArray} from "ionic-angular/util/util";
+import {Platform} from "ionic-angular";
 
 export class User implements Serializable<User> {
     id: any;
     email: string;
-    firstName: string;
-    lastName: string;
     address: string;
-    imageBase64: any;
     profile: any;
+    cars: any;
+    authentification: any;
 
     constructor() {
         this.id = '';
         this.email = '';
-        this.firstName = '';
-        this.lastName = '';
         this.address = '';
-        this.imageBase64 = '';
         this.profile = {};
+        this.cars = {};
+
+        this.authentification = {};
+
+        this.authentification.apnDeviceTokens = [];
+        this.authentification.gcmDeviceTokens = [];
     }
 
     hasImage() {
-        return (typeof this.imageBase64 === "string" && this.imageBase64 !== '');
+        return (typeof this.profile.imageBase64 === "string" && this.profile.imageBase64 !== '');
     }
 
     get displayImageSrc(): string {
-        return this.hasImage() ? this.imageBase64 : 'assets/images/user-default.png';
+        return this.hasImage() ? this.profile.imageBase64 : 'assets/images/user-default.png';
     }
 
     get displayName() {
-        return `${this.firstName} ${this.lastName}`;
+        return `${this.profile.firstname} ${this.profile.lastname}`;
+    }
+
+    isProfileComplete() {
+        let fields = ['firstname', 'lastname', 'address', 'country', 'postalCode', 'city'];
+        let allComplete = true;
+
+        fields.forEach(field => {
+            let fieldComplete = isDefined(this.profile[field]) && !isBlank(this.profile[field]) && this.profile[field].trim() != '';
+            allComplete = allComplete && fieldComplete;
+        });
+
+        return allComplete;
+    }
+
+    initTokenArrays() {
+        if (!isArray(this.authentification.apnDeviceTokens)) {
+            this.authentification.apnDeviceTokens = [];
+        }
+
+        if (!isArray(this.authentification.gcmDeviceTokens)) {
+            this.authentification.gcmDeviceTokens = [];
+        }
+    }
+
+    deviceTokenExists(deviceToken) {
+        this.initTokenArrays();
+
+        return this.authentification.apnDeviceTokens.indexOf(deviceToken) !== -1
+            || this.authentification.gcmDeviceTokens.indexOf(deviceToken) !== -1
+    }
+
+    addDeviceToken(deviceToken, platform) {
+        this.initTokenArrays();
+
+        if (platform === 'ios') {
+            this.authentification.apnDeviceTokens.push(deviceToken);
+        }
+
+        if (platform === 'android') {
+            this.authentification.gcmDeviceTokens.push(deviceToken);
+        }
     }
 
     deserialize(input) {
         this.id = input.id;
         this.email = input.email;
-
-        if (typeof input.profile !== 'undefined') {
-            this.firstName = input.profile.firstname;
-            this.lastName = input.profile.lastname;
-            this.imageBase64 = input.profile.imageBase64;
-        }
-
+        this.profile = input.profile;
+        this.cars = input.cars;
         this.address = input.address;
+        this.authentification = input.authentification;
 
         return this;
     }

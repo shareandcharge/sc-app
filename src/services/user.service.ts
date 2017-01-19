@@ -1,23 +1,22 @@
 import {Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Storage} from '@ionic/storage';
 import {Observable} from "rxjs";
 import {User} from "../models/user";
 
 import 'rxjs/add/operator/map';
 import {AuthService} from "./auth.service";
 import {AuthHttp} from "angular2-jwt";
+import {AbstractApiService} from "./abstract.api.service";
 
 @Injectable()
-export class UserService {
+export class UserService extends AbstractApiService {
 
     baseUrl: string = 'https://api-test.shareandcharge.com/v1';
 
-    storage: Storage = new Storage();
-
     error: string;
 
-    constructor(private authService: AuthService, private authHttp: AuthHttp) {}
+    constructor(private authService: AuthService, private authHttp: AuthHttp) {
+        super();
+    }
 
     login(email: string, password: string) {
         let credentials = {'email': email, 'password': password};
@@ -51,26 +50,20 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    getUserForEmail(email: string): Observable<User> {
-        // this is just a stub
-        // TODO: change implementation as soon as backend service is implemented
+    userExists(email: string) {
+        let object = {
+            'email': email
+        };
 
-        let user = new User();
-        user.id = 123;
-        user.email = "user@user.de";
-
-        return Observable.of(user);
+        return this.authHttp.post(`${this.baseUrl}/users/exists`, JSON.stringify(object))
+            .map(res => res.json());
     }
 
     updateUser(user: User): Observable<User> {
-        user.profile.firstname = user.firstName;
-        user.profile.lastname = user.lastName;
-        user.profile.imageBase64 = user.imageBase64;
-
-        user.imageBase64 = '';
-
         return this.authHttp.put(`${this.baseUrl}/users`, JSON.stringify(user))
-            .map(res => res.json())
+            .map(res => {
+                return new User().deserialize(res.json())
+            })
             .catch(this.handleError);
     }
 
@@ -85,25 +78,13 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    /*
-     * WARNING: not implemented by the backend
-     */
-    deleteUser(id) {
-        return this.authHttp.delete(`${this.baseUrl}/users/${id}`)
+    deleteUser(address?) {
+        if (!address) {
+            address = this.authService.getUser().address;
+        }
+
+        return this.authHttp.delete(`${this.baseUrl}/users/${address}`)
             .map(res => res.json())
             .catch(this.handleError);
-    }
-
-    private handleError(error: Response | any) {
-        let errMsg: string;
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            const err = body.error || JSON.stringify(body);
-            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        console.error(errMsg);
-        return Observable.throw(errMsg);
     }
 }

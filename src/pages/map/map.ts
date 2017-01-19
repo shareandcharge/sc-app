@@ -17,6 +17,9 @@ import {CarService} from "../../services/car.service";
 import {CarWrapperPage} from "../car/car-wrapper";
 import {Car} from "../../models/car";
 import {Location} from "../../models/location";
+import {ChargingService} from '../../services/charging.service';
+import {ChargingPage} from '../location/charging/charging';
+import {ChargingCompletePage} from '../location/charging/charging-complete/charging-complete';
 
 
 declare var google;
@@ -39,7 +42,9 @@ export class MapPage {
     defaultCenterLng = 13.2860649;
     defaultZoom = 8;
     currentPositionZoom = 16;
-    currentPositionMarker:any;
+    currentPositionMarker: any;
+
+    locationMarkers: Array<any>;
 
     mapDefaultControlls: boolean;
     locations: Array<Location>;
@@ -50,25 +55,33 @@ export class MapPage {
 
     cars: Car[];
     activeCar: Car;
+    isCharging: boolean;
     activeCarSrc: string;
 
-    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events) {
+    toggledPlugs: Array<number>;
+    chargingProgress: number;
+
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
-
         this.address = {
             place: ''
         };
 
+        this.locationMarkers = [];
         this.viewType = 'map';
+
+        this.toggledPlugs = [];
+        this.chargingProgress = this.chargingService.getChargingProgress();
+        console.log("charging progress is", this.chargingProgress);
 
         //-- whenever the cars change or user loggs in, refresh the infos we need for the "switch car button"
         this.events.subscribe('cars:updated', () => this.refreshCarInfo());
+        this.events.subscribe('user:refreshed', () => this.refreshCarInfo());
         this.events.subscribe('auth:login', () => this.refreshCarInfo());
         this.events.subscribe('auth:logout', () => this.refreshCarInfo());
 
-        this.events.subscribe('locations:updated', (location) => this.addMarker(location));
-
+        this.events.subscribe('locations:updated', (location) => this.refreshLocations());
         this.initializeApp();
     }
 
@@ -81,11 +94,27 @@ export class MapPage {
         this.loadMap();
     }
 
+    ionViewDidEnter() {
+        this.isCharging = this.chargingService.isCharging();
+        if (this.map) {
+            //-- we had issues of messed up map views when reopening the app
+            //      this (may) fix it
+            google.maps.event.trigger(this.map, 'resize');
+        }
+    }
+
     private refreshCarInfo() {
         let observable = this.carService.getCars();
         observable.subscribe(cars => {
             this.cars = cars;
             this.activeCar = this.carService.getActiveCar();
+            this.isCharging = this.chargingService.isCharging();
+
+            if (this.activeCar != null) {
+                //-- deactivate auto filter for plugtypes for now; too irritating when not so many poles.
+                // let plugTypes = this.activeCar.plugTypes;
+                // this.loadLocationsForPlugTypes(plugTypes);
+            }
         }, () => {
             this.cars = null;
             this.activeCar = null;
@@ -97,15 +126,18 @@ export class MapPage {
     }
 
     setActiveCar(car: Car, fab: FabContainer) {
-        this.activeCar = car;
-        this.carService.setActiveCar(car);
-        this.events.publish('cars:updated');
+        this.carService.selectAsActiveCar(car).subscribe((response) => {
+            this.activeCar = car;
+            this.events.publish('cars:updated');
+        });
+
+
         fab.close();
     }
 
     centerCurrentPosition() {
         let loader = this.loadingCtrl.create({
-            content: "Getting your location ...",
+            content: "Ermittle Deinen Standort ...",
         });
         loader.present();
 
@@ -167,7 +199,7 @@ export class MapPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
-            content: "Loading map ...",
+            content: "Lade Karte ...",
         });
         loader.present();
 
@@ -189,33 +221,49 @@ export class MapPage {
         let me = this;
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
-            me.addLocationMarkers();
+            me.refreshLocations();
             loader.dismissAll();
         });
-
-
     }
 
+    refreshLocations() {
+        this.locationService.getLocations().subscribe((locations) => {
+            this.locations = locations;
+            this.updateLocationMarkers();
+        });
+    }
 
     showLocationDetails(location) {
         let locDetails = this.modalCtrl.create(LocationDetailPage, {
             "locationId": location.id
         });
 
-        locDetails.present();
+        locDetails.onDidDismiss(loc => {
+            if (loc) {
+                let chargingModal = this.modalCtrl.create(ChargingPage, {
+                    "location": loc.location
+                });
 
-        // this.navCtrl.push(LocationDetailPage, {
-        //     locationId: location.id
-        // });
+                chargingModal.onDidDismiss(data => {
+                    if (data) {
+                        this.navCtrl.popToRoot();
+                        data.location = loc.location;
+                        let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
+                        chargingCompletedModal.present();
+                    }
+                });
+                chargingModal.present();
+            }
+        });
+        locDetails.present();
     }
 
-    // createMarker() {
-    //     this.addMarker(this.map.getCenter());
-    // }
-
     addMarker(location: Location) {
+        let image = location.isRented() ? 'marker-busy.png' : 'marker-available.png';
+        let icon = `assets/icons/${image}`;
         let marker = new google.maps.Marker({
             map: this.map,
+            icon: icon,
             animation: google.maps.Animation.DROP,
             position: new google.maps.LatLng(location.lat, location.lng)
         });
@@ -223,19 +271,9 @@ export class MapPage {
         let me = this;
         marker.addListener('click', function () {
             me.showLocationDetails(location);
-            // let locDetails = me.modalCtrl.create(LocationDetailPage, {
-            //     "location": location
-            // });
-            //
-            // locDetails.present();
-
-            /*   me.navCtrl.push(LocationDetailPage, {
-             "location": location
-             });*/
         });
 
-        // let content = location.name;
-        // this.addInfoWindow(marker, content);
+        this.locationMarkers.push(marker);
     }
 
     gotoMyCars(fab: FabContainer) {
@@ -273,7 +311,6 @@ export class MapPage {
 
 
     addInfoWindow(marker, content) {
-
         let infoWindow = new google.maps.InfoWindow({
             content: content,
             enableEventPropagation: true
@@ -286,8 +323,27 @@ export class MapPage {
     }
 
     presentFilterModal() {
-        let filter = this.modalCtrl.create(MapFilterPage);
+        // convert string ids to numbers
+        this.toggledPlugs = this.toggledPlugs.map((i) => +i);
+
+        let filter = this.modalCtrl.create(MapFilterPage, {
+            'toggledPlugs': this.toggledPlugs
+        });
         filter.present();
+
+        filter.onDidDismiss(plugTypes => {
+            if (plugTypes) {
+                this.loadLocationsForPlugTypes(plugTypes);
+            }
+        });
+    }
+
+    loadLocationsForPlugTypes(plugTypes: Array<any>) {
+        this.locationService.getLocationsPlugTypes(plugTypes.join()).subscribe(locations => {
+            this.toggledPlugs = plugTypes;
+            this.locations = locations;
+            this.updateLocationMarkers();
+        });
     }
 
     showAddressModal() {
@@ -370,13 +426,18 @@ export class MapPage {
         this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
     }
 
-    addLocationMarkers() {
-        this.locationService.getLocations().subscribe(locations => {
-            this.locations = locations;
-            let me = this;
-            this.locations.forEach(function (location) {
-                me.addMarker(location);
+    updateLocationMarkers() {
+        if (this.locationMarkers.length) {
+            this.locationMarkers.forEach((marker) => {
+                marker.setMap(null);
             });
+
+            this.locationMarkers = [];
+        }
+
+        let me = this;
+        this.locations.forEach(function (location) {
+            me.addMarker(location);
         });
     }
 }

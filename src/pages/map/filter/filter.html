@@ -2,7 +2,7 @@
     <ion-navbar>
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
-                <span color="primary" showWhen="ios">Close</span>
+                <span showWhen="ios">Schließen</span>
                 <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
             </button>
         </ion-buttons>
@@ -12,42 +12,11 @@
 </ion-header>
 <ion-content>
     <ion-list>
-        <ion-list-header>Plug type</ion-list-header>
-        <ion-item>
-            <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/plugs/schuko-steckdose.svg"></ion-thumbnail>
-            <ion-label>Schuko-Steckdose</ion-label>
-            <ion-toggle checked="true"></ion-toggle>
-        </ion-item>
-        <ion-item>
-            <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/plugs/cee-stecker.svg">
-            </ion-thumbnail>
-            <ion-label>CEE-Stecker</ion-label>
-            <ion-toggle checked="true"></ion-toggle>
-        </ion-item>
-        <ion-item>
-            <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/plugs/typ1.svg"></ion-thumbnail>
-            <ion-label>Typ 1</ion-label>
-            <ion-toggle checked="true"></ion-toggle>
-        </ion-item>
-        <ion-item>
-            <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/plugs/typ2.svg"></ion-thumbnail>
-            <ion-label>Typ 2</ion-label>
-            <ion-toggle checked="true"></ion-toggle>
-        </ion-item>
-        <ion-item>
-            <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/plugs/combo.svg"></ion-thumbnail>
-            <ion-label>Combo</ion-label>
-            <ion-toggle checked="true"></ion-toggle>
-        </ion-item>
-        <ion-item>
-            <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/plugs/chademo.svg"></ion-thumbnail>
-            <ion-label>CHAdeMO</ion-label>
-            <ion-toggle checked="true"></ion-toggle>
-        </ion-item>
-        <ion-item>
-            <ion-thumbnail item-left class="thumbnail-small"><img src="assets/images/plugs/tesla-supercharger.svg"></ion-thumbnail>
-            <ion-label>Tesla Supercharger</ion-label>
-            <ion-toggle checked="true"></ion-toggle>
+        <ion-list-header>Steckertyp</ion-list-header>
+        <ion-item *ngFor="let plug of plugTypes">
+            <span item-content item-left class="plug" [innerHtml]="skipSanitizer(plug.svg)"></span>
+            <ion-label>{{plug.name}}</ion-label>
+            <ion-toggle checked="true" [(ngModel)]="plug.toggled"></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>

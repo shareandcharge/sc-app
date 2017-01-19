@@ -4,3 +4,10 @@
   }
 }
 
+.content-white {
+  background-color: #fff;
+}
+
+.color-secondary, .item.color-secondary {
+  color: map_get($colors, secondary);
+}

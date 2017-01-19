@@ -1,4 +1,7 @@
 location-details {
+  ion-header button {
+    text-shadow: 2px 0px 0px #fff;
+  }
   .image-wrapper {
     background-color: #eee;
     height: 180px;
@@ -7,6 +10,7 @@ location-details {
       width: 100%;
       height: auto;
     }
+
   }
 
   .scroll-content {
@@ -16,12 +20,23 @@ location-details {
   ion-footer {
     box-shadow: 0px -3px 17px rgba(50, 50, 50, 0.3);
   }
-}
 
-.btn-start-charging {
-  //font-size: 26px;
-  //font-weight: bold;
-  //padding-top: 5px;
-  //padding-bottom: 5px;
-}
+  .plug-icon svg {
+    position: relative;
+    top: -2px;
+    width: 50px;
+  }
 
+  .kw-box {
+    display: inline-block;
+    text-align: center;
+  }
+
+  .footer-price {
+    margin-left: 5px;
+  }
+  .footer-rating {
+    margin-top: 5px;
+    margin-left: 2px;
+  }
+}

@@ -1,53 +1,40 @@
-
 <ion-header>
-  <ion-navbar>
-    <ion-title>My Stations</ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="addStation()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-
+    <ion-navbar>
+        <ion-title>Meine Ladestationen</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="addStation()">
+                <ion-icon name="md-add"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
 
 <ion-content>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
-  <ion-list>
-    <ion-item-sliding  *ngFor="let item of stations" (click)="editStation(item)">
-      <button ion-item>
-        <ion-avatar item-left>
-          <img src="{{item.images[0].src}}" *ngIf="item.images.length">
-          <img src="assets/icons/station.svg" *ngIf="!item.images.length">
-        </ion-avatar>
-        {{item.address}}
-      </button>
+    <ion-list>
+        <ion-item-sliding *ngFor="let station of stations" #itemSliding>
+            <button ion-item (click)="editStation(station)">
+                <ion-avatar item-left>
+                    <img src="{{station.images[0].src}}" *ngIf="station.images.length">
+                    <img src="assets/icons/station.svg" *ngIf="!station.images.length">
+                </ion-avatar>
+                {{station.address}}
+            </button>
 
-      <ion-item-options side="right">
-        <button ion-button color="danger" (click)="delete(item.id)">Delete</button>
-      </ion-item-options>
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="deleteStation(station, itemSliding)">Löschen</button>
+            </ion-item-options>
 
-    </ion-item-sliding>
-  </ion-list>
+        </ion-item-sliding>
+    </ion-list>
 
+    <div padding text-center *ngIf="!stations || !stations.length">
+        <button ion-button text-uppercase round (click)="addStation()">Ladestation hinzufügen</button>
+    </div>
 
 </ion-content>
-
-
-<ion-item-sliding #item>
-  <ion-item>
-    Item
-  </ion-item>
-  <ion-item-options side="left">
-    <button ion-button (click)="favorite(item)">Favorite</button>
-    <button ion-button color="danger" (click)="share(item)">Share</button>
-  </ion-item-options>
-
-  <ion-item-options side="right">
-    <button ion-button (click)="unread(item)">Unread</button>
-  </ion-item-options>
-</ion-item-sliding>

@@ -1,21 +1,34 @@
-<!--
-  Generated template for the ChargingComplete page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>charging Progress</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Ladevorgang</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <div class="top-container">
-    Charged for: {{chargedTime}}
-  </div>
-  <h1>Completed!</h1>
+<ion-content class="content-white">
+    <div class="top-container" padding>
+
+        <button class="image-button filled" *ngIf="activeCar"
+                [ngStyle]="{'background-image':'url(' + activeCar.displayImageSrc + ')'}">
+        </button>
+
+        <div text-center class="info-text">
+            <ion-icon name="cust-time-money"></ion-icon>
+            {{chargedTime}}
+            |
+            {{(chargedPrice / 100) | currency:'EUR':true:'1.2-2'}}
+        </div>
+    </div>
+
+    <h1 text-center ion-text padding margin-bottom color="primary">Ladevorgang erfolgreich beendet!</h1>
+    <div text-center padding-top>
+        <img src="assets/images/battery-completed.gif">
+    </div>
 </ion-content>

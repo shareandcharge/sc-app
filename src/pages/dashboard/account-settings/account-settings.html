@@ -1,29 +1,28 @@
 <ion-header>
-
     <ion-navbar>
-        <ion-title>Account Settings</ion-title>
+        <ion-title>Profil Einstellungen</ion-title>
     </ion-navbar>
-
+    <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
 
-<ion-content padding>
-    <ion-list>
+<ion-content>
+    <ion-list padding-top="" padding-right="" class="no-outer-lines">
         <button ion-item (click)="profile()">
-            Profile
+            Profil
         </button>
-        <button ion-item (click)="notifs()">
-            Notifications
+        <button ion-item (click)="notifications()">
+            Benachrichtigungen
         </button>
-        <button ion-item (click)="lang()">
-            Language
+        <button ion-item (click)="lang()" *ngIf="false">
+            Sprache
         </button>
-        <button ion-item (click)="privacy()">
-            Privacy
+        <button ion-item (click)="privacy()" *ngIf="false">
+            Datenschutz
         </button>
 
-        <button ion-item (click)="deleteAccount()">
-            Delete Account
+        <button ion-item (click)="deleteAccountConfirm()" class="color-secondary">
+            Profil löschen
         </button>
     </ion-list>
 </ion-content>

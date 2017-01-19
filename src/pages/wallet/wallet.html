@@ -1,43 +1,68 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-buttons start>
-            <button ion-button (click)="walletOptions($event)">
-                <ion-icon name="menu"></ion-icon>
-            </button>
-        </ion-buttons>
-        <ion-title>Wallet</ion-title>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Konto</ion-title>
         <ion-buttons end>
             <button ion-button (click)="addMoney()">
                 <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
-
+    <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
+<ion-menu [content]="mycontent">
+    <ion-header>
+        <ion-toolbar>
+            <ion-title></ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <ion-item>Zahlungsvorgänge</ion-item>
+            <ion-item>Auszahlung</ion-item>
+            <ion-item>Rechnungen</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
 
-<ion-content padding>
-    <div *ngIf="!hasMoney" align="center">
-        <h2>Your Wallet is Empty</h2>
-        <button ion-button (click)="addMoney()">Add Money</button>
+
+<ion-content #mycontent>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div class="top-container" padding="" text-center="" (click)="addMoney()">
+        <h2>{{(currentBalance / 100) | currency:'EUR':true:'1.2-2'}}</h2>
+        <h3>Guthaben</h3>
     </div>
 
-    <div *ngIf="hasMoney" align="center">
-        <h2>Current Balance</h2>
-        <h2>{{currentBalance}} Eur</h2>
-    </div>
-    <br/>
+    <h1>Meine Zahlungsvorgänge</h1>
+
     <ion-list>
-        <ion-list-header>
-            Payment History
-        </ion-list-header>
-        <h2 *ngIf="noTransaction">You have no history</h2>
-        <ion-item *ngFor="let tr of paymentHistory">
-            <ion-icon name="close" (click)="deleteTransaction(tr)"></ion-icon>
-            &nbsp;&nbsp;{{tr.type}}{{tr.amount}}
-            &nbsp;<small>{{tr.date}}</small>
+        <ion-item *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending'}">
+            <div class="loader" *ngIf="tr.type=='TokenUpdate-pending'"></div>
+            <span
+                    class="amount"
+                    [ngClass]="{'number-positive': tr.type=='Received'||tr.type=='TokenUpdate-pending'||tr.type=='TokenUpdate', 'number-negative': tr.type=='Send'}"
+            >
+                {{tr.amount / 100 | currency:'EUR':true:'1.2-2'}}
+            </span>
+            <small item-right>
+                <span *ngIf="tr.type=='TokenUpdate'||tr.type=='TokenUpdate-pending'">
+                    {{"payment.types." + tr.order.type | translate}}, {{ tr.order.timestamp | date:'short'}}
+                </span>
+                <span *ngIf="tr.type=='Send'||tr.type=='Received'">Aufladevorgang, {{tr.timestamp | date:'short'}}</span>
+            </small>
         </ion-item>
     </ion-list>
+
+
+    <div padding text-center *ngIf="noTransaction">
+        <button ion-button text-uppercase round (click)="addMoney()">Konto aufladen</button>
+    </div>
 
 </ion-content>

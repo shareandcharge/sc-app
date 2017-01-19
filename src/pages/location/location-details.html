@@ -1,12 +1,10 @@
 <ion-header class="transparent">
     <ion-navbar>
         <ion-buttons start>
-            <button ion-button (click)="dismiss()">
-                <span color="primary" showWhen="ios">Schließen</span>
-                <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+            <button ion-button (click)="dismiss()" icon-only>
+                <ion-icon name="ios-arrow-back"></ion-icon>
             </button>
         </ion-buttons>
-        <!--<ion-title>Location</ion-title>-->
     </ion-navbar>
 </ion-header>
 
@@ -21,91 +19,107 @@
         </ion-fab>
     </div>
     <div padding>
-        <p><strong>{{location.address}}, {{location.city}}</strong></p>
-        <p *ngIf="!showOpeningHours">
-            Öffnungszeiten: 10:00 Uhr - 18:00
-            <ion-icon (click)="showOpeningHours = !showOpeningHours" name="ios-arrow-down"></ion-icon>
+        <span *ngIf="location.name != ''">{{location.name}}</span>
+        <p>
+            <strong>{{location.address}}, {{location.city}}</strong>
         </p>
-        <p *ngIf="showOpeningHours">
+
+
+        <div *ngIf="!showOpeningHours" margin-bottom>
+            Öffnungszeiten: {{openingHours[today].fromTo}}
+            <ion-icon (click)="showOpeningHours = !showOpeningHours" name="ios-arrow-down"></ion-icon>
+        </div>
+        <div *ngIf="showOpeningHours" margin-bottom>
             Öffnungszeiten:
             <ion-icon (click)="showOpeningHours = !showOpeningHours" name="ios-arrow-up"></ion-icon>
-            <br>
-            Mo. - Do. 10:00 - 18:00 Uhr<br>
-            Fr. - Sa. 10:00 - 16:00 Uhr<br>
-            So. geschlossen
-        </p>
+
+            <table>
+                <tr *ngFor="let day of openingHours">
+                    <td>{{day.name}}:</td>
+                    <td>{{day.fromTo}}</td>
+                </tr>
+            </table>
+        </div>
+
         <hr>
-        <div text-left="" style="float: left">
-            <img src="assets/images/plugs/combo.svg" style="width: 32px">
-            <img src="assets/images/plugs/chademo.svg" style="width: 32px">
-        </div>
-        <div text-right="" style="float: right">
-            7,4 kW<br>Max.
-        </div>
-        <div style="clear: both">
-        </div>
-        <hr>
-        <br><br>
+
+        <ion-grid class="nopadding" margin-top *ngIf="connector">
+            <ion-row>
+                <ion-col width-50 class="nopadding">
+                    <span [innerHtml]="plugSvg" class="plug-icon"></span>
+                </ion-col>
+                <ion-col width-50 text-right>
+                    <span *ngIf="connector.maxwattpower > 0" class="kw-box">
+                        <strong>{{connector.maxwattpower / 1000}} kW</strong>
+                        <br>max.
+                    </span>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
     </div>
 
     <div>
         <ion-slides>
             <ion-slide *ngFor="let img of location.images">
-                <img src="{{img}}">
+                <img src="{{img.src}}">
             </ion-slide>
         </ion-slides>
     </div>
+
     <div padding="">
-        <h6>Über diese Station:</h6>
-        <p>
-            {{location.description}}
-        </p>
-
-        <hr>
-
-        <h6>Problemlöser:</h6>
-        <p>Jupp Schmitz, +49 123 465768</p>
-
-        <h6>Bewertungen:</h6>
-
-        <div *ngFor="let rating of ratings">
+        <div *ngIf="location.description">
+            <h6>Über diese Station:</h6>
             <p>
-                <span *ngFor="let i of fullStars(rating.value)">
-                    <ion-icon name="md-star" color="secondary"></ion-icon>
-                </span>
-                <span *ngIf="displayHalfStars(rating.value)">
-                    <ion-icon name="md-star-half" color="secondary"></ion-icon>
-                </span>
-                <span *ngFor="let i of emptyStars(rating.value)">
-                    <ion-icon name="md-star-outline" color="secondary" ></ion-icon>
-                </span>
-                {{rating.remark}}
+                {{location.description}}
             </p>
             <hr>
         </div>
 
-        <button ion-button color="secondary" small round outline (click)="feedback()" *ngIf="authService.loggedIn()">+ Bewertung schreiben</button>
+        <div *ngIf="location.metadata.problemSolver">
+            <h6>Problemlöser:</h6>
+            <p>{{location.metadata.problemSolver}}</p>
+        </div>
+
+        <h6>Bewertungen:</h6>
+
+        <div *ngFor="let rating of ratings">
+            <rating [(ngModel)]="rating.rating" readonly="true"></rating>
+            {{rating.remark}}
+            <hr>
+        </div>
+
+        <button ion-button color="secondary" small round outline (click)="feedback()" *ngIf="authService.loggedIn()">+
+            Bewertung schreiben
+        </button>
     </div>
 
 </ion-content>
 
 <ion-footer>
-    <ion-toolbar>
+    <charging-progress-bar></charging-progress-bar>
+    <ion-toolbar color="light">
         <ion-grid>
             <ion-row>
-                <ion-col center="">
-                    <strong>1,60 - 3,20 €/kWH</strong><br>
-                    <ion-icon name="md-star" color="secondary"></ion-icon>
-                    <ion-icon name="md-star" color="secondary"></ion-icon>
-                    <ion-icon name="md-star" color="secondary"></ion-icon>
-                    <ion-icon name="md-star-half" color="secondary"></ion-icon>
-                    <ion-icon name="md-star-outline" color="secondary"></ion-icon>
+                <ion-col center>
+                    <div class="footer-price">
+                        <strong *ngIf="minPrice == maxPrice">
+                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWH
+                        </strong>
+                        <strong *ngIf="minPrice != maxPrice">
+                            {{(minPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWH - {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWH
+                        </strong>
+                    </div>
+                    <div *ngIf="averageRating != -1" class="footer-rating">
+                        <rating [(ngModel)]="averageRating" readonly="true"></rating>
+                    </div>
                 </ion-col>
-                <ion-col text-right="">
-                    <button ion-button round color="primary" class="btn-start-charging" (click)="charge()">
-                        Laden
+                <ion-col text-right>
+                    <button ion-button round color="primary" text-uppercase (click)="charge()" *ngIf="connector.isOpen()">
+                        <span *ngIf="!charging">Laden</span>
+                        <span *ngIf="charging">Ladefortschritt</span>
                     </button>
-
+                    <span *ngIf="!connector.isOpen()">Laden außerhalb der Öffnungszeiten ist leider nicht möglich!</span>
                 </ion-col>
             </ion-row>
         </ion-grid>

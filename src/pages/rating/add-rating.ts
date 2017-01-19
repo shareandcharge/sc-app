@@ -4,6 +4,7 @@ import {RatingService} from "../../services/rating.service";
 import {Rating} from "../../models/rating";
 import {Location} from "../../models/location";
 import {AuthService} from "../../services/auth.service";
+import {ErrorService} from "../../services/error.service";
 
 
 @Component({
@@ -14,9 +15,9 @@ export class AddRatingPage {
     rating: Rating = new Rating();
     location: Location;
 
-    constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController, public ratingService: RatingService, public authService: AuthService, public alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController, public ratingService: RatingService, public authService: AuthService, public alertCtrl: AlertController, private errorService: ErrorService) {
         this.location = navParams.get('location');
-        this.rating.value = 2.5;
+        this.rating.rating = 5;
     }
 
     dismiss() {
@@ -27,23 +28,26 @@ export class AddRatingPage {
         this.rating.createdAt = new Date();
         this.rating.user = this.authService.getUser().id;
 
-        let me = this;
-
         this.ratingService.createRating(this.location.id, this.rating)
             .subscribe(
-                () => {
-                    me.viewCtrl.dismiss();
-                },
-                error => this.displayError(<any>error, 'Rating erstellen'));
+                () => this.ratingSubmitted(),
+                (error) => this.errorService.displayErrorWithKey(error, 'Rating erstellen'));
     }
 
-    displayError(message: any, subtitle?: string) {
-    let alert = this.alertCtrl.create({
-        title: 'Fehler',
-        subTitle: subtitle,
-        message: message,
-        buttons: ['Schließen']
-    });
-    alert.present();
-}
+    ratingSubmitted() {
+        let alert = this.alertCtrl.create({
+                title: "Bewertung gespeichert",
+                message: "Vielen Dank für Deine Bewertung.",
+                buttons: [
+                    {
+                        text: 'OK',
+                        role: 'cancel',
+                        handler: () => this.viewCtrl.dismiss()
+                    }
+                ]
+
+            })
+            ;
+        alert.present();
+    }
 }

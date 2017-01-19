@@ -13,6 +13,9 @@ export class Location implements Serializable<Location> {
     address: string;
     stations: Array<Station>;
     active: boolean;
+    metadata: {
+        problemSolver: string
+    };
 
     constructor() {
         this.id = '';
@@ -26,6 +29,24 @@ export class Location implements Serializable<Location> {
         this.address = '';
         this.stations = [];
         this.active = true;
+        this.metadata = {
+            problemSolver: ''
+        };
+    }
+
+    /**
+     * A station is rented when all of it's stations are rented
+     * or if there are no stations at all.
+     * @returns {boolean}
+     */
+    isRented():boolean {
+        let isRented = true;
+
+        this.stations.forEach((connector) => {
+            isRented = isRented && connector.isRented();
+        });
+
+        return isRented;
     }
 
     serialize() {
@@ -42,9 +63,10 @@ export class Location implements Serializable<Location> {
         this.lng = input.lng;
         this.address = input.address;
         this.active = input.active;
+        this.metadata = input.metadata;
 
         this.images = input.images;
-        for (var image of this.images) {
+        for (let image of this.images) {
             if (typeof image.url !== 'undefined') {
                 image.src = 'https://api-test.shareandcharge.com' + image.url;
             }

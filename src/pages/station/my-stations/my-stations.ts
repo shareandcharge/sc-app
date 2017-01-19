@@ -1,10 +1,18 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController, Events} from 'ionic-angular';
-import {AddStationPage} from '../add/add-station';
+import {
+    NavController,
+    ViewController,
+    ModalController,
+    Events,
+    ItemSliding,
+    AlertController,
+    LoadingController
+} from 'ionic-angular';
 import {LocationService} from "../../../services/location.service";
 import {AuthService} from "../../../services/auth.service";
 import {StationWrapperPage} from "../station-wrapper";
-
+import {ErrorService} from "../../../services/error.service";
+import {Location} from "../../../models/location";
 
 @Component({
     selector: 'page-my-stations',
@@ -16,7 +24,7 @@ export class MyStationsPage {
 
     stations: Array<Location>;
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, public locationService: LocationService, public modalCtrl: ModalController, private events: Events) {
+    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController, public locationService: LocationService, public modalCtrl: ModalController, private events: Events, private errorService: ErrorService) {
         this.events.subscribe('locations:updated', () => this.loadStations());
     }
 
@@ -26,25 +34,45 @@ export class MyStationsPage {
         userAddress = this.auth.getUser().address;
         this.locationService.getLocationsUser(userAddress).subscribe(locations => {
             this.stations = locations;
-            console.log("the locations inside subscribe are ", this.stations);
         });
     }
 
-    delete(id) {
-        this.locationService.deleteLocation(id).subscribe(locations => {
+
+    deleteStation(station, itemSliding: ItemSliding) {
+        let alert = this.alertCtrl.create({
+            title: 'Löschen bestätigen',
+            message: 'Möchtest Du diese Station wirklich löschen?',
+            buttons: [
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    handler: () => itemSliding.close()
+                },
+                {
+                    text: 'Ja, löschen',
+                    handler: () => {
+                        let loader = this.loadingCtrl.create({content: "Lösche Station ..."});
+                        loader.present();
+                        this.locationService.deleteLocation(station.id)
+                            .finally(() => loader.dismissAll())
+                            .subscribe(
+                                () => this.events.publish('locations:updated' , station),
+                                error => this.errorService.displayErrorWithKey(error, 'Station löschen')
+                            )
+                    }
+                }
+            ]
         });
+        alert.present();
     }
 
     ionViewWillEnter() {
         this.loadStations();
     }
 
-    ionViewDidLoad() {
-    }
-
     addStation() {
-        let modal = this.modalCtrl.create(StationWrapperPage , {
-            "mode" : 'add'
+        let modal = this.modalCtrl.create(StationWrapperPage, {
+            "mode": 'add'
         });
         modal.present();
     }
@@ -54,28 +82,19 @@ export class MyStationsPage {
     }
 
     editStation(obj) {
-        console.log(obj);
-        this.navCtrl.push(AddStationPage , {
-            "location": obj,
-            "mode": 'edit'
-        })
-    }
-
-    favorite(item) {
-    }
-
-    share(item) {
-    }
-
-    unread(item) {
+        this.locationService.getLocation(obj.id).subscribe((location) => {
+            let modal = this.modalCtrl.create(StationWrapperPage, {
+                "location": location,
+                "mode": 'edit'
+            });
+            modal.present();
+        });
     }
 
     doRefresh(refresher) {
         this.loadStations();
         setTimeout(() => {
-            console.log('Async operation has ended');
             refresher.complete();
         }, 1000);
     }
-
 }
