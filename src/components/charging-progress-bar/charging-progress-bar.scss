@@ -30,5 +30,11 @@ charging-progress-bar {
     background-image: linear-gradient(45deg, $bottomLeft, $topRight);
     opacity:0.7;
 
+    ion-icon{
+      color : white;
+      padding-left: 5px;
+      padding-top: 3px;
+      font-size: 50px;
+    }
   }
 }

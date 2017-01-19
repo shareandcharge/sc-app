@@ -208,7 +208,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({content: "Starting Charging process.."});
         loader.present();
 
-        this.chargingService.startCharging(this.connector.id, this.timer, this.activeCar.maxCharging)
+        this.chargingService.startCharging(this.connector.id, this.timer, this.activeCar.maxCharging , this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 (response) => {
@@ -481,8 +481,11 @@ export class ChargingPage {
     }
 
     chargingCompletedModal(chargedTime) {
-        this.viewCtrl.dismiss({
+
+        this.viewCtrl.dismiss();
+
+        /*this.viewCtrl.dismiss({
             "chargedTime": chargedTime
-        });
+        });*/
     }
 }
