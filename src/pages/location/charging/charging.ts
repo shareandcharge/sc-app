@@ -205,7 +205,7 @@ export class ChargingPage {
 
     startCharging() {
         this.timer = (this.hours * 3600) + (this.minutes * 60);
-        let loader = this.loadingCtrl.create({content: "Starting Charging process.."});
+        let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestartet ..."});
         loader.present();
 
         this.chargingService.startCharging(this.connector.id, this.timer, this.activeCar.maxCharging , this.location)

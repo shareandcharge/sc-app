@@ -36,7 +36,6 @@ export class ChargingService extends AbstractApiService {
 
         this.getConnectors(user.address).subscribe((a) => {
             if (a.length > 0) {
-
                 this.getStation(a[0].station).subscribe((res) => {
                         this.locService.getLocation(res.location).subscribe((loc) => {
                                 this.location = loc;
@@ -92,7 +91,7 @@ export class ChargingService extends AbstractApiService {
     }
 
     isCharging() {
-        return this.charging;
+        return this.charging && this.auth.loggedIn();
     }
 
     resumeCharging(remainingTime, totalTime) {

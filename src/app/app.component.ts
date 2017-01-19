@@ -36,6 +36,10 @@ export class MyApp {
             });
             this.events.subscribe('auth:login', () => {
                 this.updateUserDeviceToken();
+                this.checkChargingProgress();
+            });
+            this.events.subscribe('auth:logout', () => {
+                this.checkChargingProgress();
             });
 
             translateService.setDefaultLang("de");
@@ -110,7 +114,6 @@ export class MyApp {
             user.addDeviceToken(deviceToken, currentPlatform);
             this.userService.updateUser(user).subscribe((updatedUser) => {
                 this.authService.setUser(updatedUser);
-                console.log(updatedUser);
             });
         }
     }

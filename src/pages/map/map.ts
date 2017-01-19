@@ -55,6 +55,7 @@ export class MapPage {
 
     cars: Car[];
     activeCar: Car;
+    isCharging: boolean;
     activeCarSrc: string;
 
     toggledPlugs: Array<number>;
@@ -106,6 +107,7 @@ export class MapPage {
         observable.subscribe(cars => {
             this.cars = cars;
             this.activeCar = this.carService.getActiveCar();
+            this.isCharging = this.chargingService.isCharging();
 
             if (this.activeCar != null) {
                 //-- deactivate auto filter for plugtypes for now; too irritating when not so many poles.

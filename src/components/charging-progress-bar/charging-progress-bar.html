@@ -1,5 +1,12 @@
 <div *ngIf="charging" class="progress-inner" [style.width]="progress + '%'" (click)="goToCharging()">
-    <div class="charging-overlay">
-        <ion-icon name="cust-battery"></ion-icon>
-    </div>
+    <ion-fab top right *ngIf="activeCar">
+        <button ion-fab class="fab-image">
+            <div class="image-wrapper">
+                    <img [ngStyle]="{'background-image':'url(' + activeCar.displayImageSrc + ')'}">
+            </div>
+            <div class="image-overlay">
+                <ion-icon name="cust-battery"></ion-icon>
+            </div>
+        </button>
+    </ion-fab>
 </div>

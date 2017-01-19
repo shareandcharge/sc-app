@@ -22,7 +22,7 @@
         </button>
     </ion-fab>
 
-    <ion-fab top right *ngIf="hasCars()" #fabCar>
+    <ion-fab top right *ngIf="hasCars() && !isCharging" #fabCar>
         <button ion-fab class="fab-image">
             <span class="image-wrapper">
                 <img [ngStyle]="{'background-image':'url(' + activeCar.displayImageSrc + ')'}">
