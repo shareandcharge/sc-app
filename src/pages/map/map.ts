@@ -95,6 +95,7 @@ export class MapPage {
     }
 
     ionViewDidEnter() {
+        this.isCharging = this.chargingService.isCharging();
         if (this.map) {
             //-- we had issues of messed up map views when reopening the app
             //      this (may) fix it

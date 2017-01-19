@@ -35,3 +35,7 @@ charging-progress-bar {
     }
   }
 }
+
+ion-footer charging-progress-bar ion-fab {
+  display: none;
+}

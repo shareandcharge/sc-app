@@ -36,7 +36,10 @@ export class ChargingService extends AbstractApiService {
 
         this.getConnectors(user.address).subscribe((a) => {
             if (a.length > 0) {
-                this.getStation(a[0].station).subscribe((res) => {
+                //-- @LOOK if we're charging on mutiple connectors, use latest.
+                //      sometimes the old one is already "0" but still in the list
+                let connector = a.pop();
+                this.getStation(connector.station).subscribe((res) => {
                         this.locService.getLocation(res.location).subscribe((loc) => {
                                 this.location = loc;
                             },
@@ -44,9 +47,9 @@ export class ChargingService extends AbstractApiService {
                     },
                     error => this.errorService.displayErrorWithKey(error, 'Get Station Error'));
 
-                let remainingTime = Math.floor(a[0].timeleft);
+                let remainingTime = Math.floor(connector.timeleft);
                 if (remainingTime > 0) {
-                    this.resumeCharging(remainingTime, a[0].secondstorent);
+                    this.resumeCharging(remainingTime, connector.secondstorent);
                 }
 
             }
@@ -95,14 +98,13 @@ export class ChargingService extends AbstractApiService {
     }
 
     resumeCharging(remainingTime, totalTime) {
-        console.log("total time is " , totalTime);
         this.chargingTime = totalTime;
         this.charging = true;
         this.startEventInterval();
         this.countDown(remainingTime);
     }
 
-    startCharging(connectorId, secondsToCharge, maxCharging , location) {
+    startCharging(connectorId, secondsToCharge, maxCharging, location) {
         this.location = location;
 
         let chargingData = {
@@ -135,7 +137,6 @@ export class ChargingService extends AbstractApiService {
                 this.events.publish('locations:updated');
             })
             .catch(this.handleError);
-
     }
 
     chargingEnd() {
@@ -176,7 +177,7 @@ export class ChargingService extends AbstractApiService {
         me.timer = time;
         me.counter = setInterval(() => {
             if (--this.timer < 0) {
-                console.log("charging time is " , this.chargingTime);
+                clearInterval(me.counter);
                 this.presentToast(this.chargingTime);
                 this.chargingEnd();
             }
@@ -191,7 +192,7 @@ export class ChargingService extends AbstractApiService {
 
     presentToast(total) {
         let toast = this.toastCtrl.create({
-            message: 'Charging Completed',
+            message: 'Ladevorgang beendet',
             showCloseButton: true,
             closeButtonText: 'Ok',
             position: 'top',
@@ -200,11 +201,10 @@ export class ChargingService extends AbstractApiService {
 
         toast.onDidDismiss(() => {
             let data = {
-                "chargedTime" : total,
-                "location" : this.location
+                "chargedTime": total,
+                "location": this.location
             };
 
-            console.log("modal data is ", data);
             let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
             chargingCompletedModal.present();
         });

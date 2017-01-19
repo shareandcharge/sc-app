@@ -1,4 +1,12 @@
 page-charging {
+  .progress-wrapper {
+    position: relative;
+  }
+  .battery-charging {
+    position: absolute;
+    top: 85px;
+    left: calc(50% - 30px);
+  }
   canvas {
     padding: 0;
     margin: 20px auto;

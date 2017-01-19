@@ -38,12 +38,17 @@
     <div ion-text text-center *ngIf="activeCar == null" color="danger">Du musst erst ein Elektroauto hinzufügen bevor Du
         laden kannst.
     </div>
-    <div text-center class="price-label">
+
+    <!-- chargingPrice is "0" when countdown runs ! -->
+    <div text-center class="price-label" *ngIf="!countingDown">
         <span *ngIf="!countingDown"> Voraussichtlicher Preis: </span>
         {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}}
     </div>
 
-    <canvas id="circleProgressBar" width="280" height="280"></canvas>
+    <div class="progress-wrapper">
+        <div class="battery-charging" *ngIf="charging"><img src="assets/images/battery-charging.gif"></div>
+        <canvas id="circleProgressBar" width="280" height="280"></canvas>
+    </div>
 
     <div text-center>
         <button ion-button round text-uppercase color="danger" (click)="stopCharging()" *ngIf="countingDown">

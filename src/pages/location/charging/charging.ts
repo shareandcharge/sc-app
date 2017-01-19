@@ -213,6 +213,7 @@ export class ChargingPage {
             .subscribe(
                 (response) => {
                     this.countingDown = true;
+                    this.charging = true;
                     this.selectedChargingTime = this.chargingTime;
                     this.chargingTimeHours = this.chargingTimeHours + ":00";
 
@@ -240,7 +241,7 @@ export class ChargingPage {
                     }, 1000);
 
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Charging Start Error'));
+                error => this.errorService.displayErrorWithKey(error, 'Ladevorgang starten Fehler'));
     }
 
     stopCharging() {
@@ -259,7 +260,7 @@ export class ChargingPage {
                     handler: () => {
                         let chargedTime = this.chargingService.chargedTime();
 
-                        let loader = this.loadingCtrl.create({content: "Stopping Charging process.."});
+                        let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestoppt ..."});
                         loader.present();
 
                         this.chargingService.stopCharging(this.connector.id)
@@ -280,7 +281,7 @@ export class ChargingPage {
                                     this.initiateCanvas();
                                     this.chargingCompletedModal(chargedTimeString);
                                 },
-                                error => this.errorService.displayErrorWithKey(error, 'Charging Stop Error'));
+                                error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen Fehler'));
                     }
                 }
             ]
@@ -385,20 +386,24 @@ export class ChargingPage {
         this.minutes = Math.floor(Math.floor((time % 3600 ) / 60) / 10) * 10;
         this.seconds = 0;
 
-        let h = this.hours < 10 ? "0" + this.hours : this.hours;
+        // let h = this.hours < 10 ? "0" + this.hours : this.hours;
+        let h = this.hours;
         let m = this.minutes < 10 ? "0" + this.minutes : this.minutes;
         let s = this.seconds < 10 ? "0" + this.seconds : this.seconds;
 
-        let finalString = h + ':' + m + ':' + s;
+        let finalString = h + ':' + m + 'm' + s;
         this.chargingTimeHours = finalString;
 
         ctx.fillStyle = '#006EF1';
         ctx.lineCap = 'square';
         ctx.beginPath();
         ctx.font = "48px Arial";
-        this.chargingTimeHours = this.chargingTimeHours.substring(0, 5);
-        ctx.fillText(this.chargingTimeHours, 81, c.height / 2 + 16);
+        this.chargingTimeHours = this.chargingTimeHours.substring(0, 4);
+        ctx.fillText(this.chargingTimeHours, 94, c.height / 2 + 16);
 
+        ctx.font = "12px Arial";
+        ctx.fillText('Std.', 97, c.height / 2 + 35);
+        ctx.fillText('Min.', 149, c.height / 2 + 35);
 
         ctx.strokeStyle = gradient;
         ctx.beginPath();
