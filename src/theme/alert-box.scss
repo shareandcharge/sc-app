@@ -8,6 +8,7 @@
 .alert-box-danger {
   position: relative;
   border-color: map_get($colors, danger);
-  background-color: lighten(map_get($colors, danger), 34%);
+  //background-color: lighten(map_get($colors, danger), 34%);
+  background-color: transparent;
   color: darken(map_get($colors, danger), 10%);
 }
