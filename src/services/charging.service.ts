@@ -207,7 +207,7 @@ export class ChargingService extends AbstractApiService {
 
         toast.onDidDismiss(() => {
             let data = {
-                "chargedTime": this.makeTimeString(total),
+                "chargedTime": total,
                 "location": this.location
             };
 
@@ -216,19 +216,5 @@ export class ChargingService extends AbstractApiService {
         });
 
         toast.present();
-    }
-
-    makeTimeString(data) {
-
-        let hours = Math.floor(data / 3600);
-        let minutes = Math.floor((data % 3600 ) / 60);
-        let seconds = Math.floor((data % 3600 ) % 60);
-
-        let h = hours < 10 ? "0" + hours : hours;
-        let m = minutes < 10 ? "0" + minutes : minutes;
-        let s = seconds < 10 ? "0" + seconds : seconds;
-
-        let finalString = h + ':' + m + ':' + s;
-        return finalString;
     }
 }
