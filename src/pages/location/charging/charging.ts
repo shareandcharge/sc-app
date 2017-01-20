@@ -144,6 +144,13 @@ export class ChargingPage {
             }, 1000);
             this.buttonDeactive = true;
             this.countingDown = true;
+            this.locationService.getPrice(this.connector.id, {
+                'secondsToCharge': this.chargingService.getChargingTime(),
+                'maxCharging': this.carService.getActiveCar().maxCharging
+            }).subscribe((response) => {
+                    this.chargingPrice = response.min
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
         }
 
         else {
@@ -427,6 +434,7 @@ export class ChargingPage {
     }
 
     makeTimeString(data) {
+
         let hours = Math.floor(data / 3600);
         let minutes = Math.floor((data % 3600 ) / 60);
         let seconds = Math.floor((data % 3600 ) % 60);
