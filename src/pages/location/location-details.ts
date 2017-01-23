@@ -15,7 +15,6 @@ import {Station} from "../../models/station";
 import {ConfigService} from "../../services/config.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {LoginPage} from "../login/login";
-import {ChargingCompletePage} from "./charging/charging-complete/charging-complete";
 import {CarService} from "../../services/car.service";
 
 
@@ -313,9 +312,18 @@ export class LocationDetailPage {
 
     charge() {
         if (this.authService.loggedIn()) {
-            this.viewCtrl.dismiss({
-                "location": this.location
+            let chargingModal = this.modalCtrl.create(ChargingPage, {
+                "location": this.location,
+                "isCharging" : this.charging
             });
+
+            chargingModal.onDidDismiss((d)=>{
+                if(d.isCharging == true && !d.fromLocationDetailsAndIsCharging){
+                    this.viewCtrl.dismiss();
+                }
+            });
+             chargingModal.present();
+
         }
         else {
             this.loginModal();

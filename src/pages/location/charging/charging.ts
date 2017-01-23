@@ -38,6 +38,7 @@ export class ChargingPage {
     priceProviderRate: any;
     canvasImage: any;
     doScrolling: boolean = true;
+    fromLocationDetailsAndIsCharging: boolean = false;
 
     activeCar: Car;
 
@@ -50,6 +51,8 @@ export class ChargingPage {
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
+        this.fromLocationDetailsAndIsCharging = navParams.get("isCharging");
+
         if (this.location.stations[0].connectors[0].priceprovider.private.active) {
             this.getPriceTitle("private", this.location.stations[0].connectors[0].priceprovider.private.selected);
         }
@@ -139,7 +142,7 @@ export class ChargingPage {
                     this.countingDown = false;
                     let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
                     this.initiateCanvas();
-                    this.chargingCompletedModal(chargedTimeString);
+                    this.dismiss();
                 }
             }, 1000);
             this.buttonDeactive = true;
@@ -243,7 +246,7 @@ export class ChargingPage {
                             this.countingDown = false;
                             let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
                             this.initiateCanvas();
-                            this.chargingCompletedModal(chargedTimeString);
+                            this.dismiss();
                         }
                     }, 1000);
 
@@ -286,7 +289,7 @@ export class ChargingPage {
                                     this.updateTimerString();
                                     this.updateCanvas();
                                     this.initiateCanvas();
-                                    this.chargingCompletedModal(chargedTimeString);
+                                    this.dismiss();
                                 },
                                 error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen Fehler'));
                     }
@@ -493,20 +496,15 @@ export class ChargingPage {
         ctx.strokeStyle = gradient;
         ctx.beginPath();
         ctx.arc(this.canvasX, this.canvasY, 97, 1.5 * Math.PI, progress);
-        ctx.stroke();
+        ctx.stroke()
+
 
     }
 
     dismiss() {
-        this.viewCtrl.dismiss();
-    }
-
-    chargingCompletedModal(chargedTime) {
-
-        this.viewCtrl.dismiss();
-
-        /*this.viewCtrl.dismiss({
-         "chargedTime": chargedTime
-         });*/
+        this.viewCtrl.dismiss({
+            "isCharging": this.charging,
+            "fromLocationDetailsAndIsCharging" : this.fromLocationDetailsAndIsCharging
+        });
     }
 }

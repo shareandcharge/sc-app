@@ -40,14 +40,6 @@ export class ChargingProgressBarComponent {
             'location': this.location
         });
 
-        chargingModal.onDidDismiss(data => {
-            if (data) {
-                data.location = this.location;
-                let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
-                chargingCompletedModal.present();
-            }
-        });
         chargingModal.present();
     }
 }
-
