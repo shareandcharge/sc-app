@@ -39,8 +39,7 @@
         laden kannst.
     </div>
 
-    <!-- chargingPrice is "0" when countdown runs ! -->
-    <div text-center class="price-label" *ngIf="!countingDown">
+    <div text-center class="price-label">
         <span *ngIf="!countingDown"> Voraussichtlicher Preis: </span>
         {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}}
     </div>
