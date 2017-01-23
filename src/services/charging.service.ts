@@ -35,6 +35,9 @@ export class ChargingService extends AbstractApiService {
         let user = this.auth.getUser();
 
         this.getConnectors(user.address).subscribe((a) => {
+            
+            console.log(a);
+
             if (a.length > 0) {
                 //-- @LOOK if we're charging on mutiple connectors, use latest.
                 //      sometimes the old one is already "0" but still in the list
@@ -156,8 +159,8 @@ export class ChargingService extends AbstractApiService {
         return this.timer;
     }
 
-    getChargingStation() {
-        return this.connectorId;
+    getChargingTime() {
+        return this.chargingTime;
     }
 
     chargedTime() {
@@ -178,6 +181,9 @@ export class ChargingService extends AbstractApiService {
         me.counter = setInterval(() => {
             if (--this.timer < 0) {
                 clearInterval(me.counter);
+
+
+
                 this.presentToast(this.chargingTime);
                 this.chargingEnd();
             }

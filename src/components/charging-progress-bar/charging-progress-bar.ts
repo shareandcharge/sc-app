@@ -27,8 +27,8 @@ export class ChargingProgressBarComponent {
 
     updateComponent(location, progress, charging) {
         this.location = location;
-        this.progress = progress;
-        this.charging = charging;
+      /*  this.progress = progress;
+        this.charging = charging;*/
 
         this.charging = this.chargingService.isCharging();
         this.progress = this.chargingService.getChargingProgress();
