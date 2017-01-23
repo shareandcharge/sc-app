@@ -144,6 +144,13 @@ export class ChargingPage {
             }, 1000);
             this.buttonDeactive = true;
             this.countingDown = true;
+            this.locationService.getPrice(this.connector.id, {
+                'secondsToCharge': this.chargingService.getChargingTime(),
+                'maxCharging': this.carService.getActiveCar().maxCharging
+            }).subscribe((response) => {
+                    this.chargingPrice = response.min
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
         }
 
         else {
@@ -208,7 +215,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestartet ..."});
         loader.present();
 
-        this.chargingService.startCharging(this.connector.id, this.timer, this.activeCar.maxCharging , this.location)
+        this.chargingService.startCharging(this.connector.id, this.timer, this.activeCar.maxCharging, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 (response) => {
@@ -303,12 +310,20 @@ export class ChargingPage {
     }
 
     circleRange_mouseUp(self, e) {
-        if (!this.doScrolling) {
-            this.mouseDragging = false;
-            if (!this.countingDown) {
-                self.drawSlideBar(e.offsetX, e.offsetY);
-            }
+        this.mouseDragging = false;
+        if (!this.countingDown) {
+            self.drawSlideBar(e.offsetX, e.offsetY);
         }
+        if (this.activeCar != null) {
+            this.locationService.getPrice(this.connector.id, {
+                'secondsToCharge': (this.hours * 3600) + (this.minutes * 60),
+                'maxCharging': this.carService.getActiveCar().maxCharging
+            }).subscribe((response) => {
+                    this.chargingPrice = response.min
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
+        }
+
     }
 
     circleRange_touchEnd(self, e, canvas) {
@@ -427,6 +442,7 @@ export class ChargingPage {
     }
 
     makeTimeString(data) {
+
         let hours = Math.floor(data / 3600);
         let minutes = Math.floor((data % 3600 ) / 60);
         let seconds = Math.floor((data % 3600 ) % 60);
@@ -490,7 +506,7 @@ export class ChargingPage {
         this.viewCtrl.dismiss();
 
         /*this.viewCtrl.dismiss({
-            "chargedTime": chargedTime
-        });*/
+         "chargedTime": chargedTime
+         });*/
     }
 }
