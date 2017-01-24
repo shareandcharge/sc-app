@@ -3,7 +3,7 @@ import {
     NavController, ModalController, LoadingController, PopoverController, Events,
     FabContainer
 } from 'ionic-angular';
-import {Geolocation} from 'ionic-native';
+import {Geolocation, InAppBrowser} from 'ionic-native';
 import {Platform} from 'ionic-angular';
 import {AutocompletePage} from './autocomplete/autocomplete';
 import {MapSettingsPage} from './settings/map-settings';
@@ -221,6 +221,21 @@ export class MapPage {
         let me = this;
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
+            // add event listener to all a-tags of the map and use inAppBrowser to open them
+            let aTags = me.mapElement.nativeElement.getElementsByTagName('A');
+
+            for (let aTag of aTags) {
+                if (aTag.href === '') {
+                    continue;
+                }
+
+                aTag.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    window.open(aTag.href, '_blank', 'presentationstyle=pagesheet');
+                    return false;
+                });
+            }
+
             me.refreshLocations();
             loader.dismissAll();
         });
