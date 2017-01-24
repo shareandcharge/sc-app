@@ -231,7 +231,7 @@ export class MapPage {
 
                 aTag.addEventListener('click', (event) => {
                     event.preventDefault();
-                    window.open(aTag.href, '_blank', 'presentationstyle=pagesheet');
+                    new InAppBrowser(aTag.href, '_blank', 'presentationstyle=pagesheet');
                     return false;
                 });
             }
