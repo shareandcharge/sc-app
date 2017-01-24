@@ -41,8 +41,9 @@ export class MapPage {
     defaultCenterLat = 52.5074592;
     defaultCenterLng = 13.2860649;
     defaultZoom = 8;
+    currentLatLng: any;
     currentPositionZoom = 16;
-    currentPositionMarker: any;
+    currentPositionOverlay: any;
 
     locationMarkers: Array<any>;
 
@@ -135,35 +136,58 @@ export class MapPage {
         fab.close();
     }
 
+    initializeCurrentPositionOverlay() {
+        let me = this;
+        let currentPositionDiv = null;
+
+        this.currentPositionOverlay = new google.maps.OverlayView();
+
+        this.currentPositionOverlay.onAdd = function() {
+            currentPositionDiv = document.createElement('div');
+            currentPositionDiv.id = 'currentPosition';
+            currentPositionDiv.style.position = 'absolute';
+
+            let panes = this.getPanes();
+            panes.overlayLayer.appendChild(currentPositionDiv);
+        }
+
+        this.currentPositionOverlay.draw = function () {
+            let point = this.getProjection().fromLatLngToDivPixel(me.currentLatLng);
+
+            if (point) {
+                currentPositionDiv.style.left = (point.x - 10) + 'px';
+                currentPositionDiv.style.top = (point.y - 10) + 'px';
+            }
+        }
+
+        this.currentPositionOverlay.onRemove = function() {
+            currentPositionDiv.parentNode.removeChild(currentPositionDiv);
+            currentPositionDiv = null;
+        }
+
+        this.currentPositionOverlay.setMap(this.map);
+    }
+
     centerCurrentPosition() {
+        if (typeof this.currentPositionOverlay === 'undefined') {
+            this.initializeCurrentPositionOverlay();
+        }
+
         let loader = this.loadingCtrl.create({
             content: "Ermittle Deinen Standort ...",
         });
         loader.present();
 
         Geolocation.getCurrentPosition().then((position) => {
-            let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            this.currentLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             this.map.setZoom(this.currentPositionZoom);
-            this.map.setCenter(latLng);
-            this.updateCurrentPositionMarker(latLng);
+            this.map.setCenter(this.currentLatLng);
 
             loader.dismissAll();
         }, (err) => {
             console.log(err);
             loader.dismissAll();
         });
-    }
-
-    updateCurrentPositionMarker(latLng) {
-        if (typeof this.currentPositionMarker === 'undefined') {
-            let me = this;
-
-            this.currentPositionMarker = new google.maps.Marker({
-                map: me.map
-            });
-        }
-
-        this.currentPositionMarker.setPosition(latLng);
     }
 
     setViewType = (viewType) => {
