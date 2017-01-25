@@ -252,6 +252,10 @@ export class Connector {
         return backendPriceProvider;
     }
 
+    atLeastOneTarifSelected() {
+        return this.priceprovider.public.active || this.priceprovider.private.active;
+    }
+
 
     /*
      * checks the weekcalendar whether the connector is open at the time of the request.

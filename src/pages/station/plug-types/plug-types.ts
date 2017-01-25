@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController} from 'ionic-angular';
+import {NavController, NavParams, AlertController, Events} from 'ionic-angular';
 import {SetTariffPage} from '../set-tariff/set-tariff';
 import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
@@ -20,7 +20,7 @@ export class PlugTypesPage {
     wattpowerTemp: any;
     errorMessages: any;
 
-    constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController, private configService: ConfigService) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController, private configService: ConfigService, private events: Events) {
         this.powerOptions = [
             "2.4", "4.3", "6.4"
         ];
@@ -44,6 +44,18 @@ export class PlugTypesPage {
 
     updateWattpower() {
         this.connector.maxwattpower = this.wattpowerTemp * 1000;
+    }
+
+    saveChanges() {
+        if (this.connector.atLeastOneTarifSelected()) {
+            this.events.publish('location:update', this.locObject);
+        } else {
+            this.navCtrl.push(SetTariffPage, {
+                "location": this.locObject,
+                "mode": this.flowMode,
+                "setTariffAlert" : true
+            });
+        }
     }
 
     nextPage() {
