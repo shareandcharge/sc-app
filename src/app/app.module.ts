@@ -7,9 +7,8 @@ import {MyApp} from './app.component';
 
 import {IntroPage} from "../pages/intro/intro";
 import {AboutPage} from '../pages/about/about';
-import {SignupPage} from '../pages/signup/signup';
-import {TermsPage} from '../pages/signup/terms';
-import {LoginPage} from '../pages/login/login';
+import {SignupLoginPage} from '../pages/signup-login/signup-login';
+import {TermsPage} from '../pages/signup-login/terms';
 import {MapPage} from '../pages/map/map';
 import {AutocompletePage} from '../pages/map/autocomplete/autocomplete';
 import {AddStationPage} from '../pages/station/add/add-station';
@@ -89,9 +88,8 @@ export function createTranslateLoader(http: Http) {
         MapPage,
         MapFilterPage,
         AutocompletePage,
-        SignupPage,
+        SignupLoginPage,
         TermsPage,
-        LoginPage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,
@@ -146,9 +144,8 @@ export function createTranslateLoader(http: Http) {
         MapPage,
         MapFilterPage,
         AutocompletePage,
-        SignupPage,
+        SignupLoginPage,
         TermsPage,
-        LoginPage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,

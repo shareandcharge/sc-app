@@ -52,5 +52,6 @@
 
     <div padding text-center>
         <button ion-button round (click)="continueAddStation()" text-uppercase>Weiter</button>
+        <button ion-button round *ngIf="flowMode==='edit'" (click)="saveChanges()" text-uppercase>Änderungen speichern</button>
     </div>
 </ion-content>

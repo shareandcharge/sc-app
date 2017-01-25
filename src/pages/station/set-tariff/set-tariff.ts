@@ -36,11 +36,11 @@ export class SetTariffPage {
 
         this.flowMode = this.navParams.get("mode");
 
-        if (this.flowMode == 'edit') {
+        if (this.flowMode == 'add') {
             this.buttonText = "Veröffentlichen";
         }
         else {
-            this.buttonText = "Veröffentlichen";
+            this.buttonText = "Änderungen speichern";
         }
 
         if (this.connector.metadata.accessControl) {
@@ -74,6 +74,10 @@ export class SetTariffPage {
         };
 
         this.updateEstimationsDebounce = debounce((area) => this.updateEstimations(area), 400);
+
+        if (this.navParams.get('setTariffAlert')) {
+            this.showSetTariffAlert();
+        }
     }
 
     ionViewWillEnter() {
@@ -162,35 +166,25 @@ export class SetTariffPage {
     }
 
     publish() {
+        console.log(this.locObject);
         if (this.priceprovider.public.active || this.priceprovider.private.active) {
-            // we need to convert the provider to the format used in the backend
-            this.connector.priceprovider = this.connector.toBackendPriceProvider(this.priceprovider);
-
             if (this.flowMode == 'add') {
-                this.locationService.createLocation(this.locObject).subscribe(
-                    (location) => {
-                        this.navCtrl.parent.pop();
-                        this.events.publish('locations:updated', location);
-                    },
-                    error => this.errorService.displayErrorWithKey(error, 'Ladestation hinzufügen')
-                );
+                this.events.publish('locations:create', this.locObject);
             } else {
-                this.locationService.updateLocation(this.locObject).subscribe(
-                    (location) => {
-                        this.navCtrl.parent.pop();
-                        this.events.publish('locations:updated', location);
-                    },
-                    error => this.errorService.displayErrorWithKey(error, 'Ladestation bearbeiten')
-                );
+                this.events.publish('locations:update', this.locObject);
             }
         } else {
-            let alert = this.alertCtrl.create({
-                title: 'Bitte wähle eine Tarifoption',
-                subTitle: 'Es muss mindestens ein Tarifoption ausgewählt sein.',
-                buttons: ['Ok']
-            });
-            alert.present();
+            this.showSetTariffAlert();
         }
+    }
+
+    showSetTariffAlert() {
+        let alert = this.alertCtrl.create({
+            title: 'Bitte wähle eine Tarifoption',
+            subTitle: 'Es muss mindestens ein Tarifoption ausgewählt sein.',
+            buttons: ['Ok']
+        });
+        alert.present();
     }
 
     close() {

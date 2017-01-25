@@ -4,11 +4,14 @@ import {
     ModalController,
     ActionSheetController,
     reorderArray,
-    NavParams, ItemSliding, AlertController
+    NavParams, ItemSliding, AlertController, Events
 } from 'ionic-angular';
 import {PlugTypesPage} from '../plug-types/plug-types';
 import {Camera} from 'ionic-native';
 import {Location} from "../../../models/location";
+import {Station} from "../../../models/station";
+import {Connector} from "../../../models/connector";
+import {SetTariffPage} from "../set-tariff/set-tariff";
 
 
 @Component({
@@ -20,9 +23,11 @@ export class AddStationImagePage {
     images: any;
     public base64Image: string;
     locObject: Location;
+    station: Station;
+    connector: Connector;
     flowMode: any;
 
-    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams, public modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController) {
+    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams, public modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController, private events: Events) {
         if (typeof this.images == "undefined") {
             this.images = [];
         }
@@ -30,6 +35,8 @@ export class AddStationImagePage {
         this.locObject = this.navParams.get("location");
         this.flowMode = this.navParams.get("mode");
 
+        this.station = this.locObject.stations[0];
+        this.connector = this.station.connectors[0];
 
         if (typeof this.locObject.images != 'undefined') {
             this.images = this.locObject.images;
@@ -94,8 +101,26 @@ export class AddStationImagePage {
         });
     }
 
-    continueAddStation() {
+    prepareProcedure() {
         this.locObject.images = this.images;
+    }
+
+    saveChanges() {
+        this.prepareProcedure();
+
+        if (this.connector.atLeastOneTarifSelected()) {
+            this.events.publish('location:update', this.locObject);
+        } else {
+            this.navCtrl.push(SetTariffPage, {
+                "location": this.locObject,
+                "mode": this.flowMode,
+                "setTariffAlert" : true
+            });
+        }
+    }
+
+    continueAddStation() {
+        this.prepareProcedure();
         this.navCtrl.push(PlugTypesPage, {
             "location": this.locObject,
             "mode": this.flowMode
