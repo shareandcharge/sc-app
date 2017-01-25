@@ -5,10 +5,9 @@ import {AboutPage} from '../about/about';
 import {WalletPage} from '../wallet/wallet';
 import {DashboardPage} from '../dashboard/dashboard';
 import {AuthService} from "../../services/auth.service";
-import {LoginPage} from "../login/login";
 import {MyStationsPage} from "../station/my-stations/my-stations";
 import {StationWrapperPage} from "../station/station-wrapper";
-import {SignupPage} from "../signup/signup";
+import {SignupLoginPage} from "../signup-login/signup-login";
 
 
 @Component({
@@ -29,12 +28,14 @@ export class TabsPage {
     constructor(public modalCtrl: ModalController, public auth: AuthService) {
     }
 
-    signupModal(data?) {
-        this.displayModal(SignupPage, data);
+    signupModal() {
+        this.displayModal(SignupLoginPage, {
+            'action' : 'signUp'
+        });
     }
 
     loginModal(data?) {
-        this.displayModal(LoginPage, data);
+        this.displayModal(SignupLoginPage, data);
     }
 
     displayModal(page, data) {
@@ -61,7 +62,8 @@ export class TabsPage {
         else {
             this.loginModal({
                 "dest": StationWrapperPage,
-                'mode' : 'modal'
+                'mode' : 'modal',
+                'action' : 'login'
             });
         }
     }

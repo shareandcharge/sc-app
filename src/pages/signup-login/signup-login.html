@@ -1,0 +1,92 @@
+<ion-header class="transparent">
+
+    <ion-navbar>
+        <ion-title></ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+    <ion-grid class="fullpage" *ngIf="!auth.loggedIn()">
+        <ion-row>
+            <ion-col>
+                <h1 text-center>Willkommen bei Share&Charge</h1>
+
+                <div *ngIf="error" class="alert-box alert-box-danger" margin>{{ error | translate}}</div>
+
+                <form [formGroup]="signUpLoginForm" (ngSubmit)="submitForm()">
+                    <div id="signUpLoginTabs" text-uppercase>
+                        <ion-segment color="primary" [(ngModel)]="action" [ngModelOptions]="{standalone: true}" (ngModelChange)="resetErrorMessage()" padding>
+                            <ion-segment-button value="signUp">
+                                Anmelden
+                            </ion-segment-button>
+                            <ion-segment-button value="login">
+                                Login
+                            </ion-segment-button>
+                        </ion-segment>
+                    </div>
+
+                    <div padding="">
+                        <ion-input type="email"
+                                   formControlName="email"
+                                   [(ngModel)]="signUpLoginObject.email" name="email" placeholder="E-Mail"></ion-input>
+                    </div>
+                    <div *ngIf="!signUpLoginForm.controls.email.valid && submitAttempt"
+                         class="alert-box alert-box-danger" margin>
+                        {{ errorMessages.email }}
+                    </div>
+                    <div padding="">
+                        <ion-input type="password"
+                                   formControlName="password"
+                                   [(ngModel)]="signUpLoginObject.authentification.password" name="password"
+                                   placeholder="Passwort"></ion-input>
+                    </div>
+                    <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt"
+                         class="alert-box alert-box-danger" margin>
+                        {{ errorMessages.password }}
+                        <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('password')"></ion-icon>
+                    </div>
+                    <div *ngIf="action=='signUp'">
+                        <ion-list no-lines class="list-tac">
+                            <ion-item>
+                                <ion-checkbox color="light" checked="false"
+                                              formControlName="terms"
+                                              [(ngModel)]="termsAccept" name="termsAccept">
+                                </ion-checkbox>
+                                <ion-label>Ich stimme den <a ion-text="" color="light" (click)="openTerms()">AGBs</a> zu.
+                                </ion-label>
+                            </ion-item>
+                        </ion-list>
+                        <div *ngIf="!signUpLoginForm.controls.terms.valid && submitAttempt"
+                             class="alert-box alert-box-danger" margin>
+                            {{ errorMessages.terms }}
+                        </div>
+                    </div>
+                    <div padding="" text-center="">
+                        <p>
+                            <button ion-button round color="white" type="submit" text-uppercase="">{{buttonText[action]}}</button>
+                        </p>
+                    </div>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
+    <ion-grid class="fullpage" *ngIf="auth.loggedIn()">
+        <ion-row>
+            <ion-col>
+
+                <h1>Hello</h1>
+                {{ auth.getUser().displayName}}
+                <button ion-button (click)="logout()">Logout</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+

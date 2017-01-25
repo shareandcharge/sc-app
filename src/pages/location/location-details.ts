@@ -14,9 +14,9 @@ import {Connector} from "../../models/connector";
 import {Station} from "../../models/station";
 import {ConfigService} from "../../services/config.service";
 import {DomSanitizer} from "@angular/platform-browser";
-import {LoginPage} from "../login/login";
 import {ChargingCompletePage} from "./charging/charging-complete/charging-complete";
 import {CarService} from "../../services/car.service";
+import {SignupLoginPage} from "../signup-login/signup-login";
 
 
 @Component({
@@ -307,7 +307,7 @@ export class LocationDetailPage {
     }
 
     loginModal(data?) {
-        let modal = this.modalCtrl.create(LoginPage, data);
+        let modal = this.modalCtrl.create(SignupLoginPage, data);
         modal.present();
     }
 

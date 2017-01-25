@@ -11,7 +11,6 @@ import {MapFilterPage} from './filter/filter';
 import {LocationDetailPage} from '../location/location-details';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AuthService} from "../../services/auth.service";
-import {LoginPage} from "../login/login";
 import {LocationService} from "../../services/location.service";
 import {CarService} from "../../services/car.service";
 import {CarWrapperPage} from "../car/car-wrapper";
@@ -20,6 +19,7 @@ import {Location} from "../../models/location";
 import {ChargingService} from '../../services/charging.service';
 import {ChargingPage} from '../location/charging/charging';
 import {ChargingCompletePage} from '../location/charging/charging-complete/charging-complete';
+import {SignupLoginPage} from "../signup-login/signup-login";
 
 
 declare var google;
@@ -328,9 +328,10 @@ export class MapPage {
             modal.present();
         }
         else {
-            let modal = this.modalCtrl.create(LoginPage, {
+            let modal = this.modalCtrl.create(SignupLoginPage, {
                 "dest": CarWrapperPage,
-                'mode': 'modal'
+                'mode': 'modal',
+                'action' : 'login'
             });
             modal.present();
         }
