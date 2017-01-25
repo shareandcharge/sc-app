@@ -43,7 +43,7 @@
     <h1>Meine Zahlungsvorgänge</h1>
 
     <ion-list>
-        <ion-item *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending'}">
+        <ion-item *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending'}" (click)="openTransactionDetail(tr)">
             <div class="loader" *ngIf="tr.type=='TokenUpdate-pending'"></div>
             <span
                     class="amount"

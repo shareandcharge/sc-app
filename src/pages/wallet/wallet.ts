@@ -6,6 +6,7 @@ import {AuthService} from "../../services/auth.service";
 import {EditProfilePage} from "../profile/edit-profile/edit-profile";
 import {Observable} from "rxjs";
 import {of} from "rxjs/observable/of";
+import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
 
 @Component({
     selector: 'page-wallet',
@@ -58,6 +59,8 @@ export class WalletPage {
         let observable = this.paymentService.getHistory();
         observable.subscribe((history) => {
             this.paymentHistory = history;
+
+            console.log(history);
 
             if (typeof this.paymentHistory !== 'undefined') {
                 if (this.paymentHistory.length > 0) {
@@ -155,5 +158,12 @@ export class WalletPage {
             duration: 3000
         });
         toast.present();
+    }
+
+    openTransactionDetail(transaction) {
+        let modal = this.modalCtrl.create(TransactionDetailPage, {
+            'transaction' : transaction
+        });
+        modal.present();
     }
 }
