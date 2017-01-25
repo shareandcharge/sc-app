@@ -6,7 +6,7 @@ import {
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
 import {TermsPage} from "./terms";
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, Validators, AbstractControl, FormControl} from '@angular/forms';
 import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 
@@ -39,9 +39,14 @@ export class SignupLoginPage {
         this.createErrorMessages();
         this.signUpLoginForm = formBuilder.group({
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
-            password: ['', Validators.compose([Validators.maxLength(225), Validators.minLength(7), Validators.required])],
-            terms: [false, Validators.compose([termsValidator.isValid(this.action), Validators.required])]
+            password: ['', Validators.compose([Validators.maxLength(225), Validators.minLength(7), Validators.required])]
         });
+
+        if (this.action === 'signUp') {
+            this.signUpLoginForm.addControl(
+                "terms", new FormControl(false, Validators.compose([termsValidator.isValid, Validators.required]))
+            )
+        }
 
         this.destination = this.navParams.get('dest');
         this.mode = this.navParams.get('mode');
@@ -55,8 +60,18 @@ export class SignupLoginPage {
         }
     }
 
-    resetErrorMessage() {
+    switchTabs() {
         this.submitAttempt = false;
+
+        if (this.action === 'login') {
+            this.signUpLoginForm.removeControl('terms');
+        }
+
+        if (this.action === 'signUp') {
+            this.signUpLoginForm.addControl(
+                "terms", new FormControl(false, Validators.compose([termsValidator.isValid, Validators.required]))
+            )
+        }
     }
 
     dismiss() {
@@ -80,6 +95,7 @@ export class SignupLoginPage {
 
     login() {
         this.submitAttempt = true;
+
         if (this.signUpLoginForm.valid) {
             let loader = this.loadingCtrl.create({
                 content: "Login ...",
