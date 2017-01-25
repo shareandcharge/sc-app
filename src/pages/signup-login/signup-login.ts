@@ -33,7 +33,6 @@ export class SignupLoginPage {
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController, private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService, public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
-            console.log('someone still calling without action parameter');
             this.action = 'login';
         }
 
