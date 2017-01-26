@@ -24,6 +24,16 @@ export class MyApp {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
 
+
+            this.platform.pause.subscribe(() => {
+            });
+
+
+            this.platform.resume.subscribe(() => {
+                this.events.publish('charging:resume');
+            });
+
+
             config.set('scrollAssist', true);
 
             StatusBar.styleDefault();
@@ -34,6 +44,7 @@ export class MyApp {
             this.events.subscribe('user:refreshed', () => {
                 this.updateUserDeviceToken();
             });
+
             this.events.subscribe('auth:login', () => {
                 this.updateUserDeviceToken();
                 this.checkChargingProgress();

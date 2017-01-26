@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, ViewController, LoadingController} from 'ionic-angular';
+import {NavController, NavParams, AlertController, ViewController, LoadingController, Events} from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 import {Connector} from "../../../models/connector";
 import {LocationService} from "../../../services/location.service";
@@ -48,7 +48,7 @@ export class ChargingPage {
         'kwh'
     ];
 
-    constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
+    constructor(public navCtrl: NavController, private errorService: ErrorService, private events: Events, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
         if (this.location.stations[0].connectors[0].priceprovider.private.active) {
             this.getPriceTitle("private", this.location.stations[0].connectors[0].priceprovider.private.selected);
@@ -70,6 +70,34 @@ export class ChargingPage {
         this.charging = this.chargingService.isCharging();
         this.canvasImage = new Image();
         this.canvasImage.src = 'assets/icons/battery.png';
+
+        this.events.subscribe('charging:resume', () => this.resumeCharging());
+
+    }
+
+    resumeCharging() {
+        clearInterval(this.myCounter);
+        this.myCounter = setInterval(() => {
+            this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
+            this.timer = this.chargingService.getRemainingTime();
+            this.updateCanvas();
+            if (this.timer == 0) {
+                clearInterval(this.myCounter);
+                this.countingDown = false;
+                let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
+                this.initiateCanvas();
+                this.chargingCompletedModal(chargedTimeString);
+            }
+        }, 1000);
+        this.buttonDeactive = true;
+        this.countingDown = true;
+        this.locationService.getPrice(this.connector.id, {
+            'secondsToCharge': this.chargingService.getChargingTime(),
+            'maxCharging': this.carService.getActiveCar().maxCharging
+        }).subscribe((response) => {
+                this.chargingPrice = response.min
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
     }
 
     getPriceTitle(type, selected) {
@@ -129,30 +157,8 @@ export class ChargingPage {
 
     ionViewDidLoad() {
         if (this.charging) {
-            clearInterval(this.myCounter);
-            this.myCounter = setInterval(() => {
-                this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
-                this.timer = this.chargingService.getRemainingTime();
-                this.updateCanvas();
-                if (this.timer == 0) {
-                    clearInterval(this.myCounter);
-                    this.countingDown = false;
-                    let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
-                    this.initiateCanvas();
-                    this.chargingCompletedModal(chargedTimeString);
-                }
-            }, 1000);
-            this.buttonDeactive = true;
-            this.countingDown = true;
-            this.locationService.getPrice(this.connector.id, {
-                'secondsToCharge': this.chargingService.getChargingTime(),
-                'maxCharging': this.carService.getActiveCar().maxCharging
-            }).subscribe((response) => {
-                    this.chargingPrice = response.min
-                },
-                error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
+            this.resumeCharging()
         }
-
         else {
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
@@ -173,7 +179,6 @@ export class ChargingPage {
 
             this.initiateCanvas();
         }
-
     }
 
     isScrollable(x, y) {
