@@ -9,9 +9,6 @@ import {AbstractApiService} from "./abstract.api.service";
 
 @Injectable()
 export class CarService extends AbstractApiService {
-
-    private tmpManuData: Array<any>;
-
     private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
 
     private activeCar: Car = null;

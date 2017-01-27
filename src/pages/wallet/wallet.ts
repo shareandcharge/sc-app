@@ -4,8 +4,6 @@ import {AddMoneyPage} from './add/add-money';
 import {PaymentService} from "../../services/payment.service";
 import {AuthService} from "../../services/auth.service";
 import {EditProfilePage} from "../profile/edit-profile/edit-profile";
-import {Observable} from "rxjs";
-import {of} from "rxjs/observable/of";
 import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
 import {ErrorService} from "../../services/error.service";
 

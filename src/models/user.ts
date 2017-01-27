@@ -1,6 +1,5 @@
 import {Serializable} from './serializable';
 import {isDefined, isBlank, isArray} from "ionic-angular/util/util";
-import {Platform} from "ionic-angular";
 
 export class User implements Serializable<User> {
     id: any;
