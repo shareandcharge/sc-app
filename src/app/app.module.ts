@@ -10,7 +10,6 @@ import {AboutPage} from '../pages/about/about';
 import {SignupLoginPage} from '../pages/signup-login/signup-login';
 import {TermsPage} from '../pages/signup-login/terms';
 import {MapPage} from '../pages/map/map';
-import {AutocompletePage} from '../pages/map/autocomplete/autocomplete';
 import {AddStationPage} from '../pages/station/add/add-station';
 import {CarManufacturerPage} from '../pages/car/form/manufacturer/car-manufacturer';
 import {CarModelPage} from '../pages/car/form/model/car-model';
@@ -87,7 +86,6 @@ export function createTranslateLoader(http: Http) {
         AboutPage,
         MapPage,
         MapFilterPage,
-        AutocompletePage,
         SignupLoginPage,
         TermsPage,
         CarWrapperPage,
@@ -143,7 +141,6 @@ export function createTranslateLoader(http: Http) {
         AboutPage,
         MapPage,
         MapFilterPage,
-        AutocompletePage,
         SignupLoginPage,
         TermsPage,
         CarWrapperPage,
