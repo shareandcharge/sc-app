@@ -5,7 +5,6 @@ import {
 } from 'ionic-angular';
 import {Geolocation, InAppBrowser} from 'ionic-native';
 import {Platform} from 'ionic-angular';
-import {AutocompletePage} from './autocomplete/autocomplete';
 import {MapSettingsPage} from './settings/map-settings';
 import {MapFilterPage} from './filter/filter';
 import {LocationDetailPage} from '../location/location-details';
@@ -22,7 +21,8 @@ import {ChargingCompletePage} from '../location/charging/charging-complete/charg
 import {SignupLoginPage} from "../signup-login/signup-login";
 
 
-declare var google;
+declare var google: any;
+declare var cordova: any;
 
 @Component({
     selector: 'page-map',
@@ -62,6 +62,11 @@ export class MapPage {
     toggledPlugs: Array<number>;
     chargingProgress: number;
 
+    searchMode: boolean = false;
+
+    autocompleteItems: any;
+    autocompleteService: any;
+
     constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
@@ -83,6 +88,10 @@ export class MapPage {
         this.events.subscribe('auth:logout', () => this.refreshCarInfo());
 
         this.events.subscribe('locations:updated', (location) => this.refreshLocations());
+
+        this.autocompleteService = new google.maps.places.AutocompleteService();
+        this.autocompleteItems = [];
+
         this.initializeApp();
     }
 
@@ -387,17 +396,7 @@ export class MapPage {
     }
 
     showAddressModal() {
-        let modal = this.modalCtrl.create(AutocompletePage);
-        modal.onDidDismiss(place => {
-
-            if (place) {
-                console.log('DATA:', place);
-                this.viewType = 'map';
-                this.address.place = place;
-                this.centerToPlace(place);
-            }
-        });
-        modal.present();
+        this.searchMode = true;
     }
 
     centerToPlace(place) {
@@ -478,6 +477,55 @@ export class MapPage {
         let me = this;
         this.locations.forEach(function (location) {
             me.addMarker(location);
+        });
+    }
+
+    setSearchMode(mode: boolean) {
+        if (mode) {
+            this.searchMode = true;
+        } else {
+            this.searchMode = false;
+            this.autocompleteItems = [];
+        }
+    }
+
+    chooseItem(item: any) {
+        try {
+            cordova.plugins.Keyboard.close();
+        }
+        catch (e) {
+            // console.log('Hiding keyboard, browser');
+        }
+
+        this.autocompleteItems = [];
+
+        this.address.place = item;
+        this.centerToPlace(item);
+
+        this.searchMode = false;
+    }
+
+    updateSearch(ev: any) {
+        let val = ev.target.value;
+
+        if (!val || val.trim() == '') {
+            this.autocompleteItems = [];
+            return;
+        }
+
+        this.autocompleteService.getPlacePredictions({
+            input: val,
+            componentRestrictions: {country: 'DE'}
+        }, (predictions, status) => {
+            let places = [];
+
+            if ('OK' === status) {
+                predictions.forEach(function (prediction) {
+                    places.push(prediction);
+                });
+            }
+
+            this.autocompleteItems = places;
         });
     }
 }

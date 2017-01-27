@@ -35,6 +35,13 @@ ion-fab button {
   max-width: 130%; // @TODO ugly, temp iPhone fix
 }
 
+#searchResults {
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+}
+
 #mapCenterUI, #mapFilterUI {
   position: relative;
   background-color: map-get($colors, primary);

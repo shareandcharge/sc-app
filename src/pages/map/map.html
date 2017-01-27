@@ -1,7 +1,7 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar *ngIf="!searchMode">
         <ion-buttons start>
-            <button ion-button (click)="showAddressModal()" large>
+            <button ion-button (click)="setSearchMode(true)" large>
                 <ion-icon name="search"></ion-icon>
             </button>
         </ion-buttons>
@@ -11,6 +11,9 @@
                 <ion-icon name="settings"></ion-icon>
             </button>
         </ion-buttons>
+    </ion-navbar>
+    <ion-navbar *ngIf="searchMode">
+        <ion-searchbar debounce="500" #searchInput [showCancelButton]="true" (ionInput)="updateSearch($event)" (ionCancel)="setSearchMode(false)" cancelButtonText="Abbrechen" placeholder="Adresse suchen" animated="true"></ion-searchbar>
     </ion-navbar>
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
@@ -39,6 +42,13 @@
             </button>
         </ion-fab-list>
     </ion-fab>
+
+    <ion-list id="searchResults">
+        <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+            <ion-icon name="pin" item-left></ion-icon>
+            {{ item.description }}
+        </ion-item>
+    </ion-list>
 
     <ion-list [hidden]="viewType == 'map'">
         <ion-item *ngFor="let location of visibleLocations" (click)="showLocationDetails(location)">
