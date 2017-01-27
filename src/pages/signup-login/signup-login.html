@@ -15,7 +15,9 @@
     <ion-grid class="fullpage" *ngIf="!auth.loggedIn()">
         <ion-row>
             <ion-col>
-                <h1 text-center>Willkommen bei Share&Charge</h1>
+                <div text-center id="logoContainer">
+                    <img src="assets/images/sc-logo-white.png">
+                </div>
 
                 <div *ngIf="error" class="alert-box alert-box-danger" margin>{{ error | translate}}</div>
 
