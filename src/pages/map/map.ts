@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
+import {Component, ViewChild, ElementRef, NgZone} from '@angular/core';
 import {
     NavController, ModalController, LoadingController, PopoverController, Events,
     FabContainer
@@ -57,7 +57,6 @@ export class MapPage {
     cars: Car[];
     activeCar: Car;
     isCharging: boolean;
-    activeCarSrc: string;
 
     toggledPlugs: Array<number>;
     chargingProgress: number;
@@ -67,7 +66,7 @@ export class MapPage {
     autocompleteItems: any;
     autocompleteService: any;
 
-    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService) {
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService, private zone: NgZone) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -525,7 +524,9 @@ export class MapPage {
                 });
             }
 
-            this.autocompleteItems = places;
+            this.zone.run(() => {
+                this.autocompleteItems = places;
+            });
         });
     }
 }
