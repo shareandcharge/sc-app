@@ -19,6 +19,7 @@ import {ChargingService} from '../../services/charging.service';
 import {ChargingPage} from '../location/charging/charging';
 import {ChargingCompletePage} from '../location/charging/charging-complete/charging-complete';
 import {SignupLoginPage} from "../signup-login/signup-login";
+import {ErrorService} from "../../services/error.service";
 
 
 declare var google: any;
@@ -66,7 +67,7 @@ export class MapPage {
     autocompleteItems: any;
     autocompleteService: any;
 
-    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService, private zone: NgZone) {
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService, private zone: NgZone, private errorService: ErrorService) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -124,7 +125,8 @@ export class MapPage {
                 // let plugTypes = this.activeCar.plugTypes;
                 // this.loadLocationsForPlugTypes(plugTypes);
             }
-        }, () => {
+        }, (error) => {
+            this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos');
             this.cars = null;
             this.activeCar = null;
         });
@@ -138,7 +140,8 @@ export class MapPage {
         this.carService.selectAsActiveCar(car).subscribe((response) => {
             this.activeCar = car;
             this.events.publish('cars:updated');
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Auto wechseln'));
 
 
         fab.close();
@@ -219,7 +222,8 @@ export class MapPage {
             me.locationService.searchLocations(bounds).subscribe(locations => {
                 me.visibleLocations = locations;
                 this.viewType = viewType;
-            });
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Suche Stationen'));
         } else {
             this.viewType = viewType;
         }
@@ -277,7 +281,8 @@ export class MapPage {
         this.locationService.getLocations().subscribe((locations) => {
             this.locations = locations;
             this.updateLocationMarkers();
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Aktualisiere Stationen'));
     }
 
     showLocationDetails(location) {
@@ -391,7 +396,8 @@ export class MapPage {
             this.toggledPlugs = plugTypes;
             this.locations = locations;
             this.updateLocationMarkers();
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen für Station'));
     }
 
     showAddressModal() {

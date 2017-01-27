@@ -17,6 +17,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {ChargingCompletePage} from "./charging/charging-complete/charging-complete";
 import {CarService} from "../../services/car.service";
 import {SignupLoginPage} from "../signup-login/signup-login";
+import {ErrorService} from "../../services/error.service";
 
 
 @Component({
@@ -61,7 +62,7 @@ export class LocationDetailPage {
     minPrice: any;
     maxPrice: any;
 
-    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer, private carService: CarService) {
+    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService) {
 
         this.charging = this.chargingService.isCharging();
 
@@ -150,8 +151,10 @@ export class LocationDetailPage {
                 this.configService.getPlugTypes().subscribe((plugTypes) => {
                     this.plugTypes = plugTypes;
                     this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
-                });
-            }
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Standortdetails')
         );
         return observable;
     }
@@ -169,7 +172,8 @@ export class LocationDetailPage {
         this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
            this.maxPrice = response.max;
            this.minPrice = response.min;
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Preisabfrage'));
     }
 
     getRatings() {
@@ -178,7 +182,8 @@ export class LocationDetailPage {
             ratings => {
                 this.ratings = ratings;
                 this.averageRating = this.getAverageRating();
-            }
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Bewertungen')
         );
     }
 

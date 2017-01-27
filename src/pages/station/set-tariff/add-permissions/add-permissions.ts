@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams, ViewController, AlertController} from 'ionic-angular';
 import {Contacts, Contact} from "ionic-native";
 import {UserService} from "../../../../services/user.service";
+import {ErrorService} from "../../../../services/error.service";
 
 @Component({
     selector: 'page-add-permissions',
@@ -11,7 +12,7 @@ export class AddPermissionsPage {
     permissions: any;
     input: any;
 
-    constructor(public navCtrl: NavController, private navParams: NavParams , private viewCtrl: ViewController, public alertCtrl: AlertController, public userService: UserService) {
+    constructor(public navCtrl: NavController, private navParams: NavParams , private viewCtrl: ViewController, public alertCtrl: AlertController, public userService: UserService, private errorService: ErrorService) {
         this.permissions = navParams.get("permissions");
     }
 
@@ -66,8 +67,9 @@ export class AddPermissionsPage {
                     });
                     alert.present();
                 }
-            }
-        );
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Benutzerabfrage')
+        )
     }
 
     addFirstValidEmail(contactEmails) {
@@ -93,8 +95,9 @@ export class AddPermissionsPage {
                         this.addFirstValidEmail(contactEmails);
                     }
                 }
-            }
-        );
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Benutzerabfrage')
+        )
     }
 
     deleteEmail(deleteEmail) {

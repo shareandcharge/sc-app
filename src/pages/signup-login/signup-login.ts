@@ -9,6 +9,7 @@ import {TermsPage} from "./terms";
 import {FormBuilder, Validators, AbstractControl, FormControl} from '@angular/forms';
 import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
+import {ErrorService} from "../../services/error.service";
 
 @Component({
     selector: 'page-signup',
@@ -30,7 +31,7 @@ export class SignupLoginPage {
         'login' : 'Login'
     };
 
-    constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController, private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService, public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams) {
+    constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController, private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService, public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams, private errorService: ErrorService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'login';
@@ -117,7 +118,7 @@ export class SignupLoginPage {
                     }
                 },
                 (error) => {
-                    this.error = error;
+                    this.errorService.displayErrorWithKey(error, 'Login');
                     loader.dismissAll();
                 });
         }
@@ -140,7 +141,7 @@ export class SignupLoginPage {
                 },
                 (error) => {
                     loader.dismissAll();
-                    this.error = error;
+                    this.errorService.displayErrorWithKey(error, 'Registrierung')
                 }
             );
         }

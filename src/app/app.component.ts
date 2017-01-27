@@ -10,6 +10,7 @@ import {ChargingService} from "../services/charging.service";
 import {IntroPage} from '../pages/intro/intro';
 import {TranslateService} from "ng2-translate";
 import {PushNotificationService} from "../services/push.notification.service";
+import {ErrorService} from "../services/error.service";
 
 
 @Component({
@@ -19,7 +20,7 @@ export class MyApp {
     rootPage: any = TabsPage;
     loader: any;
 
-    constructor(private platform: Platform, private authService: AuthService, private userService: UserService, private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController, public storage: Storage, private translateService: TranslateService, private config: Config, private pushNotificationService: PushNotificationService) {
+    constructor(private platform: Platform, private authService: AuthService, private userService: UserService, private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController, public storage: Storage, private translateService: TranslateService, private config: Config, private pushNotificationService: PushNotificationService, private errorService: ErrorService) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -120,7 +121,8 @@ export class MyApp {
             user.addDeviceToken(deviceToken, currentPlatform);
             this.userService.updateUser(user).subscribe((updatedUser) => {
                 this.authService.setUser(updatedUser);
-            });
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Nutzer aktualisieren'));
         }
     }
 }

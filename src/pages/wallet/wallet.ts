@@ -7,6 +7,7 @@ import {EditProfilePage} from "../profile/edit-profile/edit-profile";
 import {Observable} from "rxjs";
 import {of} from "rxjs/observable/of";
 import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
+import {ErrorService} from "../../services/error.service";
 
 @Component({
     selector: 'page-wallet',
@@ -37,7 +38,7 @@ export class WalletPage {
         'payOut' : 'assets/icons/wallet-payout.png',
     }
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController, private errorService: ErrorService) {
         this.events.subscribe('history:update', () => {
             this.displayToast();
             this.refreshData();
@@ -70,8 +71,6 @@ export class WalletPage {
         observable.subscribe((history) => {
             this.paymentHistory = history;
 
-            console.log(history);
-
             if (typeof this.paymentHistory !== 'undefined') {
                 if (this.paymentHistory.length > 0) {
                     this.noTransaction = false;
@@ -88,7 +87,8 @@ export class WalletPage {
                     }
                 }
             }
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Liste - History'));
 
         return observable;
     }
@@ -97,7 +97,8 @@ export class WalletPage {
         let observable = this.paymentService.getBalance();
         observable.subscribe((balance) => {
             this.currentBalance = balance;
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Abfrage Kontostand'));
 
         return observable;
     }

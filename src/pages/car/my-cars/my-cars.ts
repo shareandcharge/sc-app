@@ -81,6 +81,8 @@ export class MyCarsPage {
     }
 
     doRefresh(refresher) {
-        this.getCars().subscribe(() => refresher.complete());
+        this.getCars().subscribe(
+            () => refresher.complete(),
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos'));
     }
 }

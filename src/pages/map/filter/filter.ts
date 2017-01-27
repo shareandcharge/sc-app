@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {ViewController, NavParams} from 'ionic-angular';
 import {ConfigService} from "../../../services/config.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {ErrorService} from "../../../services/error.service";
 
 
 @Component({
@@ -12,7 +13,7 @@ export class MapFilterPage {
     plugTypes: any;
     toggledPlugs: Array<any>;
 
-    constructor(public viewCtrl: ViewController, private configService: ConfigService, private sanitizer: DomSanitizer, private navParams: NavParams) {
+    constructor(public viewCtrl: ViewController, private configService: ConfigService, private sanitizer: DomSanitizer, private navParams: NavParams, private errorService: ErrorService) {
         this.toggledPlugs = this.navParams.get('toggledPlugs');
 
         this.configService.getPlugTypes().subscribe((plugTypes) => {
@@ -25,7 +26,8 @@ export class MapFilterPage {
                     plug.toggled = true;
                 }
             })
-        })
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'))
     }
 
     skipSanitizer(svg) {
