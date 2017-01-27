@@ -27,6 +27,16 @@ export class WalletPage {
         SEND : 'Send'
     };
 
+    iconSourceMap = {
+        'cc' : 'assets/icons/wallet-cc.png',
+        'dd' : 'assets/icons/wallet-dd.png',
+        'sofort' : 'assets/icons/wallet-sofort.png',
+        'paypal' : 'assets/icons/wallet-paypal.png',
+        'Received' : 'assets/icons/wallet-pole.png',
+        'Send' : 'assets/icons/wallet-charge.png',
+        'payOut' : 'assets/icons/wallet-payout.png',
+    }
+
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController) {
         this.events.subscribe('history:update', () => {
             this.displayToast();
