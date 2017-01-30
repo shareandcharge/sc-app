@@ -49,13 +49,13 @@ export class TransactionDetailPage {
                 return '';
             }
             case 1: {
-                return this.transaction.connector.priceprovider.priceperhour / 100 + ' €';
+                return this.transaction.receipt.priceperhour / 100 + ' €';
             }
             case 2: {
-                return this.transaction.connector.priceprovider.priceperkw / 100 + ' €/h';
+                return this.transaction.receipt.priceperkw / 100 + ' €/h';
             }
             case 3: {
-                return this.transaction.connector.priceprovider.priceperkw / 100 + ' €/kWh';
+                return this.transaction.receipt.priceperkw / 100 + ' €/kWh';
             }
         }
     }

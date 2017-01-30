@@ -52,7 +52,6 @@ export class WalletPage {
     }
 
     refreshData() {
-        this.clearAllIntervals();
         this.getHistory();
         this.getBalance();
     }
@@ -65,6 +64,8 @@ export class WalletPage {
     }
 
     getHistory() {
+        this.clearAllIntervals();
+
         let observable = this.paymentService.getHistory();
         observable.subscribe((history) => {
             this.paymentHistory = history;
