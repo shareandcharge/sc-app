@@ -13,6 +13,10 @@ page-add-car {
       right: 32px;
       width: auto;
     }
+
+    ion-segment:not(.segment-ios) {
+      background-color: #fff;
+    }
   }
 
   .image-button {
