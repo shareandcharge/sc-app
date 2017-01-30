@@ -34,8 +34,6 @@ export class ChargingPage {
     canvasX: any;
     canvasY: any;
     charging: boolean;
-    priceProviderTitle: any;
-    priceProviderRate: any;
     canvasImage: any;
     doScrolling: boolean = true;
 
@@ -50,16 +48,8 @@ export class ChargingPage {
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, private events: Events, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
-        if (this.location.stations[0].connectors[0].priceprovider.private.active) {
-            this.getPriceTitle("private", this.location.stations[0].connectors[0].priceprovider.private.selected);
-        }
-
-        if (this.location.stations[0].connectors[0].priceprovider.public.active) {
-            this.getPriceTitle("public", this.location.stations[0].connectors[0].priceprovider.private.selected);
-
-        }
-
         this.connector = this.location.stations[0].connectors[0];
+
         this.chargingTime = 0;
         this.chargingPrice = 0;
         this.buttonDeactive = false;
@@ -98,41 +88,6 @@ export class ChargingPage {
                 this.chargingPrice = response.min
             },
             error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
-    }
-
-    getPriceTitle(type, selected) {
-        if (type == 'private') {
-            switch (selected) {
-                case 'flatrate':
-                    this.priceProviderTitle = "Flatrate";
-                    this.priceProviderRate = this.location.stations[0].connectors[0].priceprovider.private.flatrate.flatrateRate;
-                    break;
-                case 'hourly':
-                    this.priceProviderTitle = "Hourly";
-                    this.priceProviderRate = this.location.stations[0].connectors[0].priceprovider.private.hourly.hourlyRate;
-                    break;
-                case 'kwh':
-                    this.priceProviderTitle = "Kwh";
-                    this.priceProviderRate = this.location.stations[0].connectors[0].priceprovider.private.kwh.kwhRate;
-                    break;
-            }
-        }
-        else {
-            switch (selected) {
-                case 'flatrate':
-                    this.priceProviderTitle = "Flatrate";
-                    this.priceProviderRate = this.location.stations[0].connectors[0].priceprovider.public.flatrate.flatrateRate;
-                    break;
-                case 'hourly':
-                    this.priceProviderTitle = "Hourly";
-                    this.priceProviderRate = this.location.stations[0].connectors[0].priceprovider.public.hourly.hourlyRate;
-                    break;
-                case 'kwh':
-                    this.priceProviderTitle = "Kwh";
-                    this.priceProviderRate = this.location.stations[0].connectors[0].priceprovider.public.kwh.kwhRate;
-                    break;
-            }
-        }
     }
 
     ionViewDidLeave() {
