@@ -21,6 +21,14 @@ ion-item.item-ios {
   }
 }
 
+.item-md.item-input {
+  box-shadow: none !important;
+
+  .item-inner {
+    box-shadow: none !important;
+  }
+}
+
 .lines-inner-bottom {
   .item-inner {
     border-bottom: .55px solid #000 !important;
