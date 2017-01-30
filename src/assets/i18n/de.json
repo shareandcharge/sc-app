@@ -53,7 +53,7 @@
       "invalid": "unbekannt",
       "flatrate": "Flatrate",
       "hourly": "Stundentarif",
-      "kwh": "KWh genauer Tarif"
+      "kwh": "kWh genauer Tarif"
     }
   }
 }
