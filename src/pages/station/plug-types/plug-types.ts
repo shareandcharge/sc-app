@@ -50,7 +50,7 @@ export class PlugTypesPage {
 
     saveChanges() {
         if (this.connector.atLeastOneTarifSelected()) {
-            this.events.publish('location:update', this.locObject);
+            this.events.publish('locations:update', this.locObject);
         } else {
             this.navCtrl.push(SetTariffPage, {
                 "location": this.locObject,
