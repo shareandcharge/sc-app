@@ -3,7 +3,7 @@ import {
     NavController,
     LoadingController,
     NavParams,
-    ModalController
+    ModalController, Events
 } from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
 import {Platform} from 'ionic-angular';
@@ -13,6 +13,7 @@ import {StationMapDetailPage} from "./station-add-map/map";
 import {Location} from "../../../models/location";
 import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
+import {SetTariffPage} from "../set-tariff/set-tariff";
 
 @Component({
     selector: 'page-add-station',
@@ -44,7 +45,6 @@ export class AddStationPage {
     marker: any;
     placesService: any;
     private platform;
-    location: any;
     mapDefaultControlls: boolean;
 
     customWeekCalendar: any;
@@ -53,7 +53,7 @@ export class AddStationPage {
 
     errorMessages: any;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private events: Events) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -172,8 +172,7 @@ export class AddStationPage {
 
             this.cloneWeekcalendar();
             this.initializeWeekcalendar();
-        }
-        else {
+        } else {
             // create new location, station and connector
             this.locObject = new Location();
 
@@ -373,11 +372,31 @@ export class AddStationPage {
         this.navCtrl.parent.pop();
     }
 
-    continueAddStation() {
-
+    prepareProcedure() {
         if (this.segmentTabs === 'custom') {
             this.connector.weekcalendar = this.customWeekCalendar;
         }
+    }
+
+    saveChanges() {
+        this.prepareProcedure();
+
+        if (this.validateForm()) {
+            if (this.connector.atLeastOneTarifSelected()) {
+                this.events.publish('locations:update', this.locObject);
+            } else {
+                this.navCtrl.push(SetTariffPage, {
+                    "location": this.locObject,
+                    "mode": this.flowMode,
+                    "setTariffAlert" : true
+                });
+            }
+        }
+    }
+
+    continueAddStation() {
+        this.prepareProcedure();
+
         if (this.validateForm()) {
             if (this.flowMode == 'add') {
                 let userAddress = "";

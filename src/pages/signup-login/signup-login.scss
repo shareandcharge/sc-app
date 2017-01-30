@@ -4,6 +4,12 @@ page-signup {
     font-size: 3.6rem;
     font-weight: normal;
   }
+
+  #logoContainer {
+    margin-bottom: 60px;
+    margin-top: 20px;
+  }
+
   .content, .content-ios, .toolbar-title, .bar-buttons, .bar-button-default-ios {
     color: #fff;
   }
@@ -37,6 +43,28 @@ page-signup {
     }
     ion-label {
       color: #fff;
+    }
+  }
+
+  #signUpLoginTabs {
+    .segment {
+      display: block;
+      padding: 0 0 0 16px;
+
+      .segment-button {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.4);
+        display: inline-block;
+        font-size: 1.5rem;
+        height: 100%;
+        text-align: left;
+        width: 100px;
+
+        &.segment-activated {
+          color: rgba(255, 255, 255, 1);
+        }
+      }
     }
   }
 }

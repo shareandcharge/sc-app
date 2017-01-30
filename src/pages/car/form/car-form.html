@@ -67,7 +67,7 @@
         </ion-list>
 
         <ion-list no-lines="">
-            <form [formGroup]="carForm">
+            <form [formGroup]="carForm" novalidate>
                 <div *ngIf="segmentTabs == 'custom'">
                     <ion-item>
                         <ion-label floating>Hersteller</ion-label>

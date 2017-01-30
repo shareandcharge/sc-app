@@ -56,7 +56,8 @@ export class ChargingService extends AbstractApiService {
                 }
 
             }
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Liste - Connectors'));
 
         // this.storage.get("isCharging").then(charging => {
         //     if (!charging) {

@@ -57,7 +57,8 @@
     "cordova-plugin-contacts",
     "cordova-plugin-geolocation",
     "uk.co.workingedge.phonegap.plugin.launchnavigator",
-    "cordova-plugin-actionsheet"
+    "cordova-plugin-actionsheet",
+    "cordova-inappbrowser"
   ],
   "cordovaPlatforms": [
     "ios",
@@ -65,6 +66,11 @@
       "platform": "ios",
       "version": "",
       "locator": "ios"
+    },
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
     }
   ],
   "description": "sc-app: An Ionic project"

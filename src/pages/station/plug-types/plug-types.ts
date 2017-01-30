@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController} from 'ionic-angular';
+import {NavController, NavParams, AlertController, Events} from 'ionic-angular';
 import {SetTariffPage} from '../set-tariff/set-tariff';
 import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
 import {ConfigService} from "../../../services/config.service";
+import {ErrorService} from "../../../services/error.service";
 
 @Component({
     selector: 'page-plug-types',
@@ -20,7 +21,7 @@ export class PlugTypesPage {
     wattpowerTemp: any;
     errorMessages: any;
 
-    constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController, private configService: ConfigService) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController, private configService: ConfigService, private events: Events, private errorService: ErrorService) {
         this.powerOptions = [
             "2.4", "4.3", "6.4"
         ];
@@ -28,7 +29,8 @@ export class PlugTypesPage {
         this.configService.getPlugTypes().subscribe((plugtypes) => {
             this.plugOptions = plugtypes;
             console.log(this.plugOptions);
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
 
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
@@ -44,6 +46,18 @@ export class PlugTypesPage {
 
     updateWattpower() {
         this.connector.maxwattpower = this.wattpowerTemp * 1000;
+    }
+
+    saveChanges() {
+        if (this.connector.atLeastOneTarifSelected()) {
+            this.events.publish('locations:update', this.locObject);
+        } else {
+            this.navCtrl.push(SetTariffPage, {
+                "location": this.locObject,
+                "mode": this.flowMode,
+                "setTariffAlert" : true
+            });
+        }
     }
 
     nextPage() {

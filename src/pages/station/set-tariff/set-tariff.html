@@ -36,7 +36,7 @@
                     Stundentarif
                 </ion-segment-button>
                 <ion-segment-button value="kwh" *ngIf="kwhTariff">
-                    KWh genauer Tarif
+                    kWh genauer Tarif
                 </ion-segment-button>
             </ion-segment>
 
@@ -265,7 +265,7 @@
                     Stundentarif
                 </ion-segment-button>
                 <ion-segment-button value="kwh" *ngIf="kwhTariff">
-                    KWh genauer Tarif
+                    kWh genauer Tarif
                 </ion-segment-button>
             </ion-segment>
 
@@ -468,7 +468,7 @@
     </ion-list>
 
     <div padding text-center>
-        <button ion-button round (click)="publish()" [disabled]="(!priceprovider.private.active) && (!priceprovider.public.active)" text-uppercase>
+        <button ion-button round (click)="publish()" [disabled]="(!priceprovider.private.active) && (!priceprovider.public.active)" text-uppercase block>
             {{buttonText}}
         </button>
     </div>

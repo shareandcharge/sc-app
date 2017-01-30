@@ -104,10 +104,10 @@
                 <ion-col center>
                     <div class="footer-price">
                         <strong *ngIf="minPrice == maxPrice">
-                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWH
+                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWh
                         </strong>
                         <strong *ngIf="minPrice != maxPrice">
-                            {{(minPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWH - {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWH
+                            {{(minPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWh - {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWh
                         </strong>
                     </div>
                     <div *ngIf="averageRating != -1" class="footer-rating">

@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {
     NavController,
     ModalController,
     NavParams,
     ActionSheetController,
     AlertController,
-    Platform, LoadingController, Events
+    Platform, LoadingController, Events, Content
 } from 'ionic-angular';
 import {CarManufacturerPage} from './manufacturer/car-manufacturer';
 import {Camera} from 'ionic-native';
@@ -35,10 +35,13 @@ export class CarFormPage {
     carForm: any;
     submitAttempt: boolean = false;
 
+    @ViewChild(Content) content: Content;
+
     constructor(private configService: ConfigService, public formBuilder: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
+
         this.configService.getPlugTypes().subscribe((plugTypes) => {
                 this.plugOptions = plugTypes;
             },
@@ -51,9 +54,13 @@ export class CarFormPage {
             model: ['', Validators.required],
             accuCapacity: ['', Validators.compose([accuCapacityValidator.isValid, Validators.required])],
             maxCharging: ['', Validators.compose([maxChargingValidator.isValid, Validators.required])],
-            plugTypes: [[''], plugTypesValidator.isValid],
+            plugTypes: ['', plugTypesValidator.isValid],
             averageDistance: ['', averageDistanceValidator.isValid]
         });
+    }
+
+    ionViewWillEnter() {
+        this.carForm.patchValue(this.car);
     }
 
     createErrorMessages() {
@@ -158,7 +165,7 @@ export class CarFormPage {
             }
         }
         else {
-            console.log("car form is invalid");
+            this.content.scrollToTop();
         }
     }
 

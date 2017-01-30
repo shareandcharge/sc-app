@@ -1,0 +1,87 @@
+<ion-header>
+
+    <ion-navbar>
+
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+
+        <ion-title>Detailansicht</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+    <ion-grid class="detailGrid" *ngIf="transaction.order">
+        <ion-row>
+            <ion-col>
+                <ion-label>Betrag</ion-label>
+                {{transaction.amount / 100 | currency:'EUR':true:'1.2-2'}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Zahlungsmethode</ion-label>
+                {{paymentMethods[transaction.order.type]}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Datum</ion-label>
+                {{transaction.timestamp | date:'short'}}
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
+    <ion-grid class="detailGrid" *ngIf="transaction.receipt">
+        <ion-row *ngIf="transaction.receipt.loc_name != ''">
+            <ion-col>
+                <ion-label>Name Ladestation</ion-label>
+                {{transaction.receipt.loc_name}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Adresse Ladestation</ion-label>
+                {{transaction.receipt.loc_address}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Datum</ion-label>
+                {{transaction.timestamp | date:'short'}}
+            </ion-col>
+            <ion-col>
+                <ion-label>Tarif Ladestation</ion-label>
+                {{priceProviderTariffTypes[transaction.receipt.contracttype]}}, {{getTariffCosts(transaction.receipt.contracttype)}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Dauer</ion-label>
+                {{makeTimeString(transaction.receipt.seconds)}}
+            </ion-col>
+            <ion-col *ngIf="transaction.receipt.contracttype==3">
+                <ion-label>Leistung</ion-label>
+                {{transaction.receipt.watt / 1000}} kWh
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col *ngIf="transaction.type=='Received'">
+                <ion-label>Ladekosten</ion-label>
+                {{transaction.amount / 100 | currency:'EUR':true:'1.2-2'}} + {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr
+            </ion-col>
+            <ion-col *ngIf="transaction.type=='Send'">
+                <ion-label>Ladekosten (inkl. Share&Charge Gebühr)</ion-label>
+                {{(transaction.amount) / 100 | currency:'EUR':true:'1.2-2'}}
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div id="imageContainer">
+        <img src="assets/images/transaction-page.png">
+    </div>
+</ion-content>

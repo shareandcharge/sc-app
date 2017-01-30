@@ -19,7 +19,10 @@ export class AddMoneyPage {
             'amount': 0,
             'details': {
                 'success_url': 'https://api-test.shareandcharge.com/v1/wallet/feedback/success.html',
-                'error_url': 'https://api-test.shareandcharge.com/v1/wallet/feedback/error.html'
+                'error_url': 'https://api-test.shareandcharge.com/v1/wallet/feedback/error.html',
+                'iban': '',
+                'bic': '',
+                'account_holder': ''
             }
         }
     }

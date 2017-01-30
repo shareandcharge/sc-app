@@ -34,7 +34,8 @@ export class MyStationsPage {
         userAddress = this.auth.getUser().address;
         this.locationService.getLocationsUser(userAddress).subscribe(locations => {
             this.stations = locations;
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Liste - Stationen des Benutzers'));
     }
 
 
@@ -88,7 +89,8 @@ export class MyStationsPage {
                 "mode": 'edit'
             });
             modal.present();
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Station laden'));
     }
 
     doRefresh(refresher) {

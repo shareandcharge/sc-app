@@ -1,17 +1,15 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
+import {Component, ViewChild, ElementRef, NgZone} from '@angular/core';
 import {
     NavController, ModalController, LoadingController, PopoverController, Events,
     FabContainer
 } from 'ionic-angular';
-import {Geolocation} from 'ionic-native';
+import {Geolocation, InAppBrowser} from 'ionic-native';
 import {Platform} from 'ionic-angular';
-import {AutocompletePage} from './autocomplete/autocomplete';
 import {MapSettingsPage} from './settings/map-settings';
 import {MapFilterPage} from './filter/filter';
 import {LocationDetailPage} from '../location/location-details';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AuthService} from "../../services/auth.service";
-import {LoginPage} from "../login/login";
 import {LocationService} from "../../services/location.service";
 import {CarService} from "../../services/car.service";
 import {CarWrapperPage} from "../car/car-wrapper";
@@ -20,9 +18,12 @@ import {Location} from "../../models/location";
 import {ChargingService} from '../../services/charging.service';
 import {ChargingPage} from '../location/charging/charging';
 import {ChargingCompletePage} from '../location/charging/charging-complete/charging-complete';
+import {SignupLoginPage} from "../signup-login/signup-login";
+import {ErrorService} from "../../services/error.service";
 
 
-declare var google;
+declare var google: any;
+declare var cordova: any;
 
 @Component({
     selector: 'page-map',
@@ -41,8 +42,9 @@ export class MapPage {
     defaultCenterLat = 52.5074592;
     defaultCenterLng = 13.2860649;
     defaultZoom = 8;
+    currentLatLng: any;
     currentPositionZoom = 16;
-    currentPositionMarker: any;
+    currentPositionOverlay: any;
 
     locationMarkers: Array<any>;
 
@@ -56,12 +58,16 @@ export class MapPage {
     cars: Car[];
     activeCar: Car;
     isCharging: boolean;
-    activeCarSrc: string;
 
     toggledPlugs: Array<number>;
     chargingProgress: number;
 
-    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService) {
+    searchMode: boolean = false;
+
+    autocompleteItems: any;
+    autocompleteService: any;
+
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService, private zone: NgZone, private errorService: ErrorService) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -82,6 +88,10 @@ export class MapPage {
         this.events.subscribe('auth:logout', () => this.refreshCarInfo());
 
         this.events.subscribe('locations:updated', (location) => this.refreshLocations());
+
+        this.autocompleteService = new google.maps.places.AutocompleteService();
+        this.autocompleteItems = [];
+
         this.initializeApp();
     }
 
@@ -115,7 +125,8 @@ export class MapPage {
                 // let plugTypes = this.activeCar.plugTypes;
                 // this.loadLocationsForPlugTypes(plugTypes);
             }
-        }, () => {
+        }, (error) => {
+            this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos');
             this.cars = null;
             this.activeCar = null;
         });
@@ -129,41 +140,65 @@ export class MapPage {
         this.carService.selectAsActiveCar(car).subscribe((response) => {
             this.activeCar = car;
             this.events.publish('cars:updated');
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Auto wechseln'));
 
 
         fab.close();
     }
 
+    initializeCurrentPositionOverlay() {
+        let me = this;
+        let currentPositionDiv = null;
+
+        this.currentPositionOverlay = new google.maps.OverlayView();
+
+        this.currentPositionOverlay.onAdd = function() {
+            currentPositionDiv = document.createElement('div');
+            currentPositionDiv.id = 'currentPosition';
+            currentPositionDiv.style.position = 'absolute';
+
+            let panes = this.getPanes();
+            panes.overlayLayer.appendChild(currentPositionDiv);
+        }
+
+        this.currentPositionOverlay.draw = function () {
+            let point = this.getProjection().fromLatLngToDivPixel(me.currentLatLng);
+
+            if (point) {
+                currentPositionDiv.style.left = (point.x - 10) + 'px';
+                currentPositionDiv.style.top = (point.y - 10) + 'px';
+            }
+        }
+
+        this.currentPositionOverlay.onRemove = function() {
+            currentPositionDiv.parentNode.removeChild(currentPositionDiv);
+            currentPositionDiv = null;
+        }
+
+        this.currentPositionOverlay.setMap(this.map);
+    }
+
     centerCurrentPosition() {
+        if (typeof this.currentPositionOverlay === 'undefined') {
+            this.initializeCurrentPositionOverlay();
+        }
+
         let loader = this.loadingCtrl.create({
             content: "Ermittle Deinen Standort ...",
         });
         loader.present();
 
         Geolocation.getCurrentPosition().then((position) => {
-            let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            this.currentLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             this.map.setZoom(this.currentPositionZoom);
-            this.map.setCenter(latLng);
-            this.updateCurrentPositionMarker(latLng);
+            this.map.setCenter(this.currentLatLng);
 
             loader.dismissAll();
         }, (err) => {
             console.log(err);
             loader.dismissAll();
         });
-    }
-
-    updateCurrentPositionMarker(latLng) {
-        if (typeof this.currentPositionMarker === 'undefined') {
-            let me = this;
-
-            this.currentPositionMarker = new google.maps.Marker({
-                map: me.map
-            });
-        }
-
-        this.currentPositionMarker.setPosition(latLng);
     }
 
     setViewType = (viewType) => {
@@ -187,7 +222,8 @@ export class MapPage {
             me.locationService.searchLocations(bounds).subscribe(locations => {
                 me.visibleLocations = locations;
                 this.viewType = viewType;
-            });
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Suche Stationen'));
         } else {
             this.viewType = viewType;
         }
@@ -221,6 +257,21 @@ export class MapPage {
         let me = this;
 
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
+            // add event listener to all a-tags of the map and use inAppBrowser to open them
+            let aTags = me.mapElement.nativeElement.getElementsByTagName('A');
+
+            for (let aTag of aTags) {
+                if (aTag.href === '') {
+                    continue;
+                }
+
+                aTag.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    new InAppBrowser(aTag.href, '_blank', 'presentationstyle=pagesheet');
+                    return false;
+                });
+            }
+
             me.refreshLocations();
             loader.dismissAll();
         });
@@ -230,7 +281,8 @@ export class MapPage {
         this.locationService.getLocations().subscribe((locations) => {
             this.locations = locations;
             this.updateLocationMarkers();
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Aktualisiere Stationen'));
     }
 
     showLocationDetails(location) {
@@ -289,9 +341,10 @@ export class MapPage {
             modal.present();
         }
         else {
-            let modal = this.modalCtrl.create(LoginPage, {
+            let modal = this.modalCtrl.create(SignupLoginPage, {
                 "dest": CarWrapperPage,
-                'mode': 'modal'
+                'mode': 'modal',
+                'action' : 'login'
             });
             modal.present();
         }
@@ -343,21 +396,12 @@ export class MapPage {
             this.toggledPlugs = plugTypes;
             this.locations = locations;
             this.updateLocationMarkers();
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen für Station'));
     }
 
     showAddressModal() {
-        let modal = this.modalCtrl.create(AutocompletePage);
-        modal.onDidDismiss(place => {
-
-            if (place) {
-                console.log('DATA:', place);
-                this.viewType = 'map';
-                this.address.place = place;
-                this.centerToPlace(place);
-            }
-        });
-        modal.present();
+        this.searchMode = true;
     }
 
     centerToPlace(place) {
@@ -438,6 +482,57 @@ export class MapPage {
         let me = this;
         this.locations.forEach(function (location) {
             me.addMarker(location);
+        });
+    }
+
+    setSearchMode(mode: boolean) {
+        if (mode) {
+            this.searchMode = true;
+        } else {
+            this.searchMode = false;
+            this.autocompleteItems = [];
+        }
+    }
+
+    chooseItem(item: any) {
+        try {
+            cordova.plugins.Keyboard.close();
+        }
+        catch (e) {
+            // console.log('Hiding keyboard, browser');
+        }
+
+        this.autocompleteItems = [];
+
+        this.address.place = item;
+        this.centerToPlace(item);
+
+        this.searchMode = false;
+    }
+
+    updateSearch(ev: any) {
+        let val = ev.target.value;
+
+        if (!val || val.trim() == '') {
+            this.autocompleteItems = [];
+            return;
+        }
+
+        this.autocompleteService.getPlacePredictions({
+            input: val,
+            componentRestrictions: {country: 'DE'}
+        }, (predictions, status) => {
+            let places = [];
+
+            if ('OK' === status) {
+                predictions.forEach(function (prediction) {
+                    places.push(prediction);
+                });
+            }
+
+            this.zone.run(() => {
+                this.autocompleteItems = places;
+            });
         });
     }
 }

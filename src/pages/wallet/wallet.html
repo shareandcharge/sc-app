@@ -42,24 +42,29 @@
 
     <h1>Meine Zahlungsvorgänge</h1>
 
-    <ion-list>
-        <ion-item *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending'}">
-            <div class="loader" *ngIf="tr.type=='TokenUpdate-pending'"></div>
-            <span
-                    class="amount"
-                    [ngClass]="{'number-positive': tr.type=='Received'||tr.type=='TokenUpdate-pending'||tr.type=='TokenUpdate', 'number-negative': tr.type=='Send'}"
-            >
-                {{tr.amount / 100 | currency:'EUR':true:'1.2-2'}}
-            </span>
-            <small item-right>
-                <span *ngIf="tr.type=='TokenUpdate'||tr.type=='TokenUpdate-pending'">
-                    {{"payment.types." + tr.order.type | translate}}, {{ tr.order.timestamp | date:'short'}}
+    <ion-grid id="walletHistory">
+        <ion-row *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending'}" (click)="openTransactionDetail(tr)">
+            <ion-col>
+                <div class="loader" *ngIf="tr.type=='TokenUpdate-pending'"></div>
+                <span
+                        class="amount"
+                        [ngClass]="{'number-positive': tr.type!='Send', 'number-negative': tr.type=='Send'}"
+                >
+                    {{tr.amount / 100 | currency:'EUR':true:'1.2-2'}}
                 </span>
-                <span *ngIf="tr.type=='Send'||tr.type=='Received'">Aufladevorgang, {{tr.timestamp | date:'short'}}</span>
-            </small>
-        </ion-item>
-    </ion-list>
-
+            </ion-col>
+            <ion-col>
+                <img *ngIf="tr.order" src="{{iconSourceMap[tr.order.type]}}">
+                <img *ngIf="tr.receipt" src="{{iconSourceMap[tr.type]}}">
+            </ion-col>
+            <ion-col>
+                <small item-right>
+                    <span *ngIf="tr.order">{{tr.order.timestamp | date:'short'}}</span>
+                    <span *ngIf="tr.receipt">{{tr.receipt.timestamp | date:'short'}}</span>
+                </small>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
     <div padding text-center *ngIf="noTransaction">
         <button ion-button text-uppercase round (click)="addMoney()">Konto aufladen</button>

@@ -7,11 +7,9 @@ import {MyApp} from './app.component';
 
 import {IntroPage} from "../pages/intro/intro";
 import {AboutPage} from '../pages/about/about';
-import {SignupPage} from '../pages/signup/signup';
-import {TermsPage} from '../pages/signup/terms';
-import {LoginPage} from '../pages/login/login';
+import {SignupLoginPage} from '../pages/signup-login/signup-login';
+import {TermsPage} from '../pages/signup-login/terms';
 import {MapPage} from '../pages/map/map';
-import {AutocompletePage} from '../pages/map/autocomplete/autocomplete';
 import {AddStationPage} from '../pages/station/add/add-station';
 import {CarManufacturerPage} from '../pages/car/form/manufacturer/car-manufacturer';
 import {CarModelPage} from '../pages/car/form/model/car-model';
@@ -61,6 +59,7 @@ import {ChargingService} from "../services/charging.service";
 import {ConfigService} from "../services/config.service";
 import {ErrorService} from "../services/error.service";
 import {PushNotificationService} from "../services/push.notification.service";
+import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
 
 
 let storage = new Storage();
@@ -87,10 +86,8 @@ export function createTranslateLoader(http: Http) {
         AboutPage,
         MapPage,
         MapFilterPage,
-        AutocompletePage,
-        SignupPage,
+        SignupLoginPage,
         TermsPage,
-        LoginPage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,
@@ -123,7 +120,8 @@ export function createTranslateLoader(http: Http) {
         ChargingProgressBarComponent,
         IntroPage,
         EditProfilePage,
-        PaymentProviderScreenPage
+        PaymentProviderScreenPage,
+        TransactionDetailPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -143,10 +141,8 @@ export function createTranslateLoader(http: Http) {
         AboutPage,
         MapPage,
         MapFilterPage,
-        AutocompletePage,
-        SignupPage,
+        SignupLoginPage,
         TermsPage,
-        LoginPage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,
@@ -177,7 +173,8 @@ export function createTranslateLoader(http: Http) {
         ChargingCompletePage,
         IntroPage,
         EditProfilePage,
-        PaymentProviderScreenPage
+        PaymentProviderScreenPage,
+        TransactionDetailPage
     ],
     providers: [
         {

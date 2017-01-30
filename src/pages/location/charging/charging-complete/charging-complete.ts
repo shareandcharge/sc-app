@@ -5,6 +5,7 @@ import {LocationService} from "../../../../services/location.service";
 import {Location} from "../../../../models/location";
 import {Connector} from "../../../../models/connector";
 import {Car} from "../../../../models/car";
+import {ErrorService} from "../../../../services/error.service";
 
 
 @Component({
@@ -19,7 +20,7 @@ export class ChargingCompletePage {
     chargedPrice: any;
     activeCar: Car;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private carService: CarService, private locationService: LocationService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private carService: CarService, private locationService: LocationService, private errorService: ErrorService) {
         this.chargedTime = navParams.get("chargedTime");
         this.chargedTimeString = this.makeTimeString(this.chargedTime);
         this.location = navParams.get('location');
@@ -34,7 +35,8 @@ export class ChargingCompletePage {
             'maxCharging': this.activeCar.maxCharging
         }).subscribe((response) => {
             this.chargedPrice = response.min
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Preisabfrage'));
     }
 
     makeTimeString(data) {

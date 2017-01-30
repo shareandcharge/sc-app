@@ -4,8 +4,8 @@ import {AddMoneyPage} from './add/add-money';
 import {PaymentService} from "../../services/payment.service";
 import {AuthService} from "../../services/auth.service";
 import {EditProfilePage} from "../profile/edit-profile/edit-profile";
-import {Observable} from "rxjs";
-import {of} from "rxjs/observable/of";
+import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
+import {ErrorService} from "../../services/error.service";
 
 @Component({
     selector: 'page-wallet',
@@ -26,7 +26,17 @@ export class WalletPage {
         SEND : 'Send'
     };
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController) {
+    iconSourceMap = {
+        'cc' : 'assets/icons/wallet-cc.png',
+        'dd' : 'assets/icons/wallet-dd.png',
+        'sofort' : 'assets/icons/wallet-sofort.png',
+        'paypal' : 'assets/icons/wallet-paypal.png',
+        'Received' : 'assets/icons/wallet-pole.png',
+        'Send' : 'assets/icons/wallet-charge.png',
+        'payOut' : 'assets/icons/wallet-payout.png',
+    }
+
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController, private errorService: ErrorService) {
         this.events.subscribe('history:update', () => {
             this.displayToast();
             this.refreshData();
@@ -42,7 +52,6 @@ export class WalletPage {
     }
 
     refreshData() {
-        this.clearAllIntervals();
         this.getHistory();
         this.getBalance();
     }
@@ -55,6 +64,8 @@ export class WalletPage {
     }
 
     getHistory() {
+        this.clearAllIntervals();
+
         let observable = this.paymentService.getHistory();
         observable.subscribe((history) => {
             this.paymentHistory = history;
@@ -75,7 +86,8 @@ export class WalletPage {
                     }
                 }
             }
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Liste - History'));
 
         return observable;
     }
@@ -84,7 +96,8 @@ export class WalletPage {
         let observable = this.paymentService.getBalance();
         observable.subscribe((balance) => {
             this.currentBalance = balance;
-        });
+        },
+        error => this.errorService.displayErrorWithKey(error, 'Abfrage Kontostand'));
 
         return observable;
     }
@@ -155,5 +168,12 @@ export class WalletPage {
             duration: 3000
         });
         toast.present();
+    }
+
+    openTransactionDetail(transaction) {
+        let modal = this.modalCtrl.create(TransactionDetailPage, {
+            'transaction' : transaction
+        });
+        modal.present();
     }
 }
