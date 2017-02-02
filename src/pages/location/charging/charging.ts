@@ -36,6 +36,9 @@ export class ChargingPage {
     charging: boolean;
     canvasImage: any;
     doScrolling: boolean = true;
+    fromLocationDetailsAndIsCharging: boolean = false;
+    didStop: boolean = false;
+    chargedTimeAtStop:any;
 
     activeCar: Car;
 
@@ -49,6 +52,8 @@ export class ChargingPage {
     constructor(public navCtrl: NavController, private errorService: ErrorService, private events: Events, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
         this.connector = this.location.stations[0].connectors[0];
+
+        this.fromLocationDetailsAndIsCharging = navParams.get("isCharging");
 
         this.chargingTime = 0;
         this.chargingPrice = 0;
@@ -201,9 +206,8 @@ export class ChargingPage {
                             this.timer = 0;
                             clearInterval(this.myCounter);
                             this.countingDown = false;
-                            let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
                             this.initiateCanvas();
-                            this.chargingCompletedModal(chargedTimeString);
+                            this.dismiss();
                         }
                     }, 1000);
 
@@ -225,7 +229,7 @@ export class ChargingPage {
                 {
                     text: 'Ja, jetzt stoppen',
                     handler: () => {
-                        let chargedTime = this.chargingService.chargedTime();
+                        this.chargedTimeAtStop = this.chargingService.chargedTime();
 
                         let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestoppt ..."});
                         loader.present();
@@ -235,7 +239,6 @@ export class ChargingPage {
                             .subscribe(
                                 (response) => {
                                     this.chargingProgress = 0;
-                                    let chargedTimeString = this.makeTimeString(chargedTime);
                                     this.countingDown = false;
                                     clearInterval(this.myCounter);
                                     this.chargingTime = 0;
@@ -246,7 +249,8 @@ export class ChargingPage {
                                     this.updateTimerString();
                                     this.updateCanvas();
                                     this.initiateCanvas();
-                                    this.chargingCompletedModal(chargedTimeString);
+                                    this.didStop = true;
+                                    this.dismiss();
                                 },
                                 error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen Fehler'));
                     }
@@ -458,15 +462,11 @@ export class ChargingPage {
     }
 
     dismiss() {
-        this.viewCtrl.dismiss();
-    }
-
-    chargingCompletedModal(chargedTime) {
-
-        this.viewCtrl.dismiss();
-
-        /*this.viewCtrl.dismiss({
-         "chargedTime": chargedTime
-         });*/
+        this.viewCtrl.dismiss({
+            "didStop" : this.didStop,
+            "chargedTime" : this.chargedTimeAtStop,
+            "isCharging": this.charging,
+            "fromLocationDetailsAndIsCharging" : this.fromLocationDetailsAndIsCharging
+        });
     }
 }

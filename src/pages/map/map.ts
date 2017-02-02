@@ -16,8 +16,6 @@ import {CarWrapperPage} from "../car/car-wrapper";
 import {Car} from "../../models/car";
 import {Location} from "../../models/location";
 import {ChargingService} from '../../services/charging.service';
-import {ChargingPage} from '../location/charging/charging';
-import {ChargingCompletePage} from '../location/charging/charging-complete/charging-complete';
 import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
 
@@ -288,24 +286,6 @@ export class MapPage {
     showLocationDetails(location) {
         let locDetails = this.modalCtrl.create(LocationDetailPage, {
             "locationId": location.id
-        });
-
-        locDetails.onDidDismiss(loc => {
-            if (loc) {
-                let chargingModal = this.modalCtrl.create(ChargingPage, {
-                    "location": loc.location
-                });
-
-                chargingModal.onDidDismiss(data => {
-                    if (data) {
-                        this.navCtrl.popToRoot();
-                        data.location = loc.location;
-                        let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
-                        chargingCompletedModal.present();
-                    }
-                });
-                chargingModal.present();
-            }
         });
         locDetails.present();
     }

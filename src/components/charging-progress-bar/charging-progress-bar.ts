@@ -19,7 +19,6 @@ export class ChargingProgressBarComponent {
     constructor(private chargingService: ChargingService, private carService: CarService, private modalCtrl: ModalController, private events: Events) {
         this.charging = this.chargingService.isCharging();
         this.progress = this.chargingService.getChargingProgress();
-
         this.events.subscribe('charging:update', (location, progress, charging) => this.updateComponent(location, progress, charging));
         this.events.subscribe('auth:logout', (location, progress, charging) => this.updateComponent(location, progress, charging));
         this.events.subscribe('auth:login', (location, progress, charging) => this.updateComponent(location, progress, charging));
@@ -41,13 +40,14 @@ export class ChargingProgressBarComponent {
         });
 
         chargingModal.onDidDismiss(data => {
-            if (data) {
+            if (data.didStop == true) {
                 data.location = this.location;
+
                 let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
                 chargingCompletedModal.present();
             }
         });
+
         chargingModal.present();
     }
 }
-

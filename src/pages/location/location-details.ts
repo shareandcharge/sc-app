@@ -8,6 +8,7 @@ import {Rating} from "../../models/rating";
 import {LocationService} from "../../services/location.service";
 import {Location} from "../../models/location";
 import {LaunchNavigator, LaunchNavigatorOptions} from 'ionic-native';
+import {ChargingPage} from './charging/charging';
 import {ChargingService} from '../../services/charging.service';
 import {Connector} from "../../models/connector";
 import {Station} from "../../models/station";
@@ -316,9 +317,18 @@ export class LocationDetailPage {
 
     charge() {
         if (this.authService.loggedIn()) {
-            this.viewCtrl.dismiss({
-                "location": this.location
+            let chargingModal = this.modalCtrl.create(ChargingPage, {
+                "location": this.location,
+                "isCharging" : this.charging
             });
+
+            chargingModal.onDidDismiss((d)=>{
+                if(d.isCharging == true && !d.fromLocationDetailsAndIsCharging){
+                    this.viewCtrl.dismiss();
+                }
+            });
+             chargingModal.present();
+
         }
         else {
             this.loginModal();
