@@ -79,9 +79,8 @@ export class ChargingPage {
             if (this.timer == 0) {
                 clearInterval(this.myCounter);
                 this.countingDown = false;
-                let chargedTimeString = this.makeTimeString(this.chargingService.chargedTime());
                 this.initiateCanvas();
-                this.chargingCompletedModal(chargedTimeString);
+                this.dismiss();
             }
         }, 1000);
         this.buttonDeactive = true;
