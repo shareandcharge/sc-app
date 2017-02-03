@@ -111,7 +111,7 @@ export class SetTariffPage {
     }
 
     updatePriceProvider(from, to, property, area?) {
-        let val = from.target.value.replace(/[^0-9,]/g, '').replace(/,/g, '.');
+        let val = from.target.value;
         to[property] = isNaN(val) ? 0 : Math.round(val * 100);
 
         if (area) {
