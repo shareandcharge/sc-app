@@ -53,6 +53,16 @@
                         {{ errorMessages.password }}
                         <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('password')"></ion-icon>
                     </div>
+
+                    <div *ngIf="action=='login'">
+                        <ion-list no-lines>
+                        <ion-item>
+                            <ion-label><a ion-text="" color="light" (click)="forgotPassword()">Passwort vergessen?</a>
+                            </ion-label>
+                        </ion-item>
+                        </ion-list>
+                    </div>
+
                     <div *ngIf="action=='signUp'">
                         <ion-list no-lines class="list-tac">
                             <ion-item>

@@ -59,6 +59,7 @@ import {ConfigService} from "../services/config.service";
 import {ErrorService} from "../services/error.service";
 import {PushNotificationService} from "../services/push.notification.service";
 import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
+import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-password";
 
 
 let storage = new Storage();
@@ -119,7 +120,8 @@ export function createTranslateLoader(http: Http) {
         ChargingProgressBarComponent,
         IntroPage,
         EditProfilePage,
-        TransactionDetailPage
+        TransactionDetailPage,
+        ForgotPasswordPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -171,7 +173,8 @@ export function createTranslateLoader(http: Http) {
         ChargingCompletePage,
         IntroPage,
         EditProfilePage,
-        TransactionDetailPage
+        TransactionDetailPage,
+        ForgotPasswordPage
     ],
     providers: [
         {

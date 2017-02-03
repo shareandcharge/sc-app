@@ -87,4 +87,10 @@ export class UserService extends AbstractApiService {
             .map(res => res.json())
             .catch(this.handleError);
     }
+
+    resetPassword(resetObject) {
+        return this.authHttp.post(this.baseUrl + '/users/resetPassword', JSON.stringify(resetObject))
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
 }
