@@ -28,7 +28,6 @@ import {DashboardPage} from '../pages/dashboard/dashboard';
 import {HelpPage} from '../pages/help/help';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
 import {EditProfilePage} from "../pages/profile/edit-profile/edit-profile";
-import {PaymentProviderScreenPage} from "../pages/wallet/add/payment-provider-screen/payment-provider-screen";
 import {ProfilePage} from '../pages/profile/profile';
 import {NotificationsPage} from '../pages/notifications/notifications';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
@@ -120,7 +119,6 @@ export function createTranslateLoader(http: Http) {
         ChargingProgressBarComponent,
         IntroPage,
         EditProfilePage,
-        PaymentProviderScreenPage,
         TransactionDetailPage
     ],
     imports: [
@@ -173,7 +171,6 @@ export function createTranslateLoader(http: Http) {
         ChargingCompletePage,
         IntroPage,
         EditProfilePage,
-        PaymentProviderScreenPage,
         TransactionDetailPage
     ],
     providers: [
