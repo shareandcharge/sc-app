@@ -63,7 +63,7 @@ export class AddStationPage {
         }
 
         this.from = 0;
-        this.to = 0;
+        this.to = 24;
 
         this.service = new google.maps.places.AutocompleteService();
         this.autocompleteItems = [];
@@ -71,6 +71,26 @@ export class AddStationPage {
         this.segmentTabs = 'default';
 
         this.dayHours = [
+            {
+                "value": 0,
+                "title": "00:00"
+            },
+            {
+                "value": 1,
+                "title": "01:00"
+            },
+            {
+                "value": 2,
+                "title": "02:00"
+            },
+            {
+                "value": 3,
+                "title": "03:00"
+            },
+            {
+                "value": 4,
+                "title": "04:00"
+            },
             {
                 "value": 5,
                 "title": "05:00"
@@ -147,9 +167,13 @@ export class AddStationPage {
                 "value": 23,
                 "title": "23:00"
             },
+            {
+                "value": 24,
+                "title": "24:00"
+            }
         ];
 
-        this.weekdays = [];
+        this.weekdays = ["0","1","2","3","4","5","6"];
 
         this.days = [
             "Montag",
