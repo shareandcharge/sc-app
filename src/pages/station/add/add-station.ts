@@ -323,14 +323,17 @@ export class AddStationPage {
      * reverse geocode address for marker and set in location if field in location is empty
      */
     setAddressFromMarker() {
-        if (this.locObject.address) return;
-
         let geocoder = new google.maps.Geocoder;
 
         geocoder.geocode({'location': this.marker.getPosition()}, (results, status) => {
             if (status !== google.maps.GeocoderStatus.OK || !results[0]) return;
 
-            this.locObject.address = results[0].formatted_address;
+            if (this.locObject.address) {
+                this.locObject.lat = results[0].geometry.location.lat();
+                this.locObject.lng = results[0].geometry.location.lng();
+            } else {
+                this.locObject.address = results[0].formatted_address;
+            }
         });
     }
 
