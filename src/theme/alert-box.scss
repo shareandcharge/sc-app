@@ -12,3 +12,9 @@
   background-color: transparent;
   color: darken(map_get($colors, danger), 10%);
 }
+
+
+.add-station-day-select .alert-checkbox-group .alert-tappable {
+  min-height: 40px;
+  height: 40px;
+}
