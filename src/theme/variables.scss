@@ -59,7 +59,6 @@ $toolbar-ios-button-color: map_get($colors, dark);
 $tabs-md-tab-color-active: map-get($colors, secondary);
 $tabs-md-tab-color-inactive: map-get($colors, dark);
 $tabs-md-tab-opacity: 1;
-
 $toolbar-md-button-color: map_get($colors, dark);
 
 // App Windows Variables
@@ -92,6 +91,7 @@ $toolbar-wp-button-color: map_get($colors, dark);
 @import "segment";
 @import "popover";
 @import "alert-box";
+@import "toast";
 
 // Ionicons
 // --------------------------------------------------
