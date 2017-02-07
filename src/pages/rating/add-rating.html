@@ -7,16 +7,14 @@
             </button>
         </ion-buttons>
 
-        <ion-title>Bewertung abgeben</ion-title>
+        <ion-title no-lines>Bewertung abgeben</ion-title>
     </ion-navbar>
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
-<ion-content padding>
-    <ion-list no-lines="">
-        <ion-item *ngIf="location.images[0]">
-            <img src="{{location.images[0].src}}">
-        </ion-item>
+<ion-content>
+    <img src="{{location.images[0].src}}">
+    <ion-list no-lines="" padding>
         <ion-item>
             <ion-label>Bewertung</ion-label>
         </ion-item>
