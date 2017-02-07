@@ -14,8 +14,8 @@
 
 <ion-content padding>
     <ion-list no-lines="">
-        <ion-item>
-            <img *ngIf="location.images[0]" src="{{location.images[0].src}}">
+        <ion-item *ngIf="location.images[0]">
+            <img src="{{location.images[0].src}}">
         </ion-item>
         <ion-item>
             <ion-label>Bewertung</ion-label>
