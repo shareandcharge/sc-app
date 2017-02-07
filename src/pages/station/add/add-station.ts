@@ -222,7 +222,6 @@ export class AddStationPage {
 
     setDefaultWeekcalendar() {
         this.customWeekCalendar = {
-            address: '',
             hours: [
                 {
                     from: '0',
@@ -437,9 +436,9 @@ export class AddStationPage {
     }
 
     prepareProcedure() {
-        if (this.segmentTabs === 'custom') {
+        //if (this.segmentTabs === 'custom') {
             this.connector.weekcalendar = this.customWeekCalendar;
-        }
+        //}
     }
 
     saveChanges() {
