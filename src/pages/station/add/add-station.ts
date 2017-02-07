@@ -173,7 +173,7 @@ export class AddStationPage {
             }
         ];
 
-        this.weekdays = ["0","1","2","3","4","5","6"];
+        this.weekdays = ["0", "1", "2", "3", "4", "5", "6"];
 
         this.days = [
             "Montag",
@@ -196,6 +196,7 @@ export class AddStationPage {
 
             this.cloneWeekcalendar();
             this.initializeWeekcalendar();
+
         } else {
             // create new location, station and connector
             this.locObject = new Location();
@@ -206,7 +207,7 @@ export class AddStationPage {
             this.connector = new Connector;
             this.station.connectors.push(this.connector);
 
-            this.cloneWeekcalendar();
+            this.setDefaultWeekcalendar();
         }
         this.clearErrorMessages();
 
@@ -217,6 +218,42 @@ export class AddStationPage {
         this.platform.ready().then(() => {
             this.loadMap();
         });
+    }
+
+    setDefaultWeekcalendar() {
+        this.customWeekCalendar = {
+            address: '',
+            hours: [
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                }
+            ]
+        }
     }
 
     initializeWeekcalendar() {
@@ -415,7 +452,7 @@ export class AddStationPage {
                 this.navCtrl.push(SetTariffPage, {
                     "location": this.locObject,
                     "mode": this.flowMode,
-                    "setTariffAlert" : true
+                    "setTariffAlert": true
                 });
             }
         }
@@ -470,7 +507,7 @@ export class AddStationPage {
 
     isOpeningHoursSelected() {
         for (let item of this.connector.weekcalendar.hours) {
-            if (item.from > 0 && item.to > 0) {
+            if (item.from >= 0 && item.to > 0) {
                 return true;
             }
         }
