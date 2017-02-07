@@ -22,6 +22,24 @@ page-signup {
   }
 
   form {
+    .list-pwd {
+      margin-bottom: 0;
+
+      a {
+        text-decoration: none;
+
+        ion-icon {
+          vertical-align: middle;
+        }
+
+        span {
+          display: inline-block;
+          padding-left: 10px;
+          vertical-align: middle;
+        }
+      }
+    }
+
     .list-tac {
       margin-bottom: 0;
       .item-cover {
