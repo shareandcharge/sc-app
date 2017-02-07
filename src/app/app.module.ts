@@ -125,7 +125,7 @@ export function createTranslateLoader(http: Http) {
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
-                backButtonText: 'Zurück',
+                backButtonText: '',
             }, {}
         ),
         Ionic2RatingModule,

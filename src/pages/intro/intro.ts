@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, NavParams, Slides} from 'ionic-angular';
+import {NavController, NavParams, Slides, ViewController} from 'ionic-angular';
 import {TabsPage} from '../tabs/tabs';
 
 @Component({
@@ -12,7 +12,7 @@ export class IntroPage {
     slideOptions: any;
     sliderText: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController) {
         this.sliderText = "Weiter";
         this.slideOptions = {
             initialSlide: 0,
@@ -46,7 +46,8 @@ export class IntroPage {
     }
 
     goToHome() {
-        this.navCtrl.setRoot(TabsPage);
+        // this.navCtrl.setRoot(TabsPage);
+        this.viewCtrl.dismiss();
     }
 
 }

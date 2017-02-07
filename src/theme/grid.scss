@@ -16,3 +16,14 @@ ion-col.nopadding {
 ion-grid.nopadding, ion-grid.nopadding ion-col {
   padding: 0;
 }
+
+ion-grid.nopadding-outer {
+  padding-left: 0;
+  padding-right: 0;
+  ion-col:first-child {
+    padding-left: 0;
+  }
+  ion-col:last-child {
+    padding-right: 0;
+  }
+}
