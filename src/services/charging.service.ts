@@ -193,7 +193,7 @@ export class ChargingService extends AbstractApiService {
 
     presentToast(total) {
         let toast = this.toastCtrl.create({
-            message: 'Ladevorgang beendet',
+            message: 'Ladevorgang erfolgreich beendet',
             showCloseButton: true,
             closeButtonText: 'Ok',
             position: 'top',

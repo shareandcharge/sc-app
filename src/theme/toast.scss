@@ -1,0 +1,13 @@
+.toast-container {
+    @include sc-gradient-dark();
+    padding: 5px;
+}
+
+.toast-ios.toast-wrapper {
+    left: 0;
+    right: 0;
+}
+
+.toast-ios.toast-wrapper.toast-top {
+    top: -10px;
+}
