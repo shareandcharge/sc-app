@@ -64,7 +64,7 @@ export class AddStationPage {
         }
 
         this.from = 0;
-        this.to = 0;
+        this.to = 24;
 
         this.daySelectOptions = {
             title:'Tage wählen',
@@ -77,6 +77,26 @@ export class AddStationPage {
         this.segmentTabs = 'default';
 
         this.dayHours = [
+            {
+                "value": 0,
+                "title": "00:00"
+            },
+            {
+                "value": 1,
+                "title": "01:00"
+            },
+            {
+                "value": 2,
+                "title": "02:00"
+            },
+            {
+                "value": 3,
+                "title": "03:00"
+            },
+            {
+                "value": 4,
+                "title": "04:00"
+            },
             {
                 "value": 5,
                 "title": "05:00"
@@ -153,9 +173,13 @@ export class AddStationPage {
                 "value": 23,
                 "title": "23:00"
             },
+            {
+                "value": 24,
+                "title": "24:00"
+            }
         ];
 
-        this.weekdays = [];
+        this.weekdays = ["0", "1", "2", "3", "4", "5", "6"];
 
         this.days = [
             "Montag",
@@ -178,6 +202,7 @@ export class AddStationPage {
 
             this.cloneWeekcalendar();
             this.initializeWeekcalendar();
+
         } else {
             // create new location, station and connector
             this.locObject = new Location();
@@ -188,7 +213,7 @@ export class AddStationPage {
             this.connector = new Connector;
             this.station.connectors.push(this.connector);
 
-            this.cloneWeekcalendar();
+            this.setDefaultWeekcalendar();
         }
         this.clearErrorMessages();
 
@@ -199,6 +224,42 @@ export class AddStationPage {
         this.platform.ready().then(() => {
             this.loadMap();
         });
+    }
+
+    setDefaultWeekcalendar() {
+        this.customWeekCalendar = {
+            address: '',
+            hours: [
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                },
+                {
+                    from: '0',
+                    to: '24'
+                }
+            ]
+        }
     }
 
     initializeWeekcalendar() {
@@ -397,7 +458,7 @@ export class AddStationPage {
                 this.navCtrl.push(SetTariffPage, {
                     "location": this.locObject,
                     "mode": this.flowMode,
-                    "setTariffAlert" : true
+                    "setTariffAlert": true
                 });
             }
         }
@@ -452,7 +513,7 @@ export class AddStationPage {
 
     isOpeningHoursSelected() {
         for (let item of this.connector.weekcalendar.hours) {
-            if (item.from > 0 && item.to > 0) {
+            if (item.from >= 0 && item.to > 0) {
                 return true;
             }
         }
