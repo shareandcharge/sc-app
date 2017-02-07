@@ -69,6 +69,19 @@
                     <ion-option value="de" selected="true">Deutschland</ion-option>
                 </ion-select>
             </ion-item>
+            <ion-item text-wrap id="operator-vat-item">
+                <ion-checkbox color="light" checked="false"
+                    formControlName="businessUser"
+                    [(ngModel)]="user.profile.operatorVat">
+                </ion-checkbox>
+                <ion-label>Ich bin ein kommerzieller Anbieter</ion-label>
+                <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('operatorVat')"></ion-icon>
+            </ion-item>
+            <ion-item *ngIf="user.profile.operatorVat">
+                <ion-label floating>Steuernummer</ion-label>
+                <ion-input type="text" class="input-white" formControlName="taxNumber"
+                           [(ngModel)]="user.profile.operatorVatID"></ion-input>
+            </ion-item>
             <div *ngIf="!profileForm.controls.country.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
                 {{ errorMessages.country }}
