@@ -1,16 +1,13 @@
 .toast-container {
-    $bottomLeft: map_get($colors, secondary);
-    $topRight: map_get($colors, primary);
-    background-color: $bottomLeft;
-    background-image: linear-gradient(45deg, $bottomLeft, $topRight);
+    @include sc-gradient-dark();
     padding: 5px;
 }
 
-.toast-ios.toast-ios .toast-wrapper {
-    left:0 ;
-    right: 0 ;
+.toast-ios.toast-wrapper {
+    left: 0;
+    right: 0;
 }
 
-.toast-ios.toast-ios .toast-wrapper.toast-top{
-    top:-10px;
+.toast-ios.toast-wrapper.toast-top {
+    top: -10px;
 }
