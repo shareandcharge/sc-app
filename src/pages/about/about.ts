@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IntroPage} from '../intro/intro';
-import {NavController} from 'ionic-angular';
+import  {ModalController} from 'ionic-angular';
 
 @Component({
     selector: 'page-about',
@@ -9,10 +9,11 @@ import {NavController} from 'ionic-angular';
 
 })
 export class AboutPage {
-    constructor(private navCtrl: NavController) {
+    constructor(private modalCtrl: ModalController) {
     }
 
     intro() {
-        this.navCtrl.push(IntroPage);
+        let introModal = this.modalCtrl.create(IntroPage);
+        introModal.present();
     }
 }

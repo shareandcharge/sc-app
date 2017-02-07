@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController, Platform, Events} from 'ionic-angular';
+import {NavController, ActionSheetController, Platform, Events, ModalController} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AccountSettingsPage} from './account-settings/account-settings';
@@ -20,7 +20,7 @@ export class DashboardPage {
     email: any;
     user: User = new User();
 
-    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public auth: AuthService, public platform: Platform, public userService: UserService, public events: Events, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController, public auth: AuthService, public platform: Platform, public userService: UserService, public events: Events, private errorService: ErrorService) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 
@@ -87,7 +87,8 @@ export class DashboardPage {
     }
 
     intro() {
-        this.navCtrl.push(IntroPage);
+        let introModal = this.modalCtrl.create(IntroPage);
+        introModal.present();
     }
 
     settings() {

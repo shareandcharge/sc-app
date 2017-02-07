@@ -7,18 +7,22 @@
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
-<ion-content padding>
-    <div class="container">
-        <h3 color="secondary" ion-text>Was ist Share&Charge?</h3>
+<ion-content text-center padding>
+    <div padding>
+        <h3 color="secondary" ion-text padding-bottom>Was ist Share&Charge?</h3>
 
-        <p>Von Privat für Privat.
+        <p padding-bottom>Von Privat für Privat.
             Share&Charge macht private Ladeinfrastruktur für jedermann zugänglich und abrechenbar.
             Anmelden um Teil der Community zu werden!</p>
-        <br/>
-        <button ion-button round (click)="intro()">
-            Intro Starten
-        </button>
-        <br/>
-        <img src="assets/images/info.png">
+
+        <div padding-bottom>
+            <button ion-button round (click)="intro()" text-center margin-top margin-bottom>
+                Intro Starten
+            </button>
+        </div>
+
+        <ion-item no-lines text-center>
+            <img src="assets/images/info.png">
+        </ion-item>
     </div>
 </ion-content>
