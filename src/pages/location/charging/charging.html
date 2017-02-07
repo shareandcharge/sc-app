@@ -28,7 +28,8 @@
         <ion-icon name="cust-time-money" color="secondary"></ion-icon>
         <div class="text">
             {{"tariff.types." + chargingTypeText|translate}}:
-            {{chargingPricePerHour/100 | currency:'EUR':true:'1.2-2'}}<span *ngIf="chargingTypeText == 'hourly' || chargingTypeText == 'kwh'">/h</span>
+            {{chargingPricePerHour/100 | currency:'EUR':true:'1.2-2'}}<span
+                *ngIf="chargingTypeText == 'hourly' || chargingTypeText == 'kwh'">/h</span>
         </div>
     </div>
 
@@ -49,14 +50,18 @@
         <canvas id="circleProgressBar" width="280" height="280"></canvas>
     </div>
 
-    <div text-center>
-        <button ion-button round text-uppercase color="danger" (click)="stopCharging()" *ngIf="countingDown">
-            Stop
-        </button>
-
-        <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive"
-                *ngIf="!countingDown">
-            Start
-        </button>
-    </div>
 </ion-content>
+<ion-footer>
+    <ion-toolbar color="light">
+        <div text-center>
+            <button ion-button round text-uppercase color="danger" (click)="stopCharging()" *ngIf="countingDown">
+                Stop
+            </button>
+
+            <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive"
+                    *ngIf="!countingDown">
+                Start
+            </button>
+        </div>
+    </ion-toolbar>
+</ion-footer>
