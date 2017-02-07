@@ -52,6 +52,7 @@ export class AddStationPage {
     defaultZoom = 16;
 
     errorMessages: any;
+    daySelectOptions:any;
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private events: Events) {
 
@@ -64,6 +65,11 @@ export class AddStationPage {
 
         this.from = 0;
         this.to = 0;
+
+        this.daySelectOptions = {
+            title:'Tage wählen',
+            cssClass: 'alert-checkbox-narrow'
+        };
 
         this.service = new google.maps.places.AutocompleteService();
         this.autocompleteItems = [];

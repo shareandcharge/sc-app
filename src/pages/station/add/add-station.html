@@ -71,7 +71,7 @@
             <ion-item>
                 <ion-select multiple="true"
                             [(ngModel)]="weekdays" (ngModelChange)="updateSelectedDays()"
-                            [selectOptions]="{title:'Tage wählen'}"
+                            [selectOptions]="daySelectOptions"
                             class="select-multiline input-white"
                             placeholder="Bitte wählen ..."
                             cancelText="Abbrechen" okText="OK"

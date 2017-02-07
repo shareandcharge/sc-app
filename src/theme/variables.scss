@@ -53,6 +53,9 @@ $segment-button-ios-opacity-active: 1;
 
 $toolbar-ios-button-color: map_get($colors, dark);
 
+$alert-ios-content-max-height: 325px;
+$alert-ios-button-min-height : 40px;
+
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
@@ -60,6 +63,10 @@ $tabs-md-tab-color-active: map-get($colors, secondary);
 $tabs-md-tab-color-inactive: map-get($colors, dark);
 $tabs-md-tab-opacity: 1;
 $toolbar-md-button-color: map_get($colors, dark);
+
+$alert-md-content-max-height:  325px;
+$alert-max-height: 100%;
+
 
 // App Windows Variables
 // --------------------------------------------------
@@ -69,6 +76,8 @@ $tabs-wp-tab-color: map-get($colors, dark);
 $tabs-wp-tab-opacity: 1;
 
 $toolbar-wp-button-color: map_get($colors, dark);
+
+$alert-wp-content-max-height: 325px;
 
 // App Theme
 // --------------------------------------------------
