@@ -68,7 +68,7 @@ export class AddStationPage {
 
         this.daySelectOptions = {
             title:'Tage wählen',
-            cssClass: 'add-station-day-select'
+            cssClass: 'alert-checkbox-narrow'
         };
 
         this.service = new google.maps.places.AutocompleteService();

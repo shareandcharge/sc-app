@@ -1,20 +1,19 @@
 .alert-box {
-  padding: $content-padding;
-  margin-bottom: $content-margin;
-  border: 1px solid transparent;
-  border-radius: $border-radius;
+    padding: $content-padding;
+    margin-bottom: $content-margin;
+    border: 1px solid transparent;
+    border-radius: $border-radius;
 }
 
 .alert-box-danger {
-  position: relative;
-  border-color: map_get($colors, danger);
-  //background-color: lighten(map_get($colors, danger), 34%);
-  background-color: transparent;
-  color: darken(map_get($colors, danger), 10%);
+    position: relative;
+    border-color: map_get($colors, danger);
+    //background-color: lighten(map_get($colors, danger), 34%);
+    background-color: transparent;
+    color: darken(map_get($colors, danger), 10%);
 }
 
-
-.add-station-day-select .alert-checkbox-group .alert-tappable {
-  min-height: 40px;
-  height: 40px;
+.alert-checkbox-narrow .alert-checkbox-group .alert-tappable {
+    min-height: 40px;
+    height: 40px;
 }
