@@ -11,7 +11,7 @@
                 [ngStyle]="{'background-image':'url(' + user.profile.imageBase64 + ')'}">
         </button>
         <button class="image-button" (click)="selectPhoto()" *ngIf="!user.hasImage()">
-            <span>Foto hinzufügen</span>
+            <span><ion-icon name="cust-add-photo"></ion-icon></span>
         </button>
         <div>
             <strong>{{user.email}}</strong>
