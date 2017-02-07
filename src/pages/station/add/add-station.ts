@@ -193,7 +193,6 @@ export class AddStationPage {
             this.locObject = navParams.get("location");
             this.station = this.locObject.stations[0];
             this.connector = this.station.connectors[0];
-
             this.cloneWeekcalendar();
             this.initializeWeekcalendar();
 
@@ -224,32 +223,32 @@ export class AddStationPage {
         this.customWeekCalendar = {
             hours: [
                 {
-                    from: '0',
-                    to: '24'
+                    from: 0,
+                    to: 24
                 },
                 {
-                    from: '0',
-                    to: '24'
+                    from: 0,
+                    to: 24
                 },
                 {
-                    from: '0',
-                    to: '24'
+                    from: 0,
+                    to: 24
                 },
                 {
-                    from: '0',
-                    to: '24'
+                    from: 0,
+                    to: 24
                 },
                 {
-                    from: '0',
-                    to: '24'
+                    from: 0,
+                    to: 24
                 },
                 {
-                    from: '0',
-                    to: '24'
+                    from: 0,
+                    to: 24
                 },
                 {
-                    from: '0',
-                    to: '24'
+                    from: 0,
+                    to: 24
                 }
             ]
         }
@@ -436,8 +435,9 @@ export class AddStationPage {
     }
 
     prepareProcedure() {
+        console.log("custom week calender  ", this.customWeekCalendar);
         //if (this.segmentTabs === 'custom') {
-            this.connector.weekcalendar = this.customWeekCalendar;
+        this.connector.weekcalendar = this.customWeekCalendar;
         //}
     }
 

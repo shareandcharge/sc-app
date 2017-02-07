@@ -94,7 +94,7 @@
                 <ion-checkbox [(ngModel)]="day.from != day.to"></ion-checkbox>
                 <ion-select [(ngModel)]="day.from" placeholder="Von" class="input-white small margin-right-xs">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
-                </ion-select>
+                </ion-select>   
 
                 <ion-select [(ngModel)]="day.to" placeholder="Bis" class="input-white small">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
