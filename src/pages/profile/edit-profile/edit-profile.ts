@@ -10,7 +10,7 @@ import {countryValidator} from "../../../validators/countryValidator";
 
 
 @Component({
-    selector: 'edit-address',
+    selector: 'edit-profile',
     templateUrl: 'edit-profile.html'
 })
 export class EditProfilePage {
@@ -35,7 +35,9 @@ export class EditProfilePage {
             address: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
             city: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
             country: ['', countryValidator.isValid],
-            postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5), postalCodeValidator.isValid])]
+            postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5), postalCodeValidator.isValid])],
+            businessUser: [false],
+            taxNumber: ['']
         });
     }
 
@@ -71,6 +73,9 @@ export class EditProfilePage {
         switch (field) {
             case 'postalCode':
                 message = "Muss 5 Zeichen lang sein.";
+                break;
+            case 'operatorVat':
+                message = "Wenn du hier eine Steuernummer angibst kannst du Share&Charge ohne Mehrwertsteueraufschlag nutzen.";
                 break;
         }
 
