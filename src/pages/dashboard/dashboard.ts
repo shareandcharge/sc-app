@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController, Platform, Events, ModalController} from 'ionic-angular';
+import {NavController, ActionSheetController, Platform, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AccountSettingsPage} from './account-settings/account-settings';
@@ -8,7 +8,6 @@ import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {HelpPage} from "../help/help";
 import {ErrorService} from "../../services/error.service";
-import {IntroPage} from "../intro/intro";
 
 
 @Component({
@@ -20,7 +19,7 @@ export class DashboardPage {
     email: any;
     user: User = new User();
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController, public auth: AuthService, public platform: Platform, public userService: UserService, public events: Events, private errorService: ErrorService) {
+    constructor(private navCtrl: NavController, private actionSheetCtrl: ActionSheetController, private auth: AuthService, private platform: Platform, private userService: UserService, private events: Events, private errorService: ErrorService) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 
@@ -80,15 +79,6 @@ export class DashboardPage {
         console.log("logout");
         this.auth.logout();
         this.navCtrl.parent.select(0);
-    }
-
-    feedback() {
-
-    }
-
-    intro() {
-        let introModal = this.modalCtrl.create(IntroPage);
-        introModal.present();
     }
 
     settings() {

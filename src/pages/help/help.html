@@ -7,8 +7,18 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
-    <h1>Hilfe/FAQ</h1>
+    <ion-list padding-top="" padding-right="" class="no-outer-lines">
+        <button ion-item (click)="openFaq()">
+            FAQ
+        </button>
+        <button ion-item (click)="openIntro()">
+            Intro
+        </button>
+        <button ion-item (click)="openContact()">
+            Kontakt
+        </button>
+    </ion-list>
 
 </ion-content>
