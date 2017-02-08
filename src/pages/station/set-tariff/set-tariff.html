@@ -23,7 +23,7 @@
 
     <form novalidate>
 
-    <ion-list class="ion-list-white">
+    <ion-list class="ion-list-white" margin-bottom>
         <ion-item>
             <ion-label left>Community Tarif</ion-label>
             <ion-toggle [(ngModel)]="priceprovider.public.active" color="secondary" [ngModelOptions]="{standalone: true}"></ion-toggle>
@@ -245,8 +245,9 @@
             </div>
         </div>
 
+    </ion-list>
         <!---------------------------------------------------------------------------->
-
+    <ion-list class="ion-list-white">
         <ion-item>
             <ion-label left>Familie & Freunde Tarif</ion-label>
             <ion-toggle [(ngModel)]="priceprovider.private.active" color="secondary" [ngModelOptions]="{standalone: true}"></ion-toggle>
