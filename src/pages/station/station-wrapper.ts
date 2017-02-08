@@ -9,6 +9,7 @@ import {AddStationPage} from "./add/add-station";
 import {Location} from "../../models/location";
 import {LocationService} from "../../services/location.service";
 import {ErrorService} from "../../services/error.service";
+import {TariffConfirmationPage} from "./set-tariff/tariff-confirmation/tariff-confirmation";
 
 @Component({
     selector: 'page-station-wrapper',
@@ -18,12 +19,22 @@ export class StationWrapperPage {
     rootPage:any;
     rootParams:any;
 
+    tempPriceprovider: any;
+    flowMode: string;
+
     constructor(private params : NavParams, private locationService: LocationService, private navCtrl: NavController, private events: Events, private errorService: ErrorService) {
         this.rootPage = AddStationPage;
         this.rootParams = params;
 
         this.events.subscribe('locations:update', (location) => this.updateLocation(location));
         this.events.subscribe('locations:create', (location) => this.createLocation(location));
+
+        this.events.subscribe('flowMode:save', (flowMode) => this.flowMode = flowMode)
+        this.events.subscribe('priceprovider:save', (priceprovider) => this.tempPriceprovider = JSON.parse(JSON.stringify(priceprovider)));
+    }
+
+    priceproviderHasChanged(priceprovider) {
+        return JSON.stringify(priceprovider) !== JSON.stringify(this.tempPriceprovider);
     }
 
     prepareLocation(location: Location) {
@@ -38,15 +49,22 @@ export class StationWrapperPage {
     }
 
     updateLocation(location: Location) {
-        location = this.prepareLocation(location);
+        if (this.priceproviderHasChanged(location.stations[0].connectors[0].priceprovider)) {
+            this.navCtrl.push(TariffConfirmationPage, {
+                'flowMode' : this.flowMode,
+                'location' : location
+            });
+        } else {
+            location = this.prepareLocation(location);
 
-        this.locationService.updateLocation(location).subscribe(
-            (location) => {
-                this.navCtrl.pop();
-                this.events.publish('locations:updated', location);
-            },
-            error => this.errorService.displayErrorWithKey(error, 'Ladestation bearbeiten')
-        );
+            this.locationService.updateLocation(location).subscribe(
+                (location) => {
+                    this.navCtrl.pop();
+                    this.events.publish('locations:updated', location);
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Ladestation bearbeiten')
+            );
+        }
     }
 
     createLocation(location: Location) {

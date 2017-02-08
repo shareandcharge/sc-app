@@ -200,6 +200,9 @@ export class AddStationPage {
             this.locObject = navParams.get("location");
             this.station = this.locObject.stations[0];
             this.connector = this.station.connectors[0];
+
+            this.events.publish('priceprovider:save', this.connector.priceprovider);
+
             this.cloneWeekcalendar();
             this.initializeWeekcalendar();
 
@@ -215,8 +218,10 @@ export class AddStationPage {
 
             this.setDefaultWeekcalendar();
         }
-        this.clearErrorMessages();
 
+        this.events.publish('flowMode:save', this.flowMode);
+
+        this.clearErrorMessages();
         this.initializeApp();
     }
 
@@ -450,10 +455,7 @@ export class AddStationPage {
 
         if (this.validateForm()) {
             if (this.connector.atLeastOneTarifSelected()) {
-                this.navCtrl.push(TariffConfirmationPage, {
-                    'flowMode' : this.flowMode,
-                    'location' : this.locObject
-                });
+                this.events.publish('locations:update', this.locObject);
             } else {
                 this.navCtrl.push(SetTariffPage, {
                     "location": this.locObject,

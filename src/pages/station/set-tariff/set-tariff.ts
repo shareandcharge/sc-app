@@ -26,8 +26,6 @@ export class SetTariffPage {
     hourlyTariff = false;
     kwhTariff = false;
 
-    updateEstimationsDebounce;
-
     estimatedPrice: any;
 
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events, private errorService: ErrorService) {
@@ -104,10 +102,6 @@ export class SetTariffPage {
     updatePriceProvider(from, to, property, area?) {
         let val = from.target.value;
         to[property] = isNaN(val) ? 0 : Math.round(val * 100);
-
-        if (area) {
-            this.updateEstimationsDebounce(area);
-        }
     }
 
     addPermission() {
