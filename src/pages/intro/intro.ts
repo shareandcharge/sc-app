@@ -1,6 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
 import {NavController, NavParams, Slides, ViewController} from 'ionic-angular';
-import {TabsPage} from '../tabs/tabs';
 
 @Component({
     selector: 'page-on-boarding',
@@ -22,7 +21,6 @@ export class IntroPage {
     }
 
     ionViewDidLoad() {
-        console.log("slider is ", this.slider);
     }
 
     SlideChanged() {
@@ -46,7 +44,6 @@ export class IntroPage {
     }
 
     goToHome() {
-        // this.navCtrl.setRoot(TabsPage);
         this.viewCtrl.dismiss();
     }
 
