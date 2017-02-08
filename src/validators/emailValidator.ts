@@ -5,7 +5,7 @@ export class emailValidator {
 
     static isValid(control: FormControl): any {
 
-        let emailRegex = new RegExp(/^[a-z][a-zA-Z0-9_]*(\.[a-zA-Z][a-zA-Z0-9_]*)?@[a-z][a-zA-Z-0-9]*\.[a-z]+(\.[a-z]+)?$/);
+        let emailRegex = new RegExp(/^.+@\S+\.\S+$/);
 
         if (!emailRegex.test(control.value)) {
             return {
