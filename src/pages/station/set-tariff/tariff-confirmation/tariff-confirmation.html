@@ -1,0 +1,64 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title *ngIf="flowMode=='edit'">Ladestation bearbeiten</ion-title>
+        <ion-title *ngIf="flowMode=='add'">Ladestation hinzufügen</ion-title>
+
+        <ion-buttons end>
+            <button ion-button color="dark" icon-only="" (click)="close()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+    <progress-bar [progress]="95"></progress-bar>
+</ion-header>
+
+
+<ion-content>
+    <ion-list [class.disabled]="!connector.priceprovider.public.active">
+        <ion-list-header>
+            Community Tarif
+        </ion-list-header>
+        <ng-container *ngIf="connector.priceprovider.public.selected === 'flatrate'">
+            <ion-item>
+                <p>Dein Tarif</p>
+                <h2>{{connector.priceprovider.public.flatrate.flatrateRate / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+            </ion-item>
+            <ion-item>
+                <p>S&C Gebühr</p>
+                <h2>{{estimations.public && estimations.public.small.includedFee / 100 | currency:'EUR':true:'1.2-2'}} (inkl. 19% MWSt)</h2>
+            </ion-item>
+            <ion-item>
+                <p>Gesamtpreis</p>
+                <h2>{{estimations.public && estimations.public.small.price / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+            </ion-item>
+        </ng-container>
+    </ion-list>
+
+    <ion-list [class.disabled]="!connector.priceprovider.private.active">
+        <ion-list-header>
+            Familie & Freunde Tarif
+        </ion-list-header>
+        <ng-container *ngIf="connector.priceprovider.private.selected === 'flatrate'">
+            <ion-item>
+                <p>Dein Tarif</p>
+                <h2>{{connector.priceprovider.private.flatrate.flatrateRate / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+            </ion-item>
+            <ion-item>
+                <p>S&C Gebühr</p>
+                <h2>{{estimations.private && estimations.private.small.includedFee / 100 | currency:'EUR':true:'1.2-2'}} (inkl. 19% MWSt)</h2>
+            </ion-item>
+            <ion-item>
+                <p>Gesamtpreis</p>
+                <h2>{{estimations.private && estimations.private.small.price / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+            </ion-item>
+        </ng-container>
+    </ion-list>
+
+    <div padding text-center>
+        <button ion-button round (click)="publish()" text-uppercase block>
+            Bestätigen
+        </button>
+    </div>
+</ion-content>

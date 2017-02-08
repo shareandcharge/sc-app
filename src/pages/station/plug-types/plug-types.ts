@@ -5,6 +5,7 @@ import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
 import {ConfigService} from "../../../services/config.service";
 import {ErrorService} from "../../../services/error.service";
+import {TariffConfirmationPage} from "../set-tariff/tariff-confirmation/tariff-confirmation";
 
 @Component({
     selector: 'page-plug-types',
@@ -50,7 +51,10 @@ export class PlugTypesPage {
 
     saveChanges() {
         if (this.connector.atLeastOneTarifSelected()) {
-            this.events.publish('locations:update', this.locObject);
+            this.navCtrl.push(TariffConfirmationPage, {
+                'flowMode' : this.flowMode,
+                'location' : this.locObject
+            });
         } else {
             this.navCtrl.push(SetTariffPage, {
                 "location": this.locObject,

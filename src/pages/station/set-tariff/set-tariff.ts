@@ -6,6 +6,7 @@ import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
 import {ErrorService} from "../../../services/error.service";
 import {debounce} from "ionic-angular/util/util";
+import {TariffConfirmationPage} from "./tariff-confirmation/tariff-confirmation";
 
 
 @Component({
@@ -166,13 +167,11 @@ export class SetTariffPage {
     }
 
     publish() {
-        console.log(this.locObject);
         if (this.priceprovider.public.active || this.priceprovider.private.active) {
-            if (this.flowMode == 'add') {
-                this.events.publish('locations:create', this.locObject);
-            } else {
-                this.events.publish('locations:update', this.locObject);
-            }
+            this.navCtrl.push(TariffConfirmationPage, {
+                'flowMode' : this.flowMode,
+                'location' : this.locObject
+            });
         } else {
             this.showSetTariffAlert();
         }
