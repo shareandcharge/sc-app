@@ -25,7 +25,6 @@ export class TransactionDetailPage {
 
     constructor(private navParams: NavParams, private navCtrl: NavController) {
         this.transaction = this.navParams.get('transaction');
-        console.log(this.transaction);
     }
 
     makeTimeString(data) {
@@ -57,7 +56,7 @@ export class TransactionDetailPage {
                 return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperkw / 100, 'EUR', true, '1.2-2') + '/kWh';
             }
             case 3: {
-                return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperkw / 100, 'EUR', true, '1.2-2') + ' €/kWh';
+                return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperkw / 100, 'EUR', true, '1.2-2') + '/kWh';
             }
         }
     }

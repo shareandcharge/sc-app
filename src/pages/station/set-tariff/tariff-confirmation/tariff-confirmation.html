@@ -16,42 +16,88 @@
 
 
 <ion-content>
-    <ion-list [class.disabled]="!connector.priceprovider.public.active">
+    <ion-list *ngFor="let type of types" [class.disabled]="connector.priceprovider[type] && !connector.priceprovider[type].active">
         <ion-list-header>
-            Community Tarif
+            {{names[type]}}
         </ion-list-header>
-        <ng-container *ngIf="connector.priceprovider.public.selected === 'flatrate'">
+        <ng-container *ngIf="connector.priceprovider[type] && connector.priceprovider[type].selected === 'flatrate'">
             <ion-item>
                 <p>Dein Tarif</p>
-                <h2>{{connector.priceprovider.public.flatrate.flatrateRate / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+                <h2>{{connector.priceprovider[type].flatrate.flatrateRate / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
             </ion-item>
             <ion-item>
                 <p>S&C Gebühr</p>
-                <h2>{{estimations.public && estimations.public.small.includedFee / 100 | currency:'EUR':true:'1.2-2'}} (inkl. 19% MWSt)</h2>
+                <h2>{{estimations[type] && estimations[type].small.includedFee / 100 | currency:'EUR':true:'1.2-2'}} (inkl. 19% MWSt)</h2>
             </ion-item>
             <ion-item>
                 <p>Gesamtpreis</p>
-                <h2>{{estimations.public && estimations.public.small.price / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+                <h2>{{estimations[type] && estimations[type].small.price / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
             </ion-item>
         </ng-container>
-    </ion-list>
-
-    <ion-list [class.disabled]="!connector.priceprovider.private.active">
-        <ion-list-header>
-            Familie & Freunde Tarif
-        </ion-list-header>
-        <ng-container *ngIf="connector.priceprovider.private.selected === 'flatrate'">
+        <ng-container *ngIf="connector.priceprovider[type] && connector.priceprovider[type].selected !== 'flatrate'">
             <ion-item>
-                <p>Dein Tarif</p>
-                <h2>{{connector.priceprovider.private.flatrate.flatrateRate / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <p>Deine Energiekosten</p>
+                            <h2>{{pricePerKwh[type] / 100 | currency:'EUR':true:'1.2-2'}}/kWh</h2>
+                        </ion-col>
+                        <ion-col>
+                            <p>Parkkosten</p>
+                            <h2>{{parkingFee[type] / 100 | currency:'EUR':true:'1.2-2'}}/h</h2>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
             </ion-item>
             <ion-item>
-                <p>S&C Gebühr</p>
-                <h2>{{estimations.private && estimations.private.small.includedFee / 100 | currency:'EUR':true:'1.2-2'}} (inkl. 19% MWSt)</h2>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>geschätzter Stündlicher Tarif</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>Kapazität</ion-col>
+                        <ion-col text-center width-20>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                        </ion-col>
+                        <ion-col text-center width-20>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                        </ion-col>
+                        <ion-col text-center width-20>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <ion-icon name="cust-station" color="secondary"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>Energiekosten <span class="vat" *ngIf="user && user.profile.operatorVat"><br>(inkl. 19% MwSt.)</span></ion-col>
+                        <ion-col text-right width-20>{{estimations[type] && (estimations[type].small.price - parkingFee[type] - estimations[type].small.includedFee) / 100 | currency:'EUR':true:'1.2-2'}}</ion-col>
+                        <ion-col text-right width-20>{{estimations[type] && (estimations[type].medium.price - parkingFee[type] - estimations[type].medium.includedFee) / 100 | currency:'EUR':true:'1.2-2'}}</ion-col>
+                        <ion-col text-right width-20>{{estimations[type] && (estimations[type].big.price - parkingFee[type] - estimations[type].big.includedFee) / 100 | currency:'EUR':true:'1.2-2'}}</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>Parkkosten <span class="vat" *ngIf="user && user.profile.operatorVat"><br>(inkl. 19% MwSt.)</span></ion-col>
+                        <ion-col text-right width-20>{{parkingFee[type] / 100 | currency:'EUR':true:'1.2-2'}}</ion-col>
+                        <ion-col text-right width-20>{{parkingFee[type] / 100 | currency:'EUR':true:'1.2-2'}}</ion-col>
+                        <ion-col text-right width-20>{{parkingFee[type] / 100 | currency:'EUR':true:'1.2-2'}}</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>S&C Gebühr<br><span class="vat">(inkl. 19% MwSt.)</span></ion-col>
+                        <ion-col text-right width-20>{{estimations[type] && estimations[type].small.includedFee / 100  | currency:'EUR':true:'1.2-2'}}</ion-col>
+                        <ion-col text-right width-20>{{estimations[type] && estimations[type].medium.includedFee / 100  | currency:'EUR':true:'1.2-2'}}</ion-col>
+                        <ion-col text-right width-20>{{estimations[type] && estimations[type].big.includedFee / 100  | currency:'EUR':true:'1.2-2'}}</ion-col>
+                    </ion-row>
+                </ion-grid>
             </ion-item>
             <ion-item>
-                <p>Gesamtpreis</p>
-                <h2>{{estimations.private && estimations.private.small.price / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>Gesamtpreis <span class="vat" *ngIf="user && user.profile.operatorVat"><br>(inkl. 19% MwSt.)</span></ion-col>
+                        <ion-col text-right width-20>{{estimations[type] && estimations[type].small.price / 100 | currency:'EUR':true:'1.2-2'}}</ion-col>
+                        <ion-col text-right width-20>{{estimations[type] && estimations[type].medium.price / 100  | currency:'EUR':true:'1.2-2'}}</ion-col>
+                        <ion-col text-right width-20>{{estimations[type] && estimations[type].big.price / 100  | currency:'EUR':true:'1.2-2'}}</ion-col>
+                    </ion-row>
+                </ion-grid>
             </ion-item>
         </ng-container>
     </ion-list>

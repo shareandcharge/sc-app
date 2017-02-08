@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavParams, Events} from "ionic-angular";
+import {NavParams, Events, NavController} from "ionic-angular";
 import {Location} from "../../../../models/location";
 import {Station} from "../../../../models/station";
 import {Connector} from "../../../../models/connector";
@@ -18,16 +18,31 @@ export class TariffConfirmationPage {
     connector: Connector;
     priceprovider: any;
 
+    pricePerKwh = {
+        'public': null,
+        'private': null
+    };
+    parkingFee = {
+        'public': null,
+        'private': null
+    };
+
     user: User = null;
 
     estimations = {
-        'public' : null,
-        'private' : null
+        'public': null,
+        'private': null
     };
 
     flowMode: string;
 
-    constructor(private navParams: NavParams, private events: Events, private userService: UserService, private errorService: ErrorService, private locationService: LocationService) {
+    types = ['public', 'private'];
+    names = {
+        'public' : 'Community Tarif',
+        'private' : 'Familie & Freunde Tarif'
+    }
+
+    constructor(private navParams: NavParams, private events: Events, private userService: UserService, private errorService: ErrorService, private locationService: LocationService, private navCtrl: NavController) {
         this.location = navParams.get('location');
         this.station = this.location.stations[0];
         this.connector = this.station.connectors[0];
@@ -42,14 +57,18 @@ export class TariffConfirmationPage {
             this.errorService.displayErrorWithKey(error, "Lade angemeldeten Nutzer");
         });
 
-        this.loadEstimations('private');
-        this.loadEstimations('public');
+        for (let type of this.types) {
+            this.loadPrices(type);
+        }
     }
 
-    loadEstimations(type: string) {
+    loadPrices(type: string) {
         if (!this.priceprovider[type].active) {
             return;
         }
+
+        this.pricePerKwh[type] = this.priceprovider[type].selected === 'hourly' ? this.priceprovider[type].hourly.hourlyRate : this.priceprovider[type].kwh.kwhRate;
+        this.parkingFee[type] = this.priceprovider[type].selected === 'hourly' ? this.priceprovider[type].hourly.parkRate : this.priceprovider[type].kwh.parkRate;
 
         let pricePerHour, pricePerKW;
 
@@ -72,7 +91,6 @@ export class TariffConfirmationPage {
             .subscribe(
                 (res) => {
                     this.estimations[type] = res;
-                    console.log(this.estimations);
                 },
                 error => this.errorService.displayErrorWithKey(error, 'Geschätzter Tarif')
             );
@@ -84,5 +102,9 @@ export class TariffConfirmationPage {
         } else {
             this.events.publish('locations:update', this.location);
         }
+    }
+
+    close() {
+        this.navCtrl.parent.pop();
     }
 }

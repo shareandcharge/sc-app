@@ -74,20 +74,10 @@ export class SetTariffPage {
             privateKwh: {small: 0, medium: 0, big: 0}
         };
 
-        this.updateEstimationsDebounce = debounce((area) => this.updateEstimations(area), 400);
-
         if (this.navParams.get('setTariffAlert')) {
             this.showSetTariffAlert();
         }
     }
-
-    ionViewWillEnter() {
-        this.updateEstimations('publicHourly');
-        this.updateEstimations('publicKwh');
-        this.updateEstimations('privateHourly');
-        this.updateEstimations('privateKwh');
-    }
-
     showHelp(type) {
         let message = "";
 
@@ -118,40 +108,6 @@ export class SetTariffPage {
         if (area) {
             this.updateEstimationsDebounce(area);
         }
-    }
-
-    updateEstimations(area) {
-        let pricePerHour, pricePerKW;
-
-        switch (area) {
-            case 'publicHourly':
-                pricePerHour = this.priceprovider.public.hourly.parkRate;
-                pricePerKW = this.priceprovider.public.hourly.hourlyRate;
-                break;
-            case 'publicKwh':
-                pricePerHour = this.priceprovider.public.kwh.parkRate;
-                pricePerKW = this.priceprovider.public.kwh.kwhRate;
-                break;
-            case 'privateHourly':
-                pricePerHour = this.priceprovider.private.hourly.parkRate;
-                pricePerKW = this.priceprovider.private.hourly.hourlyRate;
-                break;
-            case 'privateKwh':
-                pricePerHour = this.priceprovider.private.kwh.parkRate;
-                pricePerKW = this.priceprovider.private.kwh.kwhRate;
-                break;
-        }
-        this.locationService.getEstimatedPrice(pricePerHour, pricePerKW)
-            .subscribe(
-                (res) => {
-                    this.estimatedPrice[area] = {
-                        small: res.small.price,
-                        medium: res.medium.price,
-                        big: res.big.price
-                    }
-                },
-                error => this.errorService.displayErrorWithKey(error, 'Geschätzter Tarif')
-            );
     }
 
     addPermission() {
