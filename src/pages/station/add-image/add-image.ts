@@ -12,6 +12,7 @@ import {Location} from "../../../models/location";
 import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
+import {TariffConfirmationPage} from "../set-tariff/tariff-confirmation/tariff-confirmation";
 
 
 @Component({
@@ -109,7 +110,10 @@ export class AddStationImagePage {
         this.prepareProcedure();
 
         if (this.connector.atLeastOneTarifSelected()) {
-            this.events.publish('locations:update', this.locObject);
+            this.navCtrl.push(TariffConfirmationPage, {
+                'flowMode' : this.flowMode,
+                'location' : this.locObject
+            });
         } else {
             this.navCtrl.push(SetTariffPage, {
                 "location": this.locObject,

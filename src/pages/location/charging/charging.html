@@ -30,6 +30,7 @@
             {{"tariff.types." + chargingTypeText|translate}}:
             {{chargingPricePerHour/100 | currency:'EUR':true:'1.2-2'}}<span
                 *ngIf="chargingTypeText == 'hourly' || chargingTypeText == 'kwh'">/h</span>
+            <span class="vat" *ngIf="includingVat">(inkl. 19% MwSt.)</span>
         </div>
     </div>
 
@@ -42,7 +43,8 @@
 
     <div text-center class="price-label">
         <span *ngIf="!countingDown"> Voraussichtlicher Preis: </span>
-        {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}}
+        {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}} <br>
+        <span class="vat" *ngIf="includingVat">(inkl. 19% MwSt.)</span>
     </div>
 
     <div class="progress-wrapper">

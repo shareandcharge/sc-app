@@ -44,7 +44,7 @@
 
     <ion-grid id="walletHistory">
         <ion-row *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending'}" (click)="openTransactionDetail(tr)">
-            <ion-col>
+            <ion-col *ngIf="tr.order || tr.receipt">
                 <div class="loader" *ngIf="tr.type=='TokenUpdate-pending'"></div>
                 <span
                         class="amount"

@@ -11,7 +11,7 @@
         </ion-buttons>
     </ion-navbar>
 
-    <progress-bar [progress]="95"></progress-bar>
+    <progress-bar [progress]="80"></progress-bar>
 </ion-header>
 
 
@@ -126,36 +126,6 @@
                     <ion-label range-right>20</ion-label>
                 </ion-range>
                 -->
-
-                <hr>
-
-                <p>Geschätzter stündlicher Tarif</p>
-
-                <ion-grid>
-                    <ion-row>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.publicHourly.small / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.publicHourly.medium / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.publicHourly.big / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
             </div>
 
 
@@ -211,37 +181,6 @@
                     <ion-label range-right>20</ion-label>
                 </ion-range>
                 -->
-
-                <hr>
-
-                <p>Geschätzter stündlicher Tarif</p>
-
-                <ion-grid>
-                    <ion-row>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.publicKwh.small / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.publicKwh.medium / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.publicKwh.big / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-
             </div>
         </div>
 
@@ -352,36 +291,6 @@
                     <ion-label range-right>20</ion-label>
                 </ion-range>
                 -->
-
-                <hr>
-
-                <p>Geschätzter stündlicher Tarif</p>
-
-                <ion-grid>
-                    <ion-row>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.privateHourly.small / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.privateHourly.medium / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.privateHourly.big / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
             </div>
 
             <div *ngIf="priceprovider.private.selected == 'kwh'">
@@ -436,36 +345,6 @@
                     <ion-label range-right>20</ion-label>
                 </ion-range>
                 -->
-
-                <hr>
-
-                <p>Geschätzter stündlicher Tarif</p>
-
-                <ion-grid>
-                    <ion-row>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.privateKwh.small / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.privateKwh.medium / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                        <ion-col width-33="" class="nopadding" text-center>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <ion-icon name="cust-station" color="secondary"></ion-icon>
-                            <br>
-                            Kapazität<br>
-                            {{(estimatedPrice.privateKwh.big / 100) | currency:'EUR':true:'1.2-2'}}
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
             </div>
         </div>
     </ion-list>

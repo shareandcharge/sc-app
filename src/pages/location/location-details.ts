@@ -60,6 +60,8 @@ export class LocationDetailPage {
 
     minPrice: any;
     maxPrice: any;
+    includingVat: boolean;
+    flatrateTariff: boolean;
 
     constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService) {
 
@@ -140,6 +142,8 @@ export class LocationDetailPage {
                 this.station = this.location.stations[0];
                 this.connector = this.station.connectors[0];
 
+                this.flatrateTariff = this.connector.priceprovider.public.selected === 'flatrate';
+
                 this.loadOpeningHours();
 
                 this.loadMap();
@@ -171,6 +175,7 @@ export class LocationDetailPage {
         this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
            this.maxPrice = response.max;
            this.minPrice = response.min;
+           this.includingVat = response.vat;
         },
         error => this.errorService.displayErrorWithKey(error, 'Preisabfrage'));
     }
