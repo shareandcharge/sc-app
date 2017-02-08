@@ -110,10 +110,7 @@ export class AddStationImagePage {
         this.prepareProcedure();
 
         if (this.connector.atLeastOneTarifSelected()) {
-            this.navCtrl.push(TariffConfirmationPage, {
-                'flowMode' : this.flowMode,
-                'location' : this.locObject
-            });
+            this.events.publish('locations:update', this.locObject);
         } else {
             this.navCtrl.push(SetTariffPage, {
                 "location": this.locObject,
