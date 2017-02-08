@@ -45,7 +45,7 @@ tariff-confirmation {
       color: map-get($colors, grey_darker) !important;
 
       &:after {
-        content: 'OFF';
+        content: 'AUS';
         padding-right: 20px;
       }
     }
