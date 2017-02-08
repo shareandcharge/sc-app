@@ -53,7 +53,7 @@ export class AddStationPage {
     defaultZoom = 16;
 
     errorMessages: any;
-    daySelectOptions:any;
+    daySelectOptions: any;
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private events: Events) {
 
@@ -68,7 +68,7 @@ export class AddStationPage {
         this.to = 24;
 
         this.daySelectOptions = {
-            title:'Tage wählen',
+            title: 'Tage wählen',
             cssClass: 'alert-checkbox-narrow'
         };
 
@@ -513,11 +513,14 @@ export class AddStationPage {
 
     isOpeningHoursSelected() {
         for (let item of this.connector.weekcalendar.hours) {
-            if (item.from >= 0 && item.to > 0) {
-                return true;
+
+            if (item.from != 0 && item.to != 0) {
+                if (!(item.from >= 0 && item.to > item.from)) {
+                    return false;
+                }
             }
         }
-        return false;
+        return true;
     }
 
     updateSelectedDays() {

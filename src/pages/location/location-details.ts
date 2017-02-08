@@ -17,6 +17,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {CarService} from "../../services/car.service";
 import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
+import {ChargingCompletePage} from './charging/charging-complete/charging-complete'
 
 
 @Component({
@@ -152,10 +153,10 @@ export class LocationDetailPage {
                 this.getPrice();
 
                 this.configService.getPlugTypes().subscribe((plugTypes) => {
-                    this.plugTypes = plugTypes;
-                    this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
-                },
-                error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+                        this.plugTypes = plugTypes;
+                        this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
+                    },
+                    error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
             },
             error => this.errorService.displayErrorWithKey(error, 'Standortdetails')
         );
@@ -163,7 +164,7 @@ export class LocationDetailPage {
     }
 
     getPrice() {
-        let priceObject:any = {};
+        let priceObject: any = {};
 
         let currentUser = this.authService.getUser();
         let activeCar = this.carService.getActiveCar();
@@ -324,15 +325,21 @@ export class LocationDetailPage {
         if (this.authService.loggedIn()) {
             let chargingModal = this.modalCtrl.create(ChargingPage, {
                 "location": this.location,
-                "isCharging" : this.charging
+                "isCharging": this.charging
             });
 
-            chargingModal.onDidDismiss((d)=>{
-                if(d.isCharging == true && !d.fromLocationDetailsAndIsCharging){
+            chargingModal.onDidDismiss((d) => {
+                if (d.isCharging == true && !d.fromLocationDetailsAndIsCharging) {
                     this.viewCtrl.dismiss();
                 }
+                if (d.didStop == true) {
+                    d.location = this.location;
+
+                    let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, d);
+                    chargingCompletedModal.present();
+                }
             });
-             chargingModal.present();
+            chargingModal.present();
 
         }
         else {
