@@ -76,7 +76,7 @@
             </ion-col>
             <ion-col *ngIf="transaction.type=='Send'">
                 <ion-label>Ladekosten</ion-label>
-                {{(transaction.amount) / 100 | currency:'EUR':true:'1.2-2'}} (inkl. {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr)
+                {{(transaction.amount) / 100 | currency:'EUR':true:'1.2-2'}} (inkl. {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr) <ng-container *ngIf="transaction.receipt.owner_profile.operatorVat">(inkl. 19% MwSt.)</ng-container>
             </ion-col>
         </ion-row>
     </ion-grid>
