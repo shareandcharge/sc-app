@@ -508,13 +508,15 @@ export class AddStationPage {
     }
 
     isOpeningHoursSelected() {
-        console.log(this.connector.weekcalendar.hours);
         for (let item of this.connector.weekcalendar.hours) {
-            if ((item.from >= 0) && (item.to > 1) && (item.to > item.from)) {
-                return true;
+
+            if (item.from != 0 && item.to != 0) {
+                if (!(item.from >= 0 && item.to > item.from)) {
+                    return false;
+                }
             }
         }
-        return false;
+        return true;
     }
 
     updateSelectedDays() {
