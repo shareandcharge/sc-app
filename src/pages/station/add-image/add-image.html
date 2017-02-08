@@ -4,8 +4,8 @@
         <ion-title *ngIf="flowMode=='add'">Ladestation hinzufügen</ion-title>
 
         <ion-buttons end>
-            <button ion-button color="dark" icon-only="" (click)="close()">
-                <ion-icon name="close"></ion-icon>
+            <button ion-button icon-only (click)="close()">
+                <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
@@ -52,6 +52,8 @@
 
     <div padding text-center>
         <button ion-button round (click)="continueAddStation()" text-uppercase outline block>Weiter</button>
-        <button ion-button round *ngIf="flowMode==='edit'" (click)="saveChanges()" text-uppercase block>Änderungen speichern</button>
+        <button ion-button round *ngIf="flowMode==='edit'" (click)="saveChanges()" text-uppercase block>
+            Änderungen speichern
+        </button>
     </div>
 </ion-content>
