@@ -75,8 +75,8 @@
                 {{transaction.amount / 100 | currency:'EUR':true:'1.2-2'}} + {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr
             </ion-col>
             <ion-col *ngIf="transaction.type=='Send'">
-                <ion-label>Ladekosten (inkl. Share&Charge Gebühr)</ion-label>
-                {{(transaction.amount) / 100 | currency:'EUR':true:'1.2-2'}}
+                <ion-label>Ladekosten</ion-label>
+                {{(transaction.amount) / 100 | currency:'EUR':true:'1.2-2'}} (inkl. {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr)
             </ion-col>
         </ion-row>
     </ion-grid>

@@ -20,6 +20,8 @@ export class ChargingPage {
     chargingPricePerHour: any;
     chargingTypeText: string;
 
+    includingVat: boolean;
+
     connector: Connector;
     hours: any;
     minutes: any;
@@ -89,7 +91,8 @@ export class ChargingPage {
             'secondsToCharge': this.chargingService.getChargingTime(),
             'maxCharging': this.carService.getActiveCar().maxCharging
         }).subscribe((response) => {
-                this.chargingPrice = response.min
+                this.chargingPrice = response.min;
+                this.includingVat = response.vat;
             },
             error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
     }
@@ -107,6 +110,7 @@ export class ChargingPage {
             }).subscribe((response) => {
                     this.chargingPricePerHour = response.min;
                     this.chargingTypeText = this.priceProviderTariffTypes[response.type];
+                    this.includingVat = response.vat;
                 },
                 error => this.errorService.displayErrorWithKey(error, 'Preis ermitteln'));
 
@@ -282,7 +286,8 @@ export class ChargingPage {
                 'secondsToCharge': (this.hours * 3600) + (this.minutes * 60),
                 'maxCharging': this.carService.getActiveCar().maxCharging
             }).subscribe((response) => {
-                    this.chargingPrice = response.min
+                    this.chargingPrice = response.min;
+                    this.includingVat = response.vat;
                 },
                 error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
         }
@@ -302,7 +307,8 @@ export class ChargingPage {
                     'secondsToCharge': (this.hours * 3600) + (this.minutes * 60),
                     'maxCharging': this.carService.getActiveCar().maxCharging
                 }).subscribe((response) => {
-                        this.chargingPrice = response.min
+                        this.chargingPrice = response.min;
+                        this.includingVat = response.vat;
                     },
                     error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
             }
