@@ -97,6 +97,8 @@ export class TariffConfirmationPage {
     }
 
     publish() {
+        this.events.publish('priceprovider:save', this.priceprovider);
+
         if (this.flowMode == 'add') {
             this.events.publish('locations:create', this.location);
         } else {

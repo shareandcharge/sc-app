@@ -4,7 +4,7 @@
  * Loading this wrapper as modal will create an own navigation controller. This can be used to push pages inside the modal.
  */
 import {Component} from "@angular/core";
-import {NavParams, NavController, Events} from "ionic-angular";
+import {NavParams, NavController, Events, App} from "ionic-angular";
 import {AddStationPage} from "./add/add-station";
 import {Location} from "../../models/location";
 import {LocationService} from "../../services/location.service";
@@ -22,7 +22,7 @@ export class StationWrapperPage {
     tempPriceprovider: any;
     flowMode: string;
 
-    constructor(private params : NavParams, private locationService: LocationService, private navCtrl: NavController, private events: Events, private errorService: ErrorService) {
+    constructor(private params : NavParams, private locationService: LocationService, private navCtrl: NavController, private events: Events, private errorService: ErrorService, private app: App) {
         this.rootPage = AddStationPage;
         this.rootParams = params;
 
@@ -30,7 +30,11 @@ export class StationWrapperPage {
         this.events.subscribe('locations:create', (location) => this.createLocation(location));
 
         this.events.subscribe('flowMode:save', (flowMode) => this.flowMode = flowMode)
-        this.events.subscribe('priceprovider:save', (priceprovider) => this.tempPriceprovider = JSON.parse(JSON.stringify(priceprovider)));
+        this.events.subscribe('priceprovider:save', (priceprovider) => this.updateTempPriceprovider(priceprovider));
+    }
+
+    updateTempPriceprovider(priceprovider) {
+        this.tempPriceprovider = JSON.parse(JSON.stringify(priceprovider));
     }
 
     priceproviderHasChanged(priceprovider) {
@@ -49,8 +53,10 @@ export class StationWrapperPage {
     }
 
     updateLocation(location: Location) {
-        if (this.priceproviderHasChanged(location.stations[0].connectors[0].priceprovider)) {
-            this.navCtrl.push(TariffConfirmationPage, {
+        let priceprovider = location.stations[0].connectors[0].priceprovider;
+
+        if (this.priceproviderHasChanged(priceprovider)) {
+            this.app.getActiveNav().push(TariffConfirmationPage, {
                 'flowMode' : this.flowMode,
                 'location' : location
             });
@@ -82,5 +88,7 @@ export class StationWrapperPage {
     ngOnDestroy() {
         this.events.unsubscribe('locations:update');
         this.events.unsubscribe('locations:create');
+        this.events.unsubscribe('flowMode:save');
+        this.events.unsubscribe('priceprovider:save');
     }
 }

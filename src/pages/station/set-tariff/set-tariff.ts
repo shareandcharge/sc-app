@@ -118,10 +118,14 @@ export class SetTariffPage {
 
     publish() {
         if (this.priceprovider.public.active || this.priceprovider.private.active) {
-            this.navCtrl.push(TariffConfirmationPage, {
-                'flowMode' : this.flowMode,
-                'location' : this.locObject
-            });
+            if (this.flowMode === 'add') {
+                this.navCtrl.push(TariffConfirmationPage, {
+                    'flowMode' : this.flowMode,
+                    'location' : this.locObject
+                });
+            } else {
+                this.events.publish('locations:update', this.locObject);
+            }
         } else {
             this.showSetTariffAlert();
         }
