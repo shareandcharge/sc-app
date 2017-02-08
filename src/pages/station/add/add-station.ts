@@ -435,10 +435,7 @@ export class AddStationPage {
     }
 
     prepareProcedure() {
-        console.log("custom week calender  ", this.customWeekCalendar);
-        //if (this.segmentTabs === 'custom') {
         this.connector.weekcalendar = this.customWeekCalendar;
-        //}
     }
 
     saveChanges() {
