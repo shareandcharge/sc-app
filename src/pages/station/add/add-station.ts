@@ -537,6 +537,11 @@ export class AddStationPage {
         }
     }
 
+    setSelectedDayDefault(day){
+        day.from = 0;
+        day.to = 0;
+    }
+
     resetWeekcalendar() {
         for (let day of this.connector.weekcalendar.hours) {
             day.from = 0;
