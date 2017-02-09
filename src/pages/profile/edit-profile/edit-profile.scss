@@ -1,10 +1,5 @@
 edit-profile {
-    ion-icon {
-        position: absolute;
-        right:10px;
-    }
-
-    #operator-vat-item {
+    .operator-vat-item {
         ion-label {
             font-size: 0.9em;
         }
@@ -15,6 +10,11 @@ edit-profile {
 
         ion-icon {
             margin-top: 1px;
+        }
+
+        .item-cover {
+            // to make the link in the label click-able
+            width: 80px;
         }
     }
 }

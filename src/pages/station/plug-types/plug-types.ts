@@ -5,7 +5,6 @@ import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
 import {ConfigService} from "../../../services/config.service";
 import {ErrorService} from "../../../services/error.service";
-import {TariffConfirmationPage} from "../set-tariff/tariff-confirmation/tariff-confirmation";
 
 @Component({
     selector: 'page-plug-types',

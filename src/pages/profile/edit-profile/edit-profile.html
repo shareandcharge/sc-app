@@ -44,7 +44,7 @@
             <div *ngIf="!profileForm.controls.postalCode.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
                 {{ errorMessages.postalCode }}
-                <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('postalCode')"></ion-icon>
+                <ion-icon class="help-icon" name="ios-help-circle-outline" item-right (click)="showHelp('postalCode')"></ion-icon>
             </div>
             <ion-item>
                 <ion-label floating>Stadt</ion-label>
@@ -69,7 +69,7 @@
                     <ion-option value="de" selected="true">Deutschland</ion-option>
                 </ion-select>
             </ion-item>
-            <ion-item text-wrap id="operator-vat-item">
+            <ion-item text-wrap class="operator-vat-item">
                 <ion-checkbox color="light" checked="false"
                     formControlName="businessUser"
                     [(ngModel)]="user.profile.operatorVat">

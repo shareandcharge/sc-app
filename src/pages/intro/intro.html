@@ -4,16 +4,15 @@
         <ion-title></ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="goToHome()">
-                <ion-icon name="close"></ion-icon>
+                <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
 
-
 <ion-content class="content-white" padding>
     <div class="top-container">
-        <ion-slides #mySlider [options]="slideOptions" (ionDidChange)="SlideChanged()">
+        <ion-slides #mySlider [pager]="true" (ionSlideDidChange)="slideChanged()">
 
             <ion-slide>
                 <div class="img-wrapper"><img src="assets/images/intro/01.gif"></div>

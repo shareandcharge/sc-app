@@ -5,7 +5,6 @@ import {AddPermissionsPage} from './add-permissions/add-permissions';
 import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
 import {ErrorService} from "../../../services/error.service";
-import {debounce} from "ionic-angular/util/util";
 import {TariffConfirmationPage} from "./tariff-confirmation/tariff-confirmation";
 
 

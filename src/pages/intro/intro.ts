@@ -23,7 +23,7 @@ export class IntroPage {
     ionViewDidLoad() {
     }
 
-    SlideChanged() {
+    slideChanged() {
         let currentIndex = this.slider.getActiveIndex();
         if (currentIndex == 2) {
             this.sliderText = "Fertig";
