@@ -43,14 +43,13 @@
         </ion-list>
 
         <ion-segment color="primary" [(ngModel)]="segmentTabs" padding>
-            <ion-segment-button value="default">
+            <ion-segment-button value="default" (click)="updateSelectedDays()">
                 Öffnungszeiten
             </ion-segment-button>
             <ion-segment-button value="custom">
                 Anpassen
             </ion-segment-button>
         </ion-segment>
-
 
         <div *ngIf="segmentTabs == 'default'">
             <ion-list no-lines="">
@@ -108,7 +107,6 @@
                 <ion-select [(ngModel)]="day.from" placeholder="Von" class="input-white small margin-right-xs">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>   
-
                 <ion-select [(ngModel)]="day.to" placeholder="Bis" class="input-white small">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
