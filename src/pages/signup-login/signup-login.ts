@@ -158,7 +158,7 @@ export class SignupLoginPage {
 
         switch (field) {
             case 'password':
-                message = "min 7 digits";
+                message = "Mindestens 7 Zeichen.";
                 break;
         }
 

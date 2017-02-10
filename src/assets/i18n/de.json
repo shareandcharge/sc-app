@@ -19,7 +19,7 @@
     "message_timeout": "[TRANSLATE] message_timeout",
     "security_invalid_signature": "[TRANSLATE] security_invalid_signature",
     "security_old_signature": "[TRANSLATE] security_old_signature",
-    "user_not_found": "[TRANSLATE] user_not_found",
+    "user_not_found": "Benutzer konnte nicht gefunden werden.",
     "user_no_password": "[TRANSLATE] user_no_password",
     "user_wrong_password": "[TRANSLATE] user_wrong_password",
     "unsupported_authentification_type": "[TRANSLATE] unsupported_authentification_type",

@@ -13,6 +13,10 @@
     color: darken(map_get($colors, danger), 10%);
 }
 
+.alert-box-bg-light {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
 .alert-checkbox-narrow .alert-checkbox-group .alert-tappable {
     min-height: 40px;
     height: 40px;
