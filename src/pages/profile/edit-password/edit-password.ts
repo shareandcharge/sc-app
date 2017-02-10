@@ -55,7 +55,7 @@ export class EditPasswordPage {
     createErrorMessages() {
         this.errorMessages = {
             "oldPassword": 'Bitte gib dein altes Passwort ein.',
-            "newPassword": 'Bitte gib ein neues Passwort ein.',
+            "newPassword": 'Bitte gib ein neues Passwort ein. Mindestens 7 Zeichen.',
             "passwordsNotEqual": 'Die Passwörter stimmen nicht überein.'
         }
     }
