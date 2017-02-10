@@ -101,7 +101,7 @@
     <ion-toolbar color="light">
         <ion-grid>
             <ion-row>
-                <ion-col center width-50>
+                <ion-col center>
                     <div class="footer-price">
                         <strong *ngIf="minPrice == maxPrice">
                             {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}<ng-container *ngIf="!flatrateTariff">/kWh</ng-container> <ng-container *ngIf="includingVat">(inkl. 19% MwSt.)</ng-container>
@@ -114,7 +114,7 @@
                         <rating [(ngModel)]="averageRating" readonly="true"></rating>
                     </div>
                 </ion-col>
-                <ion-col text-right width-50>
+                <ion-col text-right>
                     <button ion-button round color="primary" text-uppercase (click)="charge()" *ngIf="connector.isOpen()">
                         <span *ngIf="!charging">Laden</span>
                         <span *ngIf="charging">Ladefortschritt</span>

@@ -78,7 +78,7 @@ export class ChargingPage {
             this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
             this.timer = this.chargingService.getRemainingTime();
             this.updateCanvas();
-            if (this.timer == 0) {
+            if (this.timer <= 0) {
                 clearInterval(this.myCounter);
                 this.countingDown = false;
                 this.initiateCanvas();
@@ -194,6 +194,7 @@ export class ChargingPage {
 
                     this.chargingProgress = this.chargingService.getChargingProgress();
                     this.selectedChargingTime = this.timer;
+                    clearInterval(this.myCounter);
                     this.myCounter = setInterval(() => {
                         this.hours = Math.floor(this.timer / 3600);
                         this.minutes = Math.floor((this.timer % 3600 ) / 60);

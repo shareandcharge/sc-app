@@ -12,7 +12,6 @@ import {Location} from "../../../models/location";
 import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
-import {TariffConfirmationPage} from "../set-tariff/tariff-confirmation/tariff-confirmation";
 
 
 @Component({
