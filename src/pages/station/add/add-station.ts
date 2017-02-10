@@ -352,7 +352,7 @@ export class AddStationPage {
                 this.positionMarker(place.geometry.location.lat(), place.geometry.location.lng());
             }
             else {
-                console.error('Place err: ', status);
+                //console.error('Place err: ', status);
             }
         });
     }
@@ -427,7 +427,7 @@ export class AddStationPage {
             Geolocation.getCurrentPosition().then((position) => {
                 this.positionMarker(position.coords.latitude, position.coords.longitude);
             }, (err) => {
-                console.error(err);
+                //console.error(err);
                 this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
             });
         }
@@ -514,7 +514,6 @@ export class AddStationPage {
     }
 
     isOpeningHoursSelected() {
-        console.log("validate ", this.connector.weekcalendar.hours);
         for (let item of this.connector.weekcalendar.hours) {
             if (item.from != 0 && item.to != 0) {
                 if (!(item.from >= 0 && item.to > item.from)) {
