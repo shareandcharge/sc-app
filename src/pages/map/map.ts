@@ -291,7 +291,7 @@ export class MapPage {
     }
 
     addMarker(location: Location) {
-        let image = location.isRented() ? 'marker-busy.png' : 'marker-available.png';
+        let image = location.isRented() || location.isClosed() ? 'marker-busy.png' : 'marker-available.png';
         let icon = `assets/icons/${image}`;
         let marker = new google.maps.Marker({
             map: this.map,

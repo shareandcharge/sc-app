@@ -158,7 +158,10 @@ export class LocationDetailPage {
                     },
                     error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
             },
-            error => this.errorService.displayErrorWithKey(error, 'Standortdetails')
+            error => {
+                this.errorService.displayErrorWithKey(error, 'Standortdetails');
+                this.dismiss();
+            }
         );
         return observable;
     }

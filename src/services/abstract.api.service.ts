@@ -10,22 +10,29 @@ export abstract class AbstractApiService {
         error = error || 'Unbekannter Fehler';
 
         if (error instanceof Response) {
-            let body;
-            try {
-                body = error.json();
+            if (error.status == 0) {
+                errMsg = 'No connection';
             }
-            catch (e) {
-                body = error.text();
-            }
-            errMsg = body.key || body.message || JSON.stringify(body);
-            errMsg = "api_error." + errMsg;
+            else {
+                let body;
+                try {
+                    body = error.json();
+                }
+                catch (e) {
+                    body = error.text();
+                }
 
-            //--@TODO remove after testing
-            if (body.message) alert('DEBUG: ' + body.message);
+                errMsg = body.key || body.message || JSON.stringify(body);
+                errMsg = "api_error." + errMsg;
+
+                //--@TODO remove after testing
+                if (body.message) alert('DEBUG: ' + body.message);
+            }
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
-        console.error('API error:', errMsg);
+
+        // console.error('API error:', errMsg);
         return Observable.throw(errMsg);
     }
 
