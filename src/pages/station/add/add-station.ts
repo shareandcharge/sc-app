@@ -180,7 +180,7 @@ export class AddStationPage {
             }
         ];
 
-        this.weekdays = ["0", "1", "2", "3", "4", "5", "6"];
+        this.weekdays = [0, 1, 2, 3, 4, 5, 6];
 
         this.days = [
             "Montag",
@@ -200,9 +200,7 @@ export class AddStationPage {
             this.locObject = navParams.get("location");
             this.station = this.locObject.stations[0];
             this.connector = this.station.connectors[0];
-
             this.events.publish('priceprovider:save', this.connector.priceprovider);
-
             this.cloneWeekcalendar();
             this.initializeWeekcalendar();
 
@@ -358,7 +356,7 @@ export class AddStationPage {
                 this.positionMarker(place.geometry.location.lat(), place.geometry.location.lng());
             }
             else {
-                console.error('Place err: ', status);
+                //console.error('Place err: ', status);
             }
         });
     }
@@ -433,7 +431,7 @@ export class AddStationPage {
             Geolocation.getCurrentPosition().then((position) => {
                 this.positionMarker(position.coords.latitude, position.coords.longitude);
             }, (err) => {
-                console.error(err);
+                //console.error(err);
                 this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
             });
         }
@@ -451,7 +449,9 @@ export class AddStationPage {
     }
 
     prepareProcedure() {
-        this.connector.weekcalendar = this.customWeekCalendar;
+        if (this.segmentTabs == 'custom') {
+            this.connector.weekcalendar = this.customWeekCalendar;
+        }
     }
 
     saveChanges() {
@@ -519,7 +519,6 @@ export class AddStationPage {
 
     isOpeningHoursSelected() {
         for (let item of this.connector.weekcalendar.hours) {
-
             if (item.from != 0 && item.to != 0) {
                 if (!(item.from >= 0 && item.to > item.from)) {
                     return false;
@@ -536,9 +535,14 @@ export class AddStationPage {
         }
 
         for (let weekday of this.weekdays) {
-            this.connector.weekcalendar.hours[weekday].from = +this.from;
-            this.connector.weekcalendar.hours[weekday].to = +this.to;
+            this.connector.weekcalendar.hours[weekday].from = this.from;
+            this.connector.weekcalendar.hours[weekday].to = this.to;
         }
+    }
+
+    setSelectedDayDefault(day){
+        day.from = 0;
+        day.to = 0;
     }
 
     resetWeekcalendar() {
