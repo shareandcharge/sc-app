@@ -34,7 +34,7 @@ export class WalletPage {
         'Received' : 'assets/icons/wallet-pole.png',
         'Send' : 'assets/icons/wallet-charge.png',
         'payOut' : 'assets/icons/wallet-payout.png',
-    }
+    };
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController, private errorService: ErrorService) {
         this.events.subscribe('history:update', () => {

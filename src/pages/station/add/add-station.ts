@@ -3,7 +3,7 @@ import {
     NavController,
     LoadingController,
     NavParams,
-    ModalController, Events
+    ModalController, Events, AlertController
 } from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
 import {Platform} from 'ionic-angular';
@@ -14,7 +14,7 @@ import {Location} from "../../../models/location";
 import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
-import {TariffConfirmationPage} from "../set-tariff/tariff-confirmation/tariff-confirmation";
+import {EditProfilePage} from "../../profile/edit-profile/edit-profile";
 
 @Component({
     selector: 'page-add-station',
@@ -55,7 +55,7 @@ export class AddStationPage {
     errorMessages: any;
     daySelectOptions: any;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private events: Events) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private events: Events, private alertCtrl: AlertController) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -229,6 +229,10 @@ export class AddStationPage {
         this.platform.ready().then(() => {
             this.loadMap();
         });
+    }
+
+    ionViewDidEnter() {
+        this.checkProfileComplete();
     }
 
     setDefaultWeekcalendar() {
@@ -551,4 +555,35 @@ export class AddStationPage {
     cloneWeekcalendar() {
         this.customWeekCalendar = JSON.parse(JSON.stringify(this.connector.weekcalendar));
     }
+
+    checkProfileComplete() {
+        if (this.auth.getUser().isProfileComplete()) return true;
+
+        let alert = this.alertCtrl.create({
+            title: 'Daten unvollständig',
+            message: 'Um eine Ladestation hinzufügen zu können, musst Du zunächst Dein Profil vervollständigen.',
+            buttons: [
+                {
+                    text: 'Ok, Profil bearbeiten',
+                    handler: () => {
+                        this.navCtrl.push(EditProfilePage, {
+                            'user': this.auth.getUser()
+                        });
+                    }
+                },
+                {
+                    text: 'Abbrechen',
+                    handler: () => {
+                        this.skipAddingStation();
+                    },
+                    role: 'cancel'
+                }
+            ]
+        });
+
+        alert.present();
+
+        return false;
+    }
+
 }
