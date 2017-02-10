@@ -1,0 +1,57 @@
+tariff-confirmation {
+  ion-list {
+    ion-list-header {
+      background-color: white !important;
+      text-transform: none !important;
+      color: map-get($colors, secondary) !important;
+      font-size: 1.3em !important;
+      letter-spacing: 0 !important;
+      font-weight: normal !important;
+    }
+
+    ion-item {
+      background-color: white !important;
+    }
+
+    ion-item:nth-last-child(2) {
+      .item-inner {
+        border-bottom: none !important;
+      }
+    }
+
+    ion-item:last-child {
+      background-color: transparentize(map-get($colors, secondary), 0.85) !important;
+    }
+  }
+
+  ion-grid {
+    ion-row {
+      ion-col:first-child {
+        font-size: 80%;
+      }
+    }
+  }
+
+  .vat {
+    font-size: 90%;
+  }
+
+  ion-icon {
+    width: 10px;
+  }
+
+  .disabled {
+    ion-list-header {
+      color: map-get($colors, grey_darker) !important;
+
+      &:after {
+        content: 'AUS';
+        padding-right: 20px;
+      }
+    }
+
+    ion-item {
+      display: none;
+    }
+  }
+}

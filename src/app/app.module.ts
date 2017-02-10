@@ -28,7 +28,6 @@ import {DashboardPage} from '../pages/dashboard/dashboard';
 import {HelpPage} from '../pages/help/help';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
 import {EditProfilePage} from "../pages/profile/edit-profile/edit-profile";
-import {PaymentProviderScreenPage} from "../pages/wallet/add/payment-provider-screen/payment-provider-screen";
 import {ProfilePage} from '../pages/profile/profile';
 import {NotificationsPage} from '../pages/notifications/notifications';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
@@ -60,6 +59,9 @@ import {ConfigService} from "../services/config.service";
 import {ErrorService} from "../services/error.service";
 import {PushNotificationService} from "../services/push.notification.service";
 import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
+import {EditPasswordPage} from "../pages/profile/edit-password/edit-password";
+import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-password";
+import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
 
 
 let storage = new Storage();
@@ -120,12 +122,14 @@ export function createTranslateLoader(http: Http) {
         ChargingProgressBarComponent,
         IntroPage,
         EditProfilePage,
-        PaymentProviderScreenPage,
-        TransactionDetailPage
+        TransactionDetailPage,
+        EditPasswordPage,
+        ForgotPasswordPage,
+        TariffConfirmationPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
-                backButtonText: 'Zurück',
+                backButtonText: '',
             }, {}
         ),
         Ionic2RatingModule,
@@ -173,8 +177,10 @@ export function createTranslateLoader(http: Http) {
         ChargingCompletePage,
         IntroPage,
         EditProfilePage,
-        PaymentProviderScreenPage,
-        TransactionDetailPage
+        TransactionDetailPage,
+        EditPasswordPage,
+        ForgotPasswordPage,
+        TariffConfirmationPage
     ],
     providers: [
         {

@@ -27,10 +27,10 @@ export class PlugTypesPage {
         ];
 
         this.configService.getPlugTypes().subscribe((plugtypes) => {
-            this.plugOptions = plugtypes;
-            console.log(this.plugOptions);
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+                this.plugOptions = plugtypes;
+                console.log(this.plugOptions);
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
 
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
@@ -46,6 +46,7 @@ export class PlugTypesPage {
 
     updateWattpower() {
         this.connector.maxwattpower = this.wattpowerTemp * 1000;
+        this.errorMessages.capacity = '';
     }
 
     saveChanges() {
@@ -55,7 +56,7 @@ export class PlugTypesPage {
             this.navCtrl.push(SetTariffPage, {
                 "location": this.locObject,
                 "mode": this.flowMode,
-                "setTariffAlert" : true
+                "setTariffAlert": true
             });
         }
     }
@@ -101,6 +102,10 @@ export class PlugTypesPage {
             "plugType": '',
             "capacity": ''
         }
+    }
+
+    plugTypeDirty() {
+        this.errorMessages.plugType = '';
     }
 
     validateForm() {

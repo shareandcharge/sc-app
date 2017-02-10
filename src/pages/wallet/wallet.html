@@ -1,33 +1,33 @@
 <ion-header>
 
     <ion-navbar>
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
+        <!--<button ion-button menuToggle>-->
+            <!--<ion-icon name="menu"></ion-icon>-->
+        <!--</button>-->
         <ion-title>Konto</ion-title>
         <ion-buttons end>
-            <button ion-button (click)="addMoney()">
-                <ion-icon name="add"></ion-icon>
+            <button ion-button icon-only (click)="addMoney()">
+                <ion-icon name="md-add"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
-<ion-menu [content]="mycontent">
-    <ion-header>
-        <ion-toolbar>
-            <ion-title></ion-title>
-        </ion-toolbar>
-    </ion-header>
-    <ion-content>
-        <ion-list>
-            <ion-item>Zahlungsvorgänge</ion-item>
-            <ion-item>Auszahlung</ion-item>
-            <ion-item>Rechnungen</ion-item>
-        </ion-list>
-    </ion-content>
-</ion-menu>
+<!--<ion-menu [content]="mycontent">-->
+    <!--<ion-header>-->
+        <!--<ion-toolbar>-->
+            <!--<ion-title></ion-title>-->
+        <!--</ion-toolbar>-->
+    <!--</ion-header>-->
+    <!--<ion-content>-->
+        <!--<ion-list>-->
+            <!--<ion-item>Zahlungsvorgänge</ion-item>-->
+            <!--<ion-item>Auszahlung</ion-item>-->
+            <!--<ion-item>Rechnungen</ion-item>-->
+        <!--</ion-list>-->
+    <!--</ion-content>-->
+<!--</ion-menu>-->
 
 
 <ion-content #mycontent>
@@ -44,7 +44,7 @@
 
     <ion-grid id="walletHistory">
         <ion-row *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending'}" (click)="openTransactionDetail(tr)">
-            <ion-col>
+            <ion-col *ngIf="tr.order || tr.receipt">
                 <div class="loader" *ngIf="tr.type=='TokenUpdate-pending'"></div>
                 <span
                         class="amount"

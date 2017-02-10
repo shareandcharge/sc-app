@@ -15,13 +15,12 @@ export class ChargingService extends AbstractApiService {
     private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
     private chargingTime: number = 0;
     private progress: number = 0;
-    counter: any;
+    counterInterval: any;
     eventInterval: any;
     timer: number = 0;
     charging: boolean;
     connectorId: any;
     location: any;
-    public interval: any;
 
     constructor(private authHttp: AuthHttp, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
         super();
@@ -35,9 +34,6 @@ export class ChargingService extends AbstractApiService {
         let user = this.auth.getUser();
 
         this.getConnectors(user.address).subscribe((a) => {
-            
-            console.log(a);
-
             if (a.length > 0) {
                 //-- @LOOK if we're charging on mutiple connectors, use latest.
                 //      sometimes the old one is already "0" but still in the list
@@ -58,29 +54,12 @@ export class ChargingService extends AbstractApiService {
             }
         },
         error => this.errorService.displayErrorWithKey(error, 'Liste - Connectors'));
-
-        // this.storage.get("isCharging").then(charging => {
-        //     if (!charging) {
-        //         Badge.clear();
-        //         return
-        //     }
-        //     ;
-        //     this.charging = true;
-        //     this.storage.get("chargingTime").then(chargingTime => {
-        //         this.chargingTime = chargingTime;
-        //         this.storage.get("timer").then(timer => {
-        //             this.startEventInterval();
-        //             this.countDown(timer);
-        //         });
-        //     });
-        // });
     }
 
     getConnectors(userAddress: string) {
         return this.authHttp.get(`${this.baseUrl}/connectors/?controller=${userAddress}`)
             .map(res => {
-                let ret = res.json();
-                return ret;
+                return res.json();
             })
             .catch(this.handleError);
     }
@@ -152,7 +131,7 @@ export class ChargingService extends AbstractApiService {
         this.connectorId = null;
         this.storage.set("isCharging", false);
         this.events.publish('charging:update', this.location, this.progress);
-        clearInterval(this.counter);
+        clearInterval(this.counterInterval);
         clearInterval(this.eventInterval);
     }
 
@@ -169,6 +148,7 @@ export class ChargingService extends AbstractApiService {
     }
 
     startEventInterval() {
+        clearInterval(this.eventInterval);
         this.eventInterval = setInterval(() => {
             this.events.publish('charging:update', this.location, this.progress, this.charging);
         }, 1000);
@@ -179,14 +159,12 @@ export class ChargingService extends AbstractApiService {
         this.progress = 1;
         let me = this;
         me.timer = time;
-        me.counter = setInterval(() => {
+        clearInterval(me.counterInterval);
+        me.counterInterval = setInterval(() => {
             if (--this.timer < 0) {
-                clearInterval(me.counter);
-
-
-
-                this.presentToast(this.chargingTime);
-                this.chargingEnd();
+                clearInterval(me.counterInterval);
+                this.stopCharging(this.connectorId)
+                    .subscribe(() => this.presentToast(this.chargingTime));
             }
             let chargedTime = this.chargingTime - this.timer;
             this.progress = Math.floor((100 * chargedTime) / this.chargingTime);
@@ -199,7 +177,7 @@ export class ChargingService extends AbstractApiService {
 
     presentToast(total) {
         let toast = this.toastCtrl.create({
-            message: 'Ladevorgang beendet',
+            message: 'Ladevorgang erfolgreich beendet',
             showCloseButton: true,
             closeButtonText: 'Ok',
             position: 'top',

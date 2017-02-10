@@ -25,7 +25,7 @@
                 [ngStyle]="{'background-image':'url(' + car.imageBase64 + ')'}">
         </button>
         <button class="image-button" (click)="selectPhoto()" *ngIf="!car.hasImage()">
-            <span>Foto hinzufügen</span>
+            <span><ion-icon name="cust-add-photo"></ion-icon></span>
         </button>
         <form [formGroup]="carForm">
             <ion-list no-lines>
@@ -45,10 +45,10 @@
 
         <ion-segment color="primary" [(ngModel)]="segmentTabs" class="segment-borderless">
             <ion-segment-button value="preset">
-                Preset
+                Voreingestellt
             </ion-segment-button>
             <ion-segment-button value="custom">
-                Konfiguration
+                Konfigurieren
             </ion-segment-button>
         </ion-segment>
     </div>
@@ -129,8 +129,8 @@
 
                 <ion-item text-wrap>
                     <ion-label>Steckertypen<br>
-                        <small>
-                        Bitte fügen sie alle Steckerformate hinzu, die ihr Auto unterstützt.</small></ion-label>
+                        <small>Markiere alle Steckertypen, die dein Auto unterstützt.</small>
+                    </ion-label>
                 </ion-item>
                 <ion-item>
                     <ion-select [(ngModel)]="car.plugTypes"

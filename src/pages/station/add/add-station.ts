@@ -3,7 +3,7 @@ import {
     NavController,
     LoadingController,
     NavParams,
-    ModalController, Events
+    ModalController, Events, AlertController
 } from 'ionic-angular';
 import {AddStationImagePage} from "../add-image/add-image";
 import {Platform} from 'ionic-angular';
@@ -14,6 +14,7 @@ import {Location} from "../../../models/location";
 import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
+import {EditProfilePage} from "../../profile/edit-profile/edit-profile";
 
 @Component({
     selector: 'page-add-station',
@@ -52,8 +53,9 @@ export class AddStationPage {
     defaultZoom = 16;
 
     errorMessages: any;
+    daySelectOptions: any;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private events: Events) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private events: Events, private alertCtrl: AlertController) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -63,7 +65,12 @@ export class AddStationPage {
         }
 
         this.from = 0;
-        this.to = 0;
+        this.to = 24;
+
+        this.daySelectOptions = {
+            title: 'Tage wählen',
+            cssClass: 'alert-checkbox-narrow'
+        };
 
         this.service = new google.maps.places.AutocompleteService();
         this.autocompleteItems = [];
@@ -71,6 +78,26 @@ export class AddStationPage {
         this.segmentTabs = 'default';
 
         this.dayHours = [
+            {
+                "value": 0,
+                "title": "00:00"
+            },
+            {
+                "value": 1,
+                "title": "01:00"
+            },
+            {
+                "value": 2,
+                "title": "02:00"
+            },
+            {
+                "value": 3,
+                "title": "03:00"
+            },
+            {
+                "value": 4,
+                "title": "04:00"
+            },
             {
                 "value": 5,
                 "title": "05:00"
@@ -147,9 +174,13 @@ export class AddStationPage {
                 "value": 23,
                 "title": "23:00"
             },
+            {
+                "value": 24,
+                "title": "24:00"
+            }
         ];
 
-        this.weekdays = [];
+        this.weekdays = [0, 1, 2, 3, 4, 5, 6];
 
         this.days = [
             "Montag",
@@ -169,9 +200,10 @@ export class AddStationPage {
             this.locObject = navParams.get("location");
             this.station = this.locObject.stations[0];
             this.connector = this.station.connectors[0];
-
+            this.events.publish('priceprovider:save', this.connector.priceprovider);
             this.cloneWeekcalendar();
             this.initializeWeekcalendar();
+
         } else {
             // create new location, station and connector
             this.locObject = new Location();
@@ -182,10 +214,12 @@ export class AddStationPage {
             this.connector = new Connector;
             this.station.connectors.push(this.connector);
 
-            this.cloneWeekcalendar();
+            this.setDefaultWeekcalendar();
         }
-        this.clearErrorMessages();
 
+        this.events.publish('flowMode:save', this.flowMode);
+
+        this.clearErrorMessages();
         this.initializeApp();
     }
 
@@ -193,6 +227,45 @@ export class AddStationPage {
         this.platform.ready().then(() => {
             this.loadMap();
         });
+    }
+
+    ionViewDidEnter() {
+        this.checkProfileComplete();
+    }
+
+    setDefaultWeekcalendar() {
+        this.customWeekCalendar = {
+            hours: [
+                {
+                    from: 0,
+                    to: 24
+                },
+                {
+                    from: 0,
+                    to: 24
+                },
+                {
+                    from: 0,
+                    to: 24
+                },
+                {
+                    from: 0,
+                    to: 24
+                },
+                {
+                    from: 0,
+                    to: 24
+                },
+                {
+                    from: 0,
+                    to: 24
+                },
+                {
+                    from: 0,
+                    to: 24
+                }
+            ]
+        }
     }
 
     initializeWeekcalendar() {
@@ -283,7 +356,7 @@ export class AddStationPage {
                 this.positionMarker(place.geometry.location.lat(), place.geometry.location.lng());
             }
             else {
-                console.error('Place err: ', status);
+                //console.error('Place err: ', status);
             }
         });
     }
@@ -323,14 +396,17 @@ export class AddStationPage {
      * reverse geocode address for marker and set in location if field in location is empty
      */
     setAddressFromMarker() {
-        if (this.locObject.address) return;
-
         let geocoder = new google.maps.Geocoder;
 
         geocoder.geocode({'location': this.marker.getPosition()}, (results, status) => {
             if (status !== google.maps.GeocoderStatus.OK || !results[0]) return;
 
-            this.locObject.address = results[0].formatted_address;
+            if (this.locObject.address) {
+                this.locObject.lat = results[0].geometry.location.lat();
+                this.locObject.lng = results[0].geometry.location.lng();
+            } else {
+                this.locObject.address = results[0].formatted_address;
+            }
         });
     }
 
@@ -355,7 +431,7 @@ export class AddStationPage {
             Geolocation.getCurrentPosition().then((position) => {
                 this.positionMarker(position.coords.latitude, position.coords.longitude);
             }, (err) => {
-                console.error(err);
+                //console.error(err);
                 this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
             });
         }
@@ -373,7 +449,7 @@ export class AddStationPage {
     }
 
     prepareProcedure() {
-        if (this.segmentTabs === 'custom') {
+        if (this.segmentTabs == 'custom') {
             this.connector.weekcalendar = this.customWeekCalendar;
         }
     }
@@ -388,7 +464,7 @@ export class AddStationPage {
                 this.navCtrl.push(SetTariffPage, {
                     "location": this.locObject,
                     "mode": this.flowMode,
-                    "setTariffAlert" : true
+                    "setTariffAlert": true
                 });
             }
         }
@@ -443,11 +519,13 @@ export class AddStationPage {
 
     isOpeningHoursSelected() {
         for (let item of this.connector.weekcalendar.hours) {
-            if (item.from > 0 && item.to > 0) {
-                return true;
+            if (item.from != 0 && item.to != 0) {
+                if (!(item.from >= 0 && item.to > item.from)) {
+                    return false;
+                }
             }
         }
-        return false;
+        return true;
     }
 
     updateSelectedDays() {
@@ -457,9 +535,14 @@ export class AddStationPage {
         }
 
         for (let weekday of this.weekdays) {
-            this.connector.weekcalendar.hours[weekday].from = +this.from;
-            this.connector.weekcalendar.hours[weekday].to = +this.to;
+            this.connector.weekcalendar.hours[weekday].from = this.from;
+            this.connector.weekcalendar.hours[weekday].to = this.to;
         }
+    }
+
+    setSelectedDayDefault(day){
+        day.from = 0;
+        day.to = 0;
     }
 
     resetWeekcalendar() {
@@ -476,4 +559,35 @@ export class AddStationPage {
     cloneWeekcalendar() {
         this.customWeekCalendar = JSON.parse(JSON.stringify(this.connector.weekcalendar));
     }
+
+    checkProfileComplete() {
+        if (this.auth.getUser().isProfileComplete()) return true;
+
+        let alert = this.alertCtrl.create({
+            title: 'Daten unvollständig',
+            message: 'Um eine Ladestation hinzufügen zu können, musst Du zunächst Dein Profil vervollständigen.',
+            buttons: [
+                {
+                    text: 'Ok, Profil bearbeiten',
+                    handler: () => {
+                        this.navCtrl.push(EditProfilePage, {
+                            'user': this.auth.getUser()
+                        });
+                    }
+                },
+                {
+                    text: 'Abbrechen',
+                    handler: () => {
+                        this.skipAddingStation();
+                    },
+                    role: 'cancel'
+                }
+            ]
+        });
+
+        alert.present();
+
+        return false;
+    }
+
 }

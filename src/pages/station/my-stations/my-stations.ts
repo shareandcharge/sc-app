@@ -27,8 +27,7 @@ export class MyStationsPage {
     constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController, public locationService: LocationService, public modalCtrl: ModalController, private events: Events, private errorService: ErrorService) {
         this.events.subscribe('locations:updated', () => this.loadStations());
     }
-
-
+    
     loadStations() {
         let userAddress;
         userAddress = this.auth.getUser().address;
@@ -37,7 +36,6 @@ export class MyStationsPage {
         },
         error => this.errorService.displayErrorWithKey(error, 'Liste - Stationen des Benutzers'));
     }
-
 
     deleteStation(station, itemSliding: ItemSliding) {
         let alert = this.alertCtrl.create({

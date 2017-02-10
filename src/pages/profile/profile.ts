@@ -7,6 +7,7 @@ import {UserService} from "../../services/user.service";
 import {EditEmailPage} from "./edit-email/edit-email";
 import {EditProfilePage} from "./edit-profile/edit-profile";
 import {ErrorService} from "../../services/error.service";
+import {EditPasswordPage} from "./edit-password/edit-password";
 
 
 @Component({
@@ -91,6 +92,12 @@ export class ProfilePage {
 
     editProfile() {
         this.navCtrl.push(EditProfilePage, {
+            'user': this.user
+        });
+    }
+
+    editPassword() {
+        this.navCtrl.push(EditPasswordPage, {
             'user': this.user
         });
     }

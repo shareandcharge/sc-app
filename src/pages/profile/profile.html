@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Profile</ion-title>
+        <ion-title>Profil</ion-title>
     </ion-navbar>
 
 </ion-header>
@@ -12,7 +12,7 @@
                 [ngStyle]="{'background-image':'url(' + user.profile.imageBase64 + ')'}">
         </button>
         <button class="image-button" (click)="selectPhoto()" *ngIf="!user.hasImage()">
-            <span>Foto hinzufügen</span>
+            <span><ion-icon name="cust-add-photo"></ion-icon></span>
         </button>
         <div>
             <strong>{{user.email}}</strong>
@@ -24,7 +24,10 @@
             Name und Anschrift
         </button>
         <button ion-item (click)="editEmail()">
-            Email
+            E-Mail Adresse
+        </button>
+        <button ion-item (click)="editPassword()">
+            Passwort ändern
         </button>
     </ion-list>
 </ion-content>

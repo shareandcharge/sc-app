@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Platform, Events, LoadingController, Config} from 'ionic-angular';
+import {Platform, Events, LoadingController, Config, ModalController} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {Storage} from '@ionic/storage';
 
@@ -20,13 +20,13 @@ export class MyApp {
     rootPage: any = TabsPage;
     loader: any;
 
-    constructor(private platform: Platform, private authService: AuthService, private userService: UserService, private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController, public storage: Storage, private translateService: TranslateService, private config: Config, private pushNotificationService: PushNotificationService, private errorService: ErrorService) {
+    constructor(private platform: Platform, private modalCtrl: ModalController, private authService: AuthService, private userService: UserService, private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController, public storage: Storage, private translateService: TranslateService, private config: Config, private pushNotificationService: PushNotificationService, private errorService: ErrorService) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
 
-            this.platform.resume.subscribe(() => {
-                this.events.publish('charging:resume');
+            platform.resume.subscribe(() => {
+                this.checkChargingProgress();
             });
 
 
@@ -57,11 +57,11 @@ export class MyApp {
 
             this.storage.get('introShown').then((result) => {
 
-                if (result) {
-                    this.rootPage = TabsPage;
-                } else {
-                    this.rootPage = IntroPage;
+                this.rootPage = TabsPage;
+                if (!result) {
                     this.storage.set('introShown', true);
+                    let introModal = this.modalCtrl.create(IntroPage);
+                    introModal.present();
                 }
 
                 this.loader.dismiss();
@@ -120,9 +120,9 @@ export class MyApp {
         if (!user.deviceTokenExists(deviceToken)) {
             user.addDeviceToken(deviceToken, currentPlatform);
             this.userService.updateUser(user).subscribe((updatedUser) => {
-                this.authService.setUser(updatedUser);
-            },
-            error => this.errorService.displayErrorWithKey(error, 'Nutzer aktualisieren'));
+                    this.authService.setUser(updatedUser);
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Nutzer aktualisieren'));
         }
     }
 }

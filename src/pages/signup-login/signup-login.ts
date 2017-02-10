@@ -10,6 +10,7 @@ import {FormBuilder, Validators, FormControl} from '@angular/forms';
 import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
+import {ForgotPasswordPage} from "./forgot-password/forgot-password";
 
 @Component({
     selector: 'page-signup',
@@ -73,6 +74,11 @@ export class SignupLoginPage {
                 "terms", new FormControl(false, Validators.compose([termsValidator.isValid, Validators.required]))
             )
         }
+    }
+
+    forgotPassword() {
+        let modal = this.modalCtrl.create(ForgotPasswordPage);
+        modal.present();
     }
 
     dismiss() {
@@ -152,7 +158,7 @@ export class SignupLoginPage {
 
         switch (field) {
             case 'password':
-                message = "min 7 digits";
+                message = "Mindestens 7 Zeichen.";
                 break;
         }
 

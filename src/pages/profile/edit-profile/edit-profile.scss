@@ -1,6 +1,20 @@
-edit-addres{
-    ion-icon{
-        position: absolute;
-        right:10px;
+edit-profile {
+    .operator-vat-item {
+        ion-label {
+            font-size: 0.9em;
+        }
+
+        ion-checkbox {
+            margin-right: 5px;
+        }
+
+        ion-icon {
+            margin-top: 1px;
+        }
+
+        .item-cover {
+            // to make the link in the label click-able
+            width: 80px;
+        }
     }
 }

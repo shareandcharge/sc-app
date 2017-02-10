@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, ModalController} from 'ionic-angular';
 import {PaymentService} from "../../../services/payment.service";
-import {PaymentProviderScreenPage} from "./payment-provider-screen/payment-provider-screen";
 import {ErrorService} from "../../../services/error.service";
+import {InAppBrowser} from "ionic-native";
 
 @Component({
     selector: 'page-add-money',
@@ -13,7 +13,7 @@ export class AddMoneyPage {
 
     payInObject: any;
 
-    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService, private modalCtrl: ModalController, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService, private errorService: ErrorService, private modalCtrl: ModalController) {
         this.payInObject = {
             'type': 'cc',
             'amount': 0,
@@ -47,15 +47,20 @@ export class AddMoneyPage {
     }
 
     showExternalPaymentScreen(redirectUrl) {
-        let modal = this.modalCtrl.create(PaymentProviderScreenPage, {
-            'pspUrl': redirectUrl
-        });
+        if (!(window as any).cordova) {
+            window.open(redirectUrl, '_blank', 'presentationstyle=pagesheet');
 
-        modal.present();
+            return new Promise((resolve, reject) => {
+                resolve();
+            })
+        } else {
+            let browser = new InAppBrowser(redirectUrl, '_blank', 'presentationstyle=pagesheet');
 
-        return new Promise((resolve, reject) => {
-            modal.onDidDismiss(() => resolve());
-        });
+            return new Promise((resolve, reject) => {
+                browser.on('exit').subscribe(() => resolve());
+            });
+        }
+
     }
 
     convertToDecimal(input: string) {

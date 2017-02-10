@@ -19,7 +19,7 @@
                     <img src="assets/images/sc-logo-white.png">
                 </div>
 
-                <div *ngIf="error" class="alert-box alert-box-danger" margin>{{ error | translate}}</div>
+                <div *ngIf="error" class="alert-box alert-box-danger alert-box-bg-light" margin>{{ error | translate}}</div>
 
                 <form [formGroup]="signUpLoginForm" (ngSubmit)="submitForm()">
                     <div id="signUpLoginTabs" text-uppercase>
@@ -39,7 +39,7 @@
                                    [(ngModel)]="signUpLoginObject.email" name="email" placeholder="E-Mail"></ion-input>
                     </div>
                     <div *ngIf="!signUpLoginForm.controls.email.valid && submitAttempt"
-                         class="alert-box alert-box-danger" margin>
+                         class="alert-box alert-box-danger alert-box-bg-light" margin>
                         {{ errorMessages.email }}
                     </div>
                     <div padding="">
@@ -49,10 +49,23 @@
                                    placeholder="Passwort"></ion-input>
                     </div>
                     <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt"
-                         class="alert-box alert-box-danger" margin>
+                         class="alert-box alert-box-danger alert-box-bg-light" margin>
                         {{ errorMessages.password }}
                         <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('password')"></ion-icon>
                     </div>
+
+                    <div *ngIf="action=='login'">
+                        <ion-list no-lines class="list-pwd">
+                            <ion-item>
+                                <ion-label>
+                                    <a color="light" (click)="forgotPassword()">
+                                        <ion-icon name="ios-help-circle"></ion-icon><span>Passwort vergessen?</span>
+                                    </a>
+                                </ion-label>
+                            </ion-item>
+                        </ion-list>
+                    </div>
+
                     <div *ngIf="action=='signUp'">
                         <ion-list no-lines class="list-tac">
                             <ion-item>
@@ -65,7 +78,7 @@
                             </ion-item>
                         </ion-list>
                         <div *ngIf="!signUpLoginForm.controls.terms.valid && submitAttempt"
-                             class="alert-box alert-box-danger" margin>
+                             class="alert-box alert-box-danger alert-box-bg-light" margin>
                             {{ errorMessages.terms }}
                         </div>
                     </div>

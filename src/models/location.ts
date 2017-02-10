@@ -13,6 +13,7 @@ export class Location implements Serializable<Location> {
     address: string;
     stations: Array<Station>;
     active: boolean;
+    open: boolean;
     metadata: {
         problemSolver: string
     };
@@ -29,6 +30,7 @@ export class Location implements Serializable<Location> {
         this.address = '';
         this.stations = [];
         this.active = true;
+        this.open = true;
         this.metadata = {
             problemSolver: ''
         };
@@ -39,7 +41,7 @@ export class Location implements Serializable<Location> {
      * or if there are no stations at all.
      * @returns {boolean}
      */
-    isRented():boolean {
+    isRented(): boolean {
         let isRented = true;
 
         this.stations.forEach((connector) => {
@@ -47,6 +49,10 @@ export class Location implements Serializable<Location> {
         });
 
         return isRented;
+    }
+
+    isClosed(): boolean {
+        return !this.open;
     }
 
     serialize() {
@@ -63,6 +69,7 @@ export class Location implements Serializable<Location> {
         this.lng = input.lng;
         this.address = input.address;
         this.active = input.active;
+        this.open = input.open;
         this.metadata = input.metadata;
 
         this.images = input.images;

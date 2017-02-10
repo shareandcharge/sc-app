@@ -77,7 +77,7 @@
         </div>
 
         <div *ngIf="location.metadata.problemSolver">
-            <h6>Problemlöser:</h6>
+            <h6>Ansprechpartner:</h6>
             <p>{{location.metadata.problemSolver}}</p>
         </div>
 
@@ -104,10 +104,10 @@
                 <ion-col center>
                     <div class="footer-price">
                         <strong *ngIf="minPrice == maxPrice">
-                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWh
+                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}<ng-container *ngIf="!flatrateTariff">/kWh</ng-container> <ng-container *ngIf="includingVat">(inkl. 19% MwSt.)</ng-container>
                         </strong>
                         <strong *ngIf="minPrice != maxPrice">
-                            {{(minPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWh - {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWh
+                            {{(minPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWh - {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}/kWh <ng-container *ngIf="includingVat">(inkl. 19% MwSt.)</ng-container>
                         </strong>
                     </div>
                     <div *ngIf="averageRating != -1" class="footer-rating">
