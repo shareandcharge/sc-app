@@ -59,6 +59,7 @@ import {ConfigService} from "../services/config.service";
 import {ErrorService} from "../services/error.service";
 import {PushNotificationService} from "../services/push.notification.service";
 import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
+import {EditPasswordPage} from "../pages/profile/edit-password/edit-password";
 import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-password";
 import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
 
@@ -122,6 +123,7 @@ export function createTranslateLoader(http: Http) {
         IntroPage,
         EditProfilePage,
         TransactionDetailPage,
+        EditPasswordPage,
         ForgotPasswordPage,
         TariffConfirmationPage
     ],
@@ -176,6 +178,7 @@ export function createTranslateLoader(http: Http) {
         IntroPage,
         EditProfilePage,
         TransactionDetailPage,
+        EditPasswordPage,
         ForgotPasswordPage,
         TariffConfirmationPage
     ],
