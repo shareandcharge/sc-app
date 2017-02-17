@@ -215,6 +215,8 @@ export class AddStationPage {
             this.station.connectors.push(this.connector);
 
             this.setDefaultWeekcalendar();
+
+            this.updateSelectedDays();
         }
 
         this.events.publish('flowMode:save', this.flowMode);
@@ -536,7 +538,7 @@ export class AddStationPage {
     updateSelectedDays() {
         for (let day of this.connector.weekcalendar.hours) {
             day.from = 0;
-            day.to = 0;
+            day.to = 24;
         }
 
         for (let weekday of this.weekdays) {
@@ -545,19 +547,19 @@ export class AddStationPage {
         }
     }
 
-    setSelectedDayDefault(day){
+    setSelectedDayDefault(day) {
         day.from = 0;
-        day.to = 0;
+        day.to = 24;
     }
 
     resetWeekcalendar() {
         for (let day of this.connector.weekcalendar.hours) {
             day.from = 0;
-            day.to = 0;
+            day.to = 24;
 
             this.weekdays = [];
             this.from = 0;
-            this.to = 0;
+            this.to = 24;
         }
     }
 
