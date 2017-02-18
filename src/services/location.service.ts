@@ -105,10 +105,11 @@ export class LocationService extends AbstractApiService {
             .catch(this.handleError);
     }
 
-    getEstimatedPrice(pricePerHour, pricePerKW) {
+    getEstimatedPrice(pricePerHour, pricePerKW, maxWattPower) {
         let searchParams: URLSearchParams = new URLSearchParams();
         searchParams.set('pricePerHour', pricePerHour);
         searchParams.set('pricePerKW', pricePerKW);
+        searchParams.set('maxWattPower', maxWattPower);
 
         let options = new RequestOptions({search: searchParams});
 
