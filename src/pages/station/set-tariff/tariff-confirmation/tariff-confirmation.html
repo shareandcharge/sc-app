@@ -36,7 +36,7 @@
         </ng-container>
         <ng-container *ngIf="connector.priceprovider[type] && connector.priceprovider[type].selected !== 'flatrate'">
             <ion-item>
-                <ion-grid>
+                <ion-grid class="nopadding-outer">
                     <ion-row>
                         <ion-col>
                             <p>Deine Energiekosten</p>
@@ -50,23 +50,26 @@
                 </ion-grid>
             </ion-item>
             <ion-item>
-                <ion-grid>
+                <ion-grid class="nopadding-outer">
                     <ion-row>
                         <ion-col>geschätzter Stündlicher Tarif</ion-col>
                     </ion-row>
                     <ion-row>
                         <ion-col>Kapazität</ion-col>
-                        <ion-col text-center width-20>
+                        <ion-col text-right width-20>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br><small>3,7 kWH</small>
                         </ion-col>
-                        <ion-col text-center width-20>
+                        <ion-col text-right width-20>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br><small>11 kWH</small>
                         </ion-col>
-                        <ion-col text-center width-20>
+                        <ion-col text-right width-20>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
                             <ion-icon name="cust-station" color="secondary"></ion-icon>
+                            <br><small>22 kWH</small>
                         </ion-col>
                     </ion-row>
                     <ion-row>
@@ -90,7 +93,7 @@
                 </ion-grid>
             </ion-item>
             <ion-item>
-                <ion-grid>
+                <ion-grid class="nopadding-outer">
                     <ion-row>
                         <ion-col>Gesamtpreis <span class="vat" *ngIf="user && user.profile.operatorVat"><br>(inkl. 19% MwSt.)</span></ion-col>
                         <ion-col text-right width-20>{{estimations[type] && estimations[type].small.price / 100 | currency:'EUR':true:'1.2-2'}}</ion-col>

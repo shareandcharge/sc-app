@@ -76,7 +76,7 @@
             <div *ngIf="priceprovider.public.selected == 'hourly'" padding>
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Deine Energiekosten</ion-col>
+                        <ion-col width-50="" class="nopadding">Deine Energiekosten (*)</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
                         </ion-col>
@@ -91,6 +91,12 @@
                         <label>€/kWh</label>
                     </div>
                 </div>
+                <p>
+                    <small>
+                        (*) Die kWh werden berechnet durch Multiplikation der
+                        Ladeleistung des ladenden Autos mit der Ladedauer.
+                    </small>
+                </p>
                 <!--
                 <ion-range min="0" max="100" [(ngModel)]="priceprovider.public.hourly.hourlyRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('publicHourly')">
@@ -241,7 +247,7 @@
             <div *ngIf="priceprovider.private.selected == 'hourly'" padding>
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Deine Energiekosten</ion-col>
+                        <ion-col width-50="" class="nopadding">Deine Energiekosten (*)</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
                         </ion-col>
@@ -256,6 +262,12 @@
                         <label>€/kWh</label>
                     </div>
                 </div>
+                <p>
+                    <small>
+                        (*) Die kWh werden berechnet durch Multiplikation der
+                        Ladeleistung des ladenden Autos mit der Ladedauer.
+                    </small>
+                </p>
                 <!--
                 <ion-range min="0" max="100" [(ngModel)]="priceprovider.private.hourly.hourlyRate" pin="false"
                            (ionChange)="updateEstimationsDebounce('privateHourly')">
