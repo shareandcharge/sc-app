@@ -75,7 +75,7 @@ export class EditProfilePage {
                 message = "Muss 5 Zeichen lang sein.";
                 break;
             case 'operatorVat':
-                message = "Wenn du hier eine Steuernummer angibst kannst du Share&Charge ohne Mehrwertsteueraufschlag nutzen.";
+                message = "Damit Deine Rechnung korrekt ist, lass uns wissen, ob Du eine Steuernummer hast und damit vorsteuerabzugsberechtigt bist. Ansonsten weisen wir in Deiner Rechnung gemäß §19 des UStG keine Umsatzsteuer aus.";
                 break;
         }
 
