@@ -10,9 +10,22 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content class="content-white" padding>
+<ion-content class="content-white">
     <div class="top-container">
         <ion-slides #mySlider [pager]="true" (ionSlideDidChange)="slideChanged()">
+
+            <ion-slide class="first-slide">
+                <div class="img-wrapper"><img src="assets/icons/sc-icon.png"></div>
+                <h2>Herzlich Willkommen!</h2>
+                <div class="text-wrapper">
+                    Als früher E-Mobilisten kennst Du es bestimmt bereits: Einer muss immer der Erste sein! Und
+                    heute
+                    bist Du das! Wir freuen uns darauf unsere Community gemeinsam mit Dir wachsen zu sehen.<br>
+                    Danke, dass Du dabei bist!
+                    <br><br>
+                    Dein Share&Charge Team
+                </div>
+            </ion-slide>
 
             <ion-slide>
                 <div class="img-wrapper"><img src="assets/images/intro/01.gif"></div>
