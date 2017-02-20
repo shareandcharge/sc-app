@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, ViewController, LoadingController, Events} from 'ionic-angular';
+import {NavController, NavParams, AlertController, ViewController, LoadingController} from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 import {Connector} from "../../../models/connector";
 import {LocationService} from "../../../services/location.service";
@@ -30,9 +30,7 @@ export class ChargingPage {
     countingDown: boolean;
     myCounter: any;
     buttonDeactive: any;
-    selectedChargingTime: any;
     mouseDragging: any;
-    chargingProgress: any;
     canvasX: any;
     canvasY: any;
     charging: boolean;
@@ -40,7 +38,7 @@ export class ChargingPage {
     doScrolling: boolean = true;
     fromLocationDetailsAndIsCharging: boolean = false;
     didStop: boolean = false;
-    chargedTimeAtStop:any;
+    chargedTimeAtStop: any;
 
     activeCar: Car;
 
@@ -51,7 +49,7 @@ export class ChargingPage {
         'kwh'
     ];
 
-    constructor(public navCtrl: NavController, private errorService: ErrorService, private events: Events, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
+    constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
         this.location = navParams.get("location");
         this.connector = this.location.stations[0].connectors[0];
 
@@ -63,23 +61,21 @@ export class ChargingPage {
         this.mouseDragging = false;
         this.canvasX = 140;
         this.canvasY = 140;
-        this.chargingProgress = this.chargingService.getChargingProgress();
-        this.charging = this.chargingService.isCharging();
         this.canvasImage = new Image();
         this.canvasImage.src = 'assets/icons/battery.png';
-
-        this.events.subscribe('charging:resume', () => this.resumeCharging());
-
     }
 
     resumeCharging() {
         clearInterval(this.myCounter);
+        this.updateCanvas();
+
         this.myCounter = setInterval(() => {
             this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
             this.timer = this.chargingService.getRemainingTime();
             this.updateCanvas();
             if (this.timer <= 0) {
                 clearInterval(this.myCounter);
+                this.charging = false;
                 this.countingDown = false;
                 this.initiateCanvas();
                 this.dismiss();
@@ -102,6 +98,8 @@ export class ChargingPage {
     }
 
     ionViewWillEnter() {
+        this.charging = this.chargingService.isCharging();
+
         this.activeCar = this.carService.getActiveCar();
         if (this.activeCar) {
             this.locationService.getPrice(this.connector.id, {
@@ -116,9 +114,6 @@ export class ChargingPage {
 
         }
 
-    }
-
-    ionViewDidLoad() {
         if (this.charging) {
             this.resumeCharging()
         }
@@ -186,35 +181,9 @@ export class ChargingPage {
         this.chargingService.startCharging(this.connector.id, this.timer, this.activeCar.maxCharging, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
-                (response) => {
-                    this.countingDown = true;
+                () => {
                     this.charging = true;
-                    this.selectedChargingTime = this.chargingTime;
-                    this.chargingTimeHours = this.chargingTimeHours + ":00";
-
-                    this.chargingProgress = this.chargingService.getChargingProgress();
-                    this.selectedChargingTime = this.timer;
-                    clearInterval(this.myCounter);
-                    this.myCounter = setInterval(() => {
-                        this.hours = Math.floor(this.timer / 3600);
-                        this.minutes = Math.floor((this.timer % 3600 ) / 60);
-                        this.seconds = Math.floor((this.timer % 3600) % 60);
-
-                        this.hours = this.hours < 10 ? "0" + this.hours : this.hours;
-                        this.minutes = this.minutes < 10 ? "0" + this.minutes : this.minutes;
-                        this.seconds = this.seconds < 10 ? "0" + this.seconds : this.seconds;
-
-                        this.updateTimerString();
-                        this.updateCanvas();
-                        if (--this.timer < 0) {
-                            this.timer = 0;
-                            clearInterval(this.myCounter);
-                            this.countingDown = false;
-                            this.initiateCanvas();
-                            this.dismiss();
-                        }
-                    }, 1000);
-
+                    this.resumeCharging();
                 },
                 error => this.errorService.displayErrorWithKey(error, 'Ladevorgang starten Fehler'));
     }
@@ -241,8 +210,7 @@ export class ChargingPage {
                         this.chargingService.stopCharging(this.connector.id)
                             .finally(() => loader.dismissAll())
                             .subscribe(
-                                (response) => {
-                                    this.chargingProgress = 0;
+                                () => {
                                     this.countingDown = false;
                                     clearInterval(this.myCounter);
                                     this.chargingTime = 0;
@@ -250,7 +218,6 @@ export class ChargingPage {
                                     this.hours = "00";
                                     this.minutes = "00";
                                     this.seconds = "00";
-                                    this.updateTimerString();
                                     this.updateCanvas();
                                     this.initiateCanvas();
                                     this.didStop = true;
@@ -262,11 +229,6 @@ export class ChargingPage {
             ]
         });
         alert.present();
-    }
-
-    updateTimerString() {
-        let timerString = this.hours + ':' + this.minutes + ':' + this.seconds;
-        this.chargingTimeHours = timerString;
     }
 
     circleRange_mouseDown() {
@@ -376,8 +338,7 @@ export class ChargingPage {
         let m = this.minutes < 10 ? "0" + this.minutes : this.minutes;
         let s = this.seconds < 10 ? "0" + this.seconds : this.seconds;
 
-        let finalString = h + ':' + m + 'm' + s;
-        this.chargingTimeHours = finalString;
+        this.chargingTimeHours = h + ':' + m + 'm' + s;
 
         ctx.fillStyle = '#006EF1';
         ctx.lineCap = 'square';
@@ -421,8 +382,7 @@ export class ChargingPage {
         let m = minutes < 10 ? "0" + minutes : minutes;
         let s = seconds < 10 ? "0" + seconds : seconds;
 
-        let finalString = h + ':' + m + ':' + s;
-        return finalString;
+        return h + ':' + m + ':' + s;
     }
 
     updateCanvas() {
@@ -469,10 +429,10 @@ export class ChargingPage {
 
     dismiss() {
         this.viewCtrl.dismiss({
-            "didStop" : this.didStop,
-            "chargedTime" : this.chargedTimeAtStop,
+            "didStop": this.didStop,
+            "chargedTime": this.chargedTimeAtStop,
             "isCharging": this.charging,
-            "fromLocationDetailsAndIsCharging" : this.fromLocationDetailsAndIsCharging
+            "fromLocationDetailsAndIsCharging": this.fromLocationDetailsAndIsCharging
         });
     }
 }

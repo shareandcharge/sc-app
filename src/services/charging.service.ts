@@ -33,11 +33,30 @@ export class ChargingService extends AbstractApiService {
 
         let user = this.auth.getUser();
 
-        this.getConnectors(user.address).subscribe((a) => {
-            if (a.length > 0) {
-                //-- @LOOK if we're charging on mutiple connectors, use latest.
-                //      sometimes the old one is already "0" but still in the list
-                let connector = a.pop();
+        this.getConnectors(user.address).subscribe((res) => {
+                if (!res.length) return;
+
+                /**
+                 * It may be, that we have multiple connectors because
+                 * we charge at multiple stations; the list also contains
+                 * connectors where timeLeft=0 but have not beend removed, yet.
+                 *
+                 * To determine the connector for which we want to show the progress,
+                 * we first remove all expired (timeLeft=0) the sort by timeLeft
+                 * ascending and choose the first (the oldest).
+                 */
+
+                let connectors = res.filter(connector => connector.timeleft > 0);
+
+                if (!connectors.length) return;
+
+                connectors.sort((a, b) => {
+                    if (a === b) return 0;
+                    return (a < b ) ? -1 : 1;
+                });
+
+                let connector = connectors.shift();
+
                 this.getStation(connector.station).subscribe((res) => {
                         this.locService.getLocation(res.location).subscribe((loc) => {
                                 this.location = loc;
@@ -51,9 +70,9 @@ export class ChargingService extends AbstractApiService {
                     this.resumeCharging(remainingTime, connector.secondstorent);
                 }
 
-            }
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Liste - Connectors'));
+
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Connectors'));
     }
 
     getConnectors(userAddress: string) {
@@ -89,6 +108,7 @@ export class ChargingService extends AbstractApiService {
 
     startCharging(connectorId, secondsToCharge, maxCharging, location) {
         this.location = location;
+        this.timer = secondsToCharge;
 
         let chargingData = {
             "maxCharging": parseInt(maxCharging),
