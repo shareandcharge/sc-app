@@ -29,8 +29,8 @@
         <div class="text" *ngIf="chargingTypeText">
             {{"tariff.types." + chargingTypeText|translate}}:
             <ng-container *ngIf="chargingPricePerHour != 0">
-                {{chargingPricePerHour/100 | currency:'EUR':true:'1.2-2'}}<span
-                    *ngIf="chargingTypeText == 'hourly' || chargingTypeText == 'kwh'">/h</span>
+                {{chargingPricePerHour/100 | currency:'EUR':true:'1.2-2'}}
+                <span *ngIf="chargingTypeText == 'hourly' || chargingTypeText == 'kwh'">/h</span>
                 <span class="vat" *ngIf="includingVat">(inkl. 19% MwSt.)</span>
             </ng-container>
             <ng-container *ngIf="chargingPricePerHour == 0">
