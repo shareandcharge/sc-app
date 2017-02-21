@@ -42,7 +42,15 @@
     "email_already_used": "Ein Zugang mit dieser E-Mail Adresse besteht bereits.",
     "register_error": "Bitte gib eine gültige E-Mail Adresse an. Das Passwort muss mindestens 7 Zeichen lang sein.",
     "user_update_error": "Die Profildaten konnten nicht aktualisiert werden.",
-    "chargingsstation_will_be_closed": "Zu diesem Zeitpunkt ist die Station geschlossen."
+    "chargingsstation_will_be_closed": "Zu diesem Zeitpunkt ist die Station geschlossen.",
+    "no_code": "Es wurde kein Code übergeben.",
+    "max_txcount_reached": "Die maximale Anzahl Transaktionen wurde erreicht.",
+    "already_starting": "Der Ladevorgang startet bereits.",
+    "chargingsstation_is_disabled": "Die Ladestation ist deaktiviert.",
+    "chargingsstation_is_closed": "Die Ladestation ist zur Zeit geschlossen.",
+    "user_not_controlling": "Sie kontrollieren die Ladestation nicht und können die Transaktion deshalb nicht stoppen.",
+    "not_started": "Der Ladevorgang wurde bereits beendet.",
+    "already_stopping": "Der Ladevorgang wird bereits beendet."
   },
   "payment": {
     "types": {
