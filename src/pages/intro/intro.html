@@ -3,7 +3,7 @@
     <ion-navbar>
         <ion-title></ion-title>
         <ion-buttons end>
-            <button ion-button icon-only (click)="goToHome()">
+            <button ion-button icon-only (click)="goToEnd()">
                 <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
@@ -59,10 +59,10 @@
             <ion-grid>
                 <ion-row>
                     <ion-col width-50 text-left>
-                        <a href="#" class="dark" (click)="goToHome()">Überspringen</a>
+                        <a href="#" class="dark" (click)="goToEnd()">Überspringen</a>
                     </ion-col>
                     <ion-col width-50 text-right>
-                        <a href="#" (click)="changeSlide()">{{sliderText}}</a>
+                        <a href="#" (click)="goToNext()">{{isEnd ? 'Fertig' : 'Weiter'}}</a>
                     </ion-col>
                 </ion-row>
             </ion-grid>
