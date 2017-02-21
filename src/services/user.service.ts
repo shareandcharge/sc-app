@@ -6,16 +6,15 @@ import 'rxjs/add/operator/map';
 import {AuthService} from "./auth.service";
 import {AuthHttp} from "angular2-jwt";
 import {AbstractApiService} from "./abstract.api.service";
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class UserService extends AbstractApiService {
 
-    baseUrl: string = 'https://api-test.shareandcharge.com/v1';
-
     error: string;
 
-    constructor(private authService: AuthService, private authHttp: AuthHttp) {
-        super();
+    constructor(private authService: AuthService, private authHttp: AuthHttp, configService: ConfigService) {
+        super(configService);
     }
 
     login(email: string, password: string) {

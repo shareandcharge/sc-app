@@ -1,13 +1,12 @@
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "angular2-jwt";
 import {AbstractApiService} from "./abstract.api.service";
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class PaymentService extends AbstractApiService {
-    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
-
-    constructor(private authHttp: AuthHttp) {
-        super();
+    constructor(private authHttp: AuthHttp, configService: ConfigService) {
+        super(configService);
     }
 
     getHistory() {

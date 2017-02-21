@@ -4,14 +4,15 @@ import {Observable} from "rxjs";
 import {Rating} from "../models/rating";
 import {AuthHttp} from "angular2-jwt";
 import {AbstractApiService} from "./abstract.api.service";
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class RatingService extends AbstractApiService {
-    private baseUrl: string = 'https://api-test.shareandcharge.com/v1/locations/';
     private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
-    constructor(private authHttp: AuthHttp) {
-        super();
+    constructor(private authHttp: AuthHttp, configService: ConfigService) {
+        super(configService);
+        this.baseUrl += '/locations/';
     }
 
     getRatings(locationId: number): Observable<Array<Rating>> {
