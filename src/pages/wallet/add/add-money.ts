@@ -10,8 +10,9 @@ import {InAppBrowser} from "ionic-native";
 })
 export class AddMoneyPage {
     displayAmount: any;
-
     payInObject: any;
+
+    payInButtonDisabled = false;
 
     constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService, private errorService: ErrorService, private modalCtrl: ModalController) {
         this.payInObject = {
@@ -32,6 +33,7 @@ export class AddMoneyPage {
     }
 
     addMoney() {
+        this.payInButtonDisabled = true;
         this.payInObject.amount = this.convertToDecimal(this.displayAmount) * 100;
 
         this.paymentService.payIn(this.payInObject).subscribe(

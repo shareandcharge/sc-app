@@ -50,7 +50,7 @@
     </div>
 
     <div padding text-center>
-        <button ion-button (click)="addMoney()" round text-uppercase="" [disabled]="!displayAmount || displayAmount<=0">
+        <button ion-button (click)="addMoney()" round text-uppercase="" [disabled]="!displayAmount || displayAmount<=0 || payInButtonDisabled">
             Konto aufladen
         </button>
     </div>
