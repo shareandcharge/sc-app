@@ -1,31 +1,27 @@
-<ion-header>
-
-    <ion-navbar>
-
-        <ion-buttons start>
+<ion-content>
+    <div class="voucher-top" text-center>
+        <ion-buttons end>
             <button ion-button icon-only (click)="dismiss()">
                 <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
-
-        <ion-title>Gutschein</ion-title>
-    </ion-navbar>
-
-</ion-header>
-
-<ion-content padding>
-
-
-
-    <div class="input-box input-box-white">
-        <div class="input-box-inner">
-            <ion-input type="text" [(ngModel)]="voucherCode" placeholder="Gutscheinnummer"></ion-input>
+        <div class="voucher-text">
+            Gutschein einlösen
         </div>
     </div>
 
-    <div padding text-center>
-        <button ion-button (click)="redeemVoucher()" round text-uppercase="">
-            Gutschein einlösen
-        </button>
+    <div class="voucher-input">
+        <ion-list no-lines>
+            <ion-item>
+                <ion-input class="input-white" type="text" [(ngModel)]="voucherCode" placeholder="Gutscheinnummer"></ion-input>
+                <button item-right ion-button icon-only (click)="redeemVoucher()" class="button-pull-left">
+                    <ion-icon name="checkmark"></ion-icon>
+                </button>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <div class="voucher-image" text-center>
+        <ion-img src="assets/images/voucher-image.svg"></ion-img>
     </div>
 </ion-content>
