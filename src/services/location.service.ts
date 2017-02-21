@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import {Observable} from "rxjs";
 
 import 'rxjs/add/operator/map';
@@ -6,14 +6,13 @@ import {Location} from "../models/location";
 import {AuthHttp} from "angular2-jwt";
 import {AbstractApiService} from "./abstract.api.service";
 import {RequestOptions, URLSearchParams} from "@angular/http";
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class LocationService extends AbstractApiService {
 
-    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
-
-    constructor(private authHttp: AuthHttp) {
-        super();
+    constructor(private authHttp: AuthHttp, public configService: ConfigService) {
+        super(configService);
     }
 
     getLocations(params?): Observable<Array<Location>> {

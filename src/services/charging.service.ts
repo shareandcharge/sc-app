@@ -9,11 +9,11 @@ import {Location} from "../../models/location";
 import {AuthService} from "./auth.service";
 import {ErrorService} from "./error.service";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete"
+import {ConfigService} from "./config.service";
 
 
 @Injectable()
 export class ChargingService extends AbstractApiService {
-    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
     private chargingTime: number = 0;
     private progress: number = 0;
     counterInterval: any;
@@ -23,8 +23,8 @@ export class ChargingService extends AbstractApiService {
     connectorId: any;
     location: any;
 
-    constructor(private authHttp: AuthHttp, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
-        super();
+    constructor(private authHttp: AuthHttp, configService: ConfigService, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
+        super(configService);
     }
 
     checkChargingState() {
