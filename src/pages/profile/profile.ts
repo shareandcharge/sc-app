@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController, Platform, Events} from 'ionic-angular';
+import {NavController, ActionSheetController, Platform, Events, AlertController} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
@@ -17,7 +17,7 @@ import {EditPasswordPage} from "./edit-password/edit-password";
 export class ProfilePage {
     user: User = new User();
 
-    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events, private errorService: ErrorService, private alertCtrl: AlertController) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 
@@ -104,9 +104,14 @@ export class ProfilePage {
 
     resendVerificationEmail() {
         this.userService.resendVerificationEmail().subscribe((res) => {
-            console.log(res);
+            let alert = this.alertCtrl.create({
+                message: 'Die Bestätigungsemail wurde erneut versandt. Bitte prüfe Deinen Posteingang. In seltenen Fällen kann die E-Mail auch im Spamordner gelandet sein.',
+                buttons: ['Ok']
+            });
+
+            alert.present();
         }, (error) => {
-            this.errorService.displayErrorWithKey(error, 'bestätigungsmail senden')
+            this.errorService.displayErrorWithKey(error, 'Bestätigungsmail senden')
         });
     }
 }
