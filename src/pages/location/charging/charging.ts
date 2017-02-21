@@ -73,7 +73,7 @@ export class ChargingPage {
         }
         else {
             if (this.activeCar) {
-                this.updatePriceInfo(60 * 60, this.activeCar.maxCharging);
+                this.updatePriceInfo(60 * 60, this.activeCar.maxCharging, true);
             }
 
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
@@ -117,7 +117,7 @@ export class ChargingPage {
         }
     }
 
-    updatePriceInfo(secondsToCharge, maxCharging) {
+    updatePriceInfo(secondsToCharge, maxCharging, perHour: boolean = false) {
         this.locationService.getPrice(this.connector.id, {
             'secondsToCharge': secondsToCharge,
             'maxCharging': maxCharging
@@ -125,6 +125,9 @@ export class ChargingPage {
                 this.chargingPrice = response.min;
                 this.includingVat = response.vat;
                 this.chargingTypeText = this.priceProviderTariffTypes[response.type];
+                if (perHour) {
+                    this.chargingPricePerHour = response.min;
+                }
             },
             error => this.errorService.displayErrorWithKey(error, 'Preis ermitteln'));
     }
