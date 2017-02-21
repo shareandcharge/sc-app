@@ -97,4 +97,18 @@ export class UserService extends AbstractApiService {
             .map(res => res.json())
             .catch(this.handleError);
     }
+
+    resendVerificationEmail(email?) {
+        if (!email) {
+            email = this.authService.getUser().email;
+        }
+
+        let object = {
+            'email': email
+        };
+
+        return this.authHttp.post(this.baseUrl + '/users/sendVerifyEmail', JSON.stringify(object))
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
 }

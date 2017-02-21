@@ -101,4 +101,12 @@ export class ProfilePage {
             'user': this.user
         });
     }
+
+    resendVerificationEmail() {
+        this.userService.resendVerificationEmail().subscribe((res) => {
+            console.log(res);
+        }, (error) => {
+            this.errorService.displayErrorWithKey(error, 'bestätigungsmail senden')
+        });
+    }
 }
