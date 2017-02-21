@@ -5,6 +5,7 @@ import {Storage} from '@ionic/storage';
 import {Badge} from 'ionic-native';
 import {AbstractApiService} from "./abstract.api.service";
 import {LocationService} from "./location.service";
+import {Location} from "../../models/location";
 import {AuthService} from "./auth.service";
 import {ErrorService} from "./error.service";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete"
@@ -34,7 +35,10 @@ export class ChargingService extends AbstractApiService {
         let user = this.auth.getUser();
 
         this.getConnectors(user.address).subscribe((res) => {
-                if (!res.length) return;
+                if (!res.length) {
+                    this.chargingEnd();
+                    return;
+                }
 
                 /**
                  * It may be, that we have multiple connectors because
@@ -48,7 +52,10 @@ export class ChargingService extends AbstractApiService {
 
                 let connectors = res.filter(connector => connector.timeleft > 0);
 
-                if (!connectors.length) return;
+                if (!connectors.length) {
+                    this.chargingEnd();
+                    return;
+                }
 
                 connectors.sort((a, b) => {
                     if (a === b) return 0;
@@ -69,7 +76,9 @@ export class ChargingService extends AbstractApiService {
                 if (remainingTime > 0) {
                     this.resumeCharging(remainingTime, connector.secondstorent);
                 }
-
+                else {
+                    this.chargingEnd();
+                }
 
             },
             error => this.errorService.displayErrorWithKey(error, 'Liste - Connectors'));
@@ -161,6 +170,10 @@ export class ChargingService extends AbstractApiService {
 
     getChargingTime() {
         return this.chargingTime;
+    }
+
+    getLocation(): Location {
+        return this.location;
     }
 
     chargedTime() {

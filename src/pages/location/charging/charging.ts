@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, ViewController, LoadingController} from 'ionic-angular';
+import {NavController, NavParams, AlertController, ViewController, LoadingController, Events} from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 import {Connector} from "../../../models/connector";
 import {LocationService} from "../../../services/location.service";
@@ -14,7 +14,6 @@ import {Car} from "../../../models/car";
 })
 export class ChargingPage {
     location: Location;
-    chargingTime: any;
     chargingTimeHours: any;
     chargingPrice: any;
     chargingPricePerHour: any;
@@ -28,7 +27,6 @@ export class ChargingPage {
     seconds: any;
     timer: any;
     countingDown: boolean;
-    myCounter: any;
     buttonDeactive: any;
     mouseDragging: any;
     canvasX: any;
@@ -49,13 +47,12 @@ export class ChargingPage {
         'kwh'
     ];
 
-    constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService) {
+    constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService, private events: Events) {
         this.location = navParams.get("location");
         this.connector = this.location.stations[0].connectors[0];
 
         this.fromLocationDetailsAndIsCharging = navParams.get("isCharging");
 
-        this.chargingTime = 0;
         this.chargingPrice = 0;
         this.buttonDeactive = false;
         this.mouseDragging = false;
@@ -63,61 +60,22 @@ export class ChargingPage {
         this.canvasY = 140;
         this.canvasImage = new Image();
         this.canvasImage.src = 'assets/icons/battery.png';
-    }
 
-    resumeCharging() {
-        clearInterval(this.myCounter);
-        this.updateCanvas();
-
-        this.myCounter = setInterval(() => {
-            this.chargingTimeHours = this.makeTimeString(this.chargingService.getRemainingTime());
-            this.timer = this.chargingService.getRemainingTime();
-            this.updateCanvas();
-            if (this.timer <= 0) {
-                clearInterval(this.myCounter);
-                this.charging = false;
-                this.countingDown = false;
-                this.initiateCanvas();
-                this.dismiss();
-            }
-        }, 1000);
-        this.buttonDeactive = true;
-        this.countingDown = true;
-        this.locationService.getPrice(this.connector.id, {
-            'secondsToCharge': this.chargingService.getChargingTime(),
-            'maxCharging': this.carService.getActiveCar().maxCharging
-        }).subscribe((response) => {
-                this.chargingPrice = response.min;
-                this.includingVat = response.vat;
-            },
-            error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
-    }
-
-    ionViewDidLeave() {
-        clearInterval(this.myCounter);
+        events.subscribe('charging:update', () => this.chargingUpdateEvent());
     }
 
     ionViewWillEnter() {
         this.charging = this.chargingService.isCharging();
-
         this.activeCar = this.carService.getActiveCar();
-        if (this.activeCar) {
-            this.locationService.getPrice(this.connector.id, {
-                'secondsToCharge': 60 * 60,
-                'maxCharging': this.activeCar.maxCharging
-            }).subscribe((response) => {
-                    this.chargingPricePerHour = response.min;
-                    this.chargingTypeText = this.priceProviderTariffTypes[response.type];
-                    this.includingVat = response.vat;
-                },
-                error => this.errorService.displayErrorWithKey(error, 'Preis ermitteln'));
 
-        }
-
-        if (this.charging) {
-            this.resumeCharging()
+        if (this.charging && this.activeCar) {
+            this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
         }
         else {
+            if (this.activeCar) {
+                this.updatePriceInfo(60 * 60, this.activeCar.maxCharging);
+            }
+
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
             let me = this;
@@ -137,6 +95,38 @@ export class ChargingPage {
 
             this.initiateCanvas();
         }
+    }
+
+    /**
+     * called via event by the charging.service to update countdown etc.
+     */
+    chargingUpdateEvent() {
+        this.charging = this.chargingService.isCharging();
+        this.timer = this.chargingService.getRemainingTime();
+        this.chargingTimeHours = this.makeTimeString(this.timer);
+        this.updateCanvas();
+        if (this.timer <= 0) {
+            this.charging = false;
+            this.countingDown = false;
+            this.dismiss();
+        }
+
+        if (this.charging) {
+            this.buttonDeactive = true;
+            this.countingDown = true;
+        }
+    }
+
+    updatePriceInfo(secondsToCharge, maxCharging) {
+        this.locationService.getPrice(this.connector.id, {
+            'secondsToCharge': secondsToCharge,
+            'maxCharging': maxCharging
+        }).subscribe((response) => {
+                this.chargingPrice = response.min;
+                this.includingVat = response.vat;
+                this.chargingTypeText = this.priceProviderTariffTypes[response.type];
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Preis ermitteln'));
     }
 
     isScrollable(x, y) {
@@ -183,7 +173,7 @@ export class ChargingPage {
             .subscribe(
                 () => {
                     this.charging = true;
-                    this.resumeCharging();
+                    this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
                 },
                 error => this.errorService.displayErrorWithKey(error, 'Ladevorgang starten Fehler'));
     }
@@ -212,8 +202,6 @@ export class ChargingPage {
                             .subscribe(
                                 () => {
                                     this.countingDown = false;
-                                    clearInterval(this.myCounter);
-                                    this.chargingTime = 0;
                                     this.timer = 0;
                                     this.hours = "00";
                                     this.minutes = "00";
@@ -245,14 +233,7 @@ export class ChargingPage {
             self.drawSlideBar(e.offsetX, e.offsetY);
         }
         if (this.activeCar != null) {
-            this.locationService.getPrice(this.connector.id, {
-                'secondsToCharge': (this.hours * 3600) + (this.minutes * 60),
-                'maxCharging': this.carService.getActiveCar().maxCharging
-            }).subscribe((response) => {
-                    this.chargingPrice = response.min;
-                    this.includingVat = response.vat;
-                },
-                error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
+            this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), this.carService.getActiveCar().maxCharging);
         }
 
     }
@@ -266,14 +247,7 @@ export class ChargingPage {
             }
 
             if (this.activeCar != null) {
-                this.locationService.getPrice(this.connector.id, {
-                    'secondsToCharge': (this.hours * 3600) + (this.minutes * 60),
-                    'maxCharging': this.carService.getActiveCar().maxCharging
-                }).subscribe((response) => {
-                        this.chargingPrice = response.min;
-                        this.includingVat = response.vat;
-                    },
-                    error => this.errorService.displayErrorWithKey(error, 'Car Service Error'));
+                this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), this.carService.getActiveCar().maxCharging);
             }
         }
     }
@@ -368,8 +342,6 @@ export class ChargingPage {
         ctx.fill();
 
         ctx.shadowBlur = 0;
-        this.chargingTime = time;
-
     }
 
     makeTimeString(data) {

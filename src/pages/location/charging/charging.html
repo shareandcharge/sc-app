@@ -26,7 +26,7 @@
     </div>
     <div class="top-item-text">
         <ion-icon name="cust-time-money" color="secondary"></ion-icon>
-        <div class="text">
+        <div class="text" *ngIf="chargingTypeText">
             {{"tariff.types." + chargingTypeText|translate}}:
             <ng-container *ngIf="chargingPricePerHour != 0">
                 {{chargingPricePerHour/100 | currency:'EUR':true:'1.2-2'}}<span
