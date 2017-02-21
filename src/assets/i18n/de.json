@@ -1,6 +1,6 @@
 {
   "api_error": {
-    "authentification_invalid_token": "Ungültiges Token.",
+    "authentification_invalid_token": "Bitte logge Dich neu ein.",
     "authentification_token_required": "Token fehlt.",
     "not_allowed_to_change": "Änderung nicht möglich.",
     "internal_invalid_data": "Interne, ungültige Daten.",
