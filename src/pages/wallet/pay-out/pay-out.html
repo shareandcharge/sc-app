@@ -1,0 +1,38 @@
+<ion-header>
+
+    <ion-navbar>
+
+        <ion-buttons start>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+
+        <ion-title>Pay out</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+    <div class="input-box input-box-white input-box-xl margin-bottom-xl">
+        <div class="input-box-inner">
+            <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="0"></ion-input>
+            <label>€</label>
+        </div>
+    </div>
+
+    <ion-list>
+        <ion-item>
+            <ion-input [(ngModel)]="payOutObject.iban" placeholder="IBAN" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-input [(ngModel)]="payOutObject.bic" placeholder="BIC" type="text"></ion-input>
+        </ion-item>
+    </ion-list>
+
+    <div padding text-center>
+        <button ion-button (click)="payOut()" round text-uppercase="" [disabled]="!displayAmount || displayAmount<=0">
+            Geld auszahlen
+        </button>
+    </div>
+</ion-content>

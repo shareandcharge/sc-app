@@ -6,6 +6,7 @@ import {AuthService} from "../../services/auth.service";
 import {EditProfilePage} from "../profile/edit-profile/edit-profile";
 import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
 import {ErrorService} from "../../services/error.service";
+import {PayOutPage} from "./pay-out/pay-out";
 
 @Component({
     selector: 'page-wallet',
@@ -175,5 +176,9 @@ export class WalletPage {
             'transaction' : transaction
         });
         modal.present();
+    }
+
+    payOut() {
+        this.navCtrl.push(PayOutPage);
     }
 }
