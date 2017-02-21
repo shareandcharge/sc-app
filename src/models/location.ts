@@ -17,6 +17,13 @@ export class Location implements Serializable<Location> {
     metadata: {
         problemSolver: string
     };
+    ownerprofile: {
+        address: string,
+        city: string,
+        firstname: string,
+        lastname: string,
+        postalCode: string
+    };
 
     constructor() {
         this.id = '';
@@ -33,6 +40,13 @@ export class Location implements Serializable<Location> {
         this.open = true;
         this.metadata = {
             problemSolver: ''
+        };
+        this.ownerprofile = {
+            address: '',
+            city: '',
+            firstname: '',
+            lastname: '',
+            postalCode: ''
         };
     }
 
@@ -71,6 +85,7 @@ export class Location implements Serializable<Location> {
         this.active = input.active;
         this.open = input.open;
         this.metadata = input.metadata;
+        this.ownerprofile = input.ownerprofile;
 
         this.images = input.images;
         for (let image of this.images) {
