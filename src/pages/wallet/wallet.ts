@@ -57,7 +57,7 @@ export class WalletPage {
     }
 
     clearAllIntervals() {
-        while(this.intervals.length) {
+        while (this.intervals.length) {
             let interval = this.intervals.pop();
             clearInterval(interval);
         }
@@ -150,13 +150,13 @@ export class WalletPage {
     pollPendingTransactions() {
         this.pendingTransactions.forEach((transaction) => {
             let orderId = transaction.order.id;
-            this.intervals.push(setInterval(() => this.checkForUpdate(orderId), 3000));
+            this.intervals.push(setInterval(() => this.checkForUpdate(transaction.order.tokenstatus, orderId), 3000));
         })
     }
 
-    checkForUpdate(orderId) {
+    checkForUpdate(oldStatus, orderId) {
         this.paymentService.getPaymentStatus(orderId).subscribe((res) => {
-            if (res.tokenstatus === 'createToken') {
+            if (res.tokenstatus !== oldStatus) {
                 this.events.publish('history:update');
             }
         });
