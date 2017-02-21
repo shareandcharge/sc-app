@@ -34,6 +34,12 @@ location-details {
 
   .footer-price {
     margin-left: 5px;
+    ion-icon {
+      font-size: 20px;
+      position: relative;
+      top: 3px;
+      left: 5px;
+    }
   }
   .footer-rating {
     margin-top: 5px;
