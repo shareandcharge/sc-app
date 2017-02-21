@@ -28,6 +28,12 @@ export class PaymentService extends AbstractApiService {
             .catch(this.handleError);
     }
 
+    payOut(payOutObject) {
+        return this.authHttp.post(this.baseUrl + '/wallet/payOut', JSON.stringify(payOutObject))
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     getPaymentStatus(orderId) {
         return this.authHttp.get(this.baseUrl + '/wallet/paymentStatus/' + orderId)
             .map(res => res.json())
