@@ -56,20 +56,16 @@ export class MyApp {
 
 
             this.storage.get('introShown').then((result) => {
-
                 this.rootPage = TabsPage;
                 if (!result) {
                     this.storage.set('introShown', true);
                     let introModal = this.modalCtrl.create(IntroPage);
                     introModal.present();
                 }
-
-                this.loader.dismiss();
             });
 
             StatusBar.styleDefault();
         });
-        this.presentLoading();
     }
 
     checkExistingToken() {
@@ -79,16 +75,6 @@ export class MyApp {
 
     checkChargingProgress() {
         this.chargingService.checkChargingState();
-    }
-
-    presentLoading() {
-
-        this.loader = this.loadingCtrl.create({
-            content: "Authenticating..."
-        });
-
-        this.loader.present();
-
     }
 
     refreshUser() {
