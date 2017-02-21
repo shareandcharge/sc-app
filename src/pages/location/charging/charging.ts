@@ -68,14 +68,15 @@ export class ChargingPage {
         this.charging = this.chargingService.isCharging();
         this.activeCar = this.carService.getActiveCar();
 
+        if (this.activeCar) {
+            //-- always read+set the hourly price
+            this.updatePriceInfo(60 * 60, this.activeCar.maxCharging, true);
+        }
+
         if (this.charging && this.activeCar) {
             this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
         }
         else {
-            if (this.activeCar) {
-                this.updatePriceInfo(60 * 60, this.activeCar.maxCharging, true);
-            }
-
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
 
             let me = this;
@@ -178,7 +179,7 @@ export class ChargingPage {
                     this.charging = true;
                     this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Ladevorgang starten Fehler'));
+                error => this.errorService.displayErrorWithKey(error, 'Ladevorgang starten'));
     }
 
     stopCharging() {
@@ -214,7 +215,7 @@ export class ChargingPage {
                                     this.didStop = true;
                                     this.dismiss();
                                 },
-                                error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen Fehler'));
+                                error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen'));
                     }
                 }
             ]

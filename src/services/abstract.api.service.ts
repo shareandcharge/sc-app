@@ -17,7 +17,7 @@ export abstract class AbstractApiService {
 
         if (error instanceof Response) {
             if (error.status == 0) {
-                errMsg = 'No connection';
+                errMsg = 'Keine Verbindung.';
             }
             else {
                 let body;
