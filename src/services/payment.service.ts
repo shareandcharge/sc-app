@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "angular2-jwt";
 import {AbstractApiService} from "./abstract.api.service";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class PaymentService extends AbstractApiService {
@@ -38,5 +39,13 @@ export class PaymentService extends AbstractApiService {
         return this.authHttp.get(this.baseUrl + '/wallet/paymentStatus/' + orderId)
             .map(res => res.json())
             .catch(this.handleError);
+    }
+
+    redeemVoucher(voucherCode) {
+        let object = {
+            'code' : voucherCode
+        };
+
+        return Observable.of(object);
     }
 }

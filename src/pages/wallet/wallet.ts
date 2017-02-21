@@ -7,6 +7,7 @@ import {EditProfilePage} from "../profile/edit-profile/edit-profile";
 import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
 import {ErrorService} from "../../services/error.service";
 import {PayOutPage} from "./pay-out/pay-out";
+import {VoucherPage} from "./voucher/voucher";
 
 @Component({
     selector: 'page-wallet',
@@ -180,5 +181,9 @@ export class WalletPage {
 
     payOut() {
         this.navCtrl.push(PayOutPage);
+    }
+
+    redeemVoucher() {
+        this.navCtrl.push(VoucherPage);
     }
 }
