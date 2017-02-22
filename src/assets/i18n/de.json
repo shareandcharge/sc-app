@@ -42,7 +42,12 @@
     "email_already_used": "Ein Zugang mit dieser E-Mail Adresse besteht bereits.",
     "register_error": "Bitte gib eine gültige E-Mail Adresse an. Das Passwort muss mindestens 7 Zeichen lang sein.",
     "user_update_error": "Die Profildaten konnten nicht aktualisiert werden.",
-    "chargingsstation_will_be_closed": "Zu diesem Zeitpunkt ist die Station geschlossen."
+    "chargingsstation_will_be_closed": "Zu diesem Zeitpunkt ist die Station geschlossen.",
+    "invalid_voucher": "Der Gutschein ist leider ungültig!",
+    "used_voucher": "Der Gutschein wurde bereits verwendet!",
+    "expired_voucher": "Der Gutschein ist leider nicht mehr gültig!",
+    "no_voucheraccount": "Kein Gutscheinaccount angegeben.",
+    "voucher_balance_too_low": "Es sind nicht ausreichend Tokens verfügbar, um den Gutschein auszuzuahlen."
   },
   "payment": {
     "types": {
