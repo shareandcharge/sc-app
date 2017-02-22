@@ -74,6 +74,7 @@ export class ChargingService extends AbstractApiService {
 
                 let remainingTime = Math.floor(connector.timeleft);
                 if (remainingTime > 0) {
+                    this.connectorId = connector.id;
                     this.resumeCharging(remainingTime, connector.secondstorent);
                 }
                 else {
@@ -197,7 +198,10 @@ export class ChargingService extends AbstractApiService {
             if (--this.timer < 0) {
                 clearInterval(me.counterInterval);
                 this.stopCharging(this.connectorId)
-                    .subscribe(() => this.presentToast(this.chargingTime));
+                    .subscribe(
+                        () => this.presentToast(this.chargingTime),
+                        error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen')
+                    );
             }
             let chargedTime = this.chargingTime - this.timer;
             this.progress = Math.floor((100 * chargedTime) / this.chargingTime);
