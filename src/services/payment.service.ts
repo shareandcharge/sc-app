@@ -43,9 +43,15 @@ export class PaymentService extends AbstractApiService {
 
     redeemVoucher(voucherCode) {
         let object = {
-            'code' : voucherCode
+            'voucher' : voucherCode
         };
 
-        return Observable.of(object);
+        return this.authHttp.post(this.baseUrl + '/wallet/voucher', JSON.stringify(object))
+            .map(res => {
+                if (res.text()) {
+                    res.json()
+                }
+            })
+            .catch(this.handleError);
     }
 }
