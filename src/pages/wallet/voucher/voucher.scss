@@ -1,0 +1,66 @@
+voucher-page {
+  ion-content {
+    .scroll-content {
+      .voucher-top {
+        position:relative;
+        padding: 0;
+        height: 250px;
+        font-size: 2.5rem;
+        color: #fff;
+
+        background-image: url('../assets/images/voucher-background.png');
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-size: 100% 100%;
+
+        ion-buttons {
+          button {
+            box-shadow: none;
+          }
+        }
+
+        .voucher-text {
+          margin-top: 80px;
+        }
+      }
+
+      .voucher-input {
+        .list-md {
+          .item-input:last-child {
+            border: none;
+          }
+        }
+
+        margin-top: 50px;
+      }
+
+      .voucher-error {
+        margin-top: 50px;
+        font-size: 2.5rem;
+        color: map_get($colors, 'danger');
+      }
+
+      .voucher-success {
+        margin-top: 20px;
+        font-size: 2.5rem;
+        color: map_get($colors, 'primary');
+      }
+
+      .voucher-image {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+
+        ion-img {
+          bottom: 0;
+          position: absolute;
+          left: 50%;
+          margin-left: -75px;
+          width: 150px;
+          height: 150px;
+          background: none;
+        }
+      }
+    }
+  }
+}

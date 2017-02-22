@@ -38,4 +38,18 @@ export class PaymentService extends AbstractApiService {
             .map(res => res.json())
             .catch(this.handleError);
     }
+
+    redeemVoucher(voucherCode) {
+        let object = {
+            'voucher' : voucherCode
+        };
+
+        return this.authHttp.post(this.baseUrl + '/wallet/voucher', JSON.stringify(object))
+            .map(res => {
+                if (res.text()) {
+                    res.json()
+                }
+            })
+            .catch(this.handleError);
+    }
 }

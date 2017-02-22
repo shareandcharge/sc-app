@@ -51,6 +51,11 @@
     "user_not_controlling": "Sie kontrollieren die Ladestation nicht und können die Transaktion deshalb nicht stoppen.",
     "not_started": "Der Ladevorgang wurde bereits beendet.",
     "already_stopping": "Der Ladevorgang wird bereits beendet."
+    "invalid_voucher": "Der Gutschein ist leider ungültig!",
+    "used_voucher": "Der Gutschein wurde bereits verwendet!",
+    "expired_voucher": "Der Gutschein ist leider nicht mehr gültig!",
+    "no_voucheraccount": "Kein Gutscheinaccount angegeben.",
+    "voucher_balance_too_low": "Es sind nicht ausreichend Tokens verfügbar, um den Gutschein auszuzuahlen."
   },
   "payment": {
     "types": {
