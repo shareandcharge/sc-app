@@ -25,7 +25,8 @@ export class WalletPage {
         SUCCESS : 'TokenUpdate',
         PENDING : 'TokenUpdate-pending',
         RECEIVED : 'Received',
-        SEND : 'Send'
+        SEND : 'Send',
+        VOUCHER : 'Voucher'
     };
 
     iconSourceMap = {
@@ -36,6 +37,7 @@ export class WalletPage {
         'Received' : 'assets/icons/wallet-pole.png',
         'Send' : 'assets/icons/wallet-charge.png',
         'payOut' : 'assets/icons/wallet-payout.png',
+        'Voucher' : 'assets/icons/wallet-voucher.png',
     };
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController, private errorService: ErrorService) {
@@ -80,6 +82,10 @@ export class WalletPage {
                     this.paymentHistory.forEach((transaction) => {
                         if (transaction.type === this.TRANSACTION_TYPES.PENDING) {
                             this.pendingTransactions.push(transaction);
+                        }
+
+                        if (transaction.type === this.TRANSACTION_TYPES.VOUCHER) {
+                            transaction.voucher = true;
                         }
                     });
 
