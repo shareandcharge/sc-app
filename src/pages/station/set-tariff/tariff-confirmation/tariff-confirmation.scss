@@ -26,6 +26,7 @@ tariff-confirmation {
 
   ion-grid {
     ion-row {
+      font-size: 90%;
       ion-col:first-child {
         font-size: 80%;
       }
@@ -36,8 +37,8 @@ tariff-confirmation {
     font-size: 90%;
   }
 
-  ion-icon {
-    width: 10px;
+  ion-icon[name="cust-station"] {
+    width: 13px;
   }
 
   .disabled {

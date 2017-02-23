@@ -62,6 +62,8 @@ import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transact
 import {EditPasswordPage} from "../pages/profile/edit-password/edit-password";
 import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-password";
 import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
+import {PayOutPage} from "../pages/wallet/pay-out/pay-out";
+import {VoucherPage} from "../pages/wallet/voucher/voucher";
 
 
 let storage = new Storage();
@@ -125,7 +127,9 @@ export function createTranslateLoader(http: Http) {
         TransactionDetailPage,
         EditPasswordPage,
         ForgotPasswordPage,
-        TariffConfirmationPage
+        TariffConfirmationPage,
+        PayOutPage,
+        VoucherPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -180,7 +184,9 @@ export function createTranslateLoader(http: Http) {
         TransactionDetailPage,
         EditPasswordPage,
         ForgotPasswordPage,
-        TariffConfirmationPage
+        TariffConfirmationPage,
+        PayOutPage,
+        VoucherPage
     ],
     providers: [
         {

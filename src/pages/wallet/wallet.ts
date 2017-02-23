@@ -6,6 +6,8 @@ import {AuthService} from "../../services/auth.service";
 import {EditProfilePage} from "../profile/edit-profile/edit-profile";
 import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
 import {ErrorService} from "../../services/error.service";
+import {PayOutPage} from "./pay-out/pay-out";
+import {VoucherPage} from "./voucher/voucher";
 
 @Component({
     selector: 'page-wallet',
@@ -23,7 +25,8 @@ export class WalletPage {
         SUCCESS : 'TokenUpdate',
         PENDING : 'TokenUpdate-pending',
         RECEIVED : 'Received',
-        SEND : 'Send'
+        SEND : 'Send',
+        VOUCHER : 'Voucher'
     };
 
     iconSourceMap = {
@@ -33,7 +36,8 @@ export class WalletPage {
         'paypal' : 'assets/icons/wallet-paypal.png',
         'Received' : 'assets/icons/wallet-pole.png',
         'Send' : 'assets/icons/wallet-charge.png',
-        'payOut' : 'assets/icons/wallet-payout.png',
+        'Voucher' : 'assets/icons/wallet-voucher.png',
+        'payout' : 'assets/icons/wallet-payout.png'
     };
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController, private errorService: ErrorService) {
@@ -57,7 +61,7 @@ export class WalletPage {
     }
 
     clearAllIntervals() {
-        while(this.intervals.length) {
+        while (this.intervals.length) {
             let interval = this.intervals.pop();
             clearInterval(interval);
         }
@@ -78,6 +82,10 @@ export class WalletPage {
                     this.paymentHistory.forEach((transaction) => {
                         if (transaction.type === this.TRANSACTION_TYPES.PENDING) {
                             this.pendingTransactions.push(transaction);
+                        }
+
+                        if (transaction.type === this.TRANSACTION_TYPES.VOUCHER) {
+                            transaction.voucher = true;
                         }
                     });
 
@@ -100,6 +108,10 @@ export class WalletPage {
         error => this.errorService.displayErrorWithKey(error, 'Abfrage Kontostand'));
 
         return observable;
+    }
+
+    absoluteValue(number) {
+        return Math.abs(number);
     }
 
     addMoney() {
@@ -150,13 +162,13 @@ export class WalletPage {
     pollPendingTransactions() {
         this.pendingTransactions.forEach((transaction) => {
             let orderId = transaction.order.id;
-            this.intervals.push(setInterval(() => this.checkForUpdate(orderId), 3000));
+            this.intervals.push(setInterval(() => this.checkForUpdate(transaction.order.tokenstatus, orderId), 3000));
         })
     }
 
-    checkForUpdate(orderId) {
+    checkForUpdate(oldStatus, orderId) {
         this.paymentService.getPaymentStatus(orderId).subscribe((res) => {
-            if (res.tokenstatus === 'createToken') {
+            if (res.tokenstatus !== oldStatus) {
                 this.events.publish('history:update');
             }
         });
@@ -175,5 +187,13 @@ export class WalletPage {
             'transaction' : transaction
         });
         modal.present();
+    }
+
+    payOut() {
+        this.navCtrl.push(PayOutPage);
+    }
+
+    redeemVoucher() {
+        this.navCtrl.push(VoucherPage);
     }
 }

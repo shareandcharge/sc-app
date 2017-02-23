@@ -1,0 +1,30 @@
+<ion-content>
+    <div class="voucher-top" text-center>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+        <div class="voucher-text">
+            Gutschein einlösen
+        </div>
+    </div>
+
+    <div class="voucher-input" *ngIf="!(redeemSuccess || redeemError)">
+        <ion-list no-lines>
+            <ion-item>
+                <ion-input class="input-white" type="text" [(ngModel)]="voucherCode" placeholder="Gutscheinnummer"></ion-input>
+                <button item-right ion-button icon-only (click)="redeemVoucher()" class="button-pull-left">
+                    <ion-icon name="checkmark"></ion-icon>
+                </button>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <div class="voucher-error" text-center padding *ngIf="redeemError">{{errorMessage}}</div>
+    <div class="voucher-success" text-center padding *ngIf="redeemSuccess"><h1>Hurra!</h1>Der Gutschein wurde Deinem Konto gutgeschrieben!</div>
+
+    <div class="voucher-image" text-center>
+        <ion-img src="assets/images/voucher-image.svg"></ion-img>
+    </div>
+</ion-content>

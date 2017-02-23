@@ -1,7 +1,7 @@
 import {Component, ViewChild, ElementRef, NgZone} from '@angular/core';
 import {
     NavController, ModalController, LoadingController, PopoverController, Events,
-    FabContainer
+    FabContainer, ToastController
 } from 'ionic-angular';
 import {Geolocation, InAppBrowser} from 'ionic-native';
 import {Platform} from 'ionic-angular';
@@ -49,6 +49,8 @@ export class MapPage {
     mapDefaultControlls: boolean;
     locations: Array<Location>;
 
+    currentLocationLoading: boolean = false;
+
     viewType: string;
 
     visibleLocations = [];
@@ -65,7 +67,7 @@ export class MapPage {
     autocompleteItems: any;
     autocompleteService: any;
 
-    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService, private zone: NgZone, private errorService: ErrorService) {
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService, private zone: NgZone, private errorService: ErrorService, private toastCtrl: ToastController) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -158,7 +160,7 @@ export class MapPage {
 
             let panes = this.getPanes();
             panes.overlayLayer.appendChild(currentPositionDiv);
-        }
+        };
 
         this.currentPositionOverlay.draw = function () {
             let point = this.getProjection().fromLatLngToDivPixel(me.currentLatLng);
@@ -167,35 +169,53 @@ export class MapPage {
                 currentPositionDiv.style.left = (point.x - 10) + 'px';
                 currentPositionDiv.style.top = (point.y - 10) + 'px';
             }
-        }
+        };
 
         this.currentPositionOverlay.onRemove = function() {
             currentPositionDiv.parentNode.removeChild(currentPositionDiv);
             currentPositionDiv = null;
-        }
+        };
 
         this.currentPositionOverlay.setMap(this.map);
     }
 
     centerCurrentPosition() {
+        if (this.currentLocationLoading) return;
+
         if (typeof this.currentPositionOverlay === 'undefined') {
             this.initializeCurrentPositionOverlay();
         }
 
-        let loader = this.loadingCtrl.create({
-            content: "Ermittle Deinen Standort ...",
-        });
-        loader.present();
+        let timeout = 10000;
 
-        Geolocation.getCurrentPosition().then((position) => {
+        let toast = this.toastCtrl.create({
+            message: "Wir ermitteln Deinen Standort ...",
+            position: "top",
+            dismissOnPageChange: true,
+            duration: timeout,
+            showCloseButton: true,
+            closeButtonText: 'X'
+        });
+
+        toast.present();
+        this.currentLocationLoading = true;
+
+        let options = {
+            maximumAge: 10000, timeout: timeout, enableHighAccuracy: false
+        };
+
+        Geolocation.getCurrentPosition(options).then((position) => {
             this.currentLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             this.map.setZoom(this.currentPositionZoom);
             this.map.setCenter(this.currentLatLng);
 
-            loader.dismissAll();
+            toast.dismiss();
+            this.currentLocationLoading = false;
         }, (err) => {
             console.log(err);
-            loader.dismissAll();
+            toast.dismiss();
+
+            this.currentLocationLoading = false;
         });
     }
 

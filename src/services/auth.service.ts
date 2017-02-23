@@ -52,4 +52,9 @@ export class AuthService {
     setUser(user: User) {
         this.user = user;
     }
+
+    setToken(token: string) {
+        this.storage.set(this.STORAGE_TOKEN_NAME, token)
+            .then(() => this.token = token);
+    }
 }

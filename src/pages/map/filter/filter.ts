@@ -17,17 +17,13 @@ export class MapFilterPage {
         this.toggledPlugs = this.navParams.get('toggledPlugs');
 
         this.configService.getPlugTypes().subscribe((plugTypes) => {
-            this.plugTypes = plugTypes;
+                this.plugTypes = plugTypes;
 
-            this.plugTypes.forEach((plug) => {
-                plug.toggled = false;
-
-                if (this.toggledPlugs.length === 0 || this.toggledPlugs.indexOf(plug.id) !== -1) {
-                    plug.toggled = true;
-                }
-            })
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'))
+                this.plugTypes.forEach((plug) => {
+                    plug.toggled = this.toggledPlugs.length === 0 || this.toggledPlugs.indexOf(plug.id) !== -1;
+                })
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'))
     }
 
     skipSanitizer(svg) {
@@ -45,6 +41,14 @@ export class MapFilterPage {
 
         if (toggledPlugs.length == this.plugTypes.length) {
             toggledPlugs = [];
+        }
+        else if (!toggledPlugs.length) {
+            /**
+             * if all types are turned off (which not really makes sense because the locations
+             * list will be empty then), we filter for a (hopefully) non existend plug type to get
+             * an empty list. (we don't set plug filter in the api call if all types are selected...)
+             */
+            toggledPlugs.push(99999);
         }
 
         this.viewCtrl.dismiss(toggledPlugs);

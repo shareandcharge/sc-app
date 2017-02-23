@@ -45,7 +45,7 @@ export class EditPasswordPage {
         }
 
         return {
-            "not equal" : true
+            "not equal": true
         }
     }
 
@@ -59,18 +59,21 @@ export class EditPasswordPage {
 
     updatePassword() {
         this.submitAttempt = true;
-        if (this.passwordForm.valid) {
-            this.user.authentification.password = this.newPassword;
-            this.user.authentification.old_password = this.oldPassword;
-
-            this.userService.updateUser(this.user)
-                .subscribe(
-                    () => {
-                        this.authService.setUser(this.user);
-                        this.events.publish('users:updated');
-                        this.navCtrl.pop();
-                    },
-                    error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+        if (!this.passwordForm.valid) {
+            return;
         }
+
+        this.user.authentification.password = this.newPassword;
+        this.user.authentification.old_password = this.oldPassword;
+
+        this.userService.updateUser(this.user)
+            .subscribe(
+                (user) => {
+                    this.authService.setUser(user);
+                    this.events.publish('users:updated');
+                    this.navCtrl.pop();
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+
     }
 }

@@ -6,14 +6,13 @@ import {Location} from "../models/location";
 import {AuthHttp} from "angular2-jwt";
 import {AbstractApiService} from "./abstract.api.service";
 import {RequestOptions, URLSearchParams} from "@angular/http";
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class LocationService extends AbstractApiService {
 
-    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
-
-    constructor(private authHttp: AuthHttp) {
-        super();
+    constructor(private authHttp: AuthHttp, public configService: ConfigService) {
+        super(configService);
     }
 
     getLocations(params?): Observable<Array<Location>> {
@@ -105,10 +104,11 @@ export class LocationService extends AbstractApiService {
             .catch(this.handleError);
     }
 
-    getEstimatedPrice(pricePerHour, pricePerKW) {
+    getEstimatedPrice(pricePerHour, pricePerKW, maxWattPower) {
         let searchParams: URLSearchParams = new URLSearchParams();
         searchParams.set('pricePerHour', pricePerHour);
         searchParams.set('pricePerKW', pricePerKW);
+        searchParams.set('maxWattPower', maxWattPower);
 
         let options = new RequestOptions({search: searchParams});
 

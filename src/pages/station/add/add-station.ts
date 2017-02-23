@@ -39,8 +39,8 @@ export class AddStationPage {
     station: Station;
     connector: Connector;
 
-    defaultCenterLat = 52.502145;
-    defaultCenterLng = 13.414476;
+    defaultCenterLat = 52.5167693;
+    defaultCenterLng = 13.3773908;
 
     map: any;
     marker: any;
@@ -215,6 +215,8 @@ export class AddStationPage {
             this.station.connectors.push(this.connector);
 
             this.setDefaultWeekcalendar();
+
+            this.updateSelectedDays();
         }
 
         this.events.publish('flowMode:save', this.flowMode);
@@ -428,12 +430,17 @@ export class AddStationPage {
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
         if (this.flowMode == 'add') {
-            Geolocation.getCurrentPosition().then((position) => {
-                this.positionMarker(position.coords.latitude, position.coords.longitude);
-            }, (err) => {
-                //console.error(err);
-                this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
-            });
+            let options = {
+                maximumAge: 10000, timeout: 10000
+            };
+
+            Geolocation.getCurrentPosition(options).then(
+                (position) => {
+                    this.positionMarker(position.coords.latitude, position.coords.longitude);
+                },
+                () => {
+                    this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
+                });
         }
         else {
             this.positionMarker(this.locObject.lat, this.locObject.lng);
@@ -531,7 +538,7 @@ export class AddStationPage {
     updateSelectedDays() {
         for (let day of this.connector.weekcalendar.hours) {
             day.from = 0;
-            day.to = 0;
+            day.to = 24;
         }
 
         for (let weekday of this.weekdays) {
@@ -540,19 +547,19 @@ export class AddStationPage {
         }
     }
 
-    setSelectedDayDefault(day){
+    setSelectedDayDefault(day) {
         day.from = 0;
-        day.to = 0;
+        day.to = 24;
     }
 
     resetWeekcalendar() {
         for (let day of this.connector.weekcalendar.hours) {
             day.from = 0;
-            day.to = 0;
+            day.to = 24;
 
             this.weekdays = [];
             this.from = 0;
-            this.to = 0;
+            this.to = 24;
         }
     }
 

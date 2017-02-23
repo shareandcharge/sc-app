@@ -3,16 +3,29 @@
     <ion-navbar>
         <ion-title></ion-title>
         <ion-buttons end>
-            <button ion-button icon-only (click)="goToHome()">
+            <button ion-button icon-only (click)="goToEnd()">
                 <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
 
-<ion-content class="content-white" padding>
+<ion-content class="content-white">
     <div class="top-container">
         <ion-slides #mySlider [pager]="true" (ionSlideDidChange)="slideChanged()">
+
+            <ion-slide class="first-slide">
+                <div class="img-wrapper"><img src="assets/icons/sc-icon.png"></div>
+                <h2>Herzlich Willkommen!</h2>
+                <div class="text-wrapper">
+                    Als früher E-Mobilisten kennst Du es bestimmt bereits: Einer muss immer der Erste sein! Und
+                    heute
+                    bist Du das! Wir freuen uns darauf unsere Community gemeinsam mit Dir wachsen zu sehen.<br>
+                    Danke, dass Du dabei bist!
+                    <br><br>
+                    Dein Share&Charge Team
+                </div>
+            </ion-slide>
 
             <ion-slide>
                 <div class="img-wrapper"><img src="assets/images/intro/01.gif"></div>
@@ -46,10 +59,10 @@
             <ion-grid>
                 <ion-row>
                     <ion-col width-50 text-left>
-                        <a href="#" class="dark" (click)="goToHome()">Überspringen</a>
+                        <a href="#" class="dark" (click)="goToEnd()">Überspringen</a>
                     </ion-col>
                     <ion-col width-50 text-right>
-                        <a href="#" (click)="changeSlide()">{{sliderText}}</a>
+                        <a href="#" (click)="goToNext()">{{isEnd ? 'Fertig' : 'Weiter'}}</a>
                     </ion-col>
                 </ion-row>
             </ion-grid>

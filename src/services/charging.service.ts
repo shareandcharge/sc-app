@@ -5,14 +5,15 @@ import {Storage} from '@ionic/storage';
 import {Badge} from 'ionic-native';
 import {AbstractApiService} from "./abstract.api.service";
 import {LocationService} from "./location.service";
+import {Location} from "../../models/location";
 import {AuthService} from "./auth.service";
 import {ErrorService} from "./error.service";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete"
+import {ConfigService} from "./config.service";
 
 
 @Injectable()
 export class ChargingService extends AbstractApiService {
-    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
     private chargingTime: number = 0;
     private progress: number = 0;
     counterInterval: any;
@@ -22,8 +23,8 @@ export class ChargingService extends AbstractApiService {
     connectorId: any;
     location: any;
 
-    constructor(private authHttp: AuthHttp, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
-        super();
+    constructor(private authHttp: AuthHttp, configService: ConfigService, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
+        super(configService);
     }
 
     checkChargingState() {
@@ -33,11 +34,36 @@ export class ChargingService extends AbstractApiService {
 
         let user = this.auth.getUser();
 
-        this.getConnectors(user.address).subscribe((a) => {
-            if (a.length > 0) {
-                //-- @LOOK if we're charging on mutiple connectors, use latest.
-                //      sometimes the old one is already "0" but still in the list
-                let connector = a.pop();
+        this.getConnectors(user.address).subscribe((res) => {
+                if (!res.length) {
+                    this.chargingEnd();
+                    return;
+                }
+
+                /**
+                 * It may be, that we have multiple connectors because
+                 * we charge at multiple stations; the list also contains
+                 * connectors where timeLeft=0 but have not beend removed, yet.
+                 *
+                 * To determine the connector for which we want to show the progress,
+                 * we first remove all expired (timeLeft=0) the sort by timeLeft
+                 * ascending and choose the first (the oldest).
+                 */
+
+                let connectors = res.filter(connector => connector.timeleft > 0);
+
+                if (!connectors.length) {
+                    this.chargingEnd();
+                    return;
+                }
+
+                connectors.sort((a, b) => {
+                    if (a === b) return 0;
+                    return (a < b ) ? -1 : 1;
+                });
+
+                let connector = connectors.shift();
+
                 this.getStation(connector.station).subscribe((res) => {
                         this.locService.getLocation(res.location).subscribe((loc) => {
                                 this.location = loc;
@@ -48,12 +74,15 @@ export class ChargingService extends AbstractApiService {
 
                 let remainingTime = Math.floor(connector.timeleft);
                 if (remainingTime > 0) {
+                    this.connectorId = connector.id;
                     this.resumeCharging(remainingTime, connector.secondstorent);
                 }
+                else {
+                    this.chargingEnd();
+                }
 
-            }
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Liste - Connectors'));
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Connectors'));
     }
 
     getConnectors(userAddress: string) {
@@ -89,6 +118,7 @@ export class ChargingService extends AbstractApiService {
 
     startCharging(connectorId, secondsToCharge, maxCharging, location) {
         this.location = location;
+        this.timer = secondsToCharge;
 
         let chargingData = {
             "maxCharging": parseInt(maxCharging),
@@ -143,6 +173,10 @@ export class ChargingService extends AbstractApiService {
         return this.chargingTime;
     }
 
+    getLocation(): Location {
+        return this.location;
+    }
+
     chargedTime() {
         return this.chargingTime - this.timer;
     }
@@ -164,7 +198,10 @@ export class ChargingService extends AbstractApiService {
             if (--this.timer < 0) {
                 clearInterval(me.counterInterval);
                 this.stopCharging(this.connectorId)
-                    .subscribe(() => this.presentToast(this.chargingTime));
+                    .subscribe(
+                        () => this.presentToast(this.chargingTime),
+                        error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen')
+                    );
             }
             let chargedTime = this.chargingTime - this.timer;
             this.progress = Math.floor((100 * chargedTime) / this.chargingTime);

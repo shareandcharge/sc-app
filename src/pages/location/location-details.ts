@@ -1,5 +1,7 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, NavParams, ViewController, LoadingController, Platform, ModalController} from 'ionic-angular';
+import {
+    NavParams, ViewController, Platform, ModalController, AlertController
+} from 'ionic-angular';
 import {MapDetailPage} from "./details-map/map";
 import {AddRatingPage} from "../rating/add-rating";
 import {AuthService} from "../../services/auth.service";
@@ -64,9 +66,7 @@ export class LocationDetailPage {
     includingVat: boolean;
     flatrateTariff: boolean;
 
-    constructor(private navCtrl: NavController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService) {
-
-        this.charging = this.chargingService.isCharging();
+    constructor(private alertCtrl: AlertController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService) {
 
         this.location = new Location();
         this.station = new Station();
@@ -114,6 +114,7 @@ export class LocationDetailPage {
     }
 
     ionViewWillEnter() {
+        this.charging = this.chargingService.isCharging();
         this.getLocationDetail();
     }
 
@@ -177,11 +178,11 @@ export class LocationDetailPage {
         }
 
         this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
-           this.maxPrice = response.max;
-           this.minPrice = response.min;
-           this.includingVat = response.vat;
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Preisabfrage'));
+                this.maxPrice = response.max;
+                this.minPrice = response.min;
+                this.includingVat = response.vat;
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Preisabfrage'));
     }
 
     getRatings() {
@@ -246,28 +247,7 @@ export class LocationDetailPage {
         return averageRating;
     }
 
-    fullStars(value: number): Array<number> {
-        console.log('fullStars for', value, ':', Array(Math.floor(value)));
-        return Array(Math.floor(value));
-    }
-
-    displayHalfStars(value: number): boolean {
-        console.log('halfStars for', value, ':', Math.floor(value) != value);
-        return Math.floor(value) != value;
-    }
-
-    emptyStars(value: number): Array<number> {
-        console.log('emptyStars for', value, ':', Array(5 - Math.ceil(value)));
-        return Array(5 - Math.ceil(value));
-    }
-
     loadMap() {
-
-        // let loader = this.loadingCtrl.create({
-        //     content: "Loading map ...",
-        // });
-        // loader.present();
-
         let latLng = new google.maps.LatLng(this.location.lat, this.location.lng);
 
         let mapOptions = {
@@ -282,7 +262,7 @@ export class LocationDetailPage {
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-        let image = this.location.isRented() ? 'marker-busy.png' : 'marker-available.png';
+        let image = this.location.isRented() || this.location.isClosed() ? 'marker-busy.png' : 'marker-available.png';
         let icon = `assets/icons/${image}`;
 
         new google.maps.Marker({
@@ -290,11 +270,6 @@ export class LocationDetailPage {
             map: this.map,
             icon: icon
         });
-
-        google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
-            // loader.dismissAll();
-        });
-
     }
 
     openMapsApp() {
@@ -326,8 +301,10 @@ export class LocationDetailPage {
 
     charge() {
         if (this.authService.loggedIn()) {
+            let location = this.charging ? this.chargingService.getLocation() : this.location;
+
             let chargingModal = this.modalCtrl.create(ChargingPage, {
-                "location": this.location,
+                "location": location,
                 "isCharging": this.charging
             });
 
@@ -349,5 +326,23 @@ export class LocationDetailPage {
             this.loginModal();
         }
 
+    }
+
+    showHelp(type) {
+        let message = "";
+
+        if ("price-range" === type) {
+            message = "Sollte Dir hier kein exakter Preis, sondern eine Preisspanne angezeigt werden, " +
+                "dann liegt es daran, dass Du Deinem Profil noch kein Elektroauto hinzugefügt hast. " +
+                "Da die Batteriekapazität als Berechnungsgrundlage gilt, werden hier die Preise " +
+                "für verschiedene Batteriekapazitäten angezeigt.";
+        }
+
+        let alert = this.alertCtrl.create({
+            title: 'Info',
+            message: message,
+            buttons: ['Ok']
+        });
+        alert.present();
     }
 }

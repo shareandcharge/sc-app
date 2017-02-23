@@ -38,9 +38,9 @@ export class TariffConfirmationPage {
 
     types = ['public', 'private'];
     names = {
-        'public' : 'Community Tarif',
-        'private' : 'Familie & Freunde Tarif'
-    }
+        'public': 'Community Tarif',
+        'private': 'Familie & Freunde Tarif'
+    };
 
     constructor(private navParams: NavParams, private events: Events, private userService: UserService, private errorService: ErrorService, private locationService: LocationService, private navCtrl: NavController) {
         this.location = navParams.get('location');
@@ -51,11 +51,11 @@ export class TariffConfirmationPage {
         this.flowMode = navParams.get('flowMode');
 
         this.userService.getUser().subscribe((user) => {
-            this.user = user;
-        },
-        (error) => {
-            this.errorService.displayErrorWithKey(error, "Lade angemeldeten Nutzer");
-        });
+                this.user = user;
+            },
+            (error) => {
+                this.errorService.displayErrorWithKey(error, "Lade angemeldeten Nutzer");
+            });
 
         for (let type of this.types) {
             this.loadPrices(type);
@@ -87,7 +87,9 @@ export class TariffConfirmationPage {
                 break;
         }
 
-        this.locationService.getEstimatedPrice(pricePerHour, pricePerKW)
+        let maxWattPower = this.connector.maxwattpower;
+        
+        this.locationService.getEstimatedPrice(pricePerHour, pricePerKW, maxWattPower)
             .subscribe(
                 (res) => {
                     this.estimations[type] = res;

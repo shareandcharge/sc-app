@@ -6,15 +6,14 @@ import 'rxjs/add/operator/map';
 import {AuthHttp} from "angular2-jwt";
 import {AuthService} from "./auth.service";
 import {AbstractApiService} from "./abstract.api.service";
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class CarService extends AbstractApiService {
-    private baseUrl: string = 'https://api-test.shareandcharge.com/v1';
-
     private activeCar: Car = null;
 
-    constructor(private authHttp: AuthHttp, private auth: AuthService) {
-        super();
+    constructor(private authHttp: AuthHttp, private auth: AuthService, configService: ConfigService) {
+        super(configService);
     }
 
     setActiveCar(car: Car) {

@@ -23,7 +23,7 @@
                 <ion-option value="cc">Kreditkarte</ion-option>
                 <ion-option value="paypal">PayPal</ion-option>
                 <ion-option value="sofort">Sofortüberweisung</ion-option>
-                <ion-option value="dd">Bankeinzug</ion-option>
+                <!--<ion-option value="dd">Bankeinzug</ion-option>-->
             </ion-select>
         </ion-item>
     </ion-list>
@@ -50,7 +50,7 @@
     </div>
 
     <div padding text-center>
-        <button ion-button (click)="addMoney()" round text-uppercase="" [disabled]="!displayAmount || displayAmount<=0">
+        <button ion-button (click)="addMoney()" round text-uppercase="" [disabled]="!displayAmount || displayAmount<=0 || payInButtonDisabled">
             Konto aufladen
         </button>
     </div>
