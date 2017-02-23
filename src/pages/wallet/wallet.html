@@ -43,14 +43,14 @@
     <h1>Meine Zahlungsvorgänge</h1>
 
     <ion-grid id="walletHistory">
-        <ion-row *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending'}" (click)="openTransactionDetail(tr)">
+        <ion-row *ngFor="let tr of paymentHistory" [ngClass]="{'status-pending': tr.type=='TokenUpdate-pending' || tr.type == 'Payout-pending'}" (click)="openTransactionDetail(tr)">
             <ion-col *ngIf="tr.order || tr.receipt">
-                <div class="loader" *ngIf="tr.type=='TokenUpdate-pending'"></div>
+                <div class="loader" *ngIf="tr.type=='TokenUpdate-pending' || tr.type == 'Payout-pending'"></div>
                 <span
                         class="amount"
-                        [ngClass]="{'number-positive': tr.type!='Send', 'number-negative': tr.type=='Send'}"
+                        [ngClass]="{'number-positive': tr.amount > 0, 'number-negative': tr.amount < 0}"
                 >
-                    {{tr.amount / 100 | currency:'EUR':true:'1.2-2'}}
+                    {{absoluteValue(tr.amount) / 100 | currency:'EUR':true:'1.2-2'}}
                 </span>
             </ion-col>
             <ion-col>
