@@ -36,8 +36,8 @@ export class WalletPage {
         'paypal' : 'assets/icons/wallet-paypal.png',
         'Received' : 'assets/icons/wallet-pole.png',
         'Send' : 'assets/icons/wallet-charge.png',
-        'payOut' : 'assets/icons/wallet-payout.png',
         'Voucher' : 'assets/icons/wallet-voucher.png',
+        'payout' : 'assets/icons/wallet-payout.png'
     };
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController, private errorService: ErrorService) {
@@ -108,6 +108,10 @@ export class WalletPage {
         error => this.errorService.displayErrorWithKey(error, 'Abfrage Kontostand'));
 
         return observable;
+    }
+
+    absoluteValue(number) {
+        return Math.abs(number);
     }
 
     addMoney() {

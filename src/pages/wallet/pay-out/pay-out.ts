@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 import {PaymentService} from "../../../services/payment.service";
 import {ErrorService} from "../../../services/error.service";
-import {InAppBrowser} from "ionic-native";
 
 @Component({
     selector: 'pay-out',
@@ -24,12 +23,10 @@ export class PayOutPage {
     payOut() {
         this.payOutObject.amount = this.convertToDecimal(this.displayAmount) * 100;
         this.paymentService.payOut(this.payOutObject).subscribe((res) => {
-            console.log(res);
+            this.viewCtrl.dismiss();
         }, (error) => {
             this.errorService.displayErrorWithKey(error, 'Geld auszahlen');
         });
-
-        console.log(this.payOutObject);
     }
 
     convertToDecimal(input: string) {
