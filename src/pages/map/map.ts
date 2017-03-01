@@ -80,7 +80,6 @@ export class MapPage {
 
         this.toggledPlugs = [];
         this.chargingProgress = this.chargingService.getChargingProgress();
-        console.log("charging progress is", this.chargingProgress);
 
         //-- whenever the cars change or user loggs in, refresh the infos we need for the "switch car button"
         this.events.subscribe('cars:updated', () => this.refreshCarInfo());
@@ -392,7 +391,7 @@ export class MapPage {
         let request = {
             placeId: place.place_id
         };
-        console.log('Place request: ', request);
+
         this.placesService = new google.maps.places.PlacesService(this.map);
         this.placesService.getDetails(request, callback);
 
@@ -400,7 +399,6 @@ export class MapPage {
 
         function callback(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-                console.log('Place detail:', place);
                 me.map.setCenter(place.geometry.location);
                 me.map.setZoom(me.currentPositionZoom);
             }

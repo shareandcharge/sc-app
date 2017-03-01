@@ -25,6 +25,7 @@ export class ChargingService extends AbstractApiService {
 
     constructor(private authHttp: AuthHttp, configService: ConfigService, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
         super(configService);
+        this.events.subscribe('auth:logout', () => this.handleLogout());
     }
 
     checkChargingState() {
@@ -102,7 +103,7 @@ export class ChargingService extends AbstractApiService {
     }
 
     getChargingProgress() {
-        return this.progress;
+        return this.auth.loggedIn() ? this.progress : 0;
     }
 
     isCharging() {
@@ -150,6 +151,10 @@ export class ChargingService extends AbstractApiService {
                 this.events.publish('locations:updated');
             })
             .catch(this.handleError);
+    }
+
+    handleLogout() {
+        this.chargingEnd();
     }
 
     chargingEnd() {

@@ -55,7 +55,8 @@
     "used_voucher": "Der Gutschein wurde bereits verwendet!",
     "expired_voucher": "Der Gutschein ist leider nicht mehr gültig!",
     "no_voucheraccount": "Kein Gutscheinaccount angegeben.",
-    "voucher_balance_too_low": "Es sind nicht ausreichend Tokens verfügbar, um den Gutschein auszuzuahlen."
+    "voucher_balance_too_low": "Es sind nicht ausreichend Tokens verfügbar, um den Gutschein auszuzuahlen.",
+    "not_enough_balance": "Dein Guthaben reicht dafür leider nicht aus."
   },
   "payment": {
     "types": {
