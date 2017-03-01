@@ -77,8 +77,8 @@ export class MapDetailPage {
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-        let image = this.location.isRented() || this.location.isClosed() ? 'marker-busy.png' : 'marker-available.png';
-        let icon = `assets/icons/${image}`;
+        let image = this.location.isRented() || this.location.isClosed() ? 'busy.png' : 'available.png';
+        let icon = `assets/icons/marker/${image}`;
 
         new google.maps.Marker({
             position: new google.maps.LatLng(this.location.lat, this.location.lng),

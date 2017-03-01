@@ -18,7 +18,7 @@ import {Location} from "../../models/location";
 import {ChargingService} from '../../services/charging.service';
 import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
-
+import * as MarkerClusterer from 'node-js-marker-clusterer';
 
 declare var google: any;
 declare var cordova: any;
@@ -34,6 +34,7 @@ export class MapPage {
 
     @ViewChild('map') mapElement: ElementRef;
     map: any;
+    markerCluster: any;
     placesService: any;
     private platform;
 
@@ -138,10 +139,10 @@ export class MapPage {
 
     setActiveCar(car: Car, fab: FabContainer) {
         this.carService.selectAsActiveCar(car).subscribe((response) => {
-            this.activeCar = car;
-            this.events.publish('cars:updated');
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Auto wechseln'));
+                this.activeCar = car;
+                this.events.publish('cars:updated');
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Auto wechseln'));
 
 
         fab.close();
@@ -153,7 +154,7 @@ export class MapPage {
 
         this.currentPositionOverlay = new google.maps.OverlayView();
 
-        this.currentPositionOverlay.onAdd = function() {
+        this.currentPositionOverlay.onAdd = function () {
             currentPositionDiv = document.createElement('div');
             currentPositionDiv.id = 'currentPosition';
             currentPositionDiv.style.position = 'absolute';
@@ -171,7 +172,7 @@ export class MapPage {
             }
         };
 
-        this.currentPositionOverlay.onRemove = function() {
+        this.currentPositionOverlay.onRemove = function () {
             currentPositionDiv.parentNode.removeChild(currentPositionDiv);
             currentPositionDiv = null;
         };
@@ -238,10 +239,10 @@ export class MapPage {
             bounds.lngTo = googleBounds.getNorthEast().lng();
 
             me.locationService.searchLocations(bounds).subscribe(locations => {
-                me.visibleLocations = locations;
-                this.viewType = viewType;
-            },
-            error => this.errorService.displayErrorWithKey(error, 'Suche Stationen'));
+                    me.visibleLocations = locations;
+                    this.viewType = viewType;
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Suche Stationen'));
         } else {
             this.viewType = viewType;
         }
@@ -297,10 +298,10 @@ export class MapPage {
 
     refreshLocations() {
         this.locationService.getLocations().subscribe((locations) => {
-            this.locations = locations;
-            this.updateLocationMarkers();
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Aktualisiere Stationen'));
+                this.locations = locations;
+                this.updateLocationMarkers();
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Aktualisiere Stationen'));
     }
 
     showLocationDetails(location) {
@@ -311,8 +312,8 @@ export class MapPage {
     }
 
     addMarker(location: Location) {
-        let image = location.isRented() || location.isClosed() ? 'marker-busy.png' : 'marker-available.png';
-        let icon = `assets/icons/${image}`;
+        let image = location.isRented() || location.isClosed() ? 'busy.png' : 'available.png';
+        let icon = `assets/icons/marker/${image}`;
         let marker = new google.maps.Marker({
             map: this.map,
             icon: icon,
@@ -344,7 +345,7 @@ export class MapPage {
             let modal = this.modalCtrl.create(SignupLoginPage, {
                 "dest": CarWrapperPage,
                 'mode': 'modal',
-                'action' : 'login'
+                'action': 'login'
             });
             modal.present();
         }
@@ -360,19 +361,6 @@ export class MapPage {
         popover.present({
             ev: e
         });
-    }
-
-
-    addInfoWindow(marker, content) {
-        let infoWindow = new google.maps.InfoWindow({
-            content: content,
-            enableEventPropagation: true
-        });
-
-        google.maps.event.addListener(marker, 'click', () => {
-            infoWindow.open(this.map, marker);
-        });
-
     }
 
     presentFilterModal() {
@@ -393,15 +381,11 @@ export class MapPage {
 
     loadLocationsForPlugTypes(plugTypes: Array<any>) {
         this.locationService.getLocationsPlugTypes(plugTypes.join()).subscribe(locations => {
-            this.toggledPlugs = plugTypes;
-            this.locations = locations;
-            this.updateLocationMarkers();
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen für Station'));
-    }
-
-    showAddressModal() {
-        this.searchMode = true;
+                this.toggledPlugs = plugTypes;
+                this.locations = locations;
+                this.updateLocationMarkers();
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen für Station'));
     }
 
     centerToPlace(place) {
@@ -427,14 +411,14 @@ export class MapPage {
     }
 
     addMapCenterControl() {
-        var centerControlDiv = document.createElement('div');
+        let centerControlDiv = document.createElement('div');
 
-        var controlUI = document.createElement('div');
+        let controlUI = document.createElement('div');
         controlUI.id = 'mapCenterUI';
         centerControlDiv.appendChild(controlUI);
 
 
-        var controlText = document.createElement('div');
+        let controlText = document.createElement('div');
         controlText.id = 'mapCenterText';
         controlText.innerHTML = '<ion-icon name="md-locate" role="img" class="icon icon-md ion-md-locate" aria-label="locate" ng-reflect-name="md-locate"></ion-icon>';
         controlUI.appendChild(controlText);
@@ -449,14 +433,14 @@ export class MapPage {
     }
 
     addMapFilterControl() {
-        var centerControlDiv = document.createElement('div');
+        let centerControlDiv = document.createElement('div');
 
-        var controlUI = document.createElement('div');
+        let controlUI = document.createElement('div');
         controlUI.id = 'mapFilterUI';
         centerControlDiv.appendChild(controlUI);
 
 
-        var controlText = document.createElement('div');
+        let controlText = document.createElement('div');
         controlText.id = 'mapFilterText';
         controlText.innerHTML = '<ion-icon name="filter" role="img" class="icon icon-ios ion-ios-options" aria-label="filter" ng-reflect-name="filter"></ion-icon>';
         controlUI.appendChild(controlText);
@@ -472,16 +456,16 @@ export class MapPage {
 
     updateLocationMarkers() {
         if (this.locationMarkers.length) {
-            this.locationMarkers.forEach((marker) => {
-                marker.setMap(null);
-            });
-
+            this.locationMarkers.forEach(marker => marker.setMap(null));
             this.locationMarkers = [];
         }
 
-        let me = this;
-        this.locations.forEach(function (location) {
-            me.addMarker(location);
+        this.locations.forEach(location => this.addMarker(location));
+
+        this.markerCluster = new MarkerClusterer(this.map, this.locationMarkers, {
+            gridSize: 40,
+            maxZoom: 12,
+            imagePath: 'assets/icons/marker/cluster'
         });
     }
 
