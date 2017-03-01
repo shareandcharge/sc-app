@@ -367,8 +367,8 @@ export class AddStationPage {
     positionMarker(lat, lng, panTo = true) {
         let latLng = new google.maps.LatLng(lat, lng);
 
-        let image = 'marker-available.png';
-        let icon = `assets/icons/${image}`;
+        let image = 'available.png';
+        let icon = `assets/icons/marker/${image}`;
 
         if (null == this.marker) {
             this.marker = new google.maps.Marker({
