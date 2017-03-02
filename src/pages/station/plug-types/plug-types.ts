@@ -81,8 +81,11 @@ export class PlugTypesPage {
                 "Light Client verfügt, der die Ladestation über die Share&Charge App steuern kann.";
         }
         else if ("kwh" === type) {
-            message = "Wähle diese Option sofern dein Ladepunkt über einen geeichten Stromzähler verfügt " +
-                "& der Zählerstand automatisch an das Share&Charge Backend gesendet wird.";
+            // changed in https://github.com/slockit/sc-app/issues/203
+            // message = "Wähle diese Option sofern dein Ladepunkt über einen geeichten Stromzähler verfügt " +
+            //     "& der Zählerstand automatisch an das Share&Charge Backend gesendet wird.";
+            message = "Diese Option wird in Kürze freigeschaltet. " +
+                        "Sie setzt einen geeichten Stromzähler in Deiner Ladesäule voraus.";
         }
 
         let alert = this.alertCtrl.create({
