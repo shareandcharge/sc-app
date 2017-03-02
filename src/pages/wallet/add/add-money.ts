@@ -56,7 +56,7 @@ export class AddMoneyPage {
                 resolve();
             })
         } else {
-            let browser = new InAppBrowser(redirectUrl, '_blank', 'presentationstyle=pagesheet');
+            let browser = new InAppBrowser(redirectUrl, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no,hardwareback=no');
 
             return new Promise((resolve, reject) => {
                 browser.on('exit').subscribe(() => resolve());

@@ -14,7 +14,7 @@ export class HelpPage {
 
     openFaq() {
         let url = 'https://shareandcharge.com/faq/';
-        new InAppBrowser(url, '_blank', 'presentationstyle=pagesheet');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
     }
 
     openIntro() {

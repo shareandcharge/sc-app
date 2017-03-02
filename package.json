@@ -41,7 +41,6 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-statusbar",
     "cordova-plugin-console",
-    "cordova-plugin-device",
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard",
     "cordova-plugin-transport-security",
@@ -63,7 +62,8 @@
     "cordova-plugin-geolocation",
     "uk.co.workingedge.phonegap.plugin.launchnavigator",
     "cordova-plugin-actionsheet",
-    "cordova-inappbrowser"
+    "cordova-plugin-device",
+    "cordova-plugin-inappbrowser"
   ],
   "cordovaPlatforms": [
     "ios",

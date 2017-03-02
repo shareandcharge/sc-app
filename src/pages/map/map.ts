@@ -285,7 +285,7 @@ export class MapPage {
 
                 aTag.addEventListener('click', (event) => {
                     event.preventDefault();
-                    new InAppBrowser(aTag.href, '_blank', 'presentationstyle=pagesheet');
+                    new InAppBrowser(aTag.href, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=yes');
                     return false;
                 });
             }

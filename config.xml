@@ -105,6 +105,7 @@
     </plugin>
     <plugin name="cordova-plugin-contacts" spec="~2.2.1" />
     <plugin name="cordova-plugin-geolocation" spec="~2.4.1" />
+    <plugin name="cordova-plugin-inappbrowser" spec="~1.6.1" />
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="~3.2.1" />
     <engine name="ios" spec="~4.3.1" />
     <engine name="android" spec="latest" />
