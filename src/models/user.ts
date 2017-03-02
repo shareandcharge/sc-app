@@ -46,6 +46,14 @@ export class User implements Serializable<User> {
         return allComplete;
     }
 
+    isEmailVerified(): boolean {
+        let email = this.email;
+
+        if (!this.authentification.verifiedEmails || !Array.isArray(this.authentification.verifiedEmails) || !email) return false;
+
+        return this.authentification.verifiedEmails.indexOf(email) > -1;
+    }
+
     initTokenArrays() {
         if (!isArray(this.authentification.apnDeviceTokens)) {
             this.authentification.apnDeviceTokens = [];

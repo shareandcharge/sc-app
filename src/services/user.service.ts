@@ -107,7 +107,12 @@ export class UserService extends AbstractApiService {
         };
 
         return this.authHttp.post(this.baseUrl + '/users/sendVerifyEmail', JSON.stringify(object))
-            .map(res => res.json())
+            .map(res => {
+                // result may be (completely) empty
+                if (res.text()) {
+                    res.json()
+                }
+            })
             .catch(this.handleError);
     }
 }
