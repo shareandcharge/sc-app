@@ -14,4 +14,8 @@ export class ConfigService {
     getBaseUrl() {
         return CONFIG.API_URL;
     }
+
+    getApiKey() {
+        return CONFIG.API_KEY;
+    }
 }

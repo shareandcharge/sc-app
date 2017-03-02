@@ -57,6 +57,7 @@ import {PaymentService} from "../services/payment.service";
 import {ChargingService} from "../services/charging.service";
 import {ConfigService} from "../services/config.service";
 import {ErrorService} from "../services/error.service";
+import {HttpService} from "../services/http.service";
 import {PushNotificationService} from "../services/push.notification.service";
 import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
 import {EditPasswordPage} from "../pages/profile/edit-password/edit-password";
@@ -211,6 +212,7 @@ export function createTranslateLoader(http: Http) {
         PaymentService,
         ConfigService,
         ErrorService,
+        HttpService,
         PushNotificationService
     ]
 })

@@ -1,0 +1,11 @@
+/**
+* copy this file to config.ts and adjust values to your needs
+*/
+export let CONFIG = {
+    API_URL: 'https://api-test.shareandcharge.com/v1',
+    API_KEY: {
+        param: 'apikey',
+        name: 'iosapp',
+        secret: 'secret'
+    }
+};
