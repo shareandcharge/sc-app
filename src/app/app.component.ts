@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {Platform, Events, LoadingController, Config, ModalController} from 'ionic-angular';
+import {
+    Platform, Events, LoadingController, Config, ModalController, App, IonicApp,
+    MenuController, AlertController
+} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {Storage} from '@ionic/storage';
 
@@ -20,7 +23,12 @@ export class MyApp {
     rootPage: any = TabsPage;
     loader: any;
 
-    constructor(private platform: Platform, private modalCtrl: ModalController, private authService: AuthService, private userService: UserService, private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController, public storage: Storage, private translateService: TranslateService, private config: Config, private pushNotificationService: PushNotificationService, private errorService: ErrorService) {
+    constructor(private app: App, private platform: Platform, private modalCtrl: ModalController,
+                private authService: AuthService, private userService: UserService,
+                private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController,
+                public storage: Storage, private translateService: TranslateService, private config: Config,
+                private pushNotificationService: PushNotificationService, private errorService: ErrorService,
+                private ionicApp: IonicApp, private menuCtrl: MenuController, private alertCtrl: AlertController) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -28,7 +36,6 @@ export class MyApp {
             platform.resume.subscribe(() => {
                 this.checkChargingProgress();
             });
-
 
             config.set('scrollAssist', true);
 
@@ -54,6 +61,8 @@ export class MyApp {
 
             this.checkExistingToken();
 
+            //-- Handle hardware back button for Android and Windows Phone (don't close the app on all backs)
+            platform.registerBackButtonAction(() => this.handleBackButton(), 1);
 
             this.storage.get('introShown').then((result) => {
                 this.rootPage = TabsPage;
@@ -109,6 +118,71 @@ export class MyApp {
                     this.authService.setUser(updatedUser);
                 },
                 error => this.errorService.displayErrorWithKey(error, 'Nutzer aktualisieren'));
+        }
+    }
+
+    /**
+     * Man, handling the hardware back button is really a rabbit hole. There's currently no
+     * working, reliable way with ionic. In this function we try our best to close modals etc.
+     * and in the end ask the user if he wants to close the app.
+     * Inspiration: https://github.com/driftyco/ionic/issues/6982#issuecomment-254740855
+     */
+    handleBackButton() {
+        //-- close modals etc. and menus
+        let activePortal = this.ionicApp._loadingPortal.getActive() ||
+            this.ionicApp._modalPortal.getActive() ||
+            this.ionicApp._toastPortal.getActive() ||
+            this.ionicApp._overlayPortal.getActive();
+
+        if (activePortal) {
+            activePortal.dismiss();
+            return;
+        }
+
+        if (this.menuCtrl.isOpen()) {
+            this.menuCtrl.close();
+            return;
+        }
+
+        let nav = this.app.getActiveNav();
+        let view = nav.getActive();
+        let page = view ? nav.getActive().instance : null;
+
+        let doExit = false;
+
+        if (page && page.isRootPage) {
+            doExit = true;
+        }
+        else if (nav.canGoBack() || view && view.isOverlay) {
+            nav.pop();
+        }
+        // else if (localStorage.getItem('is_logged_in')) {
+        //     nav.setRoot(HomePage);
+        // }
+        // else if (!localStorage.getItem('is_logged_in')) {
+        //     this.platform.exitApp();
+        // }
+        else {
+            doExit = true;
+        }
+
+        if (doExit) {
+            this.alertCtrl.create({
+                title: this.translateService.instant('common.confirmation'),
+                message: this.translateService.instant('app.cancel_app'),
+                buttons: [
+                    {
+                        text: this.translateService.instant('common.cancel'),
+                        role: 'cancel'
+                    },
+                    {
+                        text: this.translateService.instant('app.cancel_app_ok'),
+                        handler: () => {
+                            this.platform.exitApp();
+                        }
+                    }
+                ]
+            }).present();
         }
     }
 }

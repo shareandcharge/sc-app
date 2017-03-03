@@ -70,5 +70,13 @@
       "hourly": "Stundentarif",
       "kwh": "kWh genauer Tarif"
     }
+  },
+  "common": {
+    "confirmation": "Bestätigung",
+    "cancel": "Abbrechen"
+  },
+  "app": {
+    "cancel_app": "Möchten Sie die App beenden?",
+    "cancel_app_ok": "Ja, App beenden"
   }
 }
