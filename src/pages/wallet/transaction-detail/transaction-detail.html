@@ -79,6 +79,12 @@
                 {{(transaction.amount) / 100 | currency:'EUR':true:'1.2-2'}} (inkl. {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr) <ng-container *ngIf="transaction.receipt.owner_profile.operatorVat">(inkl. 19% MwSt.)</ng-container>
             </ion-col>
         </ion-row>
+        <ion-row *ngIf="transaction.receipt.invoice">
+            <ion-col>
+                <ion-label>Rechnung</ion-label>
+                <a href="#" (click)="openPdf(transaction.receipt.invoice)">Anzeigen (pdf)</a>
+            </ion-col>
+        </ion-row>
     </ion-grid>
 
     <div id="imageContainer">

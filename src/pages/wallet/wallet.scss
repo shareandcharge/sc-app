@@ -26,25 +26,25 @@ page-wallet {
     border-bottom: 2px solid #ddd;
   }
 
-  #walletHistory {
+  .wallet-history {
       font-size: 1.6rem;
 
       ion-row {
         border-bottom: 1px solid #cccccc;
         padding: 5px 0 5px 0;
-
-        ion-col {
-          img {
-            margin-left: 50%;
-            margin-top: 2px;
-            height: 15px;
-          }
-        }
-
-        small {
-
-        }
       }
+  }
+
+  .col-amount {
+    white-space: nowrap;
+  }
+
+  .col-type {
+    img {
+      max-width: 18px;
+      position: relative;
+      top: 2px;
+    }
   }
 
   .amount:before {
@@ -81,18 +81,19 @@ page-wallet {
   .loader {
     float: right;
     margin: 0 auto;
-    font-size: 10px;
+    font-size: 8px;
     position: relative;
+    top: 2px;
     text-indent: -9999em;
-    border-top: 1.1em solid rgba(150, 150, 150, 0.8);
-    border-right: 1.1em solid rgba(150, 150, 150, 0.8);
-    border-bottom: 1.1em solid rgba(150, 150, 150, 0.8);
+    border-top: 1.1em solid rgba(50, 50, 50, 0.5);
+    border-right: 1.1em solid rgba(50, 50, 50, 0.5);
+    border-bottom: 1.1em solid rgba(50, 50, 50, 0.5);
     border-left: 1.1em solid #ffffff;
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);
-    -webkit-animation: load8 1.1s infinite linear;
-    animation: load8 1.1s infinite linear;
+    -webkit-animation: load8 1.3s infinite linear;
+    animation: load8 1.3s infinite linear;
   }
   @-webkit-keyframes load8 {
     0% {
