@@ -26,7 +26,6 @@ export class LocationService extends AbstractApiService {
         }
         options = new RequestOptions({search: searchParams});
 
-        // return this.authHttp.get(this.baseUrl + '/locations', options)
         return this.httpService.get(this.baseUrl + '/locations', options)
             .map(res => {
                 let locations = [];

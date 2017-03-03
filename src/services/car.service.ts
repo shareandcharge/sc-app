@@ -3,16 +3,16 @@ import {Observable} from "rxjs";
 import {Car} from "../models/car";
 
 import 'rxjs/add/operator/map';
-import {AuthHttp} from "angular2-jwt";
 import {AuthService} from "./auth.service";
 import {AbstractApiService} from "./abstract.api.service";
 import {ConfigService} from "./config.service";
+import {HttpService} from "./http.service";
 
 @Injectable()
 export class CarService extends AbstractApiService {
     private activeCar: Car = null;
 
-    constructor(private authHttp: AuthHttp, private auth: AuthService, configService: ConfigService) {
+    constructor(private httpService: HttpService, private auth: AuthService, public configService: ConfigService) {
         super(configService);
     }
 
@@ -29,7 +29,7 @@ export class CarService extends AbstractApiService {
             return Observable.of(null);
         }
 
-        return this.authHttp.get(this.baseUrl + '/users/cars')
+        return this.httpService.get(this.baseUrl + '/users/cars')
             .map(res => {
                 let cars = [];
                 let data = res.json();
@@ -47,7 +47,7 @@ export class CarService extends AbstractApiService {
     }
 
     getCar(id): Observable<Car> {
-        return this.authHttp.get(`${this.baseUrl}/users/cars/${id}`)
+        return this.httpService.get(`${this.baseUrl}/users/cars/${id}`)
             .map(res => {
                 return new Car().deserialize(res.json());
             })
@@ -55,14 +55,14 @@ export class CarService extends AbstractApiService {
     }
 
     updateCar(car: Car): Observable<Car> {
-        return this.authHttp.put(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${car.id}`, JSON.stringify(car))
+        return this.httpService.put(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${car.id}`, JSON.stringify(car))
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     // createCar(car: Car): Observable<Car> {
     createCar(car: Car) {
-        return this.authHttp.post(`${this.baseUrl}/users/${this.auth.getUser().address}/cars`, JSON.stringify(car))
+        return this.httpService.post(`${this.baseUrl}/users/${this.auth.getUser().address}/cars`, JSON.stringify(car))
             .map(res => {
                 return new Car().deserialize(res.json());
             })
@@ -70,7 +70,7 @@ export class CarService extends AbstractApiService {
     }
 
     deleteCar(id) {
-        return this.authHttp.delete(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${id}`)
+        return this.httpService.delete(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${id}`)
             .map(res => res.json())
             .catch(this.handleError);
     }
@@ -80,7 +80,7 @@ export class CarService extends AbstractApiService {
             'current': car.id
         };
 
-        return this.authHttp.post(`${this.baseUrl}/users/${this.auth.getUser().address}/cars`, JSON.stringify(postData))
+        return this.httpService.post(`${this.baseUrl}/users/${this.auth.getUser().address}/cars`, JSON.stringify(postData))
             .map(res => {
                 let data = res.json();
 
@@ -94,7 +94,7 @@ export class CarService extends AbstractApiService {
     }
 
     getManufacturers(): Observable<any[]> {
-        return this.authHttp.get(this.baseUrl + '/users/predefinedCars')
+        return this.httpService.get(this.baseUrl + '/users/predefinedCars')
             .map(res => {
                 let r = res.json();
                 let manufacturers = r.map(function (obj) {
@@ -108,7 +108,7 @@ export class CarService extends AbstractApiService {
     }
 
     getModels(manufacturer): Observable<any[]> {
-        return this.authHttp.get(this.baseUrl + '/users/predefinedCars')
+        return this.httpService.get(this.baseUrl + '/users/predefinedCars')
             .map(res => {
                 let r = res.json();
                 let models = r.filter((obj) => {

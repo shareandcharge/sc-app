@@ -6,7 +6,8 @@ import * as CryptoJS from 'crypto-js';
 import {ConfigService} from "./config.service";
 
 /**
- * We use this class as a wrapper for the jwt httpAuth calls, to add our token to each request
+ * We use this class as a wrapper for the jwt httpAuth calls,
+ * to generate a jwt token and add it to every request.
  */
 @Injectable()
 export class HttpService {
