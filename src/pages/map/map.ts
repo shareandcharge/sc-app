@@ -34,7 +34,7 @@ export class MapPage {
 
     @ViewChild('map') mapElement: ElementRef;
     map: any;
-    markerCluster: any;
+    markerClusterer: any;
     placesService: any;
     private platform;
 
@@ -457,10 +457,13 @@ export class MapPage {
             this.locationMarkers.forEach(marker => marker.setMap(null));
             this.locationMarkers = [];
         }
+        if (this.markerClusterer) {
+            this.markerClusterer.clearMarkers();
+        }
 
         this.locations.forEach(location => this.addMarker(location));
 
-        this.markerCluster = new MarkerClusterer(this.map, this.locationMarkers, {
+        this.markerClusterer = new MarkerClusterer(this.map, this.locationMarkers, {
             gridSize: 40,
             maxZoom: 12,
             imagePath: 'assets/icons/marker/cluster'
