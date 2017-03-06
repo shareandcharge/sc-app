@@ -61,12 +61,12 @@
                         </ion-row>
                         <ion-row>
                             <ion-col width-50="">
-                                <ion-select class="input-white select-multiline" [(ngModel)]="from" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK" placeholder="Uhrzeit">
+                                <ion-select class="input-white select-multiline" [(ngModel)]="from" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK" placeholder="Uhrzeit" [selectOptions]="{title: 'Von'}">
                                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                                 </ion-select>
                             </ion-col>
                             <ion-col width-50="">
-                                <ion-select class="input-white select-multiline" [(ngModel)]="to" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK" placeholder="Uhrzeit">
+                                <ion-select class="input-white select-multiline" [(ngModel)]="to" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK" placeholder="Uhrzeit" [selectOptions]="{title: 'Bis'}">
                                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                                 </ion-select>
                             </ion-col>
@@ -104,10 +104,10 @@
             <ion-item *ngFor="let day of customWeekCalendar.hours; let i = index;">
                 <ion-label>{{days[i]}}</ion-label>
                 <ion-checkbox [(ngModel)]="day.from != day.to" (ngModelChange)="setSelectedDayDefault(day)"></ion-checkbox>
-                <ion-select [(ngModel)]="day.from" placeholder="Von" class="input-white small margin-right-xs">
+                <ion-select [(ngModel)]="day.from" placeholder="Von" class="input-white small margin-right-xs" [selectOptions]="{title: days[i] + ' von'}">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>   
-                <ion-select [(ngModel)]="day.to" placeholder="Bis" class="input-white small">
+                <ion-select [(ngModel)]="day.to" placeholder="Bis" class="input-white small" [selectOptions]="{title: days[i] + ' bis'}">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
             </ion-item>

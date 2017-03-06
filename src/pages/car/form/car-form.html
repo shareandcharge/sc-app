@@ -135,7 +135,9 @@
                 <ion-item>
                     <ion-select [(ngModel)]="car.plugTypes"
                                 formControlName="plugTypes"
-                                [selectOptions]="" multiple="true"
+                                [selectOptions]="{title: 'Steckertypen'}"
+                                cancelText="Abbrechen" okText="OK"
+                                multiple="true"
                                 class="select-multiline input-white" placeholder="Bitte wählen ...">
                         <ion-option *ngFor="let plug of plugOptions" value="{{plug.id}}">{{plug.name}}</ion-option>
                     </ion-select>

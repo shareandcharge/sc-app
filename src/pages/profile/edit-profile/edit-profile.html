@@ -62,6 +62,7 @@
                 <ion-select formControlName="country"
                             [(ngModel)]="user.profile.country"
                             multiple="false"
+                            [selectOptions]="{title: 'Land'}"
                             class="select-multiline input-white"
                             placeholder="Bitte wählen ..."
                             cancelText="Abbrechen" okText="OK"
