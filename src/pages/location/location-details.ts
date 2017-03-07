@@ -66,7 +66,11 @@ export class LocationDetailPage {
     includingVat: boolean;
     flatrateTariff: boolean;
 
-    constructor(private alertCtrl: AlertController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService) {
+    constructor(private alertCtrl: AlertController, private modalCtrl: ModalController,
+                private chargingService: ChargingService, private navParams: NavParams, platform: Platform,
+                private viewCtrl: ViewController, private authService: AuthService, public ratingService: RatingService,
+                private locationService: LocationService, private configService: ConfigService,
+                private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService) {
 
         this.location = new Location();
         this.station = new Station();
@@ -262,7 +266,7 @@ export class LocationDetailPage {
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-        let image = this.location.isRented() || this.location.isClosed() ? 'busy.png' : 'available.png';
+        let image = this.locationService.isBusy(this.location) ? 'busy.png' : 'available.png';
         let icon = `assets/icons/marker/${image}`;
 
         new google.maps.Marker({

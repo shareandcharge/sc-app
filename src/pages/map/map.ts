@@ -68,7 +68,11 @@ export class MapPage {
     autocompleteItems: any;
     autocompleteService: any;
 
-    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService, public carService: CarService, platform: Platform, public navCtrl: NavController, private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events, private chargingService: ChargingService, private zone: NgZone, private errorService: ErrorService, private toastCtrl: ToastController) {
+    constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService,
+                public carService: CarService, platform: Platform, public navCtrl: NavController,
+                private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events,
+                private chargingService: ChargingService, private zone: NgZone, private errorService: ErrorService,
+                private toastCtrl: ToastController) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -311,7 +315,7 @@ export class MapPage {
     }
 
     addMarker(location: Location) {
-        let image = location.isRented() || location.isClosed() ? 'busy.png' : 'available.png';
+        let image = this.locationService.isBusy(location) ? 'busy.png' : 'available.png';
         let icon = `assets/icons/marker/${image}`;
         let marker = new google.maps.Marker({
             map: this.map,

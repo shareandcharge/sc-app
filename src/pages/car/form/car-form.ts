@@ -38,7 +38,11 @@ export class CarFormPage {
 
     @ViewChild(Content) content: Content;
 
-    constructor(private userService: UserService, private authService: AuthService, private configService: ConfigService, public formBuilder: FormBuilder, private alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService) {
+    constructor(private userService: UserService, private authService: AuthService, private configService: ConfigService,
+                public formBuilder: FormBuilder, private alertCtrl: AlertController, public navCtrl: NavController,
+                private actionSheetCtrl: ActionSheetController, private navParams: NavParams,
+                private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController,
+                public events: Events, private errorService: ErrorService) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -148,6 +152,7 @@ export class CarFormPage {
                     .subscribe(
                         () => {
                             this.events.publish('cars:updated');
+                            this.events.publish('locations:updated');   // because the markers change depending on the car
                             this.refreshUser(); // needed !
                             me.navCtrl.parent.pop();
                         },
@@ -159,6 +164,7 @@ export class CarFormPage {
                     .subscribe(
                         () => {
                             this.events.publish('cars:updated');
+                            this.events.publish('locations:updated');   // because the markers change depending on the car
                             this.refreshUser(); // needed !
                             me.navCtrl.parent.pop();
                         },

@@ -7,11 +7,12 @@ import {AbstractApiService} from "./abstract.api.service";
 import {RequestOptions, URLSearchParams} from "@angular/http";
 import {ConfigService} from "./config.service";
 import {HttpService} from "./http.service";
+import {AuthService} from "./auth.service";
 
 @Injectable()
 export class LocationService extends AbstractApiService {
 
-    constructor(private httpService: HttpService, public configService: ConfigService) {
+    constructor(private httpService: HttpService, public configService: ConfigService, private authService: AuthService) {
         super(configService);
     }
 
@@ -115,5 +116,23 @@ export class LocationService extends AbstractApiService {
         return this.httpService.get(this.baseUrl + '/connectors/price', options)
             .map(res => res.json())
             .catch(this.handleError);
+    }
+
+    /**
+     * is the given location for the current user marked as "busy"
+     * @param location
+     * @returns {boolean}
+     */
+    isBusy(location: Location): boolean {
+        let busy = false;
+
+        if (location.isRented()
+            || location.isClosed()
+            || (this.authService.loggedIn() && !location.isMatchingPlugtype())
+        ) {
+            busy = true;
+        }
+
+        return busy;
     }
 }

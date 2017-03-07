@@ -14,6 +14,7 @@ export class Location implements Serializable<Location> {
     stations: Array<Station>;
     active: boolean;
     open: boolean;
+    matchesPlugtype: boolean;
     metadata: {
         problemSolver: string
     };
@@ -69,6 +70,10 @@ export class Location implements Serializable<Location> {
         return !this.open;
     }
 
+    isMatchingPlugtype(): boolean {
+        return this.matchesPlugtype;
+    }
+
     serialize() {
         return JSON.stringify(this);
     }
@@ -84,6 +89,7 @@ export class Location implements Serializable<Location> {
         this.address = input.address;
         this.active = input.active;
         this.open = input.open;
+        this.matchesPlugtype = input.matchesPlugtype;
         this.metadata = input.metadata;
         this.ownerprofile = input.ownerprofile;
 
