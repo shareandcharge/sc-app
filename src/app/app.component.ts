@@ -14,6 +14,7 @@ import {IntroPage} from '../pages/intro/intro';
 import {TranslateService} from "ng2-translate";
 import {PushNotificationService} from "../services/push.notification.service";
 import {ErrorService} from "../services/error.service";
+import {TrackerService} from "../services/tracker.service";
 
 
 @Component({
@@ -28,10 +29,14 @@ export class MyApp {
                 private chargingService: ChargingService, private events: Events, public loadingCtrl: LoadingController,
                 public storage: Storage, private translateService: TranslateService, private config: Config,
                 private pushNotificationService: PushNotificationService, private errorService: ErrorService,
-                private ionicApp: IonicApp, private menuCtrl: MenuController, private alertCtrl: AlertController) {
+                private ionicApp: IonicApp, private menuCtrl: MenuController, private alertCtrl: AlertController,
+                private trackerService: TrackerService
+    ) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
+
+            trackerService.init();
 
             platform.resume.subscribe(() => {
                 this.checkChargingProgress();
