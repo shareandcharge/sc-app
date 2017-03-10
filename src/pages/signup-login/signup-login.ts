@@ -5,12 +5,12 @@ import {
 } from 'ionic-angular';
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
-import {TermsPage} from "./terms";
 import {FormBuilder, Validators, FormControl} from '@angular/forms';
 import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
 import {ForgotPasswordPage} from "./forgot-password/forgot-password";
+import {TermsPage} from "../_global/terms";
 
 @Component({
     selector: 'page-signup',

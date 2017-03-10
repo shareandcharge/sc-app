@@ -10,7 +10,7 @@ import {Location} from "../../../models/location";
 import {CarService} from "../../../services/car.service";
 import {ErrorService} from "../../../services/error.service";
 import {Car} from "../../../models/car";
-import {TermsPage} from "../../signup-login/terms";
+import {TermsPage} from "../../_global/terms";
 
 @Component({
     selector: 'page-charging',

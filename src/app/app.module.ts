@@ -8,7 +8,7 @@ import {MyApp} from './app.component';
 import {IntroPage} from "../pages/intro/intro";
 import {AboutPage} from '../pages/about/about';
 import {SignupLoginPage} from '../pages/signup-login/signup-login';
-import {TermsPage} from '../pages/signup-login/terms';
+import {TermsPage} from "../pages/_global/terms";
 import {TermsOfUsePage} from "../pages/_global/terms-of-use";
 import {MapPage} from '../pages/map/map';
 import {AddStationPage} from '../pages/station/add/add-station';
@@ -66,7 +66,6 @@ import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-p
 import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
 import {PayOutPage} from "../pages/wallet/pay-out/pay-out";
 import {VoucherPage} from "../pages/wallet/voucher/voucher";
-
 
 
 let storage = new Storage();
