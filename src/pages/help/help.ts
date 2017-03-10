@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {ModalController} from 'ionic-angular';
 import {IntroPage} from "../intro/intro";
 import {InAppBrowser} from "ionic-native";
+import {TermsOfUsePage} from "../_global/terms-of-use";
 
 @Component({
     selector: 'page-help',
@@ -15,6 +16,11 @@ export class HelpPage {
     openFaq() {
         let url = 'https://shareandcharge.com/faq/';
         new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+    }
+
+    openTermsOfUse() {
+        let modal = this.modalCtrl.create(TermsOfUsePage);
+        modal.present();
     }
 
     openIntro() {

@@ -9,6 +9,7 @@ import {IntroPage} from "../pages/intro/intro";
 import {AboutPage} from '../pages/about/about';
 import {SignupLoginPage} from '../pages/signup-login/signup-login';
 import {TermsPage} from '../pages/signup-login/terms';
+import {TermsOfUsePage} from "../pages/_global/terms-of-use";
 import {MapPage} from '../pages/map/map';
 import {AddStationPage} from '../pages/station/add/add-station';
 import {CarManufacturerPage} from '../pages/car/form/manufacturer/car-manufacturer';
@@ -67,6 +68,7 @@ import {PayOutPage} from "../pages/wallet/pay-out/pay-out";
 import {VoucherPage} from "../pages/wallet/voucher/voucher";
 
 
+
 let storage = new Storage();
 
 export function getAuthHttp(http) {
@@ -93,6 +95,7 @@ export function createTranslateLoader(http: Http) {
         MapFilterPage,
         SignupLoginPage,
         TermsPage,
+        TermsOfUsePage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,
@@ -152,6 +155,7 @@ export function createTranslateLoader(http: Http) {
         MapFilterPage,
         SignupLoginPage,
         TermsPage,
+        TermsOfUsePage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,
