@@ -63,10 +63,15 @@
     </div>
 
     <div class="owner-wrapper">
-        <strong>Betreiber:</strong><br>
-        {{ location.ownerprofile.firstname }} {{ location.ownerprofile.lastname }}<br>
-        {{ location.ownerprofile.address }}<br>
-        {{ location.ownerprofile.postalCode }} {{ location.ownerprofile.city }}
+        <p>
+            <strong>Betreiber:</strong><br>
+            {{ location.ownerprofile.firstname }} {{ location.ownerprofile.lastname }}<br>
+            {{ location.ownerprofile.address }}<br>
+            {{ location.ownerprofile.postalCode }} {{ location.ownerprofile.city }}
+        </p>
+        <p>
+            Es gelten die <a (click)="openTerms()">AGBs</a>.
+        </p>
     </div>
 
 </ion-content>
