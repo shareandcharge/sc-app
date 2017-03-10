@@ -13,7 +13,7 @@ export class TrackerService {
 
     init() {
         let token = this.configService.get('MIXPANEL_TOKEN');
-        mixpanel.init(token);
+        mixpanel.init(token, {api_host: "https://api.mixpanel.com"});
     }
 
     track(event: string, properties?: any) {
