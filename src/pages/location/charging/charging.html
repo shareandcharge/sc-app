@@ -64,10 +64,23 @@
 
     <div class="owner-wrapper">
         <p>
-            <strong>Betreiber:</strong><br>
-            {{ location.ownerprofile.firstname }} {{ location.ownerprofile.lastname }}<br>
-            {{ location.ownerprofile.address }}<br>
-            {{ location.ownerprofile.postalCode }} {{ location.ownerprofile.city }}
+            <strong>Betreiber:</strong>
+
+            <span *ngIf="location.ownerprofile.company">
+                <br>{{ location.ownerprofile.company }}
+            </span>
+            <span *ngIf="location.ownerprofile.firstname || location.ownerprofile.lastname">
+                <br>{{ location.ownerprofile.firstname }} {{ location.ownerprofile.lastname }}
+            </span>
+            <span *ngIf="location.ownerprofile.address">
+                <br>{{ location.ownerprofile.address }}
+            </span>
+            <span *ngIf="location.ownerprofile.postalCode || location.ownerprofile.zip">
+                <br>{{ location.ownerprofile.postalCode }} {{ location.ownerprofile.city }}
+            </span>
+            <span *ngIf="location.ownerprofile.operatorVat && location.ownerprofile.operatorVatID">
+                <br>Steuernummer: {{ location.ownerprofile.operatorVatID }}
+            </span>
         </p>
         <p>
             Es gelten die <a (click)="openTerms()">AGBs</a>.

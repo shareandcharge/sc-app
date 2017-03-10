@@ -30,6 +30,7 @@ export class EditProfilePage {
         this.createErrorMessages();
 
         this.profileForm = this.formBuilder.group({
+            company: [],
             firstName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.required])],
             lastName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.required])],
             address: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
@@ -37,7 +38,8 @@ export class EditProfilePage {
             country: ['', countryValidator.isValid],
             postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5), postalCodeValidator.isValid])],
             businessUser: [false],
-            taxNumber: ['']
+            taxNumber: [],
+            operatorVatID: []
         });
     }
 
