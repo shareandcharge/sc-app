@@ -72,13 +72,19 @@
 </ion-content>
 <ion-footer>
     <ion-toolbar color="light">
-        <div text-center>
-            <button ion-button round text-uppercase color="danger" (click)="stopCharging()" *ngIf="countingDown">
+        <div text-center *ngIf="countingDown">
+            <button ion-button round text-uppercase color="danger" (click)="stopCharging()">
                 Stop
             </button>
-
-            <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive"
-                    *ngIf="!countingDown">
+        </div>
+        <div text-center *ngIf="!countingDown">
+            <ion-list no-lines="" class="inline-list no-margin-bottom">
+                <ion-item text-center="">
+                    <ion-checkbox [(ngModel)]="termsChecked" class="checkbox-square item-partial-cover-70"></ion-checkbox>
+                    <ion-label>Ich akzeptiere die <a (click)="openTerms()">AGBs</a>.</ion-label>
+                </ion-item>
+            </ion-list>
+            <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive || !termsChecked">
                 Zahlungspflichtig laden
             </button>
         </div>

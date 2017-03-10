@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, ViewController, LoadingController, Events} from 'ionic-angular';
+import {
+    NavController, NavParams, AlertController, ViewController, LoadingController, Events,
+    ModalController
+} from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 import {Connector} from "../../../models/connector";
 import {LocationService} from "../../../services/location.service";
@@ -7,6 +10,7 @@ import {Location} from "../../../models/location";
 import {CarService} from "../../../services/car.service";
 import {ErrorService} from "../../../services/error.service";
 import {Car} from "../../../models/car";
+import {TermsPage} from "../../signup-login/terms";
 
 @Component({
     selector: 'page-charging',
@@ -28,6 +32,8 @@ export class ChargingPage {
     timer: any;
     countingDown: boolean;
     buttonDeactive: any;
+    termsChecked: boolean;
+    enterFromModal: boolean;
     mouseDragging: any;
     canvasX: any;
     canvasY: any;
@@ -47,7 +53,10 @@ export class ChargingPage {
         'kwh'
     ];
 
-    constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService, private events: Events) {
+    constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController,
+                public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
+                private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
+                private events: Events, private modalCtrl: ModalController) {
         this.location = navParams.get("location");
         this.connector = this.location.stations[0].connectors[0];
 
@@ -65,6 +74,13 @@ export class ChargingPage {
     }
 
     ionViewWillEnter() {
+        // when we open/close the terms/AGB modal we don't want to refresh everything
+        if (this.enterFromModal) {
+            this.enterFromModal = false;
+            return;
+        }
+
+        this.termsChecked = false;
         this.charging = this.chargingService.isCharging();
         this.activeCar = this.carService.getActiveCar();
 
@@ -411,4 +427,10 @@ export class ChargingPage {
             "fromLocationDetailsAndIsCharging": this.fromLocationDetailsAndIsCharging
         });
     }
+
+    openTerms() {
+        let modal = this.modalCtrl.create(TermsPage);
+        modal.present().then(() => this.enterFromModal = true);
+    }
+
 }
