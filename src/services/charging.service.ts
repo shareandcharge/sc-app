@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Events, ToastController, ModalController} from "ionic-angular";
 import {Storage} from '@ionic/storage';
-import {Badge} from 'ionic-native';
 import {AbstractApiService} from "./abstract.api.service";
 import {LocationService} from "./location.service";
 import {Location} from "../../models/location";
@@ -158,7 +157,6 @@ export class ChargingService extends AbstractApiService {
     }
 
     chargingEnd() {
-        Badge.clear();
         this.charging = false;
         this.progress = 0;
         this.chargingTime = 0;
@@ -194,7 +192,6 @@ export class ChargingService extends AbstractApiService {
     }
 
     countDown(time) {
-        Badge.set(1);
         this.progress = 1;
         let me = this;
         me.timer = time;

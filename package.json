@@ -46,10 +46,6 @@
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard",
     "cordova-plugin-transport-security",
-    {
-      "locator": "https://github.com/katzer/cordova-plugin-badge.git",
-      "id": "cordova-plugin-badge"
-    },
     "cordova-plugin-app-event",
     {
       "id": "phonegap-plugin-push",
