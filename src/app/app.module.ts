@@ -41,6 +41,12 @@ import {AddRatingPage} from "../pages/rating/add-rating";
 import {StationWrapperPage} from "../pages/station/station-wrapper";
 import {ChargingPage} from "../pages/location/charging/charging";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
+import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
+import {EditPasswordPage} from "../pages/profile/edit-password/edit-password";
+import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-password";
+import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
+import {PayOutPage} from "../pages/wallet/pay-out/pay-out";
+import {VoucherPage} from "../pages/wallet/voucher/voucher";
 
 import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
@@ -60,13 +66,7 @@ import {ConfigService} from "../services/config.service";
 import {ErrorService} from "../services/error.service";
 import {HttpService} from "../services/http.service";
 import {PushNotificationService} from "../services/push.notification.service";
-import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
-import {EditPasswordPage} from "../pages/profile/edit-password/edit-password";
-import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-password";
-import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
-import {PayOutPage} from "../pages/wallet/pay-out/pay-out";
-import {VoucherPage} from "../pages/wallet/voucher/voucher";
-
+import {TrackerService} from "../services/tracker.service";
 
 let storage = new Storage();
 
@@ -216,7 +216,8 @@ export function createTranslateLoader(http: Http) {
         ConfigService,
         ErrorService,
         HttpService,
-        PushNotificationService
+        PushNotificationService,
+        TrackerService
     ]
 })
 export class AppModule {

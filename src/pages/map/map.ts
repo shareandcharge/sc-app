@@ -348,7 +348,8 @@ export class MapPage {
             let modal = this.modalCtrl.create(SignupLoginPage, {
                 "dest": CarWrapperPage,
                 'mode': 'modal',
-                'action': 'login'
+                'action': 'login',
+                'trackReferrer': 'Map add car'
             });
             modal.present();
         }

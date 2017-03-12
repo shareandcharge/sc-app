@@ -11,6 +11,7 @@ import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
 import {ForgotPasswordPage} from "./forgot-password/forgot-password";
 import {TermsPage} from "../_global/terms";
+import {TrackerService} from "../../services/tracker.service";
 
 @Component({
     selector: 'page-signup',
@@ -35,7 +36,7 @@ export class SignupLoginPage {
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
                 private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
                 public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
-                private errorService: ErrorService) {
+                private errorService: ErrorService, private trackerService: TrackerService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'login';
@@ -55,6 +56,14 @@ export class SignupLoginPage {
 
         this.destination = this.navParams.get('dest');
         this.mode = this.navParams.get('mode');
+    }
+
+    ionViewWillEnter() {
+        this.trackerService.track('Started Sign Up', {
+            'Screen name': this.navParams.get('trackReferrer') ? this.navParams.get('trackReferrer') : 'Signup/Login',
+            'Login': 'yes',
+            'Signup': 'yes'
+        });
     }
 
     createErrorMessages() {
@@ -114,6 +123,11 @@ export class SignupLoginPage {
 
             this.userService.login(this.signUpLoginObject.email, this.signUpLoginObject.authentification.password).subscribe(
                 () => {
+                    this.trackerService.track('Started login', {
+                        'Screen name': 'Anmelden',
+                        'Login': 'yes',
+                        'Signup': 'no'
+                    });
                     loader.dismissAll();
                     this.viewCtrl.dismiss();
 
@@ -143,8 +157,34 @@ export class SignupLoginPage {
             });
             loader.present();
 
+            this.trackerService.track('Signup Info Added', {
+                'Screen name': 'Anmelden',
+                'Sign up method': 'Email',
+                'Timestamp': '',
+                'Terms accepted': 'yes'
+            });
+
             this.userService.createUser(this.signUpLoginObject).subscribe(
                 () => {
+                    this.trackerService.track('Completed Sign Up', {
+                        'Screen name': 'Anmelden',
+                        'Sign up method': 'Email',
+                        'Timestamp': '',
+                        'Terms accepted': 'yes',
+                        'Login': 'no',
+                        'Signup': 'yes'
+                    });
+
+                    this.trackerService.alias(this.auth.getUser());
+
+                    //-- calling alias may take up to 2 seconds (according to their docs)
+                    setTimeout(() => {
+                        this.trackerService.userSet({
+                            'Sign up method': 'Email',
+                            'Terms accepted': 'yes',
+                        })
+                    }, 2500);
+
                     loader.dismissAll();
                     this.viewCtrl.dismiss();
                 },

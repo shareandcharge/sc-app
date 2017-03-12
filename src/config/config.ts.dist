@@ -7,5 +7,6 @@ export let CONFIG = {
         param: 'apikey',
         name: 'iosapp',
         secret: 'secret'
-    }
+    },
+    MIXPANEL_TOKEN: '2e9e....'
 };

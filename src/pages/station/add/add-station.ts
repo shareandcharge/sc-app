@@ -15,6 +15,7 @@ import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
 import {EditProfilePage} from "../../profile/edit-profile/edit-profile";
+import {TrackerService} from "../../../services/tracker.service";
 
 @Component({
     selector: 'page-add-station',
@@ -55,7 +56,9 @@ export class AddStationPage {
     errorMessages: any;
     daySelectOptions: any;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private events: Events, private alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService,
+                private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams,
+                private events: Events, private alertCtrl: AlertController, private trackerService: TrackerService) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -233,6 +236,7 @@ export class AddStationPage {
 
     ionViewDidEnter() {
         this.checkProfileComplete();
+        this.trackerService.track('Started Add Charging Station');
     }
 
     setDefaultWeekcalendar() {
