@@ -56,7 +56,10 @@
     "expired_voucher": "Der Gutschein ist leider nicht mehr gültig!",
     "no_voucheraccount": "Kein Gutscheinaccount angegeben.",
     "voucher_balance_too_low": "Es sind nicht ausreichend Tokens verfügbar, um den Gutschein auszuzuahlen.",
-    "not_enough_balance": "Dein Guthaben reicht dafür leider nicht aus."
+    "not_enough_balance": "Dein Guthaben reicht dafür leider nicht aus.",
+    "error_start_charging_unavailable": "Ladestation ist temporär nicht erreichbar",
+    "error_start_charging_not_connected": "Fahrzeug ist nicht angeschlossen",
+    "error_start_charging": "Konnte den Ladevorgang nicht starten. Bitte Verbindung prüfen!"
   },
   "payment": {
     "types": {
