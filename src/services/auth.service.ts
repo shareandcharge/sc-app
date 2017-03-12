@@ -43,6 +43,10 @@ export class AuthService {
             this.token = null;
             this.user = null;
 
+            this.trackerService.track('Logout Completed', {
+                "Login method": "Email",
+                "Timestamp": ""
+            });
             this.trackerService.reset();
             this.events.publish('auth:logout');
         });

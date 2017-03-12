@@ -58,6 +58,14 @@ export class SignupLoginPage {
         this.mode = this.navParams.get('mode');
     }
 
+    ionViewWillEnter() {
+        this.trackerService.track('Started Sign Up', {
+            'Screen name': this.navParams.get('trackReferrer') ? this.navParams.get('trackReferrer') : 'Signup/Login',
+            'Login': 'yes',
+            'Signup': 'yes'
+        });
+    }
+
     createErrorMessages() {
         this.errorMessages = {
             "email": 'Bitte gib Deine E-Mail Adresse an.',
@@ -115,6 +123,11 @@ export class SignupLoginPage {
 
             this.userService.login(this.signUpLoginObject.email, this.signUpLoginObject.authentification.password).subscribe(
                 () => {
+                    this.trackerService.track('Started login', {
+                        'Screen name': 'Anmelden',
+                        'Login': 'yes',
+                        'Signup': 'no'
+                    });
                     loader.dismissAll();
                     this.viewCtrl.dismiss();
 
@@ -144,9 +157,34 @@ export class SignupLoginPage {
             });
             loader.present();
 
+            this.trackerService.track('Signup Info Added', {
+                'Screen name': 'Anmelden',
+                'Sign up method': 'Email',
+                'Timestap': '',
+                'Terms accepted': 'yes'
+            });
+
             this.userService.createUser(this.signUpLoginObject).subscribe(
                 () => {
+                    this.trackerService.track('Completed Sign Up', {
+                        'Screen name': 'Anmelden',
+                        'Sign up method': 'Email',
+                        'Timestap': '',
+                        'Terms accepted': 'yes',
+                        'Login': 'no',
+                        'Signup': 'yes'
+                    });
+
                     this.trackerService.alias(this.auth.getUser());
+
+                    //-- calling alias may take up to 2 seconds (according to their docs)
+                    setTimeout(() => {
+                        this.trackerService.userSet({
+                            'Sign up method': 'Email',
+                            'Terms accepted': 'yes',
+                        })
+                    }, 2500);
+
                     loader.dismissAll();
                     this.viewCtrl.dismiss();
                 },

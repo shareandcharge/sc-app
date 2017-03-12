@@ -24,6 +24,10 @@ export class TrackerService {
         mixpanel.track(event, properties);
     }
 
+    userSet(properties: any) {
+        mixpanel.people.set(properties);
+    }
+
     identify(user: User) {
         console.log('Tracker ident: ', user.address);
         mixpanel.identify(user.address);

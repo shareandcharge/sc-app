@@ -63,7 +63,8 @@ export class TabsPage {
             this.loginModal({
                 "dest": StationWrapperPage,
                 'mode' : 'modal',
-                'action' : 'login'
+                'action' : 'login',
+                'trackReferrer': 'Tabs'
             });
         }
     }
