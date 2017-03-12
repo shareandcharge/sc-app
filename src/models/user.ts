@@ -83,6 +83,18 @@ export class User implements Serializable<User> {
         }
     }
 
+    getCardId(): string|null {
+        let id = null;
+
+        try {
+            id = Object.keys(this.authentification.cards).shift();
+        }
+        catch (e) {
+        }
+
+        return id;
+    }
+
     deserialize(input) {
         this.id = input.id;
         this.email = input.email;

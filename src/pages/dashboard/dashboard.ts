@@ -19,7 +19,9 @@ export class DashboardPage {
     email: any;
     user: User = new User();
 
-    constructor(private navCtrl: NavController, private actionSheetCtrl: ActionSheetController, private auth: AuthService, private platform: Platform, private userService: UserService, private events: Events, private errorService: ErrorService) {
+    constructor(private navCtrl: NavController, private actionSheetCtrl: ActionSheetController,
+                private auth: AuthService, private platform: Platform, private userService: UserService,
+                private events: Events, private errorService: ErrorService) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 

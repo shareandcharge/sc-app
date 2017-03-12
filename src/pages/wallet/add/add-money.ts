@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, ModalController} from 'ionic-angular';
+import {NavController, ViewController, Events} from 'ionic-angular';
 import {PaymentService} from "../../../services/payment.service";
 import {ErrorService} from "../../../services/error.service";
 import {InAppBrowser} from "ionic-native";
+import {User} from "../../../models/user";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
     selector: 'page-add-money',
@@ -12,9 +14,12 @@ export class AddMoneyPage {
     displayAmount: any;
     payInObject: any;
 
+    user: User;
+
     payInButtonDisabled = false;
 
-    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService, private errorService: ErrorService, private modalCtrl: ModalController) {
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService,
+                private errorService: ErrorService, private events: Events, private authService: AuthService) {
         this.payInObject = {
             'type': 'cc',
             'amount': 0,
@@ -28,6 +33,14 @@ export class AddMoneyPage {
         }
     }
 
+    ionViewWillEnter() {
+        this.loadUser();
+    }
+
+    loadUser() {
+        this.user = this.authService.getUser();
+    }
+
     dismiss() {
         this.viewCtrl.dismiss();
     }
@@ -35,12 +48,15 @@ export class AddMoneyPage {
     addMoney() {
         this.payInButtonDisabled = true;
         this.payInObject.amount = this.convertToDecimal(this.displayAmount) * 100;
+        this.payInObject.details.cardId = this.user.getCardId();
 
         this.paymentService.payIn(this.payInObject).subscribe(
             (response) => {
                 if (response.client_action === 'redirect') {
                     this.showExternalPaymentScreen(response.action_data.url).then(() => {
                         this.dismiss();
+                        //-- reload the user, we may have credit card IDs we need to sent next time
+                        this.events.publish('auth:refresh:user');
                     });
                 }
             },

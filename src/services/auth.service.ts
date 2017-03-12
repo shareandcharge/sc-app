@@ -19,7 +19,7 @@ export class AuthService {
         this.storage.get(this.STORAGE_TOKEN_NAME).then(token => {
             if (null === token) return;
             this.token = token;
-            this.events.publish('auth:refresh:user');
+            this.events.publish('auth:refresh:user', true);
         });
     }
 

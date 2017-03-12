@@ -44,6 +44,9 @@ export class MyApp {
 
             this.pushNotificationService.initPushNotification();
 
+            this.events.subscribe('auth:refresh:user', (checkChargingProcess?) => {
+                this.refreshUser(checkChargingProcess);
+            });
             this.events.subscribe('user:refreshed', () => {
                 this.updateUserDeviceToken();
             });
@@ -78,7 +81,6 @@ export class MyApp {
     }
 
     checkExistingToken() {
-        this.events.subscribe('auth:refresh:user', () => this.refreshUser());
         this.authService.checkExistingToken();
     }
 
@@ -86,11 +88,14 @@ export class MyApp {
         this.chargingService.checkChargingState();
     }
 
-    refreshUser() {
+    refreshUser(checkChargingProcess?: boolean) {
         this.userService.getUser().subscribe(
             (user) => {
+                console.log('CHEC:', checkChargingProcess);
                 this.authService.setUser(user);
-                this.checkChargingProgress();
+                if (checkChargingProcess) {
+                    this.checkChargingProgress();
+                }
                 this.events.publish('user:refreshed');
             },
             (error) => {
