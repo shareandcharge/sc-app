@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ConfigService} from "./config.service";
+import {User} from "../models/user";
 
 declare var mixpanel: any;
 
@@ -7,8 +8,6 @@ declare var mixpanel: any;
 export class TrackerService {
 
     constructor(private configService: ConfigService) {
-
-        console.log('Hello TrackerService Provider');
     }
 
     init() {
@@ -17,6 +16,26 @@ export class TrackerService {
     }
 
     track(event: string, properties?: any) {
+        if (properties && '' == properties.Timestamp) {
+            // in UTC (+0)
+            properties.Timestamp = (new Date().toISOString()).replace('T', ' ');
+        }
+        console.log('Track: ', event, properties);
         mixpanel.track(event, properties);
+    }
+
+    identify(user: User) {
+        console.log('Tracker ident: ', user.address);
+        mixpanel.identify(user.address);
+    }
+
+    alias(user: User) {
+        console.log('Tracker alias: ', user.address);
+        mixpanel.alias(user.address);
+    }
+
+    reset() {
+        console.log('Tracker Reset');
+        mixpanel.reset();
     }
 }

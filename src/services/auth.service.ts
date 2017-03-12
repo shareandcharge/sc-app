@@ -3,6 +3,7 @@ import {Storage} from '@ionic/storage';
 import {tokenNotExpired} from 'angular2-jwt';
 import {User} from "../models/user";
 import {Events} from "ionic-angular";
+import {TrackerService} from "./tracker.service";
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
     user: User;
     token: string;
 
-    constructor(private events: Events, private storage: Storage) {
+    constructor(private events: Events, private storage: Storage, private trackerService: TrackerService) {
         this.user = null;
     }
 
@@ -32,6 +33,7 @@ export class AuthService {
             this.token = token;
             this.user = user;
 
+            this.trackerService.identify(user);
             this.events.publish('auth:login');
         });
     }
@@ -41,6 +43,7 @@ export class AuthService {
             this.token = null;
             this.user = null;
 
+            this.trackerService.reset();
             this.events.publish('auth:logout');
         });
     }

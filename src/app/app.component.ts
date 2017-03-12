@@ -30,8 +30,7 @@ export class MyApp {
                 public storage: Storage, private translateService: TranslateService, private config: Config,
                 private pushNotificationService: PushNotificationService, private errorService: ErrorService,
                 private ionicApp: IonicApp, private menuCtrl: MenuController, private alertCtrl: AlertController,
-                private trackerService: TrackerService
-    ) {
+                private trackerService: TrackerService) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -73,7 +72,7 @@ export class MyApp {
                 this.rootPage = TabsPage;
                 if (!result) {
                     this.storage.set('introShown', true);
-                    let introModal = this.modalCtrl.create(IntroPage);
+                    let introModal = this.modalCtrl.create(IntroPage, {isOnboarding: true});
                     introModal.present();
                 }
             });

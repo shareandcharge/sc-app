@@ -11,6 +11,7 @@ import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
 import {ForgotPasswordPage} from "./forgot-password/forgot-password";
+import {TrackerService} from "../../services/tracker.service";
 
 @Component({
     selector: 'page-signup',
@@ -32,7 +33,10 @@ export class SignupLoginPage {
         'login' : 'Login'
     };
 
-    constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController, private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService, public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
+                private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
+                public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
+                private errorService: ErrorService, private trackerService: TrackerService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'login';
@@ -142,6 +146,7 @@ export class SignupLoginPage {
 
             this.userService.createUser(this.signUpLoginObject).subscribe(
                 () => {
+                    this.trackerService.alias(this.auth.getUser());
                     loader.dismissAll();
                     this.viewCtrl.dismiss();
                 },
