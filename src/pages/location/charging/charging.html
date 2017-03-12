@@ -96,6 +96,29 @@
             </button>
         </div>
         <div text-center *ngIf="!countingDown">
+
+            <ng-container *ngIf="station.connectors.length > 1">
+                <ion-list no-lines class="no-margin-bottom">
+                    <ion-item>
+                        <ion-label>Ladepunkt:</ion-label>
+                        <ion-select
+                                [(ngModel)]="selectedConnectorId"
+                                cancelText="Abbrechen" okText="OK"
+                                (ngModelChange)="selectConnector()"
+                        >
+                            <ion-option
+                                    *ngFor="let conn of station.connectors"
+                                    [value]="conn.id"
+                                    [disabled]="conn.isRented"
+                            >
+                                {{conn.getTitle()}}
+                            </ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+                <hr>
+            </ng-container>
+
             <ion-list no-lines="" class="inline-list no-margin-bottom">
                 <ion-item text-center="">
                     <ion-checkbox [(ngModel)]="termsChecked" class="checkbox-square item-partial-cover-70"></ion-checkbox>

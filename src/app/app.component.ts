@@ -91,7 +91,6 @@ export class MyApp {
     refreshUser(checkChargingProcess?: boolean) {
         this.userService.getUser().subscribe(
             (user) => {
-                console.log('CHEC:', checkChargingProcess);
                 this.authService.setUser(user);
                 if (checkChargingProcess) {
                     this.checkChargingProgress();

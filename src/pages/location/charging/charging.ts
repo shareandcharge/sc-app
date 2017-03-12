@@ -11,6 +11,7 @@ import {CarService} from "../../../services/car.service";
 import {ErrorService} from "../../../services/error.service";
 import {Car} from "../../../models/car";
 import {TermsPage} from "../../_global/terms";
+import {Station} from "../../../models/station";
 
 @Component({
     selector: 'page-charging',
@@ -18,6 +19,10 @@ import {TermsPage} from "../../_global/terms";
 })
 export class ChargingPage {
     location: Location;
+    station: Station;
+    connector: Connector;
+    selectedConnectorId: number;
+
     chargingTimeHours: any;
     chargingPrice: any;
     chargingPricePerHour: any;
@@ -25,7 +30,6 @@ export class ChargingPage {
 
     includingVat: boolean;
 
-    connector: Connector;
     hours: any;
     minutes: any;
     seconds: any;
@@ -57,8 +61,11 @@ export class ChargingPage {
                 public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
                 private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
                 private events: Events, private modalCtrl: ModalController) {
+
         this.location = navParams.get("location");
-        this.connector = this.location.stations[0].connectors[0];
+        this.station = this.location.stations[0];
+        this.connector = this.station.connectors[0];
+        this.selectedConnectorId = this.connector.id;
 
         this.fromLocationDetailsAndIsCharging = navParams.get("isCharging");
 
@@ -147,6 +154,10 @@ export class ChargingPage {
                 }
             },
             error => this.errorService.displayErrorWithKey(error, 'Preis ermitteln'));
+    }
+
+    updatePriceInfoForSetTime() {
+        this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), this.carService.getActiveCar().maxCharging);
     }
 
     isScrollable(x, y) {
@@ -253,7 +264,7 @@ export class ChargingPage {
             self.drawSlideBar(e.offsetX, e.offsetY);
         }
         if (this.activeCar != null) {
-            this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), this.carService.getActiveCar().maxCharging);
+            this.updatePriceInfoForSetTime();
         }
 
     }
@@ -267,7 +278,7 @@ export class ChargingPage {
             }
 
             if (this.activeCar != null) {
-                this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), this.carService.getActiveCar().maxCharging);
+                this.updatePriceInfoForSetTime();
             }
         }
     }
@@ -433,4 +444,11 @@ export class ChargingPage {
         modal.present().then(() => this.enterFromModal = true);
     }
 
+    selectConnector() {
+        this.connector = this.station.connectors.filter(
+            (c: Connector) => {
+                return c.id == this.selectedConnectorId;
+            })[0];
+        this.updatePriceInfoForSetTime();
+    }
 }

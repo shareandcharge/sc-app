@@ -3,7 +3,7 @@ export class Connector {
     priceprovider: any;
     plugtype: string;
     maxwattpower: number;
-
+    description: string;
     isRented: boolean;  // is called "isrented" in the backend
 
     weekcalendar: {
@@ -272,10 +272,12 @@ export class Connector {
 
         let hour = date.getHours();
 
-        let isOpen = this.weekcalendar.hours[day].from <= hour
+        return this.weekcalendar.hours[day].from <= hour
             && this.weekcalendar.hours[day].to > hour;
+    }
 
-        return isOpen;
+    getTitle() {
+        return this.description || this.id;
     }
 
     serialize(): string {
@@ -292,6 +294,7 @@ export class Connector {
 
         this.plugtype = input.plugtype;
         this.maxwattpower = input.maxwattpower;
+        this.description = input.description;
         this.isRented = !!input.isrented; // cast to boolean
 
         return this;
