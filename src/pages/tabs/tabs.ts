@@ -30,7 +30,8 @@ export class TabsPage {
 
     signupModal() {
         this.displayModal(SignupLoginPage, {
-            'action' : 'signUp'
+            'action' : 'signUp',
+            'trackReferrer': 'Tab Anmelden'
         });
     }
 
@@ -64,7 +65,7 @@ export class TabsPage {
                 "dest": StationWrapperPage,
                 'mode' : 'modal',
                 'action' : 'login',
-                'trackReferrer': 'Tabs'
+                'trackReferrer': 'Tab Ladestationen'
             });
         }
     }

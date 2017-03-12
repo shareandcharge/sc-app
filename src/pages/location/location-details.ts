@@ -295,7 +295,7 @@ export class LocationDetailPage {
     }
 
     loginModal() {
-        let modal = this.modalCtrl.create(SignupLoginPage, {'trackReferrer': 'Location Detail'});
+        let modal = this.modalCtrl.create(SignupLoginPage, {'trackReferrer': 'Location Laden Buttons'});
         modal.present();
     }
 
