@@ -20,6 +20,7 @@ import {CarService} from "../../services/car.service";
 import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
 import {ChargingCompletePage} from './charging/charging-complete/charging-complete'
+import {TrackerService} from "../../services/tracker.service";
 
 
 @Component({
@@ -70,7 +71,8 @@ export class LocationDetailPage {
                 private chargingService: ChargingService, private navParams: NavParams, platform: Platform,
                 private viewCtrl: ViewController, private authService: AuthService, public ratingService: RatingService,
                 private locationService: LocationService, private configService: ConfigService,
-                private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService) {
+                private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService,
+                private trackerService: TrackerService) {
 
         this.location = new Location();
         this.station = new Station();
@@ -143,7 +145,7 @@ export class LocationDetailPage {
     getLocationDetail() {
         let observable = this.locationService.getLocation(this.locationId);
         observable.subscribe(
-            location => {
+            (location) => {
                 this.location = location;
                 this.station = this.location.stations[0];
                 this.connector = this.station.connectors[0];
@@ -151,11 +153,15 @@ export class LocationDetailPage {
                 this.flatrateTariff = this.connector.priceprovider.public.selected === 'flatrate';
 
                 this.loadOpeningHours();
-
                 this.loadMap();
                 this.getRatings();
-
                 this.getPrice();
+
+                this.trackerService.track('Station Searched', {
+                    'id': location.id,
+                    'Address': location.address,
+                    'Timestamp': ''
+                });
 
                 this.configService.getPlugTypes().subscribe((plugTypes) => {
                         this.plugTypes = plugTypes;
@@ -163,7 +169,7 @@ export class LocationDetailPage {
                     },
                     error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
             },
-            error => {
+            (error) => {
                 this.errorService.displayErrorWithKey(error, 'Standortdetails');
                 this.dismiss();
             }

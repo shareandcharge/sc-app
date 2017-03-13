@@ -12,6 +12,7 @@ import {ErrorService} from "../../../services/error.service";
 import {Car} from "../../../models/car";
 import {TermsPage} from "../../_global/terms";
 import {Station} from "../../../models/station";
+import {TrackerService} from "../../../services/tracker.service";
 
 @Component({
     selector: 'page-charging',
@@ -60,7 +61,7 @@ export class ChargingPage {
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController,
                 public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
                 private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
-                private events: Events, private modalCtrl: ModalController) {
+                private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService) {
 
         this.location = navParams.get("location");
         this.station = this.location.stations[0];
@@ -86,6 +87,12 @@ export class ChargingPage {
             this.enterFromModal = false;
             return;
         }
+
+        this.trackerService.track('Charging Page Entered', {
+            'id': this.location.id,
+            'Address': this.location.address,
+            'Timestamp': ''
+        });
 
         this.termsChecked = false;
         this.charging = this.chargingService.isCharging();
@@ -203,6 +210,12 @@ export class ChargingPage {
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {
+                    this.trackerService.track('Charging Started', {
+                        'id': this.location.id,
+                        'Address': this.location.address,
+                        'Timestamp': ''
+                    });
+
                     this.charging = true;
                     this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
                 },
@@ -232,6 +245,12 @@ export class ChargingPage {
                             .finally(() => loader.dismissAll())
                             .subscribe(
                                 () => {
+                                    this.trackerService.track('Charging Stopped', {
+                                        'id': this.location.id,
+                                        'Address': this.location.address,
+                                        'Timestamp': ''
+                                    });
+
                                     this.countingDown = false;
                                     this.timer = 0;
                                     this.hours = "00";
