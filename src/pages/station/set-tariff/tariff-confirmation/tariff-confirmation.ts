@@ -7,6 +7,7 @@ import {User} from "../../../../models/user";
 import {UserService} from "../../../../services/user.service";
 import {ErrorService} from "../../../../services/error.service";
 import {LocationService} from "../../../../services/location.service";
+import {TrackerService} from "../../../../services/tracker.service";
 
 @Component({
     selector: 'tariff-confirmation',
@@ -42,7 +43,9 @@ export class TariffConfirmationPage {
         'private': 'Familie & Freunde Tarif'
     };
 
-    constructor(private navParams: NavParams, private events: Events, private userService: UserService, private errorService: ErrorService, private locationService: LocationService, private navCtrl: NavController) {
+    constructor(private navParams: NavParams, private events: Events, private userService: UserService,
+                private errorService: ErrorService, private locationService: LocationService,
+                private navCtrl: NavController, private trackerService: TrackerService) {
         this.location = navParams.get('location');
         this.station = this.location.stations[0];
         this.connector = this.station.connectors[0];
@@ -60,6 +63,10 @@ export class TariffConfirmationPage {
         for (let type of this.types) {
             this.loadPrices(type);
         }
+    }
+
+    ionViewDidEnter() {
+        this.trackerService.track('Started Station Confirmation - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
     }
 
     loadPrices(type: string) {
@@ -99,6 +106,8 @@ export class TariffConfirmationPage {
     }
 
     publish() {
+        this.trackerService.track('Completed Charging Station - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
+
         this.events.publish('priceprovider:save', this.priceprovider);
 
         if (this.flowMode == 'add') {
@@ -110,5 +119,9 @@ export class TariffConfirmationPage {
 
     close() {
         this.navCtrl.parent.pop();
+    }
+
+    isAdd() {
+        return this.flowMode == 'add';
     }
 }

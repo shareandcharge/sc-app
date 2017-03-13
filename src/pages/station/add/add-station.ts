@@ -236,7 +236,12 @@ export class AddStationPage {
 
     ionViewDidEnter() {
         this.checkProfileComplete();
-        this.trackerService.track('Started Add Charging Station');
+
+        let eventName = 'Started ' + (this.isAdd() ? 'Add' : 'Edit') + ' Charging Station';
+        let screenName = (this.isAdd() ? 'Ladestation hinzufügen' : 'Ladestation bearbeiten');
+        this.trackerService.track(eventName, {
+            "Screen Name": screenName
+        });
     }
 
     setDefaultWeekcalendar() {
@@ -469,6 +474,10 @@ export class AddStationPage {
         this.prepareProcedure();
 
         if (this.validateForm()) {
+            this.trackerService.track('Save Info - ' + (this.isAdd() ? 'Add' : 'Edit'), {
+                'Screen Name': 'Ladestation bearbeiten'
+            });
+
             if (this.connector.atLeastOneTarifSelected()) {
                 this.events.publish('locations:update', this.locObject);
             } else {
@@ -499,6 +508,10 @@ export class AddStationPage {
                 this.locObject.lat = this.map.getCenter().lat();
                 this.locObject.lng = this.map.getCenter().lng();
             }
+
+            this.trackerService.track('Proceed Info - ' + (this.isAdd() ? 'Add' : 'Edit'), {
+                'Screen Name': this.isAdd() ? 'Ladestation hinzufügen' : 'Ladestation bearbeiten'
+            });
 
             this.navCtrl.push(AddStationImagePage, {
                 "location": this.locObject,
@@ -601,4 +614,7 @@ export class AddStationPage {
         return false;
     }
 
+    isAdd() {
+        return this.flowMode == 'add';
+    }
 }

@@ -60,7 +60,7 @@ export class SignupLoginPage {
 
     ionViewWillEnter() {
         this.trackerService.track('Started Sign Up', {
-            'Screen name': this.navParams.get('trackReferrer') ? this.navParams.get('trackReferrer') : 'Signup/Login',
+            'Screen Name': this.navParams.get('trackReferrer') ? this.navParams.get('trackReferrer') : 'Signup/Login',
             'Login': 'yes',
             'Signup': 'yes'
         });
@@ -123,10 +123,13 @@ export class SignupLoginPage {
 
             this.userService.login(this.signUpLoginObject.email, this.signUpLoginObject.authentification.password).subscribe(
                 () => {
-                    this.trackerService.track('Started login', {
-                        'Screen name': 'Anmelden',
+                    this.trackerService.track('Login Completed', {
+                        'Screen Name': 'Anmelden',
                         'Login': 'yes',
-                        'Signup': 'no'
+                        'Signup': 'no',
+                        'Sign up method': 'Email',
+                        'Timestamp': '',
+                        'Terms accepted': 'yes'
                     });
                     loader.dismissAll();
                     this.viewCtrl.dismiss();
@@ -158,7 +161,7 @@ export class SignupLoginPage {
             loader.present();
 
             this.trackerService.track('Signup Info Added', {
-                'Screen name': 'Anmelden',
+                'Screen Name': 'Anmelden',
                 'Sign up method': 'Email',
                 'Timestamp': '',
                 'Terms accepted': 'yes'
@@ -167,7 +170,7 @@ export class SignupLoginPage {
             this.userService.createUser(this.signUpLoginObject).subscribe(
                 () => {
                     this.trackerService.track('Completed Sign Up', {
-                        'Screen name': 'Anmelden',
+                        'Screen Name': 'Anmelden',
                         'Sign up method': 'Email',
                         'Timestamp': '',
                         'Terms accepted': 'yes',

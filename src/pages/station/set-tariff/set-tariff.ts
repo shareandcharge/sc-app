@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, ModalController, Events} from 'ionic-angular';
-import {LocationService} from "../../../services/location.service";
 import {AddPermissionsPage} from './add-permissions/add-permissions';
 import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
-import {ErrorService} from "../../../services/error.service";
 import {TariffConfirmationPage} from "./tariff-confirmation/tariff-confirmation";
+import {TrackerService} from "../../../services/tracker.service";
 
 
 @Component({
@@ -27,7 +26,8 @@ export class SetTariffPage {
 
     estimatedPrice: any;
 
-    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController, private navParams: NavParams, public locationService: LocationService, private events: Events, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController,
+                private navParams: NavParams, private events: Events, private trackerService: TrackerService) {
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
         this.priceprovider = this.connector.priceprovider;
@@ -75,6 +75,11 @@ export class SetTariffPage {
             this.showSetTariffAlert();
         }
     }
+
+    ionViewDidEnter() {
+        this.trackerService.track('Started Tariff Type - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
+    }
+
     showHelp(type) {
         let message = "";
 
@@ -117,10 +122,13 @@ export class SetTariffPage {
 
     publish() {
         if (this.priceprovider.public.active || this.priceprovider.private.active) {
+
+            this.trackerService.track('Publish Tariff Type - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
+
             if (this.flowMode === 'add') {
                 this.navCtrl.push(TariffConfirmationPage, {
-                    'flowMode' : this.flowMode,
-                    'location' : this.locObject
+                    'flowMode': this.flowMode,
+                    'location': this.locObject
                 });
             } else {
                 this.events.publish('locations:update', this.locObject);
@@ -141,5 +149,9 @@ export class SetTariffPage {
 
     close() {
         this.navCtrl.parent.pop();
+    }
+
+    isAdd() {
+        return this.flowMode == 'add';
     }
 }
