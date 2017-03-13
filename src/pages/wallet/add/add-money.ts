@@ -5,6 +5,7 @@ import {ErrorService} from "../../../services/error.service";
 import {InAppBrowser} from "ionic-native";
 import {User} from "../../../models/user";
 import {AuthService} from "../../../services/auth.service";
+import {TrackerService} from "../../../services/tracker.service";
 
 @Component({
     selector: 'page-add-money',
@@ -19,7 +20,8 @@ export class AddMoneyPage {
     payInButtonDisabled = false;
 
     constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService,
-                private errorService: ErrorService, private events: Events, private authService: AuthService) {
+                private errorService: ErrorService, private events: Events, private authService: AuthService,
+                private trackerService: TrackerService) {
         this.payInObject = {
             'type': 'cc',
             'amount': 0,
@@ -35,6 +37,9 @@ export class AddMoneyPage {
 
     ionViewWillEnter() {
         this.loadUser();
+        this.trackerService.track('Started Loading Account', {
+            'Screen Name': 'Konto'
+        });
     }
 
     loadUser() {
@@ -49,6 +54,11 @@ export class AddMoneyPage {
         this.payInButtonDisabled = true;
         this.payInObject.amount = this.convertToDecimal(this.displayAmount) * 100;
         this.payInObject.details.cardId = this.user.getCardId();
+
+        this.trackerService.track('Account Info Added', {
+            'Payment method': this.payInObject.type,
+            'Timestamp': ''
+        });
 
         this.paymentService.payIn(this.payInObject).subscribe(
             (response) => {
