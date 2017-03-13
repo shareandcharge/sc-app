@@ -121,7 +121,15 @@ export class LocationDetailPage {
 
     ionViewWillEnter() {
         this.charging = this.chargingService.isCharging();
-        this.getLocationDetail();
+        this.getLocationDetail().subscribe(
+            (location) => {
+                this.trackerService.track('Station Searched', {
+                    'id': location.id,
+                    'Address': location.address,
+                    'Timestamp': ''
+                });
+            }
+        );
     }
 
     dismiss() {
@@ -156,12 +164,6 @@ export class LocationDetailPage {
                 this.loadMap();
                 this.getRatings();
                 this.getPrice();
-
-                this.trackerService.track('Station Searched', {
-                    'id': location.id,
-                    'Address': location.address,
-                    'Timestamp': ''
-                });
 
                 this.configService.getPlugTypes().subscribe((plugTypes) => {
                         this.plugTypes = plugTypes;
