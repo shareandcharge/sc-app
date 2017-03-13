@@ -8,7 +8,7 @@ export abstract class AbstractApiService {
     protected baseUrl;
 
     constructor(public configService: ConfigService) {
-        this.baseUrl = this.configService.getBaseUrl();
+        this.baseUrl = this.configService.getApiBaseUrl();
     }
 
     handleError(error: Response | any) {

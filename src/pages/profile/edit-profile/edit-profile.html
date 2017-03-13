@@ -10,6 +10,11 @@
     <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
         <ion-list no-lines="">
             <ion-item>
+                <ion-label floating>Firma</ion-label>
+                <ion-input type="text" class="input-white" [(ngModel)]="user.profile.company"
+                           formControlName="company"></ion-input>
+            </ion-item>
+            <ion-item>
                 <ion-label floating>Vorname</ion-label>
                 <ion-input type="text" class="input-white" [(ngModel)]="user.profile.firstname"
                            formControlName="firstName"></ion-input>
@@ -62,6 +67,7 @@
                 <ion-select formControlName="country"
                             [(ngModel)]="user.profile.country"
                             multiple="false"
+                            [selectOptions]="{title: 'Land'}"
                             class="select-multiline input-white"
                             placeholder="Bitte wählen ..."
                             cancelText="Abbrechen" okText="OK"
@@ -70,7 +76,7 @@
                 </ion-select>
             </ion-item>
             <ion-item text-wrap class="operator-vat-item">
-                <ion-checkbox color="light" checked="false"
+                <ion-checkbox checked="false"
                     formControlName="businessUser"
                     [(ngModel)]="user.profile.operatorVat">
                 </ion-checkbox>

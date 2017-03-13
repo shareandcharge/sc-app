@@ -7,6 +7,7 @@ import {AuthService} from "../../../services/auth.service";
 import {ErrorService} from "../../../services/error.service";
 import {postalCodeValidator} from "../../../validators/postalCodeValidator";
 import {countryValidator} from "../../../validators/countryValidator";
+import {TrackerService} from "../../../services/tracker.service";
 
 
 @Component({
@@ -20,7 +21,9 @@ export class EditProfilePage {
     errorMessages: any;
     submitAttempt: boolean = false;
 
-    constructor(private userService: UserService, private navParams: NavParams, public alertCtrl: AlertController, public navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder, private events: Events, private errorService: ErrorService) {
+    constructor(private userService: UserService, private navParams: NavParams, private alertCtrl: AlertController,
+                private navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder,
+                private events: Events, private errorService: ErrorService, private trackerService: TrackerService) {
         this.user = navParams.get('user');
 
         let profile = this.user.profile;
@@ -30,6 +33,7 @@ export class EditProfilePage {
         this.createErrorMessages();
 
         this.profileForm = this.formBuilder.group({
+            company: [],
             firstName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.required])],
             lastName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.required])],
             address: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
@@ -37,7 +41,8 @@ export class EditProfilePage {
             country: ['', countryValidator.isValid],
             postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5), postalCodeValidator.isValid])],
             businessUser: [false],
-            taxNumber: ['']
+            taxNumber: [],
+            operatorVatID: []
         });
     }
 
@@ -56,6 +61,10 @@ export class EditProfilePage {
         this.submitAttempt = true;
 
         if (this.profileForm.valid) {
+            this.trackerService.track('Profile saved', {
+                'Timestamp': ''
+            });
+
             this.userService.updateUser(this.user)
                 .subscribe(
                     () => {

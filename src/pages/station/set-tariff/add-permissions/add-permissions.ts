@@ -3,6 +3,7 @@ import {NavController, NavParams, ViewController, AlertController} from 'ionic-a
 import {Contacts, Contact} from "ionic-native";
 import {UserService} from "../../../../services/user.service";
 import {ErrorService} from "../../../../services/error.service";
+import {TrackerService} from "../../../../services/tracker.service";
 
 @Component({
     selector: 'page-add-permissions',
@@ -12,11 +13,14 @@ export class AddPermissionsPage {
     permissions: any;
     input: any;
 
-    constructor(public navCtrl: NavController, private navParams: NavParams , private viewCtrl: ViewController, public alertCtrl: AlertController, public userService: UserService, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController,
+                public alertCtrl: AlertController, public userService: UserService,
+                private errorService: ErrorService, private trackerService: TrackerService) {
         this.permissions = navParams.get("permissions");
     }
 
-    ionViewDidLoad() {
+    ionViewDidEnter() {
+        this.trackerService.track('Started Adding Friends', {});
     }
 
     submitEmail() {
@@ -34,6 +38,8 @@ export class AddPermissionsPage {
     }
 
     addUserToPermissionList(email: string) {
+        this.trackerService.track('Added Friends', {});
+
         this.permissions.push(email);
         this.input = "";
     }
@@ -122,7 +128,7 @@ export class AddPermissionsPage {
         alert.present();
     }
 
-    dismiss(){
+    dismiss() {
         this.viewCtrl.dismiss(this.permissions);
     }
 }

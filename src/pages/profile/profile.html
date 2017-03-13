@@ -29,7 +29,7 @@
         <button ion-item (click)="editPassword()">
             Passwort ändern
         </button>
-        <button ion-item (click)="resendVerificationEmail()">
+        <button ion-item (click)="resendVerificationEmail()" *ngIf="!user.isEmailVerified()">
             Bestätigung erneut senden
         </button>
     </ion-list>

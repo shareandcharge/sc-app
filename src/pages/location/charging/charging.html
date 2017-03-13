@@ -63,22 +63,69 @@
     </div>
 
     <div class="owner-wrapper">
-        <strong>Betreiber:</strong><br>
-        {{ location.ownerprofile.firstname }} {{ location.ownerprofile.lastname }}<br>
-        {{ location.ownerprofile.address }}<br>
-        {{ location.ownerprofile.postalCode }} {{ location.ownerprofile.city }}
+        <p>
+            <strong>Betreiber:</strong>
+
+            <span *ngIf="location.ownerprofile.company">
+                <br>{{ location.ownerprofile.company }}
+            </span>
+            <span *ngIf="location.ownerprofile.firstname || location.ownerprofile.lastname">
+                <br>{{ location.ownerprofile.firstname }} {{ location.ownerprofile.lastname }}
+            </span>
+            <span *ngIf="location.ownerprofile.address">
+                <br>{{ location.ownerprofile.address }}
+            </span>
+            <span *ngIf="location.ownerprofile.postalCode || location.ownerprofile.zip">
+                <br>{{ location.ownerprofile.postalCode }} {{ location.ownerprofile.city }}
+            </span>
+            <span *ngIf="location.ownerprofile.operatorVat && location.ownerprofile.operatorVatID">
+                <br>Steuernummer: {{ location.ownerprofile.operatorVatID }}
+            </span>
+        </p>
+        <p>
+            Es gelten die <a (click)="openTerms()">AGBs</a>.
+        </p>
     </div>
 
 </ion-content>
 <ion-footer>
     <ion-toolbar color="light">
-        <div text-center>
-            <button ion-button round text-uppercase color="danger" (click)="stopCharging()" *ngIf="countingDown">
+        <div text-center *ngIf="countingDown">
+            <button ion-button round text-uppercase color="danger" (click)="stopCharging()">
                 Stop
             </button>
+        </div>
+        <div text-center *ngIf="!countingDown">
 
-            <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive"
-                    *ngIf="!countingDown">
+            <ng-container *ngIf="station.connectors.length > 1">
+                <ion-list no-lines class="no-margin-bottom">
+                    <ion-item>
+                        <ion-label>Ladepunkt:</ion-label>
+                        <ion-select
+                                [(ngModel)]="selectedConnectorId"
+                                cancelText="Abbrechen" okText="OK"
+                                (ngModelChange)="selectConnector()"
+                        >
+                            <ion-option
+                                    *ngFor="let conn of station.connectors"
+                                    [value]="conn.id"
+                                    [disabled]="conn.isRented"
+                            >
+                                {{conn.getTitle()}}
+                            </ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+                <hr>
+            </ng-container>
+
+            <ion-list no-lines="" class="inline-list no-margin-bottom">
+                <ion-item text-center="">
+                    <ion-checkbox [(ngModel)]="termsChecked" class="checkbox-square item-partial-cover-70"></ion-checkbox>
+                    <ion-label>Ich akzeptiere die <a (click)="openTerms()">AGBs</a>.</ion-label>
+                </ion-item>
+            </ion-list>
+            <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive || !termsChecked">
                 Zahlungspflichtig laden
             </button>
         </div>

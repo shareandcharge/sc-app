@@ -1,7 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {
     NavController,
-    ModalController,
     NavParams,
     ActionSheetController,
     AlertController,
@@ -18,6 +17,8 @@ import {plugTypesValidator} from '../../../validators/plugTypesValidator';
 import {averageDistanceValidator} from '../../../validators/averageDistanceValidator';
 import {maxChargingValidator} from '../../../validators/maxChargingValidator';
 import {accuCapacityValidator} from '../../../validators/accuCapacityValidator';
+import {UserService} from "../../../services/user.service";
+import {AuthService} from "../../../services/auth.service";
 
 
 @Component({
@@ -37,7 +38,11 @@ export class CarFormPage {
 
     @ViewChild(Content) content: Content;
 
-    constructor(private configService: ConfigService, public formBuilder: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController, private navParams: NavParams, private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService) {
+    constructor(private userService: UserService, private authService: AuthService, private configService: ConfigService,
+                public formBuilder: FormBuilder, private alertCtrl: AlertController, public navCtrl: NavController,
+                private actionSheetCtrl: ActionSheetController, private navParams: NavParams,
+                private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController,
+                public events: Events, private errorService: ErrorService) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -136,7 +141,6 @@ export class CarFormPage {
         this.segmentTabs = 'custom';
 
         if (this.carForm.valid) {
-            console.log("car form is valid");
             let loader = this.loadingCtrl.create({content: "Speichere Auto ..."});
             loader.present();
 
@@ -148,6 +152,8 @@ export class CarFormPage {
                     .subscribe(
                         () => {
                             this.events.publish('cars:updated');
+                            this.events.publish('locations:updated');   // because the markers change depending on the car
+                            this.refreshUser(); // needed !
                             me.navCtrl.parent.pop();
                         },
                         error => this.errorService.displayErrorWithKey(error, 'Auto aktualisieren'));
@@ -158,6 +164,8 @@ export class CarFormPage {
                     .subscribe(
                         () => {
                             this.events.publish('cars:updated');
+                            this.events.publish('locations:updated');   // because the markers change depending on the car
+                            this.refreshUser(); // needed !
                             me.navCtrl.parent.pop();
                         },
                         error => this.errorService.displayErrorWithKey(error, 'Auto anlegen')
@@ -167,6 +175,26 @@ export class CarFormPage {
         else {
             this.content.scrollToTop();
         }
+    }
+
+    /**
+     * We need to refresh the user as the cars are part of the user.
+     * If we add a car, then change the profile, we may loose the cars again otherwise.
+     * This probably will be fixed in a next version of the backend. Re-check.
+     */
+    refreshUser() {
+        this.userService.getUser().subscribe(
+            (user) => {
+                this.authService.setUser(user);
+                this.events.publish('user:refreshed');
+            },
+            (error) => {
+                /**
+                 * If we can't refresh the user, the token is expired, user deleted etc.
+                 * For now we just logout the user (which clears the token)
+                 */
+                this.authService.logout();
+            });
     }
 
     showHelp(field) {

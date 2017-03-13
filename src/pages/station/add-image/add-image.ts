@@ -12,6 +12,7 @@ import {Location} from "../../../models/location";
 import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
+import {TrackerService} from "../../../services/tracker.service";
 
 
 @Component({
@@ -27,7 +28,9 @@ export class AddStationImagePage {
     connector: Connector;
     flowMode: any;
 
-    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams, public modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController, private events: Events) {
+    constructor(public navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams,
+                public modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController,
+                private events: Events, private trackerService: TrackerService) {
         if (typeof this.images == "undefined") {
             this.images = [];
         }
@@ -41,6 +44,10 @@ export class AddStationImagePage {
         if (typeof this.locObject.images != 'undefined') {
             this.images = this.locObject.images;
         }
+    }
+
+    ionViewDidEnter() {
+        this.trackerService.track('Started Photo - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
     }
 
     close() {
@@ -108,19 +115,24 @@ export class AddStationImagePage {
     saveChanges() {
         this.prepareProcedure();
 
+        this.trackerService.track('Save Photo - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
+
         if (this.connector.atLeastOneTarifSelected()) {
             this.events.publish('locations:update', this.locObject);
         } else {
             this.navCtrl.push(SetTariffPage, {
                 "location": this.locObject,
                 "mode": this.flowMode,
-                "setTariffAlert" : true
+                "setTariffAlert": true
             });
         }
     }
 
     continueAddStation() {
         this.prepareProcedure();
+
+        this.trackerService.track('Proceed Photo - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
+
         this.navCtrl.push(PlugTypesPage, {
             "location": this.locObject,
             "mode": this.flowMode
@@ -157,4 +169,7 @@ export class AddStationImagePage {
         this.images = reorderArray(this.images, indexes);
     }
 
+    isAdd() {
+        return this.flowMode == 'add';
+    }
 }

@@ -4,16 +4,16 @@ import {User} from "../models/user";
 
 import 'rxjs/add/operator/map';
 import {AuthService} from "./auth.service";
-import {AuthHttp} from "angular2-jwt";
 import {AbstractApiService} from "./abstract.api.service";
 import {ConfigService} from "./config.service";
+import {HttpService} from "./http.service";
 
 @Injectable()
 export class UserService extends AbstractApiService {
 
     error: string;
 
-    constructor(private authService: AuthService, private authHttp: AuthHttp, configService: ConfigService) {
+    constructor(private authService: AuthService, private httpService: HttpService, configService: ConfigService) {
         super(configService);
     }
 
@@ -22,7 +22,7 @@ export class UserService extends AbstractApiService {
 
         let url = `${this.baseUrl}/users/login`;
 
-        return this.authHttp.post(url, JSON.stringify(credentials))
+        return this.httpService.post(url, JSON.stringify(credentials))
             .map(res => {
                 let data = res.json();
                 this.authSuccess(data);
@@ -42,7 +42,7 @@ export class UserService extends AbstractApiService {
      */
     getUser(address?): Observable<User> {
         let url = address ? `users/${address}` : 'users';
-        return this.authHttp.get(`${this.baseUrl}/${url}`)
+        return this.httpService.get(`${this.baseUrl}/${url}`)
             .map(res => {
                 return new User().deserialize(res.json());
             })
@@ -54,12 +54,12 @@ export class UserService extends AbstractApiService {
             'email': email
         };
 
-        return this.authHttp.post(`${this.baseUrl}/users/exists`, JSON.stringify(object))
+        return this.httpService.post(`${this.baseUrl}/users/exists`, JSON.stringify(object))
             .map(res => res.json());
     }
 
     updateUser(user: User): Observable<User> {
-        return this.authHttp.put(`${this.baseUrl}/users`, JSON.stringify(user))
+        return this.httpService.put(`${this.baseUrl}/users`, JSON.stringify(user))
             .map(res => {
                 let result = res.json();
                 if (result.token) {
@@ -71,7 +71,7 @@ export class UserService extends AbstractApiService {
     }
 
     createUser(signUpObject) {
-        return this.authHttp.post(`${this.baseUrl}/users`, JSON.stringify(signUpObject))
+        return this.httpService.post(`${this.baseUrl}/users`, JSON.stringify(signUpObject))
             .map(res =>  {
                 let data = res.json();
 
@@ -86,13 +86,13 @@ export class UserService extends AbstractApiService {
             address = this.authService.getUser().address;
         }
 
-        return this.authHttp.delete(`${this.baseUrl}/users/${address}`)
+        return this.httpService.delete(`${this.baseUrl}/users/${address}`)
             .map(res => res.json())
             .catch(this.handleError);
     }
 
     resetPassword(resetObject) {
-        return this.authHttp.post(this.baseUrl + '/users/resetPassword', JSON.stringify(resetObject))
+        return this.httpService.post(this.baseUrl + '/users/resetPassword', JSON.stringify(resetObject))
             .map(res => res.json())
             .catch(this.handleError);
     }
@@ -106,8 +106,13 @@ export class UserService extends AbstractApiService {
             'email': email
         };
 
-        return this.authHttp.post(this.baseUrl + '/users/sendVerifyEmail', JSON.stringify(object))
-            .map(res => res.json())
+        return this.httpService.post(this.baseUrl + '/users/sendVerifyEmail', JSON.stringify(object))
+            .map(res => {
+                // result may be (completely) empty
+                if (res.text()) {
+                    res.json()
+                }
+            })
             .catch(this.handleError);
     }
 }

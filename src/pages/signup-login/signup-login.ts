@@ -5,12 +5,13 @@ import {
 } from 'ionic-angular';
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
-import {TermsPage} from "./terms";
 import {FormBuilder, Validators, FormControl} from '@angular/forms';
 import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
 import {ForgotPasswordPage} from "./forgot-password/forgot-password";
+import {TermsPage} from "../_global/terms";
+import {TrackerService} from "../../services/tracker.service";
 
 @Component({
     selector: 'page-signup',
@@ -32,7 +33,10 @@ export class SignupLoginPage {
         'login' : 'Login'
     };
 
-    constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController, private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService, public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
+                private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
+                public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
+                private errorService: ErrorService, private trackerService: TrackerService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'login';
@@ -52,6 +56,14 @@ export class SignupLoginPage {
 
         this.destination = this.navParams.get('dest');
         this.mode = this.navParams.get('mode');
+    }
+
+    ionViewWillEnter() {
+        this.trackerService.track('Started Sign Up', {
+            'Screen Name': this.navParams.get('trackReferrer') ? this.navParams.get('trackReferrer') : 'Signup/Login',
+            'Login': 'yes',
+            'Signup': 'yes'
+        });
     }
 
     createErrorMessages() {
@@ -111,6 +123,14 @@ export class SignupLoginPage {
 
             this.userService.login(this.signUpLoginObject.email, this.signUpLoginObject.authentification.password).subscribe(
                 () => {
+                    this.trackerService.track('Login Completed', {
+                        'Screen Name': 'Anmelden',
+                        'Login': 'yes',
+                        'Signup': 'no',
+                        'Sign up method': 'Email',
+                        'Timestamp': '',
+                        'Terms accepted': 'yes'
+                    });
                     loader.dismissAll();
                     this.viewCtrl.dismiss();
 
@@ -140,8 +160,34 @@ export class SignupLoginPage {
             });
             loader.present();
 
+            this.trackerService.track('Signup Info Added', {
+                'Screen Name': 'Anmelden',
+                'Sign up method': 'Email',
+                'Timestamp': '',
+                'Terms accepted': 'yes'
+            });
+
             this.userService.createUser(this.signUpLoginObject).subscribe(
                 () => {
+                    this.trackerService.track('Completed Sign Up', {
+                        'Screen Name': 'Anmelden',
+                        'Sign up method': 'Email',
+                        'Timestamp': '',
+                        'Terms accepted': 'yes',
+                        'Login': 'no',
+                        'Signup': 'yes'
+                    });
+
+                    this.trackerService.alias(this.auth.getUser());
+
+                    //-- calling alias may take up to 2 seconds (according to their docs)
+                    setTimeout(() => {
+                        this.trackerService.userSet({
+                            'Sign up method': 'Email',
+                            'Terms accepted': 'yes',
+                        })
+                    }, 2500);
+
                     loader.dismissAll();
                     this.viewCtrl.dismiss();
                 },

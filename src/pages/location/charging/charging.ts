@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, ViewController, LoadingController, Events} from 'ionic-angular';
+import {
+    NavController, NavParams, AlertController, ViewController, LoadingController, Events,
+    ModalController
+} from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 import {Connector} from "../../../models/connector";
 import {LocationService} from "../../../services/location.service";
@@ -7,6 +10,9 @@ import {Location} from "../../../models/location";
 import {CarService} from "../../../services/car.service";
 import {ErrorService} from "../../../services/error.service";
 import {Car} from "../../../models/car";
+import {TermsPage} from "../../_global/terms";
+import {Station} from "../../../models/station";
+import {TrackerService} from "../../../services/tracker.service";
 
 @Component({
     selector: 'page-charging',
@@ -14,6 +20,10 @@ import {Car} from "../../../models/car";
 })
 export class ChargingPage {
     location: Location;
+    station: Station;
+    connector: Connector;
+    selectedConnectorId: number;
+
     chargingTimeHours: any;
     chargingPrice: any;
     chargingPricePerHour: any;
@@ -21,13 +31,14 @@ export class ChargingPage {
 
     includingVat: boolean;
 
-    connector: Connector;
     hours: any;
     minutes: any;
     seconds: any;
     timer: any;
     countingDown: boolean;
     buttonDeactive: any;
+    termsChecked: boolean;
+    enterFromModal: boolean;
     mouseDragging: any;
     canvasX: any;
     canvasY: any;
@@ -47,9 +58,15 @@ export class ChargingPage {
         'kwh'
     ];
 
-    constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController, public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService, private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService, private events: Events) {
+    constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController,
+                public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
+                private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
+                private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService) {
+
         this.location = navParams.get("location");
-        this.connector = this.location.stations[0].connectors[0];
+        this.station = this.location.stations[0];
+        this.connector = this.station.connectors[0];
+        this.selectedConnectorId = this.connector.id;
 
         this.fromLocationDetailsAndIsCharging = navParams.get("isCharging");
 
@@ -65,6 +82,19 @@ export class ChargingPage {
     }
 
     ionViewWillEnter() {
+        // when we open/close the terms/AGB modal we don't want to refresh everything
+        if (this.enterFromModal) {
+            this.enterFromModal = false;
+            return;
+        }
+
+        this.trackerService.track('Charging Page Entered', {
+            'id': this.location.id,
+            'Address': this.location.address,
+            'Timestamp': ''
+        });
+
+        this.termsChecked = false;
         this.charging = this.chargingService.isCharging();
         this.activeCar = this.carService.getActiveCar();
 
@@ -133,6 +163,10 @@ export class ChargingPage {
             error => this.errorService.displayErrorWithKey(error, 'Preis ermitteln'));
     }
 
+    updatePriceInfoForSetTime() {
+        this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), this.carService.getActiveCar().maxCharging);
+    }
+
     isScrollable(x, y) {
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
         let rect = c.getBoundingClientRect();
@@ -176,6 +210,12 @@ export class ChargingPage {
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {
+                    this.trackerService.track('Charging Started', {
+                        'id': this.location.id,
+                        'Address': this.location.address,
+                        'Timestamp': ''
+                    });
+
                     this.charging = true;
                     this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
                 },
@@ -205,6 +245,12 @@ export class ChargingPage {
                             .finally(() => loader.dismissAll())
                             .subscribe(
                                 () => {
+                                    this.trackerService.track('Charging Stopped', {
+                                        'id': this.location.id,
+                                        'Address': this.location.address,
+                                        'Timestamp': ''
+                                    });
+
                                     this.countingDown = false;
                                     this.timer = 0;
                                     this.hours = "00";
@@ -237,7 +283,7 @@ export class ChargingPage {
             self.drawSlideBar(e.offsetX, e.offsetY);
         }
         if (this.activeCar != null) {
-            this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), this.carService.getActiveCar().maxCharging);
+            this.updatePriceInfoForSetTime();
         }
 
     }
@@ -251,7 +297,7 @@ export class ChargingPage {
             }
 
             if (this.activeCar != null) {
-                this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), this.carService.getActiveCar().maxCharging);
+                this.updatePriceInfoForSetTime();
             }
         }
     }
@@ -410,5 +456,18 @@ export class ChargingPage {
             "isCharging": this.charging,
             "fromLocationDetailsAndIsCharging": this.fromLocationDetailsAndIsCharging
         });
+    }
+
+    openTerms() {
+        let modal = this.modalCtrl.create(TermsPage);
+        modal.present().then(() => this.enterFromModal = true);
+    }
+
+    selectConnector() {
+        this.connector = this.station.connectors.filter(
+            (c: Connector) => {
+                return c.id == this.selectedConnectorId;
+            })[0];
+        this.updatePriceInfoForSetTime();
     }
 }

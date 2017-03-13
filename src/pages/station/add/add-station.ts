@@ -15,6 +15,7 @@ import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
 import {EditProfilePage} from "../../profile/edit-profile/edit-profile";
+import {TrackerService} from "../../../services/tracker.service";
 
 @Component({
     selector: 'page-add-station',
@@ -55,7 +56,9 @@ export class AddStationPage {
     errorMessages: any;
     daySelectOptions: any;
 
-    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService, private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams, private events: Events, private alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService,
+                private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams,
+                private events: Events, private alertCtrl: AlertController, private trackerService: TrackerService) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -233,6 +236,12 @@ export class AddStationPage {
 
     ionViewDidEnter() {
         this.checkProfileComplete();
+
+        let eventName = 'Started ' + (this.isAdd() ? 'Add' : 'Edit') + ' Charging Station';
+        let screenName = (this.isAdd() ? 'Ladestation hinzufügen' : 'Ladestation bearbeiten');
+        this.trackerService.track(eventName, {
+            "Screen Name": screenName
+        });
     }
 
     setDefaultWeekcalendar() {
@@ -367,8 +376,8 @@ export class AddStationPage {
     positionMarker(lat, lng, panTo = true) {
         let latLng = new google.maps.LatLng(lat, lng);
 
-        let image = 'marker-available.png';
-        let icon = `assets/icons/${image}`;
+        let image = 'available.png';
+        let icon = `assets/icons/marker/${image}`;
 
         if (null == this.marker) {
             this.marker = new google.maps.Marker({
@@ -465,6 +474,10 @@ export class AddStationPage {
         this.prepareProcedure();
 
         if (this.validateForm()) {
+            this.trackerService.track('Save Info - ' + (this.isAdd() ? 'Add' : 'Edit'), {
+                'Screen Name': 'Ladestation bearbeiten'
+            });
+
             if (this.connector.atLeastOneTarifSelected()) {
                 this.events.publish('locations:update', this.locObject);
             } else {
@@ -495,6 +508,10 @@ export class AddStationPage {
                 this.locObject.lat = this.map.getCenter().lat();
                 this.locObject.lng = this.map.getCenter().lng();
             }
+
+            this.trackerService.track('Proceed Info - ' + (this.isAdd() ? 'Add' : 'Edit'), {
+                'Screen Name': this.isAdd() ? 'Ladestation hinzufügen' : 'Ladestation bearbeiten'
+            });
 
             this.navCtrl.push(AddStationImagePage, {
                 "location": this.locObject,
@@ -597,4 +614,7 @@ export class AddStationPage {
         return false;
     }
 
+    isAdd() {
+        return this.flowMode == 'add';
+    }
 }

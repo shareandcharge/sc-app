@@ -3,7 +3,7 @@
     <ion-navbar>
         <ion-title></ion-title>
         <ion-buttons end>
-            <button ion-button icon-only (click)="goToEnd()">
+            <button ion-button icon-only (click)="skip()">
                 <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
@@ -59,7 +59,7 @@
             <ion-grid>
                 <ion-row>
                     <ion-col width-50 text-left>
-                        <a href="#" class="dark" (click)="goToEnd()">Überspringen</a>
+                        <a href="#" class="dark" (click)="skip()">Überspringen</a>
                     </ion-col>
                     <ion-col width-50 text-right>
                         <a href="#" (click)="goToNext()">{{isEnd ? 'Fertig' : 'Weiter'}}</a>

@@ -29,7 +29,7 @@
             <ion-select [(ngModel)]="connector.plugtype"
                         multiple="false"
                         class="select-multiline input-white"
-                        [selectOptions]=""
+                        [selectOptions]="{title: 'Steckertypen'}"
                         placeholder="Bitte wählen ..."
                         cancelText="Abbrechen" okText="OK"
                         (ngModelChange)="plugTypeDirty()"
@@ -47,7 +47,7 @@
             <ion-select [(ngModel)]="wattpowerTemp"
                         multiple="false"
                         class="select-multiline input-white"
-                        [selectOptions]=""
+                        [selectOptions]="{title: 'Leistung'}"
                         placeholder="Bitte wählen ..."
                         cancelText="Abbrechen" okText="OK"
                         (ngModelChange)="updateWattpower()"
@@ -73,7 +73,8 @@
         </ion-item>
 
         <ion-item>
-            <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{!connector.metadata.accessControl}}"
+            <!-- for now turned off, see: https://github.com/slockit/sc-app/issues/203 -->
+            <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{true || !connector.metadata.accessControl}}"
                           class="item-partial-cover"></ion-checkbox>
             <ion-label>kWh genaue Abrechnung</ion-label>
             <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('kwh')" color="primary"></ion-icon>

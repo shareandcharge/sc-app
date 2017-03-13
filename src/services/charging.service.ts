@@ -1,8 +1,6 @@
 import {Injectable} from "@angular/core";
-import {AuthHttp} from "angular2-jwt";
 import {Events, ToastController, ModalController} from "ionic-angular";
 import {Storage} from '@ionic/storage';
-import {Badge} from 'ionic-native';
 import {AbstractApiService} from "./abstract.api.service";
 import {LocationService} from "./location.service";
 import {Location} from "../../models/location";
@@ -10,6 +8,7 @@ import {AuthService} from "./auth.service";
 import {ErrorService} from "./error.service";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete"
 import {ConfigService} from "./config.service";
+import {HttpService} from "./http.service";
 
 
 @Injectable()
@@ -23,8 +22,9 @@ export class ChargingService extends AbstractApiService {
     connectorId: any;
     location: any;
 
-    constructor(private authHttp: AuthHttp, configService: ConfigService, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
+    constructor(private httpService: HttpService, configService: ConfigService, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
         super(configService);
+        this.events.subscribe('auth:logout', () => this.handleLogout());
     }
 
     checkChargingState() {
@@ -86,7 +86,7 @@ export class ChargingService extends AbstractApiService {
     }
 
     getConnectors(userAddress: string) {
-        return this.authHttp.get(`${this.baseUrl}/connectors/?controller=${userAddress}`)
+        return this.httpService.get(`${this.baseUrl}/connectors/?controller=${userAddress}`)
             .map(res => {
                 return res.json();
             })
@@ -94,7 +94,7 @@ export class ChargingService extends AbstractApiService {
     }
 
     getStation(stationId) {
-        return this.authHttp.get(`${this.baseUrl}/stations/${stationId}`)
+        return this.httpService.get(`${this.baseUrl}/stations/${stationId}`)
             .map(res => {
                 return res.json();
             })
@@ -102,7 +102,7 @@ export class ChargingService extends AbstractApiService {
     }
 
     getChargingProgress() {
-        return this.progress;
+        return this.auth.loggedIn() ? this.progress : 0;
     }
 
     isCharging() {
@@ -125,7 +125,7 @@ export class ChargingService extends AbstractApiService {
             "secondsToCharge": secondsToCharge
         };
 
-        return this.authHttp.post(`${this.baseUrl}/connectors/${connectorId}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
+        return this.httpService.post(`${this.baseUrl}/connectors/${connectorId}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
             .map(res => {
                 res.json();
                 this.charging = true;
@@ -143,7 +143,7 @@ export class ChargingService extends AbstractApiService {
     }
 
     stopCharging(connectorId) {
-        return this.authHttp.post(`${this.baseUrl}/connectors/${connectorId}/stop`, {})
+        return this.httpService.post(`${this.baseUrl}/connectors/${connectorId}/stop`, {})
             .map(res => {
                 res.json();
                 this.chargingEnd();
@@ -152,8 +152,11 @@ export class ChargingService extends AbstractApiService {
             .catch(this.handleError);
     }
 
+    handleLogout() {
+        this.chargingEnd();
+    }
+
     chargingEnd() {
-        Badge.clear();
         this.charging = false;
         this.progress = 0;
         this.chargingTime = 0;
@@ -189,7 +192,6 @@ export class ChargingService extends AbstractApiService {
     }
 
     countDown(time) {
-        Badge.set(1);
         this.progress = 1;
         let me = this;
         me.timer = time;

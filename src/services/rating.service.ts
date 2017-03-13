@@ -2,21 +2,21 @@ import {Injectable} from "@angular/core";
 import {Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import {Rating} from "../models/rating";
-import {AuthHttp} from "angular2-jwt";
 import {AbstractApiService} from "./abstract.api.service";
 import {ConfigService} from "./config.service";
+import {HttpService} from "./http.service";
 
 @Injectable()
 export class RatingService extends AbstractApiService {
     private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
-    constructor(private authHttp: AuthHttp, configService: ConfigService) {
+    constructor(private httpService: HttpService, configService: ConfigService) {
         super(configService);
         this.baseUrl += '/locations/';
     }
 
     getRatings(locationId: number): Observable<Array<Rating>> {
-        return this.authHttp.get(this.baseUrl + locationId + '/ratings')
+        return this.httpService.get(this.baseUrl + locationId + '/ratings')
             .map(res => {
                 let ratings = [];
                 res.json().forEach(input => {
@@ -29,7 +29,7 @@ export class RatingService extends AbstractApiService {
     }
 
     getRating(locationId: number, ratingId: number): Observable<Rating> {
-        return this.authHttp.get(this.baseUrl + locationId + '/ratings/' + ratingId)
+        return this.httpService.get(this.baseUrl + locationId + '/ratings/' + ratingId)
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
@@ -37,7 +37,7 @@ export class RatingService extends AbstractApiService {
     }
 
     createRating(locationId: number, rating: Rating): Observable<Rating> {
-        return this.authHttp.post(this.baseUrl + locationId + '/ratings', JSON.stringify(rating), {headers: this.contentHeader})
+        return this.httpService.post(this.baseUrl + locationId + '/ratings', JSON.stringify(rating), {headers: this.contentHeader})
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
@@ -45,7 +45,7 @@ export class RatingService extends AbstractApiService {
     }
 
     updateRating(locationId: number, rating: Rating): Observable<Rating> {
-        return this.authHttp.put(this.baseUrl + locationId + '/ratings', JSON.stringify(rating), {headers: this.contentHeader})
+        return this.httpService.put(this.baseUrl + locationId + '/ratings', JSON.stringify(rating), {headers: this.contentHeader})
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
@@ -53,7 +53,7 @@ export class RatingService extends AbstractApiService {
     }
 
     deleteRating(locationId: number, ratingId: number): Observable<Rating> {
-        return this.authHttp.delete(this.baseUrl + locationId + '/ratings/' + ratingId)
+        return this.httpService.delete(this.baseUrl + locationId + '/ratings/' + ratingId)
             .map(res => {
                 return new Rating().deserialize(res.json());
             })

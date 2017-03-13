@@ -10,9 +10,21 @@ ion-item.item-ios {
   }
 }
 
-.item-partial-cover .item-cover {
-  // to be able to have a clickable icon on the right
+ // to be able to have a clickable icon on the right
+.item-partial-cover .item-cover,
+.item-partial-cover-80 .item-cover {
   width: 80%;
+}
+.item-partial-cover-70 .item-cover {
+  width: 70%;
+}
+
+ion-list.no-margin-bottom {
+  margin-bottom: 0;
+}
+
+.inline-list {
+  display: inline-block;
 }
 
 .ion-list-white {

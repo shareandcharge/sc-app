@@ -8,7 +8,8 @@ import {MyApp} from './app.component';
 import {IntroPage} from "../pages/intro/intro";
 import {AboutPage} from '../pages/about/about';
 import {SignupLoginPage} from '../pages/signup-login/signup-login';
-import {TermsPage} from '../pages/signup-login/terms';
+import {TermsPage} from "../pages/_global/terms";
+import {TermsOfUsePage} from "../pages/_global/terms-of-use";
 import {MapPage} from '../pages/map/map';
 import {AddStationPage} from '../pages/station/add/add-station';
 import {CarManufacturerPage} from '../pages/car/form/manufacturer/car-manufacturer';
@@ -40,6 +41,12 @@ import {AddRatingPage} from "../pages/rating/add-rating";
 import {StationWrapperPage} from "../pages/station/station-wrapper";
 import {ChargingPage} from "../pages/location/charging/charging";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
+import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
+import {EditPasswordPage} from "../pages/profile/edit-password/edit-password";
+import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-password";
+import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
+import {PayOutPage} from "../pages/wallet/pay-out/pay-out";
+import {VoucherPage} from "../pages/wallet/voucher/voucher";
 
 import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
@@ -57,14 +64,9 @@ import {PaymentService} from "../services/payment.service";
 import {ChargingService} from "../services/charging.service";
 import {ConfigService} from "../services/config.service";
 import {ErrorService} from "../services/error.service";
+import {HttpService} from "../services/http.service";
 import {PushNotificationService} from "../services/push.notification.service";
-import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
-import {EditPasswordPage} from "../pages/profile/edit-password/edit-password";
-import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-password";
-import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
-import {PayOutPage} from "../pages/wallet/pay-out/pay-out";
-import {VoucherPage} from "../pages/wallet/voucher/voucher";
-
+import {TrackerService} from "../services/tracker.service";
 
 let storage = new Storage();
 
@@ -92,6 +94,7 @@ export function createTranslateLoader(http: Http) {
         MapFilterPage,
         SignupLoginPage,
         TermsPage,
+        TermsOfUsePage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,
@@ -151,6 +154,7 @@ export function createTranslateLoader(http: Http) {
         MapFilterPage,
         SignupLoginPage,
         TermsPage,
+        TermsOfUsePage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,
@@ -211,7 +215,9 @@ export function createTranslateLoader(http: Http) {
         PaymentService,
         ConfigService,
         ErrorService,
-        PushNotificationService
+        HttpService,
+        PushNotificationService,
+        TrackerService
     ]
 })
 export class AppModule {

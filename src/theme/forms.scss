@@ -41,6 +41,10 @@ ion-select {
   font-size: 17px;
 }
 
+.checkbox-square.checkbox-ios .checkbox-icon {
+  border-radius: 20%;
+}
+
 $_input_box_width: 100px;
 $_input_box_width_xl: 160px;
 .input-box {

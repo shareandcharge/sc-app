@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
-import {NavParams, NavController} from "ionic-angular";
+import {NavParams, NavController, Platform} from "ionic-angular";
 import {CurrencyPipe} from "@angular/common";
+import {InAppBrowser} from "ionic-native";
 
 @Component({
     templateUrl: 'transaction-detail.html',
@@ -17,13 +18,13 @@ export class TransactionDetailPage {
     ];
 
     paymentMethods = {
-        'cc' : 'Kreditkarte',
-        'paypal' : 'PayPal',
-        'dd' : 'Bankeinzug',
-        'sofort' : 'Sofortüberweisung'
+        'cc': 'Kreditkarte',
+        'paypal': 'PayPal',
+        'dd': 'Bankeinzug',
+        'sofort': 'Sofortüberweisung'
     };
 
-    constructor(private navParams: NavParams, private navCtrl: NavController) {
+    constructor(private navParams: NavParams, private navCtrl: NavController, private platform: Platform) {
         this.transaction = this.navParams.get('transaction');
     }
 
@@ -36,8 +37,7 @@ export class TransactionDetailPage {
         let m = minutes < 10 ? "0" + minutes : minutes;
         let s = seconds < 10 ? "0" + seconds : seconds;
 
-        let finalString = h + 'h ' + m + 'm ' + s + 's';
-        return finalString;
+        return h + 'h ' + m + 'm ' + s + 's';
     }
 
     dismiss() {
@@ -45,7 +45,7 @@ export class TransactionDetailPage {
     }
 
     getTariffCosts(contracttype: number): string {
-        switch(contracttype) {
+        switch (contracttype) {
             case 0: {
                 return '';
             }
@@ -59,6 +59,17 @@ export class TransactionDetailPage {
                 return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperkw / 100, 'EUR', true, '1.2-2') + '/kWh';
             }
         }
+    }
+
+    openPdf(url) {
+        /**
+         * There's no easy way to display a pdf on android.
+         * No build in capability in browser; safari there is.
+         * Would be a bigger efford to install (and make work) all plugins needed to display a pdf on android.
+         * Not worth it for now. So an andoird we sent the pdf to the default browser an "see what happens".
+         */
+        let target = this.platform.is('android') ? '_system' : '_blank';
+        new InAppBrowser(url, target, 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no,enableViewportScale=yes');
     }
 
 }

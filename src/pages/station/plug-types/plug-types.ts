@@ -5,6 +5,7 @@ import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
 import {ConfigService} from "../../../services/config.service";
 import {ErrorService} from "../../../services/error.service";
+import {TrackerService} from "../../../services/tracker.service";
 
 @Component({
     selector: 'page-plug-types',
@@ -21,14 +22,15 @@ export class PlugTypesPage {
     wattpowerTemp: any;
     errorMessages: any;
 
-    constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController, private configService: ConfigService, private events: Events, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController,
+                private configService: ConfigService, private events: Events, private errorService: ErrorService,
+                private trackerService: TrackerService) {
         this.powerOptions = [
             "2.4", "4.3", "6.4"
         ];
 
         this.configService.getPlugTypes().subscribe((plugtypes) => {
                 this.plugOptions = plugtypes;
-                console.log(this.plugOptions);
             },
             error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
 
@@ -41,7 +43,8 @@ export class PlugTypesPage {
         this.clearErrorMessages();
     }
 
-    ionViewDidLoad() {
+    ionViewDidEnter() {
+        this.trackerService.track('Started Connector Type - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
     }
 
     updateWattpower() {
@@ -50,6 +53,8 @@ export class PlugTypesPage {
     }
 
     saveChanges() {
+        this.trackerService.track('Save Connector type - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
+
         if (this.connector.atLeastOneTarifSelected()) {
             this.events.publish('locations:update', this.locObject);
         } else {
@@ -63,6 +68,8 @@ export class PlugTypesPage {
 
     nextPage() {
         if (this.validateForm()) {
+            this.trackerService.track('Proceed Connector Type - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
+
             if (!this.connector.metadata.accessControl) {
                 this.connector.metadata.kwh = false
             }
@@ -81,8 +88,11 @@ export class PlugTypesPage {
                 "Light Client verfügt, der die Ladestation über die Share&Charge App steuern kann.";
         }
         else if ("kwh" === type) {
-            message = "Wähle diese Option sofern dein Ladepunkt über einen geeichten Stromzähler verfügt " +
-                "& der Zählerstand automatisch an das Share&Charge Backend gesendet wird.";
+            // changed in https://github.com/slockit/sc-app/issues/203
+            // message = "Wähle diese Option sofern dein Ladepunkt über einen geeichten Stromzähler verfügt " +
+            //     "& der Zählerstand automatisch an das Share&Charge Backend gesendet wird.";
+            message = "Diese Option wird in Kürze freigeschaltet. " +
+                "Sie setzt einen geeichten Stromzähler in Deiner Ladesäule voraus.";
         }
 
         let alert = this.alertCtrl.create({
@@ -121,5 +131,9 @@ export class PlugTypesPage {
             this.errorMessages.capacity = 'Bitte wähle die Leistung.';
         }
         return !hasError;
+    }
+
+    isAdd() {
+        return this.flowMode == 'add';
     }
 }

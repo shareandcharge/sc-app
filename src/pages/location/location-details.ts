@@ -20,6 +20,7 @@ import {CarService} from "../../services/car.service";
 import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
 import {ChargingCompletePage} from './charging/charging-complete/charging-complete'
+import {TrackerService} from "../../services/tracker.service";
 
 
 @Component({
@@ -66,7 +67,12 @@ export class LocationDetailPage {
     includingVat: boolean;
     flatrateTariff: boolean;
 
-    constructor(private alertCtrl: AlertController, private modalCtrl: ModalController, private chargingService: ChargingService, private navParams: NavParams, platform: Platform, private viewCtrl: ViewController, private authService: AuthService, public ratingService: RatingService, private locationService: LocationService, private configService: ConfigService, private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService) {
+    constructor(private alertCtrl: AlertController, private modalCtrl: ModalController,
+                private chargingService: ChargingService, private navParams: NavParams, platform: Platform,
+                private viewCtrl: ViewController, private authService: AuthService, public ratingService: RatingService,
+                private locationService: LocationService, private configService: ConfigService,
+                private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService,
+                private trackerService: TrackerService) {
 
         this.location = new Location();
         this.station = new Station();
@@ -115,7 +121,15 @@ export class LocationDetailPage {
 
     ionViewWillEnter() {
         this.charging = this.chargingService.isCharging();
-        this.getLocationDetail();
+        this.getLocationDetail().subscribe(
+            (location) => {
+                this.trackerService.track('Station Searched', {
+                    'id': location.id,
+                    'Address': location.address,
+                    'Timestamp': ''
+                });
+            }
+        );
     }
 
     dismiss() {
@@ -139,7 +153,7 @@ export class LocationDetailPage {
     getLocationDetail() {
         let observable = this.locationService.getLocation(this.locationId);
         observable.subscribe(
-            location => {
+            (location) => {
                 this.location = location;
                 this.station = this.location.stations[0];
                 this.connector = this.station.connectors[0];
@@ -147,10 +161,8 @@ export class LocationDetailPage {
                 this.flatrateTariff = this.connector.priceprovider.public.selected === 'flatrate';
 
                 this.loadOpeningHours();
-
                 this.loadMap();
                 this.getRatings();
-
                 this.getPrice();
 
                 this.configService.getPlugTypes().subscribe((plugTypes) => {
@@ -159,7 +171,7 @@ export class LocationDetailPage {
                     },
                     error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
             },
-            error => {
+            (error) => {
                 this.errorService.displayErrorWithKey(error, 'Standortdetails');
                 this.dismiss();
             }
@@ -262,8 +274,8 @@ export class LocationDetailPage {
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-        let image = this.location.isRented() || this.location.isClosed() ? 'marker-busy.png' : 'marker-available.png';
-        let icon = `assets/icons/${image}`;
+        let image = this.locationService.isBusy(this.location) ? 'busy.png' : 'available.png';
+        let icon = `assets/icons/marker/${image}`;
 
         new google.maps.Marker({
             position: new google.maps.LatLng(this.location.lat, this.location.lng),
@@ -294,8 +306,8 @@ export class LocationDetailPage {
         }
     }
 
-    loginModal(data?) {
-        let modal = this.modalCtrl.create(SignupLoginPage, data);
+    loginModal() {
+        let modal = this.modalCtrl.create(SignupLoginPage, {'trackReferrer': 'Location Laden Buttons'});
         modal.present();
     }
 

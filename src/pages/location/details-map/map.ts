@@ -5,6 +5,7 @@ import {
 } from 'ionic-angular';
 import {Platform} from 'ionic-angular';
 import {Location} from "../../../models/location";
+import {LocationService} from "../../../services/location.service";
 
 
 declare var google;
@@ -29,7 +30,9 @@ export class MapDetailPage {
 
     defaultZoom = 16;
 
-    constructor(private viewCtrl: ViewController, platform: Platform, private navParams: NavParams, public navCtrl: NavController, private loadingCtrl: LoadingController) {
+    constructor(private viewCtrl: ViewController, platform: Platform, private navParams: NavParams,
+                public navCtrl: NavController, private loadingCtrl: LoadingController,
+                private locationService: LocationService) {
         this.platform = platform;
 
         this.mapDefaultControlls = !this.platform.is("core");
@@ -77,8 +80,8 @@ export class MapDetailPage {
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-        let image = this.location.isRented() || this.location.isClosed() ? 'marker-busy.png' : 'marker-available.png';
-        let icon = `assets/icons/${image}`;
+        let image = this.locationService.isBusy(this.location) ? 'busy.png' : 'available.png';
+        let icon = `assets/icons/marker/${image}`;
 
         new google.maps.Marker({
             position: new google.maps.LatLng(this.location.lat, this.location.lng),

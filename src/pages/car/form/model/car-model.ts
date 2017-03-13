@@ -20,9 +20,7 @@ export class CarModelPage {
 
         this.manufacturer = navParams.get("manufacturer");
 
-        console.log(this.manufacturer);
         this.carService.getModels(this.manufacturer).subscribe((res) => {
-                console.log(res);
                 this.models = res;
             },
             error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos'));
