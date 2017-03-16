@@ -216,8 +216,8 @@ export class MapPage {
             toast.dismiss();
             this.currentLocationLoading = false;
         }, (err) => {
-            console.log(err);
             toast.dismiss();
+            this.errorService.displayError('Leider konnten Wir Deinen Standort nicht ermitteln. Bitte überprüfe ob Dein GPS-Signal angeschaltet ist und probiere es erneut.')
 
             this.currentLocationLoading = false;
         });
