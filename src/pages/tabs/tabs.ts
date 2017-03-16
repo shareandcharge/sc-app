@@ -31,7 +31,7 @@ export class TabsPage {
     signupModal() {
         this.displayModal(SignupLoginPage, {
             'action' : 'signUp',
-            'trackReferrer': 'Tab Anmelden'
+            'trackReferrer': 'Tab Registrieren'
         });
     }
 

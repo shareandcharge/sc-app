@@ -3,7 +3,7 @@
   <ion-tab [root]="tab1Root" tabTitle="Karte" tabIcon="cust-map"></ion-tab>
 
   <ion-tab tabTitle="Ladestationen" tabIcon="cust-station" (ionSelect)="addStationModal()" show="{{!auth.loggedIn()}}"></ion-tab>
-  <ion-tab tabTitle="Anmelden" tabIcon="cust-register" (ionSelect)="signupModal()" show="{{!auth.loggedIn()}}"></ion-tab>
+  <ion-tab tabTitle="Registrieren" tabIcon="cust-register" (ionSelect)="signupModal()" show="{{!auth.loggedIn()}}"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="Info" tabIcon="cust-about" show="{{!auth.loggedIn()}}"></ion-tab>
 
   <ion-tab [root]="tab3Root" tabTitle="Ladestationen" tabIcon="cust-station" show="{{auth.loggedIn()}}"></ion-tab>

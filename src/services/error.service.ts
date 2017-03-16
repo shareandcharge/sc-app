@@ -19,7 +19,7 @@ export class ErrorService {
         let message = this.getMessage(error);
 
         let alert = this.alertCtrl.create({
-            title: 'Es trat ein auf Fehler',
+            title: 'Es trat ein Fehler auf',
             subTitle: subtitle,
             message: message,
             buttons: ['Schließen']
