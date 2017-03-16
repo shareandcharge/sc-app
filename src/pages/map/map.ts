@@ -186,10 +186,6 @@ export class MapPage {
     centerCurrentPosition() {
         if (this.currentLocationLoading) return;
 
-        if (typeof this.currentPositionOverlay === 'undefined') {
-            this.initializeCurrentPositionOverlay();
-        }
-
         let timeout = 10000;
 
         let toast = this.toastCtrl.create({
@@ -213,8 +209,12 @@ export class MapPage {
             this.map.setZoom(this.currentPositionZoom);
             this.map.setCenter(this.currentLatLng);
 
-            toast.dismiss();
+            if (typeof this.currentPositionOverlay === 'undefined') {
+                this.initializeCurrentPositionOverlay();
+            }
             this.currentLocationLoading = false;
+
+            toast.dismiss();
         }, (err) => {
             toast.dismiss();
             this.errorService.displayError('Leider konnten Wir Deinen Standort nicht ermitteln. Bitte überprüfe ob Dein GPS-Signal angeschaltet ist und probiere es erneut.')
