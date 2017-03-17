@@ -12,9 +12,9 @@ import {EditPasswordPage} from "./edit-password/edit-password";
 
 @Component({
     selector: 'page-profile',
-    templateUrl: 'profile.html'
+    templateUrl: 'profile-data.html'
 })
-export class ProfilePage {
+export class ProfileDataPage {
     user: User = new User();
 
     constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events, private errorService: ErrorService, private alertCtrl: AlertController) {

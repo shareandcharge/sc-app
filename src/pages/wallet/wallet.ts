@@ -3,7 +3,7 @@ import {NavController, ModalController, AlertController, Events, ToastController
 import {AddMoneyPage} from './add/add-money';
 import {PaymentService} from "../../services/payment.service";
 import {AuthService} from "../../services/auth.service";
-import {EditProfilePage} from "../profile/edit-profile/edit-profile";
+import {EditProfilePage} from "../profile-data/edit-profile/edit-profile";
 import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
 import {ErrorService} from "../../services/error.service";
 import {PayOutPage} from "./pay-out/pay-out";

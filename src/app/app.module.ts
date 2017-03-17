@@ -28,21 +28,21 @@ import {AddMoneyPage} from '../pages/wallet/add/add-money';
 import {DashboardPage} from '../pages/dashboard/dashboard';
 import {HelpPage} from '../pages/help/help';
 import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
-import {EditProfilePage} from "../pages/profile/edit-profile/edit-profile";
-import {ProfilePage} from '../pages/profile/profile';
+import {EditProfilePage} from "../pages/profile-data/edit-profile/edit-profile";
+import {ProfileDataPage} from '../pages/profile-data/profile-data';
 import {NotificationsPage} from '../pages/notifications/notifications';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
 import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
 import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
 import {CarWrapperPage} from "../pages/car/car-wrapper";
 import {AddPermissionsPage} from '../pages/station/set-tariff/add-permissions/add-permissions';
-import {EditEmailPage} from "../pages/profile/edit-email/edit-email";
+import {EditEmailPage} from "../pages/profile-data/edit-email/edit-email";
 import {AddRatingPage} from "../pages/rating/add-rating";
 import {StationWrapperPage} from "../pages/station/station-wrapper";
 import {ChargingPage} from "../pages/location/charging/charging";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
 import {TransactionDetailPage} from "../pages/wallet/transaction-detail/transaction-detail";
-import {EditPasswordPage} from "../pages/profile/edit-password/edit-password";
+import {EditPasswordPage} from "../pages/profile-data/edit-password/edit-password";
 import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-password";
 import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
 import {PayOutPage} from "../pages/wallet/pay-out/pay-out";
@@ -112,7 +112,7 @@ export function createTranslateLoader(http: Http) {
         DashboardPage,
         HelpPage,
         AccountSettingsPage,
-        ProfilePage,
+        ProfileDataPage,
         NotificationsPage,
         MyStationsPage,
         PlugTypesPage,
@@ -172,7 +172,7 @@ export function createTranslateLoader(http: Http) {
         DashboardPage,
         HelpPage,
         AccountSettingsPage,
-        ProfilePage,
+        ProfileDataPage,
         NotificationsPage,
         MyStationsPage,
         PlugTypesPage,

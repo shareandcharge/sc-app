@@ -2,12 +2,12 @@ import {Component} from '@angular/core';
 import {NavController, ActionSheetController, Platform, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {MyCarsPage} from '../car/my-cars/my-cars';
-import {AccountSettingsPage} from './account-settings/account-settings';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {HelpPage} from "../help/help";
 import {ErrorService} from "../../services/error.service";
+import {ProfileDataPage} from "../profile-data/profile-data";
 
 
 @Component({
@@ -84,7 +84,7 @@ export class DashboardPage {
     }
 
     settings() {
-        this.navCtrl.push(AccountSettingsPage);
+        this.navCtrl.push(ProfileDataPage);
     }
 
     help() {

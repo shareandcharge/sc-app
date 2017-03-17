@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, AlertController, LoadingController} from 'ionic-angular';
-import {ProfilePage} from '../../profile/profile'
+import {ProfileDataPage} from '../../profile-data/profile-data'
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
 import {NotificationsPage} from "../../notifications/notifications";
@@ -55,7 +55,7 @@ export class AccountSettingsPage {
     }
 
     profile() {
-        this.navCtrl.push(ProfilePage);
+        this.navCtrl.push(ProfileDataPage);
     }
 
     notifications() {
