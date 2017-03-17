@@ -30,7 +30,7 @@ import {HelpPage} from '../pages/help/help';
 import {AccountSettingsPage} from '../pages/profile/account-settings/account-settings';
 import {EditProfilePage} from "../pages/profile/profile-data/edit-profile/edit-profile";
 import {ProfileDataPage} from '../pages/profile/profile-data/profile-data';
-import {NotificationsPage} from '../pages/notifications/notifications';
+import {NotificationsPage} from '../pages/profile/notifications/notifications';
 import {MyStationsPage} from '../pages/station/my-stations/my-stations';
 import {StationMapDetailPage} from '../pages/station/add/station-add-map/map';
 import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
