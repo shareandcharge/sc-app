@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {
     NavController, NavParams, AlertController, ViewController, LoadingController, Events,
-    ModalController
+    ModalController, Content
 } from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 import {Connector} from "../../../models/connector";
@@ -35,7 +35,7 @@ export class ChargingPage {
     minutes: any;
     seconds: any;
     timer: any;
-    countingDown: boolean;
+    _countingDown: boolean;
     buttonDeactive: any;
     termsChecked: boolean;
     enterFromModal: boolean;
@@ -50,6 +50,8 @@ export class ChargingPage {
     chargedTimeAtStop: any;
 
     activeCar: Car;
+
+    @ViewChild(Content) content: Content;
 
     priceProviderTariffTypes = [
         'invalid',
@@ -126,6 +128,26 @@ export class ChargingPage {
 
             this.initiateCanvas();
         }
+
+    }
+
+    /**
+     * we use setters and getters to track changes to
+     * the var, because the val also changes the height of the footer
+     * and we need to call content.resize() when the size of
+     * the footer changes
+     * @param val
+     */
+    set countingDown(val: boolean) {
+        let changed = this._countingDown !== val;
+        this._countingDown = val;
+
+        if (changed) {
+            this.content.resize();
+        }
+    }
+    get countingDown(): boolean {
+        return this._countingDown;
     }
 
     /**
