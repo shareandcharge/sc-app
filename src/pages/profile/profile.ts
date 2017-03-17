@@ -7,7 +7,7 @@ import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {HelpPage} from "../help/help";
 import {ErrorService} from "../../services/error.service";
-import {ProfileDataPage} from "../profile-data/profile-data";
+import {ProfileDataPage} from "./profile-data/profile-data";
 
 
 @Component({
