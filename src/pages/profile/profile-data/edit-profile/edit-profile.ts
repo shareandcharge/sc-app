@@ -1,13 +1,13 @@
 import {Component} from "@angular/core";
 import {NavParams, NavController, Events, AlertController} from "ionic-angular";
-import {User} from "../../../models/user";
+import {User} from "../../../../models/user";
 import {FormBuilder, Validators} from '@angular/forms';
-import {UserService} from "../../../services/user.service";
-import {AuthService} from "../../../services/auth.service";
-import {ErrorService} from "../../../services/error.service";
-import {postalCodeValidator} from "../../../validators/postalCodeValidator";
-import {countryValidator} from "../../../validators/countryValidator";
-import {TrackerService} from "../../../services/tracker.service";
+import {UserService} from "../../../../services/user.service";
+import {AuthService} from "../../../../services/auth.service";
+import {ErrorService} from "../../../../services/error.service";
+import {postalCodeValidator} from "../../../../validators/postalCodeValidator";
+import {countryValidator} from "../../../../validators/countryValidator";
+import {TrackerService} from "../../../../services/tracker.service";
 
 
 @Component({

@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController, Platform, Events, AlertController} from 'ionic-angular';
+import {NavController, ActionSheetController, Platform, Events} from 'ionic-angular';
 import {Camera} from 'ionic-native';
+import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
-import {EditEmailPage} from "./edit-email/edit-email";
-import {EditProfilePage} from "./edit-profile/edit-profile";
+import {HelpPage} from "../help/help";
 import {ErrorService} from "../../services/error.service";
-import {EditPasswordPage} from "./edit-password/edit-password";
+import {ProfileDataPage} from "./profile-data/profile-data";
 
 
 @Component({
@@ -15,9 +15,13 @@ import {EditPasswordPage} from "./edit-password/edit-password";
     templateUrl: 'profile.html'
 })
 export class ProfilePage {
+
+    email: any;
     user: User = new User();
 
-    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events, private errorService: ErrorService, private alertCtrl: AlertController) {
+    constructor(private navCtrl: NavController, private actionSheetCtrl: ActionSheetController,
+                private auth: AuthService, private platform: Platform, private userService: UserService,
+                private events: Events, private errorService: ErrorService) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 
@@ -26,7 +30,7 @@ export class ProfilePage {
     }
 
     loadUser() {
-        this.user = this.authService.getUser();
+        this.user = this.auth.getUser();
     }
 
     selectPhoto() {
@@ -68,50 +72,32 @@ export class ProfilePage {
         }).then((imageData) => {
             this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
             this.updateUser();
-
-        }, (err) => {
-            console.log(err);
         });
+    }
+
+    logOut() {
+        this.auth.logout();
+        this.navCtrl.parent.select(0);
+    }
+
+    profileData() {
+        this.navCtrl.push(ProfileDataPage);
+    }
+
+    help() {
+        this.navCtrl.push(HelpPage);
+    }
+
+    myCars() {
+        this.navCtrl.push(MyCarsPage);
     }
 
     updateUser() {
         this.userService.updateUser(this.user)
             .subscribe(
                 () => {
-                    this.authService.setUser(this.user);
                     this.events.publish('users:updated');
                 },
                 error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
-    }
-
-    editEmail() {
-        this.navCtrl.push(EditEmailPage, {
-            'user': this.user
-        });
-    }
-
-    editProfile() {
-        this.navCtrl.push(EditProfilePage, {
-            'user': this.user
-        });
-    }
-
-    editPassword() {
-        this.navCtrl.push(EditPasswordPage, {
-            'user': this.user
-        });
-    }
-
-    resendVerificationEmail() {
-        this.userService.resendVerificationEmail().subscribe((res) => {
-            let alert = this.alertCtrl.create({
-                message: 'Die Bestätigungsemail wurde erneut versandt. Bitte prüfe Deinen Posteingang. In seltenen Fällen kann die E-Mail auch im Spamordner gelandet sein.',
-                buttons: ['Ok']
-            });
-
-            alert.present();
-        }, (error) => {
-            this.errorService.displayErrorWithKey(error, 'Bestätigungsmail senden')
-        });
     }
 }

@@ -408,7 +408,7 @@ export class MapPage {
                 me.map.setZoom(me.currentPositionZoom);
             }
             else {
-                console.log('Place err: ', status);
+                // console.log('Place err: ', status);
             }
         }
     }

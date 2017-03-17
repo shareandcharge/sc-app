@@ -1,9 +1,8 @@
 <ion-header>
-
     <ion-navbar>
         <ion-title>Profil</ion-title>
     </ion-navbar>
-
+    <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
 <ion-content>
@@ -20,17 +19,20 @@
     </div>
 
     <ion-list padding-top="" padding-right="" class="no-outer-lines">
-        <button ion-item (click)="editProfile()">
-            Name und Anschrift
+        <button ion-item (click)="profileData()">
+            Profildaten
         </button>
-        <button ion-item (click)="editEmail()">
-            E-Mail Adresse
+        <button ion-item (click)="myCars()">
+            Meine Elektroautos
         </button>
-        <button ion-item (click)="editPassword()">
-            Passwort ändern
+        <button ion-item (click)="settings()" *ngIf="false">
+            Einstellungen
         </button>
-        <button ion-item (click)="resendVerificationEmail()" *ngIf="!user.isEmailVerified()">
-            Bestätigung erneut senden
+        <button ion-item (click)="help()">
+            Hilfe
+        </button>
+        <button ion-item (click)="logOut()" class="color-secondary">
+            Abmelden
         </button>
     </ion-list>
 </ion-content>

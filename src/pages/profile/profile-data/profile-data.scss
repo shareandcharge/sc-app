@@ -1,7 +1,10 @@
-page-dashboard {
+page-profile {
     .top-container {
         @include sc-gradient-light();
+
         color: #fff;
+
+        margin-bottom: 16px;
     }
 
     .image-button {
