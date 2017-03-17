@@ -25,9 +25,9 @@ import {AddStationImagePage} from '../pages/station/add-image/add-image';
 import {SetTariffPage} from '../pages/station/set-tariff/set-tariff';
 import {WalletPage} from '../pages/wallet/wallet';
 import {AddMoneyPage} from '../pages/wallet/add/add-money';
-import {DashboardPage} from '../pages/dashboard/dashboard';
+import {ProfilePage} from '../pages/profile/profile';
 import {HelpPage} from '../pages/help/help';
-import {AccountSettingsPage} from '../pages/dashboard/account-settings/account-settings';
+import {AccountSettingsPage} from '../pages/profile/account-settings/account-settings';
 import {EditProfilePage} from "../pages/profile-data/edit-profile/edit-profile";
 import {ProfileDataPage} from '../pages/profile-data/profile-data';
 import {NotificationsPage} from '../pages/notifications/notifications';
@@ -109,7 +109,7 @@ export function createTranslateLoader(http: Http) {
         WalletPage,
         AddMoneyPage,
         AddRatingPage,
-        DashboardPage,
+        ProfilePage,
         HelpPage,
         AccountSettingsPage,
         ProfileDataPage,
@@ -169,7 +169,7 @@ export function createTranslateLoader(http: Http) {
         WalletPage,
         AddMoneyPage,
         AddRatingPage,
-        DashboardPage,
+        ProfilePage,
         HelpPage,
         AccountSettingsPage,
         ProfileDataPage,

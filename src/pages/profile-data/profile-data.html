@@ -32,5 +32,8 @@
         <button ion-item (click)="resendVerificationEmail()" *ngIf="!user.isEmailVerified()">
             Bestätigung erneut senden
         </button>
+        <button ion-item (click)="deleteAccountConfirm()" class="color-secondary">
+            Profil löschen
+        </button>
     </ion-list>
 </ion-content>

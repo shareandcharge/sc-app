@@ -8,9 +8,6 @@
 
 <ion-content>
     <ion-list padding-top="" padding-right="" class="no-outer-lines">
-        <button ion-item (click)="profile()">
-            Profil
-        </button>
         <button ion-item (click)="notifications()" *ngIf="false">
             Benachrichtigungen
         </button>
@@ -19,10 +16,6 @@
         </button>
         <button ion-item (click)="privacy()" *ngIf="false">
             Datenschutz
-        </button>
-
-        <button ion-item (click)="deleteAccountConfirm()" class="color-secondary">
-            Profil löschen
         </button>
     </ion-list>
 </ion-content>

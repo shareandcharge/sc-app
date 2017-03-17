@@ -11,10 +11,10 @@ import {ProfileDataPage} from "../profile-data/profile-data";
 
 
 @Component({
-    selector: 'page-dashboard',
-    templateUrl: 'dashboard.html'
+    selector: 'page-profile',
+    templateUrl: 'profile.html'
 })
-export class DashboardPage {
+export class ProfilePage {
 
     email: any;
     user: User = new User();
@@ -72,18 +72,15 @@ export class DashboardPage {
         }).then((imageData) => {
             this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
             this.updateUser();
-        }, (err) => {
-            console.log(err);
         });
     }
 
     logOut() {
-        console.log("logout");
         this.auth.logout();
         this.navCtrl.parent.select(0);
     }
 
-    settings() {
+    profileData() {
         this.navCtrl.push(ProfileDataPage);
     }
 

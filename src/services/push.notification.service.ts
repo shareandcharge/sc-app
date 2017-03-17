@@ -14,12 +14,12 @@ export class PushNotificationService {
 
     initPushNotification() {
         if (!(window as any).cordova) {
-            console.log('Skipping registration of Push Notifications in browser');
+            // console.log('Skipping registration of Push Notifications in browser');
             return;
         }
 
         if (this.push !== null) {
-            console.log('Push Notification already registered on this device');
+            // console.log('Push Notification already registered on this device');
             return;
         }
 
@@ -36,21 +36,21 @@ export class PushNotificationService {
         });
 
         this.push.on('registration', (data) => {
-            console.log(data.registrationId);
+            // console.log(data.registrationId);
 
             this.deviceToken = data.registrationId.toString();
         });
         this.push.on('notification', (data) => {
-            console.log('message', data.message);
+            // console.log('message', data.message);
 
             if (data.additionalData.foreground) {
-                console.log('Foreground push');
+                // console.log('Foreground push');
             } else {
-                console.log("Push notification clicked");
+                // console.log("Push notification clicked");
             }
         });
         this.push.on('error', (e) => {
-            console.log(e.message);
+            // console.log(e.message);
         });
     }
 

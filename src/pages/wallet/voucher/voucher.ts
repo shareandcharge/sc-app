@@ -22,10 +22,8 @@ export class VoucherPage {
 
     redeemVoucher() {
         this.paymentService.redeemVoucher(this.voucherCode).subscribe((res) => {
-            console.log("success", res);
             this.redeemSuccess = true;
         }, (error) => {
-            console.log("error", error);
             let key = this.errorService.getMessage(error);
 
             if (this.voucherErrors.indexOf(key) >= 0) {

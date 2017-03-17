@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController, Platform, Events, AlertController} from 'ionic-angular';
+import {
+    NavController, ActionSheetController, Platform, Events, AlertController,
+    LoadingController, Alert
+} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
@@ -17,7 +20,10 @@ import {EditPasswordPage} from "./edit-password/edit-password";
 export class ProfileDataPage {
     user: User = new User();
 
-    constructor(public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, public authService: AuthService, public userService: UserService, private platform: Platform, public events: Events, private errorService: ErrorService, private alertCtrl: AlertController) {
+    constructor(private navCtrl: NavController, private actionSheetCtrl: ActionSheetController,
+                private authService: AuthService, private userService: UserService, private platform: Platform,
+                private events: Events, private errorService: ErrorService, private alertCtrl: AlertController,
+                private loadingCtrl: LoadingController) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 
@@ -69,8 +75,6 @@ export class ProfileDataPage {
             this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
             this.updateUser();
 
-        }, (err) => {
-            console.log(err);
         });
     }
 
@@ -113,5 +117,44 @@ export class ProfileDataPage {
         }, (error) => {
             this.errorService.displayErrorWithKey(error, 'Bestätigungsmail senden')
         });
+    }
+
+    deleteAccountConfirm() {
+        let alert = this.alertCtrl.create({
+            title: 'Profil löschen',
+            subTitle: 'Löschen bestätigen',
+            message: 'Möchtest Du Dein Profil und Deine Daten wirklich unwiderruflich löschen?',
+            buttons: [
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel'
+                },
+                {
+                    text: 'Ja, löschen',
+                    handler: () => this.doDeleteAccount(alert)
+                }
+            ]
+        });
+        alert.present();
+    }
+
+    doDeleteAccount(alert: Alert) {
+        let navTransition = alert.dismiss();
+
+        let loader = this.loadingCtrl.create({content: "Lösche Profil ..."});
+        loader.present();
+
+        this.userService.deleteUser()
+            .finally(() => loader.dismissAll())
+            .subscribe(
+                () => {
+                    navTransition.then(() => {
+                        this.authService.logout();
+                        this.navCtrl.parent.select(0);
+                    });
+                },
+                error => this.errorService.displayErrorWithKey(error, 'Profil löschen')
+            )
+        ;
     }
 }
