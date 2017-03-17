@@ -131,7 +131,10 @@ export class ProfileDataPage {
                 },
                 {
                     text: 'Ja, löschen',
-                    handler: () => this.doDeleteAccount(alert)
+                    handler: () => {
+                        this.doDeleteAccount(alert);
+                        return false;
+                    }
                 }
             ]
         });

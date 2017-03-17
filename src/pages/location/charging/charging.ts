@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {
     NavController, NavParams, AlertController, ViewController, LoadingController, Events,
-    ModalController, Content
+    ModalController, Content, Alert
 } from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 import {Connector} from "../../../models/connector";
@@ -49,6 +49,8 @@ export class ChargingPage {
     didStop: boolean = false;
     chargedTimeAtStop: any;
 
+    stopButtonClicked: boolean;
+
     activeCar: Car;
 
     @ViewChild(Content) content: Content;
@@ -89,6 +91,8 @@ export class ChargingPage {
             this.enterFromModal = false;
             return;
         }
+
+        this.stopButtonClicked = false;
 
         this.trackerService.track('Charging Page Entered', {
             'id': this.location.id,
@@ -146,6 +150,7 @@ export class ChargingPage {
             this.content.resize();
         }
     }
+
     get countingDown(): boolean {
         return this._countingDown;
     }
@@ -161,7 +166,11 @@ export class ChargingPage {
         if (this.timer <= 0) {
             this.charging = false;
             this.countingDown = false;
-            this.dismiss();
+            //-- we don't want to close everything here if the stop button has been clicked
+            //      he will take care then.
+            if (!this.stopButtonClicked) {
+                this.dismiss();
+            }
         }
 
         if (this.charging) {
@@ -251,44 +260,53 @@ export class ChargingPage {
             buttons: [
                 {
                     text: 'Abbrechen',
-                    role: 'cancel',
-                    handler: () => {
-                    }
+                    role: 'cancel'
                 },
                 {
                     text: 'Ja, jetzt stoppen',
                     handler: () => {
-                        this.chargedTimeAtStop = this.chargingService.chargedTime();
-
-                        let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestoppt ..."});
-                        loader.present();
-
-                        this.chargingService.stopCharging(this.connector.id)
-                            .finally(() => loader.dismissAll())
-                            .subscribe(
-                                () => {
-                                    this.trackerService.track('Charging Stopped', {
-                                        'id': this.location.id,
-                                        'Address': this.location.address,
-                                        'Timestamp': ''
-                                    });
-
-                                    this.countingDown = false;
-                                    this.timer = 0;
-                                    this.hours = "00";
-                                    this.minutes = "00";
-                                    this.seconds = "00";
-                                    this.updateCanvas();
-                                    this.initiateCanvas();
-                                    this.didStop = true;
-                                    this.dismiss();
-                                },
-                                error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen'));
+                        alert.dismiss().then(() => this.doStopCharging());
+                        return false;
                     }
                 }
             ]
         });
         alert.present();
+    }
+
+    doStopCharging() {
+        this.chargedTimeAtStop = this.chargingService.chargedTime();
+        this.stopButtonClicked = true;
+
+        let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestoppt ..."});
+        loader.present();
+
+        this.chargingService.stopCharging(this.connector.id)
+            .subscribe(
+                () => {
+                    loader.dismiss().then(() => {
+                        this.trackerService.track('Charging Stopped', {
+                            'id': this.location.id,
+                            'Address': this.location.address,
+                            'Timestamp': ''
+                        });
+                        this.countingDown = false;
+                        this.timer = 0;
+                        this.hours = "00";
+                        this.minutes = "00";
+                        this.seconds = "00";
+                        this.updateCanvas();
+                        this.initiateCanvas();
+                        this.didStop = true;
+                        this.dismiss();
+                    });
+
+                },
+                error => {
+                    loader.dismiss();
+                    this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen')
+                });
+
     }
 
     circleRange_mouseDown() {
@@ -477,7 +495,10 @@ export class ChargingPage {
             "chargedTime": this.chargedTimeAtStop,
             "isCharging": this.charging,
             "fromLocationDetailsAndIsCharging": this.fromLocationDetailsAndIsCharging
-        });
+        })
+            .catch((e) => {
+                // console.log('view was not dismissed', e)
+            });
     }
 
     openTerms() {
