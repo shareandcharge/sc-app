@@ -4,12 +4,12 @@ import {
     LoadingController, Alert
 } from 'ionic-angular';
 import {Camera} from 'ionic-native';
-import {AuthService} from "../../services/auth.service";
-import {User} from "../../models/user";
-import {UserService} from "../../services/user.service";
+import {AuthService} from "../../../services/auth.service";
+import {User} from "../../../models/user";
+import {UserService} from "../../../services/user.service";
 import {EditEmailPage} from "./edit-email/edit-email";
 import {EditProfilePage} from "./edit-profile/edit-profile";
-import {ErrorService} from "../../services/error.service";
+import {ErrorService} from "../../../services/error.service";
 import {EditPasswordPage} from "./edit-password/edit-password";
 
 
