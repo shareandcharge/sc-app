@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {
     NavController, NavParams, AlertController, ViewController, LoadingController, Events,
-    ModalController, Content, Alert
+    ModalController, Content
 } from 'ionic-angular';
 import {ChargingService} from '../../../services/charging.service';
 import {Connector} from "../../../models/connector";
