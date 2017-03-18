@@ -12,6 +12,7 @@ import {ErrorService} from "../../services/error.service";
 import {ForgotPasswordPage} from "./forgot-password/forgot-password";
 import {TermsPage} from "../_global/terms";
 import {TrackerService} from "../../services/tracker.service";
+import {User} from "../../models/user";
 
 @Component({
     selector: 'page-signup',
@@ -168,7 +169,7 @@ export class SignupLoginPage {
             });
 
             this.userService.createUser(this.signUpLoginObject).subscribe(
-                () => {
+                (user: User) => {
                     this.trackerService.track('Completed Sign Up', {
                         'Screen Name': 'Registrieren',
                         'Sign up method': 'Email',
@@ -178,7 +179,7 @@ export class SignupLoginPage {
                         'Signup': 'yes'
                     });
 
-                    this.trackerService.alias(this.auth.getUser());
+                    this.trackerService.alias(user);
 
                     //-- calling alias may take up to 2 seconds (according to their docs)
                     setTimeout(() => {

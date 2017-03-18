@@ -30,10 +30,10 @@ export class EditPasswordPage {
         this.createErrorMessages();
 
         this.passwordForm = this.formBuilder.group({
-            oldPassword: ['', Validators.required],
+            oldPassword: [null, Validators.required],
             newPasswords: this.formBuilder.group({
-                password: ['', Validators.compose([Validators.maxLength(225), Validators.minLength(7), Validators.required])],
-                passwordRepeat: ['', Validators.compose([Validators.maxLength(225), Validators.minLength(7), Validators.required])]
+                password: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(7), Validators.required])],
+                passwordRepeat: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(7), Validators.required])]
             }, {validator: this.areEqual})
         });
     }
@@ -53,7 +53,7 @@ export class EditPasswordPage {
 
     createErrorMessages() {
         this.errorMessages = {
-            "oldPassword": 'Bitte gib dein altes Passwort ein.',
+            "oldPassword": 'Bitte gib Dein altes Passwort ein.',
             "newPassword": 'Bitte gib ein neues Passwort ein. Mindestens 7 Zeichen.',
             "passwordsNotEqual": 'Die Passwörter stimmen nicht überein.'
         }

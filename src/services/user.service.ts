@@ -65,18 +65,21 @@ export class UserService extends AbstractApiService {
                 if (result.token) {
                     this.authService.setToken(result.token);
                 }
-                return new User().deserialize(result)
+                let user = result.usr ? result.usr : result.user;
+
+                return new User().deserialize(user)
             })
             .catch(this.handleError);
     }
 
-    createUser(signUpObject) {
+    createUser(signUpObject): Observable<User> {
         return this.httpService.post(`${this.baseUrl}/users`, JSON.stringify(signUpObject))
-            .map(res =>  {
+            .map(res => {
                 let data = res.json();
+                let user = data.user;
 
                 this.authSuccess(data);
-                return new User().deserialize(data);
+                return new User().deserialize(user);
             })
             .catch(this.handleError);
     }
