@@ -3,7 +3,7 @@ import {ModalController, Tabs} from 'ionic-angular';
 import {MapPage} from '../map/map';
 import {AboutPage} from '../about/about';
 import {WalletPage} from '../wallet/wallet';
-import {DashboardPage} from '../dashboard/dashboard';
+import {ProfilePage} from '../profile/profile';
 import {AuthService} from "../../services/auth.service";
 import {MyStationsPage} from "../station/my-stations/my-stations";
 import {StationWrapperPage} from "../station/station-wrapper";
@@ -18,7 +18,7 @@ export class TabsPage {
     tab1Root = MapPage;
     tab2Root = AboutPage;
     tab3Root = MyStationsPage;
-    tab4Root = DashboardPage;
+    tab4Root = ProfilePage;
     tab5Root = WalletPage;
 
     @ViewChild('tabs') tabRef: Tabs;
@@ -31,7 +31,7 @@ export class TabsPage {
     signupModal() {
         this.displayModal(SignupLoginPage, {
             'action' : 'signUp',
-            'trackReferrer': 'Tab Anmelden'
+            'trackReferrer': 'Tab Registrieren'
         });
     }
 

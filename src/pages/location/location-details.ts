@@ -296,7 +296,7 @@ export class LocationDetailPage {
             };
             LaunchNavigator.navigate([this.location.lat, this.location.lng], options)
                 .then(
-                    success => console.log('map app launched'),
+                    success => {},
                     error => {
                         if ('cancelled' !== error) {
                             alert('App konnte nicht gestartet werden: ' + error);

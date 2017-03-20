@@ -59,7 +59,8 @@
     "not_enough_balance": "Dein Guthaben reicht dafür leider nicht aus.",
     "error_start_charging_unavailable": "Ladestation ist temporär nicht erreichbar",
     "error_start_charging_not_connected": "Fahrzeug ist nicht angeschlossen",
-    "error_start_charging": "Konnte den Ladevorgang nicht starten. Bitte Verbindung prüfen!"
+    "error_start_charging": "Konnte den Ladevorgang nicht starten. Bitte Verbindung prüfen!",
+    "wrong_old_password": "Ungültiges altes Passwort."
   },
   "payment": {
     "types": {

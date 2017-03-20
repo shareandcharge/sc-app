@@ -12,6 +12,7 @@ import {ErrorService} from "../../services/error.service";
 import {ForgotPasswordPage} from "./forgot-password/forgot-password";
 import {TermsPage} from "../_global/terms";
 import {TrackerService} from "../../services/tracker.service";
+import {User} from "../../models/user";
 
 @Component({
     selector: 'page-signup',
@@ -29,8 +30,8 @@ export class SignupLoginPage {
     destination: string;
     mode: string;
     buttonText = {
-        'signUp' : 'Anmelden',
-        'login' : 'Login'
+        'signUp' : 'Registrieren',
+        'login' : 'Anmelden'
     };
 
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
@@ -117,14 +118,14 @@ export class SignupLoginPage {
 
         if (this.signUpLoginForm.valid) {
             let loader = this.loadingCtrl.create({
-                content: "Login ...",
+                content: "Anmelden ...",
             });
             loader.present();
 
             this.userService.login(this.signUpLoginObject.email, this.signUpLoginObject.authentification.password).subscribe(
                 () => {
                     this.trackerService.track('Login Completed', {
-                        'Screen Name': 'Anmelden',
+                        'Screen Name': 'Registrieren',
                         'Login': 'yes',
                         'Signup': 'no',
                         'Sign up method': 'Email',
@@ -144,7 +145,7 @@ export class SignupLoginPage {
                     }
                 },
                 (error) => {
-                    this.errorService.displayErrorWithKey(error, 'Login');
+                    this.errorService.displayErrorWithKey(error, 'Anmelden');
                     loader.dismissAll();
                 });
         }
@@ -161,16 +162,16 @@ export class SignupLoginPage {
             loader.present();
 
             this.trackerService.track('Signup Info Added', {
-                'Screen Name': 'Anmelden',
+                'Screen Name': 'Registrieren',
                 'Sign up method': 'Email',
                 'Timestamp': '',
                 'Terms accepted': 'yes'
             });
 
             this.userService.createUser(this.signUpLoginObject).subscribe(
-                () => {
+                (user: User) => {
                     this.trackerService.track('Completed Sign Up', {
-                        'Screen Name': 'Anmelden',
+                        'Screen Name': 'Registrieren',
                         'Sign up method': 'Email',
                         'Timestamp': '',
                         'Terms accepted': 'yes',
@@ -178,7 +179,7 @@ export class SignupLoginPage {
                         'Signup': 'yes'
                     });
 
-                    this.trackerService.alias(this.auth.getUser());
+                    this.trackerService.alias(user);
 
                     //-- calling alias may take up to 2 seconds (according to their docs)
                     setTimeout(() => {

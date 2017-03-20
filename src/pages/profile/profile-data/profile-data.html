@@ -1,10 +1,11 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Dashboard</ion-title>
+        <ion-title>Profildaten</ion-title>
     </ion-navbar>
-    <charging-progress-bar></charging-progress-bar>
+
 </ion-header>
+
 <ion-content>
     <div class="top-container" padding="" text-center="">
         <button class="image-button filled" (click)="selectPhoto()" *ngIf="user.hasImage()"
@@ -19,18 +20,20 @@
     </div>
 
     <ion-list padding-top="" padding-right="" class="no-outer-lines">
-        <button ion-item (click)="settings()">
-            Profil Einstellungen
+        <button ion-item (click)="editProfile()">
+            Name und Anschrift
         </button>
-        <button ion-item (click)="myCars()">
-            Meine Elektroautos
+        <button ion-item (click)="editEmail()">
+            E-Mail Adresse
         </button>
-        <button ion-item (click)="help()">
-            Hilfe
+        <button ion-item (click)="editPassword()">
+            Passwort ändern
         </button>
-
-        <button ion-item (click)="logOut()" class="color-secondary">
-            Abmelden
+        <button ion-item (click)="resendVerificationEmail()" *ngIf="!user.isEmailVerified()">
+            Bestätigung erneut senden
+        </button>
+        <button ion-item (click)="deleteAccountConfirm()" class="color-secondary">
+            Profil löschen
         </button>
     </ion-list>
 </ion-content>

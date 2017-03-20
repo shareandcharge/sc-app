@@ -14,7 +14,7 @@ import {Location} from "../../../models/location";
 import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
-import {EditProfilePage} from "../../profile/edit-profile/edit-profile";
+import {EditProfilePage} from "../../profile/profile-data/edit-profile/edit-profile";
 import {TrackerService} from "../../../services/tracker.service";
 
 @Component({

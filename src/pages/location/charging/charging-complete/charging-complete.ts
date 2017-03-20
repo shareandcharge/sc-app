@@ -48,8 +48,7 @@ export class ChargingCompletePage {
         let m = minutes < 10 ? "0" + minutes : minutes;
         let s = seconds < 10 ? "0" + seconds : seconds;
 
-        let finalString = h + ':' + m + ':' + s;
-        return finalString;
+        return h + ':' + m + ':' + s;
     }
 
     dismiss() {

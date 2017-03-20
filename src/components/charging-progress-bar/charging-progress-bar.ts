@@ -31,7 +31,8 @@ export class ChargingProgressBarComponent {
 
     goToCharging() {
         let chargingModal = this.modalCtrl.create(ChargingPage, {
-            'location': this.location
+            'location': this.location,
+            'isCharging': this.charging
         });
 
         chargingModal.onDidDismiss(data => {
