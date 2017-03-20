@@ -104,3 +104,7 @@ $_input_box_width_xl: 160px;
 .input-has-focus .label-md[stacked], .input-has-focus .label-md[floating] {
   color: #999 !important;
 }
+
+ion-list.list-md ion-item.item-input:last-child {
+  border-bottom: none;
+}
