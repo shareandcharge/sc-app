@@ -190,10 +190,12 @@ export class WalletPage {
     }
 
     payOut() {
-        this.navCtrl.push(PayOutPage);
+        let modal = this.modalCtrl.create(PayOutPage);
+        modal.present();
     }
 
     redeemVoucher() {
-        this.navCtrl.push(VoucherPage);
+        let modal = this.modalCtrl.create(VoucherPage);
+        modal.present();
     }
 }
