@@ -55,8 +55,8 @@
                 </span>
             </ion-col>
             <ion-col text-center="" class="col-type">
-                <img *ngIf="tr.order" src="{{iconSourceMap[tr.order.type]}}">
-                <img *ngIf="tr.receipt || tr.voucher" src="{{iconSourceMap[tr.type]}}">
+                <ion-icon *ngIf="tr.order" name="{{iconSourceMap[tr.order.type]}}" color="primary"></ion-icon>
+                <ion-icon *ngIf="tr.receipt || tr.voucher" name="{{iconSourceMap[tr.type]}}" color="primary"></ion-icon>
             </ion-col>
             <ion-col>
                 <small item-right>

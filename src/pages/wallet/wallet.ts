@@ -30,14 +30,14 @@ export class WalletPage {
     };
 
     iconSourceMap = {
-        'cc' : 'assets/icons/wallet-cc.png',
-        'dd' : 'assets/icons/wallet-dd.png',
-        'sofort' : 'assets/icons/wallet-sofort.png',
-        'paypal' : 'assets/icons/wallet-paypal.png',
-        'Received' : 'assets/icons/wallet-pole.png',
-        'Send' : 'assets/icons/wallet-charge.png',
-        'Voucher' : 'assets/icons/wallet-voucher.png',
-        'payout' : 'assets/icons/wallet-payout.png'
+        'cc' : 'cust-credit-card',
+        'dd' : 'cust-debit',
+        'sofort' : 'cust-sofort',
+        'paypal' : 'cust-paypal',
+        'Received' : 'cust-station',
+        'Send' : 'cust-charged-car',
+        'Voucher' : 'cust-voucher',
+        'payout' : 'cust-withdraw.png'
     };
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController, private errorService: ErrorService) {
