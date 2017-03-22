@@ -14,6 +14,7 @@ import {TrackerService} from "../../../services/tracker.service";
 export class AddMoneyPage {
     displayAmount: any;
     payInObject: any;
+    cardId: string;
 
     user: User;
 
@@ -37,6 +38,11 @@ export class AddMoneyPage {
 
     ionViewWillEnter() {
         this.loadUser();
+        if (this.user.hasCreditCards()) {
+            //-- preset with first credit card
+            this.cardId = this.user.getCreditCards()[0].number;
+        }
+
         this.trackerService.track('Started Loading Account', {
             'Screen Name': 'Konto'
         });
@@ -53,7 +59,7 @@ export class AddMoneyPage {
     addMoney() {
         this.payInButtonDisabled = true;
         this.payInObject.amount = this.convertToDecimal(this.displayAmount) * 100;
-        this.payInObject.details.cardId = this.user.getCardId();
+        this.payInObject.details.cardId = this.cardId;
 
         this.trackerService.track('Account Info Added', {
             'Payment method': this.payInObject.type,
