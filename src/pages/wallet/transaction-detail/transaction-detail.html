@@ -30,6 +30,27 @@
         <ion-row>
             <ion-col>
                 <ion-label>Datum</ion-label>
+                {{transaction.order.timestamp | date:'short'}}
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid class="detailGrid" *ngIf="transaction.type == 'Voucher'">
+        <ion-row>
+            <ion-col>
+                <ion-label>Betrag</ion-label>
+                {{transaction.amount / 100 | currency:'EUR':true:'1.2-2'}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Zahlungsmethode</ion-label>
+                Gutschein
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Datum</ion-label>
                 {{transaction.timestamp | date:'short'}}
             </ion-col>
         </ion-row>
