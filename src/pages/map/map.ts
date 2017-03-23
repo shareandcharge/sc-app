@@ -48,7 +48,11 @@ export class MapPage {
     locationMarkers: Array<any>;
 
     mapDefaultControlls: boolean;
-    locations: Array<Location>;
+
+    //-- "short" because we only request a limited set of fields to keep it small
+    //      so be aware that this is not a full featured/filled location object!
+    locationFields: string = 'id,available,open,matchesPlugtype,lat,lng,id,address';
+    locationsShort: Array<Location>;
 
     currentLocationLoading: boolean = false;
 
@@ -217,7 +221,8 @@ export class MapPage {
             toast.dismiss();
         }, (err) => {
             toast.dismiss();
-            this.errorService.displayError('Leider konnten Wir Deinen Standort nicht ermitteln. Bitte überprüfe ob Dein GPS-Signal angeschaltet ist und probiere es erneut.')
+            this.errorService.displayError('Leider konnten Wir Deinen Standort nicht ermitteln. ' +
+                'Bitte überprüfe ob Dein GPS-Signal angeschaltet ist und probiere es erneut.');
 
             this.currentLocationLoading = false;
         });
@@ -227,21 +232,21 @@ export class MapPage {
         if (viewType === 'list') {
             let me = this;
 
-            var bounds = {
+            let bounds = {
                 latFrom: 0,
                 latTo: 0,
                 lngFrom: 0,
                 lngTo: 0
             };
 
-            var googleBounds = me.map.getBounds();
+            let googleBounds = me.map.getBounds();
 
             bounds.latFrom = googleBounds.getSouthWest().lat();
             bounds.latTo = googleBounds.getNorthEast().lat();
             bounds.lngFrom = googleBounds.getSouthWest().lng();
             bounds.lngTo = googleBounds.getNorthEast().lng();
 
-            me.locationService.searchLocations(bounds).subscribe(locations => {
+            me.locationService.searchLocations(bounds, this.locationFields).subscribe(locations => {
                     me.visibleLocations = locations;
                     this.viewType = viewType;
                 },
@@ -300,8 +305,9 @@ export class MapPage {
     }
 
     refreshLocations() {
-        this.locationService.getLocations().subscribe((locations) => {
-                this.locations = locations;
+        let params = {'fields': this.locationFields};
+        this.locationService.getLocations(params).subscribe((locations) => {
+                this.locationsShort = locations;
                 this.updateLocationMarkers();
             },
             error => this.errorService.displayErrorWithKey(error, 'Aktualisiere Stationen'));
@@ -384,9 +390,9 @@ export class MapPage {
     }
 
     loadLocationsForPlugTypes(plugTypes: Array<any>) {
-        this.locationService.getLocationsPlugTypes(plugTypes.join()).subscribe(locations => {
+        this.locationService.getLocationsPlugTypes(plugTypes.join(), this.locationFields).subscribe(locations => {
                 this.toggledPlugs = plugTypes;
-                this.locations = locations;
+                this.locationsShort = locations;
                 this.updateLocationMarkers();
             },
             error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen für Station'));
@@ -466,7 +472,7 @@ export class MapPage {
             this.markerClusterer.clearMarkers();
         }
 
-        this.locations.forEach(location => this.addMarker(location));
+        this.locationsShort.forEach(location => this.addMarker(location));
 
         this.markerClusterer = new MarkerClusterer(this.map, this.locationMarkers, {
             gridSize: 40,

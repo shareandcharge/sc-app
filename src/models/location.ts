@@ -13,6 +13,7 @@ export class Location implements Serializable<Location> {
     address: string;
     stations: Array<Station>;
     active: boolean;
+    available: boolean;
     open: boolean;
     matchesPlugtype: boolean;
     metadata: {
@@ -38,6 +39,7 @@ export class Location implements Serializable<Location> {
         this.address = '';
         this.stations = [];
         this.active = true;
+        this.available = true;
         this.open = true;
         this.metadata = {
             problemSolver: ''
@@ -51,19 +53,8 @@ export class Location implements Serializable<Location> {
         };
     }
 
-    /**
-     * A station is rented when all of it's stations are rented
-     * or if there are no stations at all.
-     * @returns {boolean}
-     */
     isRented(): boolean {
-        let isRented = true;
-
-        this.stations.forEach((connector) => {
-            isRented = isRented && connector.isRented();
-        });
-
-        return isRented;
+        return !this.available;
     }
 
     isClosed(): boolean {
@@ -87,22 +78,27 @@ export class Location implements Serializable<Location> {
         this.lat = input.lat;
         this.lng = input.lng;
         this.address = input.address;
+        this.available = input.available;
         this.active = input.active;
         this.open = input.open;
         this.matchesPlugtype = input.matchesPlugtype;
         this.metadata = input.metadata;
         this.ownerprofile = input.ownerprofile;
 
-        this.images = input.images;
-        for (let image of this.images) {
-            if (typeof image.url !== 'undefined') {
-                image.src = 'https://api-test.shareandcharge.com' + image.url;
+        if (input.images) {
+            this.images = input.images;
+            for (let image of this.images) {
+                if (typeof image.url !== 'undefined') {
+                    image.src = 'https://api-test.shareandcharge.com' + image.url;
+                }
             }
         }
 
         let deserializedStations = [];
-        for (let station of input.stations) {
-            deserializedStations.push(new Station().deserialize(station));
+        if (input.stations) {
+            for (let station of input.stations) {
+                deserializedStations.push(new Station().deserialize(station));
+            }
         }
         this.stations = deserializedStations;
 

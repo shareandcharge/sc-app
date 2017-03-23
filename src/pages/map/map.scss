@@ -1,4 +1,9 @@
-
+page-map {
+  .list-view .marker {
+    width: 20px;
+    vertical-align: bottom;
+  }
+}
 #map {
   width: 100%;
   height: 100%;
