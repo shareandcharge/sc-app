@@ -371,6 +371,16 @@ export class MapPage {
         popover.present({
             ev: e
         });
+
+        popover.onDidDismiss((data?) => {
+            if (data && data.action) {
+                switch (data.action) {
+                    case 'refresh':
+                        this.refreshLocations();
+                        break;
+                }
+            }
+        });
     }
 
     presentFilterModal() {
