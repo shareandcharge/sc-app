@@ -21,10 +21,16 @@
         </ion-list>
     </div>
 
-    <div class="voucher-error" text-center padding *ngIf="redeemError">{{errorMessage}}</div>
-    <div class="voucher-success" text-center padding *ngIf="redeemSuccess"><h1>Hurra!</h1>Der Gutschein wurde Deinem Konto gutgeschrieben!</div>
+    <div class="voucher-error" text-center padding *ngIf="redeemError">
+        {{errorMessage}}
+    </div>
 
-    <div class="voucher-image" text-center>
-        <ion-img src="assets/images/voucher-image.svg"></ion-img>
+    <div class="voucher-success" text-center padding *ngIf="redeemSuccess">
+        <h1>Hurra!</h1>
+        Der Gutschein wurde Deinem Konto gutgeschrieben!
+    </div>
+
+    <div class="voucher-image" text-center margin-bottom>
+        <img src="assets/images/voucher-image.svg">
     </div>
 </ion-content>

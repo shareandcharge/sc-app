@@ -83,16 +83,30 @@ export class User implements Serializable<User> {
         }
     }
 
-    getCardId(): string|null {
-        let id = null;
+    hasCreditCards(): boolean {
+        if (!(typeof this.authentification.cards === 'object')) return false;
 
-        try {
-            id = Object.keys(this.authentification.cards).shift();
-        }
-        catch (e) {
+        for (let key in this.authentification.cards) {
+            if ('cc' === this.authentification.cards[key]) {
+                return true;
+            }
         }
 
-        return id;
+        return false;
+    }
+
+    getCreditCards(): any[] {
+        if (!this.hasCreditCards()) return [];
+
+        let cards = [];
+
+        Object.keys(this.authentification.cards).forEach((key) => {
+            if ('cc' === this.authentification.cards[key]) {
+                cards.push({'number': <string>key});
+            }
+        });
+
+        return cards;
     }
 
     deserialize(input) {

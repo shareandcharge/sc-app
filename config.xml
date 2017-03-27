@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.shareandcharge.dev" version="0.0.18" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.shareandcharge.dev" version="0.0.19" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>ShareCharge</name>
     <description>Be part of the e-mobility revolution</description>
     <author email="j@delodi.net" href="http://delodi.net/">Delodi Team</author>
@@ -35,14 +35,24 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <config-file parent="NSPhotoLibraryUsageDescription" target="*-Info.plist">
-            <string>We need your photo library.</string>
+        <preference buildType="debug" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" quote="none" value="8.3" />
+        <preference buildType="release" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" value="8.3" />
+        <preference buildType="debug" name="ios-XCBuildConfiguration-GCC_NO_COMMON_BLOCKS" value="NO" />
+        <preference buildType="release" name="ios-XCBuildConfiguration-GCC_NO_COMMON_BLOCKS" value="NO" />
+        <config-file parent="CFBundleDevelopmentRegion" platform="ios" target="*-Info.plist">
+            <string>de_DE</string>
         </config-file>
-        <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
-            <string>We need your camera to take photos.</string>
+        <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Bilder machen für Dein Auto, Deine Station oder Dein Profil.</string>
         </config-file>
-        <config-file parent="NSLocationWhenInUseUsageDescription" target="*-Info.plist">
-            <string>We want to show your location on the map.</string>
+        <config-file parent="NSContactsUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Adresse aus Deinen Kontakten für die Tarife auswählen.</string>
+        </config-file>
+        <config-file parent="NSLocationWhenInUseUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Deinen Standort auf der Karte anzeigen.</string>
+        </config-file>
+        <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Bilder aussuchen für Dein Auto, Deine Station oder Dein Profil.</string>
         </config-file>
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
@@ -109,4 +119,5 @@
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="~3.2.1" />
     <engine name="ios" spec="~4.3.1" />
     <engine name="android" spec="latest" />
+    <plugin name="cordova-custom-config" spec="~3.1.2" />
 </widget>

@@ -28,12 +28,29 @@
         </ion-item>
     </ion-list>
 
+    <div *ngIf="payInObject.type=='cc' && user && user.hasCreditCards()" padding-horizontal>
+        <ion-list radio-group class="ion-list-white" [(ngModel)]="cardId">
+            <ion-list-header>
+                Welche Karte verwenden
+            </ion-list-header>
+            <ion-item *ngFor="let card of user.getCreditCards()">
+                <ion-label>{{card.number}}</ion-label>
+                <ion-radio value="{{card.number}}" checked="{{card.number == cardId}}"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>Neue Karte verwenden</ion-label>
+                <ion-radio value=""></ion-radio>
+            </ion-item>
+        </ion-list>
+    </div>
+
     <div class="input-box input-box-white input-box-xl margin-bottom-xl">
         <div class="input-box-inner">
             <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="0"></ion-input>
             <label>€</label>
         </div>
     </div>
+
 
     <div *ngIf="payInObject.type=='dd'">
         <ion-list>

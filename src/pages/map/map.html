@@ -50,8 +50,9 @@
         </ion-item>
     </ion-list>
 
-    <ion-list [hidden]="viewType == 'map'">
+    <ion-list [hidden]="viewType == 'map'" class="list-view">
         <ion-item *ngFor="let location of visibleLocations" (click)="showLocationDetails(location)">
+            <img src="assets/icons/marker/{{locationService.isBusy(location) ? 'busy.png' : 'available.png'}}" class="marker">
             {{location.address}}
         </ion-item>
     </ion-list>

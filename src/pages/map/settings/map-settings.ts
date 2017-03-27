@@ -38,6 +38,10 @@ export class MapSettingsPage {
         }
     }
 
+    refreshMarkers() {
+        this.viewCtrl.dismiss({action: 'refresh'});
+    }
+
     setView = (view) => {
         this.setViewType(view);
         this.viewCtrl.dismiss();
