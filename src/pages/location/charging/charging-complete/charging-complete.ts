@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, ViewController} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 import {CarService} from "../../../../services/car.service";
 import {LocationService} from "../../../../services/location.service";
 import {Location} from "../../../../models/location";
 import {Connector} from "../../../../models/connector";
 import {Car} from "../../../../models/car";
 import {ErrorService} from "../../../../services/error.service";
-
+import {ChargingService} from "../../../../services/charging.service";
 
 @Component({
     selector: 'page-charging-complete',
@@ -15,28 +15,30 @@ import {ErrorService} from "../../../../services/error.service";
 export class ChargingCompletePage {
     location: Location;
     connector: Connector;
-    chargedTime: any;
-    chargedTimeString: any;
-    chargedPrice: any;
     activeCar: Car;
+    chargedTime: number;
+    chargedTimeString: string;
+    chargedPrice: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private carService: CarService, private locationService: LocationService, private errorService: ErrorService) {
-        this.chargedTime = navParams.get("chargedTime");
-        this.chargedTimeString = this.makeTimeString(this.chargedTime);
-        this.location = navParams.get('location');
-        this.connector = this.location.stations[0].connectors[0];
+    constructor(private viewCtrl: ViewController, private carService: CarService, private locationService: LocationService,
+                private chargingService: ChargingService, private errorService: ErrorService) {
     }
 
     ionViewWillEnter() {
         this.activeCar = this.carService.getActiveCar();
+        this.location = this.chargingService.getLocation();
+        this.connector = this.chargingService.getConnector();
+        this.chargedTime = this.chargingService.chargedTime();
+        this.chargedTimeString = this.makeTimeString(this.chargedTime);
 
         this.locationService.getPrice(this.connector.id, {
             'secondsToCharge': this.chargedTime,
             'maxCharging': this.activeCar.maxCharging
         }).subscribe((response) => {
-            this.chargedPrice = response.min
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Preisabfrage'));
+                this.chargedPrice = response.min
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Preisabfrage')
+        );
     }
 
     makeTimeString(data) {

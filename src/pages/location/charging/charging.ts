@@ -68,7 +68,9 @@ export class ChargingPage {
                 private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService) {
 
         this.location = navParams.get("location");
+        //-- for now we use the first station
         this.station = this.location.stations[0];
+        //-- first connector is default (innogy stations have two+)
         this.connector = this.station.connectors[0];
         this.selectedConnectorId = this.connector.id;
 
@@ -237,7 +239,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestartet ..."});
         loader.present();
 
-        this.chargingService.startCharging(this.connector.id, this.timer, this.activeCar.maxCharging, this.location)
+        this.chargingService.startCharging(this.connector, this.timer, this.activeCar.maxCharging, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {
@@ -281,7 +283,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestoppt ..."});
         loader.present();
 
-        this.chargingService.stopCharging(this.connector.id)
+        this.chargingService.stopCharging()
             .subscribe(
                 () => {
                     loader.dismiss().then(() => {

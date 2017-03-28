@@ -5,6 +5,9 @@ export class Connector {
     maxwattpower: number;
     description: string;
     isRented: boolean;  // is called "isrented" in the backend
+    station: number;    // station ID !
+    timeleft: number;   // only returned when this is charging
+    secondstorent: number;
 
     weekcalendar: {
         'hours': Array<any>
@@ -296,6 +299,9 @@ export class Connector {
         this.maxwattpower = input.maxwattpower;
         this.description = input.description;
         this.isRented = !!input.isrented; // cast to boolean
+        this.station = input.station;
+        this.timeleft = input.timeleft;
+        this.secondstorent = input.secondstorent;
 
         return this;
     }
