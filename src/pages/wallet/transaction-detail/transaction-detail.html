@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-grid class="detailGrid" *ngIf="transaction.order">
+    <ion-grid class="detailGrid" *ngIf="transaction.isPayOut() || transaction.isPayIn()">
         <ion-row>
             <ion-col>
                 <ion-label>Betrag</ion-label>
@@ -30,12 +30,12 @@
         <ion-row>
             <ion-col>
                 <ion-label>Datum</ion-label>
-                {{transaction.order.timestamp | date:'short'}}
+                {{transaction.getTimestamp() | date:'short'}}
             </ion-col>
         </ion-row>
     </ion-grid>
 
-    <ion-grid class="detailGrid" *ngIf="transaction.type == 'Voucher'">
+    <ion-grid class="detailGrid" *ngIf="transaction.isVoucher()">
         <ion-row>
             <ion-col>
                 <ion-label>Betrag</ion-label>
@@ -51,13 +51,13 @@
         <ion-row>
             <ion-col>
                 <ion-label>Datum</ion-label>
-                {{transaction.timestamp | date:'short'}}
+                {{transaction.getTimestamp() | date:'short'}}
             </ion-col>
         </ion-row>
     </ion-grid>
 
 
-    <ion-grid class="detailGrid" *ngIf="transaction.receipt">
+    <ion-grid class="detailGrid" *ngIf="transaction.isSend() || transaction.isReceived()">
         <ion-row *ngIf="transaction.receipt.loc_name != ''">
             <ion-col>
                 <ion-label>Name Ladestation</ion-label>
@@ -73,7 +73,7 @@
         <ion-row>
             <ion-col>
                 <ion-label>Datum</ion-label>
-                {{transaction.timestamp | date:'short'}}
+                {{transaction.getTimestamp() | date:'short'}}
             </ion-col>
             <ion-col>
                 <ion-label>Tarif Ladestation</ion-label>
@@ -91,11 +91,11 @@
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col *ngIf="transaction.type=='Received'">
+            <ion-col *ngIf="transaction.isReceived()">
                 <ion-label>Ladekosten</ion-label>
                 {{transaction.amount / 100 | currency:'EUR':true:'1.2-2'}} + {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr
             </ion-col>
-            <ion-col *ngIf="transaction.type=='Send'">
+            <ion-col *ngIf="transaction.isSend()">
                 <ion-label>Ladekosten</ion-label>
                 {{(transaction.amount) / 100 | currency:'EUR':true:'1.2-2'}} (inkl. {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr) <ng-container *ngIf="transaction.receipt.owner_profile.operatorVat">(inkl. 19% MwSt.)</ng-container>
             </ion-col>

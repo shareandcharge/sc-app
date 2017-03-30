@@ -8,6 +8,7 @@ import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
 import {ErrorService} from "../../services/error.service";
 import {PayOutPage} from "./pay-out/pay-out";
 import {VoucherPage} from "./voucher/voucher";
+import {Transaction} from "../../models/transaction";
 
 @Component({
     selector: 'page-wallet',
@@ -16,29 +17,10 @@ import {VoucherPage} from "./voucher/voucher";
 export class WalletPage {
 
     currentBalance: any = 0;
-    paymentHistory: any;
-    noTransaction = true;
+    transactions: Array<Transaction>;
     pendingTransactions: Array<any>;
     intervals = [];
-
-    TRANSACTION_TYPES = {
-        SUCCESS : 'TokenUpdate',
-        PENDING : 'TokenUpdate-pending',
-        RECEIVED : 'Received',
-        SEND : 'Send',
-        VOUCHER : 'Voucher'
-    };
-
-    iconSourceMap = {
-        'cc' : 'cust-credit-card',
-        'dd' : 'cust-debit',
-        'sofort' : 'cust-sofort',
-        'paypal' : 'cust-paypal',
-        'Received' : 'cust-station',
-        'Send' : 'cust-charged-car',
-        'Voucher' : 'cust-voucher',
-        'payout' : 'cust-withdraw.png'
-    };
+    pollPendingTimeout: number = 8000;  //-- milliseconds to poll for pending transactions
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController, private errorService: ErrorService) {
         this.events.subscribe('history:update', () => {
@@ -72,30 +54,20 @@ export class WalletPage {
 
         let observable = this.paymentService.getHistory();
         observable.subscribe((history) => {
-            this.paymentHistory = history;
+                this.transactions = history;
+                this.pendingTransactions = [];
 
-            if (typeof this.paymentHistory !== 'undefined') {
-                if (this.paymentHistory.length > 0) {
-                    this.noTransaction = false;
-                    this.pendingTransactions = [];
-
-                    this.paymentHistory.forEach((transaction) => {
-                        if (transaction.type === this.TRANSACTION_TYPES.PENDING) {
-                            this.pendingTransactions.push(transaction);
-                        }
-
-                        if (transaction.type === this.TRANSACTION_TYPES.VOUCHER) {
-                            transaction.voucher = true;
-                        }
-                    });
-
-                    if (this.pendingTransactions.length > 0) {
-                        this.pollPendingTransactions();
+                this.transactions.forEach((transaction) => {
+                    if (transaction.isPending()) {
+                        this.pendingTransactions.push(transaction);
                     }
+                });
+
+                if (this.pendingTransactions.length > 0) {
+                    this.pollPendingTransactions();
                 }
-            }
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Liste - History'));
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Liste - History'));
 
         return observable;
     }
@@ -103,15 +75,11 @@ export class WalletPage {
     getBalance() {
         let observable = this.paymentService.getBalance();
         observable.subscribe((balance) => {
-            this.currentBalance = balance;
-        },
-        error => this.errorService.displayErrorWithKey(error, 'Abfrage Kontostand'));
+                this.currentBalance = balance;
+            },
+            error => this.errorService.displayErrorWithKey(error, 'Abfrage Kontostand'));
 
         return observable;
-    }
-
-    absoluteValue(number) {
-        return Math.abs(number);
     }
 
     addMoney() {
@@ -160,9 +128,17 @@ export class WalletPage {
     }
 
     pollPendingTransactions() {
-        this.pendingTransactions.forEach((transaction) => {
+        // TODO if we have one pending Vouvher, we refresh everything; as we can't request the status of a voucher
+
+        this.pendingTransactions.forEach((transaction, idx) => {
+            if (!transaction.hasOrder()) return;
+
             let orderId = transaction.order.id;
-            this.intervals.push(setInterval(() => this.checkForUpdate(transaction.order.tokenstatus, orderId), 3000));
+            let timeout = this.pollPendingTimeout + (idx * 500);    // spread the requests a bit
+
+            this.intervals.push(
+                setInterval(() => this.checkForUpdate(transaction.order.tokenstatus, orderId), timeout)
+            );
         })
     }
 
@@ -176,7 +152,7 @@ export class WalletPage {
 
     displayToast() {
         let toast = this.toastCtrl.create({
-            message : 'Transaktion erfolgreich durchgeführt.',
+            message: 'Transaktion erfolgreich durchgeführt.',
             duration: 3000
         });
         toast.present();
@@ -184,7 +160,7 @@ export class WalletPage {
 
     openTransactionDetail(transaction) {
         let modal = this.modalCtrl.create(TransactionDetailPage, {
-            'transaction' : transaction
+            'transaction': transaction
         });
         modal.present();
     }
@@ -197,5 +173,29 @@ export class WalletPage {
     redeemVoucher() {
         let modal = this.modalCtrl.create(VoucherPage);
         modal.present();
+    }
+
+    getIcon(transaction: Transaction): string {
+        switch (true) {
+            case transaction.isReceived():
+                return 'cust-station';
+            case transaction.isSend():
+                return 'cust-charged-car';
+            case transaction.isVoucher():
+                return 'cust-voucher';
+            case transaction.isPayOut():
+                return 'cust-withdraw';
+            case transaction.isPayIn():
+                switch (transaction.order.type) {
+                    case 'cc':
+                        return 'cust-credit-card';
+                    case 'dd':
+                        return 'cust-debit';
+                    case 'sofort':
+                        return 'cust-sofort';
+                    case 'paypal':
+                        return 'cust-paypal';
+                }
+        }
     }
 }

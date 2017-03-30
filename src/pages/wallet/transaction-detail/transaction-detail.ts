@@ -2,13 +2,14 @@ import {Component} from "@angular/core";
 import {NavParams, NavController, Platform} from "ionic-angular";
 import {CurrencyPipe} from "@angular/common";
 import {InAppBrowser} from "ionic-native";
+import {Transaction} from "../../../models/transaction";
 
 @Component({
     templateUrl: 'transaction-detail.html',
     selector: 'transaction-detail'
 })
 export class TransactionDetailPage {
-    transaction: any;
+    transaction: Transaction;
 
     priceProviderTariffTypes = [
         'disabled',
