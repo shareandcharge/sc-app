@@ -34,6 +34,7 @@
     "tokencreation_locked": "Token-Generierung gesperrt.",
     "payout_balance_too_low": "Auszahlungsbetrag zu gering.",
     "payout_account_not_set": "Auszahlungsdaten nicht gesetzt.",
+    "payout_only_for_earnings": "Du kannst Dir nur auszahlen lassen, was Du durch Deine Ladesäule/n eingenommen hast.",
     "transaction_not_found": "Transaktion nicht gefunden.",
     "transaction_not_owned_by_user": "Transaktion nicht vom Benutzer.",
     "invalid_data": "Ungültige Daten.",

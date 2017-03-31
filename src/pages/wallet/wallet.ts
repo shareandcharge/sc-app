@@ -188,6 +188,7 @@ export class WalletPage {
     payOut() {
         let modal = this.modalCtrl.create(PayOutPage);
         modal.present();
+        modal.onDidDismiss(() => this.refreshData());
     }
 
     redeemVoucher() {

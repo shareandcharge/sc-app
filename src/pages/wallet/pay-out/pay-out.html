@@ -14,25 +14,56 @@
 </ion-header>
 
 <ion-content padding>
-    <div class="input-box input-box-white input-box-xl margin-bottom-xl">
-        <div class="input-box-inner">
-            <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="0"></ion-input>
-            <label>€</label>
+    <form [formGroup]="form" (ngSubmit)="payOut()">
+        <div class="input-box input-box-white input-box-xl margin-bottom-xl">
+            <div class="input-box-inner">
+                <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="0" formControlName="amount"></ion-input>
+                <label>€</label>
+            </div>
         </div>
-    </div>
+        <div *ngIf="!form.controls.amount.valid && submitAttempt" class="alert-box alert-box-danger" margin>
+            Bitte gib den Betrag an.
+        </div>
 
-    <ion-list>
-        <ion-item>
-            <ion-input [(ngModel)]="payOutObject.iban" placeholder="IBAN" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-input [(ngModel)]="payOutObject.bic" placeholder="BIC" type="text"></ion-input>
-        </ion-item>
-    </ion-list>
+        <ion-list no-lines="">
+            <ion-item>
+                <ion-label floating>IBAN</ion-label>
+                <ion-input type="text" class="input-white"
+                           [(ngModel)]="payOutObject.iban" formControlName="iban"
+                ></ion-input>
+            </ion-item>
+            <div *ngIf="!form.controls.iban.valid && submitAttempt" class="alert-box alert-box-danger" margin>
+                Bitte gib die IBAN an.
+            </div>
+            <ion-item>
+                <ion-label floating>BIC</ion-label>
+                <ion-input type="text" class="input-white"
+                           [(ngModel)]="payOutObject.bic" formControlName="bic"
+                ></ion-input>
+            </ion-item>
+            <div *ngIf="!form.controls.bic.valid && submitAttempt" class="alert-box alert-box-danger" margin>
+                Bitte gib die BIC an.
+            </div>
+        </ion-list>
+        <ion-list no-lines="">
+            <ion-list-header text-wrap>
+                Gib zur Absicherung der Auszahlung Dein Passwort an
+            </ion-list-header>
+            <ion-item>
+                <ion-label floating>Passwort</ion-label>
+                <ion-input type="password" class="input-white"
+                           [(ngModel)]="payOutObject.password" formControlName="password"
+                ></ion-input>
+            </ion-item>
+            <div *ngIf="!form.controls.password.valid && submitAttempt" class="alert-box alert-box-danger" margin>
+                Bitte gib Dein Passwort an.
+            </div>
+        </ion-list>
 
-    <div padding text-center>
-        <button ion-button (click)="payOut()" round text-uppercase="" [disabled]="!displayAmount || displayAmount<=0">
-            Geld auszahlen
-        </button>
-    </div>
+        <div padding text-center>
+            <button ion-button round text-uppercase="" [disabled]="!form.valid">
+                Geld auszahlen
+            </button>
+        </div>
+    </form>
 </ion-content>
