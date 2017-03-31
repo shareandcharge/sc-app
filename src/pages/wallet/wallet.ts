@@ -64,7 +64,7 @@ export class WalletPage {
                 });
 
                 if (this.pendingTransactions.length > 0) {
-                    this.pollPendingTransactions();
+                    this.startPollingPendingTransactions();
                 }
             },
             error => this.errorService.displayErrorWithKey(error, 'Liste - History'));
@@ -127,9 +127,29 @@ export class WalletPage {
         })
     }
 
-    pollPendingTransactions() {
-        // TODO if we have one pending Vouvher, we refresh everything; as we can't request the status of a voucher
+    /**
+     * Intervals should already be cleared
+     */
+    startPollingPendingTransactions() {
+        /**
+         * if we have one pending voucher, we setup _one_ timer to refresh everything;
+         * because we can't request/check the status of a single voucher.
+         */
+        let haveTimeout = false;
+        this.pendingTransactions.some((transaction) => {
+            if (transaction.isVoucher() && transaction.isPending()) {
+                setTimeout(() => this.refreshData(), this.pollPendingTimeout);
+                haveTimeout = true;
+                return true;
+            }
+            return false;
+        });
 
+        if (haveTimeout) return;
+
+        /**
+         * setup one timer/check for each pending transaction
+         */
         this.pendingTransactions.forEach((transaction, idx) => {
             if (!transaction.hasOrder()) return;
 
