@@ -193,6 +193,7 @@ export class WalletPage {
     redeemVoucher() {
         let modal = this.modalCtrl.create(VoucherPage);
         modal.present();
+        modal.onDidDismiss(() => this.refreshData());
     }
 
     getIcon(transaction: Transaction): string {

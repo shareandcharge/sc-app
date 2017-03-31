@@ -63,7 +63,8 @@
     "wrong_old_password": "Ungültiges altes Passwort.",
     "pay_in_limit_reached": "Du kannst pro Tag nur 100€ einzahlen.",
     "time_too_long": "Die ausgewählte Zeit ist zu lang.",
-    "secure_storage_locked": "Bei der Einzahlung trat ein Fehler auf. Bitte versuche es noch mal oder melde Dich bei unserem Support."
+    "secure_storage_locked": "Bei der Einzahlung trat ein Fehler auf. Bitte versuche es noch mal oder melde Dich bei unserem Support.",
+    "order_not_found": "Die Order konnte nicht gefunden werden"
   },
   "payment": {
     "types": {
