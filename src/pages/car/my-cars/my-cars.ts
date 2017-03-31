@@ -68,7 +68,10 @@ export class MyCarsPage {
                         this.carService.deleteCar(car.id)
                             .finally(() => loader.dismissAll())
                             .subscribe(
-                                () => this.events.publish('cars:updated'),
+                                () => {
+                                    this.events.publish('cars:updated');
+                                    this.events.publish('locations:updated');   // because the markers change depending on the car
+                                },
                                 error => this.errorService.displayErrorWithKey(error, 'Auto löschen')
                             )
                         ;

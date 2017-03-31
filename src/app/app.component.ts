@@ -40,6 +40,7 @@ export class MyApp {
 
             platform.resume.subscribe(() => {
                 this.checkChargingProgress();
+                this.events.publish('locations:updated');
             });
 
             config.set('scrollAssist', true);
@@ -60,14 +61,17 @@ export class MyApp {
             this.events.subscribe('auth:login', () => {
                 this.updateUserDeviceToken();
                 this.checkChargingProgress();
+                this.events.publish('locations:updated');
             });
 
             this.events.subscribe('auth:logout', () => {
                 this.checkChargingProgress();
+                this.events.publish('locations:updated');
             });
 
             this.events.subscribe('charging:lapsed', () => {
-                this.chargingLapsed()
+                this.chargingLapsed();
+                this.events.publish('locations:updated');
             });
 
             translateService.setDefaultLang("de");
