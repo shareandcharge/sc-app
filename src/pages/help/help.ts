@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {ModalController} from 'ionic-angular';
 import {IntroPage} from "../intro/intro";
 import {InAppBrowser} from "ionic-native";
-import {TermsOfUsePage} from "../_global/terms-of-use";
 import {ConfigService} from "../../services/config.service";
 
 @Component({
@@ -11,7 +10,7 @@ import {ConfigService} from "../../services/config.service";
 })
 export class HelpPage {
 
-    constructor(private modalCtrl: ModalController, private configService: ConfigService ) {
+    constructor(private modalCtrl: ModalController, private configService: ConfigService) {
     }
 
     openFaq() {
@@ -19,9 +18,14 @@ export class HelpPage {
         new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
     }
 
-    openTermsOfUse() {
-        let modal = this.modalCtrl.create(TermsOfUsePage);
-        modal.present();
+    openTerms() {
+        let url = this.configService.get('TERMS_APP_URL');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+    }
+
+    openDataProtection() {
+        let url = this.configService.get('DATA_PROTECTION_URL');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
     }
 
     openIntro() {

@@ -10,9 +10,10 @@ import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
 import {ForgotPasswordPage} from "./forgot-password/forgot-password";
-import {TermsPage} from "../_global/terms";
 import {TrackerService} from "../../services/tracker.service";
 import {User} from "../../models/user";
+import {ConfigService} from "../../services/config.service";
+import {InAppBrowser} from "ionic-native";
 
 @Component({
     selector: 'page-signup',
@@ -37,7 +38,7 @@ export class SignupLoginPage {
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
                 private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
                 public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
-                private errorService: ErrorService, private trackerService: TrackerService) {
+                private errorService: ErrorService, private trackerService: TrackerService, private configService: ConfigService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'login';
@@ -99,8 +100,13 @@ export class SignupLoginPage {
     }
 
     openTerms() {
-        let modal = this.modalCtrl.create(TermsPage);
-        modal.present();
+        let url = this.configService.get('TERMS_APP_URL');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+    }
+
+    openDataProtection() {
+        let url = this.configService.get('DATA_PROTECTION_URL');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
     }
 
     submitForm() {

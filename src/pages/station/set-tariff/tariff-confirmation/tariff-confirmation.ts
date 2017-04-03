@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavParams, Events, NavController} from "ionic-angular";
+import {NavParams, Events, NavController, AlertController} from "ionic-angular";
 import {Location} from "../../../../models/location";
 import {Station} from "../../../../models/station";
 import {Connector} from "../../../../models/connector";
@@ -8,6 +8,8 @@ import {UserService} from "../../../../services/user.service";
 import {ErrorService} from "../../../../services/error.service";
 import {LocationService} from "../../../../services/location.service";
 import {TrackerService} from "../../../../services/tracker.service";
+import {ConfigService} from "../../../../services/config.service";
+import {InAppBrowser} from "ionic-native";
 
 @Component({
     selector: 'tariff-confirmation',
@@ -43,9 +45,11 @@ export class TariffConfirmationPage {
         'private': 'Familie & Freunde Tarif'
     };
 
+    termsChecked: boolean = false;
+
     constructor(private navParams: NavParams, private events: Events, private userService: UserService,
-                private errorService: ErrorService, private locationService: LocationService,
-                private navCtrl: NavController, private trackerService: TrackerService) {
+                private errorService: ErrorService, private locationService: LocationService, private alertCtrl: AlertController,
+                private navCtrl: NavController, private trackerService: TrackerService, private configService: ConfigService) {
         this.location = navParams.get('location');
         this.station = this.location.stations[0];
         this.connector = this.station.connectors[0];
@@ -95,7 +99,7 @@ export class TariffConfirmationPage {
         }
 
         let maxWattPower = this.connector.maxwattpower;
-        
+
         this.locationService.getEstimatedPrice(pricePerHour, pricePerKW, maxWattPower)
             .subscribe(
                 (res) => {
@@ -116,6 +120,29 @@ export class TariffConfirmationPage {
             this.events.publish('locations:update', this.location);
         }
     }
+
+    openTerms() {
+        let url = this.configService.get('TERMS_STATION_URL');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+    }
+
+    showHelp(type) {
+        let message = "";
+        console.log(type);
+        switch (type) {
+            case "terms":
+                message = "Du möchtest Deine eigenen AGBs verwenden? Kontaktier uns per E-Mail. (registrierung@shareandcharge.com)";
+                break;
+        }
+
+        let alert = this.alertCtrl.create({
+            title: 'Info',
+            message: message,
+            buttons: ['Ok']
+        });
+        alert.present();
+    }
+
 
     close() {
         this.navCtrl.parent.pop();
