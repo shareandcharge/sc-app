@@ -5,6 +5,8 @@ import {ChargingPage} from '../../pages/location/charging/charging';
 import {ChargingCompletePage} from '../../pages/location/charging/charging-complete/charging-complete';
 import {Car} from "../../models/car";
 import {CarService} from "../../services/car.service";
+import {Location} from "../../models/location";
+import {Connector} from "../../models/connector";
 
 @Component({
     selector: 'charging-progress-bar',
@@ -13,17 +15,19 @@ import {CarService} from "../../services/car.service";
 export class ChargingProgressBarComponent {
     @Input('progress') progress;
     charging: boolean;
-    location: any;
+    location: Location;
+    connector: Connector;
     activeCar: Car;
 
     constructor(private chargingService: ChargingService, private carService: CarService, private modalCtrl: ModalController, private events: Events) {
         this.charging = this.chargingService.isCharging();
         this.progress = this.chargingService.getChargingProgress();
-        this.events.subscribe('charging:update', (location) => this.updateComponent(location));
+        this.events.subscribe('charging:update', () => this.updateComponent());
     }
 
-    updateComponent(location) {
-        this.location = location;
+    updateComponent() {
+        this.location = this.chargingService.getLocation();
+        this.connector = this.chargingService.getConnector();
         this.charging = this.chargingService.isCharging();
         this.progress = this.chargingService.getChargingProgress();
         this.activeCar = this.carService.getActiveCar();
@@ -37,9 +41,7 @@ export class ChargingProgressBarComponent {
 
         chargingModal.onDidDismiss(data => {
             if (data.didStop == true) {
-                data.location = this.location;
-
-                let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
+                let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage);
                 chargingCompletedModal.present();
             }
         });

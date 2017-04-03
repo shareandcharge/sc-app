@@ -19,6 +19,11 @@ ion-item.item-ios {
   width: 70%;
 }
 
+.item-partial-cover-cb .item-cover {
+  // should be the size of the checkbox
+  width: 50px;
+}
+
 ion-list.no-margin-bottom {
   margin-bottom: 0;
 }

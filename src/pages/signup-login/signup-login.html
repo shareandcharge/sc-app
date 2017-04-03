@@ -68,12 +68,15 @@
 
                     <div *ngIf="action=='signUp'">
                         <ion-list no-lines class="list-tac">
-                            <ion-item>
+                            <ion-item text-wrap>
                                 <ion-checkbox color="light" checked="false"
                                               formControlName="terms"
                                               [(ngModel)]="termsAccept" name="termsAccept">
                                 </ion-checkbox>
-                                <ion-label>Ich stimme den <a ion-text="" color="light" (click)="openTerms()">AGBs</a> zu.
+                                <ion-label>
+                                    Ich stimme den <a ion-text="" color="light" (click)="openTerms()">Nutzungs-</a>
+                                    &amp; <a ion-text="" color="light" (click)="openDataProtection()">Datenschutzbedingungen</a>
+                                    zu.
                                 </ion-label>
                             </ion-item>
                         </ion-list>

@@ -29,7 +29,7 @@
                 <p>S&C Gebühr</p>
                 <h2>{{estimations[type] && estimations[type].small.includedFee / 100 | currency:'EUR':true:'1.2-2'}} (inkl. 19% MWSt)</h2>
             </ion-item>
-            <ion-item>
+            <ion-item class="item-highlight">
                 <p>Gesamtpreis</p>
                 <h2>{{estimations[type] && estimations[type].small.price / 100 | currency:'EUR':true:'1.2-2'}} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
             </ion-item>
@@ -92,7 +92,7 @@
                     </ion-row>
                 </ion-grid>
             </ion-item>
-            <ion-item>
+            <ion-item class="item-highlight">
                 <ion-grid class="nopadding-outer">
                     <ion-row>
                         <ion-col>Gesamtpreis <span class="vat" *ngIf="user && user.profile.operatorVat"><br>(inkl. 19% MwSt.)</span></ion-col>
@@ -105,8 +105,18 @@
         </ng-container>
     </ion-list>
 
+    <ion-list no-lines="" class="no-margin-bottom">
+        <ion-item text-wrap="">
+            <ion-checkbox [(ngModel)]="termsChecked" class="checkbox-square item-partial-cover-cb"></ion-checkbox>
+            <ion-label>
+                Ich akzeptiere die vorgegebenen <a (click)="openTerms()">Nutzungsbedingungen</a>.
+                <ion-icon name="ios-bulb-outline" color="secondary" margin-left class="icon-bulb" (click)="showHelp('terms')"></ion-icon>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+
     <div padding text-center>
-        <button ion-button round (click)="publish()" text-uppercase block>
+        <button ion-button round (click)="publish()" text-uppercase block [disabled]="!termsChecked">
             Bestätigen
         </button>
     </div>

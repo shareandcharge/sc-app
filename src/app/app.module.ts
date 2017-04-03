@@ -8,8 +8,6 @@ import {MyApp} from './app.component';
 import {IntroPage} from "../pages/intro/intro";
 import {AboutPage} from '../pages/about/about';
 import {SignupLoginPage} from '../pages/signup-login/signup-login';
-import {TermsPage} from "../pages/_global/terms";
-import {TermsOfUsePage} from "../pages/_global/terms-of-use";
 import {MapPage} from '../pages/map/map';
 import {AddStationPage} from '../pages/station/add/add-station';
 import {CarManufacturerPage} from '../pages/car/form/manufacturer/car-manufacturer';
@@ -93,8 +91,6 @@ export function createTranslateLoader(http: Http) {
         MapPage,
         MapFilterPage,
         SignupLoginPage,
-        TermsPage,
-        TermsOfUsePage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,
@@ -153,8 +149,6 @@ export function createTranslateLoader(http: Http) {
         MapPage,
         MapFilterPage,
         SignupLoginPage,
-        TermsPage,
-        TermsOfUsePage,
         CarWrapperPage,
         CarFormPage,
         AddStationPage,

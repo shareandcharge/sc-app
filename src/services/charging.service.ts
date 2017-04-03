@@ -1,14 +1,22 @@
 import {Injectable} from "@angular/core";
-import {Events, ToastController, ModalController} from "ionic-angular";
+import {Events} from "ionic-angular";
 import {Storage} from '@ionic/storage';
 import {AbstractApiService} from "./abstract.api.service";
 import {LocationService} from "./location.service";
-import {Location} from "../../models/location";
 import {AuthService} from "./auth.service";
 import {ErrorService} from "./error.service";
-import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete"
 import {ConfigService} from "./config.service";
 import {HttpService} from "./http.service";
+import {Connector} from "../models/connector";
+import {Location} from "../models/location";
+
+
+/**
+ * published events
+ * ================
+ * "charging:update": when the charging status/progress changes (on start, stop, and every second during chargin)
+ * "charging:lapsed": when charging process is lapsed/run out (without the user hitting the stop button)
+ */
 
 
 @Injectable()
@@ -19,10 +27,12 @@ export class ChargingService extends AbstractApiService {
     eventInterval: any;
     timer: number = 0;
     charging: boolean;
-    connectorId: any;
-    location: any;
+    connector: Connector;
+    location: Location;
 
-    constructor(private httpService: HttpService, configService: ConfigService, private events: Events, private modalCtrl: ModalController, private errorService: ErrorService, private locService: LocationService, private storage: Storage, private toastCtrl: ToastController, private auth: AuthService) {
+    constructor(private httpService: HttpService, configService: ConfigService, private events: Events,
+                private errorService: ErrorService, private locService: LocationService, private storage: Storage,
+                private auth: AuthService) {
         super(configService);
         this.events.subscribe('auth:logout', () => this.handleLogout());
     }
@@ -62,7 +72,7 @@ export class ChargingService extends AbstractApiService {
                     return (a < b ) ? -1 : 1;
                 });
 
-                let connector = connectors.shift();
+                let connector: Connector = connectors.shift();
 
                 this.getStation(connector.station).subscribe((res) => {
                         this.locService.getLocation(res.location).subscribe((loc) => {
@@ -74,7 +84,7 @@ export class ChargingService extends AbstractApiService {
 
                 let remainingTime = Math.floor(connector.timeleft);
                 if (remainingTime > 0) {
-                    this.connectorId = connector.id;
+                    this.connector = connector;
                     this.resumeCharging(remainingTime, connector.secondstorent);
                 }
                 else {
@@ -116,22 +126,21 @@ export class ChargingService extends AbstractApiService {
         this.countDown(remainingTime);
     }
 
-    startCharging(connectorId, secondsToCharge, maxCharging, location) {
-        this.location = location;
-        this.timer = secondsToCharge;
-
+    startCharging(connector: Connector, secondsToCharge, maxCharging, location: Location) {
         let chargingData = {
             "maxCharging": parseInt(maxCharging),
             "secondsToCharge": secondsToCharge
         };
 
-        return this.httpService.post(`${this.baseUrl}/connectors/${connectorId}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
+        return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
             .map(res => {
                 res.json();
                 this.charging = true;
                 this.chargingTime = secondsToCharge;
-                this.connectorId = connectorId;
-                this.events.publish('charging:update', this.location, this.progress);
+                this.timer = secondsToCharge;
+                this.location = location;
+                this.connector = connector;
+                this.publishCharginUpdateEvent();
                 this.storage.set("chargingTime", this.chargingTime);
                 this.storage.set("isCharging", true);
                 this.startEventInterval();
@@ -142,8 +151,8 @@ export class ChargingService extends AbstractApiService {
             .catch(this.handleError);
     }
 
-    stopCharging(connectorId) {
-        return this.httpService.post(`${this.baseUrl}/connectors/${connectorId}/stop`, {})
+    stopCharging() {
+        return this.httpService.post(`${this.baseUrl}/connectors/${this.connector.id}/stop`, {})
             .map(res => {
                 res.json();
                 this.chargingEnd();
@@ -157,15 +166,18 @@ export class ChargingService extends AbstractApiService {
     }
 
     chargingEnd() {
-        this.charging = false;
-        this.progress = 0;
-        this.chargingTime = 0;
-        this.timer = 0;
-        this.connectorId = null;
-        this.storage.set("isCharging", false);
-        this.events.publish('charging:update', this.location, this.progress);
         clearInterval(this.counterInterval);
         clearInterval(this.eventInterval);
+
+        /**
+         * Do not reset location, connector, chargingTime, timer here!
+         * We still need these after the charging has stopped.
+         */
+        this.charging = false;
+        this.progress = 0;
+
+        this.publishCharginUpdateEvent();
+        this.storage.set("isCharging", false);
     }
 
     getRemainingTime() {
@@ -180,14 +192,18 @@ export class ChargingService extends AbstractApiService {
         return this.location;
     }
 
-    chargedTime() {
+    getConnector(): Connector {
+        return this.connector;
+    }
+
+    chargedTime(): number {
         return this.chargingTime - this.timer;
     }
 
     startEventInterval() {
         clearInterval(this.eventInterval);
         this.eventInterval = setInterval(() => {
-            this.events.publish('charging:update', this.location, this.progress, this.charging);
+            this.publishCharginUpdateEvent();
         }, 1000);
     }
 
@@ -199,9 +215,9 @@ export class ChargingService extends AbstractApiService {
         me.counterInterval = setInterval(() => {
             if (--this.timer < 0) {
                 clearInterval(me.counterInterval);
-                this.stopCharging(this.connectorId)
+                this.stopCharging()
                     .subscribe(
-                        () => this.presentToast(this.chargingTime),
+                        () => this.events.publish('charging:lapsed'),
                         error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen')
                     );
             }
@@ -214,25 +230,7 @@ export class ChargingService extends AbstractApiService {
         }, 1000);
     }
 
-    presentToast(total) {
-        let toast = this.toastCtrl.create({
-            message: 'Ladevorgang erfolgreich beendet',
-            showCloseButton: true,
-            closeButtonText: 'Ok',
-            position: 'top',
-            dismissOnPageChange: false
-        });
-
-        toast.onDidDismiss(() => {
-            let data = {
-                "chargedTime": total,
-                "location": this.location
-            };
-
-            let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, data);
-            chargingCompletedModal.present();
-        });
-
-        toast.present();
+    publishCharginUpdateEvent() {
+        this.events.publish('charging:update', this.location, this.connector, this.progress);
     }
 }

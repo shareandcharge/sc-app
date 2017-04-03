@@ -34,6 +34,7 @@
     "tokencreation_locked": "Token-Generierung gesperrt.",
     "payout_balance_too_low": "Auszahlungsbetrag zu gering.",
     "payout_account_not_set": "Auszahlungsdaten nicht gesetzt.",
+    "payout_only_for_earnings": "Du kannst Dir nur auszahlen lassen, was Du durch Deine Ladesäule/n eingenommen hast.",
     "transaction_not_found": "Transaktion nicht gefunden.",
     "transaction_not_owned_by_user": "Transaktion nicht vom Benutzer.",
     "invalid_data": "Ungültige Daten.",
@@ -61,7 +62,10 @@
     "error_start_charging_not_connected": "Fahrzeug ist nicht angeschlossen",
     "error_start_charging": "Konnte den Ladevorgang nicht starten. Bitte Verbindung prüfen!",
     "wrong_old_password": "Ungültiges altes Passwort.",
-    "pay_in_limit_reached": "Du kannst pro Tag nur 100€ einzahlen."
+    "pay_in_limit_reached": "Du kannst pro Tag nur 100€ einzahlen.",
+    "time_too_long": "Die ausgewählte Zeit ist zu lang.",
+    "secure_storage_locked": "Bei der Einzahlung trat ein Fehler auf. Bitte versuche es noch mal oder melde Dich bei unserem Support.",
+    "order_not_found": "Die Order konnte nicht gefunden werden"
   },
   "payment": {
     "types": {

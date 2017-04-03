@@ -10,9 +10,10 @@ import {Location} from "../../../models/location";
 import {CarService} from "../../../services/car.service";
 import {ErrorService} from "../../../services/error.service";
 import {Car} from "../../../models/car";
-import {TermsPage} from "../../_global/terms";
 import {Station} from "../../../models/station";
 import {TrackerService} from "../../../services/tracker.service";
+import {InAppBrowser} from "ionic-native";
+import {ConfigService} from "../../../services/config.service";
 
 @Component({
     selector: 'page-charging',
@@ -65,10 +66,13 @@ export class ChargingPage {
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController,
                 public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
                 private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
-                private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService) {
+                private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService,
+                private configService: ConfigService) {
 
         this.location = navParams.get("location");
+        //-- for now we use the first station
         this.station = this.location.stations[0];
+        //-- first connector is default (innogy stations have two+)
         this.connector = this.station.connectors[0];
         this.selectedConnectorId = this.connector.id;
 
@@ -237,7 +241,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestartet ..."});
         loader.present();
 
-        this.chargingService.startCharging(this.connector.id, this.timer, this.activeCar.maxCharging, this.location)
+        this.chargingService.startCharging(this.connector, this.timer, this.activeCar.maxCharging, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {
@@ -281,7 +285,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestoppt ..."});
         loader.present();
 
-        this.chargingService.stopCharging(this.connector.id)
+        this.chargingService.stopCharging()
             .subscribe(
                 () => {
                     loader.dismiss().then(() => {
@@ -502,8 +506,8 @@ export class ChargingPage {
     }
 
     openTerms() {
-        let modal = this.modalCtrl.create(TermsPage);
-        modal.present().then(() => this.enterFromModal = true);
+        let url = this.configService.get('TERMS_STATION_URL');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
     }
 
     selectConnector() {

@@ -320,14 +320,12 @@ export class LocationDetailPage {
                 "isCharging": this.charging
             });
 
-            chargingModal.onDidDismiss((d) => {
-                if (d.isCharging == true && !d.fromLocationDetailsAndIsCharging) {
+            chargingModal.onDidDismiss((data) => {
+                if (data.isCharging == true && !data.fromLocationDetailsAndIsCharging) {
                     this.viewCtrl.dismiss();
                 }
-                if (d.didStop == true) {
-                    d.location = this.location;
-
-                    let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage, d);
+                if (data.didStop == true) {
+                    let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage);
                     chargingCompletedModal.present();
                 }
             });

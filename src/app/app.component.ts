@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {
     Platform, Events, LoadingController, Config, ModalController, App, IonicApp,
-    MenuController, AlertController
+    MenuController, AlertController, ToastController
 } from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {Storage} from '@ionic/storage';
@@ -15,6 +15,7 @@ import {TranslateService} from "ng2-translate";
 import {PushNotificationService} from "../services/push.notification.service";
 import {ErrorService} from "../services/error.service";
 import {TrackerService} from "../services/tracker.service";
+import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
 
 
 @Component({
@@ -30,7 +31,7 @@ export class MyApp {
                 public storage: Storage, private translateService: TranslateService, private config: Config,
                 private pushNotificationService: PushNotificationService, private errorService: ErrorService,
                 private ionicApp: IonicApp, private menuCtrl: MenuController, private alertCtrl: AlertController,
-                private trackerService: TrackerService) {
+                private trackerService: TrackerService, private toastCtrl: ToastController) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -39,6 +40,7 @@ export class MyApp {
 
             platform.resume.subscribe(() => {
                 this.checkChargingProgress();
+                this.events.publish('locations:updated');
             });
 
             config.set('scrollAssist', true);
@@ -51,6 +53,7 @@ export class MyApp {
             this.events.subscribe('auth:refresh:user', (checkChargingProcess?) => {
                 this.refreshUser(checkChargingProcess);
             });
+
             this.events.subscribe('user:refreshed', () => {
                 this.updateUserDeviceToken();
             });
@@ -58,9 +61,17 @@ export class MyApp {
             this.events.subscribe('auth:login', () => {
                 this.updateUserDeviceToken();
                 this.checkChargingProgress();
+                this.events.publish('locations:updated');
             });
+
             this.events.subscribe('auth:logout', () => {
                 this.checkChargingProgress();
+                this.events.publish('locations:updated');
+            });
+
+            this.events.subscribe('charging:lapsed', () => {
+                this.chargingLapsed();
+                this.events.publish('locations:updated');
             });
 
             translateService.setDefaultLang("de");
@@ -127,6 +138,26 @@ export class MyApp {
                 },
                 error => this.errorService.displayErrorWithKey(error, 'Nutzer aktualisieren'));
         }
+    }
+
+    /**
+     * called when charging process is lapsed/run out (without the user hitting the stop button)
+     */
+    chargingLapsed() {
+        let toast = this.toastCtrl.create({
+            message: 'Ladevorgang erfolgreich beendet',
+            showCloseButton: true,
+            closeButtonText: 'Ok',
+            position: 'top',
+            dismissOnPageChange: false
+        });
+
+        toast.onDidDismiss(() => {
+            let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage);
+            chargingCompletedModal.present();
+        });
+
+        toast.present();
     }
 
     /**

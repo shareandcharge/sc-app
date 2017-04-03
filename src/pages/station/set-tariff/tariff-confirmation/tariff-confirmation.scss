@@ -19,9 +19,9 @@ tariff-confirmation {
       }
     }
 
-    ion-item:last-child {
-      background-color: transparentize(map-get($colors, secondary), 0.85) !important;
-    }
+  }
+  .item-highlight {
+    background-color: transparentize(map-get($colors, secondary), 0.85) !important;
   }
 
   ion-grid {
@@ -35,6 +35,10 @@ tariff-confirmation {
 
   .vat {
     font-size: 90%;
+  }
+
+  .icon-bulb {
+    float: right;
   }
 
   ion-icon[name="cust-station"] {
