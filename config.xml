@@ -120,4 +120,5 @@
     <engine name="ios" spec="~4.3.1" />
     <engine name="android" spec="latest" />
     <plugin name="cordova-custom-config" spec="~3.1.2" />
+    <plugin name="cordova-plugin-privacyscreen" spec="~0.3.1" />
 </widget>
