@@ -35,6 +35,6 @@ export class HelpPage {
 
     openContact() {
         let email = this.configService.get('CONTACT_EMAIL');
-        window.open(`mailto:${email}`);
+        window.open(`mailto:${email}`, '_system');
     }
 }
