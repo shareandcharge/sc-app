@@ -51,7 +51,7 @@ export class SignupLoginPage {
         this.createErrorMessages();
         this.signUpLoginForm = formBuilder.group({
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
-            password: ['', Validators.compose([Validators.maxLength(225), Validators.minLength(7), Validators.required])]
+            password: ['', Validators.compose([Validators.maxLength(225), Validators.minLength(10), Validators.required])]
         });
 
         if (this.action === 'signUp') {

@@ -32,8 +32,8 @@ export class EditPasswordPage {
         this.passwordForm = this.formBuilder.group({
             oldPassword: [null, Validators.required],
             newPasswords: this.formBuilder.group({
-                password: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(7), Validators.required])],
-                passwordRepeat: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(7), Validators.required])]
+                password: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(10), Validators.required])],
+                passwordRepeat: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(10), Validators.required])]
             }, {validator: this.areEqual})
         });
     }
