@@ -21,7 +21,11 @@ import {InAppBrowser} from "ionic-native";
 })
 export class SignupLoginPage {
 
-    signUpLoginObject = {"email": "", "authentification": {"type": "passwd", "password": ""}};
+    signUpLoginObject = {
+        "email": "",
+        "profile": {"newsletter": false},
+        "authentification": {"type": "passwd", "password": ""}
+    };
     termsAccept: boolean;
     errorMessages: any;
     signUpLoginForm: any;
@@ -31,8 +35,8 @@ export class SignupLoginPage {
     destination: string;
     mode: string;
     buttonText = {
-        'signUp' : 'Registrieren',
-        'login' : 'Anmelden'
+        'signUp': 'Registrieren',
+        'login': 'Anmelden'
     };
 
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
@@ -53,7 +57,10 @@ export class SignupLoginPage {
         if (this.action === 'signUp') {
             this.signUpLoginForm.addControl(
                 "terms", new FormControl(false, Validators.compose([termsValidator.isValid, Validators.required]))
-            )
+            );
+            this.signUpLoginForm.addControl(
+                "newsletter", new FormControl(false)
+            );
         }
 
         this.destination = this.navParams.get('dest');
@@ -81,12 +88,16 @@ export class SignupLoginPage {
 
         if (this.action === 'login') {
             this.signUpLoginForm.removeControl('terms');
+            this.signUpLoginForm.removeControl('newsletter');
         }
 
         if (this.action === 'signUp') {
             this.signUpLoginForm.addControl(
                 "terms", new FormControl(false, Validators.compose([termsValidator.isValid, Validators.required]))
-            )
+            );
+            this.signUpLoginForm.addControl(
+                "newsletter", new FormControl(false)
+            );
         }
     }
 
@@ -161,49 +172,52 @@ export class SignupLoginPage {
     signUp() {
         this.submitAttempt = true;
 
-        if (this.signUpLoginForm.valid) {
-            let loader = this.loadingCtrl.create({
-                content: "Melde an ...",
-            });
-            loader.present();
-
-            this.trackerService.track('Signup Info Added', {
-                'Screen Name': 'Registrieren',
-                'Sign up method': 'Email',
-                'Timestamp': '',
-                'Terms accepted': 'yes'
-            });
-
-            this.userService.createUser(this.signUpLoginObject).subscribe(
-                (user: User) => {
-                    this.trackerService.track('Completed Sign Up', {
-                        'Screen Name': 'Registrieren',
-                        'Sign up method': 'Email',
-                        'Timestamp': '',
-                        'Terms accepted': 'yes',
-                        'Login': 'no',
-                        'Signup': 'yes'
-                    });
-
-                    this.trackerService.alias(user);
-
-                    //-- calling alias may take up to 2 seconds (according to their docs)
-                    setTimeout(() => {
-                        this.trackerService.userSet({
-                            'Sign up method': 'Email',
-                            'Terms accepted': 'yes',
-                        })
-                    }, 2500);
-
-                    loader.dismissAll();
-                    this.viewCtrl.dismiss();
-                },
-                (error) => {
-                    loader.dismissAll();
-                    this.errorService.displayErrorWithKey(error, 'Registrierung')
-                }
-            );
+        if (!this.signUpLoginForm.valid) {
+            return;
         }
+
+        let loader = this.loadingCtrl.create({
+            content: "Melde an ...",
+        });
+        loader.present();
+
+        this.trackerService.track('Signup Info Added', {
+            'Screen Name': 'Registrieren',
+            'Sign up method': 'Email',
+            'Timestamp': '',
+            'Terms accepted': 'yes'
+        });
+
+        this.userService.createUser(this.signUpLoginObject).subscribe(
+            (user: User) => {
+                this.trackerService.track('Completed Sign Up', {
+                    'Screen Name': 'Registrieren',
+                    'Sign up method': 'Email',
+                    'Timestamp': '',
+                    'Terms accepted': 'yes',
+                    'Login': 'no',
+                    'Signup': 'yes'
+                });
+
+                this.trackerService.alias(user);
+
+                //-- calling alias may take up to 2 seconds (according to their docs)
+                setTimeout(() => {
+                    this.trackerService.userSet({
+                        'Sign up method': 'Email',
+                        'Terms accepted': 'yes',
+                    })
+                }, 2500);
+
+                loader.dismissAll();
+                this.viewCtrl.dismiss();
+            },
+            (error) => {
+                loader.dismissAll();
+                this.errorService.displayErrorWithKey(error, 'Registrierung')
+            }
+        );
+
     }
 
     showHelp(field) {
