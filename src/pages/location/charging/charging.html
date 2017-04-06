@@ -83,7 +83,7 @@
             </span>
         </p>
         <p>
-            Es gelten die <a (click)="openTerms()">AGBs</a>.
+            Es gelten die <a (click)="openTerms()">AGBs</a> des Ladestationsbetreibers.
         </p>
     </div>
 
@@ -119,10 +119,10 @@
                 <hr>
             </ng-container>
 
-            <ion-list no-lines="" class="inline-list no-margin-bottom">
-                <ion-item text-center="">
-                    <ion-checkbox [(ngModel)]="termsChecked" class="checkbox-square item-partial-cover-70"></ion-checkbox>
-                    <ion-label>Ich akzeptiere die <a (click)="openTerms()">AGBs</a>.</ion-label>
+            <ion-list no-lines="" class="no-margin-bottom">
+                <ion-item text-wrap class="item-partial-cover-cb">
+                    <ion-checkbox [(ngModel)]="termsChecked" class="checkbox-square"></ion-checkbox>
+                    <ion-label>Ich akzeptiere die <a (click)="openTerms()">AGBs</a> des Ladestationsbetreibers.</ion-label>
                 </ion-item>
             </ion-list>
             <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive || !termsChecked">
