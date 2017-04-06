@@ -68,7 +68,20 @@
     "order_not_found": "Die Order konnte nicht gefunden werden.",
     "password_too_weak": "Das Passwort ist zu schwach.",
     "chargingsstation_already_charging": "Diese Station ist zur Zeit belegt.",
-    "chargingstation_already_charging": "Diese Station ist zur Zeit belegt."
+    "chargingstation_already_charging": "Diese Station ist zur Zeit belegt.",
+    "no_invoice_found": "Die Rechnung konnte nicht gefunden werden.",
+    "invalid_secure_config": "Ungültige Konfiguration.",
+    "no_key_found": "Kein Key gefunden.",
+    "reset_recovery_locked": "Diese Funktionalität steht im Moment nicht zur Verfügung. Bitte versuche es noch mal oder melde Dich bei unserem Support.",
+    "already_invited": "Dieser Benutzer ist bereits eingeladen.",
+    "user_too_many_failes": "Die Zugangsdaten für diesen Account wurden zu oft falsch eingegeben. Bitte versuche es später noch mal oder melde Dich bei unserem Support.",
+    "unauthorized_authentification_change": "Dieser Wert kann nicht geändert werden.",
+    "missing_old_password": "Du musst Dein altes Passwort eingeben, um es ändern zu können.",
+    "limit_reached": "Das Einzahlungs-Limit wurde erreicht.",
+    "unauthorized_email": "Die Bestätigungs-E-Mail kann nur an Dich gesendet werden.",
+    "no_key_saved": "Es wurde kein Schlüssel gefunden.",
+    "user_not_verified": "Du musst zuerst Deine E-Mail Adresse bestätigen.",
+    "invalid_payout": "Die Auszahlung konnte nicht ausgeführt werden."
   },
   "payment": {
     "types": {
