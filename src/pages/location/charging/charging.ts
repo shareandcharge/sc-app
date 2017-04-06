@@ -29,6 +29,7 @@ export class ChargingPage {
     chargingPrice: any;
     chargingPricePerHour: any;
     chargingTypeText: string;
+    tariffType: number;
 
     includingVat: boolean;
 
@@ -54,6 +55,9 @@ export class ChargingPage {
 
     activeCar: Car;
 
+    maxChargingMinutes: number = 8 * 60;
+    maxChargingMinutesFlatrate: number = 4 * 60;
+
     @ViewChild(Content) content: Content;
 
     priceProviderTariffTypes = [
@@ -62,6 +66,7 @@ export class ChargingPage {
         'hourly',
         'kwh'
     ];
+
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController,
                 public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
@@ -190,6 +195,7 @@ export class ChargingPage {
         }).subscribe((response) => {
                 this.chargingPrice = response.min;
                 this.includingVat = response.vat;
+                this.tariffType = response.type;
                 this.chargingTypeText = this.priceProviderTariffTypes[response.type];
                 if (perHour) {
                     this.chargingPricePerHour = response.min;
@@ -394,7 +400,7 @@ export class ChargingPage {
         ctx.arc(this.canvasX, this.canvasY, 97, 0, 2 * Math.PI);
         ctx.stroke();
 
-        let time = Math.floor((((8 * 60 * 60) + 100) * deg) / 360);
+        let time = Math.floor((((this.getMaxChargingMinutesForCurrentTariff() * 60) + 100) * deg) / 360);
 
         this.buttonDeactive = (time <= 600) || (this.activeCar == null);
         this.hours = Math.floor(time / 3600);
@@ -484,7 +490,7 @@ export class ChargingPage {
         ctx.beginPath();
         ctx.font = "30px Arial";
         let fullCircle = 2 * Math.PI;
-        let progress = ((fullCircle * this.timer) / (8 * 3600)) - (Math.PI / 2);
+        let progress = ((fullCircle * this.timer) / (this.getMaxChargingMinutesForCurrentTariff() * 60)) - (Math.PI / 2);
 
         ctx.strokeStyle = gradient;
         ctx.beginPath();
@@ -516,5 +522,9 @@ export class ChargingPage {
                 return c.id == this.selectedConnectorId;
             })[0];
         this.updatePriceInfoForSetTime();
+    }
+
+    getMaxChargingMinutesForCurrentTariff() {
+        return this.tariffType == 1 ? this.maxChargingMinutesFlatrate : this.maxChargingMinutes;
     }
 }
