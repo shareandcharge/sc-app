@@ -51,7 +51,6 @@
                     <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt"
                          class="alert-box alert-box-danger alert-box-bg-light" margin>
                         {{ errorMessages.password }}
-                        <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('password')"></ion-icon>
                     </div>
 
                     <div *ngIf="action=='login'">

@@ -79,7 +79,7 @@ export class SignupLoginPage {
     createErrorMessages() {
         this.errorMessages = {
             "email": 'Bitte gib Deine E-Mail Adresse an.',
-            "password": 'Bitte gib ein Passwort an.',
+            "password": 'Bitte wähle ein sicheres Passwort: mit mindestens 10 Zeichen und keine 3 gleichen oder aufeinanderfolgenden Zeichen hintereinander (z. B. aaaa, 1234, abcd).',
             "terms": 'Du musst den AGBs zustimmen.'
         }
     }
