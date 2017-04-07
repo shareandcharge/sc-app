@@ -199,16 +199,6 @@ export class SignupLoginPage {
                     'Signup': 'yes'
                 });
 
-                this.trackerService.alias(user);
-
-                //-- calling alias may take up to 2 seconds (according to their docs)
-                setTimeout(() => {
-                    this.trackerService.userSet({
-                        'Sign up method': 'Email',
-                        'Terms accepted': 'yes',
-                    })
-                }, 2500);
-
                 loader.dismissAll();
                 this.viewCtrl.dismiss();
             },
