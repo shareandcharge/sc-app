@@ -40,7 +40,7 @@ export class AddMoneyPage {
         this.loadUser();
         if (this.user.hasCreditCards()) {
             //-- preset with first credit card
-            this.cardId = this.user.getCreditCards()[0].number;
+            this.cardId = this.user.getCreditCards()[0].id;
         }
 
         this.trackerService.track('Started Loading Account', {
@@ -71,8 +71,6 @@ export class AddMoneyPage {
                 if (response.client_action === 'redirect') {
                     this.showExternalPaymentScreen(response.action_data.url).then(() => {
                         this.dismiss();
-                        //-- reload the user, we may have credit card IDs we need to sent next time
-                        this.events.publish('auth:refresh:user');
                     });
                 }
             },
@@ -91,7 +89,12 @@ export class AddMoneyPage {
             let browser = new InAppBrowser(redirectUrl, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no,hardwareback=no');
 
             return new Promise((resolve, reject) => {
-                browser.on('exit').subscribe(() => resolve());
+                browser.on('exit').subscribe(() => {
+                    //-- reload the user, we may have credit card IDs we need to sent next time
+                    this.events.publish('auth:refresh:user');
+
+                    resolve();
+                });
             });
         }
 

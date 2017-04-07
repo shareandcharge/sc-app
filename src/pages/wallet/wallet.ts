@@ -20,7 +20,7 @@ export class WalletPage {
     transactions: Array<Transaction>;
     pendingTransactions: Array<any>;
     intervals = [];
-    pollPendingTimeout: number = 8000;  //-- milliseconds to poll for pending transactions
+    pollPendingTimeout: number = 6000;  //-- milliseconds to poll for pending transactions
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, private paymentService: PaymentService, private authService: AuthService, private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController, private errorService: ErrorService) {
         this.events.subscribe('history:update', () => {

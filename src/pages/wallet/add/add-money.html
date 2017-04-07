@@ -34,8 +34,8 @@
                 Welche Karte verwenden
             </ion-list-header>
             <ion-item *ngFor="let card of user.getCreditCards()">
-                <ion-label>{{card.number}}</ion-label>
-                <ion-radio value="{{card.number}}" checked="{{card.number == cardId}}"></ion-radio>
+                <ion-label>{{card.descr}}</ion-label>
+                <ion-radio value="{{card.id}}" checked="{{card.id == cardId}}"></ion-radio>
             </ion-item>
             <ion-item>
                 <ion-label>Neue Karte verwenden</ion-label>
