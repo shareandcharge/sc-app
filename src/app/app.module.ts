@@ -45,6 +45,7 @@ import {ForgotPasswordPage} from "../pages/signup-login/forgot-password/forgot-p
 import {TariffConfirmationPage} from "../pages/station/set-tariff/tariff-confirmation/tariff-confirmation";
 import {PayOutPage} from "../pages/wallet/pay-out/pay-out";
 import {VoucherPage} from "../pages/wallet/voucher/voucher";
+import {DataProtectionPage} from "../pages/_global/data-protection/data-protection";
 
 import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
@@ -88,6 +89,7 @@ export function createTranslateLoader(http: Http) {
     declarations: [
         MyApp,
         AboutPage,
+        DataProtectionPage,
         MapPage,
         MapFilterPage,
         SignupLoginPage,
@@ -146,6 +148,7 @@ export function createTranslateLoader(http: Http) {
     entryComponents: [
         MyApp,
         AboutPage,
+        DataProtectionPage,
         MapPage,
         MapFilterPage,
         SignupLoginPage,

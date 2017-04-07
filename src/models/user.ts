@@ -9,6 +9,8 @@ export class User implements Serializable<User> {
     cars: any;
     authentification: any;
 
+    private _creditCards: any;
+
     constructor() {
         this.id = '';
         this.email = '';
@@ -84,29 +86,31 @@ export class User implements Serializable<User> {
     }
 
     hasCreditCards(): boolean {
-        if (!(typeof this.authentification.cards === 'object')) return false;
-
-        for (let key in this.authentification.cards) {
-            if ('cc' === this.authentification.cards[key]) {
-                return true;
-            }
-        }
-
-        return false;
+        return this._creditCards.length > 0;
     }
 
     getCreditCards(): any[] {
-        if (!this.hasCreditCards()) return [];
+        return this._creditCards;
+    }
 
-        let cards = [];
+    hasTrackingFlag(): boolean {
+        return typeof this.profile.disableTracking !== 'undefined';
+    }
 
-        Object.keys(this.authentification.cards).forEach((key) => {
-            if ('cc' === this.authentification.cards[key]) {
-                cards.push({'number': <string>key});
-            }
-        });
+    trackingDisable() {
+        this.profile.disableTracking = true;
+    }
 
-        return cards;
+    trackingEnable() {
+        this.profile.disableTracking = false;
+    }
+
+    isTrackingDisabled() {
+        return this.profile.disableTracking === true;
+    }
+
+    isTrackingEnabled() {
+        return !this.isTrackingDisabled();
     }
 
     deserialize(input) {
@@ -116,6 +120,25 @@ export class User implements Serializable<User> {
         this.cars = input.cars;
         this.address = input.address;
         this.authentification = input.authentification;
+
+        this._creditCards = [];
+
+        if (typeof this.authentification.cards === 'object') {
+            Object.keys(this.authentification.cards).forEach((key) => {
+                //-- this check is to support an older version
+                if ('cc' === this.authentification.cards[key]) {
+                    this._creditCards.push({
+                        id: key,
+                        type: 'cc',
+                        descr: 'xxxxx123'
+                    });
+                }
+                else if (typeof this.authentification.cards[key] === 'object'
+                    && 'cc' == this.authentification.cards[key].type) {
+                    this._creditCards.push(this.authentification.cards[key]);
+                }
+            });
+        }
 
         return this;
     }

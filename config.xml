@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.shareandcharge.app" version="0.0.20" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>ShareCharge</name>
+<widget id="com.shareandcharge.app" version="0.0.21" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Share&amp;Charge</name>
     <description>Be part of the e-mobility revolution</description>
     <author email="j@delodi.net" href="http://delodi.net/">Delodi Team</author>
     <content src="index.html" />
@@ -120,4 +120,5 @@
     <engine name="ios" spec="~4.3.1" />
     <engine name="android" spec="latest" />
     <plugin name="cordova-custom-config" spec="~3.1.2" />
+    <plugin name="cordova-plugin-privacyscreen" spec="~0.3.1" />
 </widget>

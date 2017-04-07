@@ -85,7 +85,7 @@ export class SetTariffPage {
 
         switch (type) {
             case "flatrate":
-                message = "Pauschaler Betrag für eine maximale Ladedauer von 8 Stunden.";
+                message = "Pauschaler Betrag für eine maximale Ladedauer von 4 Stunden.";
                 break;
             case "hourly":
                 message = "Hier trägst Du die Energiekosten ein, die Du an Deinen Energieversorger bezahlst.";

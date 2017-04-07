@@ -33,7 +33,6 @@ export class AuthService {
             this.token = token;
             this.user = user;
 
-            this.trackerService.identify(user);
             this.events.publish('auth:login');
         });
     }

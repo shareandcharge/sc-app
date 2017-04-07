@@ -63,7 +63,8 @@
     "cordova-plugin-actionsheet",
     "cordova-plugin-device",
     "cordova-plugin-inappbrowser",
-    "cordova-custom-config"
+    "cordova-custom-config",
+    "cordova-plugin-privacyscreen"
   ],
   "cordovaPlatforms": [
     "ios",

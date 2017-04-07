@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AuthHttp} from "angular2-jwt";
-import {RequestOptionsArgs, Response, RequestOptions, URLSearchParams, Request} from "@angular/http";
+import {RequestOptionsArgs, Response, RequestOptions, Request, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import * as CryptoJS from 'crypto-js';
 import {ConfigService} from "./config.service";
@@ -60,17 +60,17 @@ export class HttpService {
         let token = this.getToken();
 
         if (!requestOptions) {
-            let searchParams: URLSearchParams = new URLSearchParams();
-            searchParams.set(param, token);
-            requestOptions = new RequestOptions({search: searchParams});
+            let headers: Headers = new Headers();
+            headers.append(param, token);
+            requestOptions = new RequestOptions({headers: headers});
         }
-        else if (requestOptions && !requestOptions.search) {
-            let searchParams: URLSearchParams = new URLSearchParams();
-            searchParams.set(param, token);
-            requestOptions.search = searchParams;
+        else if (requestOptions && !requestOptions.headers) {
+            let headers: Headers = new Headers();
+            headers.append(param, token);
+            requestOptions.headers = headers;
         }
-        else if (requestOptions && requestOptions.search) {
-            requestOptions.search.append(param, token);
+        else if (requestOptions && requestOptions.headers) {
+            requestOptions.headers.append(param, token);
         }
 
         return requestOptions;

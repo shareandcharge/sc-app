@@ -16,6 +16,7 @@ import {PushNotificationService} from "../services/push.notification.service";
 import {ErrorService} from "../services/error.service";
 import {TrackerService} from "../services/tracker.service";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
+import {User} from "../models/user";
 
 
 @Component({
@@ -61,6 +62,7 @@ export class MyApp {
             this.events.subscribe('auth:login', () => {
                 this.updateUserDeviceToken();
                 this.checkChargingProgress();
+                this.checkTrackingOnLogin();
                 this.events.publish('locations:updated');
             });
 
@@ -101,6 +103,24 @@ export class MyApp {
 
     checkChargingProgress() {
         this.chargingService.checkChargingState();
+    }
+
+    /**
+     * get users tracking flag on login and enable/disable tracker service
+     */
+    checkTrackingOnLogin() {
+        let user: User = this.authService.getUser();
+
+        if (!user.hasTrackingFlag()) {
+            user.trackingEnable();
+        }
+
+        if (user.isTrackingDisabled()) {
+            this.trackerService.disable();
+        }
+        else {
+            this.trackerService.enable();
+        }
     }
 
     refreshUser(checkChargingProcess?: boolean) {
