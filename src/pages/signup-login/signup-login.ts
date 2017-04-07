@@ -14,6 +14,7 @@ import {TrackerService} from "../../services/tracker.service";
 import {User} from "../../models/user";
 import {ConfigService} from "../../services/config.service";
 import {InAppBrowser} from "ionic-native";
+import {DataProtectionPage} from "../_global/data-protection/data-protection";
 
 @Component({
     selector: 'page-signup',
@@ -116,8 +117,8 @@ export class SignupLoginPage {
     }
 
     openDataProtection() {
-        let url = this.configService.get('DATA_PROTECTION_URL');
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+        let modal = this.modalCtrl.create(DataProtectionPage);
+        modal.present();
     }
 
     submitForm() {
@@ -198,16 +199,6 @@ export class SignupLoginPage {
                     'Login': 'no',
                     'Signup': 'yes'
                 });
-
-                this.trackerService.alias(user);
-
-                //-- calling alias may take up to 2 seconds (according to their docs)
-                setTimeout(() => {
-                    this.trackerService.userSet({
-                        'Sign up method': 'Email',
-                        'Terms accepted': 'yes',
-                    })
-                }, 2500);
 
                 loader.dismissAll();
                 this.viewCtrl.dismiss();

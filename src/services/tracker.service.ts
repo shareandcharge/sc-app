@@ -1,45 +1,86 @@
 import {Injectable} from '@angular/core';
 import {ConfigService} from "./config.service";
-import {User} from "../models/user";
+import {Storage} from '@ionic/storage';
 
 declare var mixpanel: any;
 
 @Injectable()
 export class TrackerService {
 
-    constructor(private configService: ConfigService) {
+    private disabled: boolean = false;
+    private disabledStorageKey: string = 'noSessionId';
+
+    constructor(private configService: ConfigService, private storage: Storage) {
     }
 
     init() {
         let token = this.configService.get('MIXPANEL_TOKEN');
-        mixpanel.init(token, {api_host: "https://api.mixpanel.com"});
+        mixpanel.init(token, {
+            api_host: "https://api.mixpanel.com",
+            disable_persistence: true
+        });
+
+        this.storage.get(this.disabledStorageKey).then((res) => {
+            if (false === res || null === res || 'false' === res) {
+                this.enable();
+            }
+            else {
+                this.disable();
+            }
+        });
     }
 
     track(event: string, properties?: any) {
+        if (this.disabled) return;
+
         if (properties && '' == properties.Timestamp) {
             // in UTC (+0)
             properties.Timestamp = (new Date().toISOString()).replace('T', ' ');
         }
-        console.log('Track: ', event, properties);
+        // console.log('Track: ', event, properties);
         mixpanel.track(event, properties);
     }
 
-    userSet(properties: any) {
-        mixpanel.people.set(properties);
+    enable() {
+        this.disabled = false;
+        // console.log('Tracker: enable');
+        mixpanel.register({"$ignore": false});
+        this.storage.set(this.disabledStorageKey, false);
     }
 
-    identify(user: User) {
-        console.log('Tracker ident: ', user.address);
-        mixpanel.identify(user.address);
+    disable() {
+        this.disabled = true;
+        // console.log('Tracker: disable');
+        mixpanel.disable();
+        mixpanel.register({"$ignore": true});
+        this.storage.set(this.disabledStorageKey, true);
     }
 
-    alias(user: User) {
-        console.log('Tracker alias: ', user.address);
-        mixpanel.alias(user.address);
+    isDisabled(): boolean {
+        return this.disabled;
     }
 
     reset() {
-        console.log('Tracker Reset');
         mixpanel.reset();
     }
+
+    /**
+     * we must not track personal/personalized data,
+     * so we don't use the following functions
+     */
+
+    /*
+     userSet(properties: any) {
+     mixpanel.people.set(properties);
+     }
+
+     identify(user: User) {
+     mixpanel.identify(user.address);
+     }
+
+     alias(user: User) {
+     mixpanel.alias(user.address);
+     }
+     */
+
 }

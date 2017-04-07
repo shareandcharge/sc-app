@@ -46,7 +46,7 @@
         laden kannst.
     </div>
 
-    <div text-center class="price-label">
+    <div text-center class="price-label" *ngIf="activeCar != null">
         <span *ngIf="!countingDown"> Voraussichtlicher Preis: </span>
         <ng-container *ngIf="chargingPrice != 0">
             {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}} <br>

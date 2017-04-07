@@ -93,6 +93,26 @@ export class User implements Serializable<User> {
         return this._creditCards;
     }
 
+    hasTrackingFlag(): boolean {
+        return typeof this.profile.disableTracking !== 'undefined';
+    }
+
+    trackingDisable() {
+        this.profile.disableTracking = true;
+    }
+
+    trackingEnable() {
+        this.profile.disableTracking = false;
+    }
+
+    isTrackingDisabled() {
+        return this.profile.disableTracking === true;
+    }
+
+    isTrackingEnabled() {
+        return !this.isTrackingDisabled();
+    }
+
     deserialize(input) {
         this.id = input.id;
         this.email = input.email;

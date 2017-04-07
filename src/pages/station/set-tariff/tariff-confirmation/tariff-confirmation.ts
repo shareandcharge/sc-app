@@ -128,7 +128,6 @@ export class TariffConfirmationPage {
 
     showHelp(type) {
         let message = "";
-        console.log(type);
         switch (type) {
             case "terms":
                 message = "Du möchtest Deine eigenen AGBs verwenden? Kontaktier uns per E-Mail. (registrierung@shareandcharge.com)";

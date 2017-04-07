@@ -3,6 +3,7 @@ import {ModalController} from 'ionic-angular';
 import {IntroPage} from "../intro/intro";
 import {InAppBrowser} from "ionic-native";
 import {ConfigService} from "../../services/config.service";
+import {DataProtectionPage} from "../_global/data-protection/data-protection";
 
 @Component({
     selector: 'page-help',
@@ -24,8 +25,8 @@ export class HelpPage {
     }
 
     openDataProtection() {
-        let url = this.configService.get('DATA_PROTECTION_URL');
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+        let modal = this.modalCtrl.create(DataProtectionPage);
+        modal.present();
     }
 
     openIntro() {
