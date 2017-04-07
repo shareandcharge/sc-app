@@ -1,0 +1,33 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Datenschutzerklärung</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <h1>Datenschutzerklärung</h1>
+    <p>
+        Wir, Share&Charge, ein Dienst von Avanza GmbH, Opernplatz 1, 45129 Essen, Tel.: +49(0)201-8133108, E-Mail:
+        info@shareandcharge.com („Avanza“) schätzen Ihr Interesse an unserer Plattform „Share&Charge“ und wissen, dass
+        Ihnen Datenschutz wichtig ist.
+    </p>
+    <p>
+        Unsere vollständige Datenschutzerklärung finden Sie <a href="#" (click)="openExternalDataProtection()">hier</a>.
+    </p>
+    <p>
+        Anonymisierte Session IDs erleichtern die Bereitstellung unserer Dienste. Mit der Nutzung unserer Dienste
+        erklären Sie sich damit einverstanden, dass wir Ihnen pro Sitzung eine Session ID zuweisen.
+    </p>
+    <p>
+        <ion-checkbox checked="false" [(ngModel)]="isTrackingDisabled" (ngModelChange)="toggleCheckbox()"></ion-checkbox>
+        Ich möchte nicht von Session ID profitieren & widerspreche der Zuordnung meiner Sitzung zu einer Session ID.
+    </p>
+</ion-content>
