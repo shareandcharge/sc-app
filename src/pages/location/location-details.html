@@ -21,7 +21,11 @@
     <div padding>
         <span *ngIf="location.name != ''">{{location.name}}</span>
         <p>
-            <strong>{{location.address}}, {{location.city}}</strong>
+            <strong>
+                {{location.address}}
+                <span *ngIf="location.address && location.city">,</span>
+                {{location.city}}
+            </strong>
         </p>
 
 
@@ -122,7 +126,7 @@
                         <rating [(ngModel)]="averageRating" readonly="true"></rating>
                     </div>
                 </ion-col>
-                <ion-col text-right>
+                <ion-col text-right *ngIf="connector">
                     <button ion-button round color="primary" text-uppercase (click)="charge()" *ngIf="connector.isOpen()">
                         <span *ngIf="!charging">Laden</span>
                         <span *ngIf="charging">Ladefortschritt</span>

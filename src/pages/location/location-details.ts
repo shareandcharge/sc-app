@@ -154,22 +154,30 @@ export class LocationDetailPage {
         let observable = this.locationService.getLocation(this.locationId);
         observable.subscribe(
             (location) => {
-                this.location = location;
-                this.station = this.location.stations[0];
-                this.connector = this.station.connectors[0];
-
-                this.flatrateTariff = this.connector.priceprovider.public.selected === 'flatrate';
+                try {
+                    this.location = location;
+                    this.station = this.location.getFirstStation();
+                    this.connector = this.station.getFirstConnector();
+                    this.flatrateTariff = this.station.hasConnector() ? this.connector.priceprovider.public.selected === 'flatrate' : false;
+                }
+                catch (e) {
+                    this.errorService.displayError('Nicht genügend Details für diese Station vorhanden.');
+                    this.dismiss();
+                    return;
+                }
 
                 this.loadOpeningHours();
                 this.loadMap();
                 this.getRatings();
                 this.getPrice();
 
-                this.configService.getPlugTypes().subscribe((plugTypes) => {
-                        this.plugTypes = plugTypes;
-                        this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
-                    },
-                    error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+                if (this.connector) {
+                    this.configService.getPlugTypes().subscribe((plugTypes) => {
+                            this.plugTypes = plugTypes;
+                            this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
+                        },
+                        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+                }
             },
             (error) => {
                 this.errorService.displayErrorWithKey(error, 'Standortdetails');
@@ -180,6 +188,10 @@ export class LocationDetailPage {
     }
 
     getPrice() {
+        if (!this.connector) {
+            return;
+        }
+
         let priceObject: any = {};
 
         let currentUser = this.authService.getUser();
@@ -222,6 +234,10 @@ export class LocationDetailPage {
     }
 
     getOpeningHoursForDay(day: number) {
+        if (!this.connector) {
+            return "geschlossen";
+        }
+
         let hours = this.connector.weekcalendar.hours;
 
         if (hours[day].from == hours[day].to) {
@@ -296,7 +312,8 @@ export class LocationDetailPage {
             };
             LaunchNavigator.navigate([this.location.lat, this.location.lng], options)
                 .then(
-                    success => {},
+                    success => {
+                    },
                     error => {
                         if ('cancelled' !== error) {
                             alert('App konnte nicht gestartet werden: ' + error);
