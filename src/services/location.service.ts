@@ -12,8 +12,11 @@ import {AuthService} from "./auth.service";
 @Injectable()
 export class LocationService extends AbstractApiService {
 
+    private imagesBaseUrl: string;
+
     constructor(private httpService: HttpService, public configService: ConfigService, private authService: AuthService) {
         super(configService);
+        this.imagesBaseUrl = this.configService.get('IMAGES_BASE_URL');
     }
 
     getLocations(params?): Observable<Array<Location>> {
@@ -139,5 +142,26 @@ export class LocationService extends AbstractApiService {
         }
 
         return busy;
+    }
+
+    getImagesWithSrc(location: Location): Array<any> {
+        if (!location.hasImages()) return [];
+
+        let images = [];
+
+        for (let image of location.images) {
+            if (typeof image.url !== 'undefined') {
+                images.push({
+                    url: image.url,
+                    src: this.getImageSrc(image)
+                });
+            }
+        }
+
+        return images;
+    }
+
+    getImageSrc(image): string {
+        return 'http' == image.url.substr(0, 4) ? image.url : this.imagesBaseUrl + image.url;
     }
 }

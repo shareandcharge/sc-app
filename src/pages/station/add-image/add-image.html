@@ -38,7 +38,7 @@
         <ion-item-sliding *ngFor="let img of images" #itemSliding>
             <ion-item>
                 <ion-thumbnail item-left>
-                    <img src="{{img.src}}">
+                    <img src="{{getImageSrc(img)}}">
                 </ion-thumbnail>
             </ion-item>
 

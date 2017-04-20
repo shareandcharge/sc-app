@@ -30,6 +30,7 @@ import {TrackerService} from "../../services/tracker.service";
 })
 export class LocationDetailPage {
     location: Location;
+    locationImages: Array<any>;
     station: Station;
     connector: Connector;
 
@@ -159,6 +160,7 @@ export class LocationDetailPage {
                     this.station = this.location.getFirstStation();
                     this.connector = this.station.getFirstConnector();
                     this.flatrateTariff = this.station.hasConnector() ? this.connector.priceprovider.public.selected === 'flatrate' : false;
+                    this.locationImages = this.locationService.getImagesWithSrc(location);
                 }
                 catch (e) {
                     this.errorService.displayError('Nicht genügend Details für diese Station vorhanden.');

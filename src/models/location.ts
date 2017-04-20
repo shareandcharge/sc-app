@@ -86,6 +86,10 @@ export class Location implements Serializable<Location> {
         return this.getFirstStation(true);
     }
 
+    hasImages(): boolean {
+        return Array.isArray(this.images) && this.images.length > 0;
+    }
+
     deserialize(input): Location {
         this.id = input.id;
         this.owner = input.owner;
