@@ -24,7 +24,10 @@ export class MyStationsPage {
 
     stations: Array<Location>;
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController, public locationService: LocationService, public modalCtrl: ModalController, private events: Events, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService,
+                private loadingCtrl: LoadingController, private alertCtrl: AlertController,
+                public locationService: LocationService, public modalCtrl: ModalController,
+                private events: Events, private errorService: ErrorService) {
         this.events.subscribe('locations:updated', () => this.loadStations());
     }
     
@@ -96,5 +99,9 @@ export class MyStationsPage {
         setTimeout(() => {
             refresher.complete();
         }, 1000);
+    }
+
+    getImagesWithSrc(location: Location) {
+        return this.locationService.getImagesWithSrc(location);
     }
 }

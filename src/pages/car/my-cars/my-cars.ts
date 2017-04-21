@@ -4,6 +4,7 @@ import {CarService} from "../../../services/car.service";
 import {Car} from "../../../models/car";
 import {CarWrapperPage} from "../car-wrapper";
 import {ErrorService} from "../../../services/error.service";
+import {TrackerService} from "../../../services/tracker.service";
 
 
 @Component({
@@ -14,13 +15,24 @@ import {ErrorService} from "../../../services/error.service";
 export class MyCarsPage {
     cars: Car[];
 
-    constructor(public navCtrl: NavController, private carService: CarService, public modalCtrl: ModalController, private alertCtrl: AlertController, private loadingCtrl: LoadingController, public events: Events, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, private carService: CarService, public modalCtrl: ModalController,
+                private alertCtrl: AlertController, private loadingCtrl: LoadingController,
+                public events: Events, private errorService: ErrorService, private trackerService: TrackerService) {
         //-- if we add/edit a car (from the modal wrapper)
         this.events.subscribe('cars:updated', () => this.getCars());
     }
 
     ionViewWillEnter() {
-        this.getCars();
+        this.getCars().subscribe(
+            cars => {
+                let cnt = cars.length;
+                this.trackerService.track('Car list', {
+                    'Screen Name': 'Meine Elektroautos',
+                    'Car count': cnt,
+                });
+
+            }
+        );
     };
 
 

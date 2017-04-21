@@ -5,7 +5,7 @@ import {Rating} from "../../models/rating";
 import {Location} from "../../models/location";
 import {AuthService} from "../../services/auth.service";
 import {ErrorService} from "../../services/error.service";
-
+import {LocationService} from "../../services/location.service";
 
 @Component({
     selector: 'page-add-rating',
@@ -14,9 +14,13 @@ import {ErrorService} from "../../services/error.service";
 export class AddRatingPage {
     rating: Rating = new Rating();
     location: Location;
+    locationImages: Array<any>;
 
-    constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController, public ratingService: RatingService, public authService: AuthService, public alertCtrl: AlertController, private errorService: ErrorService) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController,
+                public ratingService: RatingService, public authService: AuthService, public alertCtrl: AlertController,
+                private errorService: ErrorService, private locationService: LocationService) {
         this.location = navParams.get('location');
+        this.locationImages = locationService.getImagesWithSrc(this.location);
         this.rating.rating = 5;
     }
 
@@ -47,7 +51,7 @@ export class AddRatingPage {
                 ]
 
             })
-            ;
+        ;
         alert.present();
     }
 }

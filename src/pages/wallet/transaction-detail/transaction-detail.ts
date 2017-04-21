@@ -54,7 +54,11 @@ export class TransactionDetailPage {
                 return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperhour / 100, 'EUR', true, '1.2-2');
             }
             case 2: {
-                return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperkw / 100, 'EUR', true, '1.2-2') + '/kWh';
+                //-- @TODO see https://github.com/slockit/sc-app/issues/342
+                // need to change that to use locationService.getEstimatedPrice
+                // it's ok for innog stations, now
+                // return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperkw / 100, 'EUR', true, '1.2-2') + '/kWh';
+                return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperhour / 100, 'EUR', true, '1.2-2') + '/h';
             }
             case 3: {
                 return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperkw / 100, 'EUR', true, '1.2-2') + '/kWh';

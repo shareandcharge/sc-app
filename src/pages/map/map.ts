@@ -326,7 +326,7 @@ export class MapPage {
         let marker = new google.maps.Marker({
             map: this.map,
             icon: icon,
-            animation: google.maps.Animation.DROP,
+            // animation: google.maps.Animation.DROP,   // don't turn that on. It slows everything down!
             position: new google.maps.LatLng(location.lat, location.lng)
         });
 

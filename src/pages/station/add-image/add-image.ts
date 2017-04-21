@@ -13,6 +13,7 @@ import {Station} from "../../../models/station";
 import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
 import {TrackerService} from "../../../services/tracker.service";
+import {LocationService} from "../../../services/location.service";
 
 
 @Component({
@@ -30,7 +31,7 @@ export class AddStationImagePage {
 
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams,
                 public modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController,
-                private events: Events, private trackerService: TrackerService) {
+                private events: Events, private trackerService: TrackerService, private locationService: LocationService) {
         if (typeof this.images == "undefined") {
             this.images = [];
         }
@@ -41,8 +42,8 @@ export class AddStationImagePage {
         this.station = this.locObject.stations[0];
         this.connector = this.station.connectors[0];
 
-        if (typeof this.locObject.images != 'undefined') {
-            this.images = this.locObject.images;
+        if (this.locObject.hasImages()) {
+            this.images = this.locationService.getImagesWithSrc(this.locObject);
         }
     }
 
@@ -171,5 +172,9 @@ export class AddStationImagePage {
 
     isAdd() {
         return this.flowMode == 'add';
+    }
+
+    getImageSrc(image) {
+        return image.src && 'data:' == image.src.substr(0, 5) ? image.src : this.locationService.getImageSrc(image);
     }
 }

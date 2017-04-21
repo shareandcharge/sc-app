@@ -21,14 +21,34 @@ export class Station {
      * or if there are no connectors at all.
      * @returns {boolean}
      */
-    isRented():boolean {
+    isRented(): boolean {
         let isRented = true;
+
+        if (!this.hasConnector()) return isRented;
 
         this.connectors.forEach((connector) => {
             isRented = isRented && connector.isRented;
         });
 
         return isRented;
+    }
+
+
+    hasConnector(): boolean {
+        return Array.isArray(this.connectors) && typeof this.connectors[0] === 'object';
+    }
+
+    getFirstConnector(orEmpty?: boolean): Connector | null {
+        if (this.hasConnector()) {
+            return this.connectors[0];
+        }
+        else {
+            return orEmpty ? new Connector() : null;
+        }
+    }
+
+    getFirstConnectorOrEmpty(): Connector {
+        return this.getFirstConnector(true);
     }
 
     deserialize(input): Station {

@@ -30,10 +30,11 @@
                 <ion-radio value="HYBRID" (click)="setMapView('HYBRID')"></ion-radio>
             </ion-item>
         </ion-list>
-        <ion-list>
+        <ion-list class="no-margin-bottom">
             <button ion-item (click)="refreshMarkers()" detail-none>
                 Aktualisieren
             </button>
         </ion-list>
+        <div class="version">v{{appVersion}}</div>
     </div>
 </ion-content>

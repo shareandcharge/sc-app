@@ -20,8 +20,8 @@
         <ion-item-sliding *ngFor="let station of stations" #itemSliding>
             <button ion-item text-wrap (click)="editStation(station)">
                 <ion-avatar item-left class="ion-avatar-big">
-                    <img src="{{station.images[0].src}}" *ngIf="station.images.length">
-                    <img src="assets/icons/station.svg" *ngIf="!station.images.length">
+                    <img src="{{getImagesWithSrc(station)[0].src}}" *ngIf="station.hasImages()">
+                    <img src="assets/icons/station.svg" *ngIf="!station.hasImages()">
                 </ion-avatar>
 
                 <ng-container *ngIf="station.name">

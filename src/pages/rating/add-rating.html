@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content>
-    <img *ngIf="location.images[0]" src="{{location.images[0].src}}">
+    <img *ngIf="location.hasImages()" src="{{locationImages[0].src}}">
     <ion-list no-lines="" padding>
         <ion-item>
             <ion-label>Bewertung</ion-label>

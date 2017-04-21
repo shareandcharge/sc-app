@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, NavParams} from 'ionic-angular';
+import {ConfigService} from "../../../services/config.service";
 
 declare var google;
 
@@ -8,20 +9,20 @@ declare var google;
     templateUrl: 'map-settings.html'
 })
 export class MapSettingsPage {
-    mapViewType:'roadMap';
-    map:any;
+    mapViewType: 'roadMap';
+    map: any;
 
-    setViewType:any;
-    getViewType:any;
+    setViewType: any;
+    getViewType: any;
 
-    constructor(public navCtrl:NavController, private viewCtrl:ViewController, private navParams:NavParams) {
+    appVersion: string;
+
+    constructor(public navCtrl: NavController, private viewCtrl: ViewController, private navParams: NavParams,
+                private configService: ConfigService) {
         this.map = navParams.get("map");
         this.setViewType = navParams.get('setViewType');
         this.getViewType = navParams.get('getViewType');
-    }
-
-    ionViewDidLoad() {
-        //console.log('Hello MapSettingsPage Page');
+        this.appVersion = configService.get('APP_VERSION');
     }
 
     setMapView(selected) {

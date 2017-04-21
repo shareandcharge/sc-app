@@ -69,6 +69,27 @@ export class Location implements Serializable<Location> {
         return JSON.stringify(this);
     }
 
+    hasStation(): boolean {
+        return Array.isArray(this.stations) && typeof this.stations[0] === 'object';
+    }
+
+    getFirstStation(orEmpty?: boolean): Station | null {
+        if (this.hasStation()) {
+            return this.stations[0];
+        }
+        else {
+            return orEmpty ? new Station() : null;
+        }
+    }
+
+    getFirstStationOrEmpty(): Station {
+        return this.getFirstStation(true);
+    }
+
+    hasImages(): boolean {
+        return Array.isArray(this.images) && this.images.length > 0;
+    }
+
     deserialize(input): Location {
         this.id = input.id;
         this.owner = input.owner;
