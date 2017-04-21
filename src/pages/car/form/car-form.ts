@@ -19,6 +19,7 @@ import {maxChargingValidator} from '../../../validators/maxChargingValidator';
 import {accuCapacityValidator} from '../../../validators/accuCapacityValidator';
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
+import {TrackerService} from "../../../services/tracker.service";
 
 
 @Component({
@@ -42,7 +43,7 @@ export class CarFormPage {
                 public formBuilder: FormBuilder, private alertCtrl: AlertController, public navCtrl: NavController,
                 private actionSheetCtrl: ActionSheetController, private navParams: NavParams,
                 private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController,
-                public events: Events, private errorService: ErrorService) {
+                public events: Events, private errorService: ErrorService, private trackerService: TrackerService) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -66,6 +67,12 @@ export class CarFormPage {
 
     ionViewWillEnter() {
         this.carForm.patchValue(this.car);
+        let eventName = 'Started ' + (this.isAdd() ? 'Add' : 'Edit') + ' Electric Car';
+        let screenName = (this.isAdd() ? 'Elektroauto hinzufügen' : 'Elektroauto bearbeiten');
+        this.trackerService.track(eventName, {
+            "Screen Name": screenName
+        });
+
     }
 
     createErrorMessages() {
@@ -151,6 +158,10 @@ export class CarFormPage {
                     .finally(() => loader.dismissAll())
                     .subscribe(
                         () => {
+                            this.trackerService.track('Car Info Updated', {
+                                'Screen Name': 'Elektroauto bearbeiten'
+                            });
+
                             this.events.publish('cars:updated');
                             this.events.publish('locations:updated');   // because the markers change depending on the car
                             this.refreshUser(); // needed !
@@ -163,6 +174,10 @@ export class CarFormPage {
                     .finally(() => loader.dismissAll())
                     .subscribe(
                         () => {
+                            this.trackerService.track('Completed Add Car', {
+                                'Screen Name': 'Elektroauto hinzufügen'
+                            });
+
                             this.events.publish('cars:updated');
                             this.events.publish('locations:updated');   // because the markers change depending on the car
                             this.refreshUser(); // needed !
@@ -202,16 +217,16 @@ export class CarFormPage {
 
         switch (field) {
             case 'plateNumber':
-                message = "z.B: AA-BB 777";
+                message = "z.B.: AA-BB 777";
                 break;
             case 'maxCharging':
-                message = "max 200";
+                message = "max. 200";
                 break;
             case 'accuCapacity':
-                message = "max 150";
+                message = "max. 150";
                 break;
             case 'averageDistance':
-                message = "max 1000 , whole number";
+                message = "max. 1000, ganze Zahlen";
                 break;
         }
 
@@ -224,4 +239,9 @@ export class CarFormPage {
             alert.present();
         }
     }
+
+    isAdd() {
+        return this.mode != 'edit';
+    }
+
 }

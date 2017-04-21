@@ -140,10 +140,19 @@ export class SignupLoginPage {
             });
             loader.present();
 
+            this.trackerService.track('Login Info Added', {
+                'Screen Name': 'Login',
+                'Login': 'yes',
+                'Signup': 'no',
+                'Sign up method': 'Email',
+                'Timestamp': '',
+                'Terms accepted': 'yes'
+            });
+
             this.userService.login(this.signUpLoginObject.email, this.signUpLoginObject.authentification.password).subscribe(
                 () => {
                     this.trackerService.track('Login Completed', {
-                        'Screen Name': 'Registrieren',
+                        'Screen Name': 'Login',
                         'Login': 'yes',
                         'Signup': 'no',
                         'Sign up method': 'Email',
