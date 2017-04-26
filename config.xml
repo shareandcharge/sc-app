@@ -121,4 +121,8 @@
     <engine name="android" spec="latest" />
     <plugin name="cordova-custom-config" spec="~3.1.2" />
     <plugin name="cordova-plugin-privacyscreen" spec="~0.3.1" />
+    <plugin name="cordova-plugin-facebook4" spec="~1.7.4">
+        <variable name="APP_ID" value="428145450878194" />
+        <variable name="APP_NAME" value="ShareAndCharge" />
+    </plugin>
 </widget>
