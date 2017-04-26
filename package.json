@@ -64,7 +64,15 @@
     "cordova-plugin-device",
     "cordova-plugin-inappbrowser",
     "cordova-custom-config",
-    "cordova-plugin-privacyscreen"
+    "cordova-plugin-privacyscreen",
+    {
+      "id": "cordova-plugin-facebook4",
+      "locator": "cordova-plugin-facebook4",
+      "variables": {
+        "APP_ID": "428145450878194",
+        "APP_NAME": "ShareAndCharge"
+      }
+    }
   ],
   "cordovaPlatforms": [
     "ios",

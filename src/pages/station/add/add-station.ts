@@ -17,6 +17,12 @@ import {SetTariffPage} from "../set-tariff/set-tariff";
 import {EditProfilePage} from "../../profile/profile-data/edit-profile/edit-profile";
 import {TrackerService} from "../../../services/tracker.service";
 
+
+/**
+ * weekCalendar times:
+ * 0 - 24 = open 24 hours
+ * 0 - 0 = closed
+ */
 @Component({
     selector: 'page-add-station',
     templateUrl: 'add-station.html',
@@ -555,7 +561,7 @@ export class AddStationPage {
     updateSelectedDays() {
         for (let day of this.connector.weekcalendar.hours) {
             day.from = 0;
-            day.to = 24;
+            day.to = 0;
         }
 
         for (let weekday of this.weekdays) {
