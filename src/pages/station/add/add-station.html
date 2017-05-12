@@ -103,7 +103,7 @@
         <ion-list no-lines="" *ngIf="segmentTabs == 'custom'">
             <ion-item *ngFor="let day of customWeekCalendar.hours; let i = index;">
                 <ion-label>{{days[i]}}</ion-label>
-                <ion-checkbox [(ngModel)]="day.from != day.to" (ngModelChange)="setSelectedDayDefault(day)"></ion-checkbox>
+                <ion-checkbox [(ngModel)]="day.from != day.to" (ngModelChange)="setDayClosed(day)"></ion-checkbox>
                 <ion-select [(ngModel)]="day.from" placeholder="Von" class="input-white small margin-right-xs" [selectOptions]="{title: days[i] + ' von'}">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>   

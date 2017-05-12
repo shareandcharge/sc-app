@@ -301,11 +301,7 @@ export class AddStationPage {
                 }
 
                 if (day.from != from || day.to != to) {
-                    weekdays = [];
                     this.segmentTabs = 'custom';
-
-                    this.resetWeekcalendar();
-                    return false;
                 }
 
                 weekdays.push(index);
@@ -570,20 +566,9 @@ export class AddStationPage {
         }
     }
 
-    setSelectedDayDefault(day) {
+    setDayClosed(day) {
         day.from = 0;
-        day.to = 24;
-    }
-
-    resetWeekcalendar() {
-        for (let day of this.connector.weekcalendar.hours) {
-            day.from = 0;
-            day.to = 24;
-
-            this.weekdays = [];
-            this.from = 0;
-            this.to = 24;
-        }
+        day.to = 0;
     }
 
     cloneWeekcalendar() {
