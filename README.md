@@ -1,6 +1,18 @@
 # sc-app
 native-app for share&amp;charge
 
+## installation/building
+Make sure you have `npm` installed.
+
+Run `npm install`.
+
+Copy `/src/config.config.ts.dist` to `/src/config.config.ts` and fill the values.
+
+
+Run "ionic build \<PLATFORM\>" e.g.
+
+`ionic build ios`
+
 ## releasing a new version
 
 * start a new release in gitflow
@@ -57,4 +69,4 @@ Facebook plugin is (at the moment) only used to track app installations.
 See: https://github.com/jeduan/cordova-plugin-facebook4#installation
 
 #### HEADS UP
-If you submit a (new) iOS app version and you have the Facebook SDK included, for Christ’s sake, check the box saying “This app uses the Ad-ID (IDFA)?”
+If you submit a (new) iOS app version and you have the Facebook SDK included, for Christ’s sake, check the box saying “This app uses the Ad-ID (IDFA)?” 
