@@ -32,6 +32,11 @@ export class MyStationsPage {
     }
     
     loadStations() {
+        if (!this.auth.loggedIn()) {
+            this.stations = [];
+            return;
+        }
+
         let userAddress;
         userAddress = this.auth.getUser().address;
         this.locationService.getLocationsUser(userAddress).subscribe(locations => {

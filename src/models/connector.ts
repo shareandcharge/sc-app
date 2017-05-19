@@ -8,6 +8,7 @@ export class Connector {
     station: number;    // station ID !
     timeleft: number;   // only returned when this is charging
     secondstorent: number;
+    pending: any;
 
     weekcalendar: {
         'hours': Array<any>
@@ -104,6 +105,8 @@ export class Connector {
             'hourly',
             'kwh'
         ];
+
+        this.pending = {};
     }
 
     toFrontendPriceProvider(backendPriceProvider) {
@@ -283,6 +286,10 @@ export class Connector {
         return this.description || this.id;
     }
 
+    isPending(): boolean {
+        return (this.pending && Object.keys(this.pending).length !== 0);
+    }
+
     serialize(): string {
         return JSON.stringify(this);
     }
@@ -302,6 +309,7 @@ export class Connector {
         this.station = input.station;
         this.timeleft = input.timeleft;
         this.secondstorent = input.secondstorent;
+        this.pending = input.pending;
 
         return this;
     }

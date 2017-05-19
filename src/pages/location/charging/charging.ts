@@ -52,6 +52,7 @@ export class ChargingPage {
     chargedTimeAtStop: any;
 
     stopButtonClicked: boolean;
+    stopButtonDisabled: boolean = false;
 
     activeCar: Car;
 
@@ -119,6 +120,7 @@ export class ChargingPage {
         }
 
         if (this.charging && this.activeCar) {
+            this.startCheckConnector();
             this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
         }
         else {
@@ -258,9 +260,22 @@ export class ChargingPage {
                     });
 
                     this.charging = true;
+                    this.startCheckConnector();
                     this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
                 },
                 error => this.errorService.displayErrorWithKey(error, 'Ladevorgang starten'));
+    }
+
+    startCheckConnector() {
+        this.stopButtonDisabled = true;
+        this.chargingService.checkCurrentConnectorIsPending().subscribe(pending => {
+            if (pending) {
+                setTimeout(() => this.startCheckConnector(), 4000);
+            }
+            else {
+                this.stopButtonDisabled = false;
+            }
+        });
     }
 
     stopCharging() {

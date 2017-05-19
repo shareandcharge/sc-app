@@ -9,6 +9,7 @@ import {ConfigService} from "./config.service";
 import {HttpService} from "./http.service";
 import {Connector} from "../models/connector";
 import {Location} from "../models/location";
+import {Observable} from "rxjs/Observable";
 
 
 /**
@@ -99,6 +100,17 @@ export class ChargingService extends AbstractApiService {
         return this.httpService.get(`${this.baseUrl}/connectors/?controller=${userAddress}`)
             .map(res => {
                 return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    checkCurrentConnectorIsPending(): Observable<boolean> {
+        let id = this.connector.id;
+
+        return this.httpService.get(`${this.baseUrl}/connectors/${id}`)
+            .map(res => {
+                let connector = new Connector().deserialize(res.json());
+                return connector.isPending();
             })
             .catch(this.handleError);
     }
