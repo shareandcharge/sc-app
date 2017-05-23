@@ -442,7 +442,7 @@ export class AddStationPage {
 
         if (this.flowMode == 'add') {
             let options = {
-                maximumAge: 10000, timeout: 10000
+                maximumAge: 0, timeout: 10000, enableHighAccuracy: true
             };
 
             Geolocation.getCurrentPosition(options).then(

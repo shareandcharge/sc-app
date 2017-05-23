@@ -114,7 +114,6 @@
         <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
     <plugin name="cordova-plugin-contacts" spec="~2.2.1" />
-    <plugin name="cordova-plugin-geolocation" spec="~2.4.1" />
     <plugin name="cordova-plugin-inappbrowser" spec="~1.6.1" />
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="~3.2.1" />
     <engine name="ios" spec="~4.3.1" />
@@ -124,5 +123,8 @@
     <plugin name="cordova-plugin-facebook4" spec="~1.7.4">
         <variable name="APP_ID" value="428145450878194" />
         <variable name="APP_NAME" value="ShareAndCharge" />
+    </plugin>
+    <plugin name="cordova-plugin-geolocation" spec="~2.4.3">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Deinen Standort auf der Karte anzeigen." />
     </plugin>
 </widget>

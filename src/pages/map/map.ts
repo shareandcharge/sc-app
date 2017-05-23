@@ -205,7 +205,7 @@ export class MapPage {
         this.currentLocationLoading = true;
 
         let options = {
-            maximumAge: 10000, timeout: timeout, enableHighAccuracy: false
+            maximumAge: 0, timeout: timeout, enableHighAccuracy: true
         };
 
         Geolocation.getCurrentPosition(options).then((position) => {
