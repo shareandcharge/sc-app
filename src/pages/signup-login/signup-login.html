@@ -11,7 +11,7 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content padding fullscreen>
     <ion-grid class="fullpage" *ngIf="!auth.loggedIn()">
         <ion-row>
             <ion-col>
@@ -115,14 +115,7 @@
 
 
     <ion-grid class="fullpage" *ngIf="auth.loggedIn()">
-        <ion-row>
-            <ion-col>
 
-                <h1>Hello</h1>
-                {{ auth.getUser().displayName}}
-                <button ion-button (click)="logout()">Logout</button>
-            </ion-col>
-        </ion-row>
     </ion-grid>
 </ion-content>
 
