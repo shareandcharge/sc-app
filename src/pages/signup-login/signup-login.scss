@@ -16,7 +16,9 @@ page-signup {
   ion-item.item {
     background-color: transparent;
   }
-
+  ion-item.no-margin {
+    padding-left: 0;
+  }
   .content {
     @include sc-gradient-dark();
   }
