@@ -252,7 +252,7 @@ export class MapPage {
             bounds.lngFrom = googleBounds.getSouthWest().lng();
             bounds.lngTo = googleBounds.getNorthEast().lng();
 
-            me.locationService.searchLocations(bounds, this.locationFields).subscribe(locations => {
+            me.locationService.searchLocations(bounds, this.filterForPlugs, this.locationFields).subscribe(locations => {
                     me.visibleLocations = locations;
                     this.viewType = viewType;
                 },

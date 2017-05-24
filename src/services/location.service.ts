@@ -56,9 +56,11 @@ export class LocationService extends AbstractApiService {
         return this.getLocations(params);
     }
 
-    searchLocations(bounds?: any, fields?: string) {
+    searchLocations(bounds?: any, plugTypes?: any, fields?: string) {
         let checkBounds = <boolean>bounds;
         let params = fields ? {fields: fields} : null;
+
+        if (Array.isArray(plugTypes) && plugTypes.length > 0) params['plugType'] = plugTypes.join(',');
 
         return this.getLocations(params).map(res => {
 
