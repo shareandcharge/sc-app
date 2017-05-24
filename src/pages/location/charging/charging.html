@@ -91,7 +91,7 @@
 <ion-footer>
     <ion-toolbar color="light">
         <div text-center *ngIf="countingDown">
-            <button ion-button round text-uppercase color="danger" (click)="stopCharging()">
+            <button ion-button round text-uppercase color="danger" (click)="stopCharging()" [disabled]="stopButtonDisabled">
                 Stop
             </button>
         </div>

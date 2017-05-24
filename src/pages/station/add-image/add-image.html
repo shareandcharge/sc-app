@@ -37,7 +37,7 @@
     <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
         <ion-item-sliding *ngFor="let img of images" #itemSliding>
             <ion-item>
-                <ion-thumbnail item-left>
+                <ion-thumbnail item-left class="non-square">
                     <img src="{{getImageSrc(img)}}">
                 </ion-thumbnail>
             </ion-item>

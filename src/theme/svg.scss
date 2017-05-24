@@ -1,0 +1,7 @@
+svg {
+    /**
+    We need this because SVGs are not scaled correctly on older Android default browsers.
+    The would end up having 100% screen height by default.
+     */
+    max-height: 100%;
+}

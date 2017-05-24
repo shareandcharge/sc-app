@@ -9,13 +9,17 @@ declare var google;
     templateUrl: 'map-settings.html'
 })
 export class MapSettingsPage {
-    mapViewType: 'roadMap';
     map: any;
 
     setViewType: any;
     getViewType: any;
 
     appVersion: string;
+    currentMapType: string;
+
+    MAP_TYPE_ROADMAP = google.maps.MapTypeId.ROADMAP;
+    MAP_TYPE_SATELLITE = google.maps.MapTypeId.SATELLITE;
+    MAP_TYPE_HYBRID = google.maps.MapTypeId.HYBRID;
 
     constructor(public navCtrl: NavController, private viewCtrl: ViewController, private navParams: NavParams,
                 private configService: ConfigService) {
@@ -23,20 +27,11 @@ export class MapSettingsPage {
         this.setViewType = navParams.get('setViewType');
         this.getViewType = navParams.get('getViewType');
         this.appVersion = configService.get('APP_VERSION');
+        this.currentMapType = this.map.getMapTypeId();
     }
 
-    setMapView(selected) {
-        switch (selected) {
-            case 'ROADMAP':
-                this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-                break;
-            case 'SATELLITE':
-                this.map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
-                break;
-            case 'HYBRID':
-                this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
-                break;
-        }
+    setMapView(type) {
+        this.map.setMapTypeId(type);
     }
 
     refreshMarkers() {

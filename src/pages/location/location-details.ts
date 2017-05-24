@@ -45,9 +45,6 @@ export class LocationDetailPage {
     showOpeningHours: boolean = false;
 
     isDesktop: boolean;
-    isIOS: boolean;
-    isAndroid: boolean;
-    isWindows: boolean;
 
     private locationId: number;
 
@@ -66,7 +63,16 @@ export class LocationDetailPage {
     minPrice: any;
     maxPrice: any;
     includingVat: boolean;
+    tariffType: number;
     flatrateTariff: boolean;
+
+    TARIFF_TYPES = {
+        INACTIVE: 0,
+        FLAT: 1,
+        HOURLY: 2,
+        KWH: 3,
+        PARKING: 4
+    };
 
     constructor(private alertCtrl: AlertController, private modalCtrl: ModalController,
                 private chargingService: ChargingService, private navParams: NavParams, platform: Platform,
@@ -82,9 +88,6 @@ export class LocationDetailPage {
         this.locationId = navParams.get("locationId");
 
         this.isDesktop = platform.is("core");
-        this.isIOS = platform.is("ios");
-        this.isAndroid = platform.is("android");
-        this.isWindows = platform.is("windows");
 
         this.showMapDefaultControlls = !this.isDesktop;
 
@@ -207,6 +210,7 @@ export class LocationDetailPage {
                 this.maxPrice = response.max;
                 this.minPrice = response.min;
                 this.includingVat = response.vat;
+                this.tariffType = response.type;
             },
             error => this.errorService.displayErrorWithKey(error, 'Preisabfrage'));
     }

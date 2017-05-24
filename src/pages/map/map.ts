@@ -64,13 +64,15 @@ export class MapPage {
     activeCar: Car;
     isCharging: boolean;
 
-    toggledPlugs: Array<number>;
+    filterForPlugs: Array<number>;
     chargingProgress: number;
 
     searchMode: boolean = false;
 
     autocompleteItems: any;
     autocompleteService: any;
+
+    elemFilterControl: any;
 
     constructor(public popoverCtrl: PopoverController, public auth: AuthService, public locationService: LocationService,
                 public carService: CarService, platform: Platform, public navCtrl: NavController,
@@ -86,30 +88,32 @@ export class MapPage {
         this.locationMarkers = [];
         this.viewType = 'map';
 
-        this.toggledPlugs = [];
+        this.filterForPlugs = [];
         this.chargingProgress = this.chargingService.getChargingProgress();
+
+        this.autocompleteService = new google.maps.places.AutocompleteService();
+        this.autocompleteItems = [];
+    }
+
+    ionViewDidLoad() {
+        this.loadMap();
+    }
+
+    mapLoaded() {
+        //-- add the subscribers after the map is ready
 
         //-- whenever the cars change or user loggs in, refresh the infos we need for the "switch car button"
         this.events.subscribe('cars:updated', () => this.refreshCarInfo());
         this.events.subscribe('user:refreshed', () => this.refreshCarInfo());
         this.events.subscribe('auth:login', () => this.refreshCarInfo());
-        this.events.subscribe('auth:logout', () => this.refreshCarInfo());
+        this.events.subscribe('auth:logout', () => {
+            this.filterForPlugs = [];
+            this.refreshCarInfo();
+        });
 
         this.events.subscribe('locations:updated', (location) => this.refreshLocations());
 
-        this.autocompleteService = new google.maps.places.AutocompleteService();
-        this.autocompleteItems = [];
-
-        this.initializeApp();
-    }
-
-    initializeApp() {
-        this.platform.ready().then(() => {
-        });
-    }
-
-    ionViewDidLoad() {
-        this.loadMap();
+        this.refreshCarInfo();      // also refreshes locations
     }
 
     ionViewDidEnter() {
@@ -129,15 +133,17 @@ export class MapPage {
             this.isCharging = this.chargingService.isCharging();
 
             if (this.activeCar != null) {
-                //-- deactivate auto filter for plugtypes for now; too irritating when not so many poles.
-                // let plugTypes = this.activeCar.plugTypes;
-                // this.loadLocationsForPlugTypes(plugTypes);
+                this.filterForPlugs = this.activeCar.plugTypes;
             }
+
+            this.refreshLocations();
         }, (error) => {
             this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos');
             this.cars = null;
             this.activeCar = null;
         });
+
+        return observable;
     }
 
     hasCars() {
@@ -205,7 +211,7 @@ export class MapPage {
         this.currentLocationLoading = true;
 
         let options = {
-            maximumAge: 10000, timeout: timeout, enableHighAccuracy: false
+            maximumAge: 0, timeout: timeout, enableHighAccuracy: true
         };
 
         Geolocation.getCurrentPosition(options).then((position) => {
@@ -246,7 +252,7 @@ export class MapPage {
             bounds.lngFrom = googleBounds.getSouthWest().lng();
             bounds.lngTo = googleBounds.getNorthEast().lng();
 
-            me.locationService.searchLocations(bounds, this.locationFields).subscribe(locations => {
+            me.locationService.searchLocations(bounds, this.filterForPlugs, this.locationFields).subscribe(locations => {
                     me.visibleLocations = locations;
                     this.viewType = viewType;
                 },
@@ -299,18 +305,22 @@ export class MapPage {
                 });
             }
 
-            me.refreshLocations();
+            me.mapLoaded();
             loader.dismissAll();
         });
     }
 
     refreshLocations() {
-        let params = {'fields': this.locationFields};
-        this.locationService.getLocations(params).subscribe((locations) => {
+        this.deactivateFilterControl();
+
+        this.locationService.getLocationsPlugTypes(this.filterForPlugs, this.locationFields).subscribe(locations => {
                 this.locationsShort = locations;
+                if (this.filterForPlugs.length > 0) {
+                    this.activateFilterControl();
+                }
                 this.updateLocationMarkers();
             },
-            error => this.errorService.displayErrorWithKey(error, 'Aktualisiere Stationen'));
+            error => this.errorService.displayErrorWithKey(error, 'Stationen laden'));
     }
 
     showLocationDetails(location) {
@@ -385,28 +395,28 @@ export class MapPage {
 
     presentFilterModal() {
         // convert string ids to numbers
-        this.toggledPlugs = this.toggledPlugs.map((i) => +i);
+        this.filterForPlugs = this.filterForPlugs.map((i) => +i);
 
         let filter = this.modalCtrl.create(MapFilterPage, {
-            'toggledPlugs': this.toggledPlugs
+            'toggledPlugs': this.filterForPlugs
         });
         filter.present();
 
         filter.onDidDismiss(plugTypes => {
-            if (plugTypes) {
-                this.loadLocationsForPlugTypes(plugTypes);
-            }
+            this.filterForPlugs = plugTypes;
+            this.refreshLocations();
         });
     }
 
-    loadLocationsForPlugTypes(plugTypes: Array<any>) {
-        this.locationService.getLocationsPlugTypes(plugTypes.join(), this.locationFields).subscribe(locations => {
-                this.toggledPlugs = plugTypes;
-                this.locationsShort = locations;
-                this.updateLocationMarkers();
-            },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen für Station'));
+    activateFilterControl() {
+        this.deactivateFilterControl(); // to avoid duplicate additions
+        this.elemFilterControl.className = this.elemFilterControl.className + ' active';
     }
+
+    deactivateFilterControl() {
+        this.elemFilterControl.className = this.elemFilterControl.className.replace(' active', '');
+    }
+
 
     centerToPlace(place) {
         let request = {
@@ -452,25 +462,26 @@ export class MapPage {
     }
 
     addMapFilterControl() {
-        let centerControlDiv = document.createElement('div');
+        // this.elemFilterControl
+        let mapControl = document.createElement('div');
 
-        let controlUI = document.createElement('div');
-        controlUI.id = 'mapFilterUI';
-        centerControlDiv.appendChild(controlUI);
+        this.elemFilterControl = document.createElement('div');
+        this.elemFilterControl.id = 'mapFilterUI';
+        mapControl.appendChild(this.elemFilterControl);
 
 
         let controlText = document.createElement('div');
         controlText.id = 'mapFilterText';
         controlText.innerHTML = '<ion-icon name="filter" role="img" class="icon icon-ios ion-ios-options" aria-label="filter" ng-reflect-name="filter"></ion-icon>';
-        controlUI.appendChild(controlText);
+        this.elemFilterControl.appendChild(controlText);
 
         let me = this;
 
-        controlUI.addEventListener('click', function () {
+        this.elemFilterControl.addEventListener('click', function () {
             me.presentFilterModal()
         });
 
-        this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+        this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(mapControl);
     }
 
     updateLocationMarkers() {

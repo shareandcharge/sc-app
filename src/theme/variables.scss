@@ -29,7 +29,8 @@ $colors: (
         light: #f4f4f4,
         dark: #222,
         grey: #F5F6F7,
-        grey_darker: #808080
+        grey_darker: #808080,
+        green: #24d2b0
 );
 
 $brand-color: (
@@ -103,6 +104,8 @@ $alert-wp-content-max-height: 325px;
 @import "toast";
 @import "toolbar";
 @import "avatar";
+@import "svg";
+@import "thumbnail";
 
 
 // Ionicons
