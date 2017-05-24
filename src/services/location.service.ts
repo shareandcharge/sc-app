@@ -48,8 +48,9 @@ export class LocationService extends AbstractApiService {
         return this.getLocations({owner: userAddress, limit: 100});
     }
 
-    getLocationsPlugTypes(plugTypes: string, fields?: string) {
-        let params = {plugType: plugTypes};
+    getLocationsPlugTypes(plugTypes: any, fields?: string) {
+        let params = {};
+        if (Array.isArray(plugTypes) && plugTypes.length > 0) params['plugType'] = plugTypes.join(',');
         if (fields) params['fields'] = fields;
 
         return this.getLocations(params);

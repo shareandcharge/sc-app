@@ -26,6 +26,7 @@ export class CarService extends AbstractApiService {
 
     getCars(): Observable<Car[]> {
         if (!this.auth.loggedIn()) {
+            this.activeCar = null;
             return Observable.of(null);
         }
 

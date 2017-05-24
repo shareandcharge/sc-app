@@ -63,12 +63,10 @@ export class MyApp {
                 this.updateUserDeviceToken();
                 this.checkChargingProgress();
                 this.checkTrackingOnLogin();
-                this.events.publish('locations:updated');
             });
 
             this.events.subscribe('auth:logout', () => {
                 this.checkChargingProgress();
-                this.events.publish('locations:updated');
             });
 
             this.events.subscribe('charging:lapsed', () => {
