@@ -2,21 +2,21 @@
 native-app for share&amp;charge
 
 ## installation/building
-Make sure you have `npm, ionic, and cordova` installed globally.
+Make sure you have `npm` installed.
 
-Run `npm install`. Then run `npm install -g cordova ionic`
+Run `npm install`.
 
 Copy `/src/config.config.ts.dist` to `/src/config.config.ts` and fill the values.
 
 
 Run "ionic build \<PLATFORM\>" e.g.
 
-`ionic package build ios`
+`ionic build ios`
 
 ## releasing a new version
 
 * start a new release in gitflow
-* bumb version numbers in
+* bumb version numbers in 
   * `/src/config/config.ts`
   * `/src/config/config.ts.dist`
   * `/config.xml`
@@ -24,7 +24,7 @@ Run "ionic build \<PLATFORM\>" e.g.
 
 ### iOS
 ```
-$ ionic package build ios --prod --release
+$ ionic build ios --prod --release
 ```
 
 Open in Xcode. If you added/removed ios since the last build (or if you want to be super sure), check capabilities (push notifications).
@@ -55,7 +55,7 @@ Add continuous integration, or at least some scripts to ease the pain.
 Most of the settings are contained in the config.xml and applied by the
  cordova-custom-config plugin (deployment target, region, descriptions ...)
  when you add the platform.
-
+ 
 Things you have to do by hand:
 * Turn on: Capabilities -> Push notifications
 * Set the provisioning profiles
@@ -69,4 +69,4 @@ Facebook plugin is (at the moment) only used to track app installations.
 See: https://github.com/jeduan/cordova-plugin-facebook4#installation
 
 #### HEADS UP
-If you submit a (new) iOS app version and you have the Facebook SDK included, for Christ’s sake, check the box saying “This app uses the Ad-ID (IDFA)?”
+If you submit a (new) iOS app version and you have the Facebook SDK included, for Christ’s sake, check the box saying “This app uses the Ad-ID (IDFA)?” 
