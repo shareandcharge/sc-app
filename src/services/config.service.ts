@@ -1,6 +1,6 @@
 import {AuthHttp} from "angular2-jwt";
 import {Injectable} from "@angular/core";
-import {CONFIG} from "../config/config"
+import {CONFIG} from "../config.prod-config.ts"
 import {Observable} from "rxjs";
 
 @Injectable()
