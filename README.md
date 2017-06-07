@@ -2,14 +2,14 @@
 native-app for share&amp;charge
 
 ## installation/building
-Make sure you have `npm` installed. Additionally, make sure to have ionic@2.2.1 and cordova installed globally.
-
-Run `npm install -g ionic@2.2.1 cordova`.
+Make sure you have `npm` installed.
 
 Run `npm install`.
 
 Copy `/src/config.config.ts.dist` to `/src/config.config.ts` and fill the values.
 
+Make sure to configure cordova to use ios
+Run `cordova platform add ios`
 
 Run "ionic build \<PLATFORM\>" e.g.
 
