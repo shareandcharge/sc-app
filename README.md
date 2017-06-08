@@ -2,18 +2,20 @@
 native-app for share&amp;charge
 
 ## installation/building
-Make sure you have `npm` installed.
 
-Run `npm install`.
+Make sure you have a full-installation of xcode, as well as android studio, the android sdk as well as java jre and sdk
 
-Copy `/src/config.config.ts.dist` to `/src/config.config.ts` and fill the values.
-
-Make sure to configure cordova to use ios
-Run `cordova platform add ios`
-
-Run "ionic build \<PLATFORM\>" e.g.
-
-`ionic build ios`
+  1.) brew install node@6
+  2.) brew link node@6 --force
+  3.) npm install -g npm@latest-3
+  4.) npm install -g ionic@2 cordova@6
+  5.) npm install -g ios-deploy
+  6.) npm install -g ios-sim
+  7.) npm install
+  8.) ionic build
+  9.) ionic state restore
+  10.) Copy `/src/config/config.ts.dist` to `/src/config/config.ts` and fill the values.
+  11.) Run "ionic build \<PLATFORM\> [--prod] [--release]"
 
 ## releasing a new version
 
