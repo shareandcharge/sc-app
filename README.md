@@ -3,7 +3,8 @@ native-app for share&amp;charge
 
 ## installation/building
 
-Make sure you have a full-installation of xcode, as well as android studio, the android sdk as well as java jre and sdk
+Make sure you have a full-installation of xcode, as well as android studio, the android sdk as well as java jre and sdk.
+It is also required to have cocoapods installed and set up (sudo gem install cocoapods && pod setup)
 
   1.) brew install node@6
   2.) brew link node@6 --force
