@@ -99,7 +99,8 @@
   "common": {
     "confirmation": "Bestätigung",
     "cancel": "Abbrechen",
-    "close": "Schließen"
+    "close": "Schließen",
+    "ok": "Ok"
   },
   "app": {
     "cancel_app": "Möchten Sie die App beenden?",
@@ -132,6 +133,11 @@
     "labels": {
       "plugtype": "Steckertyp"
     }
+  },
+  "toast": {
+    "charging_finished": "Ladevorgang erfolgreich beendet.",
+    "detect_current_position": "Wir ermitteln Deinen Standort ...",
+    "wallet_transaction_successful": "Transaktion erfolgreich durchgeführt."
   },
   "error": {
     "title": "Es trat ein Fehler auf",

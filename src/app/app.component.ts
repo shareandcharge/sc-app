@@ -162,10 +162,13 @@ export class MyApp {
      * called when charging process is lapsed/run out (without the user hitting the stop button)
      */
     chargingLapsed() {
+        let messageTrans = this.translateService.instant('toast.charging_finished');
+        let okTrans = this.translateService.instant('common.ok');
+
         let toast = this.toastCtrl.create({
-            message: 'Ladevorgang erfolgreich beendet',
+            message: messageTrans,
             showCloseButton: true,
-            closeButtonText: 'Ok',
+            closeButtonText: okTrans,
             position: 'top',
             dismissOnPageChange: false
         });

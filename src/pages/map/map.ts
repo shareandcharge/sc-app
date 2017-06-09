@@ -198,9 +198,10 @@ export class MapPage {
         if (this.currentLocationLoading) return;
 
         let timeout = 10000;
+        let messageTrans = this.translateService.instant("toast.detect_current_position");
 
         let toast = this.toastCtrl.create({
-            message: "Wir ermitteln Deinen Standort ...",
+            message: messageTrans,
             position: "top",
             dismissOnPageChange: true,
             duration: timeout,
