@@ -1,20 +1,34 @@
 # sc-app
+
 native-app for share&amp;charge
 
-## installation/building
+## preparation/development
 
-Make sure you have a full-installation of xcode, as well as android studio, the android sdk as well as java jre and sdk.
-It is also required to have cocoapods installed and set up (sudo gem install cocoapods && pod setup)
+Make sure you have the following applications installed:
 
-  1.) brew install node@6
-  2.) brew link node@6 --force
-  3.) npm install -g npm@latest-3
-  4.) npm install -g ionic@2 cordova@6
-  5.) npm install -g ios-deploy
-  6.) npm install -g ios-sim
-  7.) npm install
-  8.) ionic build
-  9.) ionic state restore
+  - homebrew
+  - full xcode & xcode CLI
+  - android studio, android sdk
+  - java jre & sdk (Version 8)
+  - cocoapods ('gem install cocoapods && pod setup')
+
+  
+!! Please be aware of that the existing scripts under ./bin are not handling any exceptions right now !!
+
+!! All scripts under ./bin/ have to be executed from the ROOT directory of this project !!
+
+  1.) Execute './bin/box-setup.sh'
+    (Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations)
+
+  2.) Before you can build, you have to execute './bin/prepare-build.sh'
+
+  3.) If you want to build, you can use './bin/build.sh'
+    The script requires two parameter. The first one defines the platform you want to build for (android, ios), 
+    the second the target (dev, prod) (Example: ./bin/build.sh android dev)
+
+
+//tbd
+
   10.) Copy `/src/config/config.ts.dist` to `/src/config/config.ts` and fill the values.
   11.) Run "ionic build \<PLATFORM\> [--prod] [--release]"
 
