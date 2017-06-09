@@ -23,7 +23,7 @@ export class MapFilterPage {
                     plug.toggled = this.toggledPlugs.length === 0 || this.toggledPlugs.indexOf(plug.id) !== -1;
                 })
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'))
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_plugtypes'))
     }
 
     skipSanitizer(svg) {

@@ -51,7 +51,7 @@ export class CarFormPage {
         this.configService.getPlugTypes().subscribe((plugTypes) => {
                 this.plugOptions = plugTypes;
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_plugtypes'));
         this.createErrorMessages();
 
         this.carForm = formBuilder.group({
@@ -167,7 +167,7 @@ export class CarFormPage {
                             this.refreshUser(); // needed !
                             me.navCtrl.parent.pop();
                         },
-                        error => this.errorService.displayErrorWithKey(error, 'Auto aktualisieren'));
+                        error => this.errorService.displayErrorWithKey(error, 'error.scope.update_car'));
             }
             else {
                 this.carService.createCar(this.car)
@@ -183,7 +183,7 @@ export class CarFormPage {
                             this.refreshUser(); // needed !
                             me.navCtrl.parent.pop();
                         },
-                        error => this.errorService.displayErrorWithKey(error, 'Auto anlegen')
+                        error => this.errorService.displayErrorWithKey(error, 'error.scope.create_car')
                     );
             }
         }

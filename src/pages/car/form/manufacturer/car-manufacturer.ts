@@ -21,7 +21,7 @@ export class CarManufacturerPage {
         this.carService.getManufacturers().subscribe((res) => {
                 this.manufacturers = res;
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_manufacturers'));
 
         this.car = navParams.get("car");
         this.mode = navParams.get("mode");

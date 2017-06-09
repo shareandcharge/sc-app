@@ -40,7 +40,7 @@ export class MyCarsPage {
         let observable = this.carService.getCars();
         observable.subscribe(
             cars => this.cars = cars,
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos')
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_cars')
         );
 
         return observable;
@@ -84,7 +84,7 @@ export class MyCarsPage {
                                     this.events.publish('cars:updated');
                                     this.events.publish('locations:updated');   // because the markers change depending on the car
                                 },
-                                error => this.errorService.displayErrorWithKey(error, 'Auto löschen')
+                                error => this.errorService.displayErrorWithKey(error, 'error.scope.delete_car')
                             )
                         ;
                     }
@@ -98,6 +98,6 @@ export class MyCarsPage {
     doRefresh(refresher) {
         this.getCars().subscribe(
             () => refresher.complete(),
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_cars'));
     }
 }

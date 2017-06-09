@@ -33,7 +33,7 @@ export class VoucherPage {
                     this.redeemError = true;
                 });
             } else {
-                this.errorService.displayErrorWithKey(error, 'Gutschein einlösen');
+                this.errorService.displayErrorWithKey(error, 'error.scope.redeem_voucher');
             }
         });
     }

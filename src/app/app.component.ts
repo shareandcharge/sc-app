@@ -154,7 +154,7 @@ export class MyApp {
             this.userService.updateUser(user).subscribe((updatedUser) => {
                     this.authService.setUser(updatedUser);
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Nutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
         }
     }
 

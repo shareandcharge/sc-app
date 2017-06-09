@@ -48,7 +48,7 @@ export class ForgotPasswordPage {
                 alert.present();
             },
             error => {
-                this.errorService.displayErrorWithKey(error, 'Passwort vergessen')
+                this.errorService.displayErrorWithKey(error, 'error.scope.reset_password')
             }
         );
     }

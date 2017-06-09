@@ -74,7 +74,7 @@ export class AddPermissionsPage {
                     alert.present();
                 }
             },
-            error => this.errorService.displayErrorWithKey(error, 'Benutzerabfrage')
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.user_exists')
         )
     }
 
@@ -102,7 +102,7 @@ export class AddPermissionsPage {
                     }
                 }
             },
-            error => this.errorService.displayErrorWithKey(error, 'Benutzerabfrage')
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.user_exists')
         )
     }
 

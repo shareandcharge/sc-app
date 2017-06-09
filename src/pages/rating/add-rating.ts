@@ -35,7 +35,7 @@ export class AddRatingPage {
         this.ratingService.createRating(this.location.id, this.rating)
             .subscribe(
                 () => this.ratingSubmitted(),
-                (error) => this.errorService.displayErrorWithKey(error, 'Rating erstellen'));
+                (error) => this.errorService.displayErrorWithKey(error, 'error.scope.create_rating'));
     }
 
     ratingSubmitted() {

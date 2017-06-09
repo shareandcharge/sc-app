@@ -79,9 +79,9 @@ export class ChargingService extends AbstractApiService {
                         this.locService.getLocation(res.location).subscribe((loc) => {
                                 this.location = loc;
                             },
-                            error => this.errorService.displayErrorWithKey(error, 'Get Location Error'));
+                            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_location'));
                     },
-                    error => this.errorService.displayErrorWithKey(error, 'Get Station Error'));
+                    error => this.errorService.displayErrorWithKey(error, 'error.scope.get_station'));
 
                 let remainingTime = Math.floor(connector.timeleft);
                 if (remainingTime > 0) {
@@ -93,7 +93,7 @@ export class ChargingService extends AbstractApiService {
                 }
 
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Connectors'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_connectors'));
     }
 
     getConnectors(userAddress: string) {
@@ -230,7 +230,7 @@ export class ChargingService extends AbstractApiService {
                 this.stopCharging()
                     .subscribe(
                         () => this.events.publish('charging:lapsed'),
-                        error => this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen')
+                        error => this.errorService.displayErrorWithKey(error, 'error.scope.stop_charging')
                     );
             }
             let chargedTime = this.chargingTime - this.timer;

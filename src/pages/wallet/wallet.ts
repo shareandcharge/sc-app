@@ -67,7 +67,7 @@ export class WalletPage {
                     this.startPollingPendingTransactions();
                 }
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - History'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_wallet_history'));
 
         return observable;
     }
@@ -77,7 +77,7 @@ export class WalletPage {
         observable.subscribe((balance) => {
                 this.currentBalance = balance;
             },
-            error => this.errorService.displayErrorWithKey(error, 'Abfrage Kontostand'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_wallet_balance'));
 
         return observable;
     }

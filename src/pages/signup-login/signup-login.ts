@@ -172,7 +172,7 @@ export class SignupLoginPage {
                     }
                 },
                 (error) => {
-                    this.errorService.displayErrorWithKey(error, 'Anmelden');
+                    this.errorService.displayErrorWithKey(error, 'error.scope.login');
                     loader.dismissAll();
                 });
         }
@@ -214,7 +214,7 @@ export class SignupLoginPage {
             },
             (error) => {
                 loader.dismissAll();
-                this.errorService.displayErrorWithKey(error, 'Registrierung')
+                this.errorService.displayErrorWithKey(error, 'error.scope.create_user')
             }
         );
 

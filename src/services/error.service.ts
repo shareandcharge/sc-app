@@ -10,9 +10,10 @@ export class ErrorService {
     }
 
     displayErrorWithKey(error?: any, subtitle?: string) {
-        let key = this.getMessage(error);
+        let messageTrans = this.translateService.instant(this.getMessage(error));
+        let subtitleTrans = this.translateService.instant(subtitle);
 
-        this.translateService.get(key).subscribe(value => this.displayError(value, subtitle));
+        this.displayError(messageTrans, subtitleTrans);
     }
 
     displayError(error: any, subtitle = 'Das tut uns leid') {

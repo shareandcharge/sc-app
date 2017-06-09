@@ -37,7 +37,7 @@ export class ChargingCompletePage {
         }).subscribe((response) => {
                 this.chargedPrice = response.min
             },
-            error => this.errorService.displayErrorWithKey(error, 'Preisabfrage')
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_price')
         );
     }
 

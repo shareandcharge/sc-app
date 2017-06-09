@@ -72,7 +72,7 @@ export class EditProfilePage {
                         this.events.publish('users:updated');
                         this.navCtrl.pop();
                     },
-                    error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+                    error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
         }
     }
 

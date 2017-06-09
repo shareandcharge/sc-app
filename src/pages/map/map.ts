@@ -138,7 +138,7 @@ export class MapPage {
 
             this.refreshLocations();
         }, (error) => {
-            this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos');
+            this.errorService.displayErrorWithKey(error, 'error.scope.get_cars');
             this.cars = null;
             this.activeCar = null;
         });
@@ -155,7 +155,7 @@ export class MapPage {
                 this.activeCar = car;
                 this.events.publish('cars:updated');
             },
-            error => this.errorService.displayErrorWithKey(error, 'Auto wechseln'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.set_active_car'));
 
 
         fab.close();
@@ -256,7 +256,7 @@ export class MapPage {
                     me.visibleLocations = locations;
                     this.viewType = viewType;
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Suche Stationen'));
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.search_location'));
         } else {
             this.viewType = viewType;
         }
@@ -320,7 +320,7 @@ export class MapPage {
                 }
                 this.updateLocationMarkers();
             },
-            error => this.errorService.displayErrorWithKey(error, 'Stationen laden'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_locations'));
     }
 
     showLocationDetails(location) {

@@ -203,7 +203,7 @@ export class ChargingPage {
                     this.chargingPricePerHour = response.min;
                 }
             },
-            error => this.errorService.displayErrorWithKey(error, 'Preis ermitteln'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_price'));
     }
 
     updatePriceInfoForSetTime() {
@@ -263,7 +263,7 @@ export class ChargingPage {
                     this.startCheckConnector();
                     this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Ladevorgang starten'));
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.start_charging'));
     }
 
     startCheckConnector() {
@@ -329,7 +329,7 @@ export class ChargingPage {
                 },
                 error => {
                     loader.dismiss();
-                    this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen')
+                    this.errorService.displayErrorWithKey(error, 'error.scope.stop_charging')
                 });
 
     }

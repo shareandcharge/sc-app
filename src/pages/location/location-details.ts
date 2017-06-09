@@ -181,11 +181,11 @@ export class LocationDetailPage {
                             this.plugTypes = plugTypes;
                             this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
                         },
-                        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+                        error => this.errorService.displayErrorWithKey(error, 'error.scope.get_plugtypes'));
                 }
             },
             (error) => {
-                this.errorService.displayErrorWithKey(error, 'Standortdetails');
+                this.errorService.displayErrorWithKey(error, 'error.scope.get_location');
                 this.dismiss();
             }
         );
@@ -212,7 +212,7 @@ export class LocationDetailPage {
                 this.includingVat = response.vat;
                 this.tariffType = response.type;
             },
-            error => this.errorService.displayErrorWithKey(error, 'Preisabfrage'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_price'));
     }
 
     getRatings() {
@@ -222,7 +222,7 @@ export class LocationDetailPage {
                 this.ratings = ratings;
                 this.averageRating = this.getAverageRating();
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Bewertungen')
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_ratings')
         );
     }
 

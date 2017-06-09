@@ -85,7 +85,7 @@ export class ProfileDataPage {
                     this.authService.setUser(this.user);
                     this.events.publish('users:updated');
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
     }
 
     editEmail() {
@@ -115,7 +115,7 @@ export class ProfileDataPage {
 
             alert.present();
         }, (error) => {
-            this.errorService.displayErrorWithKey(error, 'Bestätigungsmail senden')
+            this.errorService.displayErrorWithKey(error, 'error.scope.resend_verification_email')
         });
     }
 
@@ -156,7 +156,7 @@ export class ProfileDataPage {
                         this.navCtrl.parent.select(0);
                     });
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Profil löschen')
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.delete_user')
             )
         ;
     }

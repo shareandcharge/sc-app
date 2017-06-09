@@ -103,5 +103,45 @@
   "app": {
     "cancel_app": "Möchten Sie die App beenden?",
     "cancel_app_ok": "Ja, App beenden"
+  },
+  "error": {
+    "scope": {
+      "login": "Anmelden",
+      "get_user": "Benutzer laden",
+      "create_user": "Registrieren",
+      "update_user": "Benutzer aktualisieren",
+      "delete_user": "Profil löschen",
+      "get_cars": "Liste meiner Autos",
+      "update_car": "Auto aktualisieren",
+      "create_car": "Auto anlegen",
+      "delete_car": "Auto löschen",
+      "set_active_car": "Auto wechseln",
+      "get_plugtypes": "Liste der Steckertypen",
+      "get_manufacturers": "Hersteller laden",
+      "get_models": "Modelle laden",
+      "get_price": "Preis ermitteln",
+      "get_estimated_price": "Geschätzten Preis ermitteln",
+      "get_ratings": "Bewertungen laden",
+      "create_rating": "Bewertung speichern",
+      "start_charging": "Ladevorgang starten",
+      "stop_charging": "Ladevorgang stoppen",
+      "delete_location": "Ladestation löschen",
+      "get_location": "Station laden",
+      "get_locations": "Stationen laden",
+      "get_locations_user": "Liste meiner Ladestationen",
+      "get_station": "Station laden",
+      "create_location": "Ladestation hinzufügen",
+      "update_location": "Ladestation bearbeiten",
+      "search_location": "Ladestationen suchen",
+      "get_connectors": "Liste Ladepunkte",
+      "resend_verification_email": "Bestätigungsmail senden",
+      "reset_password": "Passwort vergessen",
+      "user_exists": "Benutzerabfrage",
+      "get_wallet_history": "Liste der Kontotransaktionen",
+      "get_wallet_balance": "Abfrage Kontostand",
+      "wallet_payin": "Konto aufladen",
+      "wallet_payout": "Auszahlen",
+      "redeem_voucher": "Gutschein einlösen"
+    }
   }
 }

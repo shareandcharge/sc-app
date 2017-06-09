@@ -42,7 +42,7 @@ export class MyStationsPage {
         this.locationService.getLocationsUser(userAddress).subscribe(locations => {
             this.stations = locations;
         },
-        error => this.errorService.displayErrorWithKey(error, 'Liste - Stationen des Benutzers'));
+        error => this.errorService.displayErrorWithKey(error, 'error.scope.get_locations_user'));
     }
 
     deleteStation(station, itemSliding: ItemSliding) {
@@ -64,7 +64,7 @@ export class MyStationsPage {
                             .finally(() => loader.dismissAll())
                             .subscribe(
                                 () => this.events.publish('locations:updated' , station),
-                                error => this.errorService.displayErrorWithKey(error, 'Station löschen')
+                                error => this.errorService.displayErrorWithKey(error, 'error.scope.delete_location')
                             )
                     }
                 }
@@ -96,7 +96,7 @@ export class MyStationsPage {
             });
             modal.present();
         },
-        error => this.errorService.displayErrorWithKey(error, 'Station laden'));
+        error => this.errorService.displayErrorWithKey(error, 'error.scope.get_location'));
     }
 
     doRefresh(refresher) {

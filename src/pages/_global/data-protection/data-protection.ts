@@ -54,7 +54,7 @@ export class DataProtectionPage {
                         this.authService.setUser(user);
                         this.events.publish('users:updated');
                     },
-                    error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+                    error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
 
         }
     }
