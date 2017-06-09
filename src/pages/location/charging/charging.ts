@@ -14,6 +14,7 @@ import {Station} from "../../../models/station";
 import {TrackerService} from "../../../services/tracker.service";
 import {InAppBrowser} from "ionic-native";
 import {ConfigService} from "../../../services/config.service";
+import {TranslateService} from "ng2-translate";
 
 @Component({
     selector: 'page-charging',
@@ -73,7 +74,7 @@ export class ChargingPage {
                 public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
                 private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
                 private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService,
-                private configService: ConfigService) {
+                private configService: ConfigService, private translateService: TranslateService) {
 
         this.location = navParams.get("location");
         //-- for now we use the first station
@@ -203,7 +204,7 @@ export class ChargingPage {
                     this.chargingPricePerHour = response.min;
                 }
             },
-            error => this.errorService.displayErrorWithKey(error, 'Preis ermitteln'));
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
     }
 
     updatePriceInfoForSetTime() {
@@ -246,7 +247,7 @@ export class ChargingPage {
 
     startCharging() {
         this.timer = (this.hours * 3600) + (this.minutes * 60);
-        let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestartet ..."});
+        let loader = this.loadingCtrl.create({content: this.translateService.instant('location.charging.begin_charging')});
         loader.present();
 
         this.chargingService.startCharging(this.connector, this.timer, this.activeCar.maxCharging, this.location)
@@ -263,7 +264,7 @@ export class ChargingPage {
                     this.startCheckConnector();
                     this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Ladevorgang starten'));
+                error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.start_charging')));
     }
 
     startCheckConnector() {
@@ -280,15 +281,15 @@ export class ChargingPage {
 
     stopCharging() {
         let alert = this.alertCtrl.create({
-            title: 'Ladevorgang stoppen',
-            message: 'Bist Du sicher, dass Du den Ladevorgang jetzt stoppen möchtest?',
+            title: this.translateService.instant('location.charging.stop_charging'),
+            message: this.translateService.instant('location.charging.stop_confirmation'),
             buttons: [
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel'
                 },
                 {
-                    text: 'Ja, jetzt stoppen',
+                    text: this.translateService.instant('location.charging.stop_yes'),
                     handler: () => {
                         alert.dismiss().then(() => this.doStopCharging());
                         return false;
@@ -303,7 +304,7 @@ export class ChargingPage {
         this.chargedTimeAtStop = this.chargingService.chargedTime();
         this.stopButtonClicked = true;
 
-        let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestoppt ..."});
+        let loader = this.loadingCtrl.create({content: this.translateService.instant('location.charging.end_charging')});
         loader.present();
 
         this.chargingService.stopCharging()
@@ -329,7 +330,7 @@ export class ChargingPage {
                 },
                 error => {
                     loader.dismiss();
-                    this.errorService.displayErrorWithKey(error, 'Ladevorgang stoppen')
+                    this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.stop_charging'))
                 });
 
     }

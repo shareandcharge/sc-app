@@ -74,8 +74,9 @@ export class MyApp {
                 this.events.publish('locations:updated');
             });
 
-            translateService.setDefaultLang("de");
-            translateService.use("de");
+            const userLang = navigator.language.split('-')[0]; // use navigator lang if available
+            translateService.setDefaultLang("en");
+            translateService.use(userLang);
 
             this.checkExistingToken();
 
@@ -154,7 +155,7 @@ export class MyApp {
             this.userService.updateUser(user).subscribe((updatedUser) => {
                     this.authService.setUser(updatedUser);
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Nutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, this.translateService.instant('_global.data_protection.refresh_user')));
         }
     }
 
@@ -163,9 +164,9 @@ export class MyApp {
      */
     chargingLapsed() {
         let toast = this.toastCtrl.create({
-            message: 'Ladevorgang erfolgreich beendet',
+            message: this.translateService.instant('app.loading_success'),
             showCloseButton: true,
-            closeButtonText: 'Ok',
+            closeButtonText: this.translateService.instant('common.ok'),
             position: 'top',
             dismissOnPageChange: false
         });

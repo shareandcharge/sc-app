@@ -5,6 +5,7 @@ import {Car} from "../../../models/car";
 import {CarWrapperPage} from "../car-wrapper";
 import {ErrorService} from "../../../services/error.service";
 import {TrackerService} from "../../../services/tracker.service";
+import {TranslateService} from "ng2-translate";
 
 
 @Component({
@@ -17,7 +18,8 @@ export class MyCarsPage {
 
     constructor(public navCtrl: NavController, private carService: CarService, public modalCtrl: ModalController,
                 private alertCtrl: AlertController, private loadingCtrl: LoadingController,
-                public events: Events, private errorService: ErrorService, private trackerService: TrackerService) {
+                public events: Events, private errorService: ErrorService, private trackerService: TrackerService, 
+                private translateService: TranslateService) {
         //-- if we add/edit a car (from the modal wrapper)
         this.events.subscribe('cars:updated', () => this.getCars());
     }
@@ -27,7 +29,7 @@ export class MyCarsPage {
             cars => {
                 let cnt = cars.length;
                 this.trackerService.track('Car list', {
-                    'Screen Name': 'Meine Elektroautos',
+                    'Screen Name': this.translateService.instant('my_cars.my_cars'),
                     'Car count': cnt,
                 });
 
@@ -40,7 +42,7 @@ export class MyCarsPage {
         let observable = this.carService.getCars();
         observable.subscribe(
             cars => this.cars = cars,
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos')
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('my_cars.list_my_cars'))
         );
 
         return observable;
@@ -64,18 +66,18 @@ export class MyCarsPage {
     deleteCar(car: Car, itemSliding: ItemSliding) {
 
         let alert = this.alertCtrl.create({
-            title: 'Löschen bestätigen',
-            message: 'Möchtest Du dieses Auto wirklich löschen?',
+            title: this.translateService.instant('my_cars.delete_confirm_title'),
+            message: this.translateService.instant('my_cars.delete_confirm_message'),
             buttons: [
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel',
                     handler: () => itemSliding.close()
                 },
                 {
-                    text: 'Ja, löschen',
+                    text: this.translateService.instant('my_cars.button_delete_text'),
                     handler: () => {
-                        let loader = this.loadingCtrl.create({content: "Lösche Auto ..."});
+                        let loader = this.loadingCtrl.create({content: this.translateService.instant('my_cars.button_delete_content')});
                         loader.present();
                         this.carService.deleteCar(car.id)
                             .finally(() => loader.dismissAll())
@@ -84,7 +86,7 @@ export class MyCarsPage {
                                     this.events.publish('cars:updated');
                                     this.events.publish('locations:updated');   // because the markers change depending on the car
                                 },
-                                error => this.errorService.displayErrorWithKey(error, 'Auto löschen')
+                                error => this.errorService.displayErrorWithKey(error, this.translateService.instant('my_cars.error_message_delete'))
                             )
                         ;
                     }
@@ -98,6 +100,6 @@ export class MyCarsPage {
     doRefresh(refresher) {
         this.getCars().subscribe(
             () => refresher.complete(),
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos'));
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('my_cars.list_my_cars')));
     }
 }

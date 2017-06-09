@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Ladevorgang</ion-title>
+        <ion-title>{{'location.charging.charging_session' | translate}}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="dismiss()">
                 <ion-icon name="close"></ion-icon>
@@ -34,7 +34,7 @@
                 <span class="vat" *ngIf="includingVat">(inkl. 19% MwSt.)</span>
             </ng-container>
             <ng-container *ngIf="chargingPricePerHour == 0">
-                Kostenlos
+                {{'location.charging.free' | translate}}
             </ng-container>
         </div>
     </div>
@@ -42,18 +42,18 @@
     <hr>
 
     <div text-center *ngIf="countingDown" class="big-header">{{chargingTimeHours}}</div>
-    <div ion-text text-center *ngIf="activeCar == null" color="danger">Du musst erst ein Elektroauto hinzufügen bevor Du
-        laden kannst.
+    <div ion-text text-center *ngIf="activeCar == null" color="danger">
+        {{'location.charging.add_car_first' | translate}}
     </div>
 
     <div text-center class="price-label" *ngIf="activeCar != null">
-        <span *ngIf="!countingDown"> Voraussichtlicher Preis: </span>
+        <span *ngIf="!countingDown"> {{'location.charging.estimated_price' | translate}} </span>
         <ng-container *ngIf="chargingPrice != 0">
             {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}} <br>
-            <span class="vat" *ngIf="includingVat">(inkl. 19% MwSt.)</span>
+            <span class="vat" *ngIf="includingVat">{{'location.charging.tax' | translate}}</span>
         </ng-container>
         <ng-container *ngIf="chargingPrice == 0">
-            Kostenlos
+            {{'location.charging.free' | translate}}
         </ng-container>
     </div>
 
@@ -64,7 +64,7 @@
 
     <div class="owner-wrapper">
         <p>
-            <strong>Betreiber:</strong>
+            <strong>{{'location.charging.operator' | translate}}</strong>
 
             <span *ngIf="location.ownerprofile.company">
                 <br>{{ location.ownerprofile.company }}
@@ -79,11 +79,11 @@
                 <br>{{ location.ownerprofile.postalCode }} {{ location.ownerprofile.city }}
             </span>
             <span *ngIf="location.ownerprofile.operatorVat && location.ownerprofile.operatorVatID">
-                <br>Steuernummer: {{ location.ownerprofile.operatorVatID }}
+                <br>{{'location.charging.tax_number' | translate}} {{ location.ownerprofile.operatorVatID }}
             </span>
         </p>
         <p>
-            Es gelten die <a (click)="openTerms()">AGBs</a> des Ladestationsbetreibers.
+            {{'location.charging.agb_1' | translate}}<a (click)="openTerms()">{{'location.charging.agb_2' | translate}}</a>{{'location.charging.agb_3' | translate}}
         </p>
     </div>
 
@@ -92,7 +92,7 @@
     <ion-toolbar color="light">
         <div text-center *ngIf="countingDown">
             <button ion-button round text-uppercase color="danger" (click)="stopCharging()" [disabled]="stopButtonDisabled">
-                Stop
+                {{'location.charging.stop' | translate}}
             </button>
         </div>
         <div text-center *ngIf="!countingDown">
@@ -100,10 +100,10 @@
             <ng-container *ngIf="station.connectors.length > 1">
                 <ion-list no-lines class="no-margin-bottom">
                     <ion-item>
-                        <ion-label>Ladepunkt:</ion-label>
+                        <ion-label>{{'location.charging.charging_point' | translate}}:</ion-label>
                         <ion-select
                                 [(ngModel)]="selectedConnectorId"
-                                cancelText="Abbrechen" okText="OK"
+                                cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
                                 (ngModelChange)="selectConnector()"
                         >
                             <ion-option

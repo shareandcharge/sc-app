@@ -27,10 +27,10 @@
                         <ion-segment color="primary" [(ngModel)]="action" [ngModelOptions]="{standalone: true}"
                                      (ngModelChange)="switchTabs()" padding>
                             <ion-segment-button value="signUp">
-                                Registrieren
+                                {{'login.register' | translate}}
                             </ion-segment-button>
                             <ion-segment-button value="login">
-                                Anmelden
+                                {{'login.login' | translate}}
                             </ion-segment-button>
                         </ion-segment>
                     </div>
@@ -40,7 +40,7 @@
                             <ion-input type="email"
                                        formControlName="email"
                                        [(ngModel)]="signUpLoginObject.email" name="email"
-                                       placeholder="E-Mail"></ion-input>
+                                       placeholder="{{'login.email' | translate}}"></ion-input>
                         </ion-item>
                     </div>
                     <div *ngIf="!signUpLoginForm.controls.email.valid && submitAttempt"
@@ -52,7 +52,7 @@
                             <ion-input type="password"
                                        formControlName="password"
                                        [(ngModel)]="signUpLoginObject.authentification.password" name="password"
-                                       placeholder="Passwort"></ion-input>
+                                       placeholder="{{'login.password' | translate}}"></ion-input>
                         </ion-item>
                     </div>
                     <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt"
@@ -66,7 +66,7 @@
                                 <ion-label>
                                     <a color="light" (click)="forgotPassword()">
                                         <ion-icon name="ios-help-circle"></ion-icon>
-                                        <span>Passwort vergessen?</span>
+                                        <span>{{'login.forgot_password' | translate}}?</span>
                                     </a>
                                 </ion-label>
                             </ion-item>
@@ -81,7 +81,7 @@
                                               [(ngModel)]="signUpLoginObject.profile.newsletter" name="newsletter">
                                 </ion-checkbox>
                                 <ion-label>
-                                    Informiert mich über Neuigkeiten.
+                                    {{'login.newsletter' | translate}}
                                 </ion-label>
                             </ion-item>
                             <ion-item text-wrap class="item-partial-cover-cb">
@@ -90,9 +90,9 @@
                                               [(ngModel)]="termsAccept" name="termsAccept">
                                 </ion-checkbox>
                                 <ion-label>
-                                    Ich stimme den <a ion-text="" color="light" (click)="openTerms()">Nutzungs-</a>
-                                    &amp; <a ion-text="" color="light" (click)="openDataProtection()">Datenschutzbedingungen</a>
-                                    zu.
+                                    {{'login.terms_1' | translate}}<a ion-text="" color="light" (click)="openTerms()">{{'login.terms_2' | translate}}</a>
+                                    {{'login.terms_3' | translate}}<a ion-text="" color="light" (click)="openDataProtection()">{{'login.terms_4' | translate}}</a>
+                                    {{'login.terms_5' | translate}}
                                 </ion-label>
                             </ion-item>
                         </ion-list>

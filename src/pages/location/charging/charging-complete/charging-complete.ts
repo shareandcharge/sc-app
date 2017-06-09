@@ -7,6 +7,7 @@ import {Connector} from "../../../../models/connector";
 import {Car} from "../../../../models/car";
 import {ErrorService} from "../../../../services/error.service";
 import {ChargingService} from "../../../../services/charging.service";
+import {TranslateService} from "ng2-translate";
 
 @Component({
     selector: 'page-charging-complete',
@@ -21,7 +22,7 @@ export class ChargingCompletePage {
     chargedPrice: any;
 
     constructor(private viewCtrl: ViewController, private carService: CarService, private locationService: LocationService,
-                private chargingService: ChargingService, private errorService: ErrorService) {
+                private chargingService: ChargingService, private errorService: ErrorService,private translateService: TranslateService) {
     }
 
     ionViewWillEnter() {
@@ -37,7 +38,7 @@ export class ChargingCompletePage {
         }).subscribe((response) => {
                 this.chargedPrice = response.min
             },
-            error => this.errorService.displayErrorWithKey(error, 'Preisabfrage')
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('query_price'))
         );
     }
 

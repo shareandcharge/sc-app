@@ -1,4 +1,17 @@
 {
+  "tabs": {
+    "map": "Karte",
+    "charging_stations": "Ladestationen",
+    "register": "Registrieren",
+    "info": "Info",
+    "profile": "Profil",
+    "account": "Konto"
+  },
+  "error": {
+    "title": "Es trat ein Fehler auf",
+    "subtitle": "Das tut uns leid",
+    "unknown": "Unbekannter Fehler"
+  },
   "api_error": {
     "authentification_invalid_token": "Bitte logge Dich neu ein.",
     "authentification_token_required": "Token fehlt.",
@@ -98,10 +111,194 @@
   },
   "common": {
     "confirmation": "Bestätigung",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "ok": "Ok",
+    "choose": "Bitte wählen ...",
+    "save": "Speichern",
+    "refresh": "Aktualisieren",
+    "help": "Hilfe",
+    "info": "Info"
   },
   "app": {
     "cancel_app": "Möchten Sie die App beenden?",
-    "cancel_app_ok": "Ja, App beenden"
+    "cancel_app_ok": "Ja, App beenden",
+    "loading_success": "Ladevorgang erfolgreich beendet"
+  },
+  "_global": {
+    "data_protection": {
+      "data_protection": "Datenschutzerklärung",
+      "paragraph_1": "Wir, Share&Charge, ein Dienst von Avanza GmbH, Opernplatz 1, 45129 Essen, Tel.: +49(0)201-8133108, E-Mail: info@shareandcharge.com („Avanza“) schätzen Ihr Interesse an unserer Plattform „Share&Charge“ und wissen, dass Ihnen Datenschutz wichtig ist.",
+      "paragraph_2": "Unsere vollständige Datenschutzerklärung finden Sie ",
+      "paragraph_2_here": "hier",
+      "paragraph_3": "Anonymisierte Session IDs erleichtern die Bereitstellung unserer Dienste. Mit der Nutzung unserer Dienste erklären Sie sich damit einverstanden, dass wir Ihnen pro Sitzung eine Session ID zuweisen.",
+      "paragraph_4": "Ich möchte nicht von Session ID profitieren & widerspreche der Zuordnung meiner Sitzung zu einer Session ID.",
+      "refresh_user": "Benutzer aktualisieren"
+    }
+  },
+  "about": {
+    "title": "Info",
+    "headline": "Was ist Share&Charge?",
+    "paragraph_1": "Share&Charge macht Ladeinfrastruktur für jedermann zugänglich und abrechenbar. Anmelden um Teil der Community zu werden.",
+    "start_intro": "Intro Starten"
+  },
+  "car": {
+    "form": {
+      "manufacturer": {
+        "title": "Hersteller wählen",
+        "error_subtitle": "Liste - Meine Autos"
+      },
+      "model": {
+        "title": "Modell wählen",
+        "error_subtitle": "Liste - Meine Autos"
+      },
+      "add_car": "Elektroauto hinzufügen",
+      "edit_car": "Elektroauto bearbeiten",
+      "plate": "Kennzeichen",
+      "preset": "Voreingestellt",
+      "custom": "Konfigurieren",
+      "manufacturer_and_model": "Hersteller & Modell",
+      "manufacturer_name": "Hersteller",
+      "model_name": "Modell",
+      "distance": "Reichweite (km)",
+      "max_charging": "Max. Ladeleistung (kW)",
+      "capacity": "Batteriekapazität (kWh)",
+      "plugtypes": "Steckertypen",
+      "plugtypes_copy": "Markiere alle Steckertypen, die dein Auto unterstützt.",
+      "error_subtitle": "Liste - Steckertypen",
+      "error_msgs": {
+            "plateNumber": "Bitte gib das Kennzeichen an.",
+            "accuCapacity": "Bitte gib die Batteriekapazität an.",
+            "manufacturer": "Bitte gib den Hersteller an.",
+            "model": "Bitte gib das Modell an.",
+            "plugTypes": "Bitte gib die Steckertypen an.",
+            "maxCharging": "Bitte gib die maximale Stromstärke an.",
+            "averageDistance": "Bitte gib die durchschnittliche Reichweite an."
+      },
+      "select_photo": "Bild auswählen",
+      "camera": "Kamera",
+      "media": "Mediathek",
+      "save_car": "Speichere Auto ...",
+      "refresh_car": "Auto aktualisieren",
+      "add_new_car": "Auto anlegen",
+      "message_platenumber": "z.B.: AA-BB 777",
+      "message_max_charging": "max. 200",
+      "message_accu_capacity": "max. 150",
+      "message_average_distance": "max. 1000, ganze Zahlen",
+      "info": "Info"
+    }
+  },
+  "my_cars": {
+    "my_cars": "Meine Elektroautos",
+    "list_my_cars": "Liste - Meine Autos",
+    "delete_confirm_title": "Löschen bestätigen",
+    "delete_confirm_message": "Möchtest Du dieses Auto wirklich löschen?",
+    "button_delete_text": "Ja, löschen",
+    "button_delete_content": "Lösche Auto ...",
+    "error_message_delete": "Auto löschen"
+  },
+  "help": {
+    "faq": "FAQ",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzerklärung",
+    "introduction": "Intro",
+    "contact": "Kontakt"
+  },
+  "intro": {
+    "welcome": "Herzlich Willkommen!",
+    "first_slide": "Als früher E-Mobilist kennst Du es bestimmt bereits: Einer muss immer der Erste sein! Und heute bist Du das! Wir freuen uns darauf, unsere Community gemeinsam mit Dir wachsen zu sehen.<br>Danke, dass Du dabei bist!<br><br>Dein Share&Charge Team",
+    "find_charging_station": "Ladestation finden",
+    "second_slide": "Suche auf unserer interaktiven Karte nach Ladestationen in Deiner Nähe. Mit Hilfe der Filter kannst Du spezifisch nach Deinen Suchkriterien filtern.",
+    "register_charging_station": "Ladestation registrieren",
+    "third_slide": "Du besitzt eine Ladestation? Registriere sie und entscheide, wer wann und zu welchem Tarif bei Dir laden kann.",
+    "account": "Konto",
+    "fourth_slide": "Dein Konto gibt Dir eine Übersicht über alle Deine Transaktionen. Lade Dein Konto ganz einfach auf, lass Dir Dein Guthaben auszahlen, oder verwende es zum Laden Deines eigenen Elektroautos.",
+    "skip": "Überspringen",
+    "finished": "Fertig",
+    "continue": "Weiter"
+  },
+  "location": {
+    "charging": {
+      "charging-complete": {
+        "charging_session": "Ladevorgang",
+        "query_price": "Preisabfrage"
+      },
+      "charging_session": "Ladevorgang",
+      "free": "Kostenlos",
+      "add_car_first": "Du musst erst ein Elektroauto hinzufügen bevor Du laden kannst.",
+      "estimated_price": "Voraussichtlicher Preis:",
+      "tax": "(inkl. 19% MwSt.)",
+      "operator": "Betreiber:",
+      "tax_number": "Steuernummer:",
+      "agb_1": "Es gelten die ",
+      "agb_2": "AGBs",
+      "agb_3": " des Ladestationsbetreibers.",
+      "stop": "Stop",
+      "charging_point": "Ladepunkt",
+      "find_price": "Preis ermitteln",
+      "begin_charging": "Ladevorgang wird gestartet ...",
+      "start_charging": "Ladevorgang starten",
+      "stop_charging": "Ladevorgang stoppen",
+      "stop_confirmation": "Bist Du sicher, dass Du den Ladevorgang jetzt stoppen möchtest?",
+      "stop_yes": "Ja, jetzt stoppen",
+      "end_charging": "Ladevorgang wird gestoppt ..."
+    },
+    "details_map": {
+      "loading_map": "Lade Karte ..."
+    },
+    "location_details": {
+      "error_no_station_details": "Nicht genügend Details für diese Station vorhanden.",
+      "list_plugins": "Liste - Steckertypen",
+      "location_details": "Standortdetails",
+      "query_price": "Preisabfrage",
+      "list_eval": "Liste - Bewertungen",
+      "select_app": "App auswählen",
+      "not_start_app": "App konnte nicht gestartet werden: ",
+      "message": "Sollte Dir hier kein exakter Preis, sondern eine Preisspanne angezeigt werden, dann liegt es daran, dass Du Deinem Profil noch kein Elektroauto hinzugefügt hast. Da die Batteriekapazität als Berechnungsgrundlage gilt, werden hier die Preise für verschiedene Batteriekapazitäten angezeigt."
+    }
+  },
+  "map": {
+    "filter": {
+      "list_plugins": "Liste - Steckertypen"
+    },
+    "settings": {
+      "view": "Ansicht",
+      "map_view": "Kartenansicht",
+      "list_view": "Listenansicht",
+      "map_type": "Kartentyp",
+      "street": "Straßenkarte",
+      "satellite": "Satellit",
+      "hybrid": "Hybrid",
+      "refresh": "Aktualisieren"
+    },
+    "list_cars": "Liste - Meine Autos",
+    "switch_car": "Auto wechseln",
+    "message_determine_location": "Wir ermitteln Deinen Standort ...",
+    "error_no_location": "Leider konnten Wir Deinen Standort nicht ermitteln. Bitte überprüfe ob Dein GPS-Signal angeschaltet ist und probiere es erneut.",
+    "search_location": "Suche Stationen",
+    "loading_map": "Lade Karte ...",
+    "load_station": "Stationen laden"
+  },
+  "login": {
+    "forgot_password": "Passwort vergessen",
+    "input_email": "Bitte gib Deine Email-Adresse ein:",
+    "email": "E-Mail",
+    "email_remind": "Bitte gib Deine E-Mail Adresse an.",
+    "send": "Absenden",
+    "message_sent_mail": "Wir haben Dir eine E-Mail geschickt, um Dein Passwort zurückzusetzen!",
+    "register": "Registrieren",
+    "login": "Anmelden",
+    "password": "Passwort",
+    "newsletter": "Informiert mich über Neuigkeiten.",
+    "terms_1": "Ich stimme den ",
+    "terms_2": "Nutzungs-",
+    "terms_3": "& ",
+    "terms_4": "Datenschutzbedingungen",
+    "terms_5": "zu.",
+    "password_complexity": "Bitte wähle ein sicheres Passwort: mit mindestens 10 Zeichen und keine 3 gleichen oder aufeinanderfolgenden Zeichen hintereinander (z. B. aaaa, 1234, abcd).",
+    "agb_agree": "Du musst den AGBs zustimmen.",
+    "login_now": "Melde an ...",
+    "registration": "Registrierung",
+    "password_7_chars": "Mindestens 7 Zeichen."
   }
 }

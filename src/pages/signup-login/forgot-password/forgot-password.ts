@@ -4,6 +4,7 @@ import {UserService} from "../../../services/user.service";
 import {ErrorService} from "../../../services/error.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {emailValidator} from "../../../validators/emailValidator";
+import {TranslateService} from "ng2-translate";
 
 @Component({
     selector: 'forgot-password',
@@ -14,7 +15,7 @@ export class ForgotPasswordPage {
     forgotForm: any;
     submitAttempt: boolean = false;
 
-    constructor(private viewCtrl: ViewController, private userService: UserService, private errorService: ErrorService, private formBuilder: FormBuilder, private alertCtrl: AlertController) {
+    constructor(private viewCtrl: ViewController, private userService: UserService, private errorService: ErrorService, private formBuilder: FormBuilder, private alertCtrl: AlertController, private translateService: TranslateService) {
         this.forgotForm = formBuilder.group({
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])]
         });
@@ -35,10 +36,10 @@ export class ForgotPasswordPage {
         this.userService.resetPassword(resetObject).subscribe(
             () => {
                 let alert = this.alertCtrl.create({
-                    title: 'Passwort vergessen',
-                    message: 'Wir haben Dir eine E-Mail geschickt, um Dein Passwort zurückzusetzen!',
+                    title: this.translateService.instant('login.forgot_password'),
+                    message: this.translateService.instant('login.message_sent_mail'),
                     buttons: [{
-                        text: 'OK',
+                        text: this.translateService.instant('common.ok'),
                         handler: () => {
                             me.dismiss();
                         }
@@ -48,7 +49,7 @@ export class ForgotPasswordPage {
                 alert.present();
             },
             error => {
-                this.errorService.displayErrorWithKey(error, 'Passwort vergessen')
+                this.errorService.displayErrorWithKey(error, this.translateService.instant('login.forgot_password'))
             }
         );
     }

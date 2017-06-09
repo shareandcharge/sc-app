@@ -19,6 +19,7 @@ import {ChargingService} from '../../services/charging.service';
 import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
 import * as MarkerClusterer from 'node-js-marker-clusterer';
+import {TranslateService} from "ng2-translate";
 
 declare var google: any;
 declare var cordova: any;
@@ -78,7 +79,7 @@ export class MapPage {
                 public carService: CarService, platform: Platform, public navCtrl: NavController,
                 private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events,
                 private chargingService: ChargingService, private zone: NgZone, private errorService: ErrorService,
-                private toastCtrl: ToastController) {
+                private toastCtrl: ToastController, private translateService: TranslateService) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -138,7 +139,7 @@ export class MapPage {
 
             this.refreshLocations();
         }, (error) => {
-            this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos');
+            this.errorService.displayErrorWithKey(error, this.translateService.instant('map.list_cars'));
             this.cars = null;
             this.activeCar = null;
         });
@@ -155,7 +156,7 @@ export class MapPage {
                 this.activeCar = car;
                 this.events.publish('cars:updated');
             },
-            error => this.errorService.displayErrorWithKey(error, 'Auto wechseln'));
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('map.switch_car')));
 
 
         fab.close();
@@ -199,7 +200,7 @@ export class MapPage {
         let timeout = 10000;
 
         let toast = this.toastCtrl.create({
-            message: "Wir ermitteln Deinen Standort ...",
+            message: this.translateService.instant('map.message_determine_location'),
             position: "top",
             dismissOnPageChange: true,
             duration: timeout,
@@ -227,8 +228,7 @@ export class MapPage {
             toast.dismiss();
         }, (err) => {
             toast.dismiss();
-            this.errorService.displayError('Leider konnten Wir Deinen Standort nicht ermitteln. ' +
-                'Bitte überprüfe ob Dein GPS-Signal angeschaltet ist und probiere es erneut.');
+            this.errorService.displayError(this.translateService.instant('map.error_no_location'));
 
             this.currentLocationLoading = false;
         });
@@ -256,7 +256,7 @@ export class MapPage {
                     me.visibleLocations = locations;
                     this.viewType = viewType;
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Suche Stationen'));
+                error => this.errorService.displayErrorWithKey(error, this.translateService.instant('map.search_location')));
         } else {
             this.viewType = viewType;
         }
@@ -268,7 +268,7 @@ export class MapPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
-            content: "Lade Karte ...",
+            content: this.translateService.instant('map.loading_map')
         });
         loader.present();
 
@@ -320,7 +320,7 @@ export class MapPage {
                 }
                 this.updateLocationMarkers();
             },
-            error => this.errorService.displayErrorWithKey(error, 'Stationen laden'));
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('map.load_station')));
     }
 
     showLocationDetails(location) {

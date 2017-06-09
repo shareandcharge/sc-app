@@ -15,6 +15,7 @@ import {User} from "../../models/user";
 import {ConfigService} from "../../services/config.service";
 import {InAppBrowser} from "ionic-native";
 import {DataProtectionPage} from "../_global/data-protection/data-protection";
+import {TranslateService} from "ng2-translate";
 
 @Component({
     selector: 'page-signup',
@@ -36,14 +37,14 @@ export class SignupLoginPage {
     destination: string;
     mode: string;
     buttonText = {
-        'signUp': 'Registrieren',
-        'login': 'Anmelden'
+        'signUp': this.translateService.instant('login.register'),
+        'login': this.translateService.instant('login.login')
     };
 
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
                 private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
                 public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
-                private errorService: ErrorService, private trackerService: TrackerService, private configService: ConfigService) {
+                private errorService: ErrorService, private trackerService: TrackerService, private configService: ConfigService, private translateService: TranslateService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'login';
@@ -78,9 +79,9 @@ export class SignupLoginPage {
 
     createErrorMessages() {
         this.errorMessages = {
-            "email": 'Bitte gib Deine E-Mail Adresse an.',
-            "password": 'Bitte wähle ein sicheres Passwort: mit mindestens 10 Zeichen und keine 3 gleichen oder aufeinanderfolgenden Zeichen hintereinander (z. B. aaaa, 1234, abcd).',
-            "terms": 'Du musst den AGBs zustimmen.'
+            "email": this.translateService.instant('login.email_remind'),
+            "password": this.translateService.instant('login.password_complexity'),
+            "terms": this.translateService.instant('login.agb_agree')
         }
     }
 
@@ -136,7 +137,7 @@ export class SignupLoginPage {
 
         if (this.signUpLoginForm.valid) {
             let loader = this.loadingCtrl.create({
-                content: "Anmelden ...",
+                content: this.translateService.instant('login.login') + "...",
             });
             loader.present();
 
@@ -172,7 +173,7 @@ export class SignupLoginPage {
                     }
                 },
                 (error) => {
-                    this.errorService.displayErrorWithKey(error, 'Anmelden');
+                    this.errorService.displayErrorWithKey(error, this.translateService.instant('login.login'));
                     loader.dismissAll();
                 });
         }
@@ -187,7 +188,7 @@ export class SignupLoginPage {
         }
 
         let loader = this.loadingCtrl.create({
-            content: "Melde an ...",
+            content: this.translateService.instant('login.login_now'),
         });
         loader.present();
 
@@ -214,7 +215,7 @@ export class SignupLoginPage {
             },
             (error) => {
                 loader.dismissAll();
-                this.errorService.displayErrorWithKey(error, 'Registrierung')
+                this.errorService.displayErrorWithKey(error, this.translateService.instant('login.registration'))
             }
         );
 
@@ -225,15 +226,15 @@ export class SignupLoginPage {
 
         switch (field) {
             case 'password':
-                message = "Mindestens 7 Zeichen.";
+                message = this.translateService.instant('login.password_7_chars');
                 break;
         }
 
         if (message != "") {
             let alert = this.alertCtrl.create({
-                title: 'Info',
+                title: this.translateService.instant('common.info'),
                 message: message,
-                buttons: ['Ok']
+                buttons: [this.translateService.instant('common.ok')]
             });
             alert.present();
         }
