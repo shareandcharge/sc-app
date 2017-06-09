@@ -14,6 +14,7 @@ import {Station} from "../../../models/station";
 import {TrackerService} from "../../../services/tracker.service";
 import {InAppBrowser} from "ionic-native";
 import {ConfigService} from "../../../services/config.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-charging',
@@ -73,7 +74,7 @@ export class ChargingPage {
                 public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
                 private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
                 private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService,
-                private configService: ConfigService) {
+                private configService: ConfigService, private translateService: TranslateService) {
 
         this.location = navParams.get("location");
         //-- for now we use the first station
@@ -246,7 +247,7 @@ export class ChargingPage {
 
     startCharging() {
         this.timer = (this.hours * 3600) + (this.minutes * 60);
-        let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestartet ..."});
+        let loader = this.loadingCtrl.create({content: this.translateService.instant('loading.start_charging')});
         loader.present();
 
         this.chargingService.startCharging(this.connector, this.timer, this.activeCar.maxCharging, this.location)
@@ -303,7 +304,7 @@ export class ChargingPage {
         this.chargedTimeAtStop = this.chargingService.chargedTime();
         this.stopButtonClicked = true;
 
-        let loader = this.loadingCtrl.create({content: "Ladevorgang wird gestoppt ..."});
+        let loader = this.loadingCtrl.create({content: this.translateService.instant('loading.stop_charging')});
         loader.present();
 
         this.chargingService.stopCharging()

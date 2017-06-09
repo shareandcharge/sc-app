@@ -139,6 +139,17 @@
     "detect_current_position": "Wir ermitteln Deinen Standort ...",
     "wallet_transaction_successful": "Transaktion erfolgreich durchgeführt."
   },
+  "loading": {
+    "save_car": "Speichere Auto ...",
+    "delete_car": "Lösche Auto ...",
+    "delete_user": "Lösche Profil ...",
+    "delete_station": "Lösche Ladestation ...",
+    "start_charging": "Ladevorgang wird gestartet ...",
+    "stop_charging": "Ladevorgang wird gestoppt ...",
+    "load_map": "Lade Karte ...",
+    "login": "Anmelden ...",
+    "signup": "Registrieren ..."
+  },
   "error": {
     "title": "Es trat ein Fehler auf",
     "default_subtitle": "Das tut uns leid",

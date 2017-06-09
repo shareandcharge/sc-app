@@ -11,6 +11,7 @@ import {EditEmailPage} from "./edit-email/edit-email";
 import {EditProfilePage} from "./edit-profile/edit-profile";
 import {ErrorService} from "../../../services/error.service";
 import {EditPasswordPage} from "./edit-password/edit-password";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ProfileDataPage {
     constructor(private navCtrl: NavController, private actionSheetCtrl: ActionSheetController,
                 private authService: AuthService, private userService: UserService, private platform: Platform,
                 private events: Events, private errorService: ErrorService, private alertCtrl: AlertController,
-                private loadingCtrl: LoadingController) {
+                private loadingCtrl: LoadingController, private translateService: TranslateService) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 
@@ -144,7 +145,7 @@ export class ProfileDataPage {
     doDeleteAccount(alert: Alert) {
         let navTransition = alert.dismiss();
 
-        let loader = this.loadingCtrl.create({content: "Lösche Profil ..."});
+        let loader = this.loadingCtrl.create({content: this.translateService.instant('loading.delete_user')});
         loader.present();
 
         this.userService.deleteUser()

@@ -5,6 +5,7 @@ import {Car} from "../../../models/car";
 import {CarWrapperPage} from "../car-wrapper";
 import {ErrorService} from "../../../services/error.service";
 import {TrackerService} from "../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -17,7 +18,8 @@ export class MyCarsPage {
 
     constructor(public navCtrl: NavController, private carService: CarService, public modalCtrl: ModalController,
                 private alertCtrl: AlertController, private loadingCtrl: LoadingController,
-                public events: Events, private errorService: ErrorService, private trackerService: TrackerService) {
+                public events: Events, private errorService: ErrorService, private trackerService: TrackerService,
+                private translateService: TranslateService) {
         //-- if we add/edit a car (from the modal wrapper)
         this.events.subscribe('cars:updated', () => this.getCars());
     }
@@ -75,7 +77,7 @@ export class MyCarsPage {
                 {
                     text: 'Ja, löschen',
                     handler: () => {
-                        let loader = this.loadingCtrl.create({content: "Lösche Auto ..."});
+                        let loader = this.loadingCtrl.create({content: this.translateService.instant('loading.delete_car')});
                         loader.present();
                         this.carService.deleteCar(car.id)
                             .finally(() => loader.dismissAll())

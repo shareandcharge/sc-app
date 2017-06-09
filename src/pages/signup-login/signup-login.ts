@@ -15,6 +15,7 @@ import {User} from "../../models/user";
 import {ConfigService} from "../../services/config.service";
 import {InAppBrowser} from "ionic-native";
 import {DataProtectionPage} from "../_global/data-protection/data-protection";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-signup',
@@ -43,7 +44,8 @@ export class SignupLoginPage {
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
                 private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
                 public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
-                private errorService: ErrorService, private trackerService: TrackerService, private configService: ConfigService) {
+                private errorService: ErrorService, private trackerService: TrackerService,
+                private configService: ConfigService, private translateService: TranslateService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'login';
@@ -136,7 +138,7 @@ export class SignupLoginPage {
 
         if (this.signUpLoginForm.valid) {
             let loader = this.loadingCtrl.create({
-                content: "Anmelden ...",
+                content: this.translateService.instant('loading.login'),
             });
             loader.present();
 
@@ -187,7 +189,7 @@ export class SignupLoginPage {
         }
 
         let loader = this.loadingCtrl.create({
-            content: "Melde an ...",
+            content: this.translateService.instant('loading.signup'),
         });
         loader.present();
 

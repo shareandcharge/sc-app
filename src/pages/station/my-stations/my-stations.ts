@@ -13,6 +13,7 @@ import {AuthService} from "../../../services/auth.service";
 import {StationWrapperPage} from "../station-wrapper";
 import {ErrorService} from "../../../services/error.service";
 import {Location} from "../../../models/location";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-my-stations',
@@ -27,7 +28,7 @@ export class MyStationsPage {
     constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService,
                 private loadingCtrl: LoadingController, private alertCtrl: AlertController,
                 public locationService: LocationService, public modalCtrl: ModalController,
-                private events: Events, private errorService: ErrorService) {
+                private events: Events, private errorService: ErrorService, private translateService: TranslateService) {
         this.events.subscribe('locations:updated', () => this.loadStations());
     }
     
@@ -58,7 +59,9 @@ export class MyStationsPage {
                 {
                     text: 'Ja, löschen',
                     handler: () => {
-                        let loader = this.loadingCtrl.create({content: "Lösche Station ..."});
+                        let loader = this.loadingCtrl.create({
+                            content: this.translateService.instant('loading.delete_station')
+                        });
                         loader.present();
                         this.locationService.deleteLocation(station.id)
                             .finally(() => loader.dismissAll())

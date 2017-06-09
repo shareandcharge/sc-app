@@ -20,6 +20,7 @@ import {accuCapacityValidator} from '../../../validators/accuCapacityValidator';
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
 import {TrackerService} from "../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -43,7 +44,8 @@ export class CarFormPage {
                 public formBuilder: FormBuilder, private alertCtrl: AlertController, public navCtrl: NavController,
                 private actionSheetCtrl: ActionSheetController, private navParams: NavParams,
                 private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController,
-                public events: Events, private errorService: ErrorService, private trackerService: TrackerService) {
+                public events: Events, private errorService: ErrorService, private trackerService: TrackerService,
+                private translateService: TranslateService) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -148,7 +150,7 @@ export class CarFormPage {
         this.segmentTabs = 'custom';
 
         if (this.carForm.valid) {
-            let loader = this.loadingCtrl.create({content: "Speichere Auto ..."});
+            let loader = this.loadingCtrl.create({content: this.translateService.instant('loading.save_car')});
             loader.present();
 
             let me = this;
