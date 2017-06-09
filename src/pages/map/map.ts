@@ -19,6 +19,7 @@ import {ChargingService} from '../../services/charging.service';
 import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
 import * as MarkerClusterer from 'node-js-marker-clusterer';
+import {TranslateService} from "@ngx-translate/core";
 
 declare var google: any;
 declare var cordova: any;
@@ -78,7 +79,7 @@ export class MapPage {
                 public carService: CarService, platform: Platform, public navCtrl: NavController,
                 private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events,
                 private chargingService: ChargingService, private zone: NgZone, private errorService: ErrorService,
-                private toastCtrl: ToastController) {
+                private toastCtrl: ToastController, private translateService: TranslateService) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -227,8 +228,7 @@ export class MapPage {
             toast.dismiss();
         }, (err) => {
             toast.dismiss();
-            this.errorService.displayError('Leider konnten Wir Deinen Standort nicht ermitteln. ' +
-                'Bitte überprüfe ob Dein GPS-Signal angeschaltet ist und probiere es erneut.');
+            this.errorService.displayErrorWithKey('map.no_current_position');
 
             this.currentLocationLoading = false;
         });
@@ -292,6 +292,7 @@ export class MapPage {
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
             // add event listener to all a-tags of the map and use inAppBrowser to open them
             let aTags = me.mapElement.nativeElement.getElementsByTagName('A');
+            let closeTrans = me.translateService.instant('common.close');
 
             for (let aTag of aTags) {
                 if (aTag.href === '') {
@@ -300,7 +301,7 @@ export class MapPage {
 
                 aTag.addEventListener('click', (event) => {
                     event.preventDefault();
-                    new InAppBrowser(aTag.href, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=yes');
+                    new InAppBrowser(aTag.href, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+closeTrans+',toolbar=yes,location=yes');
                     return false;
                 });
             }

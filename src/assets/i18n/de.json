@@ -98,13 +98,45 @@
   },
   "common": {
     "confirmation": "Bestätigung",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "close": "Schließen"
   },
   "app": {
     "cancel_app": "Möchten Sie die App beenden?",
     "cancel_app_ok": "Ja, App beenden"
   },
+  "map": {
+    "title": "Karte",
+    "search_placeholder": "Adresse suchen",
+    "no_current_position": "Leider konnten Wir Deinen Standort nicht ermitteln. Bitte überprüfe ob Dein GPS-Signal angeschaltet ist und probiere es erneut.",
+    "settings": {
+      "view": {
+        "header": "Ansicht",
+        "map": "Kartenansicht",
+        "list": "Listenansicht"
+      },
+      "type": {
+        "header": "Kartentyp",
+        "street": "Straßenkarte",
+        "satellite": "Satellit",
+        "hybrid": "Hybrid"
+      },
+      "refresh": "Aktualisieren"
+    }
+
+  },
+  "map_filter": {
+    "title": "Filter"
+  },
+  "connector": {
+    "labels": {
+      "plugtype": "Steckertyp"
+    }
+  },
   "error": {
+    "title": "Es trat ein Fehler auf",
+    "default_subtitle": "Das tut uns leid",
+    "unknown": "Unbekannter Fehler",
     "scope": {
       "login": "Anmelden",
       "get_user": "Benutzer laden",

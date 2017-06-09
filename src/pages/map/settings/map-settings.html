@@ -2,37 +2,37 @@
     <div class="container">
         <ion-list radio-group>
             <ion-list-header>
-                Ansicht
+                {{'map.settings.view.header'|translate}}
             </ion-list-header>
             <ion-item>
-                <ion-label>Kartenansicht</ion-label>
+                <ion-label>{{'map.settings.view.map'|translate}}</ion-label>
                 <ion-radio value="mapView" [checked]="getViewType()=='map'" (click)="setView('map')"></ion-radio>
             </ion-item>
             <ion-item>
-                <ion-label>Listenansicht</ion-label>
+                <ion-label>{{'map.settings.view.list'|translate}}</ion-label>
                 <ion-radio value="listView" [checked]="getViewType()=='list'" (click)="setView('list')"></ion-radio>
             </ion-item>
         </ion-list>
         <ion-list radio-group [(ngModel)]="currentMapType">
             <ion-list-header>
-                Kartentyp
+                {{'map.settings.type.header'|translate}}
             </ion-list-header>
             <ion-item>
-                <ion-label>Straßenkarte</ion-label>
+                <ion-label>{{'map.settings.type.street'|translate}}</ion-label>
                 <ion-radio [value]="MAP_TYPE_ROADMAP" (click)="setMapView(MAP_TYPE_ROADMAP)"></ion-radio>
             </ion-item>
             <ion-item>
-                <ion-label>Satellit</ion-label>
+                <ion-label>{{'map.settings.type.satellite'|translate}}</ion-label>
                 <ion-radio [value]="MAP_TYPE_SATELLITE" (click)="setMapView(MAP_TYPE_SATELLITE)"></ion-radio>
             </ion-item>
             <ion-item>
-                <ion-label>Hybrid</ion-label>
+                <ion-label>{{'map.settings.type.hybrid'|translate}}</ion-label>
                 <ion-radio [value]="MAP_TYPE_HYBRID" (click)="setMapView(MAP_TYPE_HYBRID)"></ion-radio>
             </ion-item>
         </ion-list>
         <ion-list class="no-margin-bottom">
             <button ion-item (click)="refreshMarkers()" detail-none>
-                Aktualisieren
+                {{'map.settings.refresh'|translate}}
             </button>
         </ion-list>
         <div class="version">v{{appVersion}}</div>

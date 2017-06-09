@@ -11,19 +11,21 @@ export class ErrorService {
 
     displayErrorWithKey(error?: any, subtitle?: string) {
         let messageTrans = this.translateService.instant(this.getMessage(error));
-        let subtitleTrans = this.translateService.instant(subtitle);
+        let subtitleTrans = typeof subtitle !== 'undefined' ? this.translateService.instant(subtitle) : subtitle;
 
         this.displayError(messageTrans, subtitleTrans);
     }
 
-    displayError(error: any, subtitle = 'Das tut uns leid') {
+    displayError(error: any, subtitle?: string) {
         let message = this.getMessage(error);
-
+        if (typeof subtitle === 'undefined') {
+            subtitle = this.translateService.instant('error.default_subtitle');
+        }
         let alert = this.alertCtrl.create({
-            title: 'Es trat ein Fehler auf',
+            title: this.translateService.instant('error.title'),
             subTitle: subtitle,
             message: message,
-            buttons: ['Schließen']
+            buttons: [this.translateService.instant('common.close')]
         });
 
         alert.present();
@@ -31,7 +33,7 @@ export class ErrorService {
 
     getMessage(error?: Response | any): string {
         let errMsg: string;
-        error = error || 'Unbekannter Fehler';
+        error = error || this.translateService.instant('error.unknown');
 
         if (error instanceof Response) {
             let body;
