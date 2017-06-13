@@ -5,6 +5,7 @@ import {Location} from "../../../models/location";
 import {Connector} from "../../../models/connector";
 import {TariffConfirmationPage} from "./tariff-confirmation/tariff-confirmation";
 import {TrackerService} from "../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -27,7 +28,8 @@ export class SetTariffPage {
     estimatedPrice: any;
 
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController,
-                private navParams: NavParams, private events: Events, private trackerService: TrackerService) {
+                private navParams: NavParams, private events: Events, private trackerService: TrackerService,
+                private translateService: TranslateService) {
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
         this.priceprovider = this.connector.priceprovider;
@@ -35,10 +37,10 @@ export class SetTariffPage {
         this.flowMode = this.navParams.get("mode");
 
         if (this.flowMode == 'add') {
-            this.buttonText = "Veröffentlichen";
+            this.buttonText = this.translateService.instant('station.add');
         }
         else {
-            this.buttonText = "Änderungen speichern";
+            this.buttonText = this.translateService.instant('station.save_changes');
         }
 
         if (this.connector.metadata.accessControl) {
@@ -85,20 +87,20 @@ export class SetTariffPage {
 
         switch (type) {
             case "flatrate":
-                message = "Pauschaler Betrag für eine maximale Ladedauer von 4 Stunden.";
+                message = this.translateService.instant('station.flatrate_message');
                 break;
             case "hourly":
-                message = "Hier trägst Du die Energiekosten ein, die Du an Deinen Energieversorger bezahlst.";
+                message = this.translateService.instant('station.hourly_message');
                 break;
             case "parking":
-                message = "Hier trägst Du die Kosten ein, die Lader an Dich für die Nutzung deines Parkplatzes zahlen sollen.";
+                message = this.translateService.instant('station.parking_message');
                 break;
         }
 
         let alert = this.alertCtrl.create({
             title: 'Info',
             message: message,
-            buttons: ['Ok']
+            buttons: [this.translateService.instant('common.ok')]
         });
         alert.present();
     }
@@ -140,9 +142,9 @@ export class SetTariffPage {
 
     showSetTariffAlert() {
         let alert = this.alertCtrl.create({
-            title: 'Bitte wähle eine Tarifoption',
-            subTitle: 'Es muss mindestens ein Tarifoption ausgewählt sein.',
-            buttons: ['Ok']
+            title: this.translateService.instant('station.choose_tarif'),
+            subTitle: this.translateService.instant('station.choose_tarif_notice'),
+            buttons: [this.translateService.instant('common.ok')]
         });
         alert.present();
     }
