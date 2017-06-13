@@ -4,7 +4,7 @@ import {UserService} from "../../../services/user.service";
 import {ErrorService} from "../../../services/error.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {emailValidator} from "../../../validators/emailValidator";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'forgot-password',

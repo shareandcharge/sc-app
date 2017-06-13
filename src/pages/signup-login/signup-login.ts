@@ -15,11 +15,7 @@ import {User} from "../../models/user";
 import {ConfigService} from "../../services/config.service";
 import {InAppBrowser} from "ionic-native";
 import {DataProtectionPage} from "../_global/data-protection/data-protection";
-<<<<<<< HEAD
-import {TranslateService} from "ng2-translate";
-=======
 import {TranslateService} from "@ngx-translate/core";
->>>>>>> feature/SC-341
 
 @Component({
     selector: 'page-signup',
@@ -141,11 +137,7 @@ export class SignupLoginPage {
 
         if (this.signUpLoginForm.valid) {
             let loader = this.loadingCtrl.create({
-<<<<<<< HEAD
                 content: this.translateService.instant('login.login') + "...",
-=======
-                content: this.translateService.instant('loading.login'),
->>>>>>> feature/SC-341
             });
             loader.present();
 
@@ -181,11 +173,7 @@ export class SignupLoginPage {
                     }
                 },
                 (error) => {
-<<<<<<< HEAD
                     this.errorService.displayErrorWithKey(error, this.translateService.instant('login.login'));
-=======
-                    this.errorService.displayErrorWithKey(error, 'error.scope.login');
->>>>>>> feature/SC-341
                     loader.dismissAll();
                 });
         }
@@ -200,11 +188,7 @@ export class SignupLoginPage {
         }
 
         let loader = this.loadingCtrl.create({
-<<<<<<< HEAD
             content: this.translateService.instant('login.login_now'),
-=======
-            content: this.translateService.instant('loading.signup'),
->>>>>>> feature/SC-341
         });
         loader.present();
 
@@ -231,11 +215,7 @@ export class SignupLoginPage {
             },
             (error) => {
                 loader.dismissAll();
-<<<<<<< HEAD
                 this.errorService.displayErrorWithKey(error, this.translateService.instant('login.registration'))
-=======
-                this.errorService.displayErrorWithKey(error, 'error.scope.create_user')
->>>>>>> feature/SC-341
             }
         );
 

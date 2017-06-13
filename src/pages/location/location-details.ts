@@ -21,7 +21,7 @@ import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
 import {ChargingCompletePage} from './charging/charging-complete/charging-complete'
 import {TrackerService} from "../../services/tracker.service";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({

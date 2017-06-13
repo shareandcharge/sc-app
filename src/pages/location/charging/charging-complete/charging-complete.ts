@@ -7,7 +7,7 @@ import {Connector} from "../../../../models/connector";
 import {Car} from "../../../../models/car";
 import {ErrorService} from "../../../../services/error.service";
 import {ChargingService} from "../../../../services/charging.service";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-charging-complete',

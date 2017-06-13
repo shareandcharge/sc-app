@@ -3,7 +3,7 @@ import {ViewController, NavParams} from 'ionic-angular';
 import {ConfigService} from "../../../services/config.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {ErrorService} from "../../../services/error.service";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({

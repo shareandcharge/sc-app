@@ -4,7 +4,7 @@ import {CarService} from "../../../../services/car.service";
 import {ErrorService} from "../../../../services/error.service";
 import {CarModelPage} from "../model/car-model";
 import {Car} from '../../../../models/car';
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
