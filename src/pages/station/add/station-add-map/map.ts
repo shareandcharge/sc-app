@@ -50,7 +50,7 @@ export class StationMapDetailPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
-            content: this.translateService.instant('loading.load_map'),
+            content: this.translateService.instant('station.load_map'),
         });
         loader.present();
 

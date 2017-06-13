@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Profil</ion-title>
+        <ion-title>{{ 'profile.profile' | translate }}</ion-title>
     </ion-navbar>
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
@@ -20,19 +20,19 @@
 
     <ion-list padding-top="" padding-right="" class="no-outer-lines">
         <button ion-item (click)="profileData()">
-            Profildaten
+            {{ 'profile.profile_data' | translate }}
         </button>
         <button ion-item (click)="myCars()">
-            Meine Elektroautos
+            {{ 'profile.my_cars' | translate }}
         </button>
         <button ion-item (click)="settings()" *ngIf="false">
-            Einstellungen
+            {{ 'profile.settings' | translate }}
         </button>
         <button ion-item (click)="help()">
-            Hilfe
+            {{ 'profile.help' | translate }}
         </button>
         <button ion-item (click)="logOut()" class="color-secondary">
-            Abmelden
+            {{ 'profile.logout' | translate }}
         </button>
     </ion-list>
 </ion-content>

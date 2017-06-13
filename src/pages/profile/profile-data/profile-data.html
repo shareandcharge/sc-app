@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Profildaten</ion-title>
+        <ion-title>{{ 'profile.data.data' | translate }}</ion-title>
     </ion-navbar>
 
 </ion-header>
@@ -21,19 +21,19 @@
 
     <ion-list padding-top="" padding-right="" class="no-outer-lines">
         <button ion-item (click)="editProfile()">
-            Name und Anschrift
+            {{'profile.data.name_address' | translate}}
         </button>
         <button ion-item (click)="editEmail()">
-            E-Mail Adresse
+            {{ 'profile.data.email_adresse' | translate }}
         </button>
         <button ion-item (click)="editPassword()">
-            Passwort ändern
+            {{ 'profile.data.change_password' | translate }}
         </button>
         <button ion-item (click)="resendVerificationEmail()" *ngIf="!user.isEmailVerified()">
-            Bestätigung erneut senden
+            {{ 'profile.data.resend_confirmation' | translate }}
         </button>
         <button ion-item (click)="deleteAccountConfirm()" class="color-secondary">
-            Profil löschen
+            {{ 'profile.data.delete_profile' | translate }}
         </button>
     </ion-list>
 </ion-content>

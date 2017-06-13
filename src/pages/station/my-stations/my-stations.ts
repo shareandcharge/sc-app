@@ -48,19 +48,19 @@ export class MyStationsPage {
 
     deleteStation(station, itemSliding: ItemSliding) {
         let alert = this.alertCtrl.create({
-            title: 'Löschen bestätigen',
-            message: 'Möchtest Du diese Station wirklich löschen?',
+            title: this.translateService.instant('station.confirm_delete'),
+            message: this.translateService.instant('station.msg_confirm_delete_station'),
             buttons: [
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel',
                     handler: () => itemSliding.close()
                 },
                 {
-                    text: 'Ja, löschen',
+                    text: this.translateService.instant('station.yes_delete'),
                     handler: () => {
                         let loader = this.loadingCtrl.create({
-                            content: this.translateService.instant('loading.delete_station')
+                            content: this.translateService.instant('station.delete_charging_station')
                         });
                         loader.present();
                         this.locationService.deleteLocation(station.id)

@@ -427,7 +427,7 @@ export class AddStationPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
-            content: this.translateService.instant('loading.load_map'),
+            content: this.translateService.instant('station.load_map'),
         });
         loader.present();
 
@@ -536,11 +536,11 @@ export class AddStationPage {
         this.clearErrorMessages();
         if (!this.locObject.address) {
             hasError = true;
-            this.errorMessages.address = 'Bitte gib eine Adresse ein.';
+            this.errorMessages.address = this.translateService.instant('error_messages.address_2');
         }
         if (!this.isOpeningHoursSelected()) {
             hasError = true;
-            this.errorMessages.openingHours = 'Bitte wähle die Öffnungszeiten.';
+            this.errorMessages.openingHours = this.translateService.instant('error_messages.opening_hours');
         }
         return !hasError;
     }
@@ -581,11 +581,11 @@ export class AddStationPage {
         if (this.auth.getUser().isProfileComplete()) return true;
 
         let alert = this.alertCtrl.create({
-            title: 'Daten unvollständig',
-            message: 'Um eine Ladestation hinzufügen zu können, musst Du zunächst Dein Profil vervollständigen.',
+            title: this.translateService.instant('station.data_incomplete'),
+            message: this.translateService.instant('station.msg_complete_profile'),
             buttons: [
                 {
-                    text: 'Ok, Profil bearbeiten',
+                    text: this.translateService.instant('station.edit_profile'),
                     handler: () => {
                         this.navCtrl.push(EditProfilePage, {
                             'user': this.auth.getUser()
@@ -593,7 +593,7 @@ export class AddStationPage {
                     }
                 },
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     handler: () => {
                         this.skipAddingStation();
                     },

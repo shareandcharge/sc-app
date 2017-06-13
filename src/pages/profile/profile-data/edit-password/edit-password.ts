@@ -5,6 +5,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {UserService} from "../../../../services/user.service";
 import {AuthService} from "../../../../services/auth.service";
 import {ErrorService} from "../../../../services/error.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -24,7 +25,7 @@ export class EditPasswordPage {
 
     constructor(private userService: UserService, private navParams: NavParams, private navCtrl: NavController,
                 private authService: AuthService, private formBuilder: FormBuilder, private events: Events,
-                private errorService: ErrorService) {
+                private errorService: ErrorService, private translateService: TranslateService) {
         this.user = navParams.get('user');
 
         this.createErrorMessages();
@@ -53,9 +54,9 @@ export class EditPasswordPage {
 
     createErrorMessages() {
         this.errorMessages = {
-            "oldPassword": 'Bitte gib Dein altes Passwort ein.',
-            "newPassword": 'Bitte gib ein neues Passwort ein. Mindestens 7 Zeichen.',
-            "passwordsNotEqual": 'Die Passwörter stimmen nicht überein.'
+            "oldPassword": this.translateService.instant('profile.data.input_old_password'),
+            "newPassword": this.translateService.instant('profile.data.input_new_password'),
+            "passwordsNotEqual": this.translateService.instant('profile.data.diff_password')
         }
     }
 

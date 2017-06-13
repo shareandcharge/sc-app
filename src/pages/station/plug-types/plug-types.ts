@@ -6,6 +6,8 @@ import {Connector} from "../../../models/connector";
 import {ConfigService} from "../../../services/config.service";
 import {ErrorService} from "../../../services/error.service";
 import {TrackerService} from "../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
+
 
 @Component({
     selector: 'page-plug-types',
@@ -24,7 +26,7 @@ export class PlugTypesPage {
 
     constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController,
                 private configService: ConfigService, private events: Events, private errorService: ErrorService,
-                private trackerService: TrackerService) {
+                private trackerService: TrackerService, private translateService: TranslateService) {
         this.powerOptions = [
             "2.4", "4.3", "6.4"
         ];
@@ -84,21 +86,19 @@ export class PlugTypesPage {
         let message = "";
 
         if ("accessControl" === type) {
-            message = "Wähle diese Option sofern deine Ladestation über WLAN, GSM, sowie einen " +
-                "Light Client verfügt, der die Ladestation über die Share&Charge App steuern kann.";
+            message = this.translateService.instant('station.msg_sc_light_module');
         }
         else if ("kwh" === type) {
             // changed in https://github.com/slockit/sc-app/issues/203
             // message = "Wähle diese Option sofern dein Ladepunkt über einen geeichten Stromzähler verfügt " +
             //     "& der Zählerstand automatisch an das Share&Charge Backend gesendet wird.";
-            message = "Diese Option wird in Kürze freigeschaltet. " +
-                "Sie setzt einen geeichten Stromzähler in Deiner Ladesäule voraus.";
+            message = this.translateService.instant('station.msg_kwh_type');
         }
 
         let alert = this.alertCtrl.create({
-            title: 'Info',
+            title: this.translateService.instant('common.info'),
             message: message,
-            buttons: ['Ok']
+            buttons: [this.translateService.instant('common.ok')]
         });
         alert.present();
     }
@@ -123,12 +123,12 @@ export class PlugTypesPage {
         this.clearErrorMessages();
         if (this.connector.plugtype.length == 0) {
             hasError = true;
-            this.errorMessages.plugType = 'Bitte wähle den Steckertyp.';
+            this.errorMessages.plugType = this.translateService.instant('error_messages.choose_plugtype');
         }
         if (!this.wattpowerTemp) {
             hasError = true;
 
-            this.errorMessages.capacity = 'Bitte wähle die Leistung.';
+            this.errorMessages.capacity = this.translateService.instant('error_messages.choose_power');
         }
         return !hasError;
     }

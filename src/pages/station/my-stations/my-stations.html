@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Meine Ladestationen</ion-title>
+        <ion-title>{{ 'station.my_stations' | translate}}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="addStation()">
                 <ion-icon name="md-add"></ion-icon>
@@ -34,14 +34,14 @@
             </button>
 
             <ion-item-options side="right">
-                <button ion-button color="danger" (click)="deleteStation(station, itemSliding)">Löschen</button>
+                <button ion-button color="danger" (click)="deleteStation(station, itemSliding)">{{'common.delete' | translate}}</button>
             </ion-item-options>
 
         </ion-item-sliding>
     </ion-list>
 
     <div padding text-center *ngIf="!stations || !stations.length">
-        <button ion-button text-uppercase round (click)="addStation()">Ladestation hinzufügen</button>
+        <button ion-button text-uppercase round (click)="addStation()">{{'station.add_charging_station' | translate}}</button>
     </div>
 
 </ion-content>

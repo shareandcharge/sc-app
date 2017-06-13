@@ -14,6 +14,7 @@ import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
 import {TrackerService} from "../../../services/tracker.service";
 import {LocationService} from "../../../services/location.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -31,7 +32,8 @@ export class AddStationImagePage {
 
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams,
                 public modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController,
-                private events: Events, private trackerService: TrackerService, private locationService: LocationService) {
+                private events: Events, private trackerService: TrackerService, private locationService: LocationService, 
+                private translateService: TranslateService) {
         if (typeof this.images == "undefined") {
             this.images = [];
         }
@@ -57,20 +59,20 @@ export class AddStationImagePage {
 
     presentActionSheet() {
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Foto auswählen',
+            title: this.translateService.instant('station.choose_photo'),
             buttons: [
                 {
-                    text: 'Kamera',
+                    text: this.translateService.instant('station.camera'),
                     handler: () => {
                         this.takePhoto('camera');
                     }
                 }, {
-                    text: 'Mediathek',
+                    text: this.translateService.instant('station.gallery'),
                     handler: () => {
                         this.takePhoto('Gallery');
                     }
                 }, {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel'
                 }
             ]
@@ -142,16 +144,16 @@ export class AddStationImagePage {
 
     deleteImg(img, itemSliding: ItemSliding) {
         let alert = this.alertCtrl.create({
-            title: 'Löschen bestätigen',
-            message: 'Möchtest Du dieses Foto wirklich löschen?',
+            title: this.translateService.instant('station.confirm_delete'),
+            message: this.translateService.instant('station.msg_confirm_delete'),
             buttons: [
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel',
                     handler: () => itemSliding.close()
                 },
                 {
-                    text: 'Ja, löschen',
+                    text: this.translateService.instant('station.yes_delete'),
                     handler: () => {
                         let index = this.images.indexOf(img);
 

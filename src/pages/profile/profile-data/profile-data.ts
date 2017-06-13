@@ -38,18 +38,18 @@ export class ProfileDataPage {
 
     selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Bild auswählen',
+            title: this.translateService.instant('profile.data.choose_picture'),
             buttons: [
                 {
-                    text: 'Kamera',
+                    text: this.translateService.instant('profile.data.camera'),
                     handler: () => this.takePhoto('camera')
                 },
                 {
-                    text: 'Mediathek',
+                    text: this.translateService.instant('profile.data.gallery'),
                     handler: () => this.takePhoto('Gallery')
                 },
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel',
                     icon: !this.platform.is('ios') ? 'close' : null
                 }
@@ -110,8 +110,8 @@ export class ProfileDataPage {
     resendVerificationEmail() {
         this.userService.resendVerificationEmail().subscribe((res) => {
             let alert = this.alertCtrl.create({
-                message: 'Die Bestätigungsemail wurde erneut versandt. Bitte prüfe Deinen Posteingang. In seltenen Fällen kann die E-Mail auch im Spamordner gelandet sein.',
-                buttons: ['Ok']
+                message: this.translateService.instant('profile.data.resend_email_confirmation'),
+                buttons: [this.translateService.instant('common.ok')]
             });
 
             alert.present();
@@ -122,16 +122,16 @@ export class ProfileDataPage {
 
     deleteAccountConfirm() {
         let alert = this.alertCtrl.create({
-            title: 'Profil löschen',
-            subTitle: 'Löschen bestätigen',
-            message: 'Möchtest Du Dein Profil und Deine Daten wirklich unwiderruflich löschen?',
+            title: this.translateService.instant('profile.data.delete_profile'),
+            subTitle: this.translateService.instant('profile.data.confirm_delete'),
+            message: this.translateService.instant('profile.data.confirm_delete_message'),
             buttons: [
                 {
-                    text: 'Abbrechen',
+                    text:  this.translateService.instant('common.cancel'),
                     role: 'cancel'
                 },
                 {
-                    text: 'Ja, löschen',
+                    text: this.translateService.instant('profile.data.yes_delete'),
                     handler: () => {
                         this.doDeleteAccount(alert);
                         return false;

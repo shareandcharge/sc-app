@@ -8,6 +8,7 @@ import {ErrorService} from "../../../../services/error.service";
 import {postalCodeValidator} from "../../../../validators/postalCodeValidator";
 import {countryValidator} from "../../../../validators/countryValidator";
 import {TrackerService} from "../../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -23,7 +24,9 @@ export class EditProfilePage {
 
     constructor(private userService: UserService, private navParams: NavParams, private alertCtrl: AlertController,
                 private navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder,
-                private events: Events, private errorService: ErrorService, private trackerService: TrackerService) {
+                private events: Events, private errorService: ErrorService, private trackerService: TrackerService,
+                private translateService: TranslateService) {
+
         this.user = navParams.get('user');
 
         let profile = this.user.profile;
@@ -48,12 +51,12 @@ export class EditProfilePage {
 
     createErrorMessages() {
         this.errorMessages = {
-            "firstName": 'Bitte gib Deinen Namen an.',
-            "lastName": 'Bitte gib Deinen Nachnamen an.',
-            "address": 'Bitte gib Deine Straße und Hausnummer an.',
-            "city": 'Bitte gib Deine Stadt an.',
-            "country": 'Bitte gib Dein Land an.',
-            "postalCode": 'Bitte gib Deine PLZ an.'
+            "firstName": this.translateService.instant('error_messages.first_name'),
+            "lastName": this.translateService.instant('error_messages.last_name'),
+            "address": this.translateService.instant('error_messages.address'),
+            "city": this.translateService.instant('error_messages.city'),
+            "country": this.translateService.instant('error_messages.country'),
+            "postalCode": this.translateService.instant('error_messages.postal_code'),
         }
     }
 
@@ -81,18 +84,18 @@ export class EditProfilePage {
 
         switch (field) {
             case 'postalCode':
-                message = "Muss 5 Zeichen lang sein.";
+                message =  this.translateService.instant('error_messages.at_least_5_char');
                 break;
             case 'operatorVat':
-                message = "Damit Deine Rechnung korrekt ist, lass uns wissen, ob Du eine Steuernummer hast und damit vorsteuerabzugsberechtigt bist. Ansonsten weisen wir in Deiner Rechnung gemäß §19 des UStG keine Umsatzsteuer aus.";
+                message = this.translateService.instant('error_messages.operatorVat');
                 break;
         }
 
         if (message != "") {
             let alert = this.alertCtrl.create({
-                title: 'Info',
+                title: this.translateService.instant('common.info'),
                 message: message,
-                buttons: ['Ok']
+                buttons: [this.translateService.instant('common.ok')]
             });
             alert.present();
         }
