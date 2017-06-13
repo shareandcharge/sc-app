@@ -11,7 +11,7 @@ import {AuthService} from "../services/auth.service";
 import {UserService} from "../services/user.service";
 import {ChargingService} from "../services/charging.service";
 import {IntroPage} from '../pages/intro/intro';
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 import {PushNotificationService} from "../services/push.notification.service";
 import {ErrorService} from "../services/error.service";
 import {TrackerService} from "../services/tracker.service";
@@ -163,6 +163,9 @@ export class MyApp {
      * called when charging process is lapsed/run out (without the user hitting the stop button)
      */
     chargingLapsed() {
+        let messageTrans = this.translateService.instant('toast.charging_finished');
+        let okTrans = this.translateService.instant('common.ok');
+
         let toast = this.toastCtrl.create({
             message: this.translateService.instant('app.loading_success'),
             showCloseButton: true,

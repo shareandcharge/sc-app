@@ -6,7 +6,8 @@ import {
 import {Platform} from 'ionic-angular';
 import {Location} from "../../../models/location";
 import {LocationService} from "../../../services/location.service";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from '@ngx-translate/core';
+
 
 
 declare var google;

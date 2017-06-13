@@ -20,7 +20,7 @@ import {accuCapacityValidator} from '../../../validators/accuCapacityValidator';
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
 import {TrackerService} from "../../../services/tracker.service";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({

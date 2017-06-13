@@ -19,7 +19,11 @@ import {ChargingService} from '../../services/charging.service';
 import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
 import * as MarkerClusterer from 'node-js-marker-clusterer';
+<<<<<<< HEAD
 import {TranslateService} from "ng2-translate";
+=======
+import {TranslateService} from "@ngx-translate/core";
+>>>>>>> feature/SC-341
 
 declare var google: any;
 declare var cordova: any;
@@ -139,7 +143,11 @@ export class MapPage {
 
             this.refreshLocations();
         }, (error) => {
+<<<<<<< HEAD
             this.errorService.displayErrorWithKey(error, this.translateService.instant('map.list_cars'));
+=======
+            this.errorService.displayErrorWithKey(error, 'error.scope.get_cars');
+>>>>>>> feature/SC-341
             this.cars = null;
             this.activeCar = null;
         });
@@ -156,7 +164,11 @@ export class MapPage {
                 this.activeCar = car;
                 this.events.publish('cars:updated');
             },
+<<<<<<< HEAD
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('map.switch_car')));
+=======
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.set_active_car'));
+>>>>>>> feature/SC-341
 
 
         fab.close();
@@ -198,9 +210,14 @@ export class MapPage {
         if (this.currentLocationLoading) return;
 
         let timeout = 10000;
+        let messageTrans = this.translateService.instant("toast.detect_current_position");
 
         let toast = this.toastCtrl.create({
+<<<<<<< HEAD
             message: this.translateService.instant('map.message_determine_location'),
+=======
+            message: messageTrans,
+>>>>>>> feature/SC-341
             position: "top",
             dismissOnPageChange: true,
             duration: timeout,
@@ -228,7 +245,11 @@ export class MapPage {
             toast.dismiss();
         }, (err) => {
             toast.dismiss();
+<<<<<<< HEAD
             this.errorService.displayError(this.translateService.instant('map.error_no_location'));
+=======
+            this.errorService.displayErrorWithKey('map.no_current_position');
+>>>>>>> feature/SC-341
 
             this.currentLocationLoading = false;
         });
@@ -256,7 +277,11 @@ export class MapPage {
                     me.visibleLocations = locations;
                     this.viewType = viewType;
                 },
+<<<<<<< HEAD
                 error => this.errorService.displayErrorWithKey(error, this.translateService.instant('map.search_location')));
+=======
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.search_location'));
+>>>>>>> feature/SC-341
         } else {
             this.viewType = viewType;
         }
@@ -268,7 +293,11 @@ export class MapPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
+<<<<<<< HEAD
             content: this.translateService.instant('map.loading_map')
+=======
+            content: this.translateService.instant('loading.load_map'),
+>>>>>>> feature/SC-341
         });
         loader.present();
 
@@ -292,6 +321,7 @@ export class MapPage {
         google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
             // add event listener to all a-tags of the map and use inAppBrowser to open them
             let aTags = me.mapElement.nativeElement.getElementsByTagName('A');
+            let closeTrans = me.translateService.instant('common.close');
 
             for (let aTag of aTags) {
                 if (aTag.href === '') {
@@ -300,7 +330,7 @@ export class MapPage {
 
                 aTag.addEventListener('click', (event) => {
                     event.preventDefault();
-                    new InAppBrowser(aTag.href, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=yes');
+                    new InAppBrowser(aTag.href, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+closeTrans+',toolbar=yes,location=yes');
                     return false;
                 });
             }
@@ -320,7 +350,11 @@ export class MapPage {
                 }
                 this.updateLocationMarkers();
             },
+<<<<<<< HEAD
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('map.load_station')));
+=======
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_locations'));
+>>>>>>> feature/SC-341
     }
 
     showLocationDetails(location) {

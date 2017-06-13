@@ -14,7 +14,7 @@ import {Station} from "../../../models/station";
 import {TrackerService} from "../../../services/tracker.service";
 import {InAppBrowser} from "ionic-native";
 import {ConfigService} from "../../../services/config.service";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-charging',

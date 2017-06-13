@@ -51,8 +51,8 @@ import {ChargingProgressBarComponent} from '../components/charging-progress-bar/
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
 
 import {Ionic2RatingModule} from 'ionic2-rating';
-import {TranslateModule} from 'ng2-translate/ng2-translate';
-import {TranslateLoader, TranslateStaticLoader} from "ng2-translate";
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import {AuthService} from "../services/auth.service";
 import {CarService} from "../services/car.service";
@@ -82,7 +82,7 @@ export function getAuthHttp(http) {
 }
 
 export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -139,9 +139,11 @@ export function createTranslateLoader(http: Http) {
         ),
         Ionic2RatingModule,
         TranslateModule.forRoot({
-            provide: TranslateLoader,
-            useFactory: (createTranslateLoader),
-            deps: [Http]
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [Http]
+            }
         })
     ],
     bootstrap: [IonicApp],

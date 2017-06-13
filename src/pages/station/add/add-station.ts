@@ -16,6 +16,7 @@ import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
 import {EditProfilePage} from "../../profile/profile-data/edit-profile/edit-profile";
 import {TrackerService} from "../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 /**
@@ -64,7 +65,8 @@ export class AddStationPage {
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService,
                 private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams,
-                private events: Events, private alertCtrl: AlertController, private trackerService: TrackerService) {
+                private events: Events, private alertCtrl: AlertController, private trackerService: TrackerService,
+                private translateService: TranslateService) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -425,7 +427,7 @@ export class AddStationPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
-            content: "Lade Karte ...",
+            content: this.translateService.instant('loading.load_map'),
         });
         loader.present();
 

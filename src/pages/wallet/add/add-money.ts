@@ -74,7 +74,7 @@ export class AddMoneyPage {
                     });
                 }
             },
-            error => this.errorService.displayErrorWithKey(error, 'Konto aufladen')
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.wallet_payin')
         );
     }
 

@@ -46,6 +46,11 @@ export class Car implements Serializable<Car> {
         this.averageDistance = input.averageDistance;
         this.maxCharging = input.maxCharging;
 
+        //-- plugTypes needs to be an array
+        if (!Array.isArray(this.plugTypes)) {
+            this.plugTypes = [+this.plugTypes];
+        }
+
         return this;
     }
 }

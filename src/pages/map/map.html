@@ -5,7 +5,7 @@
                 <ion-icon name="search"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title>Karte</ion-title>
+        <ion-title>{{ 'map.title'|translate }}</ion-title>
         <ion-buttons end>
             <button ion-button (click)="mapSettingsPopOver($event)" large>
                 <ion-icon name="settings"></ion-icon>
@@ -13,7 +13,7 @@
         </ion-buttons>
     </ion-navbar>
     <ion-navbar *ngIf="searchMode">
-        <ion-searchbar debounce="500" #searchInput [showCancelButton]="true" (ionInput)="updateSearch($event)" (ionCancel)="setSearchMode(false)" cancelButtonText="Abbrechen" placeholder="Adresse suchen" animated="true"></ion-searchbar>
+        <ion-searchbar debounce="500" #searchInput [showCancelButton]="true" (ionInput)="updateSearch($event)" (ionCancel)="setSearchMode(false)" [cancelButtonText]="'common.cancel'|translate" [placeholder]="'map.search_placeholder'|translate" animated="true"></ion-searchbar>
     </ion-navbar>
     <charging-progress-bar></charging-progress-bar>
 </ion-header>

@@ -61,7 +61,7 @@ export class TariffConfirmationPage {
                 this.user = user;
             },
             (error) => {
-                this.errorService.displayErrorWithKey(error, "Lade angemeldeten Nutzer");
+                this.errorService.displayErrorWithKey(error, 'error.scope.get_user');
             });
 
         for (let type of this.types) {
@@ -105,7 +105,7 @@ export class TariffConfirmationPage {
                 (res) => {
                     this.estimations[type] = res;
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Geschätzter Tarif')
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.get_estimated_price')
             );
     }
 

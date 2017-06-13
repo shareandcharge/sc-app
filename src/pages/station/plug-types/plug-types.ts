@@ -32,7 +32,7 @@ export class PlugTypesPage {
         this.configService.getPlugTypes().subscribe((plugtypes) => {
                 this.plugOptions = plugtypes;
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_plugtypes'));
 
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];

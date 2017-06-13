@@ -5,7 +5,7 @@ import {Car} from "../../../models/car";
 import {CarWrapperPage} from "../car-wrapper";
 import {ErrorService} from "../../../services/error.service";
 import {TrackerService} from "../../../services/tracker.service";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
