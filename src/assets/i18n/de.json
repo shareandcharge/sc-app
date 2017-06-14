@@ -305,6 +305,7 @@
   },
   "map": {
     "filter": {
+      "title": "Filter",
       "list_plugins": "Liste - Steckertypen"
     },
     "settings": {
@@ -317,9 +318,11 @@
       "hybrid": "Hybrid",
       "refresh": "Aktualisieren"
     },
+    "title": "Karte",
     "list_cars": "Liste - Meine Autos",
     "switch_car": "Auto wechseln",
     "message_determine_location": "Wir ermitteln Deinen Standort ...",
+    "search_placeholder": "Adresse suchen",
     "error_no_location": "Leider konnten Wir Deinen Standort nicht ermitteln. Bitte überprüfe ob Dein GPS-Signal angeschaltet ist und probiere es erneut.",
     "search_location": "Suche Stationen",
     "loading_map": "Lade Karte ...",
@@ -483,7 +486,6 @@
     "family_and_friends_tarif": "Familie & Freunde Tarif",
     "flat_rate_per_charge": "Flatrate pro Ladung",
     "add": "Veröffentlichen",
-    "save_changes": "Änderungen speichern",
     "flatrate_message": "Pauschaler Betrag für eine maximale Ladedauer von 4 Stunden.",
     "hourly_message": "Hier trägst Du die Energiekosten ein, die Du an Deinen Energieversorger bezahlst.",
     "parking_message": "Hier trägst Du die Kosten ein, die Lader an Dich für die Nutzung deines Parkplatzes zahlen sollen.",
@@ -531,7 +533,9 @@
     "address_2": "Bitte gib eine Adresse ein.",
     "opening_hours": "Bitte wähle die Öffnungszeiten.",
     "choose_plugtype": "Bitte wähle den Steckertyp.",
-    "choose_power": "Bitte wähle die Leistung."
+    "choose_power": "Bitte wähle die Leistung.",
+    "no_connection": "Keine Verbindung.",
+    "unknown_error": "Unbekannter Fehler"
   },
   "add_money": {
     "account": "Konto",

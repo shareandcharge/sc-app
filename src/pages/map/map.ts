@@ -269,7 +269,7 @@ export class MapPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
-            content: this.translateService.instant('map.loading_map')
+            // content: this.translateService.instant('map.loading_map'),
         });
         loader.present();
 

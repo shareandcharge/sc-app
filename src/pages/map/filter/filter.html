@@ -6,12 +6,12 @@
             </button>
         </ion-buttons>
 
-        <ion-title>{{'map_filter.title'|translate}}</ion-title>
+        <ion-title>{{'map.filter.title'|translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
     <ion-list>
-        <ion-list-header>{{'connector.labels.plugtype'|translate}}</ion-list-header>
+        <ion-list-header>{{'map.filter.list_plugins'|translate}}</ion-list-header>
         <ion-item *ngFor="let plug of plugTypes">
             <span item-content item-left class="plug" [innerHtml]="skipSanitizer(plug.svg)"></span>
             <ion-label>{{plug.name}}</ion-label>

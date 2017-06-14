@@ -19,7 +19,7 @@
             <ion-label>{{ 'add_money.payment' | translate }}</ion-label>
         </ion-item>
         <ion-item>
-            <ion-select [(ngModel)]="payInObject.type" interface="action-sheet" class="input-white select-multiline" cancelText="Abbrechen">
+            <ion-select [(ngModel)]="payInObject.type" interface="action-sheet" class="input-white select-multiline" cancelText="{{'common.cancel' | translate}}">
                 <ion-option value="cc">{{ 'add_money.credit_card' | translate }}</ion-option>
                 <ion-option value="paypal">{{ 'add_money.paypal' | translate }}</ion-option>
                 <ion-option value="sofort">{{ 'add_money.direct' | translate }}</ion-option>
@@ -47,7 +47,7 @@
     <div class="input-box input-box-white input-box-xl margin-bottom-xl">
         <div class="input-box-inner">
             <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="0"></ion-input>
-            <label>{{ common.euro_sign | translate}}</label>
+            <label>{{ 'common.euro_sign' | translate}}</label>
         </div>
     </div>
 
@@ -68,7 +68,7 @@
 
     <div padding text-center>
         <button ion-button (click)="addMoney()" round text-uppercase="" [disabled]="!displayAmount || displayAmount<=0 || payInButtonDisabled">
-            {{ add_money.add_to_account | translate }}
+            {{ 'add_money.add_to_account' | translate }}
         </button>
     </div>
 </ion-content>
