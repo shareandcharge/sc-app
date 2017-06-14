@@ -3,6 +3,8 @@ import {NavParams, NavController, Platform} from "ionic-angular";
 import {CurrencyPipe} from "@angular/common";
 import {InAppBrowser} from "ionic-native";
 import {Transaction} from "../../../models/transaction";
+import {TranslateService} from "@ngx-translate/core";
+
 
 @Component({
     templateUrl: 'transaction-detail.html',
@@ -19,13 +21,13 @@ export class TransactionDetailPage {
     ];
 
     paymentMethods = {
-        'cc': 'Kreditkarte',
-        'paypal': 'PayPal',
-        'dd': 'Bankeinzug',
-        'sofort': 'Sofortüberweisung'
+        'cc': this.translateService.instant('add_money.credit_card'),
+        'paypal': this.translateService.instant('add_money.paypal'),
+        'dd': this.translateService.instant('add_money.direct_debit'),
+        'sofort':  this.translateService.instant('add_money.direct'),
     };
 
-    constructor(private navParams: NavParams, private navCtrl: NavController, private platform: Platform) {
+    constructor(private navParams: NavParams, private navCtrl: NavController, private platform: Platform, private translateService: TranslateService) {
         this.transaction = this.navParams.get('transaction');
     }
 

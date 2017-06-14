@@ -100,11 +100,11 @@ export class WalletPage {
         if (this.profileComplete()) return true;
 
         let alert = this.alertCtrl.create({
-            title: 'Daten unvollständig',
-            message: 'Um Zahlungsvorgänge durchführen zu können musst Du zunächst Dein Profil vervollständigen.',
+            title: this.translateService.instant('wallet.incomplete_data'),
+            message: this.translateService.instant('wallet.msg_complete_profile'),
             buttons: [
                 {
-                    text: 'Ok',
+                    text: this.translateService.instant('common.ok'),
                     handler: () => {
                         this.navCtrl.push(EditProfilePage, {
                             'user': this.authService.getUser()
