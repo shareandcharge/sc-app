@@ -160,7 +160,11 @@
     "from": "Von",
     "to": "Bis",
     "delete": "Löschen",
-    "continue": "Weiter"
+    "continue": "Weiter",
+    "euro_sign": "€",
+    "iban": "IBAN",
+    "bic": "BIC",
+    "password": "Passwort"
   },
   "app": {
     "cancel_app": "Möchten Sie die App beenden?",
@@ -485,9 +489,7 @@
     "parking_message": "Hier trägst Du die Kosten ein, die Lader an Dich für die Nutzung deines Parkplatzes zahlen sollen.",
     "choose_tarif": "Bitte wähle eine Tarifoption",
     "choose_tarif_notice": "Es muss mindestens ein Tarifoption ausgewählt sein."
-
-
- },
+  },
   "error_messages": {
     "first_name": "Bitte gib Deinen Namen an.",
     "last_name": "Bitte gib Deinen Nachnamen an.",
@@ -501,5 +503,27 @@
     "opening_hours": "Bitte wähle die Öffnungszeiten.",
     "choose_plugtype": "Bitte wähle den Steckertyp.",
     "choose_power": "Bitte wähle die Leistung."
+  },
+  "add_money": {
+    "account": "Konto",
+    "payment": "Zahlungsmethode",
+    "credit_card": "Kreditkarte",
+    "paypal": "PayPal",
+    "direct": "Sofortüberweisung",
+    "direct_debit": "Bankeinzug",
+    "which_map": "Welche Karte verwenden",
+    "account_owner": "Kontoinhaber",
+    "add_to_account": "Konto aufladen",
+    "new_map": "Neue Karte verwenden",
+    "new_map": "Neue Karte verwenden"
+  },
+  "pay_out" : {
+    "pay_out": "Auszahlung",
+    "set_amount": "Bitte gib den Betrag an.",
+    "set_iban": "Bitte gib die IBAN an.",
+    "set_bic": "Bitte gib die BIC an.",
+    "type_password_safety": "Gib zur Absicherung der Auszahlung Dein Passwort an",
+    "type_password": "Bitte gib Dein Passwort an.",
+    "pay_money_out": "Geld auszahlen"
   }
 }

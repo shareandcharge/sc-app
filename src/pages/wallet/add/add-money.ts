@@ -6,6 +6,7 @@ import {InAppBrowser} from "ionic-native";
 import {User} from "../../../models/user";
 import {AuthService} from "../../../services/auth.service";
 import {TrackerService} from "../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-add-money',
@@ -22,7 +23,7 @@ export class AddMoneyPage {
 
     constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService,
                 private errorService: ErrorService, private events: Events, private authService: AuthService,
-                private trackerService: TrackerService) {
+                private trackerService: TrackerService, private translateService: TranslateService) {
         this.payInObject = {
             'type': 'cc',
             'amount': 0,
@@ -43,8 +44,9 @@ export class AddMoneyPage {
             this.cardId = this.user.getCreditCards()[0].id;
         }
 
+        let screenName = this.translateService.instant('add_money.account');
         this.trackerService.track('Started Loading Account', {
-            'Screen Name': 'Konto'
+            'Screen Name': screenName
         });
     }
 
@@ -86,7 +88,8 @@ export class AddMoneyPage {
                 resolve();
             })
         } else {
-            let browser = new InAppBrowser(redirectUrl, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no,hardwareback=no');
+            let options = 'presentationstyle=fullscreen,closebuttoncaption=' + this.translateService.instant('common.close') + ',toolbar=yes,location=no,hardwareback=no'
+            let browser = new InAppBrowser(redirectUrl, '_blank', options);
 
             return new Promise((resolve, reject) => {
                 browser.on('exit').subscribe(() => {

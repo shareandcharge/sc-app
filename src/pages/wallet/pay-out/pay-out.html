@@ -8,7 +8,7 @@
             </button>
         </ion-buttons>
 
-        <ion-title>Auszahlung</ion-title>
+        <ion-title>{{ 'pay_out.pay_out' | translate }}</ion-title>
     </ion-navbar>
 
 </ion-header>
@@ -18,51 +18,51 @@
         <div class="input-box input-box-white input-box-xl margin-bottom-xl">
             <div class="input-box-inner">
                 <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="0" formControlName="amount"></ion-input>
-                <label>€</label>
+                <label>{{ 'common.euro_sign' | translate }}</label>
             </div>
         </div>
         <div *ngIf="!form.controls.amount.valid && submitAttempt" class="alert-box alert-box-danger" margin>
-            Bitte gib den Betrag an.
+            {{ 'pay_out.set_amount' | translate }}
         </div>
 
         <ion-list no-lines="">
             <ion-item>
-                <ion-label floating>IBAN</ion-label>
+                <ion-label floating>{{ 'common.iban' | translate }}</ion-label>
                 <ion-input type="text" class="input-white"
                            [(ngModel)]="payOutObject.iban" formControlName="iban"
                 ></ion-input>
             </ion-item>
             <div *ngIf="!form.controls.iban.valid && submitAttempt" class="alert-box alert-box-danger" margin>
-                Bitte gib die IBAN an.
+                {{ 'pay_out.set_iban' | translate }}
             </div>
             <ion-item>
-                <ion-label floating>BIC</ion-label>
+                <ion-label floating>{{ 'common.bic' | translate }}</ion-label>
                 <ion-input type="text" class="input-white"
                            [(ngModel)]="payOutObject.bic" formControlName="bic"
                 ></ion-input>
             </ion-item>
             <div *ngIf="!form.controls.bic.valid && submitAttempt" class="alert-box alert-box-danger" margin>
-                Bitte gib die BIC an.
+                {{ 'pay_out.set_bic' | translate }}
             </div>
         </ion-list>
         <ion-list no-lines="">
             <ion-list-header text-wrap>
-                Gib zur Absicherung der Auszahlung Dein Passwort an
+                {{ 'pay_out.give_password_safety' | translate }}
             </ion-list-header>
             <ion-item>
-                <ion-label floating>Passwort</ion-label>
+                <ion-label floating>{{ 'common.password' | translate }}</ion-label>
                 <ion-input type="password" class="input-white"
                            [(ngModel)]="payOutObject.password" formControlName="password"
                 ></ion-input>
             </ion-item>
             <div *ngIf="!form.controls.password.valid && submitAttempt" class="alert-box alert-box-danger" margin>
-                Bitte gib Dein Passwort an.
+                {{ 'pay_out.type_password' | translate }}
             </div>
         </ion-list>
 
         <div padding text-center>
             <button ion-button round text-uppercase="" [disabled]="!form.valid">
-                Geld auszahlen
+                {{ 'pay_out.pay_money_out' | translate }}
             </button>
         </div>
     </form>
