@@ -27,8 +27,8 @@ export class DataProtectionPage {
     }
 
     openExternalDataProtection() {
-        let url = this.configService.get('DATA_PROTECTION_URL');
-        // is this working? not able to test is without emulation ios!  
+        let url = this.translateService.instant('documents.DATA_PROTECTION_URL');
+        // is this working? not able to test is without emulation ios!
         let options = 'presentationstyle=fullscreen,closebuttoncaption=' + this.translateService.get('common.close') + ',toolbar=yes,location=no';
         new InAppBrowser(url, '_blank', options);
     }

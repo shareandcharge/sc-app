@@ -528,8 +528,9 @@ export class ChargingPage {
     }
 
     openTerms() {
-        let url = this.configService.get('TERMS_STATION_URL');
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+        let url = this.translateService.instant('documents.TERMS_STATION_URL');
+        let close = this.translateService.instant('common.close')
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+close+',toolbar=yes,location=no');
     }
 
     selectConnector() {
