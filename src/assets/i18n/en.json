@@ -557,5 +557,11 @@
         "type_password_safety": "[EN]Gib zur Absicherung der Auszahlung Dein Passwort an",
         "type_password": "[EN]Bitte gib Dein Passwort an.",
         "pay_money_out": "[EN]Geld auszahlen"
+    },
+    "documents": {
+      "FAQ_URL": "https://shareandcharge.com/en/faqs-2/",
+      "TERMS_APP_URL": "https://shareandcharge.com/en/app-terms/",
+      "TERMS_STATION_URL": "https://shareandcharge.com/en/terms-station/",
+      "DATA_PROTECTION_URL": "https://shareandcharge.com/en/dataprotection/"
     }
 }

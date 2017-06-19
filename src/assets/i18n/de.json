@@ -414,7 +414,7 @@
     "rating_remark": "Teile uns mit was Dir gefallen hat und was nicht",
     "send": "Senden",
     "save_rating": "Bewertung gespeichert",
-    "thank_rating": "Vielen Dank für Deine Bewertung." 
+    "thank_rating": "Vielen Dank für Deine Bewertung."
   },
   "station": {
     "map": "Karte",
@@ -558,5 +558,11 @@
     "type_password_safety": "Gib zur Absicherung der Auszahlung Dein Passwort an",
     "type_password": "Bitte gib Dein Passwort an.",
     "pay_money_out": "Geld auszahlen"
+  },
+  "documents": {
+    "FAQ_URL": "https://shareandcharge.com/faqs",
+    "TERMS_APP_URL": "https://www.shareandcharge.com/app-agbs/'",
+    "TERMS_STATION_URL": "https://www.shareandcharge.com/ladestation-agbs/",
+    "DATA_PROTECTION_URL": "https://www.shareandcharge.com/app-datenschutz/"
   }
 }
