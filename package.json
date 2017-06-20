@@ -6,6 +6,8 @@
   "scripts": {
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
+"live": "cp src/config/config.ts.live src/config/config.ts; npm run build; cp -r www/* live/",
+    "test": "cp src/config/config.ts.test src/config/config.ts; npm run build; cp -r www/* test/",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
     "live": "cp src/config/config.ts.live src/config/config.ts; npm run build; cp -r www/* live/",
