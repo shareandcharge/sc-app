@@ -44,4 +44,10 @@ echo 'Installing global npm dependencies' ;
 npm install -g ionic@2 cordova@6 ios-deploy ios-sim ;
 echo 'Successfully installed global npm dependencies' ;
 
+
+echo 'Install Bundler & Fastlane Gems'
+gem install bundler ;
+bundle install ;
+echo 'Successfully installed Bundler & Fastlane'
+
 exit 0 ;
