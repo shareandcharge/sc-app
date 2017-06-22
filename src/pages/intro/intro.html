@@ -16,42 +16,31 @@
 
             <ion-slide class="first-slide">
                 <div class="img-wrapper"><img src="assets/icons/sc-icon.png"></div>
-                <h2>Herzlich Willkommen!</h2>
-                <div class="text-wrapper">
-                    Als früher E-Mobilist kennst Du es bestimmt bereits: Einer muss immer der Erste sein! Und
-                    heute bist Du das!
-                    Wir freuen uns darauf, unsere Community gemeinsam mit Dir wachsen zu sehen.<br>
-                    Danke, dass Du dabei bist!
-                    <br><br>
-                    Dein Share&Charge Team
-                </div>
+                <h2>{{'intro.welcome' | translate}}</h2>
+                <div class="text-wrapper" [innerHTML] = "'intro.first_slide' | translate"></div>
             </ion-slide>
 
             <ion-slide>
                 <div class="img-wrapper"><img src="assets/images/intro/01.gif"></div>
-                <h2>Ladestation finden</h2>
+                <h2>{{'intro.find_charging_station' | translate}}</h2>
                 <div class="text-wrapper">
-                    Suche auf unserer interaktiven Karte nach Ladestationen in Deiner Nähe.
-                    Mit Hilfe der Filter kannst Du spezifisch nach Deinen Suchkriterien filtern.
+                    {{'intro.second_slide' | translate}}
                 </div>
             </ion-slide>
 
             <ion-slide>
                 <div class="img-wrapper"><img src="assets/images/intro/02.gif"></div>
-                <h2>Ladestation registrieren</h2>
+                <h2>{{'intro.register_charging_station' | translate}}</h2>
                 <div class="text-wrapper">
-                    Du besitzt eine Ladestation?
-                    Registriere sie und entscheide, wer wann und zu welchem Tarif bei Dir laden kann.
+                    {{'intro.third_slide' | translate}}
                 </div>
             </ion-slide>
 
             <ion-slide>
                 <div class="img-wrapper"><img src="assets/images/intro/03.gif"></div>
-                <h2>Konto</h2>
+                <h2>{{'intro.account' | translate}}</h2>
                 <div class="text-wrapper">
-                    Dein Konto gibt Dir eine Übersicht über alle Deine Transaktionen.
-                    Lade Dein Konto ganz einfach auf, lass Dir Dein Guthaben auszahlen,
-                    oder verwende es zum Laden Deines eigenen Elektroautos.
+                    {{'intro.fourth_slide' | translate}}
                 </div>
             </ion-slide>
 
@@ -60,10 +49,12 @@
             <ion-grid>
                 <ion-row>
                     <ion-col width-50 text-left>
-                        <a href="#" class="dark" (click)="skip()">Überspringen</a>
+                        <a href="#" class="dark" (click)="skip()">{{'intro.skip' | translate}}</a>
                     </ion-col>
                     <ion-col width-50 text-right>
-                        <a href="#" (click)="goToNext()">{{isEnd ? 'Fertig' : 'Weiter'}}</a>
+                        <a href="#" (click)="goToNext()">
+                            {{isEnd ? ('intro.finished' | translate) : ('intro.continue' | translate)}}
+                        </a>
                     </ion-col>
                 </ion-row>
             </ion-grid>

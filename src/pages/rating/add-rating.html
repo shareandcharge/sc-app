@@ -7,7 +7,7 @@
             </button>
         </ion-buttons>
 
-        <ion-title>Bewertung abgeben</ion-title>
+        <ion-title>{{'rating.give_rating' | translate}}</ion-title>
     </ion-navbar>
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
@@ -16,18 +16,18 @@
     <img *ngIf="location.hasImages()" src="{{locationImages[0].src}}">
     <ion-list no-lines="" padding>
         <ion-item>
-            <ion-label>Bewertung</ion-label>
+            <ion-label>{{'rating.rating' | translate}}</ion-label>
         </ion-item>
         <ion-item>
             <rating [(ngModel)]="rating.rating" class="large"></rating>
         </ion-item>
         <ion-item>
             <ion-textarea class="input-white" [(ngModel)]="rating.remark" rows="4"
-                          placeholder="Teile uns mit was Dir gefallen hat und was nicht"></ion-textarea>
+                          placeholder="{{'rating.rating_remark' | translate}}"></ion-textarea>
         </ion-item>
     </ion-list>
 
     <div padding text-center>
-        <button ion-button round (click)="submitRating()" text-uppercase>Senden</button>
+        <button ion-button round (click)="submitRating()" text-uppercase>{{'rating.send' | translate}}</button>
     </div>
 </ion-content>

@@ -3,6 +3,7 @@ import {NavController, NavParams} from 'ionic-angular';
 import {CarService} from "../../../../services/car.service";
 import {ErrorService} from "../../../../services/error.service";
 import {Car} from '../../../../models/car';
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -16,14 +17,14 @@ export class CarModelPage {
     mode: any;
     car: Car;
 
-    constructor(public navCtrl: NavController, private errorService: ErrorService, private navParams: NavParams, private carService: CarService) {
+    constructor(public navCtrl: NavController, private errorService: ErrorService, private navParams: NavParams, private carService: CarService, private translateService: TranslateService) {
 
         this.manufacturer = navParams.get("manufacturer");
 
         this.carService.getModels(this.manufacturer).subscribe((res) => {
                 this.models = res;
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos'));
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('car.form.model.error_subtitle')));
         this.mode = navParams.get("mode");
         this.car = navParams.get("car");
     }

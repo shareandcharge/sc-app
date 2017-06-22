@@ -1,8 +1,8 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title *ngIf="flowMode=='edit'">Ladestation bearbeiten</ion-title>
-        <ion-title *ngIf="flowMode=='add'">Ladestation hinzufügen</ion-title>
+        <ion-title *ngIf="flowMode=='edit'">{{ 'station.edit_station' | translate }}</ion-title>
+        <ion-title *ngIf="flowMode=='add'">{{ 'station.add_station' | translate }}</ion-title>
 
         <ion-buttons end>
             <button ion-button icon-only (click)="close()">
@@ -18,27 +18,27 @@
 <ion-content>
 
     <p padding="">
-        Meine Tarife wählen
+        {{ 'station.choose_my_tarif' | translate }}
     </p>
 
     <form novalidate>
 
     <ion-list class="ion-list-white" margin-bottom>
         <ion-item>
-            <ion-label left>Community Tarif</ion-label>
+            <ion-label left>{{ 'station.community_tarif' | translate }}</ion-label>
             <ion-toggle [(ngModel)]="priceprovider.public.active" color="secondary" [ngModelOptions]="{standalone: true}"></ion-toggle>
         </ion-item>
 
         <div padding class="content-white tariff-box" *ngIf="priceprovider.public.active">
             <ion-segment color="primary" [(ngModel)]="priceprovider.public.selected" padding *ngIf="hourlyTariff || kwhTariff" [ngModelOptions]="{standalone: true}">
                 <ion-segment-button value="flatrate" *ngIf="hourlyTariff || kwhTariff">
-                    Flatrate
+                    {{ 'station.flatrate' | translate }}
                 </ion-segment-button>
                 <ion-segment-button value="hourly" *ngIf="hourlyTariff">
-                    Stundentarif
+                    {{ 'station.hourly_tarif' | translate }}
                 </ion-segment-button>
                 <ion-segment-button value="kwh" *ngIf="kwhTariff">
-                    kWh genauer Tarif
+                    {{ 'station.kwh_rate' | translate }}
                 </ion-segment-button>
             </ion-segment>
 
@@ -46,7 +46,7 @@
             <div *ngIf="priceprovider.public.selected == 'flatrate'" padding>
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Flatrate pro Ladung</ion-col>
+                        <ion-col width-50="" class="nopadding">{{ 'station.flat_rate_per_charge' | translate }}</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('flatrate')"></ion-icon>
                         </ion-col>
@@ -76,7 +76,7 @@
             <div *ngIf="priceprovider.public.selected == 'hourly'" padding>
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Deine Energiekosten (*)</ion-col>
+                        <ion-col width-50="" class="nopadding">{{ 'station.your_energy_cost' | translate}} (*)</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
                         </ion-col>
@@ -93,8 +93,7 @@
                 </div>
                 <p>
                     <small>
-                        (*) Die kWh werden berechnet durch Multiplikation der
-                        Ladeleistung des ladenden Autos mit der Ladedauer.
+                        (*) {{ 'station.kwh_notice' | translate }}
                     </small>
                 </p>
                 <!--
@@ -109,7 +108,7 @@
 
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Parkkosten</ion-col>
+                        <ion-col width-50="" class="nopadding">{{ 'station.park_cost' | translate }}</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('parking')"></ion-icon>
                         </ion-col>
@@ -138,7 +137,7 @@
             <div *ngIf="priceprovider.public.selected == 'kwh'">
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Deine Energiekosten</ion-col>
+                        <ion-col width-50="" class="nopadding">{{ 'station.your_energy_cost' | translate }}</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
                         </ion-col>
@@ -165,7 +164,7 @@
 
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Parkkosten</ion-col>
+                        <ion-col width-50="" class="nopadding"> {{ 'station.park_cost' | translate }}</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('parking')"></ion-icon>
                         </ion-col>
@@ -194,26 +193,26 @@
         <!---------------------------------------------------------------------------->
     <ion-list class="ion-list-white">
         <ion-item>
-            <ion-label left>Familie & Freunde Tarif</ion-label>
+            <ion-label left>{{ 'station.family_and_friends_tarif' | translate }}</ion-label>
             <ion-toggle [(ngModel)]="priceprovider.private.active" color="secondary" [ngModelOptions]="{standalone: true}"></ion-toggle>
         </ion-item>
 
         <div padding class="content-white tariff-box" *ngIf="priceprovider.private.active">
             <ion-list no-lines>
                 <ion-item class="lines-inner-bottom" (click)="addPermission()">
-                    Familie & Freunde ({{priceprovider.private.permissions.length}})
+                    {{ 'station.family_and_friends' | translate }} ({{priceprovider.private.permissions.length}})
                     <ion-icon name="ios-list" item-right></ion-icon>
                 </ion-item>
             </ion-list>
             <ion-segment color="primary" [(ngModel)]="priceprovider.private.selected" [ngModelOptions]="{standalone: true}" padding>
                 <ion-segment-button value="flatrate" *ngIf="hourlyTariff || kwhTariff">
-                    Flatrate
+                    {{ 'station.flatrate' | translate }}
                 </ion-segment-button>
                 <ion-segment-button value="hourly" *ngIf="hourlyTariff">
-                    Stundentarif
+                    {{ 'station.hourly_tarif' | translate }}                    
                 </ion-segment-button>
                 <ion-segment-button value="kwh" *ngIf="kwhTariff">
-                    kWh genauer Tarif
+                    {{ 'station.kwh_rate' | translate }}
                 </ion-segment-button>
             </ion-segment>
 
@@ -221,7 +220,7 @@
             <div *ngIf="priceprovider.private.selected == 'flatrate'" padding>
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Flatrate pro Ladung</ion-col>
+                        <ion-col width-50="" class="nopadding">{{ 'station.flat_rate_per_charge' | translate }}</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('flatrate')"></ion-icon>
                         </ion-col>
@@ -247,7 +246,7 @@
             <div *ngIf="priceprovider.private.selected == 'hourly'" padding>
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Deine Energiekosten (*)</ion-col>
+                        <ion-col width-50="" class="nopadding">{{ 'station.your_energy_cost' | translate }} (*)</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
                         </ion-col>
@@ -264,8 +263,7 @@
                 </div>
                 <p>
                     <small>
-                        (*) Die kWh werden berechnet durch Multiplikation der
-                        Ladeleistung des ladenden Autos mit der Ladedauer.
+                        (*) {{ 'station.kwh_notice' | translate }}
                     </small>
                 </p>
                 <!--
@@ -280,7 +278,7 @@
 
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Parkkosten</ion-col>
+                        <ion-col width-50="" class="nopadding">{{ 'station.park_cost' | translate }}</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('parking')"></ion-icon>
                         </ion-col>
@@ -308,7 +306,7 @@
             <div *ngIf="priceprovider.private.selected == 'kwh'">
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Deine Energiekosten</ion-col>
+                        <ion-col width-50="" class="nopadding">{{ 'station.your_energy_cost' | translate }}</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('hourly')"></ion-icon>
                         </ion-col>
@@ -335,7 +333,7 @@
 
                 <ion-grid>
                     <ion-row>
-                        <ion-col width-50="" class="nopadding">Parkkosten</ion-col>
+                        <ion-col width-50="" class="nopadding"> {{ 'station.park_cost' | translate }}</ion-col>
                         <ion-col width-50="" class="nopadding" text-right="">
                             <ion-icon name="ios-bulb-outline" color="secondary" (click)="showHelp('parking')"></ion-icon>
                         </ion-col>

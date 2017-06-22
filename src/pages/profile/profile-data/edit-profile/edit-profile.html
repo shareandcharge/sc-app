@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Name und Anschrift bearbeiten</ion-title>
+        <ion-title>{{'profile.data.edit_name_adresse' | translate}}</ion-title>
     </ion-navbar>
 
 </ion-header>
@@ -10,12 +10,12 @@
     <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
         <ion-list no-lines="">
             <ion-item>
-                <ion-label floating>Firma</ion-label>
+                <ion-label floating>{{'profile.data.company' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" [(ngModel)]="user.profile.company"
                            formControlName="company"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>Vorname</ion-label>
+                <ion-label floating>{{'profile.data.first_name' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" [(ngModel)]="user.profile.firstname"
                            formControlName="firstName"></ion-input>
             </ion-item>
@@ -24,7 +24,7 @@
                 {{ errorMessages.firstName }}
             </div>
             <ion-item>
-                <ion-label floating>Nachname</ion-label>
+                <ion-label floating>{{'profile.data.family_name' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="lastName"
                            [(ngModel)]="user.profile.lastname"></ion-input>
             </ion-item>
@@ -33,7 +33,7 @@
                 {{ errorMessages.lastName }}
             </div>
             <ion-item>
-                <ion-label floating>Straße und Hausnummer</ion-label>
+                <ion-label floating>{{'profile.data.street_house_number' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="address"
                            [(ngModel)]="user.profile.address"></ion-input>
             </ion-item>
@@ -42,7 +42,7 @@
                 {{ errorMessages.address }}
             </div>
             <ion-item>
-                <ion-label floating>Postleitzahl</ion-label>
+                <ion-label floating>{{'profile.data.zipcode' | translate}}</ion-label>
                 <ion-input type="tel" class="input-white" formControlName="postalCode"
                            [(ngModel)]="user.profile.postalCode"></ion-input>
             </ion-item>
@@ -52,7 +52,7 @@
                 <ion-icon class="help-icon" name="ios-help-circle-outline" item-right (click)="showHelp('postalCode')"></ion-icon>
             </div>
             <ion-item>
-                <ion-label floating>Stadt</ion-label>
+                <ion-label floating>{{'profile.data.city' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="city"
                            [(ngModel)]="user.profile.city"></ion-input>
             </ion-item>
@@ -61,7 +61,7 @@
                 {{ errorMessages.city }}
             </div>
             <ion-item>
-                <ion-label>Land</ion-label>
+                <ion-label>{{'profile.data.country' | translate}}</ion-label>
             </ion-item>
             <ion-item>
                 <ion-select formControlName="country"
@@ -69,8 +69,8 @@
                             multiple="false"
                             [selectOptions]="{title: 'Land'}"
                             class="select-multiline input-white"
-                            placeholder="Bitte wählen ..."
-                            cancelText="Abbrechen" okText="OK"
+                            placeholder="{{'profile.data.select' | translate}}"
+                            cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
                 >
                     <ion-option value="de" selected="true">Deutschland</ion-option>
                 </ion-select>
@@ -80,11 +80,11 @@
                     formControlName="businessUser"
                     [(ngModel)]="user.profile.operatorVat">
                 </ion-checkbox>
-                <ion-label>Ich bin ein kommerzieller Anbieter</ion-label>
+                <ion-label>{{'profile.data.commercial_provider' | translate}}</ion-label>
                 <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('operatorVat')"></ion-icon>
             </ion-item>
             <ion-item *ngIf="user.profile.operatorVat">
-                <ion-label floating>Steuernummer</ion-label>
+                <ion-label floating>{{'profile.data.tax_number' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="taxNumber"
                            [(ngModel)]="user.profile.operatorVatID"></ion-input>
             </ion-item>
@@ -94,7 +94,7 @@
             </div>
         </ion-list>
         <div padding text-center>
-            <button type="submit" ion-button round text-uppercase="">Speichern</button>
+            <button type="submit" ion-button round text-uppercase="">{{'common.save' | translate}}</button>
         </div>
     </form>
 

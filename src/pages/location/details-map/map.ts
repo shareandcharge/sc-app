@@ -6,6 +6,8 @@ import {
 import {Platform} from 'ionic-angular';
 import {Location} from "../../../models/location";
 import {LocationService} from "../../../services/location.service";
+import {TranslateService} from '@ngx-translate/core';
+
 
 
 declare var google;
@@ -32,7 +34,7 @@ export class MapDetailPage {
 
     constructor(private viewCtrl: ViewController, platform: Platform, private navParams: NavParams,
                 public navCtrl: NavController, private loadingCtrl: LoadingController,
-                private locationService: LocationService) {
+                private locationService: LocationService, private translateService: TranslateService) {
         this.platform = platform;
 
         this.mapDefaultControlls = !this.platform.is("core");
@@ -63,7 +65,7 @@ export class MapDetailPage {
     loadMap() {
 
         let loader = this.loadingCtrl.create({
-            content: "Lade Karte ...",
+            content: this.translateService.instant('location.details_map.loading_map'),
         });
         loader.present();
 

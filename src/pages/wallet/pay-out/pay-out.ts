@@ -44,7 +44,7 @@ export class PayOutPage {
         this.paymentService.payOut(this.payOutObject).subscribe((res) => {
             this.viewCtrl.dismiss();
         }, (error) => {
-            this.errorService.displayErrorWithKey(error, 'Geld auszahlen');
+            this.errorService.displayErrorWithKey(error, 'error.scope.wallet_payout');
         });
     }
 

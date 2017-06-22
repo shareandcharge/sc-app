@@ -68,7 +68,7 @@ export class StationWrapperPage {
                     this.navCtrl.pop();
                     this.events.publish('locations:updated', location);
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Ladestation bearbeiten')
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_location')
             );
         }
     }
@@ -81,7 +81,7 @@ export class StationWrapperPage {
                 this.navCtrl.pop();
                 this.events.publish('locations:updated', location);
             },
-            error => this.errorService.displayErrorWithKey(error, 'Ladestation hinzufügen')
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.create_location')
         );
     }
 

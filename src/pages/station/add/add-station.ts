@@ -16,6 +16,7 @@ import {Connector} from "../../../models/connector";
 import {SetTariffPage} from "../set-tariff/set-tariff";
 import {EditProfilePage} from "../../profile/profile-data/edit-profile/edit-profile";
 import {TrackerService} from "../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 /**
@@ -64,7 +65,8 @@ export class AddStationPage {
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService,
                 private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams,
-                private events: Events, private alertCtrl: AlertController, private trackerService: TrackerService) {
+                private events: Events, private alertCtrl: AlertController, private trackerService: TrackerService,
+                private translateService: TranslateService) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -425,7 +427,7 @@ export class AddStationPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
-            content: "Lade Karte ...",
+            content: this.translateService.instant('station.load_map'),
         });
         loader.present();
 
@@ -534,11 +536,11 @@ export class AddStationPage {
         this.clearErrorMessages();
         if (!this.locObject.address) {
             hasError = true;
-            this.errorMessages.address = 'Bitte gib eine Adresse ein.';
+            this.errorMessages.address = this.translateService.instant('error_messages.address_2');
         }
         if (!this.isOpeningHoursSelected()) {
             hasError = true;
-            this.errorMessages.openingHours = 'Bitte wähle die Öffnungszeiten.';
+            this.errorMessages.openingHours = this.translateService.instant('error_messages.opening_hours');
         }
         return !hasError;
     }
@@ -579,11 +581,11 @@ export class AddStationPage {
         if (this.auth.getUser().isProfileComplete()) return true;
 
         let alert = this.alertCtrl.create({
-            title: 'Daten unvollständig',
-            message: 'Um eine Ladestation hinzufügen zu können, musst Du zunächst Dein Profil vervollständigen.',
+            title: this.translateService.instant('station.data_incomplete'),
+            message: this.translateService.instant('station.msg_complete_profile'),
             buttons: [
                 {
-                    text: 'Ok, Profil bearbeiten',
+                    text: this.translateService.instant('station.edit_profile'),
                     handler: () => {
                         this.navCtrl.push(EditProfilePage, {
                             'user': this.auth.getUser()
@@ -591,7 +593,7 @@ export class AddStationPage {
                     }
                 },
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     handler: () => {
                         this.skipAddingStation();
                     },

@@ -46,25 +46,14 @@ page-add-car {
     .input-plate {
         background-color: transparent;
         input.text-input {
-            @include placeholder(#fff);
-            background-color: rgba(255, 255, 255, 0.2);
-            color: #fff;
+            @include placeholder(map_get($colors, grey_darker));
+            background-color: $background-color;
             padding: 10px 14px;
             margin: 0;
             text-align: center;
+            border-radius: $border-radius;
         }
     }
-
-    /*ion-icon{
-      position: absolute;
-      right:10px;
-    }*/
-
-    .bottom-container {
-        //position: relative;
-        //top: -90px;
-    }
-
 }
 
 .alert-ios .alert-checkbox-icon {

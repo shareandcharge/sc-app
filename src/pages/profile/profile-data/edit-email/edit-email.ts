@@ -5,7 +5,8 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {UserService} from "../../../../services/user.service";
 import {AuthService} from "../../../../services/auth.service";
 import {ErrorService} from "../../../../services/error.service";
-import {emailValidator} from '../../../../validators/emailValidator'
+import {emailValidator} from '../../../../validators/emailValidator';
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -21,7 +22,7 @@ export class EditEmailPage {
 
     constructor(private userService: UserService, private navParams: NavParams, public navCtrl: NavController,
                 private authService: AuthService, private formBuilder: FormBuilder, private events: Events,
-                private errorService: ErrorService) {
+                private errorService: ErrorService, private translateService: TranslateService) {
         this.user = navParams.get('user');
 
         this.createErrorMessages();
@@ -33,7 +34,7 @@ export class EditEmailPage {
 
     createErrorMessages() {
         this.errorMessages = {
-            "email": 'Bitte gib die E-Mail an.',
+            "email": this.translateService.instant('profile.data.input_email')
         }
     }
 
@@ -47,7 +48,7 @@ export class EditEmailPage {
                         this.events.publish('users:updated');
                         this.navCtrl.pop();
                     },
-                    error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+                    error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
         }
     }
 }

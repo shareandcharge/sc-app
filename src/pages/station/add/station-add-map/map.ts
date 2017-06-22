@@ -6,6 +6,7 @@ import {
     ViewController
 } from 'ionic-angular';
 import {Platform} from 'ionic-angular';
+import {TranslateService} from "@ngx-translate/core";
 
 
 declare var google;
@@ -26,7 +27,9 @@ export class StationMapDetailPage {
 
     defaultZoom = 16;
 
-    constructor(private viewCtrl: ViewController, private platform: Platform, private navParams: NavParams, public navCtrl: NavController, private loadingCtrl: LoadingController) {
+    constructor(private viewCtrl: ViewController, private platform: Platform, private navParams: NavParams,
+                public navCtrl: NavController, private loadingCtrl: LoadingController,
+                private translateService: TranslateService) {
 
         this.mapDefaultControlls = !platform.is("core");
 
@@ -47,7 +50,7 @@ export class StationMapDetailPage {
 
     loadMap() {
         let loader = this.loadingCtrl.create({
-            content: "Lade Karte ...",
+            content: this.translateService.instant('station.load_map'),
         });
         loader.present();
 

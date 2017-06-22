@@ -4,6 +4,8 @@ import {IntroPage} from "../intro/intro";
 import {InAppBrowser} from "ionic-native";
 import {ConfigService} from "../../services/config.service";
 import {DataProtectionPage} from "../_global/data-protection/data-protection";
+import {TranslateService} from "@ngx-translate/core";
+
 
 @Component({
     selector: 'page-help',
@@ -11,17 +13,20 @@ import {DataProtectionPage} from "../_global/data-protection/data-protection";
 })
 export class HelpPage {
 
-    constructor(private modalCtrl: ModalController, private configService: ConfigService) {
+    constructor(private modalCtrl: ModalController, private configService: ConfigService, private translateService: TranslateService) {
     }
 
+
     openFaq() {
-        let url = this.configService.get('FAQ_URL');
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+        let url = this.translateService.instant('documents.FAQ_URL')
+        let close = this.translateService.instant('common.close');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+close+',toolbar=yes,location=no');
     }
 
     openTerms() {
-        let url = this.configService.get('TERMS_APP_URL');
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+        let url = this.translateService.instant('documents.TERMS_APP_URL');
+        let close = this.translateService.instant('common.close');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+close+',toolbar=yes,location=no');
     }
 
     openDataProtection() {

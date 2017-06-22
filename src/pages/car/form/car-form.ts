@@ -20,6 +20,7 @@ import {accuCapacityValidator} from '../../../validators/accuCapacityValidator';
 import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
 import {TrackerService} from "../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -43,7 +44,8 @@ export class CarFormPage {
                 public formBuilder: FormBuilder, private alertCtrl: AlertController, public navCtrl: NavController,
                 private actionSheetCtrl: ActionSheetController, private navParams: NavParams,
                 private carService: CarService, private platform: Platform, private loadingCtrl: LoadingController,
-                public events: Events, private errorService: ErrorService, private trackerService: TrackerService) {
+                public events: Events, private errorService: ErrorService, private trackerService: TrackerService, 
+                private translateService: TranslateService) {
         this.segmentTabs = 'preset';
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
@@ -51,7 +53,7 @@ export class CarFormPage {
         this.configService.getPlugTypes().subscribe((plugTypes) => {
                 this.plugOptions = plugTypes;
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('car.form.error_subtitle')));
         this.createErrorMessages();
 
         this.carForm = formBuilder.group({
@@ -68,7 +70,7 @@ export class CarFormPage {
     ionViewWillEnter() {
         this.carForm.patchValue(this.car);
         let eventName = 'Started ' + (this.isAdd() ? 'Add' : 'Edit') + ' Electric Car';
-        let screenName = (this.isAdd() ? 'Elektroauto hinzufügen' : 'Elektroauto bearbeiten');
+        let screenName = (this.isAdd() ? this.translateService.instant('car.form.add_car') : this.translateService.instant('car.form.edit_car'));
         this.trackerService.track(eventName, {
             "Screen Name": screenName
         });
@@ -77,30 +79,30 @@ export class CarFormPage {
 
     createErrorMessages() {
         this.errorMessages = {
-            "plateNumber": 'Bitte gib das Kennzeichen an.',
-            "accuCapacity": 'Bitte gib die Batteriekapazität an.',
-            "manufacturer": 'Bitte gib den Hersteller an.',
-            "model": 'Bitte gib das Modell an.',
-            "plugTypes": 'Bitte gib die Steckertypen an.',
-            "maxCharging": 'Bitte gib die maximale Stromstärke an.',
-            "averageDistance": 'Bitte gib die durchschnittliche Reichweite an.'
+            "plateNumber": this.translateService.instant('car.form.error_msgs.plateNumber'),
+            "accuCapacity": this.translateService.instant('car.form.error_msgs.accuCapacity'),
+            "manufacturer": this.translateService.instant('car.form.error_msgs.manufacturer'),
+            "model": this.translateService.instant('car.form.error_msgs.model'),
+            "plugTypes": this.translateService.instant('car.form.error_msgs.plugTypes'),
+            "maxCharging": this.translateService.instant('car.form.error_msgs.maxCharging'),
+            "averageDistance": this.translateService.instant('car.form.error_msgs.averageDistance')
         }
     }
 
     selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Bild auswählen',
+            title: this.translateService.instant('car.form.select_photo'),
             buttons: [
                 {
-                    text: 'Kamera',
+                    text: this.translateService.instant('car.form.camera'),
                     handler: () => this.takePhoto('camera')
                 },
                 {
-                    text: 'Mediathek',
+                    text: this.translateService.instant('car.form.media'),
                     handler: () => this.takePhoto('Gallery')
                 },
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel',
                     icon: !this.platform.is('ios') ? 'close' : null
                 }
@@ -148,7 +150,7 @@ export class CarFormPage {
         this.segmentTabs = 'custom';
 
         if (this.carForm.valid) {
-            let loader = this.loadingCtrl.create({content: "Speichere Auto ..."});
+            let loader = this.loadingCtrl.create({content: this.translateService.instant('car.form.save_car')});
             loader.present();
 
             let me = this;
@@ -159,7 +161,7 @@ export class CarFormPage {
                     .subscribe(
                         () => {
                             this.trackerService.track('Car Info Updated', {
-                                'Screen Name': 'Elektroauto bearbeiten'
+                                'Screen Name': this.translateService.instant('car.form.edit_car')
                             });
 
                             this.events.publish('cars:updated');
@@ -167,7 +169,7 @@ export class CarFormPage {
                             this.refreshUser(); // needed !
                             me.navCtrl.parent.pop();
                         },
-                        error => this.errorService.displayErrorWithKey(error, 'Auto aktualisieren'));
+                        error => this.errorService.displayErrorWithKey(error, this.translateService.instant('refresh_car')));
             }
             else {
                 this.carService.createCar(this.car)
@@ -175,7 +177,7 @@ export class CarFormPage {
                     .subscribe(
                         () => {
                             this.trackerService.track('Completed Add Car', {
-                                'Screen Name': 'Elektroauto hinzufügen'
+                                'Screen Name': this.translateService.instant('car.form.add_car')
                             });
 
                             this.events.publish('cars:updated');
@@ -183,7 +185,7 @@ export class CarFormPage {
                             this.refreshUser(); // needed !
                             me.navCtrl.parent.pop();
                         },
-                        error => this.errorService.displayErrorWithKey(error, 'Auto anlegen')
+                        error => this.errorService.displayErrorWithKey(error, this.translateService.instant('car.form.add_new_car'))
                     );
             }
         }
@@ -217,24 +219,24 @@ export class CarFormPage {
 
         switch (field) {
             case 'plateNumber':
-                message = "z.B.: AA-BB 777";
+                message = this.translateService.instant('car.form.message_platenumber');
                 break;
             case 'maxCharging':
-                message = "max. 200";
+                message = this.translateService.instant('car.form.message_max_charging');
                 break;
             case 'accuCapacity':
-                message = "max. 150";
+                message = this.translateService.instant('car.form.message_accu_capacity');
                 break;
             case 'averageDistance':
-                message = "max. 1000, ganze Zahlen";
+                message = this.translateService.instant('car.form.message_average_distance');
                 break;
         }
 
         if (message != "") {
             let alert = this.alertCtrl.create({
-                title: 'Info',
+                title: this.translateService.instant('car.form.info'),
                 message: message,
-                buttons: ['Ok']
+                buttons: [this.translateService.instant('common.ok')]
             });
             alert.present();
         }

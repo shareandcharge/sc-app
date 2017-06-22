@@ -155,6 +155,7 @@ export class LocationService extends AbstractApiService {
         for (let image of location.images) {
             if (typeof image.url !== 'undefined') {
                 images.push({
+                    id: image.id,
                     url: image.url,
                     src: this.getImageSrc(image)
                 });

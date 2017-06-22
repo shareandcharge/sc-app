@@ -10,6 +10,7 @@ import {LocationService} from "../../../../services/location.service";
 import {TrackerService} from "../../../../services/tracker.service";
 import {ConfigService} from "../../../../services/config.service";
 import {InAppBrowser} from "ionic-native";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'tariff-confirmation',
@@ -49,7 +50,8 @@ export class TariffConfirmationPage {
 
     constructor(private navParams: NavParams, private events: Events, private userService: UserService,
                 private errorService: ErrorService, private locationService: LocationService, private alertCtrl: AlertController,
-                private navCtrl: NavController, private trackerService: TrackerService, private configService: ConfigService) {
+                private navCtrl: NavController, private trackerService: TrackerService, private configService: ConfigService,
+                private translateService: TranslateService) {
         this.location = navParams.get('location');
         this.station = this.location.stations[0];
         this.connector = this.station.connectors[0];
@@ -61,7 +63,7 @@ export class TariffConfirmationPage {
                 this.user = user;
             },
             (error) => {
-                this.errorService.displayErrorWithKey(error, "Lade angemeldeten Nutzer");
+                this.errorService.displayErrorWithKey(error, 'error.scope.get_user');
             });
 
         for (let type of this.types) {
@@ -105,7 +107,7 @@ export class TariffConfirmationPage {
                 (res) => {
                     this.estimations[type] = res;
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Geschätzter Tarif')
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.get_estimated_price')
             );
     }
 
@@ -122,22 +124,23 @@ export class TariffConfirmationPage {
     }
 
     openTerms() {
-        let url = this.configService.get('TERMS_STATION_URL');
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+        let url = this.translateService.instant('documents.TERMS_STATION_URL');
+        let close = this.translateService.instant('common.close')
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+close+',toolbar=yes,location=no');
     }
 
     showHelp(type) {
         let message = "";
         switch (type) {
             case "terms":
-                message = "Du möchtest Deine eigenen AGBs verwenden? Kontaktier uns per E-Mail. (registrierung@shareandcharge.com)";
+                message = this.translateService.instant('station.terms_and_conditions');
                 break;
         }
 
         let alert = this.alertCtrl.create({
-            title: 'Info',
+            title: this.translateService.instant('station.info'),
             message: message,
-            buttons: ['Ok']
+            buttons: [this.translateService.instant('common.ok')]
         });
         alert.present();
     }

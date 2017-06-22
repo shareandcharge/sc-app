@@ -11,7 +11,7 @@ import {AuthService} from "../services/auth.service";
 import {UserService} from "../services/user.service";
 import {ChargingService} from "../services/charging.service";
 import {IntroPage} from '../pages/intro/intro';
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 import {PushNotificationService} from "../services/push.notification.service";
 import {ErrorService} from "../services/error.service";
 import {TrackerService} from "../services/tracker.service";
@@ -74,8 +74,9 @@ export class MyApp {
                 this.events.publish('locations:updated');
             });
 
-            translateService.setDefaultLang("de");
-            translateService.use("de");
+            const userLang = navigator.language.split('-')[0]; // use navigator lang if available
+            translateService.setDefaultLang("en");
+            translateService.use(userLang);
 
             this.checkExistingToken();
 
@@ -154,7 +155,7 @@ export class MyApp {
             this.userService.updateUser(user).subscribe((updatedUser) => {
                     this.authService.setUser(updatedUser);
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Nutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, this.translateService.instant('_global.data_protection.refresh_user')));
         }
     }
 
@@ -162,10 +163,13 @@ export class MyApp {
      * called when charging process is lapsed/run out (without the user hitting the stop button)
      */
     chargingLapsed() {
+        let messageTrans = this.translateService.instant('toast.charging_finished');
+        let okTrans = this.translateService.instant('common.ok');
+
         let toast = this.toastCtrl.create({
-            message: 'Ladevorgang erfolgreich beendet',
+            message: this.translateService.instant('app.loading_success'),
             showCloseButton: true,
-            closeButtonText: 'Ok',
+            closeButtonText: this.translateService.instant('common.ok'),
             position: 'top',
             dismissOnPageChange: false
         });

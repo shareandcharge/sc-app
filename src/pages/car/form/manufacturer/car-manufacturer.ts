@@ -4,6 +4,7 @@ import {CarService} from "../../../../services/car.service";
 import {ErrorService} from "../../../../services/error.service";
 import {CarModelPage} from "../model/car-model";
 import {Car} from '../../../../models/car';
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -17,11 +18,11 @@ export class CarManufacturerPage {
     mode: any;
     car: Car;
 
-    constructor(public navCtrl: NavController, private errorService: ErrorService, private viewCtrl: ViewController, private carService: CarService, private navParams: NavParams) {
+    constructor(public navCtrl: NavController, private errorService: ErrorService, private viewCtrl: ViewController, private carService: CarService, private navParams: NavParams, private translateService: TranslateService) {
         this.carService.getManufacturers().subscribe((res) => {
                 this.manufacturers = res;
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Meine Autos'));
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('car.form.manufacturer.error_subtitle')));
 
         this.car = navParams.get("car");
         this.mode = navParams.get("mode");

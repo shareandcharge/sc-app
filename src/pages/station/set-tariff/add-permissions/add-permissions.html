@@ -5,17 +5,17 @@
                 <ion-icon name="md-close"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title>Nutzer</ion-title>
+        <ion-title>{{ 'station.user' | translate }}</ion-title>
     </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
     <div padding-left padding-right>
-        <button ion-button (click)="pickFromContacts()" round block>Aus Kontakten hinzufügen</button>
+        <button ion-button (click)="pickFromContacts()" round block>{{ 'station.add_from_contacts' | translate }}</button>
     </div>
 
-    <p text-center>Oder</p>
+    <p text-center>{{ 'station.or' | translate }}</p>
 
     <ion-list no-lines>
         <ion-item>

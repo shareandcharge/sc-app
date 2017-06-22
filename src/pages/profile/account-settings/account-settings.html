@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Profil Einstellungen</ion-title>
+        <ion-title>{{'profile.account_settings.config_profile' | translate}}</ion-title>
     </ion-navbar>
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
@@ -9,13 +9,13 @@
 <ion-content>
     <ion-list padding-top="" padding-right="" class="no-outer-lines">
         <button ion-item (click)="notifications()" *ngIf="false">
-            Benachrichtigungen
+            {{'profile.account_settings.notification' | translate}}
         </button>
         <button ion-item (click)="lang()" *ngIf="false">
-            Sprache
+            {{'profile.account_settings.language' | translate}}
         </button>
         <button ion-item (click)="privacy()" *ngIf="false">
-            Datenschutz
+            {{'profile.account_settings.privacy' | translate}}
         </button>
     </ion-list>
 </ion-content>

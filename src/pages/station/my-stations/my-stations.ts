@@ -13,6 +13,7 @@ import {AuthService} from "../../../services/auth.service";
 import {StationWrapperPage} from "../station-wrapper";
 import {ErrorService} from "../../../services/error.service";
 import {Location} from "../../../models/location";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-my-stations',
@@ -27,7 +28,7 @@ export class MyStationsPage {
     constructor(public navCtrl: NavController, public viewCtrl: ViewController, public auth: AuthService,
                 private loadingCtrl: LoadingController, private alertCtrl: AlertController,
                 public locationService: LocationService, public modalCtrl: ModalController,
-                private events: Events, private errorService: ErrorService) {
+                private events: Events, private errorService: ErrorService, private translateService: TranslateService) {
         this.events.subscribe('locations:updated', () => this.loadStations());
     }
     
@@ -42,29 +43,31 @@ export class MyStationsPage {
         this.locationService.getLocationsUser(userAddress).subscribe(locations => {
             this.stations = locations;
         },
-        error => this.errorService.displayErrorWithKey(error, 'Liste - Stationen des Benutzers'));
+        error => this.errorService.displayErrorWithKey(error, 'error.scope.get_locations_user'));
     }
 
     deleteStation(station, itemSliding: ItemSliding) {
         let alert = this.alertCtrl.create({
-            title: 'Löschen bestätigen',
-            message: 'Möchtest Du diese Station wirklich löschen?',
+            title: this.translateService.instant('station.confirm_delete'),
+            message: this.translateService.instant('station.msg_confirm_delete_station'),
             buttons: [
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel',
                     handler: () => itemSliding.close()
                 },
                 {
-                    text: 'Ja, löschen',
+                    text: this.translateService.instant('station.yes_delete'),
                     handler: () => {
-                        let loader = this.loadingCtrl.create({content: "Lösche Station ..."});
+                        let loader = this.loadingCtrl.create({
+                            content: this.translateService.instant('station.delete_charging_station')
+                        });
                         loader.present();
                         this.locationService.deleteLocation(station.id)
                             .finally(() => loader.dismissAll())
                             .subscribe(
                                 () => this.events.publish('locations:updated' , station),
-                                error => this.errorService.displayErrorWithKey(error, 'Station löschen')
+                                error => this.errorService.displayErrorWithKey(error, 'error.scope.delete_location')
                             )
                     }
                 }
@@ -96,7 +99,7 @@ export class MyStationsPage {
             });
             modal.present();
         },
-        error => this.errorService.displayErrorWithKey(error, 'Station laden'));
+        error => this.errorService.displayErrorWithKey(error, 'error.scope.get_location'));
     }
 
     doRefresh(refresher) {

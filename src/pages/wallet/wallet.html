@@ -4,7 +4,7 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Konto</ion-title>
+        <ion-title>{{'wallet.account' | translate}}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="addMoney()">
                 <ion-icon name="md-add"></ion-icon>
@@ -23,8 +23,8 @@
     <ion-content>
         <ion-list>
             <!--<ion-item>Zahlungsvorgänge</ion-item>-->
-            <ion-item (click)="payOut()">Auszahlung</ion-item>
-            <ion-item (click)="redeemVoucher()">Gutschein</ion-item>
+            <ion-item (click)="payOut()">{{'wallet.pay' | translate }}</ion-item>
+            <ion-item (click)="redeemVoucher()">{{'wallet.voucher' | translate}}</ion-item>
             <!--<ion-item>Rechnungen</ion-item>-->
         </ion-list>
     </ion-content>
@@ -38,10 +38,10 @@
 
     <div class="top-container" padding="" text-center="" (click)="addMoney()">
         <h2>{{(currentBalance / 100) | currency:'EUR':true:'1.2-2'}}</h2>
-        <h3>Guthaben</h3>
+        <h3>{{'wallet.balance' | translate}}</h3>
     </div>
 
-    <h1>Meine Zahlungsvorgänge</h1>
+    <h1>{{'wallet.my_payment' | translate}}</h1>
 
     <ion-grid class="wallet-history">
         <ion-row *ngFor="let tr of transactions" [ngClass]="{'status-pending': tr.isPending()}" (click)="openTransactionDetail(tr)">
@@ -68,7 +68,7 @@
     </ion-grid>
 
     <div padding text-center *ngIf="transactions && !transactions.length">
-        <button ion-button text-uppercase round (click)="addMoney()">Konto aufladen</button>
+        <button ion-button text-uppercase round (click)="addMoney()">{{'wallet.deposit' | translate}}</button>
     </div>
 
 </ion-content>
