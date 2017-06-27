@@ -1,7 +1,8 @@
-app_identifier "com.shareandcharge.app" # The bundle identifier of your app
-apple_id "jan.ely@innogy.com" # Your Apple email address
-team_name "RWE IT GmbH"
-team_id "S8N3ZACVV9" # Developer Portal Team ID
+json_key_file "./fastlane/keystore/key-03e55092317a.json" # Path to the json secret file - Follow https://github.com/fastlane/supply#setup to get one
+package_name "com.shareandcharge.app2" # e.g. com.krausefx.ap
+# apple_id "lgallina@thoughtworks.com" # Your Apple email address
+# team_name "RWE IT GmbH"
+# team_id "S8N3ZACVV9" # Developer Portal Team ID
 
 # you can even provide different app identifiers, Apple IDs and team names per lane:
 # More information: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Appfile.md

@@ -1,6 +1,6 @@
 fastlane_version "2.38.1"
 
-default_platform :ios
+default_platform :android
 
 platform :ios do
   before_all do
@@ -43,29 +43,63 @@ platform :ios do
 end
 
 platform :android do
-  desc "Sign an APK"
-  lane :sign_apk_lane do |options|
-      sign_apk(
+  # desc "Sign an APK"
+  # lane :sign_apk_lane do |options|
+  #     sign_apk(
+  #       alias: "share_and_charge",
+  #       storepass: options[:storepass],
+  #       keystore_path: "fastlane/release-cred/share-and-charge.keystore",
+  #       tsa: "http://timestamp.comodoca.com/rfc316",
+  #       signed_apk_path: options[:signed_apk_path],
+  #       keypass: options[:keypass]
+  #     )
+  # end
+  #
+  # desc "Compile new build for Android"
+  # lane :release do |options|
+  #   app_android__key = 'share_and_charge'
+  #   sign_apk(
+  #     apk_path: "./platforms/android/build/outputs/apk/android-release-unsigned.apk",
+  #     signed_apk_path: "./platforms/android/build/outputs/apk/ShareAndCharge.apk",
+  #     keystore_path: "./fastlane/release-cred/share-and-charge.keystore",
+  #     alias: app_android__key
+  #   )
+  #   zipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
+  # end
+
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "deploy to google play alpha channel"
+  lane :alpha do |options|
+    gradle(task: "clean")
+    gradle(task: "assemble")
+    sign_apk(
         alias: "share_and_charge",
         storepass: options[:storepass],
-        keystore_path: "fastlane/release-cred/share-and-charge.keystore",
+        keystore_path: "fastlane/keystore/test.keystore",
         tsa: "http://timestamp.comodoca.com/rfc316",
         signed_apk_path: options[:signed_apk_path],
         keypass: options[:keypass]
-      )
-  end
-
-  desc "Compile new build for Android"
-  lane :release do |options|
-    app_android__key = 'share_and_charge'
-    sign_apk(
-      apk_path: "./platforms/android/build/outputs/apk/android-release-unsigned.apk",
-      signed_apk_path: "./platforms/android/build/outputs/apk/ShareAndCharge.apk",
-      keystore_path: "./fastlane/release-cred/share-and-charge.keystore",
-      alias: app_android__key
     )
-    zipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
+
+    zipalign(
+      apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}"
+    )
+
+    supply(
+     track: 'alpha',
+     apk: "#{lane_context[SharedValues::SIGNED_APK_PATH]}"
+   )
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "assembleRelease")
+    supply
   end
+end
 end
 # More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
 # All available actions: https://docs.fastlane.tools/actions
