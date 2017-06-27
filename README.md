@@ -1,10 +1,10 @@
-# sc-app
+# SC-APP
 
-native-app for share&amp;charge
+### Ionic Cordova Application for Share&amp;Charge
 
-## preparation/development
+## Development Preparation
 
-Make sure you have the following applications installed:
+Make sure you have the following applications installed and relevant paths exported:
 
   - homebrew
   - full xcode & xcode CLI
@@ -12,17 +12,17 @@ Make sure you have the following applications installed:
   - java jre & sdk (Version 8)
   - cocoapods ('gem install cocoapods && pod setup')
 
+<hr></hr>
 
-!! Please be aware of that the existing scripts under ./bin are not handling any exceptions right now !!
+### Set up  the machine and environment to require the proper dependencies & versions by running a series of configuration scripts located in the ./bin directory
 
-!! All scripts under ./bin/ have to be executed from the ROOT directory of this project !!
+##### NOTE: All scripts under ./bin/ have to be executed from the ROOT directory of this project. Please be aware of that the existing scripts under ./bin are not handling any exceptions right now
 
-  1.) Execute './bin/box-setup.sh'
-    (Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations)
+  1.) Run the box-setup script to ensure the right node version npm packages and ruby build tools are installed.(Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations) ```./bin/box-setup.sh```
 
-  2.) Before you can build, you have to execute './bin/prepare-build.sh'
+  2.) Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process. ```./bin/prepare-build.sh```
 
-  3.) If you want to build, you can use './bin/build.sh'
+  3.) If you want to build, you can use './bin/build.sh', but this process will eventually be replaced by running 'fastlane gym' or 'fastlane alpha'
     The script requires two parameter. The first one defines the platform you want to build for (android, ios),
     the second the target (dev, prod) (Example: ./bin/build.sh android dev)
 
@@ -32,7 +32,7 @@ Make sure you have the following applications installed:
   10.) Copy `/src/config/config.ts.dist` to `/src/config/config.ts` and fill the values.
   11.) Run "ionic build \<PLATFORM\> [--prod] [--]"
 
-## releasing a new version
+### releasing a new version
 
 * start a new  in gitflow
 * bumb version numbers in
@@ -41,8 +41,9 @@ Make sure you have the following applications installed:
   * `/config.xml`
 * finish  in gitflow
 
+<hr></hr>
 
-
+## Manual Build & Deployment Process
 
 ### iOS
 
@@ -84,11 +85,6 @@ should be empty or `false`.
 
 If you don't have the keystore and/or passwords, ask Felix Magdeburg <felix.magdeburg@innogy.com>.
 
-### todo
-Add continuous integration, or at least some scripts to ease the pain.
-
-## misc info
-
 ### Xcode config
 Most of the settings are contained in the config.xml and applied by the
  cordova-custom-config plugin (deployment target, region, descriptions ...)
@@ -97,7 +93,8 @@ Most of the settings are contained in the config.xml and applied by the
 Things you have to do by hand:
 * Turn on: Capabilities -> Push notifications
 * Set the provisioning profiles
-
+##### Currently the provisioning profiles and certificates are not being managed by Fastlane and are configured manually. Eventually these will reside in a secured repository that Fastlane Match will manage for all developers.
+https://github.com/fastlane/fastlane/tree/master/match
 
 ### FB SDK
 Facebook plugin is (at the moment) only used to track app installations.
@@ -106,5 +103,27 @@ Facebook plugin is (at the moment) only used to track app installations.
 
 See: https://github.com/jeduan/cordova-plugin-facebook4#installation
 
-#### HEADS UP
-If you submit a (new) iOS app version and you have the Facebook SDK included, for Christ’s sake, check the box saying “This app uses the Ad-ID (IDFA)?”
+#### Facebook SDK Configuration
+If you submit a (new) iOS app version and you have the Facebook SDK included, please check the box saying “This app uses the Ad-ID (IDFA)?”
+
+<hr></hr>
+
+## Automated Build & Deployment Process
+
+Fastlane is being used to automate builds to iTunes Connect (Testflight) and to the Google Play store. Fastlane can be configured to run build/deploy commands defined in "lanes" for each platform.
+
+
+### iOS
+##### Given the default_platform is set to ios in the Fastfile...
+
+#### To submit a new Beta Build to Apple Testflight, execute the following: ```fastlane beta```
+
+#### To deploy a new version to the App Store, execute the following: ```fastlane deploy```
+
+
+### Android
+##### Given the default_platform is set to android in the Fastfile...
+
+### To deploy an Alpha Build of the application to Google Play, execute the following: ```fastlane alpha```
+
+##### Take note, fastlane alpha runs several gradle and android apk build tasks which require that properly configured paths are set for ANDROID_HOME, and zipalign (android sdk build-tool). 
