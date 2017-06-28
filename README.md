@@ -90,15 +90,18 @@ You should then be able to log into iTunes Connect with the PO's credentials.
 
 Currently, the manual process we are phasing out is as follows:
 ```
-$ ionic build android --prod --
+$ ionic build android --prod --release
 $ cd <TO_APK_OUTPUT_PATH>
+//platforms/android/
 $ jarsigner -verbose -tsa http://timestamp.digicert.com -sigalg SHA1withRSA -digestalg SHA1 -keystore <PATH_TO_KEYSTORE>/share-and-charge.keystore android--unsigned.apk share_and_charge
+//share_and_charge may be the key for the keystore
+
 $ zipalign -v 4 android--unsigned.apk ShareAndCharge-<VERSION_NUMBER>.apk
 ```
 
 The following command includes the absolute paths for the project and keystores with the new fastlane integration
 ```
-jarsigner -verbose -tsa http://timestamp.digicert.com  -sigalg SHA1withRSA -digestalg SHA1 -keystore ./fastlane/-cred/share-and-charge.keystore ./platforms/android/build/outputs/apk/android--unsigned.apk share_and_charge
+jarsigner -verbose -tsa http://timestamp.digicert.com  -sigalg SHA1withRSA -digestalg SHA1 -keystore ./fastlane/release-cred/share-and-charge.keystore ./platforms/android/build/outputs/apk/android--unsigned.apk share_and_charge
 ```
 
 double-check that apk is not debuggable:
