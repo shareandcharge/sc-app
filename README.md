@@ -22,24 +22,19 @@ Make sure you have the following applications installed and relevant paths expor
 
   2.) Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process. ```./bin/prepare-build.sh```
 
-  3.) If you want to build, you can use './bin/build.sh', but this process will eventually be replaced by running 'fastlane gym' or 'fastlane alpha'
-    The script requires two parameter. The first one defines the platform you want to build for (android, ios),
-    the second the target (dev, prod) (Example: ./bin/build.sh android dev)
+<hr></hr>
+## Development
 
+### Setup the config.ts
+- ***LAZY OPTION*** Copy the [config.ts](https://github.com/motionwerkGmbH/wiki/blob/master/share_n_charge/config.ts) file into `./src/config/` ***OR***
+- ***BETTER UNDERSTANDING OPTION*** From the repo root directory: `cp ./src/config/config.ts.dist ./src/config/config.ts && nano ./src/config/config.ts` Update the `API_URL` property to `'http://localhost:3412/v1'`, the `IMAGES_BASE_URL` property to `'http://localhost:3412'` and the `'API_KEY' -> 'param'` property to `'noapikey'` (from `'apikey'`).
 
-//tbd
+### Serving the app
 
-  10.) Copy `/src/config/config.ts.dist` to `/src/config/config.ts` and fill the values.
-  11.) Run "ionic build \<PLATFORM\> [--prod] [--]"
+To make sure the correct packages and dependencies installed, consider running `ionic build ios --dev` before serving the application.
 
-### releasing a new version
-
-* start a new  in gitflow
-* bumb version numbers in
-  * `/src/config/config.ts`
-  * `/src/config/config.ts.dist`
-  * `/config.xml`
-* finish  in gitflow
+To serve the app, run 'ionic serve'
+[http://localhost:8100/](http://localhost:8100/) will open in a new browser window.
 
 <hr></hr>
 
@@ -47,20 +42,49 @@ Make sure you have the following applications installed and relevant paths expor
 
 ### iOS
 
-##### To build for development (deployment to TestFlight) run:
+### To release a new version
+
+* Bumb version numbers in
+  * `/src/config/config.ts`
+  * `/src/config/config.ts.dist`
+  ```javascript
+  export let CONFIG = {
+      APP_VERSION: '{BUMPED_VERSION_NUMBER}',
+      ...
+  }
+  ```
+  * `/config.xml`
+  ```xml
+  <widget id="com.shareandcharge.app" version="{BUMPED_VERSION_NUMBER}" xmlns="...">
+  ```
+
+#### Before :
+  Open in Xcode. Make sure the the signing section under ShareCharge Targets has the following:
+  1. "Automatically manage signing" checked
+  2. As of 28/06/17, the team selected is 'RWE IT GmbH'
+  3. The developer profile is either correctly configured or filled in as 'iPhone Developer: POs Name ({certificate_id})'
+  4. Make sure that under the menu 'Product > Destination', "Generic iOS Device" is selected
+
+
+#### To build for testing (deployment to TestFlight):
+
+At the moment this process requires manual configuration of the certificates and profiles. Until we are managing certs and profiles with Fastlane Match, you need to be given the matching distribution certificate and profile, as well as register a developer profile and download the corresponding certificate under the PO's Apple Developer account.
+
 ```
 $ ionic build ios --device
 ```
-You should then have a valid .ipa file that you can upload to iTunes Connect
 
-##### To build for distribution run:
+#### To build for distribution run:
+
 ```
 $ ionic build ios --prod --release
 ```
+Note: This option is currently blocked.
 
-Open in Xcode. If you added/removed ios since the last build (or if you want to be super sure), check capabilities (push notifications).
+#### To upload the build
+Go to 'Product > Archive'. In the opened window select the latest version and click "Upload to App Store...".
 
-Goto "Product > Archive". In the opened window select the latest version and push "Upload to App Store...".
+You should then be able to log into iTunes Connect with the PO's credentials.
 
 ### Android
 
@@ -85,10 +109,7 @@ should be empty or `false`.
 
 If you don't have the keystore and/or passwords, ask Felix Magdeburg <felix.magdeburg@innogy.com>.
 
-### Xcode config
-Most of the settings are contained in the config.xml and applied by the
- cordova-custom-config plugin (deployment target, region, descriptions ...)
- when you add the platform.
+
 
 Things you have to do by hand:
 * Turn on: Capabilities -> Push notifications
@@ -108,7 +129,7 @@ If you submit a (new) iOS app version and you have the Facebook SDK included, pl
 
 <hr></hr>
 
-## Automated Build & Deployment Process
+## TO-DO: Automated Build & Deployment Process
 
 Fastlane is being used to automate builds to iTunes Connect (Testflight) and to the Google Play store. Fastlane can be configured to run build/deploy commands defined in "lanes" for each platform.
 
@@ -126,4 +147,4 @@ Fastlane is being used to automate builds to iTunes Connect (Testflight) and to 
 
 ### To deploy an Alpha Build of the application to Google Play, execute the following: ```fastlane alpha```
 
-##### Take note, fastlane alpha runs several gradle and android apk build tasks which require that properly configured paths are set for ANDROID_HOME, and zipalign (android sdk build-tool). 
+##### Take note, fastlane alpha runs several gradle and android apk build tasks which require that properly configured paths are set for ANDROID_HOME, and zipalign (android sdk build-tool).
