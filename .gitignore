@@ -39,6 +39,7 @@ src/config/config.ts
 fastlane/.env
 fastlane/release-cred/*.keystore
 fastlane/report.xml
+fastlane/keystore
 
 .idea
 *.iml
