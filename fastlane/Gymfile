@@ -1,0 +1,3 @@
+scheme "ShareCharge"
+project "../sc-app/platforms/ios/ShareCharge.xcodeproj"
+output_directory "./"

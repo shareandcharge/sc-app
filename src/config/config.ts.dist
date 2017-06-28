@@ -7,8 +7,9 @@ export let CONFIG = {
     IMAGES_BASE_URL: 'https://api.shareandcharge.com',
     API_KEY: {
         param: 'apikey',
-        name: 'iosapp',
-        secret: 'secret'
+        //was 'iosapp'
+        name: '{SC_APP_NAME}',
+        secret: '{SC_APP_SECRET}'
     },
     CONTACT_EMAIL: 'info@shareandcharge.com',
     MIXPANEL_TOKEN: '2e9e....',
