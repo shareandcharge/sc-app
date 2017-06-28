@@ -29,14 +29,6 @@ xcode-select --install
 </table>
 
 # Available Actions
-### deploy
-```
-fastlane deploy
-```
-Deploy a new version to the Google Play
-
-----
-
 ## iOS
 ### ios test
 ```
