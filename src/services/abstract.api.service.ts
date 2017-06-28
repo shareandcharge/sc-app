@@ -2,23 +2,22 @@ import {Injectable} from '@angular/core';
 import {Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {ConfigService} from "./config.service";
-import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export abstract class AbstractApiService {
     protected baseUrl;
 
-    constructor(public configService: ConfigService, private translateService: TranslateService) {
+    constructor(public configService: ConfigService) {
         this.baseUrl = this.configService.getApiBaseUrl();
     }
 
     handleError(error: Response | any) {
         let errMsg: string;
-        error = error || this.translateService.instant('error.unknown');
+        error = error || 'Unbekannter Fehler';
 
         if (error instanceof Response) {
             if (error.status == 0) {
-                errMsg = this.translateService.instant('error_messages.no_connection');
+                errMsg = 'Keine Verbindung.';
             }
             else {
                 let body;
