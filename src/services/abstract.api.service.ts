@@ -20,6 +20,9 @@ export abstract class AbstractApiService {
             if (error.status == 0) {
                 errMsg = this.translateService.instant('error_messages.no_connection');
             }
+            else if (error.status >= 400) {
+                errMsg = '';
+            }
             else {
                 let body;
                 try {
