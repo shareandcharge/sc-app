@@ -1,19 +1,20 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {Car} from "../models/car";
-
 import 'rxjs/add/operator/map';
 import {AuthService} from "./auth.service";
 import {AbstractApiService} from "./abstract.api.service";
 import {ConfigService} from "./config.service";
 import {HttpService} from "./http.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class CarService extends AbstractApiService {
     private activeCar: Car = null;
 
-    constructor(private httpService: HttpService, private auth: AuthService, public configService: ConfigService) {
-        super(configService);
+    constructor(private httpService: HttpService, private auth: AuthService, 
+                public configService: ConfigService, public translateService: TranslateService) {
+        super(configService, translateService);
     }
 
     setActiveCar(car: Car) {
@@ -52,13 +53,13 @@ export class CarService extends AbstractApiService {
             .map(res => {
                 return new Car().deserialize(res.json());
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     updateCar(car: Car): Observable<Car> {
         return this.httpService.put(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${car.id}`, JSON.stringify(car))
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     // createCar(car: Car): Observable<Car> {
@@ -67,13 +68,13 @@ export class CarService extends AbstractApiService {
             .map(res => {
                 return new Car().deserialize(res.json());
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     deleteCar(id) {
         return this.httpService.delete(`${this.baseUrl}/users/${this.auth.getUser().address}/cars/${id}`)
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     selectAsActiveCar(car: Car) {

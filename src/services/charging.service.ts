@@ -10,6 +10,7 @@ import {HttpService} from "./http.service";
 import {Connector} from "../models/connector";
 import {Location} from "../models/location";
 import {Observable} from "rxjs/Observable";
+import {TranslateService} from "@ngx-translate/core";
 
 
 /**
@@ -33,8 +34,8 @@ export class ChargingService extends AbstractApiService {
 
     constructor(private httpService: HttpService, configService: ConfigService, private events: Events,
                 private errorService: ErrorService, private locService: LocationService, private storage: Storage,
-                private auth: AuthService) {
-        super(configService);
+                private auth: AuthService, public translateService: TranslateService) {
+        super(configService, translateService);
         this.events.subscribe('auth:logout', () => this.handleLogout());
     }
 
@@ -101,7 +102,7 @@ export class ChargingService extends AbstractApiService {
             .map(res => {
                 return res.json();
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     checkCurrentConnectorIsPending(): Observable<boolean> {
@@ -112,7 +113,7 @@ export class ChargingService extends AbstractApiService {
                 let connector = new Connector().deserialize(res.json());
                 return connector.isPending();
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     getStation(stationId) {
@@ -120,7 +121,7 @@ export class ChargingService extends AbstractApiService {
             .map(res => {
                 return res.json();
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     getChargingProgress() {
@@ -160,7 +161,7 @@ export class ChargingService extends AbstractApiService {
 
                 this.events.publish('locations:updated');
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     stopCharging() {
@@ -170,7 +171,7 @@ export class ChargingService extends AbstractApiService {
                 this.chargingEnd();
                 this.events.publish('locations:updated');
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     handleLogout() {

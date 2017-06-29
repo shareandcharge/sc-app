@@ -7,14 +7,16 @@ import {AuthService} from "./auth.service";
 import {AbstractApiService} from "./abstract.api.service";
 import {ConfigService} from "./config.service";
 import {HttpService} from "./http.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class UserService extends AbstractApiService {
 
     error: string;
 
-    constructor(private authService: AuthService, private httpService: HttpService, configService: ConfigService) {
-        super(configService);
+    constructor(private authService: AuthService, private httpService: HttpService, configService: ConfigService, 
+                public translateService: TranslateService) {
+        super(configService, translateService);
     }
 
     login(email: string, password: string) {
@@ -27,7 +29,7 @@ export class UserService extends AbstractApiService {
                 let data = res.json();
                 this.authSuccess(data);
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     authSuccess(data) {
@@ -46,7 +48,7 @@ export class UserService extends AbstractApiService {
             .map(res => {
                 return new User().deserialize(res.json());
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     userExists(email: string) {
@@ -69,7 +71,7 @@ export class UserService extends AbstractApiService {
 
                 return new User().deserialize(user)
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     createUser(signUpObject): Observable<User> {
@@ -81,7 +83,7 @@ export class UserService extends AbstractApiService {
                 this.authSuccess(data);
                 return new User().deserialize(user);
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     deleteUser(address?) {
@@ -91,13 +93,13 @@ export class UserService extends AbstractApiService {
 
         return this.httpService.delete(`${this.baseUrl}/users/${address}`)
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     resetPassword(resetObject) {
         return this.httpService.post(this.baseUrl + '/users/resetPassword', JSON.stringify(resetObject))
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     resendVerificationEmail(email?) {
@@ -116,6 +118,6 @@ export class UserService extends AbstractApiService {
                     res.json()
                 }
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 }

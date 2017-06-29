@@ -4,11 +4,13 @@ import {ConfigService} from "./config.service";
 import {HttpService} from "./http.service";
 import {Transaction} from "../models/transaction";
 import {Observable} from "rxjs";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class PaymentService extends AbstractApiService {
-    constructor(private httpService: HttpService, configService: ConfigService) {
-        super(configService);
+    constructor(private httpService: HttpService, configService: ConfigService, 
+                public translateService: TranslateService) {
+        super(configService, translateService);
     }
 
     getHistory(): Observable<Transaction[]> {
@@ -20,31 +22,31 @@ export class PaymentService extends AbstractApiService {
                 });
                 return transactions;
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     getBalance() {
         return this.httpService.get(this.baseUrl + '/wallet/balance')
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     payIn(payInObject) {
         return this.httpService.post(this.baseUrl + '/wallet/payIn', JSON.stringify(payInObject))
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     payOut(payOutObject) {
         return this.httpService.post(this.baseUrl + '/wallet/payOut', JSON.stringify(payOutObject))
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     getPaymentStatus(orderId) {
         return this.httpService.get(this.baseUrl + '/wallet/paymentStatus/' + orderId)
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     redeemVoucher(voucherCode) {
@@ -58,6 +60,6 @@ export class PaymentService extends AbstractApiService {
                     res.json()
                 }
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 }
