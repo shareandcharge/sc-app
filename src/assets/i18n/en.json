@@ -169,7 +169,7 @@
   "app": {
     "cancel_app": "Cancel the app",
     "cancel_app_ok": "Yes, close app",
-    "loading_success": "The charging prosess is succeeded"
+    "loading_success": "The charging process is succeeded"
   },
   "_global": {
     "data_protection": {
@@ -282,12 +282,12 @@
       "stop": "Stop",
       "charging_point": "Charging point",
       "find_price": "Find price",
-      "begin_charging": "Charging process will bes starded ...",
-      "start_charging": "Start charging prosesss",
-      "stop_charging": "Stop charging prosess",
-      "stop_confirmation": "Are your sure that your will stop the chargin prosess?",
+      "begin_charging": "Charging process will be started ...",
+      "start_charging": "Start charging process",
+      "stop_charging": "Stop charging process",
+      "stop_confirmation": "Are your sure that your will stop the chargin process?",
       "stop_yes": "Yes, Please stop",
-      "end_charging": "Charging prosess will be stopped ..."
+      "end_charging": "Charging process will be stopped ..."
     },
     "details_map": {
       "loading_map": "Loading map ..."
