@@ -28,7 +28,7 @@
       "get_price": "load price",
       "get_estimated_price": "Estimated price",
       "get_ratings": "Load rating",
-      "create_rating": "Safe ranking",
+      "create_rating": "Save ranking",
       "start_charging": "Start charging process",
       "stop_charging": "Stop charging process",
       "delete_location": "Delete charging station",
