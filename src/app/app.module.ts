@@ -66,6 +66,7 @@ import {ErrorService} from "../services/error.service";
 import {HttpService} from "../services/http.service";
 import {PushNotificationService} from "../services/push.notification.service";
 import {TrackerService} from "../services/tracker.service";
+import {JuiceBoxPage} from "../pages/station/juice-box/juice-box";
 
 let storage = new Storage();
 
@@ -130,7 +131,8 @@ export function createTranslateLoader(http: Http) {
         ForgotPasswordPage,
         TariffConfirmationPage,
         PayOutPage,
-        VoucherPage
+        VoucherPage,
+        JuiceBoxPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -189,7 +191,8 @@ export function createTranslateLoader(http: Http) {
         ForgotPasswordPage,
         TariffConfirmationPage,
         PayOutPage,
-        VoucherPage
+        VoucherPage,
+        JuiceBoxPage
     ],
     providers: [
         {
