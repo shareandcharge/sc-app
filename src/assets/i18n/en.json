@@ -161,7 +161,7 @@
     "to": "To",
     "delete": "Delete",
     "continue": "Continue",
-    "euro_sign": "Euro",
+    "euro_sign": "€",
     "iban": "IBAN",
     "bic": "BIC",
     "password": "password"
@@ -173,7 +173,7 @@
   },
   "_global": {
     "data_protection": {
-      "data_protection": "Date protection",
+      "data_protection": "Data protection",
       "paragraph_1": "We, Share&Charge, a service of Avanza GmbH, Opernplatz 1, 45129 Essen, Tel.: +49(0)201-8133108, E-Mail: info@shareandcharge.com (\u201eAvanza\u201c) we protect your interest in our platform \u201eShare&Charge\u201c and we know the date protection is importand for you.",
       "paragraph_2": "Our data protection agreement",
       "paragraph_2_here": "here",
@@ -185,14 +185,14 @@
   "about": {
     "title": "Info",
     "headline": "What is Share&Charge?",
-    "paragraph_1": "Share&Charge makes charging infrastructure for everybody accesable and billable. Sign up and be part of the community.",
+    "paragraph_1": "Share&Charge makes electric car charging accessible to everyone. Sign up to become part of our community.",
     "start_intro": "Start intro"
   },
   "car": {
     "form": {
       "manufacturer": {
         "title": "Select manufaturer",
-        "error_subtitle": "List-my e-cars"
+        "error_subtitle": "List - my e-cars"
       },
       "model": {
         "title": "Select model",
@@ -200,7 +200,7 @@
       },
       "add_car": "Add e-car",
       "edit_car": "Edit e-car",
-      "plate": "Licance plate",
+      "plate": "License plate",
       "preset": "Preset",
       "custom": "Custom",
       "manufacturer_and_model": "Manufacturer and Model",
@@ -210,10 +210,10 @@
       "max_charging": "max. charging (kW)",
       "capacity": "Capacity (kWh)",
       "plugtypes": "Plug types",
-      "plugtypes_copy": "Mark every plug type which will be supported by your e-car.",
+      "plugtypes_copy": "Check every plug type is supported by your e-car.",
       "error_subtitle": "List - plug types",
       "error_msgs": {
-        "plateNumber": "Please enter in your licance plate number.",
+        "plateNumber": "Please enter your license plate number.",
         "accuCapacity": "Please select  your battery capacity.",
         "manufacturer": "Please select the manufaturer.",
         "model": "Please set your model.",
@@ -221,7 +221,7 @@
         "maxCharging": "Please select the max. charging power.",
         "averageDistance": "Please select the average distance."
       },
-      "select_photo": "Please select a photo",
+      "select_photo": "Please choose a photo",
       "camera": "Camera",
       "media": "Media",
       "save_car": "Save e-car",
@@ -238,7 +238,7 @@
     "my_cars": "My e-cars",
     "list_my_cars": "List - my e-cars",
     "delete_confirm_title": "Confirm deletion",
-    "delete_confirm_message": "Are your sure you will delete this car?",
+    "delete_confirm_message": "Are your sure you want to delete this car?",
     "button_delete_text": "Yes, delete",
     "button_delete_content": "Delete e-car ...",
     "error_message_delete": "Delete e-car"
@@ -248,18 +248,18 @@
     "terms": "Terms of conditions",
     "privacy": "Data privacy",
     "introduction": "Intro",
-    "contact": "Kontakt"
+    "contact": "Contact"
   },
   "intro": {
     "welcome": "Welcome!",
-    "first_slide": "As early e-mobilist you knew it already. Someone needs to be the first. And today it is you. We are looking forward to see our community growing, with you.",
-    "find_charging_station": "Find charginstation",
+    "first_slide": "As an early e-mobilist you knew it already. Someone needs to be the first. And today it is you. We are looking forward to see our community growing, with you.",
+    "find_charging_station": "Find charging station",
     "second_slide": "Use our interactive map to find charging stations within your area. With the help of the filters you can filter specifically according to your search criteria.",
     "register_charging_station": "Register charging station",
     "third_slide": "You own a charging station? Register it and decide who, when and to which tariff can charge at it..",
     "account": "Wallet",
     "fourth_slide": "Your wallet gives you an overview about of your transactions. Charge your wallet really easy and payout your money or use it to charge your e-car.",
-    "skip": "Skipt",
+    "skip": "Skip",
     "finished": "Finish",
     "continue": "Continue"
   },
@@ -285,22 +285,22 @@
       "begin_charging": "Charging process will be started ...",
       "start_charging": "Start charging process",
       "stop_charging": "Stop charging process",
-      "stop_confirmation": "Are your sure that your will stop the chargin process?",
-      "stop_yes": "Yes, Please stop",
+      "stop_confirmation": "Are you sure that you want to stop the charging process?",
+      "stop_yes": "Yes, please stop",
       "end_charging": "Charging process will be stopped ..."
     },
     "details_map": {
       "loading_map": "Loading map ..."
     },
     "location_details": {
-      "error_no_station_details": "There are not enough deteils about this charging station.",
+      "error_no_station_details": "There are not enough details provided about this charging station.",
       "list_plugins": "List - plug types",
-      "location_details": "Location deteils",
+      "location_details": "Location details",
       "query_price": "Price query",
       "list_eval": "List - eval",
       "select_app": "Select app",
       "not_start_app": "App coudn't be started: ",
-      "message": "If you do not see the exact price, but a price range, then it is because you have not added an e-car. The calcuation basis is based on the battery capacity."
+      "message": "If you see a price range in place of an exact price, it is because you have not yet added an e-car. Add an e-car to calculate by battery capacity."
     }
   },
   "map": {
@@ -322,8 +322,8 @@
     "list_cars": "List - my e-cars",
     "switch_car": "Switch e-car",
     "message_determine_location": "We are determining your location...",
-    "search_placeholder": "Search adresse",
-    "error_no_location": "We are sorry, but we could not determine your location. Please check your GPS signal.",
+    "search_placeholder": "Search adress",
+    "error_no_location": "We're sorry, but we could not determine your location. Please check your GPS signal.",
     "search_location": "Search charging stations",
     "loading_map": "Loading map ...",
     "load_station": "Loading charging station"
@@ -402,16 +402,16 @@
       "choose_picture": "Select picture",
       "camera": "Camera",
       "gallery": "Media libary",
-      "resend_email_confirmation": "The confirmation e-mail was send to you again. Please check your inbox and/or spam folder.",
+      "resend_email_confirmation": "The confirmation e-mail was sent to you again. Please check your inbox and/or spam folder.",
       "confirm_delete": "Comfirm deletion",
-      "confirm_delete_message": "Do you really want to delete your profile? This is irrevocable?",
+      "confirm_delete_message": "Do you really want to delete your profile? This is permanent?",
       "yes_delete": "Yes, delete"
     }
   },
   "rating": {
     "give_rating": "Give review",
     "rating": "Review",
-    "rating_remark": "Share your positive and negativ experience with us.",
+    "rating_remark": "Share your feedback with us.",
     "send": "Send",
     "save_rating": "Save review",
     "thank_rating": "Thanks for your review."
@@ -529,7 +529,7 @@
     "country": "Please enter your country.",
     "postal_code": "Please enter your zip code.",
     "at_least_5_char": "At least five charaters.",
-    "operatorVat": "To ensure that your bill is correct, please let us know if you have a VAT number and thus are entitled to deduct pre-tax. Otherwise, we will not indicate VAT on your invoice according to the Value Added Tax Act.",
+    "operatorVat": "To ensure that your bill is correct, please let us know if you have a VAT number and entitled to deduct pre-tax. Otherwise, we will not indicate VAT on your invoice according to the Value Added Tax Act.",
     "address_2": "Please enter your address.",
     "opening_hours": "Please select your opening hours.",
     "choose_plugtype": "Please select the plug type.",
