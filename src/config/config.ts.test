@@ -12,4 +12,7 @@ export let CONFIG = {
     },
     CONTACT_EMAIL: 'info@shareandcharge.com',
     MIXPANEL_TOKEN: '2e9e....',
+    FEATURE_TOGGLES: {
+        show_juicebox_config: true
+    }
 };

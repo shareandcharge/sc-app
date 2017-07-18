@@ -27,6 +27,18 @@ export class ConfigService {
             .map(res => res.json());
     }
 
+    isFeatureEnabled(feature: string): boolean {
+        if (!this.conf.FEATURE_TOGGLES) {
+            throw new Error(`FEATURE_TOGGLES not defined in config.ts`);
+        }
+
+        if (!this.conf.FEATURE_TOGGLES.hasOwnProperty(feature)) {
+            throw new Error(`Feature not set: ${feature}`);
+        }
+
+        return this.conf.FEATURE_TOGGLES[feature];
+    }
+
     /**
      *
      * @param key
