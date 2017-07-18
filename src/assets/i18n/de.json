@@ -132,7 +132,9 @@
     "unauthorized_email": "Die Bestätigungs-E-Mail kann nur an Dich gesendet werden.",
     "no_key_saved": "Es wurde kein Schlüssel gefunden.",
     "user_not_verified": "Du musst zuerst Deine E-Mail Adresse bestätigen.",
-    "invalid_payout": "Die Auszahlung konnte nicht ausgeführt werden."
+    "invalid_payout": "Die Auszahlung konnte nicht ausgeführt werden.",
+    "emotorwerks_wrong_pin": "Die Guest pairing pin ist falsch! Bitte überprüfe deine Eingabe.",
+    "emotorwerks_invalid_id": "Die Juice Box Device Id ist falsch! Bitte überprüfe deine Eingabe."
   },
   "payment": {
     "types": {
@@ -490,7 +492,13 @@
     "hourly_message": "Hier trägst Du die Energiekosten ein, die Du an Deinen Energieversorger bezahlst.",
     "parking_message": "Hier trägst Du die Kosten ein, die Lader an Dich für die Nutzung deines Parkplatzes zahlen sollen.",
     "choose_tarif": "Bitte wähle eine Tarifoption",
-    "choose_tarif_notice": "Es muss mindestens ein Tarifoption ausgewählt sein."
+    "choose_tarif_notice": "Es muss mindestens ein Tarifoption ausgewählt sein.",
+    "juice_box_checkbox": "eMotorWerks JuiceBox",
+    "msg_juice_box": "Wähle diese Option wenn du eine JuiceBox® EV Ladestation besitzt, die mit dem JuiceNet verbunden ist.",
+    "juice_box_device_id": "Device Id",
+    "juice_box_pin": "Guest pairing pin",
+    "juice_box_details": "Juice Box Details",
+    "juice_box_info_text": "Bitte gib die Device Id und den Guest pairing pin ein, damit Share&Charge sich zu deiner Ladestation verbinden kann. Die benötigten Daten dazu findest du in dem <a href=\"https://dashboard.emotorwerks.com/Portal\" target=\"_blank\">eMotorWerks Portal</a>. Gehe zu \"My JuiceNet >> My JuiceNet Devices\" und klicke auf \"Guest pairing pin\" für die Station, die du verbinden willst."
  },
  "wallet": {
     "PayPal": "PayPal",
@@ -535,7 +543,9 @@
     "choose_plugtype": "Bitte wähle den Steckertyp.",
     "choose_power": "Bitte wähle die Leistung.",
     "no_connection": "Keine Verbindung.",
-    "unknown_error": "Unbekannter Fehler"
+    "unknown_error": "Unbekannter Fehler",
+    "device_id": "Bitte gib eine gültige Device Id ein.",
+    "guest_pin": "Bitte gib einen gültigen Guest pairing pin ein."
   },
   "add_money": {
     "account": "Konto",
