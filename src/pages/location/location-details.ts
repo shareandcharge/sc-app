@@ -98,13 +98,13 @@ export class LocationDetailPage {
         };
 
         this.weekdays = [
-            'Mo.',
-            'Di.',
-            'Mi.',
-            'Do.',
-            'Fr.',
-            'Sa.',
-            'So.'
+            this.translateService.instant('location.location_details.monday'),
+            this.translateService.instant('location.location_details.tuesday'),
+            this.translateService.instant('location.location_details.wednesday'),
+            this.translateService.instant('location.location_details.thursday'),
+            this.translateService.instant('location.location_details.friday'),
+            this.translateService.instant('location.location_details.saturday'),
+            this.translateService.instant('location.location_details.sunday')
         ];
 
         this.plugTypes = [];
@@ -242,13 +242,13 @@ export class LocationDetailPage {
 
     getOpeningHoursForDay(day: number) {
         if (!this.connector) {
-            return "geschlossen";
+            return this.translateService.instant('location.location_details.closed');
         }
 
         let hours = this.connector.weekcalendar.hours;
 
         if (hours[day].from == hours[day].to) {
-            return "geschlossen";
+            return this.translateService.instant('location.location_details.closed');
         }
 
         return hours[day].from + ':00 - ' + hours[day].to + ':00 Uhr';

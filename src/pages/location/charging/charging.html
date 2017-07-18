@@ -31,7 +31,7 @@
             <ng-container *ngIf="chargingPricePerHour != 0">
                 {{chargingPricePerHour/100 | currency:'EUR':true:'1.2-2'}}
                 <span *ngIf="chargingTypeText == 'hourly' || chargingTypeText == 'kwh'">/h</span>
-                <span class="vat" *ngIf="includingVat">(inkl. 19% MwSt.)</span>
+                <span class="vat" *ngIf="includingVat">{{'location.charging.tax' | translate}}</span>
             </ng-container>
             <ng-container *ngIf="chargingPricePerHour == 0">
                 {{'location.charging.free' | translate}}
@@ -122,11 +122,11 @@
             <ion-list no-lines="" class="no-margin-bottom">
                 <ion-item text-wrap class="item-partial-cover-cb">
                     <ion-checkbox [(ngModel)]="termsChecked" class="checkbox-square"></ion-checkbox>
-                    <ion-label>Ich akzeptiere die <a (click)="openTerms()">AGBs</a> des Ladestationsbetreibers.</ion-label>
+                    <ion-label>{{'location.charging.accept_terms_1' | translate}} <a (click)="openTerms()">{{'location.charging.agb_2' | translate}}</a> {{'location.charging.accept_terms_3' | translate}}</ion-label>
                 </ion-item>
             </ion-list>
             <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive || !termsChecked">
-                Zahlungspflichtig laden
+                {{'location.charging.btn_load' | translate}}
             </button>
         </div>
     </ion-toolbar>
