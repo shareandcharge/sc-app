@@ -267,7 +267,8 @@
     "charging": {
       "charging-complete": {
         "charging_session": "charging session",
-        "query_price": "Price query"
+        "query_price": "Price query",
+        "charging_session_complete" : "Charging complete!"
       },
       "charging_session": "Charging session",
       "free": "free",
@@ -279,6 +280,8 @@
       "agb_1": "It applies the ",
       "agb_2": "Terms of conditions",
       "agb_3": "of the charging station operator.",
+      "accept_terms_1": "I accept the",
+      "accept_terms_3": "of the charging pole provider.",
       "stop": "Stop",
       "charging_point": "Charging point",
       "find_price": "Find price",
@@ -287,7 +290,8 @@
       "stop_charging": "Stop charging process",
       "stop_confirmation": "Are you sure that you want to stop the charging process?",
       "stop_yes": "Yes, please stop",
-      "end_charging": "Charging process will be stopped ..."
+      "end_charging": "Charging process will be stopped ...",
+      "btn_load": "Finalize payment"
     },
     "details_map": {
       "loading_map": "Loading map ..."
@@ -300,7 +304,23 @@
       "list_eval": "List - eval",
       "select_app": "Select app",
       "not_start_app": "App coudn't be started: ",
-      "message": "If you see a price range in place of an exact price, it is because you have not yet added an e-car. Add an e-car to calculate by battery capacity."
+      "message": "If you see a price range in place of an exact price, it is because you have not yet added an e-car. Add an e-car to calculate by battery capacity.",
+      "opening_hours" : "Opening hours:",
+      "about" : "About this charging station:",
+      "contact" : "Contact:",
+      "ratings": "Reviews:",
+      "write_rating" : "Write a review",
+      "load" : "Load",
+      "loading_progress" : "Loading progress",
+      "not_open" : "Charging station is not open",
+      "monday": "M.",
+      "tuesday": "T.",
+      "wednesday": "W.",
+      "thursday": "Th.",
+      "friday": "Fr.",
+      "saturday": "Sa.",
+      "sunday": "Sun.",
+      "closed" : "closed"
     }
   },
   "map": {

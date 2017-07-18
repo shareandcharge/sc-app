@@ -267,7 +267,8 @@
     "charging": {
       "charging-complete": {
         "charging_session": "Ladevorgang",
-        "query_price": "Preisabfrage"
+        "query_price": "Preisabfrage",
+        "charging_session_complete" : "Ladevorgang erfolgreich beendet!"
       },
       "charging_session": "Ladevorgang",
       "free": "Kostenlos",
@@ -279,6 +280,8 @@
       "agb_1": "Es gelten die ",
       "agb_2": "AGBs",
       "agb_3": " des Ladestationsbetreibers.",
+      "accept_terms_1": "Ich akzeptiere die",
+      "accept_terms_3": "des Ladestationsbetreibers.",
       "stop": "Stop",
       "charging_point": "Ladepunkt",
       "find_price": "Preis ermitteln",
@@ -287,7 +290,8 @@
       "stop_charging": "Ladevorgang stoppen",
       "stop_confirmation": "Bist Du sicher, dass Du den Ladevorgang jetzt stoppen möchtest?",
       "stop_yes": "Ja, jetzt stoppen",
-      "end_charging": "Ladevorgang wird gestoppt ..."
+      "end_charging": "Ladevorgang wird gestoppt ...",
+      "btn_load": "Zahlungspflichtig laden"
     },
     "details_map": {
       "loading_map": "Lade Karte ..."
@@ -300,7 +304,24 @@
       "list_eval": "Liste - Bewertungen",
       "select_app": "App auswählen",
       "not_start_app": "App konnte nicht gestartet werden: ",
-      "message": "Sollte Dir hier kein exakter Preis, sondern eine Preisspanne angezeigt werden, dann liegt es daran, dass Du Deinem Profil noch kein Elektroauto hinzugefügt hast. Da die Batteriekapazität als Berechnungsgrundlage gilt, werden hier die Preise für verschiedene Batteriekapazitäten angezeigt."
+      "message": "Sollte Dir hier kein exakter Preis, sondern eine Preisspanne angezeigt werden, dann liegt es daran, dass Du Deinem Profil noch kein Elektroauto hinzugefügt hast. Da die Batteriekapazität als Berechnungsgrundlage gilt, werden hier die Preise für verschiedene Batteriekapazitäten angezeigt.",
+      "opening_hours" : "Öffnungszeiten:",
+      "about" : "Über diese Station:",
+      "contact" : "Ansprechpartner:",
+      "ratings": "Bewertungen:",
+      "write_rating" : "Bewertung schreiben",
+      "load" : "Laden",
+      "loading_progress" : "Ladefortschritt",
+      "not_open" : "Laden außerhalb der Öffnungszeiten ist leider nicht möglich!",
+      "monday": "Mo.",
+      "tuesday": "Di.",
+      "wednesday": "Mi.",
+      "thursday": "Do",
+      "friday": "Fr.",
+      "saturday": "Sa.",
+      "sunday": "So.",
+      "closed" : "geschlossen"
+
     }
   },
   "map": {
