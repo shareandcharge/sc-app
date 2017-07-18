@@ -17,9 +17,16 @@
 
 <ion-content padding>
     <ion-list no-lines="">
+        <ion-item *ngIf="displayJuiceBoxOption">
+            <ion-checkbox [(ngModel)]="connector.metadata.juiceBox" class="item-partial-cover" (ionChange)="toggleJuiceBox()"></ion-checkbox>
+            <ion-label>{{'station.juice_box_checkbox' | translate}}</ion-label>
+            <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('juiceBox')"
+                      color="primary"></ion-icon>
+        </ion-item>
 
         <ion-list-header>
             {{'station.select_connector' | translate}}
+
         </ion-list-header>
 
         <ion-item>
@@ -33,6 +40,7 @@
                         placeholder="{{'choose' | translate}}"
                         cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
                         (ngModelChange)="plugTypeDirty()"
+                        [disabled]="connector.metadata.juiceBox"
             >
                 <ion-option *ngFor="let plug of plugOptions" value="{{plug.id}}">{{plug.name}}</ion-option>
             </ion-select>
@@ -51,11 +59,13 @@
                         placeholder="{{'choose' | translate}}"
                         cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
                         (ngModelChange)="updateWattpower()"
+                        [disabled]="connector.metadata.juiceBox"
             >
                 <ion-option value="2.3">2.3 kW</ion-option>
                 <ion-option value="3.7">3.7 kW</ion-option>
                 <ion-option value="4.6">4.6 kW</ion-option>
                 <ion-option value="7.4">7.4 kW</ion-option>
+                <ion-option value="10">10 kW</ion-option>
                 <ion-option value="11">11 kW</ion-option>
                 <ion-option value="22">22 kW</ion-option>
                 <ion-option value="43">43 kW</ion-option>
@@ -66,7 +76,7 @@
         <div *ngIf="errorMessages.capacity" class="alert-box alert-box-danger" margin>{{ errorMessages.capacity }}</div>
 
         <ion-item>
-            <ion-checkbox [(ngModel)]="connector.metadata.accessControl" class="item-partial-cover"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="connector.metadata.accessControl" class="item-partial-cover" [disabled]="connector.metadata.juiceBox"></ion-checkbox>
             <ion-label>{{'station.sc_module' | translate}}</ion-label>
             <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('accessControl')"
                       color="primary"></ion-icon>
