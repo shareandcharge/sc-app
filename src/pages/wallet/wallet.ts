@@ -10,6 +10,7 @@ import {PayOutPage} from "./pay-out/pay-out";
 import {VoucherPage} from "./voucher/voucher";
 import {Transaction} from "../../models/transaction";
 import {TranslateService} from "@ngx-translate/core";
+import {CurrencyService} from "../../services/currency.service";
 
 @Component({
     selector: 'page-wallet',
@@ -22,11 +23,12 @@ export class WalletPage {
     pendingTransactions: Array<any>;
     intervals = [];
     pollPendingTimeout: number = 6000;  //-- milliseconds to poll for pending transactions
+    currency: any = "";
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController,
                 private paymentService: PaymentService, private authService: AuthService,
                 private alertCtrl: AlertController, private events: Events, private toastCtrl: ToastController,
-                private errorService: ErrorService, private translateService: TranslateService) {
+                private errorService: ErrorService, private translateService: TranslateService, private currencyService: CurrencyService) {
         this.events.subscribe('history:update', () => {
             this.displayToast();
             this.refreshData();
@@ -35,6 +37,8 @@ export class WalletPage {
         this.events.subscribe('auth:logout', () => {
             this.clearAllIntervals();
         });
+
+        this.currency = this.currencyService.getCurrency();
     }
 
     ionViewWillEnter() {

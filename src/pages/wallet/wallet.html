@@ -37,7 +37,7 @@
     </ion-refresher>
 
     <div class="top-container" padding="" text-center="" (click)="addMoney()">
-        <h2>{{(currentBalance / 100) | currency:'EUR':true:'1.2-2'}}</h2>
+        <h2>{{(currentBalance / 100)}} {{(currency)}}</h2>
         <h3>{{'wallet.balance' | translate}}</h3>
     </div>
 
@@ -52,7 +52,7 @@
                         class="amount"
                         [ngClass]="tr.isAmountPositiv() ? 'number-positive' : 'number-negative'"
                 >
-                    {{ tr.amount / 100 | currency:'EUR':true:'1.2-2'}}
+                    {{ tr.amount / 100 | currency:'EUR':true:'1.2-2'}}{{(currency)}}
                 </span>
             </ion-col>
 

@@ -66,6 +66,7 @@ import {ErrorService} from "../services/error.service";
 import {HttpService} from "../services/http.service";
 import {PushNotificationService} from "../services/push.notification.service";
 import {TrackerService} from "../services/tracker.service";
+import {CurrencyService} from "../services/currency.service";
 
 let storage = new Storage();
 
@@ -216,7 +217,8 @@ export function createTranslateLoader(http: Http) {
         ErrorService,
         HttpService,
         PushNotificationService,
-        TrackerService
+        TrackerService,
+        CurrencyService
     ]
 })
 export class AppModule {
