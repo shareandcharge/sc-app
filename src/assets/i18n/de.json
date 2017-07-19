@@ -585,5 +585,8 @@
     "TERMS_APP_URL": "https://www.shareandcharge.com/app-agbs/'",
     "TERMS_STATION_URL": "https://www.shareandcharge.com/ladestation-agbs/",
     "DATA_PROTECTION_URL": "https://www.shareandcharge.com/app-datenschutz/"
+  },
+  "toast" : {
+    "transaction_successful_message" : "Transaktion erfolgreich"
   }
 }

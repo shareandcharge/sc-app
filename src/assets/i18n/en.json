@@ -583,5 +583,8 @@
     "TERMS_APP_URL": "https://shareandcharge.com/en/app-terms/",
     "TERMS_STATION_URL": "https://shareandcharge.com/en/terms-station/",
     "DATA_PROTECTION_URL": "https://shareandcharge.com/en/dataprotection/"
+  },
+  "toast" : {
+    "transaction_successful_message" : "Transaction successful"
   }
 }
