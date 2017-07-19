@@ -59,7 +59,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.public.flatrate.flatrateRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.public.flatrate, 'flatrateRate')"
-                                   placeholder="0,00"
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"
                         ></ion-input>
                         <label>€</label>
                     </div>
@@ -87,7 +87,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.public.hourly.hourlyRate / 100 || ''"
                                    (change)="updatePriceProvider($event, priceprovider.public.hourly, 'hourlyRate', 'publicHourly')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
                         <label>€/kWh</label>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.public.hourly.parkRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.public.hourly, 'parkRate', 'publicHourly')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
                         <label>€/h</label>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.public.kwh.kwhRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.public.kwh, 'kwhRate', 'publicKwh')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
                         <label>€/kWh</label>
                     </div>
                 </div>
@@ -175,7 +175,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.public.kwh.parkRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.public.kwh, 'parkRate', 'publicKwh')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
                         <label>€/h</label>
                     </div>
                 </div>
@@ -209,7 +209,7 @@
                     {{ 'station.flatrate' | translate }}
                 </ion-segment-button>
                 <ion-segment-button value="hourly" *ngIf="hourlyTariff">
-                    {{ 'station.hourly_tarif' | translate }}                    
+                    {{ 'station.hourly_tarif' | translate }}
                 </ion-segment-button>
                 <ion-segment-button value="kwh" *ngIf="kwhTariff">
                     {{ 'station.kwh_rate' | translate }}
@@ -231,7 +231,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.private.flatrate.flatrateRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.flatrate, 'flatrateRate')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
                         <label>€</label>
                     </div>
                 </div>
@@ -257,7 +257,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.private.hourly.hourlyRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.hourly, 'hourlyRate', 'privateHourly')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
                         <label>€/kWh</label>
                     </div>
                 </div>
@@ -290,7 +290,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.private.hourly.parkRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.hourly, 'parkRate', 'privateHourly')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
                         <label>€/h</label>
                     </div>
                 </div>
@@ -317,7 +317,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.private.kwh.kwhRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.kwh, 'kwhRate', 'privateKwh')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
                         <label>€/kWh</label>
                     </div>
                 </div>
@@ -344,7 +344,7 @@
                         <ion-input type="number"
                                    [value]="priceprovider.private.kwh.parkRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.kwh, 'parkRate', 'privateKwh')"
-                                   placeholder="0,00"></ion-input>
+                                   placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
                         <label>€/h</label>
                     </div>
                 </div>

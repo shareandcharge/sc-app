@@ -162,9 +162,11 @@
     "delete": "Delete",
     "continue": "Continue",
     "euro_sign": "€",
+    "currency_sign": "$",
+    "empty_currency_value": "0.00",
     "iban": "IBAN",
     "bic": "BIC",
-    "password": "password"
+    "password": "Password"
   },
   "app": {
     "cancel_app": "Cancel the app",
@@ -539,7 +541,9 @@
     "my_payment": "My payment transactions",
     "deposit": "Charge account",
     "incomplete_data": "Incomplete data",
-    "msg_complete_profile": "In order to make payments, please complete your profile first."
+    "msg_complete_profile": "In order to make payments, please complete your profile first.",
+    "sanc_fee" : "Share&Charge fee",
+    "incl" : "incl."
   },
   "error_messages": {
     "first_name": "Please enter your first name.",

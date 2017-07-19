@@ -162,6 +162,8 @@
     "delete": "Löschen",
     "continue": "Weiter",
     "euro_sign": "€",
+    "currency_sign": "€",
+    "empty_currency_value": "0,00",
     "iban": "IBAN",
     "bic": "BIC",
     "password": "Passwort"
@@ -540,7 +542,9 @@
     "my_payment": "Meine Zahlungsvorgänge",
     "deposit": "Konto aufladen",
     "incomplete_data": "Daten unvollständig",
-    "msg_complete_profile": "Um Zahlungsvorgänge durchführen zu können musst Du zunächst Dein Profil vervollständigen."
+    "msg_complete_profile": "Um Zahlungsvorgänge durchführen zu können musst Du zunächst Dein Profil vervollständigen.",
+    "sanc_fee" : "Share&Charge Gebühr",
+    "incl" : "inkl."
  },
 "error_messages": {
     "first_name": "Bitte gib Deinen Namen an.",
