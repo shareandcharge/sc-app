@@ -68,7 +68,10 @@ export class StationWrapperPage {
                     this.navCtrl.pop();
                     this.events.publish('locations:updated', location);
                 },
-                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_location')
+                error => {
+                    location.stations[0].connectors[0].priceprovider = location.stations[0].connectors[0].toFrontendPriceProvider(location.stations[0].connectors[0].priceprovider);
+                    this.errorService.displayErrorWithKey(error, 'error.scope.update_location')
+                }
             );
         }
     }
@@ -81,7 +84,10 @@ export class StationWrapperPage {
                 this.navCtrl.pop();
                 this.events.publish('locations:updated', location);
             },
-            error => this.errorService.displayErrorWithKey(error, 'error.scope.create_location')
+            error => {
+                location.stations[0].connectors[0].priceprovider = location.stations[0].connectors[0].toFrontendPriceProvider(location.stations[0].connectors[0].priceprovider);
+                this.errorService.displayErrorWithKey(error, 'error.scope.create_location')
+            }
         );
     }
 
