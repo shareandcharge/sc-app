@@ -7,6 +7,7 @@ import {User} from "../../../models/user";
 import {AuthService} from "../../../services/auth.service";
 import {TrackerService} from "../../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
+import {CurrencyService} from "../../../services/currency.service";
 
 @Component({
     selector: 'page-add-money',
@@ -21,9 +22,11 @@ export class AddMoneyPage {
 
     payInButtonDisabled = false;
 
+    currency: any = "";
+
     constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService,
                 private errorService: ErrorService, private events: Events, private authService: AuthService,
-                private trackerService: TrackerService, private translateService: TranslateService) {
+                private trackerService: TrackerService, private translateService: TranslateService, private currencyService: CurrencyService) {
         this.payInObject = {
             'type': 'cc',
             'amount': 0,
@@ -35,6 +38,7 @@ export class AddMoneyPage {
                 'account_holder': ''
             }
         }
+        this.currency = this.currencyService.getCurrency();
     }
 
     ionViewWillEnter() {
