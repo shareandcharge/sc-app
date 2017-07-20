@@ -44,14 +44,14 @@
 
 
             <ion-item-options side="right">
-                <button ion-button color="danger" (click)="deleteImg(img, itemSliding)">Löschen</button>
+                <button ion-button color="danger" (click)="deleteImg(img, itemSliding)">{{'common.delete' | translate}}</button>
             </ion-item-options>
 
         </ion-item-sliding>
     </ion-list>
 
     <div padding text-center>
-        <button ion-button round (click)="continueAddStation()" text-uppercase outline block>Weiter</button>
+        <button ion-button round (click)="continueAddStation()" text-uppercase outline block>{{'common.continue' | translate}}</button>
         <button ion-button round *ngIf="flowMode==='edit'" (click)="saveChanges()" text-uppercase block>
             {{'station.save_changes' | translate}}
         </button>

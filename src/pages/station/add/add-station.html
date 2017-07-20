@@ -61,12 +61,12 @@
                         </ion-row>
                         <ion-row>
                             <ion-col width-50="">
-                                <ion-select class="input-white select-multiline" [(ngModel)]="from" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK" placeholder="Uhrzeit" [selectOptions]="{title: 'Von'}">
+                                <ion-select class="input-white select-multiline" [(ngModel)]="from" (ngModelChange)="updateSelectedDays()" cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}" placeholder="{{'common.time' | translate}}" [selectOptions]="{title: to }">
                                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                                 </ion-select>
                             </ion-col>
                             <ion-col width-50="">
-                                <ion-select class="input-white select-multiline" [(ngModel)]="to" (ngModelChange)="updateSelectedDays()" cancelText="Abbrechen" okText="OK" placeholder="Uhrzeit" [selectOptions]="{title: 'Bis'}">
+                                <ion-select class="input-white select-multiline" [(ngModel)]="to" (ngModelChange)="updateSelectedDays()" cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}" placeholder="{{'common.time' | translate}}" [selectOptions]="{title: from }">
                                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                                 </ion-select>
                             </ion-col>
@@ -85,13 +85,13 @@
                                 placeholder="{{'station.choose' | translate}}"
                                 cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
                     >
-                        <ion-option value="0">Montag</ion-option>
-                        <ion-option value="1">Dienstag</ion-option>
-                        <ion-option value="2">Mittwoch</ion-option>
-                        <ion-option value="3">Donnerstag</ion-option>
-                        <ion-option value="4">Freitag</ion-option>
-                        <ion-option value="5">Samstag</ion-option>
-                        <ion-option value="6">Sonntag</ion-option>
+                        <ion-option value="0">{{'common.monday' | translate}}</ion-option>
+                        <ion-option value="1">{{'common.tuesday' | translate}}</ion-option>
+                        <ion-option value="2">{{'common.wednesday' | translate}}</ion-option>
+                        <ion-option value="3">{{'common.thursday' | translate}}</ion-option>
+                        <ion-option value="4">{{'common.friday' | translate}}</ion-option>
+                        <ion-option value="5">{{'common.saturday' | translate}}</ion-option>
+                        <ion-option value="6">{{'common.sunday' | translate}}</ion-option>
                     </ion-select>
                 </ion-item>
                 <div *ngIf="errorMessages.openingHours" class="alert-box alert-box-danger" margin>
@@ -106,7 +106,7 @@
                 <ion-checkbox [(ngModel)]="day.from != day.to" (ngModelChange)="setDayClosed(day)"></ion-checkbox>
                 <ion-select [(ngModel)]="day.from" placeholder="{{'common.from' | translate}}" class="input-white small margin-right-xs" [selectOptions]="{title: days[i] + ' von'}">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
-                </ion-select>   
+                </ion-select>
                 <ion-select [(ngModel)]="day.to" placeholder="{{'common.to' | translate}}" class="input-white small" [selectOptions]="{title: days[i] + ' bis'}">
                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                 </ion-select>
@@ -129,7 +129,7 @@
         </ion-list>
 
         <div padding text-center>
-            <button ion-button round (click)="continueAddStation()" text-uppercase outline block>Weiter</button>
+            <button ion-button round (click)="continueAddStation()" text-uppercase outline block>{{'common.continue' | translate}}</button>
             <button ion-button round *ngIf="flowMode==='edit'" (click)="saveChanges()" text-uppercase block>
                 {{'station.save_changes' | translate}}
             </button>
