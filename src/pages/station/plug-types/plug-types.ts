@@ -142,7 +142,7 @@ export class PlugTypesPage {
             this.connector.metadata.kwh = false;
             this.connector.metadata.accessControl = false;
 
-            this.connector.metadata.operator = 'emotorwerks';
+            this.connector.metadata.operator = 'eMotorWerks';
         } else {
             this.connector.metadata.deviceId = '';
             this.connector.metadata.guestPin = '';
