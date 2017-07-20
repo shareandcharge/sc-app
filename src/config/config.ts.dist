@@ -15,6 +15,6 @@ export let CONFIG = {
     MIXPANEL_TOKEN: '2e9e....',
     FEATURE_TOGGLES: {
         show_juicebox_config: true,
-        CURRENCY_SIGN_USD: true
+        currency_sign_usd: false
     }
 };
