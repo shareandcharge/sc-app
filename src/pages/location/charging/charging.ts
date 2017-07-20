@@ -438,8 +438,10 @@ export class ChargingPage {
         ctx.fillText(this.chargingTimeHours, 94, c.height / 2 + 16);
 
         ctx.font = "12px Arial";
-        ctx.fillText('Std.', 97, c.height / 2 + 35);
-        ctx.fillText('Min.', 149, c.height / 2 + 35);
+        let hoursString = this.translateService.instant('location.charging.hour');
+        let minutesString = this.translateService.instant('location.charging.minutes');
+        ctx.fillText(hoursString, 97, c.height / 2 + 35);
+        ctx.fillText(minutesString, 149, c.height / 2 + 35);
 
         ctx.strokeStyle = gradient;
         ctx.beginPath();

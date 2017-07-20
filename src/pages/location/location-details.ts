@@ -251,7 +251,7 @@ export class LocationDetailPage {
             return this.translateService.instant('location.location_details.closed');
         }
 
-        return hours[day].from + ':00 - ' + hours[day].to + ':00 Uhr';
+        return hours[day].from + ':00 - ' + hours[day].to + ':00 ' + this.translateService.instant('location.location_details.oclock');
     }
 
     getSvgForPlug(plugId: number) {
