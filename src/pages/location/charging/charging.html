@@ -49,7 +49,7 @@
     <div text-center class="price-label" *ngIf="activeCar != null">
         <span *ngIf="!countingDown"> {{'location.charging.estimated_price' | translate}} </span>
         <ng-container *ngIf="chargingPrice != 0">
-            {{ chargingPrice | currencyDisplay '}} <br>
+            {{ chargingPrice | currencyDisplay }} <br>
             <span class="vat" *ngIf="includingVat">{{'location.charging.tax' | translate}}</span>
         </ng-container>
         <ng-container *ngIf="chargingPrice == 0">
