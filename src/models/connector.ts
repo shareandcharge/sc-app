@@ -16,7 +16,11 @@ export class Connector {
 
     metadata: {
         accessControl: boolean,
-        kwh: boolean
+        kwh: boolean,
+        juiceBox: boolean,
+        operator: string,
+        deviceId: string,
+        guestPin: string
     };
 
     priceProviderTariffTypes: Array<string>;
@@ -96,7 +100,11 @@ export class Connector {
 
         this.metadata = {
             accessControl: false,
-            kwh: false
+            kwh: false,
+            juiceBox: false,
+            operator: '',
+            deviceId: '',
+            guestPin: ''
         };
 
         this.priceProviderTariffTypes = [

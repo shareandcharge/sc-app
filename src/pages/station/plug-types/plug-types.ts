@@ -7,6 +7,7 @@ import {ConfigService} from "../../../services/config.service";
 import {ErrorService} from "../../../services/error.service";
 import {TrackerService} from "../../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
+import {JuiceBoxPage} from "../juice-box/juice-box";
 
 
 @Component({
@@ -24,6 +25,9 @@ export class PlugTypesPage {
     wattpowerTemp: any;
     errorMessages: any;
 
+    displayJuiceBoxOption: boolean = false;
+    nextView: any;
+
     constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController,
                 private configService: ConfigService, private events: Events, private errorService: ErrorService,
                 private trackerService: TrackerService, private translateService: TranslateService) {
@@ -35,6 +39,8 @@ export class PlugTypesPage {
                 this.plugOptions = plugtypes;
             },
             error => this.errorService.displayErrorWithKey(error, 'error.scope.get_plugtypes'));
+
+        this.displayJuiceBoxOption = this.configService.isFeatureEnabled("show_juicebox_config");
 
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
@@ -75,7 +81,13 @@ export class PlugTypesPage {
             if (!this.connector.metadata.accessControl) {
                 this.connector.metadata.kwh = false
             }
-            this.navCtrl.push(SetTariffPage, {
+
+            this.nextView = SetTariffPage;
+            if (this.connector.metadata.juiceBox) {
+                this.nextView = JuiceBoxPage;
+            }
+
+            this.navCtrl.push(this.nextView, {
                 "location": this.locObject,
                 "mode": this.flowMode
             });
@@ -93,6 +105,8 @@ export class PlugTypesPage {
             // message = "Wähle diese Option sofern dein Ladepunkt über einen geeichten Stromzähler verfügt " +
             //     "& der Zählerstand automatisch an das Share&Charge Backend gesendet wird.";
             message = this.translateService.instant('station.msg_kwh_type');
+        } else if ("juiceBox" === type) {
+            message = this.translateService.instant('station.msg_juice_box');
         }
 
         let alert = this.alertCtrl.create({
@@ -116,6 +130,24 @@ export class PlugTypesPage {
 
     plugTypeDirty() {
         this.errorMessages.plugType = '';
+    }
+
+    toggleJuiceBox() {
+        if (this.connector.metadata.juiceBox) {
+            this.wattpowerTemp = 10;
+            this.updateWattpower();
+
+            this.connector.plugtype = "5";
+
+            this.connector.metadata.kwh = false;
+            this.connector.metadata.accessControl = false;
+
+            this.connector.metadata.operator = 'eMotorWerks';
+        } else {
+            this.connector.metadata.deviceId = '';
+            this.connector.metadata.guestPin = '';
+            this.connector.metadata.operator = '';
+        }
     }
 
     validateForm() {

@@ -132,7 +132,9 @@
     "unauthorized_email": "The verification e-mail will only be sent to you",
     "no_key_saved": "There is no key saved",
     "user_not_verified": "Please verify your e-mail address",
-    "invalid_payout": "The Pay-out is invalid"
+    "invalid_payout": "The Pay-out is invalid",
+    "emotorwerks_wrong_pin": "Wrong guest pairing id! Please check your input.",
+    "emotorwerks_invalid_id": "Wrong juice box device id! Please check your input."
   },
   "payment": {
     "types": {
@@ -512,7 +514,13 @@
     "hourly_message": "Please add your energy costs, which you are paying to your energy provider.",
     "parking_message": "Please add the costs, which the charger pays for the duration that he uses your parking lot.",
     "choose_tarif": "Please select a tariff",
-    "choose_tarif_notice": "You need to select at least one tariff."
+    "choose_tarif_notice": "You need to select at least one tariff.",
+    "juice_box_checkbox": "eMotorWerks JuiceBox",
+    "msg_juice_box": "Select this option if you have a JuiceBox® EV Charging Station that is connected to the JuiceNet.",
+    "juice_box_device_id": "Device Id",
+    "juice_box_pin": "Guest pairing pin",
+    "juice_box_details": "Juice Box Details",
+    "juice_box_info_text": "Please provide the Device Id and a Guest pairing pin so that Share&Charge able to connect to your JuiceBox. You can find the information by logging into the <a href=\"https://dashboard.emotorwerks.com/Portal\" target=\"_blank\">eMotorWerks Portal</a>. Then go \"My JuiceNet >> My JuiceNet Devices\" and click on \"Guest pairing pin\" for the device you want to connect."
   },
   "wallet": {
     "PayPal": "PayPal",
@@ -559,7 +567,9 @@
     "choose_plugtype": "Please select the plug type.",
     "choose_power": "Please select the capacity.",
     "no_connection": "No connection.",
-    "unknown_error": "Unknown error"
+    "unknown_error": "Unknown error",
+    "device_id": "Please provide a valid Device Id.",
+    "guest_pin": "Please provide a valid Guest pairing pin."
   },
   "add_money": {
     "account": "Wallet",
