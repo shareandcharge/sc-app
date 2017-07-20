@@ -162,7 +162,7 @@
     "delete": "Löschen",
     "continue": "Weiter",
     "euro_sign": "€",
-    "currency_sign": "€",
+    "currency_sign": "{{currency}}",
     "empty_currency_value": "0,00",
     "iban": "IBAN",
     "bic": "BIC",

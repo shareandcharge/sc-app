@@ -23,7 +23,7 @@ export class WalletPage {
     pendingTransactions: Array<any>;
     intervals = [];
     pollPendingTimeout: number = 6000;  //-- milliseconds to poll for pending transactions
-    currency: any = "";
+    // currency: any = "";
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController,
                 private paymentService: PaymentService, private authService: AuthService,
@@ -38,7 +38,7 @@ export class WalletPage {
             this.clearAllIntervals();
         });
 
-        this.currency = this.currencyService.getCurrency();
+        // this.currency = this.currencyService.getCurrency();
     }
 
     ionViewWillEnter() {
