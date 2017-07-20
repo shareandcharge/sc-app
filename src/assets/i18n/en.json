@@ -113,7 +113,7 @@
     "error_start_charging_not_connected": "The vehicle is not connected to the charging station",
     "error_start_charging": "The charging process couldn't be started. Please check the connection between your e-car and the charging station",
     "wrong_old_password": "You used a wrong or old password",
-    "pay_in_limit_reached": "The maximum Pay-in level per day is 100 Euro",
+    "pay_in_limit_reached": "The maximum Pay-in level per day is 100{{currency}}",
     "time_too_long": "Your selected time is too long",
     "secure_storage_locked": "There was an error with your Pay-in - please contact our Support for help at support@shareandcharge.com",
     "order_not_found": "The order could not be found",
@@ -168,7 +168,15 @@
     "empty_currency_value": "0.00",
     "iban": "IBAN",
     "bic": "BIC",
-    "password": "Password"
+    "password": "Password",
+    "monday" : "Monday",
+    "tuesday" : "Tuesday",
+    "wednesday" : "Wednesday",
+    "thursday"  :"Thursday",
+    "friday" : "Friday",
+    "saturday" : "Saturday",
+    "sunday" : "Sunday",
+    "time" : "time"
   },
   "app": {
     "cancel_app": "Cancel the app",
@@ -274,6 +282,8 @@
         "query_price": "Price query",
         "charging_session_complete" : "Charging complete!"
       },
+      "hour" : "Hr.",
+      "minutes" : "Min.",
       "charging_session": "Charging session",
       "free": "free",
       "add_car_first": "Please add an e-car before you start the charging process",
@@ -301,6 +311,7 @@
       "loading_map": "Loading map ..."
     },
     "location_details": {
+      "oclock" : "",
       "error_no_station_details": "There are not enough details provided about this charging station.",
       "list_plugins": "List - plug types",
       "location_details": "Location details",
@@ -465,7 +476,7 @@
     "confirm_delete": "Confirm deletion",
     "msg_confirm_delete": "Do you really want to delete this photo?",
     "yes_delete": "Yes, delete",
-    "my_stations": "My chargig stations",
+    "my_stations": "My charging stations",
     "msg_confirm_delete_station": "Do you really want to delete this charging station?",
     "delete_charging_station": "Yes, delete charging station ...",
     "select_connector": "Select connector",
