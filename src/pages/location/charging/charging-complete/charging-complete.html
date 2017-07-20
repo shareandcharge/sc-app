@@ -23,7 +23,7 @@
             <ion-icon name="cust-time-money"></ion-icon>
             {{chargedTimeString}}
             |
-            {{(chargedPrice / 100) | currency:'EUR':true:'1.2-2'}}
+            {{chargedPrice | currencyDisplay }}
         </div>
     </div>
 

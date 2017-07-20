@@ -108,13 +108,13 @@
                 <ion-col center>
                     <div class="footer-price">
                         <strong *ngIf="minPrice == maxPrice && minPrice != 0">
-                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
+                            {{maxPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
                             <ng-container *ngIf="includingVat">{{'location.charging.tax' | translate}}</ng-container>
                         </strong>
                         <strong *ngIf="minPrice != maxPrice && maxPrice != 0">
-                            {{(minPrice / 100) | currency:'EUR':true:'1.2-2'}}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
+                            {{minPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
                             -
-                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
+                            {{maxPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
                             <ng-container *ngIf="includingVat">{{'location.charging.tax' | translate}}</ng-container>
                             <ion-icon name="ios-help-circle-outline" (click)="showHelp('price-range')" color="primary"></ion-icon>
                         </strong>

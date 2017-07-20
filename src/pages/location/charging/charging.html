@@ -29,7 +29,7 @@
         <div class="text" *ngIf="chargingTypeText">
             {{"tariff.types." + chargingTypeText|translate}}:
             <ng-container *ngIf="chargingPricePerHour != 0">
-                {{chargingPricePerHour/100 | currency:'EUR':true:'1.2-2'}}
+                {{chargingPricePerHour | currencyDisplay }}
                 <span *ngIf="chargingTypeText == 'hourly' || chargingTypeText == 'kwh'">/h</span>
                 <span class="vat" *ngIf="includingVat">{{'location.charging.tax' | translate}}</span>
             </ng-container>
@@ -49,7 +49,7 @@
     <div text-center class="price-label" *ngIf="activeCar != null">
         <span *ngIf="!countingDown"> {{'location.charging.estimated_price' | translate}} </span>
         <ng-container *ngIf="chargingPrice != 0">
-            {{(chargingPrice / 100) | currency:'EUR':true:'1.2-2'}} <br>
+            {{ chargingPrice | currencyDisplay '}} <br>
             <span class="vat" *ngIf="includingVat">{{'location.charging.tax' | translate}}</span>
         </ng-container>
         <ng-container *ngIf="chargingPrice == 0">
