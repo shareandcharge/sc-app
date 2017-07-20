@@ -17,10 +17,11 @@ import {ErrorService} from "../services/error.service";
 import {TrackerService} from "../services/tracker.service";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
 import {User} from "../models/user";
-
+import {CurrencyService} from "../services/currency.service";
 
 @Component({
-    template: `<ion-nav [root]="rootPage"></ion-nav>`
+    template: `<ion-nav [root]="rootPage"></ion-nav>`,
+    providers: [CurrencyService]
 })
 export class MyApp {
     rootPage: any = TabsPage;

@@ -1,6 +1,5 @@
 import {Component} from "@angular/core";
 import {NavParams, NavController, Platform} from "ionic-angular";
-import {CurrencyPipe} from "@angular/common";
 import {InAppBrowser} from "ionic-native";
 import {Transaction} from "../../../models/transaction";
 import {TranslateService} from "@ngx-translate/core";
@@ -10,7 +9,8 @@ import {CurrencyService} from "../../../services/currency.service";
 
 @Component({
     templateUrl: 'transaction-detail.html',
-    selector: 'transaction-detail'
+    selector: 'transaction-detail',
+    providers: [CurrencyDisplay]
 })
 export class TransactionDetailPage {
     transaction: Transaction;
