@@ -1,6 +1,7 @@
 json_key_file "./fastlane/keystore/key-03e55092317a.json" # Path to the json secret file - Follow https://github.com/fastlane/supply#setup to get one
 package_name "com.shareandcharge.app" # e.g. com.krausefx.ap
-apple_id "jan.ely@innogy.com" # Your Apple email address
+# apple_id "jan.ely@innogy.com" # Your Apple email address
+
 team_name "RWE IT GmbH"
 team_id "S8N3ZACVV9" # Developer Portal Team ID
 

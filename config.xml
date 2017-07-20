@@ -35,8 +35,8 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <preference buildType="debug" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" quote="none" value="8.3" />
-        <preference buildType="release" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" value="8.3" />
+        <preference buildType="debug" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" quote="none" value="9.0" />
+        <preference buildType="release" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" value="9.0" />
         <preference buildType="debug" name="ios-XCBuildConfiguration-GCC_NO_COMMON_BLOCKS" value="NO" />
         <preference buildType="release" name="ios-XCBuildConfiguration-GCC_NO_COMMON_BLOCKS" value="NO" />
         <config-file parent="CFBundleDevelopmentRegion" platform="ios" target="*-Info.plist">
