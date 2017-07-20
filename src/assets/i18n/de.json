@@ -497,7 +497,6 @@
     "registered_mail_not_found": "Keine registrierte E-Mail-Adresse gefunden",
     "registered_mail_not_found_msg": "Keiner der gefundenen E-Mail-Adressen ist bei S&C registriert.",
     "msg_confirm_delete_addr": "Möchtest Du dieses E-Mail Adresse aus dem Tarif entfernen?",
-    "edit_station": "Ladestation bearbeiten",
     "add_station": "Ladestation hinzufügen",
     "your_tarif": "Dein Tarif",
     "sc_fee": "S&C Gebühr",
