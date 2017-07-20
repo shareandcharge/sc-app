@@ -6,6 +6,7 @@ import {Connector} from "../../../models/connector";
 import {TariffConfirmationPage} from "./tariff-confirmation/tariff-confirmation";
 import {TrackerService} from "../../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
+import {CurrencyService} from "../../../services/currency.service";
 
 
 @Component({
@@ -27,9 +28,11 @@ export class SetTariffPage {
 
     estimatedPrice: any;
 
+    currency: any = "";
+
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController,
                 private navParams: NavParams, private events: Events, private trackerService: TrackerService,
-                private translateService: TranslateService) {
+                private translateService: TranslateService, private currencyService: CurrencyService) {
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
         this.priceprovider = this.connector.priceprovider;
@@ -76,6 +79,8 @@ export class SetTariffPage {
         if (this.navParams.get('setTariffAlert')) {
             this.showSetTariffAlert();
         }
+        
+        this.currency = this.currencyService.getCurrency();
     }
 
     ionViewDidEnter() {

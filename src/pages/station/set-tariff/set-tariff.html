@@ -61,7 +61,7 @@
                                    (change)="updatePriceProvider($event, priceprovider.public.flatrate, 'flatrateRate')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"
                         ></ion-input>
-                        <label>{{ 'common.currency_sign' | translate }}</label>
+                        <label>{{ (currency) }}</label>
                     </div>
                 </div>
                 <!--
@@ -88,7 +88,7 @@
                                    [value]="priceprovider.public.hourly.hourlyRate / 100 || ''"
                                    (change)="updatePriceProvider($event, priceprovider.public.hourly, 'hourlyRate', 'publicHourly')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
-                        <label>€/kWh</label>
+                        <label>{{ (currency) }}/kWh</label>
                     </div>
                 </div>
                 <p>
@@ -121,7 +121,7 @@
                                    [value]="priceprovider.public.hourly.parkRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.public.hourly, 'parkRate', 'publicHourly')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
-                        <label>€/h</label>
+                        <label>{{ (currency) }}/h</label>
                     </div>
                 </div>
                 <!--
@@ -149,7 +149,7 @@
                                    [value]="priceprovider.public.kwh.kwhRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.public.kwh, 'kwhRate', 'publicKwh')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
-                        <label>€/kWh</label>
+                        <label>{{ (currency) }}/kWh</label>
                     </div>
                 </div>
                 <!--
@@ -176,7 +176,7 @@
                                    [value]="priceprovider.public.kwh.parkRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.public.kwh, 'parkRate', 'publicKwh')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
-                        <label>€/h</label>
+                        <label>{{ (currency) }}/h</label>
                     </div>
                 </div>
                 <!--
@@ -232,7 +232,7 @@
                                    [value]="priceprovider.private.flatrate.flatrateRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.flatrate, 'flatrateRate')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
-                        <label>€</label>
+                        <label>{{ (currency) }}</label>
                     </div>
                 </div>
                 <!--
@@ -258,7 +258,7 @@
                                    [value]="priceprovider.private.hourly.hourlyRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.hourly, 'hourlyRate', 'privateHourly')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
-                        <label>€/kWh</label>
+                        <label>{{ (currency) }}/kWh</label>
                     </div>
                 </div>
                 <p>
@@ -291,7 +291,7 @@
                                    [value]="priceprovider.private.hourly.parkRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.hourly, 'parkRate', 'privateHourly')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
-                        <label>€/h</label>
+                        <label>{{ (currency) }}/h</label>
                     </div>
                 </div>
                 <!--
@@ -318,7 +318,7 @@
                                    [value]="priceprovider.private.kwh.kwhRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.kwh, 'kwhRate', 'privateKwh')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
-                        <label>€/kWh</label>
+                        <label>{{ (currency) }}/kWh</label>
                     </div>
                 </div>
                 <!--
@@ -345,7 +345,7 @@
                                    [value]="priceprovider.private.kwh.parkRate / 100  || ''"
                                    (change)="updatePriceProvider($event, priceprovider.private.kwh, 'parkRate', 'privateKwh')"
                                    placeholder="{{ 'common.empty_currency_value' | translate }}"></ion-input>
-                        <label>€/h</label>
+                        <label>{{ (currency) }}/h</label>
                     </div>
                 </div>
                 <!--
