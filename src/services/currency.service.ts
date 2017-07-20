@@ -1,17 +1,14 @@
 import {Injectable} from '@angular/core';
-import {TranslateService} from "@ngx-translate/core";
+import {CONFIG} from '../config/config';
 
 @Injectable()
 export class CurrencyService {
 
-  private USD_PILOT: boolean = true;
+  // TODO: use feature toggle
+  private USD_PILOT: boolean = CONFIG.CURRENCY_SIGN_USD;
 
-  constructor(private translateService: TranslateService){
-
-  }
-
-  getCurrency() {
-    return (this.USD_PILOT ? '$' : '€')
+  getCurrency(): string {
+    return (this.USD_PILOT ? '$' : '€');
   }
 
 }

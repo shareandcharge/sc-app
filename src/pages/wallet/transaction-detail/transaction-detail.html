@@ -18,7 +18,7 @@
         <ion-row>
             <ion-col>
                 <ion-label>{{'wallet.amount' | translate}}</ion-label>
-                {{transaction.amount / 100 | currency:'EUR':true:'1.2-2'}}
+                {{transaction.amount  | currencyDisplay }}
             </ion-col>
         </ion-row>
         <ion-row>
@@ -39,7 +39,7 @@
         <ion-row>
             <ion-col>
                 <ion-label>{{'wallet.amount' | translate}}</ion-label>
-                {{transaction.amount / 100 | currency:'EUR':true:'1.2-2'}}
+                {{transaction.amount  | currencyDisplay }}
             </ion-col>
         </ion-row>
         <ion-row>
@@ -93,11 +93,11 @@
         <ion-row>
             <ion-col *ngIf="transaction.isReceived()">
                 <ion-label>{{'wallet.charging_cost' | translate}}</ion-label>
-                {{transaction.amount / 100 | currency:'EUR':true:'1.2-2'}} + {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr
+                {{transaction.amount  | currencyDisplay }} + {{transaction.receipt.feeamount  | currencyDisplay }} Share&Charge Gebühr
             </ion-col>
             <ion-col *ngIf="transaction.isSend()">
                 <ion-label>{{'wallet.charging_cost' | translate}}</ion-label>
-                {{(transaction.amount) / 100 | currency:'EUR':true:'1.2-2'}} (inkl. {{transaction.receipt.feeamount / 100 | currency:'EUR':true:'1.2-2'}} Share&Charge Gebühr) <ng-container *ngIf="transaction.receipt.owner_profile.operatorVat">(inkl. 19% MwSt.)</ng-container>
+                {{(transaction.amount)  | currencyDisplay }} (inkl. {{transaction.receipt.feeamount  | currencyDisplay }} Share&Charge Gebühr) <ng-container *ngIf="transaction.receipt.owner_profile.operatorVat">(inkl. 19% MwSt.)</ng-container>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="transaction.receipt.invoice">
