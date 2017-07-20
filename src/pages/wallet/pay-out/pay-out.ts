@@ -3,6 +3,7 @@ import {ViewController} from 'ionic-angular';
 import {PaymentService} from "../../../services/payment.service";
 import {ErrorService} from "../../../services/error.service";
 import {FormBuilder, Validators} from "@angular/forms";
+import {CurrencyService} from "../../../services/currency.service";
 
 @Component({
     selector: 'pay-out',
@@ -15,8 +16,10 @@ export class PayOutPage {
     displayAmount: any;
     form: any;
 
+    currency: any = "";
+
     constructor(private viewCtrl: ViewController, private paymentService: PaymentService, private errorService: ErrorService,
-                private formBuilder: FormBuilder) {
+                private formBuilder: FormBuilder, private currencyService: CurrencyService) {
         this.payOutObject = {
             bic: '',
             iban: '',
@@ -31,6 +34,7 @@ export class PayOutPage {
             password: ['', Validators.compose([Validators.required])]
         });
 
+        this.currency = this.currencyService.getCurrency();
     }
 
     payOut() {

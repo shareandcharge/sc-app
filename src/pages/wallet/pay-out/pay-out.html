@@ -18,7 +18,7 @@
         <div class="input-box input-box-white input-box-xl margin-bottom-xl">
             <div class="input-box-inner">
                 <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="0" formControlName="amount"></ion-input>
-                <label>{{ 'common.euro_sign' | translate }}</label>
+                <label>{{ (currency) }}</label>
             </div>
         </div>
         <div *ngIf="!form.controls.amount.valid && submitAttempt" class="alert-box alert-box-danger" margin>
