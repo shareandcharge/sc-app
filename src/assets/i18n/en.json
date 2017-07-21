@@ -530,7 +530,7 @@
     "juice_box_device_id": "Device Id",
     "juice_box_pin": "Guest pairing pin",
     "juice_box_details": "Juice Box Details",
-    "juice_box_info_text": "Please provide the Device Id and a Guest pairing pin so that Share&Charge able to connect to your JuiceBox. You can find the information by logging into the <a href=\"https://dashboard.emotorwerks.com/Portal\" target=\"_blank\">eMotorWerks Portal</a>. Then go \"My JuiceNet >> My JuiceNet Devices\" and click on \"Guest pairing pin\" for the device you want to connect."
+    "juice_box_info_text": "Please provide the Device Id and a Guest pairing PIN so that Share&Charge is able to connect to your JuiceBox. You can find the information by logging into the <a href=\"https://dashboard.emotorwerks.com/Portal\" target=\"_blank\">eMotorWerks Portal</a>. Then go \"My JuiceNet >> My JuiceNet Devices\" and click on \"Guest pairing pin\" for the device you want to connect."
   },
   "wallet": {
     "PayPal": "PayPal",
