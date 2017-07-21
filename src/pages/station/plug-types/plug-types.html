@@ -24,9 +24,22 @@
                       color="primary"></ion-icon>
         </ion-item>
 
+        <ion-item>
+            <ion-checkbox [(ngModel)]="connector.metadata.accessControl" class="item-partial-cover" [disabled]="connector.metadata.juiceBox"></ion-checkbox>
+            <ion-label>{{'station.sc_module' | translate}}</ion-label>
+            <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('accessControl')" color="primary"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+            <!-- for now turned off, see: https://github.com/slockit/sc-app/issues/203 -->
+            <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{true || !connector.metadata.accessControl}}"
+                      class="item-partial-cover"></ion-checkbox>
+            <ion-label>{{'station.kwh_billing' | translate}}</ion-label>
+            <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('kwh')" color="primary"></ion-icon>
+        </ion-item>
+
         <ion-list-header>
             {{'station.select_connector' | translate}}
-
         </ion-list-header>
 
         <ion-item>
@@ -74,21 +87,6 @@
         </ion-item>
 
         <div *ngIf="errorMessages.capacity" class="alert-box alert-box-danger" margin>{{ errorMessages.capacity }}</div>
-
-        <ion-item>
-            <ion-checkbox [(ngModel)]="connector.metadata.accessControl" class="item-partial-cover" [disabled]="connector.metadata.juiceBox"></ion-checkbox>
-            <ion-label>{{'station.sc_module' | translate}}</ion-label>
-            <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('accessControl')"
-                      color="primary"></ion-icon>
-        </ion-item>
-
-        <ion-item>
-            <!-- for now turned off, see: https://github.com/slockit/sc-app/issues/203 -->
-            <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{true || !connector.metadata.accessControl}}"
-                          class="item-partial-cover"></ion-checkbox>
-            <ion-label>{{'station.kwh_billing' | translate}}</ion-label>
-            <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('kwh')" color="primary"></ion-icon>
-        </ion-item>
 
     </ion-list>
 
