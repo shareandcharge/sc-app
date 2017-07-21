@@ -2,18 +2,25 @@
 * copy this file to config.ts and adjust values to your needs
 */
 export let CONFIG = {
-    APP_VERSION: '1.0.3',
+    APP_VERSION: '1.0.7',
     API_URL: 'https://api-test.shareandcharge.com/v1',
-    IMAGES_BASE_URL: 'https://api.shareandcharge.com',
+    IMAGES_BASE_URL: 'https://api-test.shareandcharge.com',
     API_KEY: {
-        param: 'apikey',
-        name: 'iosapp',
-        secret: 'secret'
+        param: 'noapikey',
+        //was 'iosapp'
+        name: '{SC_APP_NAME}',
+        secret: '{SC_APP_SECRET}'
     },
-    FAQ_URL: 'https://shareandcharge.com/faqs/',
     CONTACT_EMAIL: 'info@shareandcharge.com',
     MIXPANEL_TOKEN: '2e9e....',
-    TERMS_APP_URL: 'https://www.shareandcharge.com/app-agbs/',
-    TERMS_STATION_URL: 'https://www.shareandcharge.com/ladestation-agbs/',
-    DATA_PROTECTION_URL: 'https://www.shareandcharge.com/app-datenschutz/'
+    FEATURE_TOGGLES: {
+<<<<<<< HEAD
+        show_juicebox_config: false,
+        currency_sign_usd: false
+=======
+        show_juicebox_config: true,
+        currency_sign_usd: false,
+        hide_payment: false
+>>>>>>> Add feature toggle to hide payin and payout in wallet
+    }
 };

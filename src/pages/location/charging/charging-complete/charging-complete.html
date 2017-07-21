@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Ladevorgang</ion-title>
+        <ion-title>{{'location.charging.charging-complete.charging_session' | translate}}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="dismiss()">
                 <ion-icon name="close"></ion-icon>
@@ -23,12 +23,12 @@
             <ion-icon name="cust-time-money"></ion-icon>
             {{chargedTimeString}}
             |
-            {{(chargedPrice / 100) | currency:'EUR':true:'1.2-2'}}
+            {{chargedPrice | currencyDisplay }}
         </div>
     </div>
 
-    <h1 text-center ion-text padding margin-bottom color="primary">Ladevorgang erfolgreich beendet!</h1>
+    <h1 text-center ion-text padding margin-bottom color="primary">{{'location.charging.charging-complete.charging_session_complete' | translate}}</h1>
     <div text-center padding-top>
-        <img src="assets/images/battery-completed.gif">
+        <img src="assets/images/battery-completed.gif" />
     </div>
 </ion-content>

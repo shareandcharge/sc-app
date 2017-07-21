@@ -5,13 +5,15 @@ import {Rating} from "../models/rating";
 import {AbstractApiService} from "./abstract.api.service";
 import {ConfigService} from "./config.service";
 import {HttpService} from "./http.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class RatingService extends AbstractApiService {
     private contentHeader: Headers = new Headers({"Content-Type": "application/json"});
 
-    constructor(private httpService: HttpService, configService: ConfigService) {
-        super(configService);
+    constructor(private httpService: HttpService, configService: ConfigService, 
+                public translateService: TranslateService) {
+        super(configService, translateService);
         this.baseUrl += '/locations/';
     }
 
@@ -25,7 +27,7 @@ export class RatingService extends AbstractApiService {
 
                 return ratings;
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     getRating(locationId: number, ratingId: number): Observable<Rating> {
@@ -33,7 +35,7 @@ export class RatingService extends AbstractApiService {
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     createRating(locationId: number, rating: Rating): Observable<Rating> {
@@ -41,7 +43,7 @@ export class RatingService extends AbstractApiService {
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     updateRating(locationId: number, rating: Rating): Observable<Rating> {
@@ -49,7 +51,7 @@ export class RatingService extends AbstractApiService {
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     deleteRating(locationId: number, ratingId: number): Observable<Rating> {
@@ -57,7 +59,7 @@ export class RatingService extends AbstractApiService {
             .map(res => {
                 return new Rating().deserialize(res.json());
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 }
 

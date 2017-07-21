@@ -11,6 +11,8 @@ log.txt
 *.sublime-workspace
 .vscode/
 npm-debug.log*
+package-lock.json
+Gemfile.lock
 
 .idea/
 .sass-cache/
@@ -33,3 +35,12 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 src/config/config.ts
+
+# Fastlane
+fastlane/.env
+fastlane/release-cred/*.keystore
+fastlane/report.xml
+fastlane/keystore
+
+.idea
+*.iml

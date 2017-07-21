@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AlertController} from "ionic-angular";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 import {Response} from "@angular/http";
 
 @Injectable()
@@ -10,19 +10,22 @@ export class ErrorService {
     }
 
     displayErrorWithKey(error?: any, subtitle?: string) {
-        let key = this.getMessage(error);
+        let messageTrans = this.translateService.instant(this.getMessage(error));
+        let subtitleTrans = typeof subtitle !== 'undefined' ? this.translateService.instant(subtitle) : subtitle;
 
-        this.translateService.get(key).subscribe(value => this.displayError(value, subtitle));
+        this.displayError(messageTrans, subtitleTrans);
     }
 
-    displayError(error: any, subtitle = 'Das tut uns leid') {
+    displayError(error: any, subtitle = this.translateService.instant('error.subtitle')) {
         let message = this.getMessage(error);
-
+        if (typeof subtitle === 'undefined') {
+            subtitle = this.translateService.instant('error.default_subtitle');
+        }
         let alert = this.alertCtrl.create({
-            title: 'Es trat ein Fehler auf',
+            title: this.translateService.instant('error.title'),
             subTitle: subtitle,
             message: message,
-            buttons: ['Schließen']
+            buttons: [this.translateService.instant('common.close')]
         });
 
         alert.present();
@@ -30,7 +33,7 @@ export class ErrorService {
 
     getMessage(error?: Response | any): string {
         let errMsg: string;
-        error = error || 'Unbekannter Fehler';
+        error = error || this.translateService.instant('error.unknown');
 
         if (error instanceof Response) {
             let body;

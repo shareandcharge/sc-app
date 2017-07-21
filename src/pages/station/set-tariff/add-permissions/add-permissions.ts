@@ -4,6 +4,7 @@ import {Contacts, Contact} from "ionic-native";
 import {UserService} from "../../../../services/user.service";
 import {ErrorService} from "../../../../services/error.service";
 import {TrackerService} from "../../../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-add-permissions',
@@ -15,7 +16,8 @@ export class AddPermissionsPage {
 
     constructor(public navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController,
                 public alertCtrl: AlertController, public userService: UserService,
-                private errorService: ErrorService, private trackerService: TrackerService) {
+                private errorService: ErrorService, private trackerService: TrackerService,
+                private translateService: TranslateService) {
         this.permissions = navParams.get("permissions");
     }
 
@@ -49,9 +51,9 @@ export class AddPermissionsPage {
 
         if (contactEmails == null) {
             let alert = this.alertCtrl.create({
-                title: 'Keine E-Mail-Adressen gefunden',
-                subTitle: 'Bitte wähle einen Kontakt mit mindestens einer E-Mail-Adresse aus.',
-                buttons: ['Ok']
+                title: this.translateService.instant('station.no_main_found'),
+                subTitle: this.translateService.instant('station.no_mail_found_msg'),
+                buttons: [this.translateService.instant('common.ok')]
             });
             alert.present();
             return;
@@ -67,14 +69,14 @@ export class AddPermissionsPage {
                     this.addUserToPermissionList(emailAddress);
                 } else {
                     let alert = this.alertCtrl.create({
-                        title: 'E-Mail-Adresse nicht registriert',
-                        subTitle: 'Die angegebene E-Mail-Adresse ist nicht bei S&C registriert.',
-                        buttons: ['Ok']
+                        title: this.translateService.instant('station.mail_not_registered'),
+                        subTitle: this.translateService.instant('station.mail_not_registered_msg'),
+                        buttons: [this.translateService.instant('common.ok')]
                     });
                     alert.present();
                 }
             },
-            error => this.errorService.displayErrorWithKey(error, 'Benutzerabfrage')
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.user_exists')
         )
     }
 
@@ -92,9 +94,9 @@ export class AddPermissionsPage {
                 } else {
                     if (contactEmails.length == 0) {
                         let alert = this.alertCtrl.create({
-                            title: 'Keine registrierte E-Mail-Adresse gefunden',
-                            subTitle: 'Keiner der gefundenen E-Mail-Adressen ist bei S&C registriert.',
-                            buttons: ['Ok']
+                            title: this.translateService.instant('station.registered_mail_not_found'),
+                            subTitle: this.translateService.instant('station.registered_mail_not_found_msg'),
+                            buttons: [this.translateService.instant('common.ok')]
                         });
                         alert.present();
                     } else {
@@ -102,7 +104,7 @@ export class AddPermissionsPage {
                     }
                 }
             },
-            error => this.errorService.displayErrorWithKey(error, 'Benutzerabfrage')
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.user_exists')
         )
     }
 
@@ -110,15 +112,15 @@ export class AddPermissionsPage {
         deleteEmail = deleteEmail.toLowerCase();
 
         let alert = this.alertCtrl.create({
-            title: 'Löschen bestätigen',
-            message: 'Möchtest Du dieses E-Mail Adresse aus dem Tarif entfernen?',
+            title: this.translateService.instant('station.confirm_delete'),
+            message: this.translateService.instant('station.msg_confirm_delete_addr'),
             buttons: [
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel'
                 },
                 {
-                    text: 'Ja, löschen',
+                    text: this.translateService.instant('station.yes_delete'),
                     handler: () => {
                         this.permissions.splice(this.permissions.findIndex(email => deleteEmail === email.toLowerCase()), 1);
                     }

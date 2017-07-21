@@ -11,6 +11,7 @@ import {EditEmailPage} from "./edit-email/edit-email";
 import {EditProfilePage} from "./edit-profile/edit-profile";
 import {ErrorService} from "../../../services/error.service";
 import {EditPasswordPage} from "./edit-password/edit-password";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ProfileDataPage {
     constructor(private navCtrl: NavController, private actionSheetCtrl: ActionSheetController,
                 private authService: AuthService, private userService: UserService, private platform: Platform,
                 private events: Events, private errorService: ErrorService, private alertCtrl: AlertController,
-                private loadingCtrl: LoadingController) {
+                private loadingCtrl: LoadingController, private translateService: TranslateService) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 
@@ -37,18 +38,18 @@ export class ProfileDataPage {
 
     selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Bild auswählen',
+            title: this.translateService.instant('profile.data.choose_picture'),
             buttons: [
                 {
-                    text: 'Kamera',
+                    text: this.translateService.instant('profile.data.camera'),
                     handler: () => this.takePhoto('camera')
                 },
                 {
-                    text: 'Mediathek',
+                    text: this.translateService.instant('profile.data.gallery'),
                     handler: () => this.takePhoto('Gallery')
                 },
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel',
                     icon: !this.platform.is('ios') ? 'close' : null
                 }
@@ -85,7 +86,7 @@ export class ProfileDataPage {
                     this.authService.setUser(this.user);
                     this.events.publish('users:updated');
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
     }
 
     editEmail() {
@@ -109,28 +110,28 @@ export class ProfileDataPage {
     resendVerificationEmail() {
         this.userService.resendVerificationEmail().subscribe((res) => {
             let alert = this.alertCtrl.create({
-                message: 'Die Bestätigungsemail wurde erneut versandt. Bitte prüfe Deinen Posteingang. In seltenen Fällen kann die E-Mail auch im Spamordner gelandet sein.',
-                buttons: ['Ok']
+                message: this.translateService.instant('profile.data.resend_email_confirmation'),
+                buttons: [this.translateService.instant('common.ok')]
             });
 
             alert.present();
         }, (error) => {
-            this.errorService.displayErrorWithKey(error, 'Bestätigungsmail senden')
+            this.errorService.displayErrorWithKey(error, 'error.scope.resend_verification_email')
         });
     }
 
     deleteAccountConfirm() {
         let alert = this.alertCtrl.create({
-            title: 'Profil löschen',
-            subTitle: 'Löschen bestätigen',
-            message: 'Möchtest Du Dein Profil und Deine Daten wirklich unwiderruflich löschen?',
+            title: this.translateService.instant('profile.data.delete_profile'),
+            subTitle: this.translateService.instant('profile.data.confirm_delete'),
+            message: this.translateService.instant('profile.data.confirm_delete_message'),
             buttons: [
                 {
-                    text: 'Abbrechen',
+                    text:  this.translateService.instant('common.cancel'),
                     role: 'cancel'
                 },
                 {
-                    text: 'Ja, löschen',
+                    text: this.translateService.instant('profile.data.yes_delete'),
                     handler: () => {
                         this.doDeleteAccount(alert);
                         return false;
@@ -144,7 +145,7 @@ export class ProfileDataPage {
     doDeleteAccount(alert: Alert) {
         let navTransition = alert.dismiss();
 
-        let loader = this.loadingCtrl.create({content: "Lösche Profil ..."});
+        let loader = this.loadingCtrl.create({content: this.translateService.instant('loading.delete_user')});
         loader.present();
 
         this.userService.deleteUser()
@@ -156,7 +157,7 @@ export class ProfileDataPage {
                         this.navCtrl.parent.select(0);
                     });
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Profil löschen')
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.delete_user')
             )
         ;
     }

@@ -8,6 +8,7 @@ import {UserService} from "../../services/user.service";
 import {HelpPage} from "../help/help";
 import {ErrorService} from "../../services/error.service";
 import {ProfileDataPage} from "./profile-data/profile-data";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -21,7 +22,7 @@ export class ProfilePage {
 
     constructor(private navCtrl: NavController, private actionSheetCtrl: ActionSheetController,
                 private auth: AuthService, private platform: Platform, private userService: UserService,
-                private events: Events, private errorService: ErrorService) {
+                private events: Events, private errorService: ErrorService, private translateService: TranslateService) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 
@@ -35,18 +36,18 @@ export class ProfilePage {
 
     selectPhoto() {
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Bild auswählen',
+            title: this.translateService.instant('profile.data.choose_picture'),
             buttons: [
                 {
-                    text: 'Kamera',
+                    text: this.translateService.instant('profile.data.camera'),
                     handler: () => this.takePhoto('camera')
                 },
                 {
-                    text: 'Mediathek',
+                    text:  this.translateService.instant('profile.data.gallery'),
                     handler: () => this.takePhoto('Gallery')
                 },
                 {
-                    text: 'Abbrechen',
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel',
                     icon: !this.platform.is('ios') ? 'close' : null
                 }
@@ -98,6 +99,6 @@ export class ProfilePage {
                 () => {
                     this.events.publish('users:updated');
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
     }
 }

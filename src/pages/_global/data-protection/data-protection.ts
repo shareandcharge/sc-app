@@ -7,6 +7,7 @@ import {AuthService} from "../../../services/auth.service";
 import {User} from "../../../models/user";
 import {UserService} from "../../../services/user.service";
 import {ErrorService} from "../../../services/error.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-data-protection',
@@ -17,7 +18,7 @@ export class DataProtectionPage {
     isTrackingDisabled: boolean = true;
 
     constructor(private viewCtrl: ViewController, private configService: ConfigService,
-                private trackerService: TrackerService, private authService: AuthService,
+                private trackerService: TrackerService, private translateService: TranslateService, private authService: AuthService,
                 private userService: UserService, private events: Events, private errorService: ErrorService) {
     }
 
@@ -26,8 +27,10 @@ export class DataProtectionPage {
     }
 
     openExternalDataProtection() {
-        let url = this.configService.get('DATA_PROTECTION_URL');
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=Schließen,toolbar=yes,location=no');
+        let url = this.translateService.instant('documents.DATA_PROTECTION_URL');
+        // is this working? not able to test is without emulation ios!
+        let options = 'presentationstyle=fullscreen,closebuttoncaption=' + this.translateService.get('common.close') + ',toolbar=yes,location=no';
+        new InAppBrowser(url, '_blank', options);
     }
 
     toggleCheckbox() {
@@ -54,7 +57,7 @@ export class DataProtectionPage {
                         this.authService.setUser(user);
                         this.events.publish('users:updated');
                     },
-                    error => this.errorService.displayErrorWithKey(error, 'Benutzer aktualisieren'));
+                    error => this.errorService.displayErrorWithKey(error, this.translateService.instant('_global.data_protection.refresh_user')));
 
         }
     }

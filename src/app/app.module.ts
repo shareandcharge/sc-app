@@ -49,10 +49,11 @@ import {DataProtectionPage} from "../pages/_global/data-protection/data-protecti
 
 import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
+import {CurrencyDisplay} from '../models/currency-display';
 
 import {Ionic2RatingModule} from 'ionic2-rating';
-import {TranslateModule} from 'ng2-translate/ng2-translate';
-import {TranslateLoader, TranslateStaticLoader} from "ng2-translate";
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import {AuthService} from "../services/auth.service";
 import {CarService} from "../services/car.service";
@@ -66,6 +67,8 @@ import {ErrorService} from "../services/error.service";
 import {HttpService} from "../services/http.service";
 import {PushNotificationService} from "../services/push.notification.service";
 import {TrackerService} from "../services/tracker.service";
+import {CurrencyService} from "../services/currency.service";
+import {JuiceBoxPage} from "../pages/station/juice-box/juice-box";
 
 let storage = new Storage();
 
@@ -82,7 +85,7 @@ export function getAuthHttp(http) {
 }
 
 export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -130,7 +133,9 @@ export function createTranslateLoader(http: Http) {
         ForgotPasswordPage,
         TariffConfirmationPage,
         PayOutPage,
-        VoucherPage
+        VoucherPage,
+        CurrencyDisplay,
+        JuiceBoxPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -139,9 +144,11 @@ export function createTranslateLoader(http: Http) {
         ),
         Ionic2RatingModule,
         TranslateModule.forRoot({
-            provide: TranslateLoader,
-            useFactory: (createTranslateLoader),
-            deps: [Http]
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [Http]
+            }
         })
     ],
     bootstrap: [IonicApp],
@@ -187,7 +194,8 @@ export function createTranslateLoader(http: Http) {
         ForgotPasswordPage,
         TariffConfirmationPage,
         PayOutPage,
-        VoucherPage
+        VoucherPage,
+        JuiceBoxPage
     ],
     providers: [
         {
@@ -214,7 +222,8 @@ export function createTranslateLoader(http: Http) {
         ErrorService,
         HttpService,
         PushNotificationService,
-        TrackerService
+        TrackerService,
+        CurrencyService
     ]
 })
 export class AppModule {

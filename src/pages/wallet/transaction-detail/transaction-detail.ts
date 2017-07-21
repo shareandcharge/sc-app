@@ -1,12 +1,16 @@
 import {Component} from "@angular/core";
 import {NavParams, NavController, Platform} from "ionic-angular";
-import {CurrencyPipe} from "@angular/common";
 import {InAppBrowser} from "ionic-native";
 import {Transaction} from "../../../models/transaction";
+import {TranslateService} from "@ngx-translate/core";
+import {CurrencyDisplay} from "../../../models/currency-display";
+import {CurrencyService} from "../../../services/currency.service";
+
 
 @Component({
     templateUrl: 'transaction-detail.html',
-    selector: 'transaction-detail'
+    selector: 'transaction-detail',
+    providers: [CurrencyDisplay]
 })
 export class TransactionDetailPage {
     transaction: Transaction;
@@ -19,13 +23,13 @@ export class TransactionDetailPage {
     ];
 
     paymentMethods = {
-        'cc': 'Kreditkarte',
-        'paypal': 'PayPal',
-        'dd': 'Bankeinzug',
-        'sofort': 'Sofortüberweisung'
+        'cc': this.translateService.instant('add_money.credit_card'),
+        'paypal': this.translateService.instant('add_money.paypal'),
+        'dd': this.translateService.instant('add_money.direct_debit'),
+        'sofort':  this.translateService.instant('add_money.direct'),
     };
 
-    constructor(private navParams: NavParams, private navCtrl: NavController, private platform: Platform) {
+    constructor(private navParams: NavParams, private navCtrl: NavController, private platform: Platform, private translateService: TranslateService, private currencyDisplay: CurrencyDisplay, private currencyService: CurrencyService) {
         this.transaction = this.navParams.get('transaction');
     }
 
@@ -51,17 +55,17 @@ export class TransactionDetailPage {
                 return '';
             }
             case 1: {
-                return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperhour / 100, 'EUR', true, '1.2-2');
+                return new CurrencyDisplay(this.currencyService).transform(this.transaction.receipt.priceperhour);
             }
             case 2: {
                 //-- @TODO see https://github.com/slockit/sc-app/issues/342
                 // need to change that to use locationService.getEstimatedPrice
                 // it's ok for innog stations, now
                 // return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperkw / 100, 'EUR', true, '1.2-2') + '/kWh';
-                return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperhour / 100, 'EUR', true, '1.2-2') + '/h';
+                return new CurrencyDisplay(this.currencyService).transform(this.transaction.receipt.priceperhour) + '/h';
             }
             case 3: {
-                return new CurrencyPipe('DE').transform(this.transaction.receipt.priceperkw / 100, 'EUR', true, '1.2-2') + '/kWh';
+                return new CurrencyDisplay(this.currencyService).transform(this.transaction.receipt.priceperkw) + '/kWh';
             }
         }
     }

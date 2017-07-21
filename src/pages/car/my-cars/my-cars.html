@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Meine Elektroautos</ion-title>
+        <ion-title>{{'my_cars.my_cars' | translate}}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="addCar()">
                 <ion-icon name="md-add"></ion-icon>
@@ -34,7 +34,7 @@
     </ion-list>
 
     <div padding text-center *ngIf="!cars || !cars.length">
-        <button ion-button text-uppercase round (click)="addCar()">Elektroauto hinzufügen</button>
+        <button ion-button text-uppercase round (click)="addCar()">{{'car.form.add_car' | translate}}</button>
     </div>
 
 </ion-content>

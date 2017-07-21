@@ -30,11 +30,11 @@
 
 
         <div *ngIf="!showOpeningHours" margin-bottom>
-            Öffnungszeiten: {{openingHours[today].fromTo}}
+            {{'location.location_details.opening_hours' | translate}} {{openingHours[today].fromTo}}
             <ion-icon (click)="showOpeningHours = !showOpeningHours" name="ios-arrow-down"></ion-icon>
         </div>
         <div *ngIf="showOpeningHours" margin-bottom>
-            Öffnungszeiten:
+            {{'location.location_details.opening_hours' | translate}}
             <ion-icon (click)="showOpeningHours = !showOpeningHours" name="ios-arrow-up"></ion-icon>
 
             <table>
@@ -73,7 +73,7 @@
 
     <div padding="">
         <div *ngIf="location.description">
-            <h6>Über diese Station:</h6>
+            <h6>{{'location.location_details.about' | translate}}</h6>
             <p class="text-line-wrap">
                 {{location.description}}
             </p>
@@ -81,11 +81,11 @@
         </div>
 
         <div *ngIf="location.metadata.problemSolver">
-            <h6>Ansprechpartner:</h6>
+            <h6>{{'location.location_details.contact' | translate}}</h6>
             <p>{{location.metadata.problemSolver}}</p>
         </div>
 
-        <h6>Bewertungen:</h6>
+        <h6>{{'location.location_details.ratings' | translate}}</h6>
 
         <div *ngFor="let rating of ratings">
             <rating [(ngModel)]="rating.rating" readonly="true"></rating>
@@ -94,7 +94,7 @@
         </div>
 
         <button ion-button color="secondary" small round outline (click)="feedback()" *ngIf="authService.loggedIn()">+
-            Bewertung schreiben
+            {{'location.location_details.write_rating' | translate}}
         </button>
     </div>
 
@@ -108,18 +108,18 @@
                 <ion-col center>
                     <div class="footer-price">
                         <strong *ngIf="minPrice == maxPrice && minPrice != 0">
-                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
-                            <ng-container *ngIf="includingVat">(inkl. 19% MwSt.)</ng-container>
+                            {{maxPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
+                            <ng-container *ngIf="includingVat">{{'location.charging.tax' | translate}}</ng-container>
                         </strong>
                         <strong *ngIf="minPrice != maxPrice && maxPrice != 0">
-                            {{(minPrice / 100) | currency:'EUR':true:'1.2-2'}}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
+                            {{minPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
                             -
-                            {{(maxPrice / 100) | currency:'EUR':true:'1.2-2'}}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
-                            <ng-container *ngIf="includingVat">(inkl. 19% MwSt.)</ng-container>
+                            {{maxPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
+                            <ng-container *ngIf="includingVat">{{'location.charging.tax' | translate}}</ng-container>
                             <ion-icon name="ios-help-circle-outline" (click)="showHelp('price-range')" color="primary"></ion-icon>
                         </strong>
                         <strong *ngIf="minPrice == 0 && maxPrice == 0">
-                            kostenlos
+                            {{'location.charging.free' | translate}}
                         </strong>
                     </div>
                     <div *ngIf="averageRating != -1" class="footer-rating">
@@ -128,10 +128,10 @@
                 </ion-col>
                 <ion-col text-right *ngIf="connector">
                     <button ion-button round color="primary" text-uppercase (click)="charge()" *ngIf="connector.isOpen()">
-                        <span *ngIf="!charging">Laden</span>
-                        <span *ngIf="charging">Ladefortschritt</span>
+                        <span *ngIf="!charging">{{'location.location_details.load' | translate}}</span>
+                        <span *ngIf="charging">{{'location.location_details.loading_progress' | translate}}</span>
                     </button>
-                    <span *ngIf="!connector.isOpen()">Laden außerhalb der Öffnungszeiten ist leider nicht möglich!</span>
+                    <span *ngIf="!connector.isOpen()">{{'location.location_details.not_open' | translate}}</span>
                 </ion-col>
             </ion-row>
         </ion-grid>

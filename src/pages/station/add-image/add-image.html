@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar>
-        <ion-title *ngIf="flowMode=='edit'">Ladestation bearbeiten</ion-title>
-        <ion-title *ngIf="flowMode=='add'">Ladestation hinzufügen</ion-title>
+        <ion-title *ngIf="flowMode=='edit'">{{'station.edit_charging_station' | translate}}</ion-title>
+        <ion-title *ngIf="flowMode=='add'">{{'station.add_charging_station' | translate}}</ion-title>
 
         <ion-buttons end>
             <button ion-button icon-only (click)="close()">
@@ -17,7 +17,7 @@
 <ion-content padding="">
     <ion-list no-lines *ngIf="!images || images.length == 0">
         <ion-item>
-            Foto hinzufügen (optional)
+            {{'station.add_photo' | translate}}
         </ion-item>
         <ion-item>
             <div class="add-image-button" (click)="presentActionSheet()">
@@ -30,7 +30,7 @@
     <div *ngIf="images && images.length > 0">
         <button ion-button="" block large clear (click)="presentActionSheet()">
             <ion-icon name="cust-add-photo"></ion-icon>
-            Foto hinzufügen
+            {{'station.add_photo_2' | translate}}
         </button>
     </div>
 
@@ -44,16 +44,16 @@
 
 
             <ion-item-options side="right">
-                <button ion-button color="danger" (click)="deleteImg(img, itemSliding)">Löschen</button>
+                <button ion-button color="danger" (click)="deleteImg(img, itemSliding)">{{'common.delete' | translate}}</button>
             </ion-item-options>
 
         </ion-item-sliding>
     </ion-list>
 
     <div padding text-center>
-        <button ion-button round (click)="continueAddStation()" text-uppercase outline block>Weiter</button>
+        <button ion-button round (click)="continueAddStation()" text-uppercase outline block>{{'common.continue' | translate}}</button>
         <button ion-button round *ngIf="flowMode==='edit'" (click)="saveChanges()" text-uppercase block>
-            Änderungen speichern
+            {{'station.save_changes' | translate}}
         </button>
     </div>
 </ion-content>

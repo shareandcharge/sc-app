@@ -8,14 +8,16 @@ import {RequestOptions, URLSearchParams} from "@angular/http";
 import {ConfigService} from "./config.service";
 import {HttpService} from "./http.service";
 import {AuthService} from "./auth.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class LocationService extends AbstractApiService {
 
     private imagesBaseUrl: string;
 
-    constructor(private httpService: HttpService, public configService: ConfigService, private authService: AuthService) {
-        super(configService);
+    constructor(private httpService: HttpService, public configService: ConfigService, 
+        private authService: AuthService, public translateService: TranslateService) {
+        super(configService, translateService);
         this.imagesBaseUrl = this.configService.get('IMAGES_BASE_URL');
     }
 
@@ -38,7 +40,7 @@ export class LocationService extends AbstractApiService {
                 });
                 return locations;
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     /**
@@ -87,13 +89,13 @@ export class LocationService extends AbstractApiService {
             .map(res => {
                 return new Location().deserialize(res.json());
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     updateLocation(location: Location) {
         return this.httpService.put(`${this.baseUrl}/locations/${location.id}`, location.serialize())
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     createLocation(location: Location): Observable<Location> {
@@ -101,19 +103,19 @@ export class LocationService extends AbstractApiService {
             .map(res => {
                 return new Location().deserialize(res.json());
             })
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     deleteLocation(id) {
         return this.httpService.delete(`${this.baseUrl}/locations/${id}`)
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     getPrice(connectorId, priceObject) {
         return this.httpService.post(this.baseUrl + '/connectors/' + connectorId + '/price', JSON.stringify(priceObject))
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     getEstimatedPrice(pricePerHour, pricePerKW, maxWattPower) {
@@ -126,7 +128,7 @@ export class LocationService extends AbstractApiService {
 
         return this.httpService.get(this.baseUrl + '/connectors/price', options)
             .map(res => res.json())
-            .catch(this.handleError);
+            .catch((error) => this.handleError(error));
     }
 
     /**

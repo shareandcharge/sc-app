@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Hilfe</ion-title>
+        <ion-title>{{ 'common.help' | translate}}</ion-title>
     </ion-navbar>
 
 </ion-header>
@@ -11,19 +11,19 @@
 
     <ion-list padding-top="" padding-right="" class="no-outer-lines">
         <button ion-item (click)="openFaq()">
-            FAQ
+            {{ 'help.faq' | translate}}
         </button>
         <button ion-item (click)="openTerms()">
-            Nutzungsbedingungen
+            {{ 'help.terms' | translate}}
         </button>
         <button ion-item (click)="openDataProtection()">
-            Datenschutzerklärung
+            {{ 'help.privacy' | translate}}
         </button>
         <button ion-item (click)="openIntro()">
-            Intro
+            {{ 'help.introduction' | translate}}
         </button>
         <button ion-item (click)="openContact()">
-            Kontakt
+            {{ 'help.contact' | translate}}
         </button>
     </ion-list>
 

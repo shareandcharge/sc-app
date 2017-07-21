@@ -1,0 +1,25 @@
+# .pairs - configuration for 'git pair'
+pairs:
+  # <initials>: <Firstname> <Lastname>[
+  mf: Michael Fait ;
+  je: Jan Ely
+  ss: Sebastian Stontowski
+  dp: Diego Peleteiro
+  gc: Georgios Chinis
+  hy: Hao Yu
+  lg: Lauren Gallinaro
+  nb: Nick Brown
+  ms: Michael  Smolenski
+email_addresses:
+  # <initials>: <Email Address>
+  mf: mfait@thoughtworks.com
+  je: jan.ely@innogy.com
+  ss: s.sontowski@innogy.com
+  dp: diegopeleteiro@thoughtworks.com
+  gc: gchinis@thoughtworks.com
+  hy: hao.yu@innogy.com
+  lg: lgallina@thoughtworks.com
+  nb: nick-brown@talk21.com
+  ms: michael.smolenski.palma@gmail.com
+global: false
+# Set to true for git-pair to change git configuration for all your projects

@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar>
         <ion-title>
-            Info
+            {{ 'about.title' | translate }}
         </ion-title>
     </ion-navbar>
     <charging-progress-bar></charging-progress-bar>
@@ -9,16 +9,15 @@
 
 <ion-content text-center padding>
     <div padding>
-        <h3 color="secondary" ion-text padding-bottom>Was ist Share&Charge?</h3>
+        <h3 color="secondary" ion-text padding-bottom>{{ 'about.headline' | translate }}</h3>
 
         <p padding-bottom>
-            Share&Charge macht Ladeinfrastruktur für jedermann zugänglich und abrechenbar.
-            Anmelden um Teil der Community zu werden.
+            {{ 'about.paragraph_1' | translate }}
         </p>
 
         <div padding-bottom>
             <button ion-button round (click)="intro()" text-center margin-top margin-bottom>
-                Intro Starten
+                {{ 'about.start_intro' | translate }}
             </button>
         </div>
 

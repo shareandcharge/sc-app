@@ -21,6 +21,7 @@ import {SignupLoginPage} from "../signup-login/signup-login";
 import {ErrorService} from "../../services/error.service";
 import {ChargingCompletePage} from './charging/charging-complete/charging-complete'
 import {TrackerService} from "../../services/tracker.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -79,7 +80,7 @@ export class LocationDetailPage {
                 private viewCtrl: ViewController, private authService: AuthService, public ratingService: RatingService,
                 private locationService: LocationService, private configService: ConfigService,
                 private sanitizer: DomSanitizer, private carService: CarService, private errorService: ErrorService,
-                private trackerService: TrackerService) {
+                private trackerService: TrackerService, private translateService: TranslateService) {
 
         this.location = new Location();
         this.station = new Station();
@@ -97,13 +98,13 @@ export class LocationDetailPage {
         };
 
         this.weekdays = [
-            'Mo.',
-            'Di.',
-            'Mi.',
-            'Do.',
-            'Fr.',
-            'Sa.',
-            'So.'
+            this.translateService.instant('location.location_details.monday'),
+            this.translateService.instant('location.location_details.tuesday'),
+            this.translateService.instant('location.location_details.wednesday'),
+            this.translateService.instant('location.location_details.thursday'),
+            this.translateService.instant('location.location_details.friday'),
+            this.translateService.instant('location.location_details.saturday'),
+            this.translateService.instant('location.location_details.sunday')
         ];
 
         this.plugTypes = [];
@@ -166,7 +167,7 @@ export class LocationDetailPage {
                     this.locationImages = this.locationService.getImagesWithSrc(location);
                 }
                 catch (e) {
-                    this.errorService.displayError('Nicht genügend Details für diese Station vorhanden.');
+                    this.errorService.displayError(this.translateService.instant('location.location_details.error_no_station_details'));
                     this.dismiss();
                     return;
                 }
@@ -181,11 +182,11 @@ export class LocationDetailPage {
                             this.plugTypes = plugTypes;
                             this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
                         },
-                        error => this.errorService.displayErrorWithKey(error, 'Liste - Steckertypen'));
+                        error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.list_plugins')));
                 }
             },
             (error) => {
-                this.errorService.displayErrorWithKey(error, 'Standortdetails');
+                this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.location_details'));
                 this.dismiss();
             }
         );
@@ -212,7 +213,7 @@ export class LocationDetailPage {
                 this.includingVat = response.vat;
                 this.tariffType = response.type;
             },
-            error => this.errorService.displayErrorWithKey(error, 'Preisabfrage'));
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
     }
 
     getRatings() {
@@ -222,7 +223,7 @@ export class LocationDetailPage {
                 this.ratings = ratings;
                 this.averageRating = this.getAverageRating();
             },
-            error => this.errorService.displayErrorWithKey(error, 'Liste - Bewertungen')
+            error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.list_eval'))
         );
     }
 
@@ -241,16 +242,16 @@ export class LocationDetailPage {
 
     getOpeningHoursForDay(day: number) {
         if (!this.connector) {
-            return "geschlossen";
+            return this.translateService.instant('location.location_details.closed');
         }
 
         let hours = this.connector.weekcalendar.hours;
 
         if (hours[day].from == hours[day].to) {
-            return "geschlossen";
+            return this.translateService.instant('location.location_details.closed');
         }
 
-        return hours[day].from + ':00 - ' + hours[day].to + ':00 Uhr';
+        return hours[day].from + ':00 - ' + hours[day].to + ':00 ' + this.translateService.instant('location.location_details.oclock');
     }
 
     getSvgForPlug(plugId: number) {
@@ -313,8 +314,8 @@ export class LocationDetailPage {
         }
         else {
             let options: LaunchNavigatorOptions = {
-                appSelectionDialogHeader: 'App auswählen',
-                appSelectionCancelButton: 'Abbrechen'
+                appSelectionDialogHeader: this.translateService.instant('location.location_details.select_app'),
+                appSelectionCancelButton: this.translateService.instant('common.cancel')
             };
             LaunchNavigator.navigate([this.location.lat, this.location.lng], options)
                 .then(
@@ -322,7 +323,7 @@ export class LocationDetailPage {
                     },
                     error => {
                         if ('cancelled' !== error) {
-                            alert('App konnte nicht gestartet werden: ' + error);
+                            alert(this.translateService.instant('location.location_details.not_start_app') + error);
                         }
                     }
                 );
@@ -365,16 +366,13 @@ export class LocationDetailPage {
         let message = "";
 
         if ("price-range" === type) {
-            message = "Sollte Dir hier kein exakter Preis, sondern eine Preisspanne angezeigt werden, " +
-                "dann liegt es daran, dass Du Deinem Profil noch kein Elektroauto hinzugefügt hast. " +
-                "Da die Batteriekapazität als Berechnungsgrundlage gilt, werden hier die Preise " +
-                "für verschiedene Batteriekapazitäten angezeigt.";
+            message = this.translateService.instant('location.location_details.message');
         }
 
         let alert = this.alertCtrl.create({
-            title: 'Info',
+            title: this.translateService.instant('common.info'),
             message: message,
-            buttons: ['Ok']
+            buttons: [this.translateService.instant('common.ok')]
         });
         alert.present();
     }

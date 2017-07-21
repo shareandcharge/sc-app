@@ -11,16 +11,17 @@ import {AuthService} from "../services/auth.service";
 import {UserService} from "../services/user.service";
 import {ChargingService} from "../services/charging.service";
 import {IntroPage} from '../pages/intro/intro';
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 import {PushNotificationService} from "../services/push.notification.service";
 import {ErrorService} from "../services/error.service";
 import {TrackerService} from "../services/tracker.service";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
 import {User} from "../models/user";
-
+import {CurrencyService} from "../services/currency.service";
 
 @Component({
-    template: `<ion-nav [root]="rootPage"></ion-nav>`
+    template: `<ion-nav [root]="rootPage"></ion-nav>`,
+    providers: [CurrencyService]
 })
 export class MyApp {
     rootPage: any = TabsPage;
@@ -33,6 +34,8 @@ export class MyApp {
                 private pushNotificationService: PushNotificationService, private errorService: ErrorService,
                 private ionicApp: IonicApp, private menuCtrl: MenuController, private alertCtrl: AlertController,
                 private trackerService: TrackerService, private toastCtrl: ToastController) {
+
+
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -74,8 +77,9 @@ export class MyApp {
                 this.events.publish('locations:updated');
             });
 
-            translateService.setDefaultLang("de");
-            translateService.use("de");
+            const userLang = navigator.language.split('-')[0]; // use navigator lang if available
+            translateService.setDefaultLang("en");
+            translateService.use(userLang);
 
             this.checkExistingToken();
 
@@ -154,7 +158,7 @@ export class MyApp {
             this.userService.updateUser(user).subscribe((updatedUser) => {
                     this.authService.setUser(updatedUser);
                 },
-                error => this.errorService.displayErrorWithKey(error, 'Nutzer aktualisieren'));
+                error => this.errorService.displayErrorWithKey(error, this.translateService.instant('_global.data_protection.refresh_user')));
         }
     }
 
@@ -163,9 +167,9 @@ export class MyApp {
      */
     chargingLapsed() {
         let toast = this.toastCtrl.create({
-            message: 'Ladevorgang erfolgreich beendet',
+            message: this.translateService.instant('app.loading_success'),
             showCloseButton: true,
-            closeButtonText: 'Ok',
+            closeButtonText: this.translateService.instant('common.ok'),
             position: 'top',
             dismissOnPageChange: false
         });

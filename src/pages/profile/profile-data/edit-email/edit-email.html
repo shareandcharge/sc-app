@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>E-Mail bearbeiten</ion-title>
+        <ion-title>{{'profile.data.edit_email' | translate}}</ion-title>
     </ion-navbar>
 
 </ion-header>
@@ -10,7 +10,7 @@
     <form [formGroup]="emailForm" (ngSubmit)="updateUser()">
         <ion-list no-lines="">
             <ion-item>
-                <ion-label floating>E-Mail Adresse</ion-label>
+                <ion-label floating>{{'profile.data.email_adresse' | translate}}</ion-label>
                 <ion-input type="email" class="input-white" [(ngModel)]="user.email"
                            formControlName="email"></ion-input>
             </ion-item>
@@ -19,7 +19,7 @@
                 {{ errorMessages.email }}
             </div>
             <div padding text-center>
-                <button type="submit" ion-button round text-uppercase="">Speichern</button>
+                <button type="submit" ion-button round text-uppercase="">{{'common.save' | translate}}</button>
             </div>
         </ion-list>
     </form>

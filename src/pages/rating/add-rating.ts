@@ -6,6 +6,8 @@ import {Location} from "../../models/location";
 import {AuthService} from "../../services/auth.service";
 import {ErrorService} from "../../services/error.service";
 import {LocationService} from "../../services/location.service";
+import {TranslateService} from "@ngx-translate/core";
+
 
 @Component({
     selector: 'page-add-rating',
@@ -18,7 +20,7 @@ export class AddRatingPage {
 
     constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController,
                 public ratingService: RatingService, public authService: AuthService, public alertCtrl: AlertController,
-                private errorService: ErrorService, private locationService: LocationService) {
+                private errorService: ErrorService, private locationService: LocationService, private translateService: TranslateService) {
         this.location = navParams.get('location');
         this.locationImages = locationService.getImagesWithSrc(this.location);
         this.rating.rating = 5;
@@ -35,16 +37,16 @@ export class AddRatingPage {
         this.ratingService.createRating(this.location.id, this.rating)
             .subscribe(
                 () => this.ratingSubmitted(),
-                (error) => this.errorService.displayErrorWithKey(error, 'Rating erstellen'));
+                (error) => this.errorService.displayErrorWithKey(error, 'error.scope.create_rating'));
     }
 
     ratingSubmitted() {
         let alert = this.alertCtrl.create({
-                title: "Bewertung gespeichert",
-                message: "Vielen Dank für Deine Bewertung.",
+                title: this.translateService.instant('rating.save_rating'),
+                message: this.translateService.instant('rating.thank_rating'),
                 buttons: [
                     {
-                        text: 'OK',
+                        text: this.translateService.instant('common.cancel'),
                         role: 'cancel',
                         handler: () => this.viewCtrl.dismiss()
                     }

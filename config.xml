@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.shareandcharge.app" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.shareandcharge.app" version="1.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>ShareCharge</name>
     <description>Be part of the e-mobility revolution</description>
     <author email="j@delodi.net" href="http://delodi.net/">Delodi Team</author>
@@ -35,8 +35,8 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <preference buildType="debug" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" quote="none" value="8.3" />
-        <preference buildType="release" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" value="8.3" />
+        <preference buildType="debug" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" quote="none" value="9.0" />
+        <preference buildType="release" name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" value="9.0" />
         <preference buildType="debug" name="ios-XCBuildConfiguration-GCC_NO_COMMON_BLOCKS" value="NO" />
         <preference buildType="release" name="ios-XCBuildConfiguration-GCC_NO_COMMON_BLOCKS" value="NO" />
         <config-file parent="CFBundleDevelopmentRegion" platform="ios" target="*-Info.plist">
@@ -54,6 +54,9 @@
         <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
             <string>Bilder aussuchen für Dein Auto, Deine Station oder Dein Profil.</string>
         </config-file>
+        <!-- <config-file parent="ITSAppUsesNonExemptEncryption" platform="ios" target="*-Info.plist">
+            <boolean><false/></boolean>
+        </config-file> -->
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
