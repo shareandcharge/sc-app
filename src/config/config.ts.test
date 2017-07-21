@@ -12,10 +12,8 @@ export let CONFIG = {
     },
     FAQ_URL: 'https://shareandcharge.com/faqs/',
     CONTACT_EMAIL: 'info@shareandcharge.com',
-    MIXPANEL_TOKEN: '2e9e....',
     TERMS_APP_URL: 'https://www.shareandcharge.com/app-agbs/',
     TERMS_STATION_URL: 'https://www.shareandcharge.com/ladestation-agbs/',
-    IMAGES_BASE_URL: 'https://api-test.shareandcharge.com',
     DATA_PROTECTION_URL: 'https://www.shareandcharge.com/app-datenschutz/'
     CONTACT_EMAIL: 'info@shareandcharge.com',
     MIXPANEL_TOKEN: '2e9e....',
