@@ -5,7 +5,7 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>{{'wallet.account' | translate}}</ion-title>
-        <ion-buttons end>
+        <ion-buttons end *ngIf="showPayment === true">
             <button ion-button icon-only (click)="addMoney()">
                 <ion-icon name="md-add"></ion-icon>
             </button>
@@ -23,7 +23,7 @@
     <ion-content>
         <ion-list>
             <!--<ion-item>Zahlungsvorgänge</ion-item>-->
-            <ion-item (click)="payOut()">{{'wallet.pay' | translate }}</ion-item>
+            <ion-item *ngIf="showPayment === true" (click)="payOut()">{{'wallet.pay' | translate }}</ion-item>
             <ion-item (click)="redeemVoucher()">{{'wallet.voucher' | translate}}</ion-item>
             <!--<ion-item>Rechnungen</ion-item>-->
         </ion-list>

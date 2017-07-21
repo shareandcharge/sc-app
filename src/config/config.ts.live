@@ -13,7 +13,13 @@ export let CONFIG = {
     CONTACT_EMAIL: 'info@shareandcharge.com',
     MIXPANEL_TOKEN: '2e9e....',
     FEATURE_TOGGLES: {
+<<<<<<< HEAD
         show_juicebox_config: false,
         currency_sign_usd: false
+=======
+        show_juicebox_config: true,
+        currency_sign_usd: false,
+        hide_payment: false
+>>>>>>> Add feature toggle to hide payin and payout in wallet
     }
 };
