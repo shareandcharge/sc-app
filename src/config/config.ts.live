@@ -14,8 +14,7 @@ export let CONFIG = {
     CONTACT_EMAIL: 'info@shareandcharge.com',
     TERMS_APP_URL: 'https://www.shareandcharge.com/app-agbs/',
     TERMS_STATION_URL: 'https://www.shareandcharge.com/ladestation-agbs/',
-    DATA_PROTECTION_URL: 'https://www.shareandcharge.com/app-datenschutz/'
-    CONTACT_EMAIL: 'info@shareandcharge.com',
+    DATA_PROTECTION_URL: 'https://www.shareandcharge.com/app-datenschutz/',
     MIXPANEL_TOKEN: '2e9e....',
     FEATURE_TOGGLES: {
         show_juicebox_config: false,
