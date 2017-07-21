@@ -609,6 +609,6 @@
     "DATA_PROTECTION_URL": "https://shareandcharge.com/en/dataprotection/"
   },
   "toast" : {
-    "transaction_successful_message" : "Transaction successful"
+    "wallet_transaction_successful" : "Transaction successful"
   }
 }
