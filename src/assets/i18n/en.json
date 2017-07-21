@@ -549,7 +549,7 @@
     "amount": "Amount",
     "detail_view": "Detail view",
     "hurray": "Hurray!",
-    "msg_vourcher_credited": "The vouchers have been credited to your wallet!",
+    "msg_voucher_credited": "The vouchers have been credited to your wallet!",
     "voucher_number": "Voucher number",
     "redeem_voucher": "Redeem voucher",
     "account": "Wallet",

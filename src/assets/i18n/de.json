@@ -550,7 +550,7 @@
     "amount": "Betrag",
     "detail_view": "Detailansicht",
     "hurray": "Hurra!",
-    "msg_vourcher_credited": "Der Gutschein wurde Deinem Konto gutgeschrieben!",
+    "msg_voucher_credited": "Der Gutschein wurde Deinem Konto gutgeschrieben!",
     "voucher_number": "Gutscheinnummer",
     "redeem_voucher": "Gutschein einlösen",
     "account": "Konto",
