@@ -36,6 +36,24 @@ To make sure the correct packages and dependencies installed, consider running `
 To serve the app, run 'ionic serve'
 [http://localhost:8100/](http://localhost:8100/) will open in a new browser window.
 
+### Feature Toggles
+As of 21.07.17, we are implementing several feature toggles to prepare for upcoming pilot releases.
+
+All toggles are set in `src/config/config.ts`, and
+
+##### show_juicebox_config
+
+##### currency_sign_usd
+For the US pilot with eMotorwerks, we are temporarily changing the currency sign to display as $ instead of €. To clarify, this is not a conversion of the currency. This will be removed at a later date but the functionality has been implemented in the `CurrencyService` to facilitate future stories where conversion and currency symbols will need to change conditionally.
+
+Implementation of the feature toggle can be found in `wallet.ts` and `wallet.html` in `src/pages/wallet/` where the currency is set in the constructor by calling `getCurrency` and `isPaymentAvailable` on the injected CurrencyService.
+
+
+##### hide_payment
+Additionally for the US pilot with eMotorwerks, we are hiding the add payment option from the wallet view. Users will not be able to transfer fiat currency in or out of the app account. This will also be removed at a later date.
+
+Implementation of the feature toggle can be found in `wallet.ts` and `wallet.html` in `src/pages/wallet/` where the `showPayment` is set in the constructor by calling `isPaymentAvailable` on the injected CurrencyService.
+
 <hr></hr>
 
 ## Manual Build & Deployment Process
