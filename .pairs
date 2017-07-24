@@ -10,6 +10,7 @@ pairs:
   lg: Lauren Gallinaro
   nb: Nick Brown
   ms: Michael  Smolenski
+  ky: Kevin Yoon
 email_addresses:
   # <initials>: <Email Address>
   mf: mfait@thoughtworks.com
@@ -21,5 +22,6 @@ email_addresses:
   lg: lgallina@thoughtworks.com
   nb: nick-brown@talk21.com
   ms: michael.smolenski.palma@gmail.com
+  ky: jyoon.kevin96@gmail.com
 global: false
 # Set to true for git-pair to change git configuration for all your projects
