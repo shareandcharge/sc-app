@@ -79,7 +79,7 @@ platform :android do
     sign_apk(
         alias: "share_and_charge",
         storepass: options[:storepass],
-        keystore_path: "./fastlane/keystore/test.keystore",
+        keystore_path: "./fastlane/release-cred/share-and-charge.keystore",
         tsa: "http://timestamp.comodoca.com/rfc316",
         signed_apk_path: options[:signed_apk_path],
         keypass: options[:keypass]
