@@ -2,9 +2,16 @@
 
 ### Ionic Cordova Application for Share&amp;Charge
 
-## Development Preparation
+## Serving the app
 
-Make sure you have the following applications installed and relevant paths exported:
+To serve the app, run `ionic serve`
+[http://localhost:8100/](http://localhost:8100/) will open in a new browser window.
+
+<hr>
+
+## Development Prep
+
+### 1. Make sure you have the following applications installed and relevant paths exported:
 
   - homebrew
   - full xcode & xcode CLI
@@ -12,31 +19,25 @@ Make sure you have the following applications installed and relevant paths expor
   - java jre & sdk (Version 8)
   - cocoapods ('gem install cocoapods && pod setup')
 
-<hr></hr>
+### 2. Set up  the machine and environment to require the proper dependencies & versions by running the configuration scripts located in the `./bin directory`
+  a. Run the box-setup script to ensure the right node version npm packages and ruby build tools are installed.(Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations) 
+  ```./bin/box-setup.sh```
 
-### Set up  the machine and environment to require the proper dependencies & versions by running a series of configuration scripts located in the ./bin directory
+  b. Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process. 
+  ```./bin/prepare-build.sh```
+  
+##### TODO: Implement error handling for scripts in `./bin`
+All scripts under `./bin/*` have to be executed from the ROOT directory of this project. Please be aware of that the existing scripts under `./bin` are not handling any exceptions right now.
 
-##### NOTE: All scripts under ./bin/ have to be executed from the ROOT directory of this project. Please be aware of that the existing scripts under ./bin are not handling any exceptions right now
+<hr>
 
-  1.) Run the box-setup script to ensure the right node version npm packages and ruby build tools are installed.(Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations) ```./bin/box-setup.sh```
-
-  2.) Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process. ```./bin/prepare-build.sh```
-
-<hr></hr>
 ## Development
 
-### Setup the config.ts
+### 1. Setup the config.ts
 - ***LAZY OPTION*** Copy the [config.ts](https://github.com/motionwerkGmbH/wiki/blob/master/share_n_charge/config.ts) file into `./src/config/` ***OR***
 - ***BETTER UNDERSTANDING OPTION*** From the repo root directory: `cp ./src/config/config.ts.dist ./src/config/config.ts && nano ./src/config/config.ts` Update the `API_URL` property to `'http://localhost:3412/v1'`, the `IMAGES_BASE_URL` property to `'http://localhost:3412'` and the `'API_KEY' -> 'param'` property to `'noapikey'` (from `'apikey'`).
 
-### Serving the app
-
-To make sure the correct packages and dependencies installed, consider running `ionic build ios --dev` before serving the application.
-
-To serve the app, run 'ionic serve'
-[http://localhost:8100/](http://localhost:8100/) will open in a new browser window.
-
-### Feature Toggles
+### 2. Feature Toggles
 As of 21.07.17, we are implementing several feature toggles to prepare for upcoming pilot releases.
 
 All toggles are set in `src/config/config.ts`, and
@@ -54,13 +55,13 @@ Additionally for the US pilot with eMotorwerks, we are hiding the add payment op
 
 Implementation of the feature toggle can be found in `wallet.ts` and `wallet.html` in `src/pages/wallet/` where the `showPayment` is set in the constructor by calling `isPaymentAvailable` on the injected CurrencyService.
 
-<hr></hr>
+<hr>
 
 ## Manual Build & Deployment Process
 
 ### iOS
 
-### To release a new version
+#### 1. To release a new version make sure to bump the versions in the config.ts and config.xml files
 
 * Bumb version numbers in
   * `/src/config/config.ts`
@@ -76,67 +77,71 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
   <widget id="com.shareandcharge.app" version="{BUMPED_VERSION_NUMBER}" xmlns="...">
   ```
 
-#### Before :
-  Open in Xcode. Make sure the the signing section under ShareCharge Targets has the following:
+#### 2. Set up the provisioning profiles and certificates. 
+
+##### At the moment this process requires manual configuration of the certificates and profiles. Until we are managing certs and profiles with Fastlane Match, you need to be given the matching distribution certificate and profile, as well as register a developer profile and download the corresponding certificate under the PO's Apple Developer account.
+
+  Open the project in Xcode (output path is `/platforms/ios/ShareCharge.xcodeproj`). Make sure the the signing section under ShareCharge Targets has the following:
   1. "Automatically manage signing" checked
   2. As of 28/06/17, the team selected is 'RWE IT GmbH'
   3. The developer profile is either correctly configured or filled in as 'iPhone Developer: POs Name ({certificate_id})'
+  ![](/src/assets/images/cert_management/signing_group.png)
+  
   4. Make sure that under the menu 'Product > Destination', "Generic iOS Device" is selected
+  ![](/src/assets/images/cert_management/push_notifications.png)
 
 
-#### To build for testing (deployment to TestFlight):
-
-At the moment this process requires manual configuration of the certificates and profiles. Until we are managing certs and profiles with Fastlane Match, you need to be given the matching distribution certificate and profile, as well as register a developer profile and download the corresponding certificate under the PO's Apple Developer account.
+#### 3. Build the application
+  
+##### For deployment to TestFlight):
 
 ```
 $ ionic build ios --device
 ```
 
-#### To build for distribution run:
+##### To build for distribution run:
 
 ```
 $ ionic build ios --prod --release
 ```
 Note: This option is currently blocked.
 
-#### To upload the build
-Go to 'Product > Archive'. In the opened window select the latest version and click "Upload to App Store...".
+##### To upload the build
+  1. Go to Product > Destination and make sure that Genergic iOS Device is selected.
+  ![](/src/assets/images/cert_management/build_generic.png)
+  2. Go to 'Product > Archive'. In the opened window select the latest version and click "Upload to App Store...".
+  ![](/src/assets/images/cert_management/archive_build.png)
+  3. Upon success, you should be able to upload the most recent build. If the version numbers are duplicated it will throw ann error before deploying to iTunes Connect. 
+  ![](/src/assets/images/cert_management/archive_upload.png)
 
 You should then be able to log into iTunes Connect with the PO's credentials.
 
 ### Android
 
 Currently, the manual process we are phasing out is as follows:
-```
-$ ionic build android --prod --release
-$ cd <TO_APK_OUTPUT_PATH>
-//platforms/android/
-$ jarsigner -verbose -tsa http://timestamp.digicert.com -sigalg SHA1withRSA -digestalg SHA1 -keystore <PATH_TO_KEYSTORE>/share-and-charge.keystore android--unsigned.apk share_and_charge
-//share_and_charge may be the key for the keystore
 
-$ zipalign -v 4 android--unsigned.apk ShareAndCharge-<VERSION_NUMBER>.apk
-```
+1. Build the unsigned APK by running `$ ionic build android --prod --release`
+2. Change directories to the APK output path `$ cd <TO_APK_OUTPUT_PATH> ` or `platforms/android/build/outputs/apk`
+3. Make sure you have obtained the keystore as well as the passwords to unlock the key and sign the apk (key and keystore respectively)
+`$ jarsigner -verbose -tsa http://timestamp.digicert.com -sigalg SHA1withRSA -digestalg SHA1 -keystore <PATH_TO_KEYSTORE>/share-and-charge.keystore android--unsigned.apk share_and_charge
+//share_and_charge is the alias the keystore`
+4. Run zipalign
+`$ zipalign -v 4 android--unsigned.apk ShareAndCharge-<VERSION_NUMBER>.apk`
+5. Log into the google play dev console to 
 
-The following command includes the absolute paths for the project and keystores with the new fastlane integration
-```
+NOTE: The following command includes the absolute paths for the project and keystores with the new fastlane integration
+`
 jarsigner -verbose -tsa http://timestamp.digicert.com  -sigalg SHA1withRSA -digestalg SHA1 -keystore ./fastlane/release-cred/share-and-charge.keystore ./platforms/android/build/outputs/apk/android--unsigned.apk share_and_charge
-```
+`
 
 double-check that apk is not debuggable:
-```
-$ aapt dump xmltree android--unsigned.apk AndroidManifest.xml | grep debug
-```
-should be empty or `false`.
+
+`$ aapt dump xmltree android--unsigned.apk AndroidManifest.xml | grep debug`
+should be empty or false.
 
 If you don't have the keystore and/or passwords, ask Felix Magdeburg <felix.magdeburg@innogy.com>.
 
-
-
-Things you have to do by hand:
-* Turn on: Capabilities -> Push notifications
-* Set the provisioning profiles
-##### Currently the provisioning profiles and certificates are not being managed by Fastlane and are configured manually. Eventually these will reside in a secured repository that Fastlane Match will manage for all developers.
-https://github.com/fastlane/fastlane/tree/master/match
+<hr>
 
 ### FB SDK
 Facebook plugin is (at the moment) only used to track app installations.
@@ -148,12 +153,9 @@ See: https://github.com/jeduan/cordova-plugin-facebook4#installation
 #### Facebook SDK Configuration
 If you submit a (new) iOS app version and you have the Facebook SDK included, please check the box saying “This app uses the Ad-ID (IDFA)?”
 
-<hr></hr>
+<hr>
 
-## TO-DO: Automated Build & Deployment Process
-
-Fastlane is being used to automate builds to iTunes Connect (Testflight) and to the Google Play store. Fastlane can be configured to run build/deploy commands defined in "lanes" for each platform.
-
+## Automatic Deployment
 
 ### iOS
 ##### Given the default_platform is set to ios in the Fastfile...
