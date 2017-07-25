@@ -20,12 +20,12 @@ To serve the app, run `ionic serve`
   - cocoapods ('gem install cocoapods && pod setup')
 
 ### 2. Set up  the machine and environment to require the proper dependencies & versions by running the configuration scripts located in the `./bin directory`
-  a. Run the box-setup script to ensure the right node version npm packages and ruby build tools are installed.(Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations) 
+  a. Run the box-setup script to ensure the right node version npm packages and ruby build tools are installed.(Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations)
   ```./bin/box-setup.sh```
 
-  b. Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process. 
+  b. Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process.
   ```./bin/prepare-build.sh```
-  
+
 ##### TODO: Implement error handling for scripts in `./bin`
 All scripts under `./bin/*` have to be executed from the ROOT directory of this project. Please be aware of that the existing scripts under `./bin` are not handling any exceptions right now.
 
@@ -44,7 +44,7 @@ All toggles are set in `src/config/config.ts`, and
 
 ##### show_juicebox_config
 
-##### currency_sign_usd
+##### usd_pilot
 For the US pilot with eMotorwerks, we are temporarily changing the currency sign to display as $ instead of €. To clarify, this is not a conversion of the currency. This will be removed at a later date but the functionality has been implemented in the `CurrencyService` to facilitate future stories where conversion and currency symbols will need to change conditionally.
 
 Implementation of the feature toggle can be found in `wallet.ts` and `wallet.html` in `src/pages/wallet/` where the currency is set in the constructor by calling `getCurrency` and `isPaymentAvailable` on the injected CurrencyService.
@@ -77,7 +77,7 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
   <widget id="com.shareandcharge.app" version="{BUMPED_VERSION_NUMBER}" xmlns="...">
   ```
 
-#### 2. Set up the provisioning profiles and certificates. 
+#### 2. Set up the provisioning profiles and certificates.
 
 ##### At the moment this process requires manual configuration of the certificates and profiles. Until we are managing certs and profiles with Fastlane Match, you need to be given the matching distribution certificate and profile, as well as register a developer profile and download the corresponding certificate under the PO's Apple Developer account.
 
@@ -86,13 +86,13 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
   2. As of 28/06/17, the team selected is 'RWE IT GmbH'
   3. The developer profile is either correctly configured or filled in as 'iPhone Developer: POs Name ({certificate_id})'
   ![](/src/assets/images/cert_management/signing_group.png)
-  
+
   4. Make sure that under the menu 'Product > Destination', "Generic iOS Device" is selected
   ![](/src/assets/images/cert_management/push_notifications.png)
 
 
 #### 3. Build the application
-  
+
 ##### For deployment to TestFlight):
 
 ```
@@ -111,7 +111,7 @@ Note: This option is currently blocked.
   ![](/src/assets/images/cert_management/build_generic.png)
   2. Go to 'Product > Archive'. In the opened window select the latest version and click "Upload to App Store...".
   ![](/src/assets/images/cert_management/archive_build.png)
-  3. Upon success, you should be able to upload the most recent build. If the version numbers are duplicated it will throw ann error before deploying to iTunes Connect. 
+  3. Upon success, you should be able to upload the most recent build. If the version numbers are duplicated it will throw ann error before deploying to iTunes Connect.
   ![](/src/assets/images/cert_management/archive_upload.png)
 
 You should then be able to log into iTunes Connect with the PO's credentials.
@@ -127,7 +127,7 @@ Currently, the manual process we are phasing out is as follows:
 //share_and_charge is the alias the keystore`
 4. Run zipalign
 `$ zipalign -v 4 android--unsigned.apk ShareAndCharge-<VERSION_NUMBER>.apk`
-5. Log into the google play dev console to 
+5. Log into the google play dev console to
 
 NOTE: The following command includes the absolute paths for the project and keystores with the new fastlane integration
 `

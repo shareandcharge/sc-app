@@ -12,7 +12,7 @@ export class CurrencyDisplay {
 
     constructor( currencyService: CurrencyService){
       this.globalCurrency = currencyService.getCurrency();
-      this.isUSD = CONFIG.FEATURE_TOGGLES.currency_sign_usd
+      this.isUSD = CONFIG.FEATURE_TOGGLES.usd_pilot
     }
 
     transform(value: number,

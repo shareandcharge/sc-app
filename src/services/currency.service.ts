@@ -4,7 +4,7 @@ import {CONFIG} from '../config/config';
 @Injectable()
 export class CurrencyService {
 
-  private USD_PILOT: boolean = CONFIG.FEATURE_TOGGLES.currency_sign_usd;
+  private USD_PILOT: boolean = CONFIG.FEATURE_TOGGLES.usd_pilot;
   private HIDE_PAYMENT: boolean = CONFIG.FEATURE_TOGGLES.hide_payment;
 
   getCurrency(): string {
