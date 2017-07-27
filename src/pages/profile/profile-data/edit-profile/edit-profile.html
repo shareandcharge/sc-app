@@ -72,7 +72,7 @@
                 <ion-select formControlName="country"
                             [(ngModel)]="user.profile.country"
                             multiple="false"
-                            [selectOptions]="{title: 'Land'}"
+                            [selectOptions]="{title: 'profile.data.country' | translate}"
                             class="select-multiline input-white"
                             placeholder="{{'profile.data.select' | translate}}"
                             cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
