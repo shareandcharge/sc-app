@@ -18,8 +18,8 @@ export class CurrencyDisplay {
     transform(value: number,
         currencySign: string = this.globalCurrency,
         decimalLength: number = 2,
-        chunkDelimiter: string = '.',
-        decimalDelimiter:string = ',',
+        chunkDelimiter: string = (this.isUSD ? ',' : '.'),
+        decimalDelimiter:string = (this.isUSD ? '.' : ','),
         chunkLength: number = 3): string {
 
             value /= 100;
