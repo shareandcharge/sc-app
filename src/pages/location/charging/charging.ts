@@ -79,9 +79,15 @@ export class ChargingPage {
         this.location = navParams.get("location");
         //-- for now we use the first station
         this.station = this.location.stations[0];
-        //-- first connector is default (innogy stations have two+)
-        this.connector = this.station.connectors[0];
-        this.selectedConnectorId = this.connector.id;
+
+        //-- first non rented connector is default (innogy stations have two+)
+        this.connector = this.station.connectors.find((connector) => {
+            return !connector.isRented;
+        });
+
+        if (this.connector) {
+            this.selectedConnectorId = this.connector.id;
+        }
 
         this.fromLocationDetailsAndIsCharging = navParams.get("isCharging");
 
