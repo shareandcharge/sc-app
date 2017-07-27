@@ -44,6 +44,7 @@ export class LocationDetailPage {
     ratings: Array<Rating> = [];
 
     showOpeningHours: boolean = false;
+    isBusy: boolean = true;
 
     isDesktop: boolean;
 
@@ -133,6 +134,8 @@ export class LocationDetailPage {
                     'Address': location.address,
                     'Timestamp': ''
                 });
+
+                this.isBusy = this.locationService.isBusy(location);
             }
         );
     }
