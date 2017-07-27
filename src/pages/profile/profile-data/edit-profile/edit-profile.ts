@@ -9,6 +9,7 @@ import {postalCodeValidator} from "../../../../validators/postalCodeValidator";
 import {countryValidator} from "../../../../validators/countryValidator";
 import {TrackerService} from "../../../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
+import {CurrencyService} from "../../../../services/currency.service";
 
 
 @Component({
@@ -21,11 +22,12 @@ export class EditProfilePage {
     profileForm: any;
     errorMessages: any;
     submitAttempt: boolean = false;
+    isPilot: boolean = false;
 
     constructor(private userService: UserService, private navParams: NavParams, private alertCtrl: AlertController,
                 private navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder,
                 private events: Events, private errorService: ErrorService, private trackerService: TrackerService,
-                private translateService: TranslateService) {
+                private translateService: TranslateService, private currencyService: CurrencyService) {
 
         this.user = navParams.get('user');
 
@@ -47,6 +49,8 @@ export class EditProfilePage {
             taxNumber: [],
             operatorVatID: []
         });
+
+        this.isPilot = this.currencyService.isCommercialOptionHidden();
     }
 
     createErrorMessages() {
