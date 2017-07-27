@@ -445,8 +445,9 @@
       "state": "Bundesland"
     },
     "country": {
-      "germany": "Deutschland",
-      "united_states": "USA"
+      "de": "Deutschland",
+      "us": "USA",
+      "nl": "Niederlande"
     }
   },
   "rating": {

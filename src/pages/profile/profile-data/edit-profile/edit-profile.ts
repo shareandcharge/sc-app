@@ -21,6 +21,23 @@ export class EditProfilePage {
     profileForm: any;
     errorMessages: any;
     submitAttempt: boolean = false;
+    countries: any = [
+        {
+            'value': 'de',
+            'name': '',
+            'selected' : true
+        },
+        {
+            'value': 'us',
+            'name': '',
+            'selected' : false
+        },
+        {
+            'value': 'nl',
+            'name': '',
+            'selected' : false
+        }
+    ];
 
     constructor(private userService: UserService, private navParams: NavParams, private alertCtrl: AlertController,
                 private navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder,
@@ -34,6 +51,11 @@ export class EditProfilePage {
         if (!profile.country) profile.country = 'de';
 
         this.createErrorMessages();
+
+        // This is a workaround because using the translation pipe in the option tag breaks the select, see https://github.com/ionic-team/ionic/issues/8561
+        this.countries.forEach((country) => {
+            country.name = this.translateService.instant('profile.country.' + country.value);
+        });
 
         this.profileForm = this.formBuilder.group({
             company: [],
@@ -56,6 +78,7 @@ export class EditProfilePage {
             "lastName": this.translateService.instant('error_messages.last_name'),
             "address": this.translateService.instant('error_messages.address'),
             "city": this.translateService.instant('error_messages.city'),
+            "state": this.translateService.instant('error_messages.state'),
             "country": this.translateService.instant('error_messages.country'),
             "postalCode": this.translateService.instant('error_messages.postal_code'),
         }

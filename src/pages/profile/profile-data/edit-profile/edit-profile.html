@@ -77,10 +77,7 @@
                             placeholder="{{'profile.data.select' | translate}}"
                             cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
                 >
-
-                    <!-- Adding translation for the options breaks the select, see https://github.com/ionic-team/ionic/issues/8561 -->
-                    <ion-option value="de" selected="true">Deutschland</ion-option>
-                    <ion-option value="us">USA</ion-option>
+                    <ion-option *ngFor="let country of countries" value="{{ country.value }}" selected="{{ country.selected }}">{{ country.name }}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item text-wrap class="operator-vat-item">
