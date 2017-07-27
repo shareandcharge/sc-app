@@ -90,7 +90,7 @@ export class PlugTypesPage {
             }
 
             this.nextView = SetTariffPage;
-            if (this.connector.metadata.juiceBox) {
+            if (this.connector.metadata.juiceBox && this.isAdd()) {
                 this.nextView = JuiceBoxPage;
             }
 
@@ -140,12 +140,16 @@ export class PlugTypesPage {
     }
 
     toggleJuiceBox() {
+        if (!this.plugOptions) {
+            return;
+        }
+
         if (this.connector.metadata.juiceBox) {
             this.wattpowerTemp = 10;
             this.updateWattpower();
 
             this.connector.plugtype = this.juiceBoxPlugTypeId;
-
+            
             this.connector.metadata.kwh = false;
             this.connector.metadata.accessControl = false;
 
