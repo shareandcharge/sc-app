@@ -41,6 +41,7 @@ export class EditProfilePage {
             lastName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.required])],
             address: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
             city: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
+            state: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2)])],
             country: ['', countryValidator.isValid],
             postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5), postalCodeValidator.isValid])],
             businessUser: [false],

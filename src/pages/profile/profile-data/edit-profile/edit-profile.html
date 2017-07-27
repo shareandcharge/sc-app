@@ -56,6 +56,11 @@
                 <ion-input type="text" class="input-white" formControlName="city"
                            [(ngModel)]="user.profile.city"></ion-input>
             </ion-item>
+            <ion-item>
+                <ion-label floating>{{'profile.data.state' | translate}}</ion-label>
+                <ion-input type="text" class="input-white" formControlName="state"
+                           [(ngModel)]="user.profile.state"></ion-input>
+            </ion-item>
             <div *ngIf="!profileForm.controls.city.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
                 {{ errorMessages.city }}

@@ -441,7 +441,8 @@
       "resend_email_confirmation": "Die Bestätigungsemail wurde erneut versandt. Bitte prüfe Deinen Posteingang. In seltenen Fällen kann die E-Mail auch im Spamordner gelandet sein.",
       "confirm_delete": "Löschen bestätigen",
       "confirm_delete_message": "Möchtest Du Dein Profil und Deine Daten wirklich unwiderruflich löschen?",
-      "yes_delete": "Ja, löschen"
+      "yes_delete": "Ja, löschen",
+      "state": "State"
     }
   },
   "rating": {

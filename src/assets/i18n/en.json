@@ -440,7 +440,8 @@
       "resend_email_confirmation": "The confirmation e-mail was sent to you again. Please check your inbox and/or spam folder.",
       "confirm_delete": "Comfirm deletion",
       "confirm_delete_message": "Do you really want to delete your profile? This is permanent?",
-      "yes_delete": "Yes, delete"
+      "yes_delete": "Yes, delete",
+      "state": "State"
     }
   },
   "rating": {
