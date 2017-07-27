@@ -67,7 +67,7 @@
         </ion-row>
     </ion-grid>
 
-    <div padding text-center *ngIf="transactions && !transactions.length">
+    <div padding text-center *ngIf="transactions && !transactions.length && showPayment === true">
         <button ion-button text-uppercase round (click)="addMoney()">{{'wallet.deposit' | translate}}</button>
     </div>
 
