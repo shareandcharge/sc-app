@@ -26,6 +26,7 @@ export class PlugTypesPage {
     errorMessages: any;
 
     displayJuiceBoxOption: boolean = false;
+    juiceBoxPlugTypeId: any;
     nextView: any;
 
     constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController,
@@ -37,6 +38,12 @@ export class PlugTypesPage {
 
         this.configService.getPlugTypes().subscribe((plugtypes) => {
                 this.plugOptions = plugtypes;
+
+                this.plugOptions.forEach((plugType) => {
+                    if (plugType.name === 'Typ 1') {
+                        this.juiceBoxPlugTypeId = plugType.id;
+                    }
+                });
             },
             error => this.errorService.displayErrorWithKey(error, 'error.scope.get_plugtypes'));
 
@@ -137,7 +144,7 @@ export class PlugTypesPage {
             this.wattpowerTemp = 10;
             this.updateWattpower();
 
-            this.connector.plugtype = "5";
+            this.connector.plugtype = this.juiceBoxPlugTypeId;
 
             this.connector.metadata.kwh = false;
             this.connector.metadata.accessControl = false;
