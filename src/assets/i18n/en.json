@@ -573,6 +573,7 @@
     "last_name": "Please enter your surname.",
     "address": "Please enter your address and house number.",
     "city": "Please enter your city.",
+    "state": "Please check the entered state.",
     "country": "Please enter your country.",
     "postal_code": "Please enter your zip code.",
     "at_least_5_char": "At least five charaters.",

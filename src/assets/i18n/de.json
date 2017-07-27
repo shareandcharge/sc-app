@@ -442,7 +442,7 @@
       "confirm_delete": "Löschen bestätigen",
       "confirm_delete_message": "Möchtest Du Dein Profil und Deine Daten wirklich unwiderruflich löschen?",
       "yes_delete": "Ja, löschen",
-      "state": "State"
+      "state": "Bundesland"
     },
     "country": {
       "germany": "Deutschland",
@@ -574,6 +574,7 @@
     "last_name": "Bitte gib Deinen Nachnamen an.",
     "address": "Bitte gib Deine Straße und Hausnummer an",
     "city": "Bitte gib Deine Stadt an.",
+    "state": "Bitte überprüfe das Bundesland.",
     "country": "Bitte gib Dein Land an.",
     "postal_code": "Bitte gib Deine PLZ an.",
     "at_least_5_char": "Muss 5 Zeichen lang sein.",
