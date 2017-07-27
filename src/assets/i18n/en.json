@@ -440,7 +440,13 @@
       "resend_email_confirmation": "The confirmation e-mail was sent to you again. Please check your inbox and/or spam folder.",
       "confirm_delete": "Comfirm deletion",
       "confirm_delete_message": "Do you really want to delete your profile? This is permanent?",
-      "yes_delete": "Yes, delete"
+      "yes_delete": "Yes, delete",
+      "state": "State"
+    },
+    "country": {
+      "de": "Germany",
+      "us": "United States of America",
+      "nl": "Netherlands"
     }
   },
   "rating": {
@@ -568,6 +574,7 @@
     "last_name": "Please enter your surname.",
     "address": "Please enter your address and house number.",
     "city": "Please enter your city.",
+    "state": "Please check the entered state.",
     "country": "Please enter your country.",
     "postal_code": "Please enter your zip code.",
     "at_least_5_char": "At least five charaters.",

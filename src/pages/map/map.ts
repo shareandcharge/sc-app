@@ -538,7 +538,7 @@ export class MapPage {
 
         this.autocompleteService.getPlacePredictions({
             input: val,
-            componentRestrictions: {country: ['DE','NL']}
+            componentRestrictions: {country: ['DE','NL','US']}
         }, (predictions, status) => {
             let places = [];
 
