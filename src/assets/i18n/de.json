@@ -443,6 +443,10 @@
       "confirm_delete_message": "Möchtest Du Dein Profil und Deine Daten wirklich unwiderruflich löschen?",
       "yes_delete": "Ja, löschen",
       "state": "State"
+    },
+    "country": {
+      "germany": "Deutschland",
+      "united_states": "USA"
     }
   },
   "rating": {
