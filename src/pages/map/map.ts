@@ -272,42 +272,53 @@ export class MapPage {
         });
         loader.present();
 
-        let latLng = new google.maps.LatLng(this.defaultCenterLat, this.defaultCenterLng);
-
-        let mapOptions = {
-            center: latLng,
-            zoom: this.defaultZoom,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false,
-            fullscreenControl: false,
-            disableDefaultUI: this.mapDefaultControlls
+        let options = {
+            maximumAge: 0, timeout: 10000, enableHighAccuracy: true
         };
 
-        this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-        this.addMapCenterControl();
-        this.addMapFilterControl();
+        let latLng = new google.maps.LatLng(this.defaultCenterLat, this.defaultCenterLng);
 
-        let me = this;
+        Geolocation.getCurrentPosition(options).then((position) => {
+            latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            return latLng;
+        }, (err) => {
+            return latLng;
+        }).then((latLng) => {
+            let mapOptions = {
+                center: latLng,
+                zoom: this.defaultZoom,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                mapTypeControl: false,
+                fullscreenControl: false,
+                disableDefaultUI: this.mapDefaultControlls
+            };
 
-        google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
-            // add event listener to all a-tags of the map and use inAppBrowser to open them
-            let aTags = me.mapElement.nativeElement.getElementsByTagName('A');
-            let closeTrans = me.translateService.instant('common.close');
+            this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+            this.addMapCenterControl();
+            this.addMapFilterControl();
 
-            for (let aTag of aTags) {
-                if (aTag.href === '') {
-                    continue;
+            let me = this;
+
+            google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
+                // add event listener to all a-tags of the map and use inAppBrowser to open them
+                let aTags = me.mapElement.nativeElement.getElementsByTagName('A');
+                let closeTrans = me.translateService.instant('common.close');
+
+                for (let aTag of aTags) {
+                    if (aTag.href === '') {
+                        continue;
+                    }
+
+                    aTag.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        new InAppBrowser(aTag.href, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+closeTrans+',toolbar=yes,location=yes');
+                        return false;
+                    });
                 }
 
-                aTag.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    new InAppBrowser(aTag.href, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+closeTrans+',toolbar=yes,location=yes');
-                    return false;
-                });
-            }
-
-            me.mapLoaded();
-            loader.dismissAll();
+                me.mapLoaded();
+                loader.dismissAll();
+            });
         });
     }
 
