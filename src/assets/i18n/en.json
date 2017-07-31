@@ -311,6 +311,7 @@
       "loading_map": "Loading map ..."
     },
     "location_details": {
+      "select_days": "Select days",
       "oclock" : "",
       "error_no_station_details": "There are not enough details provided about this charging station.",
       "list_plugins": "List - plug types",

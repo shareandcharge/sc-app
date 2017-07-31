@@ -311,6 +311,7 @@
       "loading_map": "Lade Karte ..."
     },
     "location_details": {
+      "select_days": "Tage wählen",
       "oclock" : "Uhr",
       "error_no_station_details": "Nicht genügend Details für diese Station vorhanden.",
       "list_plugins": "Liste - Steckertypen",

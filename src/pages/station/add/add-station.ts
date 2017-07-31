@@ -79,7 +79,7 @@ export class AddStationPage {
         this.to = 24;
 
         this.daySelectOptions = {
-            title: 'Tage wählen',
+            title: this.translateService.instant('location.locationdetails.select_days'),
             cssClass: 'alert-checkbox-narrow'
         };
 
@@ -194,13 +194,13 @@ export class AddStationPage {
         this.weekdays = [0, 1, 2, 3, 4, 5, 6];
 
         this.days = [
-            "Montag",
-            "Dienstag",
-            "Mittwoch",
-            "Donnerstag",
-            "Freitag",
-            "Samstag",
-            "Sonntag"
+            this.translateService.instant('monday'),
+            this.translateService.instant('tuesday'),
+            this.translateService.instant('wednesday'),
+            this.translateService.instant('thursday'),
+            this.translateService.instant('friday'),
+            this.translateService.instant('saturday'),
+            this.translateService.instant('sunday')
         ];
 
 
@@ -246,7 +246,7 @@ export class AddStationPage {
         this.checkProfileComplete();
 
         let eventName = 'Started ' + (this.isAdd() ? 'Add' : 'Edit') + ' Charging Station';
-        let screenName = (this.isAdd() ? 'Ladestation hinzufügen' : 'Ladestation bearbeiten');
+        let screenName = (this.isAdd() ? this.translateService.instant('create_location') : this.translateService.instant('update_location'));
         this.trackerService.track(eventName, {
             "Screen Name": screenName
         });
@@ -514,7 +514,7 @@ export class AddStationPage {
             }
 
             this.trackerService.track('Proceed Info - ' + (this.isAdd() ? 'Add' : 'Edit'), {
-                'Screen Name': this.isAdd() ? 'Ladestation hinzufügen' : 'Ladestation bearbeiten'
+                'Screen Name': this.isAdd() ? this.translateService.instant('create_location') : this.translateService.instant('update_location')
             });
 
             this.navCtrl.push(AddStationImagePage, {
