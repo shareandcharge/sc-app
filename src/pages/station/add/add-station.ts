@@ -340,7 +340,7 @@ export class AddStationPage {
         let me = this;
         this.service.getPlacePredictions({
             input: this.locObject.address,
-            componentRestrictions: {country: 'DE'}
+            componentRestrictions: {country: ['DE', 'NL', 'US']}
         }, function (predictions, status) {
             me.autocompleteItems = [];
             if (predictions != null) {
