@@ -19,7 +19,7 @@ export let CONFIG = {
     FEATURE_TOGGLES: {
         show_juicebox_config: true,
         usd_pilot: true,
-        hide_payment: true,
+        hide_payment: false,
         hide_commercial_option: true
     }
 };
