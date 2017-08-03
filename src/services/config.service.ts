@@ -8,7 +8,6 @@ export class ConfigService {
 
     private apiBaseUrl: string;
     private conf: any;
-
     /**
      * we can't use httpService here as it relies on us (config); would give a circular reference...
      * @param authHttp
@@ -66,5 +65,9 @@ export class ConfigService {
      */
     getApiKey(): string {
         return this.get('API_KEY');
+    }
+
+    getVersionNumber(): string {
+      return this.get('APP_VERSION');
     }
 }

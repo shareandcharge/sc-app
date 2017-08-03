@@ -13,7 +13,10 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class HelpPage {
 
+    private versionNumber: any;
+
     constructor(private modalCtrl: ModalController, private configService: ConfigService, private translateService: TranslateService) {
+      this.versionNumber = this.configService.getVersionNumber();
     }
 
 
