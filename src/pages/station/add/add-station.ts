@@ -42,6 +42,7 @@ export class AddStationPage {
     from: any;
     to: any;
     flowMode: any;
+    timeSelectOptions: any;
 
     locObject: Location;
     station: Station;
@@ -78,8 +79,13 @@ export class AddStationPage {
         this.from = 0;
         this.to = 24;
 
+        this.timeSelectOptions = {
+          fromTitle: this.translateService.instant('common.from'),
+          toTitle: this.translateService.instant('common.to'),
+        }
+
         this.daySelectOptions = {
-            title: this.translateService.instant('location.locationdetails.select_days'),
+            title: this.translateService.instant('location.location_details.select_days'),
             cssClass: 'alert-checkbox-narrow'
         };
 

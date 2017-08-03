@@ -61,12 +61,12 @@
                         </ion-row>
                         <ion-row>
                             <ion-col width-50="">
-                                <ion-select class="input-white select-multiline" [(ngModel)]="from" (ngModelChange)="updateSelectedDays()" cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}" placeholder="{{'common.time' | translate}}" [selectOptions]="{title: to }">
+                                <ion-select class="input-white select-multiline" [(ngModel)]="from" (ngModelChange)="updateSelectedDays()" cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}" placeholder="{{'common.time' | translate}}" [selectOptions]="{title: timeSelectOptions.fromTitle }">
                                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                                 </ion-select>
                             </ion-col>
                             <ion-col width-50="">
-                                <ion-select class="input-white select-multiline" [(ngModel)]="to" (ngModelChange)="updateSelectedDays()" cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}" placeholder="{{'common.time' | translate}}" [selectOptions]="{title: from }">
+                                <ion-select class="input-white select-multiline" [(ngModel)]="to" (ngModelChange)="updateSelectedDays()" cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}" placeholder="{{'common.time' | translate}}" [selectOptions]="{title: timeSelectOptions.toTitle  }">
                                     <ion-option *ngFor="let t of dayHours" [value]="t.value">{{t.title}}</ion-option>
                                 </ion-select>
                             </ion-col>
@@ -80,7 +80,7 @@
                 <ion-item>
                     <ion-select multiple="true"
                                 [(ngModel)]="weekdays" (ngModelChange)="updateSelectedDays()"
-                                [selectOptions]="daySelectOptions"
+                                [selectOptions]="{title: daySelectOptions.title}"
                                 class="select-multiline input-white"
                                 placeholder="{{'station.choose' | translate}}"
                                 cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
