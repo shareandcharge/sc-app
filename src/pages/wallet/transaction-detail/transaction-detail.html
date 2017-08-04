@@ -93,11 +93,11 @@
         <ion-row>
             <ion-col *ngIf="transaction.isReceived()">
                 <ion-label>{{'wallet.charging_cost' | translate}}</ion-label>
-                {{transaction.amount  | currencyDisplay }} + {{transaction.receipt.feeamount  | currencyDisplay }} Share&Charge Gebühr
+                {{transaction.amount  | currencyDisplay }} + {{transaction.receipt.feeamount  | currencyDisplay }} {{ 'wallet.sanc_fee' | translate }}
             </ion-col>
             <ion-col *ngIf="transaction.isSend()">
                 <ion-label>{{'wallet.charging_cost' | translate}}</ion-label>
-                {{(transaction.amount)  | currencyDisplay }} (inkl. {{transaction.receipt.feeamount  | currencyDisplay }} Share&Charge Gebühr) <ng-container *ngIf="transaction.receipt.owner_profile.operatorVat">{{ 'location.charging.tax' | translate }}</ng-container>
+                {{(transaction.amount)  | currencyDisplay }} (inkl. {{transaction.receipt.feeamount  | currencyDisplay }} {{ 'wallet.sanc_fee' | translate }}) <ng-container *ngIf="transaction.receipt.owner_profile.operatorVat">{{ 'location.charging.tax' | translate }}</ng-container>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="transaction.receipt.invoice">
