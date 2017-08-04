@@ -41,10 +41,7 @@ export class TariffConfirmationPage {
     flowMode: string;
 
     types = ['public', 'private'];
-    names = {
-        'public': 'Community Tarif',
-        'private': 'Familie & Freunde Tarif'
-    };
+    names = []; // set with translated values in constructor
 
     termsChecked: boolean = false;
 
@@ -59,7 +56,11 @@ export class TariffConfirmationPage {
 
         this.flowMode = navParams.get('flowMode');
 
+        this.names['public'] = translateService.instant('station.community_tarif');
+        this.names['private'] = translateService.instant('station.family_and_friends_tarif');
+
         this.userService.getUser().subscribe((user) => {
+
                 this.user = user;
             },
             (error) => {
