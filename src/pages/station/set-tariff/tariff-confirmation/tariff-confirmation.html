@@ -23,15 +23,15 @@
         <ng-container *ngIf="connector.priceprovider[type] && connector.priceprovider[type].selected === 'flatrate'">
             <ion-item>
                 <p>{{ 'station.your_tarif' | translate }}</p>
-                <h2>{{connector.priceprovider[type].flatrate.flatrateRate | currencyDisplay }} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+                <h2>{{connector.priceprovider[type].flatrate.flatrateRate | currencyDisplay }} <ng-container *ngIf="user && user.profile.operatorVat">{{ 'location.charging.tax' | translate }}</ng-container></h2>
             </ion-item>
             <ion-item>
                 <p>{{ 'station.sc_fee' | translate }}</p>
-                <h2>{{estimations[type] && estimations[type].small.includedFee | currencyDisplay }} (inkl. 19% MWSt)</h2>
+                <h2>{{estimations[type] && estimations[type].small.includedFee | currencyDisplay }} {{ 'location.charging.tax' | translate }}</h2>
             </ion-item>
             <ion-item class="item-highlight">
                 <p>{{ 'station.total_price' | translate }}</p>
-                <h2>{{estimations[type] && estimations[type].small.price | currencyDisplay }} <ng-container *ngIf="user && user.profile.operatorVat">(inkl. 19% MwSt.)</ng-container></h2>
+                <h2>{{estimations[type] && estimations[type].small.price | currencyDisplay }} <ng-container *ngIf="user && user.profile.operatorVat">{{ 'location.charging.tax' | translate }}</ng-container></h2>
             </ion-item>
         </ng-container>
         <ng-container *ngIf="connector.priceprovider[type] && connector.priceprovider[type].selected !== 'flatrate'">
@@ -73,19 +73,19 @@
                         </ion-col>
                     </ion-row>
                     <ion-row>
-                        <ion-col>{{ 'station.energy_cost' | translate }} <span class="vat" *ngIf="user && user.profile.operatorVat"><br>(inkl. 19% MwSt.)</span></ion-col>
+                        <ion-col>{{ 'station.energy_cost' | translate }} <span class="vat" *ngIf="user && user.profile.operatorVat"><br>{{ 'location.charging.tax' | translate }}</span></ion-col>
                         <ion-col text-right width-20>{{estimations[type] && (estimations[type].small.price - parkingFee[type] - estimations[type].small.includedFee) | currencyDisplay }}</ion-col>
                         <ion-col text-right width-20>{{estimations[type] && (estimations[type].medium.price - parkingFee[type] - estimations[type].medium.includedFee) | currencyDisplay }}</ion-col>
                         <ion-col text-right width-20>{{estimations[type] && (estimations[type].big.price - parkingFee[type] - estimations[type].big.includedFee) | currencyDisplay }}</ion-col>
                     </ion-row>
                     <ion-row>
-                        <ion-col>{{ 'station.park_cost' | translate }} <span class="vat" *ngIf="user && user.profile.operatorVat"><br>(inkl. 19% MwSt.)</span></ion-col>
+                        <ion-col>{{ 'station.park_cost' | translate }} <span class="vat" *ngIf="user && user.profile.operatorVat"><br>{{ 'location.charging.tax' | translate }}</span></ion-col>
                         <ion-col text-right width-20>{{parkingFee[type] | currencyDisplay }}</ion-col>
                         <ion-col text-right width-20>{{parkingFee[type] | currencyDisplay }}</ion-col>
                         <ion-col text-right width-20>{{parkingFee[type] | currencyDisplay }}</ion-col>
                     </ion-row>
                     <ion-row>
-                        <ion-col>{{ 'station.sc_fee' | translate }}<br><span class="vat">(inkl. 19% MwSt.)</span></ion-col>
+                        <ion-col>{{ 'station.sc_fee' | translate }}<br><span class="vat">{{ 'location.charging.tax' | translate }}</span></ion-col>
                         <ion-col text-right width-20>{{estimations[type] && estimations[type].small.includedFee | currencyDisplay }}</ion-col>
                         <ion-col text-right width-20>{{estimations[type] && estimations[type].medium.includedFee | currencyDisplay }}</ion-col>
                         <ion-col text-right width-20>{{estimations[type] && estimations[type].big.includedFee | currencyDisplay }}</ion-col>
@@ -95,7 +95,7 @@
             <ion-item class="item-highlight">
                 <ion-grid class="nopadding-outer">
                     <ion-row>
-                        <ion-col>{{ 'station.total_price' | translate }} <span class="vat" *ngIf="user && user.profile.operatorVat"><br>(inkl. 19% MwSt.)</span></ion-col>
+                        <ion-col>{{ 'station.total_price' | translate }} <span class="vat" *ngIf="user && user.profile.operatorVat"><br>{{ 'location.charging.tax' | translate }}</span></ion-col>
                         <ion-col text-right width-20>{{estimations[type] && estimations[type].small.price | currencyDisplay }}</ion-col>
                         <ion-col text-right width-20>{{estimations[type] && estimations[type].medium.price | currencyDisplay }}</ion-col>
                         <ion-col text-right width-20>{{estimations[type] && estimations[type].big.price | currencyDisplay }}</ion-col>
