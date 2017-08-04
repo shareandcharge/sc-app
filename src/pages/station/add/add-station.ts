@@ -81,7 +81,7 @@ export class AddStationPage {
 
         this.timeSelectOptions = {
           fromTitle: this.translateService.instant('common.from'),
-          toTitle: this.translateService.instant('common.to'),
+          toTitle: this.translateService.instant('common.to')
         }
 
         this.daySelectOptions = {

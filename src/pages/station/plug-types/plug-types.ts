@@ -29,12 +29,18 @@ export class PlugTypesPage {
     juiceBoxPlugTypeId: any;
     nextView: any;
 
+    private selectPlugTypeTitle: string;
+    private selectPowerTitle: string;
+
     constructor(public navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController,
                 private configService: ConfigService, private events: Events, private errorService: ErrorService,
                 private trackerService: TrackerService, private translateService: TranslateService) {
         this.powerOptions = [
             "2.4", "4.3", "6.4"
         ];
+
+        this.selectPlugTypeTitle = this.translateService.instant('location.location_details.list_plugins');
+        this.selectPowerTitle = this.translateService.instant('station.power');
 
         this.configService.getPlugTypes().subscribe((plugtypes) => {
                 this.plugOptions = plugtypes;
@@ -149,7 +155,7 @@ export class PlugTypesPage {
             this.updateWattpower();
 
             this.connector.plugtype = this.juiceBoxPlugTypeId;
-            
+
             this.connector.metadata.kwh = false;
             this.connector.metadata.accessControl = false;
 
