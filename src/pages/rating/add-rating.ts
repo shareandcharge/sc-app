@@ -46,7 +46,7 @@ export class AddRatingPage {
                 message: this.translateService.instant('rating.thank_rating'),
                 buttons: [
                     {
-                        text: this.translateService.instant('common.cancel'),
+                        text: this.translateService.instant('common.close'),
                         role: 'cancel',
                         handler: () => this.viewCtrl.dismiss()
                     }
