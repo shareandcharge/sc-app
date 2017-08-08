@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {NavParams, NavController, Events, AlertController} from "ionic-angular";
 import {User} from "../../../../models/user";
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {UserService} from "../../../../services/user.service";
 import {AuthService} from "../../../../services/auth.service";
 import {ErrorService} from "../../../../services/error.service";
@@ -10,6 +10,7 @@ import {countryValidator} from "../../../../validators/countryValidator";
 import {TrackerService} from "../../../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
 import {CurrencyService} from "../../../../services/currency.service";
+import {isString} from "ionic-angular/util/util";
 
 
 @Component({
@@ -62,6 +63,8 @@ export class EditProfilePage {
             country.name = this.translateService.instant('profile.country.' + country.value);
         });
 
+        this.isPilot = this.currencyService.isCommercialOptionHidden();
+
         this.profileForm = this.formBuilder.group({
             company: [],
             firstName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.required])],
@@ -72,11 +75,31 @@ export class EditProfilePage {
             country: ['', countryValidator.isValid],
             postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5), postalCodeValidator.isValid])],
             businessUser: [false],
-            taxNumber: [],
             operatorVatID: []
+        }, {
+            validator: this.validateBusinessUser.bind(this)
         });
 
-        this.isPilot = this.currencyService.isCommercialOptionHidden();
+    }
+
+    validateBusinessUser(group: FormGroup) {
+        if (this.isPilot) {
+            return null;
+        }
+
+        if (!group.value.businessUser) {
+            return null;
+        }
+        let error:any = {};
+
+        if (!isString(group.value.company) || group.value.company.length < 1) {
+            error.company = true;
+        }
+        if (!isString(group.value.operatorVatID) || group.value.operatorVatID.length < 1) {
+            error.vatNumber = true;
+        }
+
+        return Object.keys(error).length > 0 ? {businessUser: error} : null;
     }
 
     createErrorMessages() {
@@ -88,6 +111,8 @@ export class EditProfilePage {
             "state": this.translateService.instant('error_messages.state'),
             "country": this.translateService.instant('error_messages.country'),
             "postalCode": this.translateService.instant('error_messages.postal_code'),
+            "vatNumber": this.translateService.instant('error_messages.vat_number'),
+            "company": this.translateService.instant('error_messages.company'),
         }
     }
 

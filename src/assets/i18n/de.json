@@ -290,7 +290,7 @@
       "estimated_price": "Voraussichtlicher Preis:",
       "tax": "(inkl. 19% MwSt.)",
       "operator": "Betreiber:",
-      "tax_number": "Steuernummer:",
+      "vat_number": "Steuernummer:",
       "agb_1": "Es gelten die ",
       "agb_2": "AGBs",
       "agb_3": " des Ladestationsbetreibers.",
@@ -431,7 +431,7 @@
       "country": "Land",
       "select": "Bitte wählen ...",
       "commercial_provider": "Ich bin ein kommerzieller Anbieter",
-      "tax_number": "Steuernummer",
+      "vat_number": "Steuernummer",
       "data": "Profildaten",
       "name_address": "Name und Anschrift",
       "resend_confirmation": "Bestätigung erneut senden",
@@ -588,7 +588,9 @@
     "no_connection": "Keine Verbindung.",
     "unknown_error": "Unbekannter Fehler",
     "device_id": "Bitte gib eine gültige Device Id ein.",
-    "guest_pin": "Bitte gib einen gültigen Guest pairing pin ein."
+    "guest_pin": "Bitte gib einen gültigen Guest pairing pin ein.",
+    "vat_number": "Bitte gib Deine Steuernummer ein.",
+    "company": "Bitte gib Deine Firma ein."
   },
   "add_money": {
     "account": "Konto",
@@ -600,7 +602,6 @@
     "which_map": "Welche Karte verwenden",
     "account_owner": "Kontoinhaber",
     "add_to_account": "Konto aufladen",
-    "new_map": "Neue Karte verwenden",
     "new_map": "Neue Karte verwenden"
   },
   "pay_out" : {

@@ -290,7 +290,7 @@
       "estimated_price": "Estimated price",
       "tax": "Tax (incl. 19% VAT.)",
       "operator": "Operator:",
-      "tax_number": "Tax number:",
+      "vat_number": "Tax number:",
       "agb_1": "The ",
       "agb_2": "Terms of conditions",
       "agb_3": " of the charging station operator apply.",
@@ -430,7 +430,7 @@
       "country": "Country",
       "select": "Select ...",
       "commercial_provider": "I am a commercial provider",
-      "tax_number": "VAT number",
+      "vat_number": "VAT number",
       "data": "Profile data",
       "name_address": "Name and address",
       "resend_confirmation": "Resend confirmation",
@@ -587,7 +587,9 @@
     "no_connection": "No connection.",
     "unknown_error": "Unknown error",
     "device_id": "Please provide a valid Device Id.",
-    "guest_pin": "Please provide a valid Guest pairing pin."
+    "guest_pin": "Please provide a valid Guest pairing pin.",
+    "vat_number": "Please provide a VAT number.",
+    "company": "Please provide the company."
   },
   "add_money": {
     "account": "Wallet",

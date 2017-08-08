@@ -79,7 +79,7 @@
                 <br>{{ location.ownerprofile.postalCode }} {{ location.ownerprofile.city }}
             </span>
             <span *ngIf="location.ownerprofile.operatorVat && location.ownerprofile.operatorVatID">
-                <br>{{'location.charging.tax_number' | translate}} {{ location.ownerprofile.operatorVatID }}
+                <br>{{'location.charging.vat_number' | translate}} {{ location.ownerprofile.operatorVatID }}
             </span>
         </p>
         <p>
