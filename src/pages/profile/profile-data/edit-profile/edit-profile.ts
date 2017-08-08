@@ -77,16 +77,12 @@ export class EditProfilePage {
             businessUser: [false],
             operatorVatID: []
         }, {
-            validator: this.validateBusinessUser.bind(this)
+            validator: this.isPilot ? null : this.validateBusinessUser.bind(this)
         });
 
     }
 
     validateBusinessUser(group: FormGroup) {
-        if (this.isPilot) {
-            return null;
-        }
-
         if (!group.value.businessUser) {
             return null;
         }
