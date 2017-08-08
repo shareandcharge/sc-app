@@ -126,9 +126,9 @@
                         <rating [(ngModel)]="averageRating" readonly="true"></rating>
                     </div>
                 </ion-col>
-                <ion-col text-right *ngIf="connector && !isBusy">
+                <ion-col text-right *ngIf="connector">
                     <button ion-button round color="primary" text-uppercase (click)="charge()" *ngIf="connector.isOpen()">
-                        <span *ngIf="!charging">{{'location.location_details.load' | translate}}</span>
+                        <span *ngIf="!charging && !isBusy">{{'location.location_details.load' | translate}}</span>
                         <span *ngIf="charging">{{'location.location_details.loading_progress' | translate}}</span>
                     </button>
                     <span *ngIf="!connector.isOpen()">{{'location.location_details.not_open' | translate}}</span>
