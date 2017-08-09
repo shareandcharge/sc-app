@@ -120,8 +120,6 @@ You should then be able to log into iTunes Connect with the PO's credentials.
 
 Currently, the manual process we are phasing out is as follows:
 
-If you have permission or other errors always use sudo!
-
 1. Build the unsigned APK by running `$ ionic build android --prod --release`
 2. Change directories to the APK output path `$ cd <TO_APK_OUTPUT_PATH> ` or `platforms/android/build/outputs/apk`
 3. Run zipalign to define the versionnumber `./zipalign -v 4 <FULL_APK_PATH>/android-release-unsigned.apk ShareAndCharge-1.0.713.apk`
@@ -132,7 +130,7 @@ If you have permission or other errors always use sudo!
 `./apksigner verify <FULL_APK_PATH>/ShareAndCharge-1.0.713.apk`
 6. Log into the google play dev console to
 
-#### Following description works for Joe not on our machines
+#### Another description as follows
 
 1. Build the unsigned APK by running `$ ionic build android --prod --release`
 2. Change directories to the APK output path `$ cd <TO_APK_OUTPUT_PATH> ` or `platforms/android/build/outputs/apk`
