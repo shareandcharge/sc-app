@@ -43,3 +43,4 @@ fastlane/keystore
 
 .idea
 *.iml
+.apk
