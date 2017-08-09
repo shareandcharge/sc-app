@@ -91,6 +91,7 @@ export class PlugTypesPage {
         if (this.validateForm()) {
             this.trackerService.track('Proceed Connector Type - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
 
+            // Comment this IF statement if you need to allow KWH for JuiceBox
             if (!this.connector.metadata.accessControl) {
                 this.connector.metadata.kwh = false
             }

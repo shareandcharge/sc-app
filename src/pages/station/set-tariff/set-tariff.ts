@@ -46,6 +46,8 @@ export class SetTariffPage {
             this.buttonText = this.translateService.instant('station.save_changes');
         }
 
+      // Use this if you need to allow KWH setup for JuiceBoxes
+      // if (this.connector.metadata.accessControl || this.connector.metadata.juiceBox) {
         if (this.connector.metadata.accessControl) {
             this.hourlyTariff = true;
             if (this.connector.metadata.kwh) {
@@ -79,7 +81,7 @@ export class SetTariffPage {
         if (this.navParams.get('setTariffAlert')) {
             this.showSetTariffAlert();
         }
-        
+
         this.currency = this.currencyService.getCurrency();
     }
 
