@@ -118,14 +118,6 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-device.device",
-        "file": "plugins/cordova-plugin-device/www/device.js",
-        "pluginId": "cordova-plugin-device",
-        "clobbers": [
-            "device"
-        ]
-    },
-    {
         "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
         "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
         "pluginId": "cordova-plugin-facebook4",
@@ -211,12 +203,10 @@ module.exports.metadata =
 {
     "cordova-custom-config": "3.1.4",
     "cordova-plugin-actionsheet": "2.3.3",
-    "cordova-plugin-app-event": "1.2.0",
     "cordova-plugin-compat": "1.1.0",
     "cordova-plugin-camera": "2.3.1",
     "cordova-plugin-console": "1.0.7",
     "cordova-plugin-contacts": "2.2.1",
-    "cordova-plugin-device": "1.1.6",
     "cordova-plugin-facebook4": "1.7.4",
     "cordova-plugin-geolocation": "2.4.3",
     "cordova-plugin-inappbrowser": "1.6.1",

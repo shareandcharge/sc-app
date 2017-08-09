@@ -21,11 +21,11 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.702</string>
+    <string>1.0.713</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
-    <string>1.0.702</string>
+    <string>1.0.713</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSMainNibFile</key>
@@ -73,13 +73,13 @@
       <string>UIInterfaceOrientationPortrait</string>
     </array>
     <key>NSCameraUsageDescription</key>
-    <string>Bilder machen für Dein Auto, Deine Station oder Dein Profil.</string>
+    <string></string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>Bilder aussuchen für Dein Auto, Deine Station oder Dein Profil.</string>
+    <string></string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Deinen Standort auf der Karte anzeigen.</string>
+    <string></string>
     <key>NSContactsUsageDescription</key>
-    <string>Adresse aus Deinen Kontakten für die Tarife auswählen.</string>
+    <string></string>
     <key>FacebookAppID</key>
     <string>428145450878194</string>
     <key>FacebookDisplayName</key>

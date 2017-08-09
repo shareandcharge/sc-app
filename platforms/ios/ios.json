@@ -10,7 +10,7 @@
                     "/*": [
                         {
                             "xml": "<feature name=\"ActionSheet\"><param name=\"ios-package\" value=\"ActionSheet\" /></feature>",
-                            "count": 1
+                            "count": 2
                         },
                         {
                             "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
@@ -22,7 +22,7 @@
                         },
                         {
                             "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
-                            "count": 1
+                            "count": 2
                         },
                         {
                             "xml": "<feature name=\"Contacts\"><param name=\"ios-package\" value=\"CDVContacts\" /></feature>",
@@ -90,15 +90,15 @@
                         },
                         {
                             "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
-                            "count": 1
+                            "count": 2
                         },
                         {
                             "xml": "<feature name=\"PushNotification\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
-                            "count": 1
+                            "count": 2
                         },
                         {
                             "xml": "<feature name=\"LaunchNavigator\"><param name=\"ios-package\" value=\"LaunchNavigator\" /></feature>",
-                            "count": 1
+                            "count": 2
                         }
                     ]
                 }
@@ -158,7 +158,7 @@
                         },
                         {
                             "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /></dict>",
-                            "count": 1
+                            "count": 2
                         }
                     ],
                     "LSApplicationQueriesSchemes": [
@@ -168,25 +168,25 @@
                         },
                         {
                             "xml": "<array><string>citymapper</string><string>comgooglemaps</string><string>navigon</string><string>transit</string><string>waze</string><string>yandexnavi</string><string>uber</string><string>tomtomhome</string><string>com.sygic.aura</string><string>here-route</string><string>moovit</string></array>",
-                            "count": 1
+                            "count": 2
                         }
                     ],
                     "UIBackgroundModes": [
                         {
                             "xml": "<array><string>remote-notification</string></array>",
-                            "count": 1
+                            "count": 2
                         }
                     ],
                     "GCM_SENDER_ID": [
                         {
                             "xml": "<string>183711573057</string>",
-                            "count": 1
+                            "count": 2
                         }
                     ],
                     "IS_GCM_ENABLED": [
                         {
                             "xml": "<true />",
-                            "count": 1
+                            "count": 2
                         }
                     ]
                 }
@@ -511,6 +511,63 @@
         {
             "id": "uk.co.workingedge.phonegap.plugin.launchnavigator.LaunchNavigator",
             "file": "plugins/uk.co.workingedge.phonegap.plugin.launchnavigator/www/ios/launchnavigator.js",
+            "pluginId": "uk.co.workingedge.phonegap.plugin.launchnavigator",
+            "merges": [
+                "launchnavigator"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-console/www/console-via-logger.js",
+            "id": "cordova-plugin-console.console",
+            "pluginId": "cordova-plugin-console",
+            "clobbers": [
+                "console"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-console/www/logger.js",
+            "id": "cordova-plugin-console.logger",
+            "pluginId": "cordova-plugin-console",
+            "clobbers": [
+                "cordova.logger"
+            ]
+        },
+        {
+            "file": "plugins/ionic-plugin-keyboard/www/ios/keyboard.js",
+            "id": "ionic-plugin-keyboard.keyboard",
+            "pluginId": "ionic-plugin-keyboard",
+            "clobbers": [
+                "cordova.plugins.Keyboard"
+            ],
+            "runs": true
+        },
+        {
+            "file": "plugins/phonegap-plugin-push/www/push.js",
+            "id": "phonegap-plugin-push.PushNotification",
+            "pluginId": "phonegap-plugin-push",
+            "clobbers": [
+                "PushNotification"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-actionsheet/www/ActionSheet.js",
+            "id": "cordova-plugin-actionsheet.ActionSheet",
+            "pluginId": "cordova-plugin-actionsheet",
+            "clobbers": [
+                "window.plugins.actionsheet"
+            ]
+        },
+        {
+            "file": "plugins/uk.co.workingedge.phonegap.plugin.launchnavigator/www/common.js",
+            "id": "uk.co.workingedge.phonegap.plugin.launchnavigator.Common",
+            "pluginId": "uk.co.workingedge.phonegap.plugin.launchnavigator",
+            "clobbers": [
+                "launchnavigator"
+            ]
+        },
+        {
+            "file": "plugins/uk.co.workingedge.phonegap.plugin.launchnavigator/www/ios/launchnavigator.js",
+            "id": "uk.co.workingedge.phonegap.plugin.launchnavigator.LaunchNavigator",
             "pluginId": "uk.co.workingedge.phonegap.plugin.launchnavigator",
             "merges": [
                 "launchnavigator"
