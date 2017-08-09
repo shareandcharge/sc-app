@@ -526,6 +526,7 @@
     "kwh_notice": "Die kWh werden berechnet durch Multiplikation der Ladeleistung des ladenden Autos mit der Ladedauer.",
     "family_and_friends": "Familie & Freunde",
     "family_and_friends_tarif": "Familie & Freunde Tarif",
+    "add_email": "E-Mail hinzufügen",
     "flat_rate_per_charge": "Flatrate pro Ladung",
     "add": "Veröffentlichen",
     "flatrate_message": "Pauschaler Betrag für eine maximale Ladedauer von 4 Stunden.",

@@ -525,6 +525,7 @@
     "kwh_notice": "The kWh are calculated by multiplying the charging capacity of the e-car and the charging time.",
     "family_and_friends": "Family & Friends",
     "family_and_friends_tarif": "Family & Friends tariff",
+    "add_email": "add email address",
     "flat_rate_per_charge": "Flatrate per charging",
     "add": "Publish",
     "flatrate_message": "Flatrate for a max. duration of four hours.",
