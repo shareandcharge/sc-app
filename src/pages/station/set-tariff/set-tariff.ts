@@ -47,8 +47,8 @@ export class SetTariffPage {
         }
 
       // Use this if you need to allow KWH setup for JuiceBoxes
-      // if (this.connector.metadata.accessControl || this.connector.metadata.juiceBox) {
-        if (this.connector.metadata.accessControl) {
+      if (this.connector.metadata.accessControl || this.connector.metadata.juiceBox) {
+      //   if (this.connector.metadata.accessControl) {
             this.hourlyTariff = true;
             if (this.connector.metadata.kwh) {
                 this.kwhTariff = true;

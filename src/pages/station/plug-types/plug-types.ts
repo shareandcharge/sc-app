@@ -92,9 +92,9 @@ export class PlugTypesPage {
             this.trackerService.track('Proceed Connector Type - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
 
             // Comment this IF statement if you need to allow KWH for JuiceBox
-            if (!this.connector.metadata.accessControl) {
-                this.connector.metadata.kwh = false
-            }
+            // if (!this.connector.metadata.accessControl) {
+            //     this.connector.metadata.kwh = false
+            // }
 
             this.nextView = SetTariffPage;
             if (this.connector.metadata.juiceBox && this.isAdd()) {
@@ -165,8 +165,22 @@ export class PlugTypesPage {
             this.connector.metadata.deviceId = '';
             this.connector.metadata.guestPin = '';
             this.connector.metadata.operator = '';
+            this.connector.metadata.kwh = false;
         }
     }
+
+  toggleAccessControl() {
+    if (!this.plugOptions) {
+      return;
+    }
+
+    if (this.connector.metadata.accessControl) {
+      this.connector.metadata.kwh = false;
+      this.connector.metadata.juiceBox = false;
+    } else {
+      this.connector.metadata.kwh = false;
+    }
+  }
 
     validateForm() {
         let hasError = false;
