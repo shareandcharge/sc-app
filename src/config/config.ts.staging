@@ -20,6 +20,7 @@ export let CONFIG = {
         show_juicebox_config: true,
         usd_pilot: true,
         hide_payment: true,
-        hide_commercial_option: true
+        hide_commercial_option: true,
+        show_kwh_tariff: true
     }
 };

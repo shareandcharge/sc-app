@@ -7,6 +7,7 @@ import {TariffConfirmationPage} from "./tariff-confirmation/tariff-confirmation"
 import {TrackerService} from "../../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
 import {CurrencyService} from "../../../services/currency.service";
+import {ConfigService} from "../../../services/config.service";
 
 
 @Component({
@@ -30,9 +31,11 @@ export class SetTariffPage {
 
     currency: any = "";
 
+  displayKWHTariff: boolean = false;
+
     constructor(public navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController,
                 private navParams: NavParams, private events: Events, private trackerService: TrackerService,
-                private translateService: TranslateService, private currencyService: CurrencyService) {
+                private translateService: TranslateService, private currencyService: CurrencyService, private configService: ConfigService) {
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
         this.priceprovider = this.connector.priceprovider;
@@ -46,9 +49,10 @@ export class SetTariffPage {
             this.buttonText = this.translateService.instant('station.save_changes');
         }
 
+        this.displayKWHTariff = this.configService.isFeatureEnabled("show_kwh_tariff");
+
       // Use this if you need to allow KWH setup for JuiceBoxes
-      if (this.connector.metadata.accessControl || this.connector.metadata.juiceBox) {
-      //   if (this.connector.metadata.accessControl) {
+      if ( this.displayKWHTariff && (this.connector.metadata.accessControl || this.connector.metadata.juiceBox) ) {
             this.hourlyTariff = true;
             if (this.connector.metadata.kwh) {
                 this.kwhTariff = true;

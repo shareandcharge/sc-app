@@ -26,6 +26,7 @@ export class PlugTypesPage {
     errorMessages: any;
 
     displayJuiceBoxOption: boolean = false;
+    displayKWHOption: boolean = false;
     juiceBoxPlugTypeId: any;
     nextView: any;
 
@@ -54,6 +55,7 @@ export class PlugTypesPage {
             error => this.errorService.displayErrorWithKey(error, 'error.scope.get_plugtypes'));
 
         this.displayJuiceBoxOption = this.configService.isFeatureEnabled("show_juicebox_config");
+        this.displayKWHOption = this.configService.isFeatureEnabled("show_kwh_tariff");
 
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
