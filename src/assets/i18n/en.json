@@ -107,7 +107,7 @@
     "used_voucher": "We are sorry, but that voucher has already been used",
     "expired_voucher": "We are sorry, but the voucher has expired",
     "no_voucheraccount": "There is no voucher account available",
-    "voucher_balance_too_low": "The voucher balance is too low to enable payout of the voucher",
+    "voucher_balance_too_low": "There was an error processing your voucher, for further assistance contact support@shareandcharge.com",
     "not_enough_balance": "The balance of your voucher is too low to use",
     "error_start_charging_unavailable": "The charging station is unavailable",
     "error_start_charging_not_connected": "The vehicle is not connected to the charging station",
