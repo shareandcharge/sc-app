@@ -179,10 +179,10 @@ export class PlugTypesPage {
             this.connector.metadata.operator = '';
             this.connector.metadata.kwh = false;
 
-          this.wattpowerTemp = false;
-          this.updateWattpower();
+            this.wattpowerTemp = false;
+            this.updateWattpower();
 
-          this.connector.plugtype = '';
+            this.connector.plugtype = '';
         }
     }
 
