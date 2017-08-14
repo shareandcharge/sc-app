@@ -20,6 +20,7 @@ export let CONFIG = {
         show_juicebox_config: false,
         usd_pilot: false,
         hide_payment: false,
-        hide_commercial_option: false
+        hide_commercial_option: false,
+        hide_sc_module: true
     }
 };
