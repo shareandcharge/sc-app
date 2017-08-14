@@ -29,6 +29,7 @@ export class PlugTypesPage {
     displayKWHOption: boolean = false;
     juiceBoxPlugTypeId: any;
     nextView: any;
+    isScModuleOptionAvailable: boolean = false;
 
     private selectPlugTypeTitle: string;
     private selectPowerTitle: string;
@@ -62,6 +63,8 @@ export class PlugTypesPage {
 
         this.flowMode = this.navParams.get("mode");
         this.wattpowerTemp = this.connector.maxwattpower / 1000;
+
+        this.isScModuleOptionAvailable = !configService.isFeatureEnabled('hide_sc_module');
 
         this.clearErrorMessages();
     }
