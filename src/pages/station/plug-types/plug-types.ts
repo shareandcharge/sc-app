@@ -113,11 +113,18 @@ export class PlugTypesPage {
         }
     }
 
+    showRadiogroup() {
+      return (this.isScModuleOptionAvailable || this.displayJuiceBoxOption);
+    }
+
     showHelp(type) {
         let message = "";
 
-        if ("accessControl" === type) {
-            message = this.translateService.instant('station.msg_sc_light_module');
+        if ("none" === type) {
+            message = this.translateService.instant('station.msg_none');
+        }
+        else if ("accessControl" === type) {
+          message = this.translateService.instant('station.msg_sc_light_module');
         }
         else if ("kwh" === type) {
             // changed in https://github.com/slockit/sc-app/issues/203
@@ -185,6 +192,23 @@ export class PlugTypesPage {
     } else {
       this.connector.metadata.kwh = false;
     }
+  }
+
+    setMetadata(value) {
+    if (value === "juiceBox") {
+      this.connector.metadata.accessControl = false;
+      this.connector.metadata.juiceBox= true;
+    }
+    else if (value === "accessControl") {
+      this.connector.metadata.accessControl = true;
+      this.connector.metadata.juiceBox= false;
+    }
+    else{
+      this.connector.metadata.accessControl = false;
+      this.connector.metadata.juiceBox= false;
+    }
+    this.toggleJuiceBox();
+    return true;
   }
 
     validateForm() {
