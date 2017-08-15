@@ -178,6 +178,11 @@ export class PlugTypesPage {
             this.connector.metadata.guestPin = '';
             this.connector.metadata.operator = '';
             this.connector.metadata.kwh = false;
+
+          this.wattpowerTemp = false;
+          this.updateWattpower();
+
+          this.connector.plugtype = '';
         }
     }
 
