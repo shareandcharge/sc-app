@@ -33,6 +33,11 @@
                 {{transaction.getTimestamp() | date:'short'}}
             </ion-col>
         </ion-row>
+        <ion-row *ngIf="isResumableTx()">
+          <ion-col>
+            <button ion-button round (click)="resumePaymentProcess()" text-uppercase outline block>{{'common.resume' | translate}}</button>
+          </ion-col>
+        </ion-row>
     </ion-grid>
 
     <ion-grid class="detailGrid" *ngIf="transaction.isVoucher()">

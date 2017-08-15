@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavParams, NavController, Platform} from "ionic-angular";
+import {NavParams, NavController, Platform, Events} from "ionic-angular";
 import {InAppBrowser} from "ionic-native";
 import {Transaction} from "../../../models/transaction";
 import {TranslateService} from "@ngx-translate/core";
@@ -29,8 +29,9 @@ export class TransactionDetailPage {
         'sofort':  this.translateService.instant('add_money.direct'),
     };
 
-    constructor(private navParams: NavParams, private navCtrl: NavController, private platform: Platform, private translateService: TranslateService, private currencyDisplay: CurrencyDisplay, private currencyService: CurrencyService) {
+    constructor(private navParams: NavParams, private navCtrl: NavController, private events: Events, private platform: Platform, private translateService: TranslateService, private currencyDisplay: CurrencyDisplay, private currencyService: CurrencyService) {
         this.transaction = this.navParams.get('transaction');
+        console.log('transaction:', this.transaction);
     }
 
     makeTimeString(data) {
@@ -47,6 +48,35 @@ export class TransactionDetailPage {
 
     dismiss() {
         this.navCtrl.pop();
+    }
+
+    isResumableTx(): boolean {
+
+      return (this.transaction.order.status == "started" && this.transaction.type === 60);
+    }
+
+    resumePaymentProcess() {
+      const redirectUrl = this.transaction.order.response.action_data.url;
+
+      if (!(window as any).cordova) {
+        window.open(redirectUrl, '_blank', 'presentationstyle=pagesheet');
+
+        return new Promise((resolve, reject) => {
+          resolve();
+        })
+      } else {
+        let options = 'presentationstyle=fullscreen,closebuttoncaption=' + this.translateService.instant('common.close') + ',toolbar=yes,location=no,hardwareback=no'
+        let browser = new InAppBrowser(redirectUrl, '_blank', options);
+
+        return new Promise((resolve, reject) => {
+          browser.on('exit').subscribe(() => {
+            //-- reload the user, we may have credit card IDs we need to sent next time
+            this.events.publish('auth:refresh:user');
+
+            resolve();
+          });
+        });
+      }
     }
 
     getTariffCosts(contracttype: number): string {
