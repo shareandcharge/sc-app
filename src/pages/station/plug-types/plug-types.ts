@@ -172,9 +172,14 @@ export class PlugTypesPage {
 
             this.connector.metadata.operator = 'eMotorWerks';
         } else {
-            this.connector.metadata.deviceId = '';
-            this.connector.metadata.guestPin = '';
-            this.connector.metadata.operator = '';
+          this.wattpowerTemp = false;
+          this.updateWattpower();
+
+          this.connector.plugtype = '';
+
+          this.connector.metadata.deviceId = '';
+          this.connector.metadata.guestPin = '';
+          this.connector.metadata.operator = '';
         }
     }
 
