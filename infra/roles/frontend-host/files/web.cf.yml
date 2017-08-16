@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Share and Charge frontend Server
+
+Parameters:
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+
+  Cidr:
+    Type: String
+
+  AppName:
+    Type: String
+
+Resources:
+
+  Subnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !ImportValue base-VpcId
+      CidrBlock: !Ref Cidr
+      MapPublicIpOnLaunch: true
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ["", [ "Share and Charge Frontend ", !Ref AppName ] ]
+
+  SubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref Subnet
+      RouteTableId: !ImportValue base-RouteTable
+
+  hostSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: Allow access via ssh
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      VpcId: !ImportValue base-VpcId
+
+  host:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: ami-1c45e273
+      InstanceType: m4.xlarge
+      KeyName: !Ref KeyName
+      SubnetId: !Ref Subnet
+      SecurityGroupIds:
+        - !Ref hostSecurityGroup
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeType: gp2
+            DeleteOnTermination: false
+            VolumeSize: 20
+      Tags:
+        - Key: Name
+          Value: !Join ["", [ "Share and Charge Frontend ", !Ref AppName ] ]
+
+Outputs:
+  PublicIp:
+    Description: The Share and Charge public ip
+    Value: !GetAtt host.PublicIp
+  hostSecurityGroup:
+    Description: The Security Group to identify the Share and Charge host
+    Value: !GetAtt hostSecurityGroup.GroupId

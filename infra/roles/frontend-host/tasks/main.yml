@@ -1,0 +1,33 @@
+---
+- name: Deploy Host of SC Web App
+  cloudformation:
+    stack_name: "{{ app_name }}-web"
+    region: "{{ aws_region }}"
+    template: "roles/frontend-host/files/web.cf.yml"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    template_parameters:
+      KeyName: motionwerk
+      Cidr: "{{ frontend_cidr  }}"
+      AppName: "{{ app_name }}"
+  register: web_result
+
+- name: Store the web address
+  set_fact: frontendAddress="{{ web_result.stack_outputs.PublicIp }}"
+
+- name: Add frontend to share_and_charge group
+  add_host:
+    hostname: "{{ item }}"
+    ansible_user: ubuntu
+    groupname: frontend-host
+    ansible_ssh_private_key_file: ~/.ssh/motionwerk_rsa
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    ansible_python_interpreter: /usr/bin/python3
+  with_items: "{{ web_result.stack_outputs.PublicIp }}"
+
+- name: Wait for SSH to come up
+  wait_for:
+    host: "{{ web_result.stack_outputs.PublicIp }}"
+    port: 22
+    timeout: 600
+    state: started

@@ -1,0 +1,64 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: false
+  vars:
+    app_name: test2-sc
+
+    aws_region: eu-central-1
+    aws_access_key: "{{ lookup('pipe','../../password-store/go pass show infra/aws_access_key')|quote }}"
+    aws_secret_key: "{{ lookup('pipe','../../password-store/go pass show infra/aws_secret_key')|quote }}"
+
+    db_name: sc
+    db_user: sc
+    db_password: "{{ lookup('pipe','../../password-store/go pass show sc_test2/rds/db_password') }}"
+
+    frontend_cidr: 10.0.17.0/24
+    env: test2
+
+  roles:
+    - frontend-host
+
+#- hosts: frontend-host
+#  become: yes
+#  vars:
+#    motionwerk_rsa_public: "{{ lookup('pipe','../../password-store/go pass show infra/aws_ssh_key_pub')}}"
+#  roles:
+#    - webapp
+
+#- hosts: backend-host
+#  become: yes
+#  vars:
+#    motionwerk_rsa_public: "{{ lookup('pipe','../../password-store/go pass show infra/aws_ssh_key_pub')}}"
+#
+#    minterAddress: "0x008df30796dda1e6ebedef25b9395ecadb7d48cc"
+#    minterKeyFilename: "UTC--2017-08-15T13-04-27Z--b64898a1-6089-58b1-c96d-762c0e32474b"
+#    libAddress: "0x7f57b912c3c52c44cb23bda59d35e3ec69c90e42"
+#    minterKey: "{{ lookup('pipe','../../password-store/go pass show sc_test2/minter/password') }}"
+#    secureHash: "OUr5xhAOfteKyJ8w5G8BH+TY9BLxxfyUGYmfkpb4TPA="
+#
+##    domain: "api-staging.shareandcharge.com"
+#    domain: "52.29.173.190"
+#
+#    endpointUrl: "https://{{ domain }}/v1/"
+#
+#    dbInfo: "{{ hostvars['127.0.0.1']['dbInfo'] }}"
+#
+#    ethClient: "http://{{ hostvars['127.0.0.1']['ethAddress'] }}:8545"
+#
+#    gasPriceFactor: "1"
+#
+#    voucherAccount: "0x935f11ebc4f0c7fb63c99de14a8eee15b4a13230"
+#    feeAccount: "0x19b70993926e5badf6b064de926c3a65f98686ed"
+#    admin_email: "non-prod-admin@shareandcharge.com"
+#
+#
+#    sslKey: "{{ lookup('pipe','../../password-store/go pass show sc_staging/ssl/sc-private.pem')}}"
+#    dns_name: "{{ domain }}"
+#    paymentInfo:
+#      useTest: true
+#      success_url: "https://{{ domain }}/v1/wallet/feedback/success.html"
+#      error_url: "https://{{ domain }}/v1/wallet/feedback/error.html"
+#      payoutAccount: "0xe0a8b4f80263e8a9b962f1c69ba3a04a8fafe23a"
+#  roles:
+#    - share_and_charge
