@@ -37,10 +37,10 @@
         </ion-item>
       </ion-list>
 
-        <ion-item>
+        <ion-item *ngIf="displayKWHOption">
             <!-- for now turned off, see: https://github.com/slockit/sc-app/issues/203 -->
             <!-- remove true and the connector.metadata.accessControl part if you wish to allow KWH-->
-            <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{true || !connector.metadata.accessControl || flowMode==='edit'}}"
+            <ion-checkbox [(ngModel)]="connector.metadata.kwh" disabled="{{ flowMode==='edit' || ( !connector.metadata.juiceBox  && !connector.metadata.accessControl )}}"
                       class="item-partial-cover"></ion-checkbox>
             <ion-label>{{'station.kwh_billing' | translate}}</ion-label>
             <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('kwh')" color="primary"></ion-icon>

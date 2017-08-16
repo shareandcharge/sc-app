@@ -19,6 +19,7 @@ export let CONFIG = {
         usd_pilot: false,
         hide_payment: false,
         hide_commercial_option: false,
+        show_kwh_tariff: false,
         hide_sc_module: true
     }
 };

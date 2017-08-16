@@ -34,6 +34,7 @@ export class TransactionDetailPage {
     constructor(private navParams: NavParams, private navCtrl: NavController, private events: Events, private platform: Platform, private translateService: TranslateService, private currencyDisplay: CurrencyDisplay, private currencyService: CurrencyService) {
         this.transaction = this.navParams.get('transaction');
         this.wallet = this.navParams.get('wallet');
+        console.log('transaction:', this.transaction);
     }
 
     makeTimeString(data) {

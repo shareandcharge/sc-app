@@ -26,6 +26,7 @@ export class PlugTypesPage {
     errorMessages: any;
 
     displayJuiceBoxOption: boolean = false;
+    displayKWHOption: boolean = false;
     juiceBoxPlugTypeId: any;
     nextView: any;
     isScModuleOptionAvailable: boolean = false;
@@ -55,6 +56,7 @@ export class PlugTypesPage {
             error => this.errorService.displayErrorWithKey(error, 'error.scope.get_plugtypes'));
 
         this.displayJuiceBoxOption = this.configService.isFeatureEnabled("show_juicebox_config");
+        this.displayKWHOption = this.configService.isFeatureEnabled("show_kwh_tariff");
 
         this.locObject = this.navParams.get("location");
         this.connector = this.locObject.stations[0].connectors[0];
@@ -95,9 +97,9 @@ export class PlugTypesPage {
             this.trackerService.track('Proceed Connector Type - ' + (this.isAdd() ? 'Add' : 'Edit'), {});
 
             // Comment this IF statement if you need to allow KWH for JuiceBox
-            if (!this.connector.metadata.accessControl) {
-                this.connector.metadata.kwh = false
-            }
+            // if (!this.connector.metadata.accessControl) {
+            //     this.connector.metadata.kwh = false
+            // }
 
             this.nextView = SetTariffPage;
             if (this.connector.metadata.juiceBox && this.isAdd()) {
@@ -180,10 +182,24 @@ export class PlugTypesPage {
           this.connector.metadata.deviceId = '';
           this.connector.metadata.guestPin = '';
           this.connector.metadata.operator = '';
+          this.connector.metadata.kwh = false;
         }
     }
 
-    setMetadata(value) {
+  toggleAccessControl() {
+    if (!this.plugOptions) {
+      return;
+    }
+
+    if (this.connector.metadata.accessControl) {
+      this.connector.metadata.kwh = false;
+      this.connector.metadata.juiceBox = false;
+    } else {
+      this.connector.metadata.kwh = false;
+    }
+  }
+
+  setMetadata(value) {
     if (value === "juiceBox") {
       this.connector.metadata.accessControl = false;
       this.connector.metadata.juiceBox= true;
