@@ -4,18 +4,10 @@
   gather_facts: false
   vars:
     app_name: test2-sc
-
     aws_region: eu-central-1
     aws_access_key: "{{ lookup('pipe','../../password-store/go pass show infra/aws_access_key')|quote }}"
     aws_secret_key: "{{ lookup('pipe','../../password-store/go pass show infra/aws_secret_key')|quote }}"
-
-    db_name: sc
-    db_user: sc
-    db_password: "{{ lookup('pipe','../../password-store/go pass show sc_test2/rds/db_password') }}"
-
     frontend_cidr: 10.0.17.0/24
-    env: test2
-
   roles:
     - frontend-host
 
@@ -23,5 +15,9 @@
   become: yes
   vars:
     motionwerk_rsa_public: "{{ lookup('pipe','../../password-store/go pass show infra/aws_ssh_key_pub')}}"
+    env: test2
+    domain: app-test2.shareandcharge.com
+    sslKey: "{{ lookup('pipe','../../password-store/go pass show sc_staging/ssl/sc-private.pem')}}"
+    gocd_key: "{{ lookup('pipe','../../password-store/go pass show infra/agent_ssh_pub_key')}}"
   roles:
     - webapp

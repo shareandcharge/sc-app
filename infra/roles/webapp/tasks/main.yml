@@ -5,11 +5,18 @@
     home: /sc
     shell: /bin/bash
 
-- name: Set authorized keys for sc
+- name: Authorize motionwerk rsa key
   authorized_key:
     user: sc
     state: present
     key: "{{ motionwerk_rsa_public }}"
+
+- name: Authorize agent rsa key
+  authorized_key:
+    user: sc
+    state: present
+    key: "{{ gocd_key }}"
+
 
 - name: Create home folder
   file:
@@ -46,4 +53,4 @@
     - make
     - g++
 
-#- include: nginx.yml
+- include: nginx.yml

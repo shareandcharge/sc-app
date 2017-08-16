@@ -1,0 +1,55 @@
+---
+- name: install nginx
+  apt:
+    name: nginx
+
+- name: copy site config
+  template:
+    src: templates/nginx-site.j2
+    dest: /etc/nginx/sites-available/sc-app
+    owner: root
+    group: root
+    mode: 0644
+  register: result_config
+
+- name: ensure the ssl folder exists
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+    recurse: yes
+  register: result_folder
+
+- name: copy certificate for nginx
+  copy:
+    src: sc.pem
+    dest: /etc/nginx/ssl/sc.pem
+    owner: root
+    group: root
+    mode: 0644
+  register: result_certificate
+
+- name: copy certificate key for nginx
+  copy:
+    content: "{{ sslKey }}"
+    dest: /etc/nginx/ssl/sc-private.pem
+    owner: root
+    group: root
+    mode: 0644
+  register: result_key
+
+- name: remove default site
+  file:
+    state: absent
+    path:  /etc/nginx/sites-enabled/default
+
+- name: enable site config
+  file:
+    state: link
+    src:   /etc/nginx/sites-available/sc-app
+    dest:  /etc/nginx/sites-enabled/sc-app
+
+- name: reload nginx
+  systemd:
+    name: nginx
+    state: reloaded
+  when: result_config.changed or result_folder.changed or result_certificate.changed or result_key.changed
