@@ -73,7 +73,7 @@ export class EditProfilePage {
             city: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
             state: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2)])],
             country: ['', countryValidator.isValid],
-            postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5), postalCodeValidator.isValid])],
+            postalCode: ['', Validators.compose([Validators.maxLength(10), Validators.minLength(5)])],
             businessUser: [false],
             operatorVatID: []
         }, {
