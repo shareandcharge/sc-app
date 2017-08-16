@@ -5,6 +5,7 @@ import {Transaction} from "../../../models/transaction";
 import {TranslateService} from "@ngx-translate/core";
 import {CurrencyDisplay} from "../../../models/currency-display";
 import {CurrencyService} from "../../../services/currency.service";
+import {WalletPage} from "../wallet";
 
 
 @Component({
@@ -14,6 +15,7 @@ import {CurrencyService} from "../../../services/currency.service";
 })
 export class TransactionDetailPage {
     transaction: Transaction;
+    wallet : WalletPage;
 
     priceProviderTariffTypes = [
         'disabled',
@@ -31,6 +33,7 @@ export class TransactionDetailPage {
 
     constructor(private navParams: NavParams, private navCtrl: NavController, private events: Events, private platform: Platform, private translateService: TranslateService, private currencyDisplay: CurrencyDisplay, private currencyService: CurrencyService) {
         this.transaction = this.navParams.get('transaction');
+        this.wallet = this.navParams.get('wallet');
         console.log('transaction:', this.transaction);
     }
 
@@ -55,24 +58,47 @@ export class TransactionDetailPage {
       return (this.transaction.order.status == "started" && this.transaction.type === 60);
     }
 
+    isSofortTx(): boolean {
+      return (this.transaction.order.type == "sofort");
+    }
+
     resumePaymentProcess() {
       const redirectUrl = this.transaction.order.response.action_data.url;
+      this.openUrlInApp(redirectUrl);
+    }
+
+    cancelPaymentProcess() {
+      const redirectUrl = this.transaction.order.response.action_data.url;
+      const parts = redirectUrl.split("/");
+
+      if (this.transaction.order.type === "cc") {
+        const cancelUrl = parts.slice(0,parts.length-2).join('/') + "/payment_input_cancel/" + this.transaction.order.txid;
+
+        this.openUrlInApp(cancelUrl).then(_ => {
+          setTimeout(() => this.wallet.refreshData(), 2000);
+        });
+      };
+    }
+
+    openUrlInApp(url) {
 
       if (!(window as any).cordova) {
-        window.open(redirectUrl, '_blank', 'presentationstyle=pagesheet');
+        window.open(url, '_blank', 'presentationstyle=pagesheet');
 
         return new Promise((resolve, reject) => {
+          this.dismiss();
           resolve();
+
         })
       } else {
         let options = 'presentationstyle=fullscreen,closebuttoncaption=' + this.translateService.instant('common.close') + ',toolbar=yes,location=no,hardwareback=no'
-        let browser = new InAppBrowser(redirectUrl, '_blank', options);
+        let browser = new InAppBrowser(url, '_blank', options);
 
         return new Promise((resolve, reject) => {
           browser.on('exit').subscribe(() => {
             //-- reload the user, we may have credit card IDs we need to sent next time
             this.events.publish('auth:refresh:user');
-
+            this.dismiss();
             resolve();
           });
         });

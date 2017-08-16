@@ -8,7 +8,7 @@ import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class PaymentService extends AbstractApiService {
-    constructor(private httpService: HttpService, configService: ConfigService, 
+    constructor(private httpService: HttpService, configService: ConfigService,
                 public translateService: TranslateService) {
         super(configService, translateService);
     }
@@ -17,8 +17,20 @@ export class PaymentService extends AbstractApiService {
         return this.httpService.get(this.baseUrl + '/wallet/history')
             .map(res => {
                 let transactions = [];
+                let transaction;
+                const x = 35;
+                const xMinutesAgo = new Date((new Date()).getTime() - (1000 * 60 * x)).valueOf();
+
                 res.json().forEach(input => {
-                    transactions.push(new Transaction().deserialize(input));
+                    transaction = new Transaction().deserialize(input);
+                    // we remove every pending transaction of sofort ueberweisung which is older than timeout
+                    if (transaction.order.type === "sofort") {
+                      if ((transaction.order.data.time *1000) >= xMinutesAgo) {
+                        transactions.push(transaction);
+                      }
+                    } else {
+                      transactions.push(transaction);
+                    }
                 });
                 return transactions;
             })

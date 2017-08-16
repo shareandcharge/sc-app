@@ -177,7 +177,8 @@
     "saturday" : "Samstag",
     "sunday" : "Sonntag",
     "time" : "Uhrzeit",
-    "resume": "Fortsetzen"
+    "resume": "Fortsetzen",
+    "remove" : "Entfernen"
   },
   "app": {
     "cancel_app": "Möchten Sie die App beenden?",

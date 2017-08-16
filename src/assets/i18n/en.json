@@ -177,7 +177,8 @@
     "saturday" : "Saturday",
     "sunday" : "Sunday",
     "time" : "time",
-    "resume": "Resume"
+    "resume": "Resume",
+    "remove" : "Remove"
   },
   "app": {
     "cancel_app": "Cancel the app",

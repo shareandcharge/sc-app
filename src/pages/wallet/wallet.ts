@@ -192,7 +192,8 @@ export class WalletPage {
 
     openTransactionDetail(transaction) {
         let modal = this.modalCtrl.create(TransactionDetailPage, {
-            'transaction': transaction
+            'transaction': transaction,
+            'wallet' : this
         });
         modal.present();
     }
