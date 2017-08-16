@@ -13,6 +13,7 @@ export let CONFIG = {
     FAQ_URL: 'https://shareandcharge.com/faqs/',
     CONTACT_EMAIL: 'info@shareandcharge.com',
     MIXPANEL_TOKEN: '2e9e....',
+    ALLOWED_COUNTRIES: ['DE', 'NL', 'US'], // use alpha2 codes from iso 3166-1 (https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes)
     FEATURE_TOGGLES: {
         show_juicebox_config: true,
         usd_pilot: true,
