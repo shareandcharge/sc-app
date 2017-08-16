@@ -127,11 +127,20 @@
                     </div>
                 </ion-col>
                 <ion-col text-right *ngIf="connector">
-                    <button ion-button round color="primary" text-uppercase (click)="charge()" *ngIf="connector.isOpen()">
-                        <span *ngIf="!charging && !isBusy">{{'location.location_details.load' | translate}}</span>
-                        <span *ngIf="charging">{{'location.location_details.loading_progress' | translate}}</span>
+
+                    <!-- open and user can charge -->
+                    <button *ngIf="connector.isOpen() && !charging && !isBusy" (click)="charge()" ion-button round color="primary" text-uppercase>
+                        <span>{{'location.location_details.load' | translate}}</span>
                     </button>
+
+                    <!-- user is charging -->
+                    <button *ngIf="charging" (click)="charge()" ion-button round color="primary" text-uppercase>
+                        <span>{{'location.location_details.loading_progress' | translate}}</span>
+                    </button>
+
+                    <!-- closed -->
                     <span *ngIf="!connector.isOpen()">{{'location.location_details.not_open' | translate}}</span>
+
                 </ion-col>
             </ion-row>
         </ion-grid>
