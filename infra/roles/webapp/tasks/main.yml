@@ -1,0 +1,49 @@
+---
+- user:
+    name: sc
+    comment: "Share and Charge"
+    home: /sc
+    shell: /bin/bash
+
+- name: Set authorized keys for sc
+  authorized_key:
+    user: sc
+    state: present
+    key: "{{ motionwerk_rsa_public }}"
+
+- name: Create home folder
+  file:
+    path: /sc
+    state: directory
+    mode: 0755
+    owner: sc
+    group: sc
+
+- name: Create folder to place the app
+  file:
+    path: /sc/sc-app
+    state: directory
+    mode: 0755
+    owner: sc
+    group: sc
+
+- name: install node
+  shell: curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+
+- name: Update repositories cache and install node
+  apt:
+    name: nodejs
+    update_cache: yes
+
+- name: Update repositories cache and install dependencies
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - git
+    - python
+    - python3-pip
+    - make
+    - g++
+
+#- include: nginx.yml
