@@ -594,7 +594,8 @@
     "device_id": "Bitte gib eine gültige Device Id ein.",
     "guest_pin": "Bitte gib einen gültigen Guest pairing pin ein.",
     "vat_number": "Bitte gib Deine Steuernummer ein.",
-    "company": "Bitte gib Deine Firma ein."
+    "company": "Bitte gib Deine Firma ein.",
+    "invalid_country": "Dieses Land wird noch nicht unterstützt."
   },
   "add_money": {
     "account": "Konto",

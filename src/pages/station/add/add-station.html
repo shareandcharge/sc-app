@@ -30,6 +30,9 @@
             <div *ngIf="errorMessages.address" class="alert-box alert-box-danger" margin>
                 {{ errorMessages.address }}
             </div>
+            <div *ngIf="errorMessages.country" class="alert-box alert-box-danger" margin>
+                {{ errorMessages.country }}
+            </div>
             <ion-item>
                 <ion-label stacked>{{'station.station_name' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" [(ngModel)]="locObject.name" placeholder="Typ 2 am Stadtpark"></ion-input>

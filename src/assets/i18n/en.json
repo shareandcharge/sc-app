@@ -593,7 +593,8 @@
     "device_id": "Please provide a valid Device Id.",
     "guest_pin": "Please provide a valid Guest pairing pin.",
     "vat_number": "Please provide a VAT number.",
-    "company": "Please provide the company."
+    "company": "Please provide the company.",
+    "invalid_country": "This country is currently not supported."
   },
   "add_money": {
     "account": "Wallet",
