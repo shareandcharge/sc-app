@@ -17,7 +17,7 @@ import {SetTariffPage} from "../set-tariff/set-tariff";
 import {EditProfilePage} from "../../profile/profile-data/edit-profile/edit-profile";
 import {TrackerService} from "../../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
-
+import {ConfigService} from "../../../services/config.service";
 
 /**
  * weekCalendar times:
@@ -51,6 +51,9 @@ export class AddStationPage {
     defaultCenterLat = 52.5167693;
     defaultCenterLng = 13.3773908;
 
+    countrySetFromMarker: null;
+    allowedCountries: any;
+
     map: any;
     marker: any;
     placesService: any;
@@ -67,7 +70,7 @@ export class AddStationPage {
     constructor(public navCtrl: NavController, private modalCtrl: ModalController, public auth: AuthService,
                 private loadingCtrl: LoadingController, platform: Platform, navParams: NavParams,
                 private events: Events, private alertCtrl: AlertController, private trackerService: TrackerService,
-                private translateService: TranslateService) {
+                private translateService: TranslateService, private configService: ConfigService) {
 
         if (typeof navParams.get("mode") != 'undefined') {
             this.flowMode = navParams.get("mode");
@@ -76,12 +79,14 @@ export class AddStationPage {
             this.flowMode = "add";
         }
 
+        this.allowedCountries = configService.get('ALLOWED_COUNTRIES');
+
         this.from = 0;
         this.to = 24;
 
         this.timeSelectOptions = {
-          fromTitle: this.translateService.instant('common.from'),
-          toTitle: this.translateService.instant('common.to')
+            fromTitle: this.translateService.instant('common.from'),
+            toTitle: this.translateService.instant('common.to')
         }
 
         this.daySelectOptions = {
@@ -346,7 +351,7 @@ export class AddStationPage {
         let me = this;
         this.service.getPlacePredictions({
             input: this.locObject.address,
-            componentRestrictions: {country: ['DE', 'NL', 'US']}
+            componentRestrictions: {country: this.allowedCountries}
         }, function (predictions, status) {
             me.autocompleteItems = [];
             if (predictions != null) {
@@ -418,7 +423,7 @@ export class AddStationPage {
      */
     setAddressFromMarker() {
         let geocoder = new google.maps.Geocoder;
-
+        this.countrySetFromMarker = null;
         geocoder.geocode({'location': this.marker.getPosition()}, (results, status) => {
             if (status !== google.maps.GeocoderStatus.OK || !results[0]) return;
 
@@ -428,7 +433,23 @@ export class AddStationPage {
             } else {
                 this.locObject.address = results[0].formatted_address;
             }
+
+            this.countrySetFromMarker = this.extractCountryFromGeocoderResult(results);
         });
+    }
+
+    extractCountryFromGeocoderResult(result) {
+        /**
+         * Result-type must contain "country". Then the address_components short_name always is
+         * in an international/english format (DE, US, NL ...)
+         */
+        let country = null;
+        result.forEach((res) => {
+            if (!res.types.includes('country')) return;
+            country = res.address_components[0].short_name;
+        });
+
+        return country;
     }
 
     loadMap() {
@@ -540,6 +561,11 @@ export class AddStationPage {
     validateForm() {
         let hasError = false;
         this.clearErrorMessages();
+
+        if (!this.isCountryValid()) {
+            hasError = true;
+            this.errorMessages.country = this.translateService.instant('error_messages.invalid_country');
+        }
         if (!this.locObject.address) {
             hasError = true;
             this.errorMessages.address = this.translateService.instant('error_messages.address_2');
@@ -548,7 +574,14 @@ export class AddStationPage {
             hasError = true;
             this.errorMessages.openingHours = this.translateService.instant('error_messages.opening_hours');
         }
+
         return !hasError;
+    }
+
+    isCountryValid() {
+        if (null === this.countrySetFromMarker) return false;
+
+        return this.allowedCountries.includes(this.countrySetFromMarker);
     }
 
     isOpeningHoursSelected() {
