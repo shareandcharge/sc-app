@@ -585,14 +585,9 @@ export class AddStationPage {
     }
 
     isOpeningHoursSelected() {
-        for (let item of this.connector.weekcalendar.hours) {
-            if (item.from != 0 && item.to != 0) {
-                if (!(item.from >= 0 && item.to > item.from)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return this.connector.weekcalendar.hours.some((day) => {
+            return (day.from > 0 || day.to > 0) && day.from < day.to;
+        });
     }
 
     updateSelectedDays() {
