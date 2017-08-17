@@ -205,13 +205,13 @@ export class AddStationPage {
         this.weekdays = [0, 1, 2, 3, 4, 5, 6];
 
         this.days = [
-            this.translateService.instant('monday'),
-            this.translateService.instant('tuesday'),
-            this.translateService.instant('wednesday'),
-            this.translateService.instant('thursday'),
-            this.translateService.instant('friday'),
-            this.translateService.instant('saturday'),
-            this.translateService.instant('sunday')
+            this.translateService.instant('common.monday'),
+            this.translateService.instant('common.tuesday'),
+            this.translateService.instant('common.wednesday'),
+            this.translateService.instant('common.thursday'),
+            this.translateService.instant('common.friday'),
+            this.translateService.instant('common.saturday'),
+            this.translateService.instant('common.sunday')
         ];
 
 
