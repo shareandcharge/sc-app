@@ -57,6 +57,8 @@ $toolbar-ios-button-color: map_get($colors, dark);
 $alert-ios-content-max-height: 325px;
 $alert-ios-button-min-height : 40px;
 
+$label-ios-text-color: map_get($colors, grey_darker);
+
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
@@ -79,6 +81,13 @@ $tabs-wp-tab-opacity: 1;
 $toolbar-wp-button-color: map_get($colors, dark);
 
 $alert-wp-content-max-height: 325px;
+
+
+// Labels
+//-------------------
+$label-small-text-color: #666;
+$label-md-text-color: $label-small-text-color;
+$label-ios-text-color: $label-small-text-color;
 
 // App Theme
 // --------------------------------------------------

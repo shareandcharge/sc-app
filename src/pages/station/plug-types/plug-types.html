@@ -51,7 +51,7 @@
         </ion-list-header>
 
         <ion-item>
-            <ion-label>{{'station.plugtype' | translate}}</ion-label>
+            <ion-label class="label-small">{{'station.plugtype' | translate}}</ion-label>
         </ion-item>
         <ion-item>
             <ion-select [(ngModel)]="connector.plugtype"
@@ -70,7 +70,7 @@
         <div *ngIf="errorMessages.plugType" class="alert-box alert-box-danger" margin>{{ errorMessages.plugType }}</div>
 
         <ion-item>
-            <ion-label>{{'station.power' | translate}}</ion-label>
+            <ion-label class="label-small">{{'station.power' | translate}}</ion-label>
         </ion-item>
         <ion-item>
             <ion-select [(ngModel)]="wattpowerTemp"
