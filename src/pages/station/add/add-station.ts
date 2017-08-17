@@ -424,6 +424,8 @@ export class AddStationPage {
     setAddressFromMarker() {
         let geocoder = new google.maps.Geocoder;
         this.countrySetFromMarker = null;
+        this.errorMessages.country = '';
+
         geocoder.geocode({'location': this.marker.getPosition()}, (results, status) => {
             if (status !== google.maps.GeocoderStatus.OK || !results[0]) return;
 
@@ -435,6 +437,7 @@ export class AddStationPage {
             }
 
             this.countrySetFromMarker = this.extractCountryFromGeocoderResult(results);
+            this.validateCountry();
         });
     }
 
@@ -562,9 +565,8 @@ export class AddStationPage {
         let hasError = false;
         this.clearErrorMessages();
 
-        if (!this.isCountryValid()) {
+        if (!this.validateCountry()) {
             hasError = true;
-            this.errorMessages.country = this.translateService.instant('error_messages.invalid_country');
         }
         if (!this.locObject.address) {
             hasError = true;
@@ -577,6 +579,18 @@ export class AddStationPage {
 
         return !hasError;
     }
+
+    validateCountry(): boolean {
+        this.errorMessages.country = '';
+        
+        if (!this.isCountryValid()) {
+            this.errorMessages.country = this.translateService.instant('error_messages.invalid_country');
+            return false;
+        }
+
+        return true;
+    }
+
 
     isCountryValid() {
         if (null === this.countrySetFromMarker) return false;
