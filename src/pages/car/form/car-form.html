@@ -60,7 +60,7 @@
                     <button ion-item (click)="selectModdel()" detail-none class="lines-inner-bottom">
                         <ion-icon name="ios-list" item-right></ion-icon>
                         <span *ngIf="car.manufacturer == ''">{{ "car.form.manufacturer_and_model" | translate}}</span>
-                        <span *ngIf="car.manufacturer != ''">{{car.manufacturer}} {{car.model}}</span>
+                        <span *ngIf="car.manufacturer != ''">{{car.manufacturer_name}} {{car.model_name}}</span>
                     </button>
                 </ion-list>
             </div>
