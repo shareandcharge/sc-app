@@ -52,8 +52,7 @@ export class MyApp {
             StatusBar.styleDefault();
             Splashscreen.hide();
 
-            //-- deactivated for now as we don't sent any push notifs, yet (#150037805)
-            //this.pushNotificationService.initPushNotification();
+            this.pushNotificationService.initPushNotification();
 
             this.events.subscribe('auth:refresh:user', (checkChargingProcess?) => {
                 this.refreshUser(checkChargingProcess);
@@ -145,24 +144,22 @@ export class MyApp {
     }
 
     updateUserDeviceToken() {
-        //-- deactivated for now as we don't sent any push notifs, yet (#150037805)
+        let deviceToken = this.pushNotificationService.getDeviceToken();
 
-        // let deviceToken = this.pushNotificationService.getDeviceToken();
-        //
-        // if (deviceToken === '') {
-        //     return;
-        // }
-        //
-        // let user = this.authService.getUser();
-        // let currentPlatform = this.platform.is('ios') ? 'ios' : 'android';
-        //
-        // if (!user.deviceTokenExists(deviceToken)) {
-        //     user.addDeviceToken(deviceToken, currentPlatform);
-        //     this.userService.updateUser(user).subscribe((updatedUser) => {
-        //             this.authService.setUser(updatedUser);
-        //         },
-        //         error => this.errorService.displayErrorWithKey(error, this.translateService.instant('_global.data_protection.refresh_user')));
-        // }
+        if (deviceToken === '') {
+            return;
+        }
+
+        let user = this.authService.getUser();
+        let currentPlatform = this.platform.is('ios') ? 'ios' : 'android';
+
+        if (!user.deviceTokenExists(deviceToken)) {
+            user.addDeviceToken(deviceToken, currentPlatform);
+            this.userService.updateUser(user).subscribe((updatedUser) => {
+                    this.authService.setUser(updatedUser);
+                },
+                error => this.errorService.displayErrorWithKey(error, this.translateService.instant('_global.data_protection.refresh_user')));
+        }
     }
 
     /**
