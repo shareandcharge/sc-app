@@ -424,7 +424,6 @@ export class AddStationPage {
     setAddressFromMarker() {
         let geocoder = new google.maps.Geocoder;
         this.countrySetFromMarker = null;
-        this.errorMessages.country = '';
 
         geocoder.geocode({'location': this.marker.getPosition()}, (results, status) => {
             if (status !== google.maps.GeocoderStatus.OK || !results[0]) return;
