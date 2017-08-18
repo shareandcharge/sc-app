@@ -62,6 +62,10 @@ export class TransactionDetailPage {
       return (this.transaction.hasOrder() && this.transaction.order.type == "sofort");
     }
 
+    isPayPalTx(): boolean {
+      return (this.transaction.hasOrder() && this.transaction.order.type == "paypal");
+    }
+    
     resumePaymentProcess() {
       if(this.transaction.hasOrder()) {
         const redirectUrl = this.transaction.order.response.action_data.url;

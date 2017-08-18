@@ -37,7 +37,7 @@
           <ion-col>
             <button ion-button round (click)="resumePaymentProcess()" text-uppercase block>{{'common.resume' | translate}}</button>
           </ion-col>
-          <ion-col *ngIf="!isSofortTx()">
+          <ion-col *ngIf="!isSofortTx() && !isPayPalTx()">
             <button ion-button round (click)="cancelPaymentProcess()" text-uppercase block [ngStyle]="{'background-color': '#A46EF1'}">{{'common.remove' | translate}}</button>
           </ion-col>
         </ion-row>
