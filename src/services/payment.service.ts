@@ -20,7 +20,19 @@ export class PaymentService extends AbstractApiService {
                 res.json().forEach(input => {
                     transactions.push(new Transaction().deserialize(input));
                 });
-                return transactions;
+                let aDate;
+                let bDate;
+                // Order transactions by date
+                return transactions.sort((a, b) => {
+                  aDate = Date.parse(a.date);
+                  bDate = Date.parse(b.date);
+                  if (aDate < bDate) {
+                    return 1;
+                  }
+                  else{
+                    return -1;
+                  }
+                })
             })
             .catch((error) => this.handleError(error));
     }
