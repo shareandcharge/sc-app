@@ -55,16 +55,18 @@ export class TransactionDetailPage {
 
     isResumableTx(): boolean {
 
-      return (this.transaction.order.status == "started" && this.transaction.type === 60);
+      return (this.transaction.hasOrder() && this.transaction.order.status == "started" && this.transaction.type === 60);
     }
 
     isSofortTx(): boolean {
-      return (this.transaction.order.type == "sofort");
+      return (this.transaction.hasOrder() && this.transaction.order.type == "sofort");
     }
 
     resumePaymentProcess() {
-      const redirectUrl = this.transaction.order.response.action_data.url;
-      this.openUrlInApp(redirectUrl);
+      if(this.transaction.hasOrder()) {
+        const redirectUrl = this.transaction.order.response.action_data.url;
+        this.openUrlInApp(redirectUrl);
+      }
     }
 
     cancelPaymentProcess() {
