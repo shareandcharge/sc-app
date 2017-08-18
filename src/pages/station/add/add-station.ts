@@ -582,7 +582,7 @@ export class AddStationPage {
     validateCountry(): boolean {
         this.errorMessages.country = '';
         
-        if (!this.isCountryValid()) {
+        if (!this.isCountryAllowed()) {
             this.errorMessages.country = this.translateService.instant('error_messages.invalid_country');
             return false;
         }
@@ -591,7 +591,7 @@ export class AddStationPage {
     }
 
 
-    isCountryValid() {
+    isCountryAllowed() {
         if (null === this.countrySetFromMarker) return false;
 
         return this.allowedCountries.includes(this.countrySetFromMarker);
