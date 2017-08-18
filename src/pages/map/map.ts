@@ -1,7 +1,7 @@
 import {Component, ViewChild, ElementRef, NgZone} from '@angular/core';
 import {
     NavController, ModalController, LoadingController, PopoverController, Events,
-    FabContainer, ToastController
+    FabContainer, ToastController, App
 } from 'ionic-angular';
 import {Geolocation, InAppBrowser} from 'ionic-native';
 import {Platform} from 'ionic-angular';
@@ -79,7 +79,7 @@ export class MapPage {
                 public carService: CarService, platform: Platform, public navCtrl: NavController,
                 private modalCtrl: ModalController, private loadingCtrl: LoadingController, public events: Events,
                 private chargingService: ChargingService, private zone: NgZone, private errorService: ErrorService,
-                private toastCtrl: ToastController, private translateService: TranslateService) {
+                private toastCtrl: ToastController, private translateService: TranslateService, private app: App) {
         this.platform = platform;
         this.mapDefaultControlls = !this.platform.is("core");
         this.address = {
@@ -124,6 +124,18 @@ export class MapPage {
             //      this (may) fix it
             google.maps.event.trigger(this.map, 'resize');
         }
+
+        /**
+         * We had timing problems with ionic setting the browser title from
+         * <ion-title> before it was translated/before translations were loaded.
+         * That's why we set the title here by hand after translation are loaded.
+         * We use "stream" instead of "get" because at least for FF timing
+         * was still an issue with get; so it had to do with setting/changing the lang.
+         * That's probably only an issue for the first view to be loaded.
+         */
+        this.translateService.stream('map.title').subscribe((res: string) => {
+            this.app.setTitle(res);
+        });
     }
 
     private refreshCarInfo() {

@@ -5,6 +5,7 @@
                 <ion-icon name="search"></ion-icon>
             </button>
         </ion-buttons>
+        <!-- heads up: the page title is re-set in ionViewDidEnter; see comment there -->
         <ion-title>{{ 'map.title'|translate }}</ion-title>
         <ion-buttons end>
             <button ion-button (click)="mapSettingsPopOver($event)" large>
