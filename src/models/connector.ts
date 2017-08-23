@@ -270,26 +270,6 @@ export class Connector {
         return this.priceprovider.public.active || this.priceprovider.private.active;
     }
 
-
-    /*
-     * checks the weekcalendar whether the connector is open at the time of the request.
-     * returns true if the connector is open, false otherwise
-     */
-    isOpen() {
-        let date = new Date();
-
-        // shifts days by one, so mon = 0, tue = 1, ..., sun = 6
-        let day = date.getDay() - 1;
-        if (day === -1) {
-            day = 6;
-        }
-
-        let hour = date.getHours();
-
-        return this.weekcalendar.hours[day].from <= hour
-            && this.weekcalendar.hours[day].to > hour;
-    }
-
     getTitle() {
         return this.description || this.id;
     }
