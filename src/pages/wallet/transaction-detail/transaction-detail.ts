@@ -34,7 +34,6 @@ export class TransactionDetailPage {
     constructor(private navParams: NavParams, private navCtrl: NavController, private events: Events, private platform: Platform, private translateService: TranslateService, private currencyDisplay: CurrencyDisplay, private currencyService: CurrencyService) {
         this.transaction = this.navParams.get('transaction');
         this.wallet = this.navParams.get('wallet');
-        console.log('transaction:', this.transaction);
     }
 
     makeTimeString(data) {
@@ -65,7 +64,7 @@ export class TransactionDetailPage {
     isPayPalTx(): boolean {
       return (this.transaction.hasOrder() && this.transaction.order.type == "paypal");
     }
-    
+
     resumePaymentProcess() {
       if(this.transaction.hasOrder()) {
         const redirectUrl = this.transaction.order.response.action_data.url;
