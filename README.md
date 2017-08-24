@@ -38,7 +38,7 @@ All scripts under `./bin/*` have to be executed from the ROOT directory of this 
 - ***BETTER UNDERSTANDING OPTION*** From the repo root directory: `cp ./src/config/config.ts.dist ./src/config/config.ts && nano ./src/config/config.ts` Update the `API_URL` property to `'http://localhost:3412/v1'`, the `IMAGES_BASE_URL` property to `'http://localhost:3412'` and the `'API_KEY' -> 'param'` property to `'noapikey'` (from `'apikey'`).
 
 ### 2. Feature Toggles
-As of 21.07.17, we are implementing several feature toggles to prepare for upcoming pilot releases.
+As of 24.08.17, we are implementing several feature toggles to prepare for upcoming pilot releases.
 
 All toggles are set in `src/config/config.ts`, and
 
@@ -53,7 +53,23 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
 ##### hide_payment
 Additionally for the US pilot with eMotorwerks, we are hiding the add payment option from the wallet view. Users will not be able to transfer fiat currency in or out of the app account. This will also be removed at a later date.
 
+##### hide_commercial_option
+
+Enabling this option will hide the user option for commercial usage.
+
+##### hide_sc_module
+
+Enabling this option will hide the "Standard" (vanilla) option when adding Charging Poles.
+
+##### show_kwh_tariff
+
+Enabling this option, will let a owner select a kwh-based, metered tariff. 
+
+
+
 Implementation of the feature toggle can be found in `wallet.ts` and `wallet.html` in `src/pages/wallet/` where the `showPayment` is set in the constructor by calling `isPaymentAvailable` on the injected CurrencyService.
+
+
 
 <hr>
 
@@ -76,6 +92,35 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
   ```xml
   <widget id="com.shareandcharge.app" version="{BUMPED_VERSION_NUMBER}" xmlns="...">
   ```
+
+##### While you have the config open:
+We want to provide the info about enabled feature toggles within TestFlight builds, so note which ones you have enabled and make a note similiar to this:
+
+``` 
+if FEATURE_TOGGLES: {
+       show_juicebox_config: false,
+       usd_pilot: false,
+       hide_payment: false,
+       hide_commercial_option: false,
+       hide_sc_module: false,
+       show_kwh_tariff: false
+     }
+
+     
+          ||||
+          vvvv 
+ 
+Running against live/test/staging-Environment (Pick one!)
+
+Features enabled:
+USD: OFF,
+Commercial usage: ON,
+JuiceBox: OFF,
+PayIns / -Outs : ON
+SC-Modules: OFF
+Show-KWH-Tariff: ON
+```
+
 
 #### 2. Set up the provisioning profiles and certificates.
 
