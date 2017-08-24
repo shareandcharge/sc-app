@@ -61,6 +61,10 @@ export class Location implements Serializable<Location> {
         return !this.open;
     }
 
+    isOpen(): boolean {
+        return this.open;
+    }
+
     isMatchingPlugtype(): boolean {
         return this.matchesPlugtype;
     }

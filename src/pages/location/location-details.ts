@@ -1,6 +1,6 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
 import {
-    NavParams, ViewController, Platform, ModalController, AlertController
+    NavParams, ViewController, Platform, ModalController, AlertController, Content
 } from 'ionic-angular';
 import {MapDetailPage} from "./details-map/map";
 import {AddRatingPage} from "../rating/add-rating";
@@ -36,6 +36,8 @@ export class LocationDetailPage {
     connector: Connector;
 
     slideOptions: any;
+
+    @ViewChild(Content) content: Content;
     @ViewChild('map') mapElement: ElementRef;
     map: any;
     defaultZoom = 16;
@@ -138,6 +140,14 @@ export class LocationDetailPage {
                 this.isBusy = this.locationService.isBusy(location);
             }
         );
+    }
+
+    ionViewDidEnter() {
+        /**
+         * We need this so the content adjusts to the differing footer height.
+         * Height changes because of changing buttons/contents in the footer.
+         */
+        this.content.resize();
     }
 
     dismiss() {
