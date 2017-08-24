@@ -65,23 +65,22 @@ export class AddMoneyPage {
     addMoney() {
         this.payInButtonDisabled = true;
         this.payInObject.amount = this.convertToDecimal(this.displayAmount) * 100;
-        this.payInObject.details.cardId = this.cardId;
+          this.payInObject.details.cardId = this.cardId;
+          this.trackerService.track('Account Info Added', {
+              'Payment method': this.payInObject.type,
+              'Timestamp': ''
+          });
 
-        this.trackerService.track('Account Info Added', {
-            'Payment method': this.payInObject.type,
-            'Timestamp': ''
-        });
-
-        this.paymentService.payIn(this.payInObject).subscribe(
-            (response) => {
-                if (response.client_action === 'redirect') {
-                    this.showExternalPaymentScreen(response.action_data.url).then(() => {
-                        this.dismiss();
-                    });
-                }
-            },
-            error => this.errorService.displayErrorWithKey(error, 'error.scope.wallet_payin')
-        );
+          this.paymentService.payIn(this.payInObject).subscribe(
+              (response) => {
+                  if (response.client_action === 'redirect') {
+                      this.showExternalPaymentScreen(response.action_data.url).then(() => {
+                          this.dismiss();
+                      });
+                  }
+              },
+              error => this.errorService.displayErrorWithKey(error, 'error.scope.wallet_payin')
+          );
     }
 
     showExternalPaymentScreen(redirectUrl) {

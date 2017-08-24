@@ -46,11 +46,13 @@
 
     <div class="input-box input-box-white input-box-xl margin-bottom-xl">
         <div class="input-box-inner">
-            <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="0"></ion-input>
+            <ion-input type="tel" [(ngModel)]="displayAmount" placeholder="5"></ion-input>
             <label>{{ (currency) }}</label>
+          <div text-center>
+            <ion-label class="label-small">{{"1 - 100 €"}}</ion-label>
+          </div>
         </div>
     </div>
-
 
     <div *ngIf="payInObject.type=='dd'">
         <ion-list>
@@ -67,7 +69,7 @@
     </div>
 
     <div padding text-center>
-        <button ion-button (click)="addMoney()" round text-uppercase="" [disabled]="!displayAmount || displayAmount<=0 || payInButtonDisabled">
+        <button ion-button (click)="addMoney()" round text-uppercase="" [disabled]="!displayAmount || this.convertToDecimal(displayAmount)<1.0 || payInButtonDisabled">
             {{ 'add_money.add_to_account' | translate }}
         </button>
     </div>
