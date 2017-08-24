@@ -9,7 +9,7 @@ export class accuCapacityValidator {
             };
         }
 
-        if (control.value > 150) {
+        if (control.value > 250) {
             return {
                 "too big": true
             };
