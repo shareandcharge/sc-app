@@ -69,7 +69,7 @@
     </div>
 
     <div padding text-center>
-        <button ion-button (click)="addMoney()" round text-uppercase="" [disabled]="!displayAmount || this.convertToDecimal(displayAmount)<1.0 || payInButtonDisabled">
+        <button ion-button (click)="addMoney()" round text-uppercase="" [disabled]="!displayAmount || this.convertToDecimal(displayAmount)<1.0 || this.convertToDecimal(displayAmount)>100.0 || payInButtonDisabled">
             {{ 'add_money.add_to_account' | translate }}
         </button>
     </div>
