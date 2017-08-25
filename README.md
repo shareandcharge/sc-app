@@ -19,14 +19,24 @@ To serve the app, run `ionic serve`
   - java jre & sdk (Version 8)
   - cocoapods ('gem install cocoapods && pod setup')
 
-### BE SURE TO HAVE NVM INSTALLED! Look at the wiki!
+### 2. Install NVM and Node 6
+  - Instal NVM `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash`
+  - Close and open your terminal, otherwise it does not take effect
+  - Confirm the installation `command -v nvm`
+  - Install the right version of node for building the App `nvm install 6.11.0`
+  - Use the version `nvm use 6.11.0`
+  
 
-### 2. Set up  the machine and environment to require the proper dependencies & versions by running the configuration scripts located in the `./bin directory`
+### 3. Set up  the machine and environment to require the proper dependencies & versions by running the configuration scripts located in the `./bin directory`
+  Important: You might need to run these commands as SUDO
+  
   a. Run the box-setup script to ensure the right node version npm packages and ruby build tools are installed.(Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations)
   ```./bin/box-setup.sh```
 
   b. Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process.
   ```./bin/prepare-build.sh```
+  
+
 
 ##### TODO: Implement error handling for scripts in `./bin`
 All scripts under `./bin/*` have to be executed from the ROOT directory of this project. Please be aware of that the existing scripts under `./bin` are not handling any exceptions right now.
@@ -180,6 +190,7 @@ Build Steps:
 4. Make sure you have obtained the keystore as well as the passwords to unlock the key and sign the apk (key and keystore respectively)
 `./apksigner sign --ks <FULL_KEYSTORE_PATH>/share-and-charge.keystore --ks-key-alias share_and_charge <FULL_APK_PATH>/ShareAndCharge-1.0.713.apk
 //share_and_charge is the alias the keystore`
+5. The password for the keystore is on the pass-store and the keystore file is with Joe (TODO: Put this file somewhere)
 5. Verifiy the apk with
 `./apksigner verify <FULL_APK_PATH>/ShareAndCharge-1.0.713.apk`
 6. Log into the google play dev console to
@@ -205,7 +216,6 @@ double-check that apk is not debuggable:
 `$ aapt dump xmltree android--unsigned.apk AndroidManifest.xml | grep debug`
 should be empty or false.
 
-If you don't have the keystore and/or passwords, ask Felix Magdeburg <felix.magdeburg@innogy.com>.
 
 <hr>
 
