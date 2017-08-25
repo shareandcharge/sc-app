@@ -19,6 +19,8 @@ To serve the app, run `ionic serve`
   - java jre & sdk (Version 8)
   - cocoapods ('gem install cocoapods && pod setup')
 
+### BE SURE TO HAVE NVM INSTALLED! Look at the wiki!
+
 ### 2. Set up  the machine and environment to require the proper dependencies & versions by running the configuration scripts located in the `./bin directory`
   a. Run the box-setup script to ensure the right node version npm packages and ruby build tools are installed.(Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations)
   ```./bin/box-setup.sh```
@@ -165,6 +167,13 @@ You should then be able to log into iTunes Connect with the PO's credentials.
 
 Currently, the manual process we are phasing out is as follows:
 
+Preparation steps:
+ - `ionic platform rm Android`
+ - `rm -rf platforms`
+ - `ionic platform add android`
+ - Open your android studio and install/accept the license for APK 26/25/24
+ 
+Build Steps:
 1. Build the unsigned APK by running `$ ionic build android --prod --release`
 2. Change directories to the APK output path `$ cd <TO_APK_OUTPUT_PATH> ` or `platforms/android/build/outputs/apk`
 3. Run zipalign to define the versionnumber `./zipalign -v 4 <FULL_APK_PATH>/android-release-unsigned.apk ShareAndCharge-1.0.713.apk`
