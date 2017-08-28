@@ -29,6 +29,9 @@
         </button>
         <form [formGroup]="carForm">
             <ion-list no-lines>
+              <ion-label text-center="true">
+                {{'car.form.plate_label' | translate}}
+              </ion-label>
                 <ion-item class="input-plate">
                     <ion-input type="text" [(ngModel)]="car.plateNumber"
                                formControlName="plateNumber"
