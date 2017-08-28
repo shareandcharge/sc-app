@@ -10,7 +10,9 @@
     <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
         <ion-list no-lines="">
             <ion-item>
-                <ion-label floating>{{'profile.data.company' | translate}}</ion-label>
+                <ion-label>{{'profile.data.company' | translate}}</ion-label>
+            </ion-item>
+            <ion-item>
                 <ion-input type="text" class="input-white" [(ngModel)]="user.profile.company"
                            formControlName="company"></ion-input>
             </ion-item>
@@ -20,7 +22,9 @@
             </div>
 
             <ion-item>
-                <ion-label floating>{{'profile.data.first_name' | translate}}</ion-label>
+                <ion-label>{{'profile.data.first_name' | translate}}</ion-label>
+            </ion-item>
+            <ion-item>
                 <ion-input type="text" class="input-white" [(ngModel)]="user.profile.firstname"
                            formControlName="firstName"></ion-input>
             </ion-item>
@@ -29,7 +33,9 @@
                 {{ errorMessages.firstName }}
             </div>
             <ion-item>
-                <ion-label floating>{{'profile.data.family_name' | translate}}</ion-label>
+                <ion-label>{{'profile.data.family_name' | translate}}</ion-label>
+            </ion-item>
+            <ion-item>
                 <ion-input type="text" class="input-white" formControlName="lastName"
                            [(ngModel)]="user.profile.lastname"></ion-input>
             </ion-item>
@@ -38,7 +44,9 @@
                 {{ errorMessages.lastName }}
             </div>
             <ion-item>
-                <ion-label floating>{{'profile.data.street_house_number' | translate}}</ion-label>
+                <ion-label>{{'profile.data.street_house_number' | translate}}</ion-label>
+            </ion-item>
+            <ion-item>
                 <ion-input type="text" class="input-white" formControlName="address"
                            [(ngModel)]="user.profile.address"></ion-input>
             </ion-item>
@@ -47,7 +55,9 @@
                 {{ errorMessages.address }}
             </div>
             <ion-item>
-                <ion-label floating>{{'profile.data.zipcode' | translate}}</ion-label>
+                <ion-label>{{'profile.data.zipcode' | translate}}</ion-label>
+            </ion-item>
+            <ion-item>
                 <ion-input type="tel" class="input-white" formControlName="postalCode"
                            [(ngModel)]="user.profile.postalCode"></ion-input>
             </ion-item>
@@ -57,12 +67,16 @@
                 <ion-icon class="help-icon" name="ios-help-circle-outline" item-right (click)="showHelp('postalCode')"></ion-icon>
             </div>
             <ion-item>
-                <ion-label floating>{{'profile.data.city' | translate}}</ion-label>
+                <ion-label>{{'profile.data.city' | translate}}</ion-label>
+            </ion-item>
+            <ion-item>
                 <ion-input type="text" class="input-white" formControlName="city"
                            [(ngModel)]="user.profile.city"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>{{'profile.data.state' | translate}}</ion-label>
+                <ion-label>{{'profile.data.state' | translate}}</ion-label>
+            </ion-item>
+            <ion-item>
                 <ion-input type="text" class="input-white" formControlName="state"
                            [(ngModel)]="user.profile.state"></ion-input>
             </ion-item>
