@@ -43,6 +43,7 @@ To serve the app, run `ionic serve`
   b. Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process.
   ```./bin/prepare-build.sh```
   
+    If you have issues with Node-Sass, please run `npm rebuild node-sass`
 
 
 ##### TODO: Implement error handling for scripts in `./bin`
