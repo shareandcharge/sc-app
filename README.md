@@ -32,6 +32,11 @@ To serve the app, run `ionic serve`
   
   a. Run the box-setup script to ensure the right node version npm packages and ruby build tools are installed.(Be aware that it probably will destroy/change your node, npm, and possible ionic/cordova - installations)
   ```./bin/box-setup.sh```
+  
+  If you face problems while running this part, check your xcode installation.
+    1 - Open Xcode and accept the license terms
+    2 - Check your installation with `x
+  ```./bin/box-setup.sh```code
 
   b. Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process.
   ```./bin/prepare-build.sh```
