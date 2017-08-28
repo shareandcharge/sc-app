@@ -144,6 +144,8 @@ Show-KWH-Tariff: ON
 
 #### 2. Set up the provisioning profiles and certificates.
 
+First you need the RWEITDistributionKey.p12 file - Get this with someone until we have a place to store it.
+
 ##### At the moment this process requires manual configuration of the certificates and profiles. Until we are managing certs and profiles with Fastlane Match, you need to be given the matching distribution certificate and profile, as well as register a developer profile and download the corresponding certificate under the PO's Apple Developer account.
 
   Open the project in Xcode (output path is `/platforms/ios/ShareCharge.xcodeproj`). Make sure the the signing section under ShareCharge Targets has the following:
