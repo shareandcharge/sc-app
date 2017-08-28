@@ -17,8 +17,7 @@ To serve the app, run `ionic serve`
   - full xcode & xcode CLI
   - android studio, android sdk
   - java jre & sdk (Version 8)
-  
-  - cocoapods ('gem install cocoapods && pod setup') 
+  - cocoapods ('gem install cocoapods && pod setup') 
      Change the access mode of the folder to 777 `sudo chmod -R 777 folder`
 
 ### 2. Install NVM and Node 6
