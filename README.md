@@ -35,8 +35,10 @@ To serve the app, run `ionic serve`
   
   If you face problems while running this part, check your xcode installation.
     1 - Open Xcode and accept the license terms
-    2 - Check your installation with `x
-  ```./bin/box-setup.sh```code
+    2 - Check your installation with `xcode-select -p`
+    3 - It should point to `/Applications/Xcode.app/Contents/Developer`
+    4 - If it does not, then run `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
+    
 
   b. Run the prepare-build script to download the required npm packages prepare the ionic build process. Fastlane will eventually take care of this process.
   ```./bin/prepare-build.sh```
