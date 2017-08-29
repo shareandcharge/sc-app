@@ -184,6 +184,16 @@ Note: This option is currently blocked.
 
 You should then be able to log into iTunes Connect with the PO's credentials.
 
+if you encounter issues regarding
+
+```Code signing is required for product type 'Application' in SDK 'iOS 10.3'```
+See stackoverflow:
+https://stackoverflow.com/questions/37806538/code-signing-is-required-for-product-type-application-in-sdk-ios-10-0-stic
+
+You can set signing to non-auto:
+![](/src/assets/images/cert_management/build_generic.png)
+
+
 ### Android
 
 Currently, the manual process we are phasing out is as follows:
