@@ -223,8 +223,12 @@ Build Steps:
 3. Make sure you have obtained the keystore as well as the passwords to unlock the key and sign the apk (key and keystore respectively)
 `$ jarsigner -verbose -tsa http://timestamp.digicert.com -sigalg SHA1withRSA -digestalg SHA1 -keystore <PATH_TO_KEYSTORE>/share-and-charge.keystore android--unsigned.apk share_and_charge
 //share_and_charge is the alias the keystore`
-4. Run zipalign
+4. Run zipalign 
 `$ zipalign -v 4 android--unsigned.apk ShareAndCharge-<VERSION_NUMBER>.apk`
+  4b) if it fails, you might have to try the direct path to zipalign,
+  example on how to rock Hildegards world:
+  ```/Users/innogydigitallab/Library/Android/sdk/build-tools/26.0.1/zipalign -v 4 /Users/innogydigitallab/Workspace/motionwerk/sc-app/platforms/android/build/outputs/apk/android-release-unsigned.apk  ShareAndCharge-1.0.718.apk ```
+  
 5. Log into the google play dev console to
 
 NOTE: The following command includes the absolute paths for the project and keystores with the new fastlane integration
