@@ -191,7 +191,7 @@ See stackoverflow:
 https://stackoverflow.com/questions/37806538/code-signing-is-required-for-product-type-application-in-sdk-ios-10-0-stic
 
 You can set signing to non-auto:
-![](/src/assets/images/cert_management/build_generic.png)
+![](/src/assets/images/cert_management/non-auto-signing.png)
 
 
 ### Android
