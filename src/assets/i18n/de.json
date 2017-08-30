@@ -353,6 +353,7 @@
       "list_plugins": "Liste - Steckertypen"
     },
     "settings": {
+      "title": "Einstellungen",
       "view": "Ansicht",
       "map_view": "Kartenansicht",
       "list_view": "Listenansicht",

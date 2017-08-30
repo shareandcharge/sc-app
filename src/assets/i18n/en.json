@@ -352,6 +352,7 @@
       "list_plugins": "List plug type"
     },
     "settings": {
+      "title": "Settings",
       "view": "View",
       "map_view": "Map view",
       "list_view": "List view",

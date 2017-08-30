@@ -395,18 +395,16 @@ export class MapPage {
         }
     }
 
-    mapSettingsPopOver(e) {
-        let popover = this.popoverCtrl.create(MapSettingsPage, {
+    mapSettingsOpen() {
+        let settings = this.modalCtrl.create(MapSettingsPage, {
             map: this.map,
             setViewType: this.setViewType,
             getViewType: this.getViewType
         });
 
-        popover.present({
-            ev: e
-        });
+        settings.present();
 
-        popover.onDidDismiss((data?) => {
+        settings.onDidDismiss((data?) => {
             if (data && data.action) {
                 switch (data.action) {
                     case 'refresh':
