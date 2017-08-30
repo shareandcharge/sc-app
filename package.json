@@ -6,9 +6,10 @@
     "scripts": {
         "clean": "ionic-app-scripts clean",
         "build": "ionic-app-scripts build",
+        "tslint": "ionic-app-scripts lint",
         "live": "cp src/config/config.ts.live src/config/config.ts; npm run build; cp -r www/* live/",
         "test": "cp src/config/config.ts.test src/config/config.ts; npm run build; cp -r www/* test/",
-	      "test2": "cp src/config/config.ts.test2 src/config/config.ts; npm run build; cp -r www/* test2/",
+        "test2": "cp src/config/config.ts.test2 src/config/config.ts; npm run build; cp -r www/* test2/",
         "staging2": "cp src/config/config.ts.staging2 src/config/config.ts; npm run build; cp -r www/* staging2/",
         "ionic:build": "ionic-app-scripts build",
         "ionic:serve": "ionic-app-scripts serve"
@@ -57,6 +58,7 @@
     },
     "devDependencies": {
         "@ionic/app-scripts": "1.1.4",
+        "pre-commit": "^1.2.2",
         "typescript": "2.0.9"
     },
     "cordovaPlugins": [
@@ -129,5 +131,11 @@
             "ionic-plugin-keyboard": {},
             "uk.co.workingedge.phonegap.plugin.launchnavigator": {}
         }
-    }
+    },
+    "config": {
+        "ionic_bail_on_lint_error": true
+    },
+    "pre-commit": [
+        "tslint"
+    ]
 }
