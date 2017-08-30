@@ -244,7 +244,7 @@
       "add_new_car": "Add new e-car",
       "message_platenumber": "e.g. : AA-BB 777",
       "message_max_charging": "max. 200",
-      "message_accu_capacity": "max. 150",
+      "message_accu_capacity": "max. 250",
       "message_average_distance": "max. 1000, whole numbers.",
       "info": "Info"
     }
