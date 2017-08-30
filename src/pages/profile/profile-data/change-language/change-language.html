@@ -1,0 +1,16 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>{{'profile.data.change_language' | translate}}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <ion-list radio-group [(ngModel)]="selectedLanguage" (ionChange)="languageSelected()">
+        <ion-item *ngFor="let item of languages">
+            <ion-label>{{('language.' + item)|translate}}</ion-label>
+            <ion-radio value="{{item}}"></ion-radio>
+        </ion-item>
+    </ion-list>
+</ion-content>

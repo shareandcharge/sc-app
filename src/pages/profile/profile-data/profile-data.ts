@@ -12,6 +12,7 @@ import {EditProfilePage} from "./edit-profile/edit-profile";
 import {ErrorService} from "../../../services/error.service";
 import {EditPasswordPage} from "./edit-password/edit-password";
 import {TranslateService} from "@ngx-translate/core";
+import {ChangeLanguagePage} from "./change-language/change-language";
 
 
 @Component({
@@ -103,6 +104,12 @@ export class ProfileDataPage {
 
     editPassword() {
         this.navCtrl.push(EditPasswordPage, {
+            'user': this.user
+        });
+    }
+
+    changeLanguage() {
+        this.navCtrl.push(ChangeLanguagePage, {
             'user': this.user
         });
     }

@@ -35,6 +35,7 @@ import {PlugTypesPage} from '../pages/station/plug-types/plug-types';
 import {CarWrapperPage} from "../pages/car/car-wrapper";
 import {AddPermissionsPage} from '../pages/station/set-tariff/add-permissions/add-permissions';
 import {EditEmailPage} from "../pages/profile/profile-data/edit-email/edit-email";
+import {ChangeLanguagePage} from "../pages/profile/profile-data/change-language/change-language";
 import {AddRatingPage} from "../pages/rating/add-rating";
 import {StationWrapperPage} from "../pages/station/station-wrapper";
 import {ChargingPage} from "../pages/location/charging/charging";
@@ -121,6 +122,7 @@ export function createTranslateLoader(http: Http) {
         AddPermissionsPage,
         TabsPage,
         EditEmailPage,
+        ChangeLanguagePage,
         StationWrapperPage,
         ChargingPage,
         ChargingCompletePage,
@@ -184,6 +186,7 @@ export function createTranslateLoader(http: Http) {
         AddPermissionsPage,
         TabsPage,
         EditEmailPage,
+        ChangeLanguagePage,
         StationWrapperPage,
         ChargingPage,
         ChargingCompletePage,

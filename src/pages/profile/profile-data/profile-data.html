@@ -32,6 +32,9 @@
         <button ion-item (click)="resendVerificationEmail()" *ngIf="!user.isEmailVerified()">
             {{ 'profile.data.resend_confirmation' | translate }}
         </button>
+        <button ion-item (click)="changeLanguage()">
+            {{ 'profile.data.change_language' | translate }}
+        </button>
         <button ion-item (click)="deleteAccountConfirm()" class="color-secondary">
             {{ 'profile.data.delete_profile' | translate }}
         </button>
