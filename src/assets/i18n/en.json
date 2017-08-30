@@ -473,7 +473,7 @@
     "days": "Days",
     "choose": "Please select ...",
     "contact_person": "Contact Person",
-    "description": "",
+    "description": "Pole description",
     "save_changes": "Save changes",
     "data_incomplete": "Data incomplete",
     "msg_complete_profile": "If you want to register a charging station, please complete your profile.",

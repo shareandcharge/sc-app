@@ -474,7 +474,7 @@
     "days": "Tage",
     "choose": "Bitte wählen ...",
     "contact_person": "Kontaktperson",
-    "description": "",
+    "description": "Beschreibung der Ladestation",
     "save_changes": "Änderungen speichern",
     "data_incomplete": "Daten unvollständig",
     "msg_complete_profile": "Um eine Ladestation hinzufügen zu können, musst Du zunächst Dein Profil vervollständigen.",
