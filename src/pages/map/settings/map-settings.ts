@@ -47,10 +47,10 @@ export class MapSettingsPage {
             const user = this.authService.getUser();
             if (user.getLanguage() !== this.selectedLanguage) {
                 user.setLanguage(this.selectedLanguage);
-                this.userService.updateUserAndPublish(user).then();
+                this.userService.updateUserAndPublish(user);
             }
         }
-        this.viewCtrl.dismiss(data).then();
+        this.viewCtrl.dismiss(data);
     }
 
     setMapView(type) {

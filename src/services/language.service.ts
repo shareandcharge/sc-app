@@ -46,7 +46,7 @@ export class LanguageService {
      */
     use(lang: string) {
         this.translateService.use(lang);
-        this.saveLanguage(lang).then();
+        this.saveLanguage(lang);
     }
 
     saveLanguage(lang: string): Promise<any> {
@@ -70,7 +70,7 @@ export class LanguageService {
         else {
             user.setLanguage(this.translateService.currentLang);
             /* we don't want to trigger the user:refresh event here */
-            this.userService.updateUserAndPublish(user, undefined, true).then();
+            this.userService.updateUserAndPublish(user, undefined, true);
         }
     }
 }

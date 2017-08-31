@@ -75,7 +75,7 @@ export class ProfileDataPage {
             targetHeight: 1000
         }).then((imageData) => {
             this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
-            this.userService.updateUserAndPublish(this.user).then();
+            this.userService.updateUserAndPublish(this.user);
         });
     }
 
