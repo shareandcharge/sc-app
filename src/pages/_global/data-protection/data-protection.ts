@@ -1,12 +1,10 @@
 import {Component} from '@angular/core';
-import {Events, ViewController} from 'ionic-angular';
-import {ConfigService} from "../../../services/config.service";
+import {ViewController} from 'ionic-angular';
 import {InAppBrowser} from "ionic-native";
 import {TrackerService} from "../../../services/tracker.service";
 import {AuthService} from "../../../services/auth.service";
 import {User} from "../../../models/user";
 import {UserService} from "../../../services/user.service";
-import {ErrorService} from "../../../services/error.service";
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
@@ -17,9 +15,9 @@ export class DataProtectionPage {
 
     isTrackingDisabled: boolean = true;
 
-    constructor(private viewCtrl: ViewController, private configService: ConfigService,
-                private trackerService: TrackerService, private translateService: TranslateService, private authService: AuthService,
-                private userService: UserService, private events: Events, private errorService: ErrorService) {
+    constructor(private viewCtrl: ViewController, private trackerService: TrackerService,
+                private translateService: TranslateService, private authService: AuthService,
+                private userService: UserService) {
     }
 
     ionViewWillEnter() {
@@ -51,14 +49,7 @@ export class DataProtectionPage {
                 user.trackingEnable();
             }
 
-            this.userService.updateUser(user)
-                .subscribe(
-                    (user: User) => {
-                        this.authService.setUser(user);
-                        this.events.publish('users:updated');
-                    },
-                    error => this.errorService.displayErrorWithKey(error, this.translateService.instant('_global.data_protection.refresh_user')));
-
+            this.userService.updateUserAndPublish(user);
         }
     }
 
