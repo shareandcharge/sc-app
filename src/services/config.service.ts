@@ -83,7 +83,7 @@ export class ConfigService {
      * AVAILABLE_LANGUAGES
      * @returns {any}
      */
-    getDefaultLanguage(): string[] {
+    getDefaultLanguage(): string {
         return this.get('DEFAULT_LANGUAGE');
     }
 }

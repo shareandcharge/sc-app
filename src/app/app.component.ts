@@ -18,9 +18,11 @@ import {TrackerService} from "../services/tracker.service";
 import {ChargingCompletePage} from "../pages/location/charging/charging-complete/charging-complete";
 import {User} from "../models/user";
 import {CurrencyService} from "../services/currency.service";
+import {LanguageService} from "../services/language.service";
 
 @Component({
-    template: `<ion-nav [root]="rootPage"></ion-nav>`,
+    template: `
+        <ion-nav [root]="rootPage"></ion-nav>`,
     providers: [CurrencyService]
 })
 export class MyApp {
@@ -33,12 +35,15 @@ export class MyApp {
                 public storage: Storage, private translateService: TranslateService, private config: Config,
                 private pushNotificationService: PushNotificationService, private errorService: ErrorService,
                 private ionicApp: IonicApp, private menuCtrl: MenuController, private alertCtrl: AlertController,
-                private trackerService: TrackerService, private toastCtrl: ToastController) {
+                private trackerService: TrackerService, private toastCtrl: ToastController,
+                private languageService: LanguageService) {
 
 
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
+
+            this.languageService.initLanguage();
 
             trackerService.init();
 
@@ -67,6 +72,7 @@ export class MyApp {
                 this.updateUserDeviceToken();
                 this.checkChargingProgress();
                 this.checkTrackingOnLogin();
+                this.languageService.setLanguageFromUser();
             });
 
             this.events.subscribe('auth:logout', () => {
@@ -77,10 +83,6 @@ export class MyApp {
                 this.chargingLapsed();
                 this.events.publish('locations:updated');
             });
-
-            const userLang = navigator.language.split('-')[0]; // use navigator lang if available
-            translateService.setDefaultLang("en");
-            translateService.use(userLang);
 
             this.checkExistingToken();
 
@@ -130,6 +132,7 @@ export class MyApp {
         this.userService.getUser().subscribe(
             (user) => {
                 this.authService.setUser(user);
+                this.languageService.setLanguageFromUser();
                 if (checkChargingProcess) {
                     this.checkChargingProgress();
                 }

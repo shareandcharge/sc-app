@@ -131,15 +131,18 @@ export class UserService extends AbstractApiService {
      * It does _NOT_ call reject for the promise.
      * @param user
      * @param scope
+     * @param quiet
      * @returns {Promise<User>}
      */
-    updateUserAndPublish(user: User, scope: string = 'error.scope.update_user'): Promise<User> {
+    updateUserAndPublish(user: User, scope: string = 'error.scope.update_user', quiet: boolean = false): Promise<User> {
         return new Promise<User>((resolve) => {
             this.updateUser(user)
                 .subscribe(
                     () => {
                         this.authService.setUser(user);
-                        this.events.publish('users:updated');
+                        if (!quiet) {
+                            this.events.publish('users:updated');
+                        }
                         resolve(user);
                     },
                     error => {

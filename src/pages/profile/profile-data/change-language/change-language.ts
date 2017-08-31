@@ -5,6 +5,7 @@ import {UserService} from "../../../../services/user.service";
 import {ConfigService} from "../../../../services/config.service";
 import {TranslateService} from "@ngx-translate/core";
 import {AuthService} from "../../../../services/auth.service";
+import {LanguageService} from "../../../../services/language.service";
 
 
 @Component({
@@ -18,7 +19,8 @@ export class ChangeLanguagePage {
     selectedLanguage: string;
 
     constructor(private userService: UserService, public navCtrl: NavController, configService: ConfigService,
-                private authService: AuthService, private translateService: TranslateService) {
+                private authService: AuthService, private translateService: TranslateService,
+                private languageService: LanguageService) {
         this.user = this.authService.getUser();
         this.selectedLanguage = translateService.currentLang;
         this.languages = configService.getAvailableLanguages();
@@ -32,6 +34,6 @@ export class ChangeLanguagePage {
     }
 
     languageSelected() {
-        this.translateService.use(this.selectedLanguage);
+        this.languageService.use(this.selectedLanguage);
     }
 }

@@ -3,6 +3,8 @@ import {NavController, ViewController, NavParams} from 'ionic-angular';
 import {ConfigService} from "../../../services/config.service";
 import {TranslateService} from "@ngx-translate/core";
 import {AuthService} from "../../../services/auth.service";
+import {UserService} from "../../../services/user.service";
+import {LanguageService} from "../../../services/language.service";
 
 declare var google;
 
@@ -28,7 +30,7 @@ export class MapSettingsPage {
 
     constructor(public navCtrl: NavController, private viewCtrl: ViewController, private navParams: NavParams,
                 private configService: ConfigService, private translateService: TranslateService,
-                private authService: AuthService) {
+                private authService: AuthService, private userService: UserService, private languageService: LanguageService) {
         this.map = navParams.get("map");
         this.setViewType = navParams.get('setViewType');
         this.getViewType = navParams.get('getViewType');
@@ -39,9 +41,13 @@ export class MapSettingsPage {
         this.languages = configService.getAvailableLanguages();
     }
 
+
     dismiss(data?) {
-        if (this.authService.loggedIn() && this.authService.getUser().getLanguage() !== this.selectedLanguage) {
-            console.log('UPDATE');
+        if (this.authService.loggedIn()) {
+            const user = this.authService.getUser();
+            if (user.getLanguage() !== this.selectedLanguage) {
+                this.userService.updateUserAndPublish(user).then();
+            }
         }
         this.viewCtrl.dismiss(data).then();
     }
@@ -57,10 +63,10 @@ export class MapSettingsPage {
     setView = (view) => {
         this.setViewType(view);
         this.dismiss();
-    }
+    };
 
     setLanguage() {
-        this.translateService.use(this.selectedLanguage);
+        this.languageService.use(this.selectedLanguage);
     }
 
 }

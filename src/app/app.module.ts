@@ -69,6 +69,7 @@ import {HttpService} from "../services/http.service";
 import {PushNotificationService} from "../services/push.notification.service";
 import {TrackerService} from "../services/tracker.service";
 import {CurrencyService} from "../services/currency.service";
+import {LanguageService} from "../services/language.service";
 import {JuiceBoxPage} from "../pages/station/juice-box/juice-box";
 
 let storage = new Storage();
@@ -226,7 +227,8 @@ export function createTranslateLoader(http: Http) {
         HttpService,
         PushNotificationService,
         TrackerService,
-        CurrencyService
+        CurrencyService,
+        LanguageService
     ]
 })
 export class AppModule {
