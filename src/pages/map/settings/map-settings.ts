@@ -46,6 +46,7 @@ export class MapSettingsPage {
         if (this.authService.loggedIn()) {
             const user = this.authService.getUser();
             if (user.getLanguage() !== this.selectedLanguage) {
+                user.setLanguage(this.selectedLanguage);
                 this.userService.updateUserAndPublish(user).then();
             }
         }
