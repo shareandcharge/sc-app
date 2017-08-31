@@ -180,6 +180,10 @@
     "resume": "Resume",
     "remove" : "Remove"
   },
+  "language": {
+    "de": "German",
+    "en": "English"
+  },
   "app": {
     "cancel_app": "Cancel the app",
     "cancel_app_ok": "Yes, close the app",
@@ -348,6 +352,7 @@
       "list_plugins": "List plug type"
     },
     "settings": {
+      "title": "Settings",
       "view": "View",
       "map_view": "Map view",
       "list_view": "List view",
@@ -437,6 +442,7 @@
       "data": "Profile data",
       "name_address": "Name and address",
       "resend_confirmation": "Resend confirmation",
+      "change_language": "Change language",
       "delete_profile": "Delete profile",
       "choose_picture": "Select picture",
       "camera": "Camera",

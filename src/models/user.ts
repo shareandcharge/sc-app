@@ -113,6 +113,18 @@ export class User implements Serializable<User> {
         return !this.isTrackingDisabled();
     }
 
+    getLanguage(): string|null {
+        return this.profile.language || null;
+    }
+
+    setLanguage(language) {
+        this.profile.language = language;
+    }
+
+    hasLanguage(): boolean {
+        return typeof this.profile.language !== 'undefined';
+    }
+
     deserialize(input) {
         this.id = input.id;
         this.email = input.email;

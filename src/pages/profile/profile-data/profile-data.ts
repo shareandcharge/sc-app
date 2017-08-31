@@ -12,6 +12,7 @@ import {EditProfilePage} from "./edit-profile/edit-profile";
 import {ErrorService} from "../../../services/error.service";
 import {EditPasswordPage} from "./edit-password/edit-password";
 import {TranslateService} from "@ngx-translate/core";
+import {ChangeLanguagePage} from "./change-language/change-language";
 
 
 @Component({
@@ -74,37 +75,24 @@ export class ProfileDataPage {
             targetHeight: 1000
         }).then((imageData) => {
             this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
-            this.updateUser();
-
+            this.userService.updateUserAndPublish(this.user);
         });
-    }
-
-    updateUser() {
-        this.userService.updateUser(this.user)
-            .subscribe(
-                () => {
-                    this.authService.setUser(this.user);
-                    this.events.publish('users:updated');
-                },
-                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
     }
 
     editEmail() {
-        this.navCtrl.push(EditEmailPage, {
-            'user': this.user
-        });
+        this.navCtrl.push(EditEmailPage);
     }
 
     editProfile() {
-        this.navCtrl.push(EditProfilePage, {
-            'user': this.user
-        });
+        this.navCtrl.push(EditProfilePage);
     }
 
     editPassword() {
-        this.navCtrl.push(EditPasswordPage, {
-            'user': this.user
-        });
+        this.navCtrl.push(EditPasswordPage);
+    }
+
+    changeLanguage() {
+        this.navCtrl.push(ChangeLanguagePage);
     }
 
     resendVerificationEmail() {
@@ -127,7 +115,7 @@ export class ProfileDataPage {
             message: this.translateService.instant('profile.data.confirm_delete_message'),
             buttons: [
                 {
-                    text:  this.translateService.instant('common.cancel'),
+                    text: this.translateService.instant('common.cancel'),
                     role: 'cancel'
                 },
                 {

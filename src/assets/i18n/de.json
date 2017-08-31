@@ -180,6 +180,10 @@
     "resume": "Fortsetzen",
     "remove" : "Entfernen"
   },
+  "language": {
+    "de": "Deutsch",
+    "en": "Englisch"
+  },
   "app": {
     "cancel_app": "Möchten Sie die App beenden?",
     "cancel_app_ok": "Ja, App beenden",
@@ -349,6 +353,7 @@
       "list_plugins": "Liste - Steckertypen"
     },
     "settings": {
+      "title": "Einstellungen",
       "view": "Ansicht",
       "map_view": "Kartenansicht",
       "list_view": "Listenansicht",
@@ -438,6 +443,7 @@
       "data": "Profildaten",
       "name_address": "Name und Anschrift",
       "resend_confirmation": "Bestätigung erneut senden",
+      "change_language": "Sprache ändern",
       "delete_profile": "Profil löschen",
       "choose_picture": "Bild auswählen",
       "camera": "Kamera",

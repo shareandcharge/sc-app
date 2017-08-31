@@ -8,14 +8,16 @@ import {AbstractApiService} from "./abstract.api.service";
 import {ConfigService} from "./config.service";
 import {HttpService} from "./http.service";
 import {TranslateService} from "@ngx-translate/core";
+import {Events} from "ionic-angular";
+import {ErrorService} from "./error.service";
 
 @Injectable()
 export class UserService extends AbstractApiService {
 
     error: string;
 
-    constructor(private authService: AuthService, private httpService: HttpService, configService: ConfigService, 
-                public translateService: TranslateService) {
+    constructor(private authService: AuthService, private httpService: HttpService, configService: ConfigService,
+                public translateService: TranslateService, private events: Events, private errorService: ErrorService) {
         super(configService, translateService);
     }
 
@@ -120,4 +122,34 @@ export class UserService extends AbstractApiService {
             })
             .catch((error) => this.handleError(error));
     }
+
+    /**
+     * Use this whenever you change user data (email, profile etc.).
+     *
+     * This method not only updates the user and the backend but also in the authService and publishes
+     * an 'users:updated' event; plus, catches and displays errors.
+     * It does _NOT_ call reject for the promise.
+     * @param user
+     * @param scope
+     * @param quiet
+     * @returns {Promise<User>}
+     */
+    updateUserAndPublish(user: User, scope: string = 'error.scope.update_user', quiet: boolean = false): Promise<User> {
+        return new Promise<User>((resolve) => {
+            this.updateUser(user)
+                .subscribe(
+                    () => {
+                        this.authService.setUser(user);
+                        if (!quiet) {
+                            this.events.publish('users:updated');
+                        }
+                        resolve(user);
+                    },
+                    error => {
+                        this.errorService.displayErrorWithKey(error, scope);
+                    }
+                );
+        });
+    }
+
 }

@@ -1,10 +1,9 @@
 import {Component} from "@angular/core";
-import {NavParams, NavController, Events} from "ionic-angular";
+import {NavController} from "ionic-angular";
 import {User} from "../../../../models/user";
 import {FormBuilder, Validators} from '@angular/forms';
 import {UserService} from "../../../../services/user.service";
 import {AuthService} from "../../../../services/auth.service";
-import {ErrorService} from "../../../../services/error.service";
 import {TranslateService} from "@ngx-translate/core";
 
 
@@ -23,10 +22,9 @@ export class EditPasswordPage {
     errorMessages: any;
     submitAttempt: boolean = false;
 
-    constructor(private userService: UserService, private navParams: NavParams, private navCtrl: NavController,
-                private authService: AuthService, private formBuilder: FormBuilder, private events: Events,
-                private errorService: ErrorService, private translateService: TranslateService) {
-        this.user = navParams.get('user');
+    constructor(private userService: UserService, private navCtrl: NavController, private authService: AuthService,
+                private formBuilder: FormBuilder, private translateService: TranslateService) {
+        this.user = this.authService.getUser();
 
         this.createErrorMessages();
 
@@ -69,14 +67,6 @@ export class EditPasswordPage {
         this.user.authentification.password = this.newPassword;
         this.user.authentification.old_password = this.oldPassword;
 
-        this.userService.updateUser(this.user)
-            .subscribe(
-                (user) => {
-                    this.authService.setUser(user);
-                    this.events.publish('users:updated');
-                    this.navCtrl.pop();
-                },
-                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
-
+        this.userService.updateUserAndPublish(this.user).then(() => this.navCtrl.pop());
     }
 }

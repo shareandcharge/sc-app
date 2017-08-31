@@ -11,7 +11,7 @@
         <ion-list no-lines="">
             <ion-item>
                 <ion-label stacked>{{'profile.data.company' | translate}}</ion-label>
-                <ion-input type="text" class="input-white" [(ngModel)]="user.profile.company"
+                <ion-input type="text" class="input-white" [(ngModel)]="editObj.company"
                            formControlName="company"></ion-input>
             </ion-item>
             <div *ngIf="profileForm.errors && profileForm.errors.businessUser.company && submitAttempt"
@@ -21,7 +21,7 @@
 
             <ion-item>
                 <ion-label stacked>{{'profile.data.first_name' | translate}}</ion-label>
-                <ion-input type="text" class="input-white" [(ngModel)]="user.profile.firstname"
+                <ion-input type="text" class="input-white" [(ngModel)]="editObj.firstname"
                            formControlName="firstName"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.firstName.valid && submitAttempt"
@@ -31,7 +31,7 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.family_name' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="lastName"
-                           [(ngModel)]="user.profile.lastname"></ion-input>
+                           [(ngModel)]="editObj.lastname"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.lastName.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
@@ -40,7 +40,7 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.street_house_number' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="address"
-                           [(ngModel)]="user.profile.address"></ion-input>
+                           [(ngModel)]="editObj.address"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.address.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
@@ -49,7 +49,7 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.zipcode' | translate}}</ion-label>
                 <ion-input type="tel" class="input-white" formControlName="postalCode"
-                           [(ngModel)]="user.profile.postalCode"></ion-input>
+                           [(ngModel)]="editObj.postalCode"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.postalCode.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
@@ -59,12 +59,12 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.city' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="city"
-                           [(ngModel)]="user.profile.city"></ion-input>
+                           [(ngModel)]="editObj.city"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label stacked>{{'profile.data.state' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="state"
-                           [(ngModel)]="user.profile.state"></ion-input>
+                           [(ngModel)]="editObj.state"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.city.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
@@ -73,7 +73,7 @@
             <ion-item>
                 <ion-label class="label-small" stacked>{{'profile.data.country' | translate}}</ion-label>
                 <ion-select formControlName="country"
-                            [(ngModel)]="user.profile.country"
+                            [(ngModel)]="editObj.country"
                             multiple="false"
                             [selectOptions]="{title: 'profile.data.country' | translate}"
                             class="select-multiline input-white"
@@ -92,16 +92,16 @@
             <ion-item *ngIf="!isPilot" text-wrap class="operator-vat-item">
                 <ion-checkbox checked="false"
                     formControlName="businessUser"
-                    [(ngModel)]="user.profile.operatorVat">
+                    [(ngModel)]="editObj.operatorVat">
                 </ion-checkbox>
                 <ion-label>
                     {{'profile.data.commercial_provider' | translate}}</ion-label>
                 <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('operatorVat')"></ion-icon>
             </ion-item>
-            <ion-item *ngIf="user.profile.operatorVat && !isPilot">
+            <ion-item *ngIf="editObj.operatorVat && !isPilot">
                 <ion-label floating>{{'profile.data.vat_number' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="operatorVatID"
-                           [(ngModel)]="user.profile.operatorVatID"></ion-input>
+                           [(ngModel)]="editObj.operatorVatID"></ion-input>
             </ion-item>
 
             <div *ngIf="profileForm.errors && profileForm.errors.businessUser.vatNumber && submitAttempt"

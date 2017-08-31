@@ -70,4 +70,20 @@ export class ConfigService {
     getVersionNumber(): string {
       return this.get('APP_VERSION');
     }
+
+    /**
+     * AVAILABLE_LANGUAGES
+     * @returns {any}
+     */
+    getAvailableLanguages(): string[] {
+        return this.get('AVAILABLE_LANGUAGES');
+    }
+
+    /**
+     * AVAILABLE_LANGUAGES
+     * @returns {any}
+     */
+    getDefaultLanguage(): string {
+        return this.get('DEFAULT_LANGUAGE');
+    }
 }

@@ -6,7 +6,6 @@ import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {HelpPage} from "../help/help";
-import {ErrorService} from "../../services/error.service";
 import {ProfileDataPage} from "./profile-data/profile-data";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -22,7 +21,7 @@ export class ProfilePage {
 
     constructor(private navCtrl: NavController, private actionSheetCtrl: ActionSheetController,
                 private auth: AuthService, private platform: Platform, private userService: UserService,
-                private events: Events, private errorService: ErrorService, private translateService: TranslateService) {
+                private events: Events, private translateService: TranslateService) {
         this.events.subscribe('users:updated', () => this.loadUser());
     }
 
@@ -72,7 +71,7 @@ export class ProfilePage {
             targetHeight: 1000
         }).then((imageData) => {
             this.user.profile.imageBase64 = "data:image/jpeg;base64," + imageData;
-            this.updateUser();
+            this.userService.updateUserAndPublish(this.user);
         });
     }
 
@@ -91,14 +90,5 @@ export class ProfilePage {
 
     myCars() {
         this.navCtrl.push(MyCarsPage);
-    }
-
-    updateUser() {
-        this.userService.updateUser(this.user)
-            .subscribe(
-                () => {
-                    this.events.publish('users:updated');
-                },
-                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
     }
 }
