@@ -11,7 +11,7 @@
         <ion-list no-lines="">
             <ion-item>
                 <ion-label floating>{{'profile.data.email_adresse' | translate}}</ion-label>
-                <ion-input type="email" class="input-white" [(ngModel)]="user.email"
+                <ion-input type="email" class="input-white" [(ngModel)]="editObj.email"
                            formControlName="email"></ion-input>
             </ion-item>
             <div *ngIf="!emailForm.controls.email.valid && submitAttempt"

@@ -1,11 +1,10 @@
 import {Component} from "@angular/core";
-import {NavParams, NavController, Events} from "ionic-angular";
+import {NavController} from "ionic-angular";
 import {User} from "../../../../models/user";
 import {UserService} from "../../../../services/user.service";
-import {AuthService} from "../../../../services/auth.service";
-import {ErrorService} from "../../../../services/error.service";
 import {ConfigService} from "../../../../services/config.service";
 import {TranslateService} from "@ngx-translate/core";
+import {AuthService} from "../../../../services/auth.service";
 
 
 @Component({
@@ -18,10 +17,9 @@ export class ChangeLanguagePage {
     languages: string[];
     selectedLanguage: string;
 
-    constructor(private userService: UserService, private navParams: NavParams, public navCtrl: NavController,
-                private authService: AuthService, private events: Events, configService: ConfigService,
-                private errorService: ErrorService, private translateService: TranslateService) {
-        this.user = navParams.get('user');
+    constructor(private userService: UserService, public navCtrl: NavController, configService: ConfigService,
+                private authService: AuthService, private translateService: TranslateService) {
+        this.user = this.authService.getUser();
         this.selectedLanguage = translateService.currentLang;
         this.languages = configService.getAvailableLanguages();
     }
@@ -29,22 +27,11 @@ export class ChangeLanguagePage {
     ionViewWillLeave() {
         if (this.user.getLanguage() !== this.selectedLanguage) {
             this.user.setLanguage(this.selectedLanguage);
-            this.updateUser();
+            this.userService.updateUserAndPublish(this.user).then();
         }
     }
 
     languageSelected() {
         this.translateService.use(this.selectedLanguage);
-    }
-
-    updateUser() {
-        this.userService.updateUser(this.user)
-            .subscribe(
-                () => {
-                    this.authService.setUser(this.user);
-                    this.events.publish('users:updated');
-                    this.navCtrl.pop();
-                },
-                error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
     }
 }

@@ -1,10 +1,9 @@
 import {Component} from "@angular/core";
-import {NavParams, NavController, Events, AlertController} from "ionic-angular";
+import {NavController, AlertController} from "ionic-angular";
 import {User} from "../../../../models/user";
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {UserService} from "../../../../services/user.service";
 import {AuthService} from "../../../../services/auth.service";
-import {ErrorService} from "../../../../services/error.service";
 import {countryValidator} from "../../../../validators/countryValidator";
 import {TrackerService} from "../../../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
@@ -18,6 +17,7 @@ import {isString} from "ionic-angular/util/util";
 })
 export class EditProfilePage {
     user: User;
+    editObj: any;
 
     profileForm: any;
     errorMessages: any;
@@ -27,33 +27,32 @@ export class EditProfilePage {
         {
             'value': 'de',
             'name': '',
-            'selected' : true
+            'selected': true
         },
         {
             'value': 'us',
             'name': '',
-            'selected' : false
+            'selected': false
         },
         {
             'value': 'nl',
             'name': '',
-            'selected' : false
+            'selected': false
         }
     ];
 
     isPilot: boolean = false;
 
 
-    constructor(private userService: UserService, private navParams: NavParams, private alertCtrl: AlertController,
-                private navCtrl: NavController, private authService: AuthService, private formBuilder: FormBuilder,
-                private events: Events, private errorService: ErrorService, private trackerService: TrackerService,
-                private translateService: TranslateService, private currencyService: CurrencyService) {
+    constructor(private userService: UserService, private alertCtrl: AlertController, private navCtrl: NavController,
+                private authService: AuthService, private formBuilder: FormBuilder,
+                private trackerService: TrackerService, private translateService: TranslateService,
+                private currencyService: CurrencyService) {
 
-        this.user = navParams.get('user');
+        this.user = this.authService.getUser();
+        this.editObj = Object.assign({}, this.user.profile);
 
-        let profile = this.user.profile;
-
-        if (!profile.country) profile.country = 'de';
+        if (!this.editObj.country) this.editObj.country = 'de';
 
         this.createErrorMessages();
 
@@ -85,7 +84,7 @@ export class EditProfilePage {
         if (!group.value.businessUser) {
             return null;
         }
-        let error:any = {};
+        let error: any = {};
 
         if (!isString(group.value.company) || group.value.company.length < 1) {
             error.company = true;
@@ -114,20 +113,15 @@ export class EditProfilePage {
     updateUser() {
         this.submitAttempt = true;
 
-        if (this.profileForm.valid) {
-            this.trackerService.track('Profile saved', {
-                'Timestamp': ''
-            });
-
-            this.userService.updateUser(this.user)
-                .subscribe(
-                    () => {
-                        this.authService.setUser(this.user);
-                        this.events.publish('users:updated');
-                        this.navCtrl.pop();
-                    },
-                    error => this.errorService.displayErrorWithKey(error, 'error.scope.update_user'));
+        if (!this.profileForm.valid) {
+            return;
         }
+        this.trackerService.track('Profile saved', {
+            'Timestamp': ''
+        });
+
+        this.user.profile = this.editObj;
+        this.userService.updateUserAndPublish(this.user).then(() => this.navCtrl.pop());
     }
 
     showHelp(field) {
@@ -135,7 +129,7 @@ export class EditProfilePage {
 
         switch (field) {
             case 'postalCode':
-                message =  this.translateService.instant('error_messages.at_least_5_char');
+                message = this.translateService.instant('error_messages.at_least_5_char');
                 break;
             case 'operatorVat':
                 message = this.translateService.instant('error_messages.operatorVat');
