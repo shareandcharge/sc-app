@@ -24,7 +24,6 @@ export class EditEmailPage {
                 private formBuilder: FormBuilder, private translateService: TranslateService) {
         this.user = this.authService.getUser();
         this.editObj = Object.assign({}, this.user);
-        console.log(this.editObj.email);
 
         this.emailForm = this.formBuilder.group({
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
