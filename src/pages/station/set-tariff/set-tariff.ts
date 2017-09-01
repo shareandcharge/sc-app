@@ -55,10 +55,12 @@ export class SetTariffPage {
       if ( this.displayKWHTariff && (this.connector.metadata.accessControl || this.connector.metadata.juiceBox) ) {
       //   if (this.connector.metadata.accessControl) {
             this.hourlyTariff = true;
-            if (this.connector.metadata.kwh) {
+          // not needed anymore, we will display kwh based tariff if sc or juicebox is selected
+          /*if (this.connector.metadata.kwh) {
                 this.kwhTariff = true;
-                this.hourlyTariff = false;
-            }
+                this.hourlyTariff = true;
+            }*/
+            this.kwhTariff = true;
         }
 
         // when the user switches between hourly/kwh, make sure we have the correct segment selected (or at least one)
