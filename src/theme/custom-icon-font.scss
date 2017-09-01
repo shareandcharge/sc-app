@@ -46,7 +46,7 @@
 
 @include makeIcon(cust-about, '\e900');
 @include makeIcon(cust-add-photo, '\e901');
-@include makeIcon(cust-dashboard, '\e902');
+@include makeIcon(cust-rest, '\e902');
 @include makeIcon(cust-register, '\e903');
 @include makeIcon(cust-station, '\e904');
 @include makeIcon(cust-bulb, '\e905');
@@ -55,7 +55,8 @@
 @include makeIcon(cust-wallet, '\e908');
 @include makeIcon(cust-time-money, '\e909');
 @include makeIcon(cust-station-pin, '\e90a');
-@include makeIcon(cust-battery, '\e90b');
+@include makeIcon(cust-hotel, '\e90b');
+@include makeIcon(cust-battery, '\e910');
 @include makeIcon(cust-profile, '\e916');
 @include makeIcon(cust-credit-card, '\e90c');
 @include makeIcon(cust-debit, '\e90d');
