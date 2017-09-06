@@ -10,10 +10,12 @@ import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
 import {ForgotPasswordPage} from "./forgot-password/forgot-password";
+// import {LanguageService} from "../../services/language.service";
 import {TrackerService} from "../../services/tracker.service";
 import {User} from "../../models/user";
 import {ConfigService} from "../../services/config.service";
 import {InAppBrowser} from "ionic-native";
+import {Storage} from '@ionic/storage';
 import {DataProtectionPage} from "../_global/data-protection/data-protection";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -25,7 +27,7 @@ export class SignupLoginPage {
 
     signUpLoginObject = {
         "email": "",
-        "profile": {"newsletter": false},
+        "profile": {"newsletter": false, "language": "", "disableTracking": false},   // should disableTracking be hardcoded???
         "authentification": {"type": "passwd", "password": ""}
     };
     termsAccept: boolean;
@@ -44,7 +46,8 @@ export class SignupLoginPage {
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
                 private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
                 public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
-                private errorService: ErrorService, private trackerService: TrackerService, private configService: ConfigService, private translateService: TranslateService) {
+                private errorService: ErrorService, private trackerService: TrackerService, public storage: Storage,
+                private configService: ConfigService, private translateService: TranslateService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'login';
@@ -193,6 +196,9 @@ export class SignupLoginPage {
         });
         loader.present();
 
+        
+        this.signUpLoginObject.profile.language = this.translateService.currentLang;
+                
         this.trackerService.track('Signup Info Added', {
             'Screen Name': 'Registrieren',
             'Sign up method': 'Email',
