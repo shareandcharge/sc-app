@@ -2,7 +2,7 @@
 * copy this file to config.ts and adjust values to your needs
 */
 export let CONFIG = {
-    APP_VERSION: '1.0.719',
+    APP_VERSION: '1.0.720',
     API_URL: 'https://api-staging.shareandcharge.com/v1',
     IMAGES_BASE_URL: 'https://api-staging.shareandcharge.com',
     API_KEY: {
