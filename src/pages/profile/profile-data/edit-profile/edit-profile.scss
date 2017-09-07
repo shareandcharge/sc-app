@@ -17,4 +17,18 @@ edit-profile {
             width: 80px;
         }
     }
+
+    .commercial-block {
+        margin-left: $content-margin*2;
+    }
+
+    .commercial-category {
+        ion-icon {
+            font-size: 2em;
+            vertical-align: middle;
+        }
+        span {
+            vertical-align: middle;
+        }
+    }
 }
