@@ -41,8 +41,8 @@ export class EditProfilePage {
         }
     ];
 
-    isPilot: boolean = false;
-
+    haveCommercialOption: boolean = true;
+    editCommercialCategory: any;
 
     constructor(private userService: UserService, private alertCtrl: AlertController, private navCtrl: NavController,
                 private authService: AuthService, private formBuilder: FormBuilder,
@@ -54,6 +54,11 @@ export class EditProfilePage {
 
         if (!this.editObj.country) this.editObj.country = 'de';
 
+        this.editCommercialCategory = {
+            'hotel': this.user.commercialCategory.indexOf(User.COMMERCIAL_CATEGORY_HOTEL) > -1,
+            'restaurant': this.user.commercialCategory.indexOf(User.COMMERCIAL_CATEGORY_RESTAURANT) > -1
+        };
+
         this.createErrorMessages();
 
         // This is a workaround because using the translation pipe in the option tag breaks the select, see https://github.com/ionic-team/ionic/issues/8561
@@ -61,7 +66,7 @@ export class EditProfilePage {
             country.name = this.translateService.instant('profile.country.' + country.value);
         });
 
-        this.isPilot = this.currencyService.isCommercialOptionHidden();
+        this.haveCommercialOption = !this.currencyService.isCommercialOptionHidden();
 
         this.profileForm = this.formBuilder.group({
             company: [],
@@ -75,7 +80,7 @@ export class EditProfilePage {
             businessUser: [false],
             operatorVatID: []
         }, {
-            validator: this.isPilot ? null : this.validateBusinessUser.bind(this)
+            validator: this.haveCommercialOption ? this.validateBusinessUser.bind(this) : null
         });
 
     }
@@ -120,7 +125,12 @@ export class EditProfilePage {
             'Timestamp': ''
         });
 
+        let cc = [];
+        this.editCommercialCategory.hotel && cc.push(User.COMMERCIAL_CATEGORY_HOTEL);
+        this.editCommercialCategory.restaurant && cc.push(User.COMMERCIAL_CATEGORY_RESTAURANT);
+
         this.user.profile = this.editObj;
+        this.user.commercialCategory = cc;
         this.userService.updateUserAndPublish(this.user).then(() => this.navCtrl.pop());
     }
 
