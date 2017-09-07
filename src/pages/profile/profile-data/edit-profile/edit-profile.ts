@@ -127,10 +127,10 @@ export class EditProfilePage {
 
         let selectedCommercialCategories = this.editObj.operatorVat ? [] : [User.COMMERCIAL_CATEGORY_PRIVATE];
 
-        if (this.editCommercialCategory.hotel) {
+        if (this.editCommercialCategory.hotel && this.editObj.operatorVat) {
             selectedCommercialCategories.push(User.COMMERCIAL_CATEGORY_HOTEL);
         }
-        if (this.editCommercialCategory.restaurant) {
+        if (this.editCommercialCategory.restaurant && this.editObj.operatorVat) {
             selectedCommercialCategories.push(User.COMMERCIAL_CATEGORY_RESTAURANT);
         }
 
