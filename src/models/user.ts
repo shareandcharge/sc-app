@@ -2,12 +2,16 @@ import {Serializable} from './serializable';
 import {isDefined, isBlank, isArray} from "ionic-angular/util/util";
 
 export class User implements Serializable<User> {
+    public static readonly COMMERCIAL_CATEGORY_HOTEL = 1;
+    public static readonly COMMERCIAL_CATEGORY_RESTAURANT = 2;
+
     id: any;
     email: string;
     address: string;
     profile: any;
     cars: any;
     authentification: any;
+    commercialCategory: Array<number>;
 
     private _creditCards: any;
 
@@ -20,6 +24,7 @@ export class User implements Serializable<User> {
 
         this.authentification = {};
 
+        this.commercialCategory = [];
         this.authentification.apnDeviceTokens = [];
         this.authentification.gcmDeviceTokens = [];
     }
