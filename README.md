@@ -111,7 +111,7 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
   ```
   * `/config.xml`
   ```xml
-  <widget id="com.shareandcharge.app" version="{BUMPED_VERSION_NUMBER}" xmlns="...">
+  <widget id="com.shareandcharge.app" version="{BUMPED_VERSION_NUMBER}" xmlns="..."/>
   ```
 
 ##### While you have the config open:
@@ -209,6 +209,8 @@ Build Steps:
 2. Change directories to the APK output path `$ cd <TO_APK_OUTPUT_PATH> ` or `platforms/android/build/outputs/apk`
 3. Run zipalign to define the versionnumber `./zipalign -v 4 <FULL_APK_PATH>/android-release-unsigned.apk ShareAndCharge-1.0.713.apk`
 4. Make sure you have obtained the keystore as well as the passwords to unlock the key and sign the apk (key and keystore respectively)
+   1. To get the key from pass store, run `./go pass show android/passkey`.
+   2. To get the keystore file from pass store, run `./go pass show android/keystore  > share-and-charge.keystore`
 `./apksigner sign --ks <FULL_KEYSTORE_PATH>/share-and-charge.keystore --ks-key-alias share_and_charge <FULL_APK_PATH>/ShareAndCharge-1.0.713.apk
 //share_and_charge is the alias the keystore`
 5. The password for the keystore is on the pass-store and the keystore file is with Joe (TODO: Put this file somewhere)

@@ -475,6 +475,7 @@
     "add_charging_station": "Ladestation hinzufügen",
     "station_address": "Addresse der Ladestation",
     "station_name": "Name der Station",
+    "station_name_example": "Ladestation im Essener Zentrum",
     "opening_time": "Öffnungszeiten",
     "adapt": "Anpassen",
     "days": "Tage",

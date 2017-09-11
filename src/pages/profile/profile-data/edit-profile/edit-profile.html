@@ -105,15 +105,15 @@
                 <ion-input type="text" class="input-white" formControlName="city"
                            [(ngModel)]="editObj.city"></ion-input>
             </ion-item>
+            <div *ngIf="!profileForm.controls.city.valid && submitAttempt"
+                class="alert-box alert-box-danger" margin>
+                {{ errorMessages.city }}
+            </div>
             <ion-item>
                 <ion-label stacked>{{'profile.data.state' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="state"
                            [(ngModel)]="editObj.state"></ion-input>
             </ion-item>
-            <div *ngIf="!profileForm.controls.city.valid && submitAttempt"
-                 class="alert-box alert-box-danger" margin>
-                {{ errorMessages.city }}
-            </div>
             <ion-item>
                 <ion-label class="label-small" stacked>{{'profile.data.country' | translate}}</ion-label>
                 <ion-select formControlName="country"

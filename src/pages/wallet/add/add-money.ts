@@ -31,8 +31,8 @@ export class AddMoneyPage {
             'type': 'cc',
             'amount': 0,
             'details': {
-                'success_url': 'https://api-test.shareandcharge.com/v1/wallet/feedback/success.html',
-                'error_url': 'https://api-test.shareandcharge.com/v1/wallet/feedback/error.html',
+                'success_url': '',
+                'error_url': '',
                 'iban': '',
                 'bic': '',
                 'account_holder': ''
@@ -65,22 +65,28 @@ export class AddMoneyPage {
     addMoney() {
         this.payInButtonDisabled = true;
         this.payInObject.amount = this.convertToDecimal(this.displayAmount) * 100;
-          this.payInObject.details.cardId = this.cardId;
-          this.trackerService.track('Account Info Added', {
-              'Payment method': this.payInObject.type,
-              'Timestamp': ''
-          });
+        this.payInObject.details.cardId = this.cardId;
 
-          this.paymentService.payIn(this.payInObject).subscribe(
-              (response) => {
-                  if (response.client_action === 'redirect') {
-                      this.showExternalPaymentScreen(response.action_data.url).then(() => {
-                          this.dismiss();
-                      });
-                  }
-              },
-              error => this.errorService.displayErrorWithKey(error, 'error.scope.wallet_payin')
-          );
+        const language = this.translateService.currentLang;
+        this.payInObject.details.success_url = `https://api-test.shareandcharge.com/v1/wallet/feedback/${language}/success.html`
+        this.payInObject.details.error_url = `https://api-test.shareandcharge.com/v1/wallet/feedback/${language}/error.html`
+
+        
+        this.trackerService.track('Account Info Added', {
+            'Payment method': this.payInObject.type,
+            'Timestamp': ''
+        });
+
+        this.paymentService.payIn(this.payInObject).subscribe(
+            (response) => {
+                if (response.client_action === 'redirect') {
+                    this.showExternalPaymentScreen(response.action_data.url).then(() => {
+                        this.dismiss();
+                    });
+                }
+            },
+            error => this.errorService.displayErrorWithKey(error, 'error.scope.wallet_payin')
+        );
     }
 
     showExternalPaymentScreen(redirectUrl) {
