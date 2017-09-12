@@ -28,6 +28,9 @@
             </strong>
         </p>
 
+        <p *ngIf="commercialCategoryIcons && commercialCategoryIcons.length > 0" class="icons-commercial-category">
+            <ion-icon *ngFor="let name of commercialCategoryIcons" name="{{ name }}"></ion-icon>
+        </p>
 
         <div *ngIf="!showOpeningHours" margin-bottom>
             {{'location.location_details.opening_hours' | translate}} {{openingHours[today].fromTo}}
@@ -74,9 +77,8 @@
     <div padding="">
         <div *ngIf="location.description">
             <h6>{{'location.location_details.about' | translate}}</h6>
-            <p class="text-line-wrap">
-                {{location.description}}
-            </p>
+            <!-- don't add new lines here, because description has `white-space: pre-line;` -->
+            <p class="text-line-wrap">{{location.description}}</p>
             <hr>
         </div>
 
