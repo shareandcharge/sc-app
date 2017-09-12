@@ -349,7 +349,8 @@ export class MapPage {
         }
 
         if (Array.isArray(this.filterForCommercialCategory) && this.filterForCommercialCategory.length > 0) {
-            params['commercialCategory'] = this.filterForCommercialCategory.join(',');
+            /* the backend expects it lowercase ! */
+            params['commercialcategory'] = this.filterForCommercialCategory.join(',');
         }
 
         this.locationService.getLocations(params).subscribe(locations => {
