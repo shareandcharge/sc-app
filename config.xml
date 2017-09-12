@@ -40,19 +40,19 @@
         <preference buildType="debug" name="ios-XCBuildConfiguration-GCC_NO_COMMON_BLOCKS" value="NO" />
         <preference buildType="release" name="ios-XCBuildConfiguration-GCC_NO_COMMON_BLOCKS" value="NO" />
         <config-file parent="CFBundleDevelopmentRegion" platform="ios" target="*-Info.plist">
-            <string>de_DE</string>
+            <string>en_US</string>
         </config-file>
         <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
-            <string>Bilder machen für Dein Auto, Deine Station oder Dein Profil.</string>
+            <string>Take photos for your car, charging pole or user profile.</string>
         </config-file>
         <config-file parent="NSContactsUsageDescription" platform="ios" target="*-Info.plist">
-            <string>Adresse aus Deinen Kontakten für die Tarife auswählen.</string>
+            <string>Add persons from your contacts for the tariffs.</string>
         </config-file>
         <config-file parent="NSLocationWhenInUseUsageDescription" platform="ios" target="*-Info.plist">
-            <string>Deinen Standort auf der Karte anzeigen.</string>
+            <string>Show your current location on the map</string>
         </config-file>
         <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
-            <string>Bilder aussuchen für Dein Auto, Deine Station oder Dein Profil.</string>
+            <string>Select photos for your car, charging pole or user profile.</string>
         </config-file>
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
@@ -114,7 +114,7 @@
         <variable name="APP_NAME" value="ShareAndCharge" />
     </plugin>
     <plugin name="cordova-plugin-geolocation" spec="~2.4.3">
-        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Deinen Standort auf der Karte anzeigen." />
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Show your current location on the map." />
     </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="~1.6.1" />
     <plugin name="cordova-plugin-privacyscreen" spec="~0.3.1" />
