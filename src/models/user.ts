@@ -2,6 +2,7 @@ import {Serializable} from './serializable';
 import {isDefined, isBlank, isArray} from "ionic-angular/util/util";
 
 export class User implements Serializable<User> {
+    public static readonly COMMERCIAL_CATEGORY_PRIVATE = 0;
     public static readonly COMMERCIAL_CATEGORY_HOTEL = 1;
     public static readonly COMMERCIAL_CATEGORY_RESTAURANT = 2;
 
