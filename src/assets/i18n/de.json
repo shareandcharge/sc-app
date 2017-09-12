@@ -350,7 +350,11 @@
   "map": {
     "filter": {
       "title": "Filter",
-      "list_plugins": "Liste - Steckertypen"
+      "plugtypes": "Steckertypen",
+      "commercial_category": "Anbieter der Ladestation",
+      "list_plugins": "Liste - Steckertypen",
+      "commercial_category_title": "Anbieter der Ladestation",
+      "commercial_category_header": "Nur anzeigen"
     },
     "settings": {
       "title": "Einstellungen",
@@ -458,6 +462,11 @@
       "de": "Deutschland",
       "us": "USA",
       "nl": "Niederlande"
+    },
+    "commercial_category": {
+      "hotel": "Hotel",
+      "restaurant": "Restaurant",
+      "private": "Privatperson"
     }
   },
   "rating": {

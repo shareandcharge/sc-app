@@ -15,7 +15,10 @@ import {CarModelPage} from '../pages/car/form/model/car-model';
 import {CarFormPage} from '../pages/car/form/car-form';
 import {MapSettingsPage} from '../pages/map/settings/map-settings';
 import {TabsPage} from '../pages/tabs/tabs';
-import {MapFilterPage} from "../pages/map/filter/filter";
+import {FilterWrapperPage} from "../pages/map/filter/filter-wrapper";
+import {FilterSelectPage} from "../pages/map/filter/filter-select";
+import {FilterCommercialCategoryPage} from "../pages/map/filter/filter-commercial-category";
+import {FilterPlugtypesPage} from "../pages/map/filter/filter-plugtypes";
 import {LocationDetailPage} from "../pages/location/location-details";
 import {MyCarsPage} from '../pages/car/my-cars/my-cars';
 import {MapDetailPage} from '../pages/location/details-map/map';
@@ -96,7 +99,10 @@ export function createTranslateLoader(http: Http) {
         AboutPage,
         DataProtectionPage,
         MapPage,
-        MapFilterPage,
+        FilterWrapperPage,
+        FilterSelectPage,
+        FilterCommercialCategoryPage,
+        FilterPlugtypesPage,
         SignupLoginPage,
         CarWrapperPage,
         CarFormPage,
@@ -160,7 +166,10 @@ export function createTranslateLoader(http: Http) {
         AboutPage,
         DataProtectionPage,
         MapPage,
-        MapFilterPage,
+        FilterWrapperPage,
+        FilterSelectPage,
+        FilterCommercialCategoryPage,
+        FilterPlugtypesPage,
         SignupLoginPage,
         CarWrapperPage,
         CarFormPage,

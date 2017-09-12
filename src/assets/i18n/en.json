@@ -349,7 +349,11 @@
   "map": {
     "filter": {
       "title": "Filter",
-      "list_plugins": "List plug type"
+      "plugtypes": "Plug types",
+      "commercial_category": "Commercial category",
+      "list_plugins": "List plug type",
+      "commercial_category_title": "Commercial category",
+      "commercial_category_header": "Show only"
     },
     "settings": {
       "title": "Settings",
@@ -457,6 +461,11 @@
       "de": "Germany",
       "us": "United States of America",
       "nl": "Netherlands"
+    },
+    "commercial_category": {
+      "hotel": "Hotel",
+      "restaurant": "Restaurant",
+      "private": "Private person"
     }
   },
   "rating": {
