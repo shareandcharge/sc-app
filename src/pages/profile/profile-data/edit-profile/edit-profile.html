@@ -10,7 +10,7 @@
     <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
         <ion-list no-lines="">
 
-            <ng-container *ngIf="haveCommercialOption">
+            <ng-container *ngIf="showCommercialOption">
 
 
                 <ion-item text-wrap class="operator-vat-item">
