@@ -22,6 +22,7 @@ import {ErrorService} from "../../services/error.service";
 import {ChargingCompletePage} from './charging/charging-complete/charging-complete'
 import {TrackerService} from "../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
+import {User} from "../../models/user";
 
 
 @Component({
@@ -69,6 +70,8 @@ export class LocationDetailPage {
     includingVat: boolean;
     tariffType: number;
     flatrateTariff: boolean;
+
+    commercialCategoryIcons: Array<string>;
 
     TARIFF_TYPES = {
         INACTIVE: 0,
@@ -189,6 +192,7 @@ export class LocationDetailPage {
                 this.loadMap();
                 this.getRatings();
                 this.getPrice();
+                this.getCommercialCategoryIcons();
 
                 if (this.connector) {
                     this.configService.getPlugTypes().subscribe((plugTypes) => {
@@ -238,6 +242,24 @@ export class LocationDetailPage {
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.list_eval'))
         );
+    }
+
+    getCommercialCategoryIcons() {
+        this.commercialCategoryIcons = [];
+
+        let isCommercial = typeof this.location.ownerprofile.operatorVatID !== 'undefined' && this.location.ownerprofile.operatorVatID != '';
+
+        if (!isCommercial) {
+            this.commercialCategoryIcons = ['cust-private-station'];
+        }
+        else if (Array.isArray(this.location.ownerprofile.commercialcategory)) {
+            if (this.location.ownerprofile.commercialcategory.indexOf(User.COMMERCIAL_CATEGORY_RESTAURANT) > -1) {
+                this.commercialCategoryIcons.push('cust-restaurant');
+            }
+            if (this.location.ownerprofile.commercialcategory.indexOf(User.COMMERCIAL_CATEGORY_HOTEL) > -1) {
+                this.commercialCategoryIcons.push('cust-hotel');
+            }
+        }
     }
 
     loadOpeningHours() {
