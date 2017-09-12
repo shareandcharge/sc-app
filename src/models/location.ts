@@ -24,7 +24,9 @@ export class Location implements Serializable<Location> {
         city: string,
         firstname: string,
         lastname: string,
-        postalCode: string
+        postalCode: string,
+        operatorVatID: string,
+        commercialcategory: Array<number>
     };
 
     constructor() {
@@ -49,7 +51,9 @@ export class Location implements Serializable<Location> {
             city: '',
             firstname: '',
             lastname: '',
-            postalCode: ''
+            postalCode: '',
+            operatorVatID: '',
+            commercialcategory: []
         };
     }
 
