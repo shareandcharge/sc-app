@@ -41,7 +41,7 @@ export class EditProfilePage {
         }
     ];
 
-    haveCommercialOption: boolean = true;
+    showCommercialOption: boolean = true;
     editCommercialCategory: any;
 
     constructor(private userService: UserService, private alertCtrl: AlertController, private navCtrl: NavController,
@@ -66,7 +66,7 @@ export class EditProfilePage {
             country.name = this.translateService.instant('profile.country.' + country.value);
         });
 
-        this.haveCommercialOption = !this.currencyService.isCommercialOptionHidden();
+        this.showCommercialOption = !this.currencyService.isCommercialOptionHidden();
 
         this.profileForm = this.formBuilder.group({
             company: [],
@@ -80,7 +80,7 @@ export class EditProfilePage {
             businessUser: [false],
             operatorVatID: []
         }, {
-            validator: this.haveCommercialOption ? this.validateBusinessUser.bind(this) : null
+            validator: this.showCommercialOption ? this.validateBusinessUser.bind(this) : null
         });
 
     }
@@ -125,13 +125,18 @@ export class EditProfilePage {
             'Timestamp': ''
         });
 
-        let cc = this.editObj.operatorVat ? [] : [User.COMMERCIAL_CATEGORY_PRIVATE];
-        this.editCommercialCategory.hotel && cc.push(User.COMMERCIAL_CATEGORY_HOTEL);
-        this.editCommercialCategory.restaurant && cc.push(User.COMMERCIAL_CATEGORY_RESTAURANT);
+        let selectedCommercialCategories = this.editObj.operatorVat ? [] : [User.COMMERCIAL_CATEGORY_PRIVATE];
+
+        if (this.editCommercialCategory.hotel) {
+            selectedCommercialCategories.push(User.COMMERCIAL_CATEGORY_HOTEL);
+        }
+        if (this.editCommercialCategory.restaurant) {
+            selectedCommercialCategories.push(User.COMMERCIAL_CATEGORY_RESTAURANT);
+        }
 
         this.user.profile = this.editObj;
 
-        this.user.commercialCategory = cc;
+        this.user.commercialCategory = selectedCommercialCategories;
         this.userService.updateUserAndPublish(this.user).then(() => this.navCtrl.pop());
     }
 
