@@ -55,6 +55,10 @@
                                        placeholder="{{'login.password' | translate}}"></ion-input>
                         </ion-item>
                     </div>
+                    <div *ngIf="!submitAttempt"
+                         class="alert-box info-text" margin>
+                        {{'login.password_complexity' | translate}}
+                    </div>
                     <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt"
                          class="alert-box alert-box-danger alert-box-bg-light" margin>
                         {{ errorMessages.password }}
@@ -118,4 +122,3 @@
 
     </ion-grid>
 </ion-content>
-
