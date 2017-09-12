@@ -6,7 +6,7 @@ import {
 import {Geolocation, InAppBrowser} from 'ionic-native';
 import {Platform} from 'ionic-angular';
 import {MapSettingsPage} from './settings/map-settings';
-import {MapFilterPage} from './filter/filter';
+import {FilterWrapperPage} from './filter/filter-wrapper';
 import {LocationDetailPage} from '../location/location-details';
 import {MyCarsPage} from '../car/my-cars/my-cars';
 import {AuthService} from "../../services/auth.service";
@@ -66,6 +66,7 @@ export class MapPage {
     isCharging: boolean;
 
     filterForPlugs: Array<number>;
+    filterForCommercialCategory: Array<number>;
     chargingProgress: number;
 
     searchMode: boolean = false;
@@ -90,6 +91,7 @@ export class MapPage {
         this.viewType = 'map';
 
         this.filterForPlugs = [];
+        this.filterForCommercialCategory = [];
         this.chargingProgress = this.chargingService.getChargingProgress();
 
         this.autocompleteService = new google.maps.places.AutocompleteService();
@@ -109,6 +111,7 @@ export class MapPage {
         this.events.subscribe('auth:login', () => this.refreshCarInfo());
         this.events.subscribe('auth:logout', () => {
             this.filterForPlugs = [];
+            this.filterForCommercialCategory = [];
             this.refreshCarInfo();
         });
 
@@ -337,9 +340,21 @@ export class MapPage {
     refreshLocations() {
         this.deactivateFilterControl();
 
-        this.locationService.getLocationsPlugTypes(this.filterForPlugs, this.locationFields).subscribe(locations => {
+        let params = {
+            fields: this.locationFields
+        };
+
+        if (Array.isArray(this.filterForPlugs) && this.filterForPlugs.length > 0) {
+            params['plugType'] = this.filterForPlugs.join(',');
+        }
+
+        if (Array.isArray(this.filterForCommercialCategory) && this.filterForCommercialCategory.length > 0) {
+            params['commercialCategory'] = this.filterForCommercialCategory.join(',');
+        }
+
+        this.locationService.getLocations(params).subscribe(locations => {
                 this.locationsShort = locations;
-                if (this.filterForPlugs.length > 0) {
+                if (this.filterForPlugs.length > 0 || this.filterForCommercialCategory.length > 0) {
                     this.activateFilterControl();
                 }
                 this.updateLocationMarkers();
@@ -418,17 +433,22 @@ export class MapPage {
     presentFilterModal() {
         // convert string ids to numbers
         this.filterForPlugs = this.filterForPlugs.map((i) => +i);
+        this.filterForCommercialCategory = this.filterForCommercialCategory.map((i) => +i);
 
-        let filter = this.modalCtrl.create(MapFilterPage, {
-            'toggledPlugs': this.filterForPlugs
+        let filter = this.modalCtrl.create(FilterWrapperPage, {
+            toggledPlugs: this.filterForPlugs,
+            filterForCommercialCategory: this.filterForCommercialCategory,
+            setFilter: this.setFilter
         });
         filter.present();
-
-        filter.onDidDismiss(plugTypes => {
-            this.filterForPlugs = plugTypes;
-            this.refreshLocations();
-        });
     }
+
+    setFilter = (plugTypes, commercialCategories) => {
+        this.filterForPlugs = plugTypes;
+        this.filterForCommercialCategory = commercialCategories;
+
+        this.refreshLocations();
+    };
 
     activateFilterControl() {
         this.deactivateFilterControl(); // to avoid duplicate additions

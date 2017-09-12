@@ -46,7 +46,7 @@
 
 @include makeIcon(cust-about, '\e900');
 @include makeIcon(cust-add-photo, '\e901');
-@include makeIcon(cust-rest, '\e902');
+@include makeIcon(cust-restaurant, '\e902');
 @include makeIcon(cust-register, '\e903');
 @include makeIcon(cust-station, '\e904');
 @include makeIcon(cust-bulb, '\e905');
@@ -65,3 +65,5 @@
 @include makeIcon(cust-charged-car, '\e90e');
 @include makeIcon(cust-voucher, '\e918');
 @include makeIcon(cust-withdraw, '\e914');
+@include makeIcon(cust-private-station, '\e919');
+@include makeIcon(cust-public-station, '\e91a');

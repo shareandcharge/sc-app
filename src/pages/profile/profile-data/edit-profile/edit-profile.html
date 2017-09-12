@@ -47,14 +47,14 @@
                     <ion-item class="commercial-category">
                         <ion-label>
                             <ion-icon name="cust-hotel"></ion-icon>
-                            <span>Hotel</span>
+                            <span>{{ 'profile.commercial_category.hotel'|translate }}</span>
                         </ion-label>
                         <ion-checkbox [(ngModel)]="editCommercialCategory.hotel" [ngModelOptions]="{standalone:true}"></ion-checkbox>
                     </ion-item>
                     <ion-item class="commercial-category">
                         <ion-label>
-                            <ion-icon name="cust-rest"></ion-icon>
-                            <span>Restaurant</span>
+                            <ion-icon name="cust-restaurant"></ion-icon>
+                            <span>{{ 'profile.commercial_category.restaurant'|translate }}</span>
                         </ion-label>
                         <ion-checkbox [(ngModel)]="editCommercialCategory.restaurant" [ngModelOptions]="{standalone:true}"></ion-checkbox>
                     </ion-item>
