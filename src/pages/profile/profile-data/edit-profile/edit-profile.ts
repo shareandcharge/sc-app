@@ -125,11 +125,12 @@ export class EditProfilePage {
             'Timestamp': ''
         });
 
-        let cc = [];
+        let cc = this.editObj.operatorVat ? [] : [User.COMMERCIAL_CATEGORY_PRIVATE];
         this.editCommercialCategory.hotel && cc.push(User.COMMERCIAL_CATEGORY_HOTEL);
         this.editCommercialCategory.restaurant && cc.push(User.COMMERCIAL_CATEGORY_RESTAURANT);
 
         this.user.profile = this.editObj;
+
         this.user.commercialCategory = cc;
         this.userService.updateUserAndPublish(this.user).then(() => this.navCtrl.pop());
     }
