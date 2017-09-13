@@ -12,7 +12,7 @@ export class User implements Serializable<User> {
     profile: any;
     cars: any;
     authentification: any;
-    commercialcategory: Array<number>;  /* lowercase in backend */
+    commercialcategory: any; /* lowercase in backend */
 
     private _creditCards: any;
 
@@ -25,7 +25,8 @@ export class User implements Serializable<User> {
 
         this.authentification = {};
 
-        this.commercialcategory = [];
+        this.commercialcategory = {};
+        this.commercialcategory.category = [];
         this.authentification.apnDeviceTokens = [];
         this.authentification.gcmDeviceTokens = [];
     }
@@ -132,11 +133,11 @@ export class User implements Serializable<User> {
     }
 
     get commercialCategory() {
-        return this.commercialcategory
+        return this.commercialcategory.category;
     }
 
     set commercialCategory(commercialCategory) {
-        this.commercialcategory = commercialCategory;
+        this.commercialcategory.category = commercialCategory;
     }
 
     deserialize(input) {
@@ -146,7 +147,7 @@ export class User implements Serializable<User> {
         this.cars = input.cars;
         this.address = input.address;
         this.authentification = input.authentification;
-        this.commercialcategory = input.commercialcategory || [];
+        this.commercialcategory.category = input.commercialcategory.category || [];
 
         this._creditCards = [];
 
