@@ -6,9 +6,9 @@ export let CONFIG = {
     API_URL: 'https://api.shareandcharge.com/v1',
     IMAGES_BASE_URL: 'https://app.shareandcharge.com',
     API_KEY: {
-        param: 'noapikey',
-        name: 'webapp',
-        secret: 'i12345678901234567890'
+        param: 'apikey',
+        name: 'app',
+        secret: 'secret_placeholder'
     },
     FAQ_URL: 'https://shareandcharge.com/faqs/',
     CONTACT_EMAIL: 'info@shareandcharge.com',
