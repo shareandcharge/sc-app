@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_DIST='./src/config/config.ts.dist';
+CONFIG_DIST='./src/config/config.ts';
 CONFIG='./src/config/config.ts';
 
 API_KEY_NAME_PLACEHOLDER='{SC_APP_NAME}';
@@ -8,7 +8,7 @@ API_KEY_SECRET_PLACEHOLDER='{SC_APP_SECRET}';
 MIX_TOKEN_PLACEHOLDER='{SC_APP_MIX_TOKEN}';
 
 function main_build() {
-    
+
     BUILD_PLATFORM=$1;
     BUILD_TARGET=$2;
 
@@ -39,7 +39,7 @@ function build_ios() {
 }
 
 function build_android() {
-    
+
     BUILD_TARGET=$1;
 
     if [[ $BUILD_TARGET = 'dev' ]]

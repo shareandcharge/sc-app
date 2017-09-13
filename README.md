@@ -102,7 +102,7 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
 
 * Bumb version numbers in
   * `/src/config/config.ts`
-  * `/src/config/config.ts.dist`
+  * `/src/config/config.ts.<env>`
   ```javascript
   export let CONFIG = {
       APP_VERSION: '{BUMPED_VERSION_NUMBER}',
@@ -114,34 +114,10 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
   <widget id="com.shareandcharge.app" version="{BUMPED_VERSION_NUMBER}" xmlns="..."/>
   ```
 
-##### While you have the config open:
-We want to provide the info about enabled feature toggles within TestFlight builds, so note which ones you have enabled and make a note similiar to this:
-
-``` 
-if FEATURE_TOGGLES: {
-       show_juicebox_config: false,
-       usd_pilot: false,
-       hide_payment: false,
-       hide_commercial_option: false,
-       hide_sc_module: false,
-       show_kwh_tariff: false
-     }
-
-     
-          ||||
-          vvvv 
- 
-Running against live/test/staging-Environment (Pick one!)
-
-Features enabled:
-USD: OFF,
-Commercial usage: ON,
-JuiceBox: OFF,
-PayIns / -Outs : ON
-SC-Modules: OFF
-Show-KWH-Tariff: ON
+run the following command to create the config.ts file from the environment
 ```
-
+./go createConfigFor<env> // e.g ./go createConfigForLive for the production environment
+```
 
 #### 2. Set up the provisioning profiles and certificates.
 

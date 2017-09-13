@@ -14,7 +14,9 @@ function main {
   runLocal) runLocal;;
   runTest2) runTest2;;
   runStaging2) runStaging2;;
-  createLiveConfig) createLiveConfig;;
+  createConfigForLive) createConfigForLive;;
+  createConfigForStaging2) createConfigForStaging2;;
+  createConfigForTest2) createConfigForTest2;;
   *)
     help
     exit 1
@@ -28,7 +30,9 @@ function help {
   echo " runLocal          start and connect to local backend"
   echo " runTest2          start and connect to test2 backend"
   echo " runStaging2       start and connect to staging2 backend"
-  echo " createLiveConfig  creates the right config.ts file for production. The file contains sensitive information."
+  echo " createConfigForLive      creates the right config.ts file for production. The file contains sensitive information."
+  echo " createConfigForStaging2  creates the right config.ts file for staging2"
+  echo " createConfigForTest2     creates the right config.ts file for test2"
 }
 
 function ensure_pass() {
@@ -43,11 +47,20 @@ function ensure_pass() {
 
 }
 
-function createLiveConfig() {
+function createConfigForLive() {
   ensure_pass
   local api_key_secret=`../password-store/go pass show sc_production/api_key_secret`
   sed "s/secret_placeholder/${api_key_secret//&/\\&}/g" src/config/config.ts.live > src/config/config.ts
 }
+
+function createConfigForStaging2() {
+  cp src/config/config.ts.staging2 src/config/config.ts
+}
+
+function createConfigForTest2() {
+  cp src/config/config.ts.test2 src/config/config.ts
+}
+
 
 function runLocal() {
   cp src/config/config.ts.local src/config/config.ts
