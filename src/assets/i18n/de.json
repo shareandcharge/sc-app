@@ -443,6 +443,8 @@
       "country": "Land",
       "select": "Bitte wählen ...",
       "commercial_provider": "Ich bin ein kommerzieller Anbieter",
+      "commercial_provider_hint": "Du bist ein kommerzieller Anbieter, wenn Du ein Gewerbe betreibst (z.B. Hotel, Restaurant, Handwerksbetrieb, etc.) und Share&Charge in diesem Zusammenhang nutzen möchtest.",
+      "commercial_provider_hotel_hint" : "Wenn Du ein Hotel- oder Restaurantbetreiber bist, wähle Zutreffendes aus, um im Filter gelistet zu werden.",
       "vat_number": "Steuernummer",
       "data": "Profildaten",
       "name_address": "Name und Anschrift",

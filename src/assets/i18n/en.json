@@ -442,6 +442,8 @@
       "country": "Country",
       "select": "Select ...",
       "commercial_provider": "I am a commercial provider",
+      "commercial_provider_hint": "You are a commercial provider when you run a business (e.g. hotel, restaurant, craftsman's workshop, etc.) and want to use Share&Charge in this context.",
+      "commercial_provider_hotel_hint" : "If you run a hotel / restaurant, please select the appropriate option to become listed in the filter.",
       "vat_number": "VAT number",
       "data": "Profile data",
       "name_address": "Name and address",

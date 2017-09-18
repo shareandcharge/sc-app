@@ -23,6 +23,10 @@
                     <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('operatorVat')"></ion-icon>
                 </ion-item>
 
+                <ion-item class="operator-vat-item" text-wrap>
+                  {{'profile.data.commercial_provider_hint' | translate}}
+                </ion-item>
+
                 <div *ngIf="editObj.operatorVat" class="commercial-block">
                     <ion-item>
                         <ion-label stacked>{{'profile.data.company' | translate}}</ion-label>
@@ -44,6 +48,9 @@
                         {{ errorMessages.vatNumber }}
                     </div>
 
+                    <ion-item class="commercial-category" text-wrap>
+                      {{'profile.data.commercial_provider_hotel_hint' | translate}}
+                    </ion-item>
                     <ion-item class="commercial-category">
                         <ion-label>
                             <ion-icon name="cust-hotel"></ion-icon>
