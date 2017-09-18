@@ -252,11 +252,11 @@ export class LocationDetailPage {
         if (!isCommercial) {
             this.commercialCategoryIcons = ['cust-private-station'];
         }
-        else if (Array.isArray(this.location.ownerprofile.commercialcategory)) {
-            if (this.location.ownerprofile.commercialcategory.indexOf(User.COMMERCIAL_CATEGORY_RESTAURANT) > -1) {
+        else if (Array.isArray(this.location.commercialcategory.category)) {
+            if (this.location.commercialcategory.category.indexOf(User.COMMERCIAL_CATEGORY_RESTAURANT) > -1) {
                 this.commercialCategoryIcons.push('cust-restaurant');
             }
-            if (this.location.ownerprofile.commercialcategory.indexOf(User.COMMERCIAL_CATEGORY_HOTEL) > -1) {
+            if (this.location.commercialcategory.category.indexOf(User.COMMERCIAL_CATEGORY_HOTEL) > -1) {
                 this.commercialCategoryIcons.push('cust-hotel');
             }
         }
