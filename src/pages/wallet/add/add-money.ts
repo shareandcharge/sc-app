@@ -23,6 +23,7 @@ export class AddMoneyPage {
     payInButtonDisabled = false;
 
     currency: any = "";
+    showPaypal: boolean = true;
 
     constructor(public navCtrl: NavController, private viewCtrl: ViewController, private paymentService: PaymentService,
                 private errorService: ErrorService, private events: Events, private authService: AuthService,
@@ -39,6 +40,7 @@ export class AddMoneyPage {
             }
         }
         this.currency = this.currencyService.getCurrency();
+        this.showPaypal = this.currencyService.isPaypalAvailable();
     }
 
     ionViewWillEnter() {
@@ -71,7 +73,7 @@ export class AddMoneyPage {
         this.payInObject.details.success_url = `https://api-test.shareandcharge.com/v1/wallet/feedback/${language}/success.html`
         this.payInObject.details.error_url = `https://api-test.shareandcharge.com/v1/wallet/feedback/${language}/error.html`
 
-        
+
         this.trackerService.track('Account Info Added', {
             'Payment method': this.payInObject.type,
             'Timestamp': ''

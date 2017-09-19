@@ -19,7 +19,7 @@
             </ion-note>
         </button>
 
-        <button ion-item (click)="openFilterCommercialCategory()">
+        <button ion-item *ngIf="hideCommercialOption === false" (click)="openFilterCommercialCategory()">
             <ion-label>{{ 'map.filter.commercial_category' | translate }}</ion-label>
             <ion-note item-right item-end *ngIf="filterForCommercialCategory && filterForCommercialCategory.length > 0">
                 ({{ filterForCommercialCategory.length }})

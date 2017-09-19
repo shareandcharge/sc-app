@@ -26,6 +26,7 @@ export let CONFIG = {
           hide_payout: true,
           hide_commercial_option: true,
           hide_sc_module: true,
-          show_kwh_tariff: false
+          show_kwh_tariff: false,
+          hide_paypal: false
     }
 };
