@@ -264,7 +264,7 @@
   },
   "help": {
     "faq": "FAQ",
-    "terms": "Terms of conditions",
+    "terms": "Terms and conditions",
     "privacy": "Data privacy",
     "introduction": "Intro",
     "contact": "Contact"
@@ -299,7 +299,7 @@
       "operator": "Operator:",
       "vat_number": "Tax number:",
       "agb_1": "The ",
-      "agb_2": "Terms of conditions",
+      "agb_2": "Terms and conditions",
       "agb_3": " of the charging station operator apply.",
       "accept_terms_1": "I accept the",
       "accept_terms_3": "of the charging pole provider.",
