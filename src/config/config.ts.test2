@@ -22,7 +22,8 @@ export let CONFIG = {
     FEATURE_TOGGLES: {
           show_juicebox_config: false,
           usd_pilot: false,
-          hide_payment: true,
+          hide_payin: false,
+          hide_payout: true,
           hide_commercial_option: true,
           hide_sc_module: true,
           show_kwh_tariff: false

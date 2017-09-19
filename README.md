@@ -71,8 +71,11 @@ For the US pilot with eMotorwerks, we are temporarily changing the currency sign
 Implementation of the feature toggle can be found in `wallet.ts` and `wallet.html` in `src/pages/wallet/` where the currency is set in the constructor by calling `getCurrency` and `isPaymentAvailable` on the injected CurrencyService.
 
 
-##### hide_payment
-Additionally for the US pilot with eMotorwerks, we are hiding the add payment option from the wallet view. Users will not be able to transfer fiat currency in or out of the app account. This will also be removed at a later date.
+##### hide_payin
+Additionally for the US pilot with eMotorwerks, we are hiding the add payment option from the wallet view. Users will not be able to transfer fiat currency in of the app account. This will also be removed at a later date.
+
+##### hide_payout
+Additionally for the US pilot with eMotorwerks, we are hiding the payout option from the wallet view. Users will not be able to transfer fiat currency out of the app account. This will also be removed at a later date.
 
 ##### hide_commercial_option
 

@@ -5,15 +5,20 @@ import {CONFIG} from '../config/config';
 export class CurrencyService {
 
   private USD_PILOT: boolean = CONFIG.FEATURE_TOGGLES.usd_pilot;
-  private HIDE_PAYMENT: boolean = CONFIG.FEATURE_TOGGLES.hide_payment;
+  private HIDE_PAYIN: boolean = CONFIG.FEATURE_TOGGLES.hide_payin;
+  private HIDE_PAYOUT: boolean = CONFIG.FEATURE_TOGGLES.hide_payout;
   private HIDE_COMMERCIAL_OPTION : boolean = CONFIG.FEATURE_TOGGLES.hide_commercial_option;
 
   getCurrency(): string {
     return (this.USD_PILOT ? '$' : '€');
   }
 
-  isPaymentAvailable(): boolean {
-  	return (!this.HIDE_PAYMENT);
+  isPayInAvailable(): boolean {
+    return (!this.HIDE_PAYIN);
+  }
+
+  isPayOutAvailable(): boolean {
+    return (!this.HIDE_PAYOUT);
   }
 
   isCommercialOptionHidden(): boolean {
