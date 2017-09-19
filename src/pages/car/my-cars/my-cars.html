@@ -27,7 +27,7 @@
                 <h3>{{car.manufacturer}} {{car.model}}</h3>
             </button>
             <ion-item-options side="right">
-                <button ion-button color="danger" (click)="deleteCar(car, itemSliding)">Löschen</button>
+                <button ion-button color="danger" (click)="deleteCar(car, itemSliding)">{{'common.delete' | translate}}</button>
             </ion-item-options>
 
         </ion-item-sliding>
