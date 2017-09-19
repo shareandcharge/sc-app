@@ -209,7 +209,7 @@
   "car": {
     "form": {
       "manufacturer": {
-        "title": "Select manufaturer",
+        "title": "Select manufacturer",
         "error_subtitle": "List - my e-cars"
       },
       "model": {
