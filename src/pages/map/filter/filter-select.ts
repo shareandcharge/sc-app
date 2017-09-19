@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {FilterPlugtypesPage} from "./filter-plugtypes";
 import {FilterCommercialCategoryPage} from "./filter-commercial-category";
+import {CurrencyService} from "../../../services/currency.service";
 
 
 @Component({
@@ -13,11 +14,14 @@ export class FilterSelectPage {
     toggledPlugs: Array<any>;
     filterForCommercialCategory: Array<any>;
     setFilter: any;
+    hideCommercialOption: boolean = false;
 
-    constructor(private navCtrl: NavController, private navParams : NavParams) {
+
+    constructor(private navCtrl: NavController, private navParams : NavParams, private currencyService: CurrencyService) {
         this.toggledPlugs = this.navParams.get('toggledPlugs');
         this.filterForCommercialCategory = this.navParams.get('filterForCommercialCategory');
         this.setFilter = this.navParams.get('setFilter');
+        this.hideCommercialOption = this.currencyService.isCommercialOptionHidden();
     }
 
     ionViewWillEnter() {
