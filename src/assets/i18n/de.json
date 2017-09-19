@@ -230,6 +230,7 @@
       "capacity": "Batteriekapazität (kWh)",
       "plugtypes": "Steckertypen",
       "plugtypes_copy": "Markiere alle Steckertypen, die dein Auto unterstützt.",
+      "us_plug_hint": "Die meisten Elektroautos in der USA nutzen Typ 1",
       "error_subtitle": "Liste - Steckertypen",
       "error_msgs": {
             "plateNumber": "Bitte gib das Kennzeichen an.",

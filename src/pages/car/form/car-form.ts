@@ -21,6 +21,7 @@ import {UserService} from "../../../services/user.service";
 import {AuthService} from "../../../services/auth.service";
 import {TrackerService} from "../../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
+import {CONFIG} from '../../../config/config';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class CarFormPage {
     errorMessages: any;
     carForm: any;
     submitAttempt: boolean = false;
-
+    showUSPlugHint: boolean;
+    
     @ViewChild(Content) content: Content;
 
     constructor(private userService: UserService, private authService: AuthService, private configService: ConfigService,
@@ -50,8 +52,10 @@ export class CarFormPage {
         this.car = typeof navParams.get("car") !== "undefined" ? navParams.get("car") : new Car();
         this.mode = navParams.get("mode");
 
+        this.showUSPlugHint = CONFIG.FEATURE_TOGGLES.usd_pilot;
         this.configService.getPlugTypes().subscribe((plugTypes) => {
-                this.plugOptions = plugTypes;
+                let selectedId = CONFIG.FEATURE_TOGGLES.usd_pilot ? 5 : undefined;
+                this.plugOptions = this.addSelectedPlugs(plugTypes, selectedId);
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('car.form.error_subtitle')));
         this.createErrorMessages();
@@ -244,6 +248,13 @@ export class CarFormPage {
 
     isAdd() {
         return this.mode != 'edit';
+    }
+
+    addSelectedPlugs(options, selectedId) {
+        for (let plug of options) {
+            plug.selected = (plug.id == selectedId);
+        }
+        return options;
     }
 
 }

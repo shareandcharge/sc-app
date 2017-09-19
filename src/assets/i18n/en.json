@@ -230,6 +230,7 @@
       "capacity": "Capacity (kWh)",
       "plugtypes": "Plug types",
       "plugtypes_copy": "Check every plug type is supported by your e-car.",
+      "us_plug_hint": "Most cars in the US are using Type 1",
       "error_subtitle": "List - plug types",
       "error_msgs": {
         "plateNumber": "Please enter your license plate number.",
@@ -333,7 +334,7 @@
       "contact" : "Contact:",
       "ratings": "Reviews:",
       "write_rating" : "Write a review",
-      "load" : "Load",
+      "load" : "Charge",
       "loading_progress" : "Loading progress",
       "not_open" : "Charging station is not open",
       "monday": "M.",
