@@ -492,6 +492,7 @@
     "days": "Tage",
     "choose": "Bitte wählen ...",
     "contact_person": "Kontaktperson",
+    "example_contact_person": "Max Mustermann, Musterstr. 5, 12345 Musterstadt",
     "description": "Beschreibung der Ladestation",
     "save_changes": "Änderungen speichern",
     "data_incomplete": "Daten unvollständig",
