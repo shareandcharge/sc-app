@@ -436,7 +436,7 @@
       "company": "Company",
       "first_name": "First name",
       "family_name": "Last name",
-      "street_house_number": "Street and house number",
+      "street_house_number": "Street address",
       "zipcode": "Zipcode",
       "city": "City",
       "country": "Country",
@@ -597,7 +597,7 @@
   "error_messages": {
     "first_name": "Please enter your first name.",
     "last_name": "Please enter your surname.",
-    "address": "Please enter your address and house number.",
+    "address": "Please enter your street address.",
     "city": "Please enter your city.",
     "state": "Please check the entered state.",
     "country": "Please enter your country.",
