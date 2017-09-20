@@ -119,7 +119,7 @@
     "order_not_found": "The order could not be found",
     "password_too_weak": "Your password is too weak - you will need at least 10 characters and no more than three consecutive characters",
     "chargingsstation_already_charging": "The charging station is already charging",
-    "chargingstation_already_charging": "The charging station is currently loading",
+    "chargingstation_already_charging": "The charging station is currently charging",
     "no_invoice_found": "The requested invoice could not be found",
     "invalid_secure_config": "Invalid configuration",
     "no_key_found": "No key found",
@@ -187,7 +187,7 @@
   "app": {
     "cancel_app": "Cancel the app",
     "cancel_app_ok": "Yes, close the app",
-    "loading_success": "The charging process has succeeded"
+    "loading_success": "Charging is completed"
   },
   "_global": {
     "data_protection": {
@@ -335,7 +335,7 @@
       "ratings": "Reviews:",
       "write_rating" : "Write a review",
       "load" : "Charge",
-      "loading_progress" : "Loading progress",
+      "loading_progress" : "Charging progress",
       "not_open" : "Charging station is not open",
       "monday": "M.",
       "tuesday": "T.",
