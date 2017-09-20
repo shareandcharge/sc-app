@@ -112,6 +112,7 @@
     "error_start_charging_unavailable": "Ladestation ist temporär nicht erreichbar",
     "error_start_charging_not_connected": "Fahrzeug ist nicht angeschlossen",
     "error_start_charging": "Konnte den Ladevorgang nicht starten. Bitte prüfe die Verbindung zwischen Deinem Auto und der Ladestation!",
+    "error_stop_charging": "Konnte den Ladevorgang nicht stoppen.",
     "wrong_old_password": "Ungültiges altes Passwort.",
     "pay_in_limit_reached": "Du kannst pro Tag nur 100{{currency}} einzahlen.",
     "time_too_long": "Die ausgewählte Zeit ist zu lang.",
