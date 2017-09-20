@@ -112,6 +112,7 @@
     "error_start_charging_unavailable": "The charging station is unavailable",
     "error_start_charging_not_connected": "The vehicle is not connected to the charging station",
     "error_start_charging": "The charging process couldn't be started. Please check the connection between your e-car and the charging station",
+    "error_stop_charging": "The charging process couldn't be stopped.",
     "wrong_old_password": "You used a wrong or old password",
     "pay_in_limit_reached": "The maximum Pay-in level per day is 100{{currency}}",
     "time_too_long": "Your selected time is too long",
