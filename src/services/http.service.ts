@@ -108,8 +108,8 @@ export class HttpService {
         let token = encodedHeader + "." + encodedData;
 
         let signature = CryptoJS.HmacSHA256(token, secret);
-        signature = this.base64url(signature);
+        let signature64 = this.base64url(signature);
 
-        return token + "." + signature;
+        return token + "." + signature64;
     };
 }
