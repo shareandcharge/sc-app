@@ -459,7 +459,8 @@
       "confirm_delete": "Comfirm deletion",
       "confirm_delete_message": "Do you really want to delete your profile? This is permanent?",
       "yes_delete": "Yes, delete",
-      "state": "State"
+      "state": "State",
+      "mandatory": "(*) Mandatory fields"
     },
     "country": {
       "de": "Germany",
