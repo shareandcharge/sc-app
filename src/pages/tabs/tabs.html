@@ -1,13 +1,16 @@
+<!-- ****************************************************** -->
+<!-- HEADS UP!                                              -->
+<!-- Leave the space in front of the titles!                -->
+<!-- Due to an ionic bug they would not be shown otherwise  -->
+<!-- ****************************************************** -->
 <ion-tabs #tabs>
+  <ion-tab [root]="tab1Root" tabTitle=" {{ 'tabs.map' | translate }}" tabIcon="cust-map"></ion-tab>
 
-  <ion-tab [root]="tab1Root" tabTitle="{{ 'tabs.map' | translate }}" tabIcon="cust-map"></ion-tab>
+  <ion-tab tabTitle=" {{ 'tabs.charging_stations' | translate }}" tabIcon="cust-station" (ionSelect)="addStationModal()" show="{{!auth.loggedIn()}}"></ion-tab>
+  <ion-tab tabTitle=" {{ 'tabs.register' | translate }}" tabIcon="cust-register" (ionSelect)="signupModal()" show="{{!auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle=" {{ 'tabs.info' | translate }}" tabIcon="cust-about" show="{{!auth.loggedIn()}}"></ion-tab>
 
-  <ion-tab tabTitle="{{ 'tabs.charging_stations' | translate }}" tabIcon="cust-station" (ionSelect)="addStationModal()" show="{{!auth.loggedIn()}}"></ion-tab>
-  <ion-tab tabTitle="{{ 'tabs.register' | translate }}" tabIcon="cust-register" (ionSelect)="signupModal()" show="{{!auth.loggedIn()}}"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="{{ 'tabs.info' | translate }}" tabIcon="cust-about" show="{{!auth.loggedIn()}}"></ion-tab>
-
-  <ion-tab [root]="tab3Root" tabTitle="{{ 'tabs.charging_stations' | translate }}" tabIcon="cust-station" show="{{auth.loggedIn()}}"></ion-tab>
-  <ion-tab [root]="tab4Root" tabTitle="{{ 'tabs.profile' | translate }}" tabIcon="cust-profile" show="{{auth.loggedIn()}}"></ion-tab>
-  <ion-tab [root]="tab5Root" tabTitle="{{ 'tabs.account' | translate }}" tabIcon="cust-wallet" show="{{auth.loggedIn()}}"></ion-tab>
-
+  <ion-tab [root]="tab3Root" tabTitle=" {{ 'tabs.charging_stations' | translate }}" tabIcon="cust-station" show="{{auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab4Root" tabTitle=" {{ 'tabs.profile' | translate }}" tabIcon="cust-profile" show="{{auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab5Root" tabTitle=" {{ 'tabs.account' | translate }}" tabIcon="cust-wallet" show="{{auth.loggedIn()}}"></ion-tab>
 </ion-tabs>
