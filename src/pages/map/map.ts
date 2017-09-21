@@ -281,52 +281,64 @@ export class MapPage {
         return this.viewType;
     };
 
-  loadMap() {
-    let loader = this.loadingCtrl.create({
-      // content: this.translateService.instant('map.loading_map'),
-    });
-    loader.present();
 
-    let latLng = new google.maps.LatLng(this.defaultCenterLat, this.defaultCenterLng);
-
-    let mapOptions = {
-      center: latLng,
-      zoom: this.defaultZoom,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      mapTypeControl: false,
-      fullscreenControl: false,
-      disableDefaultUI: this.mapDefaultControlls
-    };
-
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    this.addMapCenterControl();
-    this.addMapFilterControl();
-
-    let me = this;
-
-    google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
-      // add event listener to all a-tags of the map and use inAppBrowser to open them
-      let aTags = me.mapElement.nativeElement.getElementsByTagName('A');
-      let closeTrans = me.translateService.instant('common.close');
-
-      for (let aTag of aTags) {
-        if (aTag.href === '') {
-          continue;
-        }
-
-        aTag.addEventListener('click', (event) => {
-          event.preventDefault();
-          new InAppBrowser(aTag.href, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+closeTrans+',toolbar=yes,location=yes');
-          return false;
+    loadMap() {
+        let loader = this.loadingCtrl.create({
+            // content: this.translateService.instant('map.loading_map'),
         });
-      }
+        loader.present();
 
-      me.mapLoaded();
-      loader.dismissAll();
-    });
-  }
+        let options = {
+            maximumAge: 0, timeout: 10000, enableHighAccuracy: true
+        };
 
-  refreshLocations() {
+        let latLng = new google.maps.LatLng(this.defaultCenterLat, this.defaultCenterLng);
+
+        Geolocation.getCurrentPosition(options).then((position) => {
+            latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            return latLng;
+        }, (err) => {
+            return latLng;
+        }).then((latLng) => {
+            let mapOptions = {
+                center: latLng,
+                zoom: this.defaultZoom,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                mapTypeControl: false,
+                fullscreenControl: false,
+                disableDefaultUI: this.mapDefaultControlls
+            };
+
+            this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+            this.addMapCenterControl();
+            this.addMapFilterControl();
+
+            let me = this;
+
+            google.maps.event.addListenerOnce(this.map, 'tilesloaded', function () {
+                // add event listener to all a-tags of the map and use inAppBrowser to open them
+                let aTags = me.mapElement.nativeElement.getElementsByTagName('A');
+                let closeTrans = me.translateService.instant('common.close');
+
+                for (let aTag of aTags) {
+                    if (aTag.href === '') {
+                        continue;
+                    }
+
+                    aTag.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        new InAppBrowser(aTag.href, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=' + closeTrans + ',toolbar=yes,location=yes');
+                        return false;
+                    });
+                }
+
+                me.mapLoaded();
+                loader.dismissAll();
+            });
+        });
+    }
+
+    refreshLocations() {
         this.deactivateFilterControl();
 
         let params = {
@@ -569,7 +581,7 @@ export class MapPage {
 
         this.autocompleteService.getPlacePredictions({
             input: val,
-            componentRestrictions: {country: ['DE','NL','US']}
+            componentRestrictions: {country: ['DE', 'NL', 'US']}
         }, (predictions, status) => {
             let places = [];
 
