@@ -112,6 +112,7 @@
     "error_start_charging_unavailable": "The charging station is unavailable",
     "error_start_charging_not_connected": "The vehicle is not connected to the charging station",
     "error_start_charging": "The charging process couldn't be started. Please check the connection between your e-car and the charging station",
+    "error_stop_charging": "The charging process couldn't be stopped.",
     "wrong_old_password": "You used a wrong or old password",
     "pay_in_limit_reached": "The maximum Pay-in level per day is 100{{currency}}",
     "time_too_long": "Your selected time is too long",
@@ -119,7 +120,7 @@
     "order_not_found": "The order could not be found",
     "password_too_weak": "Your password is too weak - you will need at least 10 characters and no more than three consecutive characters",
     "chargingsstation_already_charging": "The charging station is already charging",
-    "chargingstation_already_charging": "The charging station is currently loading",
+    "chargingstation_already_charging": "The charging station is currently charging",
     "no_invoice_found": "The requested invoice could not be found",
     "invalid_secure_config": "Invalid configuration",
     "no_key_found": "No key found",
@@ -187,12 +188,12 @@
   "app": {
     "cancel_app": "Cancel the app",
     "cancel_app_ok": "Yes, close the app",
-    "loading_success": "The charging process has succeeded"
+    "loading_success": "Charging is completed"
   },
   "_global": {
     "data_protection": {
       "data_protection": "Data protection",
-      "paragraph_1": "We, Share&Charge, a service of MotionWerk GmbH, Opernplatz 1, 45129 Essen, Tel.: +49(0)201-8133108, E-Mail: info@shareandcharge.com (\u201eMotionWerk\u201c) we protect your interest in our platform \u201eShare&Charge\u201c and we know the date protection is important for you.",
+      "paragraph_1": "We, Share&Charge, a service of MotionWerk GmbH, Opernplatz 1, 45129 Essen, Tel.: +49(0)201-8133108, E-Mail: info@shareandcharge.com (\u201cMotionWerk\u201c) we protect your interest in our platform \u201cShare&Charge\u201c and we know that data protection is important for you.",
       "paragraph_2": "Our data protection agreement ",
       "paragraph_2_here": "here",
       "paragraph_3": "Anonymized session IDs declare the provision of our services. By using our services, you agree that we will assign you a session ID per session.",
@@ -209,7 +210,7 @@
   "car": {
     "form": {
       "manufacturer": {
-        "title": "Select manufaturer",
+        "title": "Select manufacturer",
         "error_subtitle": "List - my e-cars"
       },
       "model": {
@@ -230,6 +231,7 @@
       "capacity": "Capacity (kWh)",
       "plugtypes": "Plug types",
       "plugtypes_copy": "Check every plug type is supported by your e-car.",
+      "us_plug_hint": "Most cars in the US are using Type 1.",
       "error_subtitle": "List - plug types",
       "error_msgs": {
         "plateNumber": "Please enter your license plate number.",
@@ -264,7 +266,7 @@
   },
   "help": {
     "faq": "FAQ",
-    "terms": "Terms of conditions",
+    "terms": "Terms and conditions",
     "privacy": "Data privacy",
     "introduction": "Intro",
     "contact": "Contact"
@@ -299,7 +301,7 @@
       "operator": "Operator:",
       "vat_number": "Tax number:",
       "agb_1": "The ",
-      "agb_2": "Terms of conditions",
+      "agb_2": "Terms and conditions",
       "agb_3": " of the charging station operator apply.",
       "accept_terms_1": "I accept the",
       "accept_terms_3": "of the charging pole provider.",
@@ -333,8 +335,8 @@
       "contact" : "Contact:",
       "ratings": "Reviews:",
       "write_rating" : "Write a review",
-      "load" : "Load",
-      "loading_progress" : "Loading progress",
+      "load" : "Charge",
+      "loading_progress" : "Charging progress",
       "not_open" : "Charging station is not open",
       "monday": "M.",
       "tuesday": "T.",
@@ -349,7 +351,11 @@
   "map": {
     "filter": {
       "title": "Filter",
-      "list_plugins": "List plug type"
+      "plugtypes": "Plug types",
+      "commercial_category": "Commercial category",
+      "list_plugins": "List plug type",
+      "commercial_category_title": "Commercial category",
+      "commercial_category_header": "Show only"
     },
     "settings": {
       "title": "Settings",
@@ -431,13 +437,15 @@
       "edit_name_adresse": "Edit name and address",
       "company": "Company",
       "first_name": "First name",
-      "family_name": "Surname",
-      "street_house_number": "Street and house number",
+      "family_name": "Last name",
+      "street_house_number": "Street address",
       "zipcode": "Zipcode",
       "city": "City",
       "country": "Country",
       "select": "Select ...",
       "commercial_provider": "I am a commercial provider",
+      "commercial_provider_hint": "You are a commercial provider when you run a business (e.g. hotel, restaurant, craftsman's workshop, etc.) and want to use Share&Charge in this context.",
+      "commercial_provider_hotel_hint" : "If you run a hotel / restaurant, please select the appropriate option to become listed in the filter.",
       "vat_number": "VAT number",
       "data": "Profile data",
       "name_address": "Name and address",
@@ -451,12 +459,18 @@
       "confirm_delete": "Comfirm deletion",
       "confirm_delete_message": "Do you really want to delete your profile? This is permanent?",
       "yes_delete": "Yes, delete",
-      "state": "State"
+      "state": "State",
+      "mandatory": "(*) Mandatory fields"
     },
     "country": {
       "de": "Germany",
       "us": "United States of America",
       "nl": "Netherlands"
+    },
+    "commercial_category": {
+      "hotel": "Hotel",
+      "restaurant": "Restaurant",
+      "private": "Private person"
     }
   },
   "rating": {
@@ -474,13 +488,14 @@
     "add_charging_station": "Add charging station",
     "station_address": "Address of the charging station",
     "station_name": "Name of station",
-    "station_name_example": "Charging station in central Essen",
+    "station_name_example": "Charging station in central San Francisco",
     "opening_time": "Opening hours",
-    "adapt": "Adapt",
+    "adapt": "Customize",
     "days": "Days",
     "choose": "Please select ...",
     "contact_person": "Contact Person",
-    "description": "Pole description",
+    "example_contact_person": "John Doe, 123 Main St, Anytown",
+    "description": "Charger description",
     "save_changes": "Save changes",
     "data_incomplete": "Data incomplete",
     "msg_complete_profile": "If you want to register a charging station, please complete your profile.",
@@ -588,7 +603,7 @@
   "error_messages": {
     "first_name": "Please enter your first name.",
     "last_name": "Please enter your surname.",
-    "address": "Please enter your address and house number.",
+    "address": "Please enter your street address.",
     "city": "Please enter your city.",
     "state": "Please check the entered state.",
     "country": "Please enter your country.",

@@ -24,7 +24,8 @@ export class WalletPage {
     intervals = [];
     pollPendingTimeout: number = 6000;  //-- milliseconds to poll for pending transactions
     currency: any = "";
-    showPayment: boolean = true;
+    showPayIn: boolean = true;
+    showPayOut: boolean = true;
 
     constructor(public navCtrl: NavController, private modalCtrl: ModalController,
                 private paymentService: PaymentService, private authService: AuthService,
@@ -40,7 +41,8 @@ export class WalletPage {
         });
 
         this.currency = this.currencyService.getCurrency();
-        this.showPayment = this.currencyService.isPaymentAvailable();
+        this.showPayIn = this.currencyService.isPayInAvailable();
+        this.showPayOut = this.currencyService.isPayOutAvailable();
     }
 
     ionViewWillEnter() {
@@ -93,7 +95,7 @@ export class WalletPage {
     }
 
     addMoney() {
-        if (!this.checkProfileComplete() || !this.showPayment) return;
+        if (!this.checkProfileComplete() || !this.showPayIn) return;
 
         let modal = this.modalCtrl.create(AddMoneyPage);
         modal.onDidDismiss(data => {

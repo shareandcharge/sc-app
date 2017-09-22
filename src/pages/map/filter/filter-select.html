@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons start>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+
+        <ion-title>{{'map.filter.title'|translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list class="no-outer-lines">
+        <button ion-item (click)="openFilterPlugtypes()">
+            {{ 'map.filter.plugtypes' | translate }}
+            <ion-note item-right item-end *ngIf="toggledPlugs && toggledPlugs.length > 0">
+                ({{ toggledPlugs.length }})
+            </ion-note>
+        </button>
+
+        <button ion-item *ngIf="hideCommercialOption === false" (click)="openFilterCommercialCategory()">
+            <ion-label>{{ 'map.filter.commercial_category' | translate }}</ion-label>
+            <ion-note item-right item-end *ngIf="filterForCommercialCategory && filterForCommercialCategory.length > 0">
+                ({{ filterForCommercialCategory.length }})
+            </ion-note>
+        </button>
+    </ion-list>
+</ion-content>

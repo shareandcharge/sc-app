@@ -24,7 +24,11 @@ export class Location implements Serializable<Location> {
         city: string,
         firstname: string,
         lastname: string,
-        postalCode: string
+        postalCode: string,
+        operatorVatID: string
+    };
+    commercialcategory: {
+      category: Array<number>
     };
 
     constructor() {
@@ -49,8 +53,12 @@ export class Location implements Serializable<Location> {
             city: '',
             firstname: '',
             lastname: '',
-            postalCode: ''
+            postalCode: '',
+            operatorVatID: ''
         };
+        this.commercialcategory = {
+          category: []
+        }
     }
 
     isRented(): boolean {
@@ -109,6 +117,7 @@ export class Location implements Serializable<Location> {
         this.matchesPlugtype = input.matchesPlugtype;
         this.metadata = input.metadata;
         this.ownerprofile = input.ownerprofile;
+        this.commercialcategory = input.commercialcategory;
 
         if (input.images) {
             this.images = input.images;

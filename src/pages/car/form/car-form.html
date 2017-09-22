@@ -132,6 +132,7 @@
 
                 <ion-item text-wrap>
                     <ion-label class="label-small">{{ "car.form.plugtypes" | translate}}<br>
+                        <small><ng-container *ngIf="showUSPlugHint">{{ "car.form.us_plug_hint" | translate}}</ng-container></small>
                         <small>{{ "car.form.plugtypes_copy" | translate}}</small>
                     </ion-label>
                 </ion-item>
@@ -142,7 +143,7 @@
                                 cancelText="{{ 'common.cancel' | translate}}" okText="{{ 'common.ok' | translate }}"
                                 multiple="true"
                                 class="select-multiline input-white" placeholder="{{ 'common.choose' | translate }}">
-                        <ion-option *ngFor="let plug of plugOptions" value="{{plug.id}}">{{plug.name}}</ion-option>
+                        <ion-option *ngFor="let plug of plugOptions" value="{{plug.id}}" [selected]="plug.selected">{{plug.name}}</ion-option>
                     </ion-select>
                 </ion-item>
                 <div *ngIf="!carForm.controls.plugTypes.valid && submitAttempt"

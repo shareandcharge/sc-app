@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {
     Platform, Events, LoadingController, Config, ModalController, App, IonicApp,
-    MenuController, AlertController, ToastController
+    MenuController, AlertController, ToastController, Nav
 } from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {Storage} from '@ionic/storage';
@@ -26,8 +26,10 @@ import {LanguageService} from "../services/language.service";
     providers: [CurrencyService]
 })
 export class MyApp {
-    rootPage: any = TabsPage;
-    loader: any;
+    /* Go to root page once the platform is ready */
+    rootPage: any = null;
+
+    @ViewChild(Nav) nav: Nav;
 
     constructor(private app: App, private platform: Platform, private modalCtrl: ModalController,
                 private authService: AuthService, private userService: UserService,
@@ -90,16 +92,22 @@ export class MyApp {
             platform.registerBackButtonAction(() => this.handleBackButton(), 1);
 
             this.storage.get('introShown').then((result) => {
-                this.rootPage = TabsPage;
                 if (!result) {
                     this.storage.set('introShown', true);
                     let introModal = this.modalCtrl.create(IntroPage, {isOnboarding: true});
+                    introModal.onDidDismiss(() => this.goToRootPage());
                     introModal.present();
+                }
+                else {
+                    this.goToRootPage();
                 }
             });
 
-            StatusBar.styleDefault();
         });
+    }
+
+    goToRootPage() {
+        this.nav.setRoot(TabsPage);
     }
 
     checkExistingToken() {

@@ -9,18 +9,69 @@
 <ion-content>
     <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
         <ion-list no-lines="">
-            <ion-item>
-                <ion-label stacked>{{'profile.data.company' | translate}}</ion-label>
-                <ion-input type="text" class="input-white" [(ngModel)]="editObj.company"
-                           formControlName="company"></ion-input>
-            </ion-item>
-            <div *ngIf="profileForm.errors && profileForm.errors.businessUser.company && submitAttempt"
-                 class="alert-box alert-box-danger" margin>
-                {{ errorMessages.company }}
-            </div>
+
+            <ng-container *ngIf="showCommercialOption">
+
+
+                <ion-item text-wrap class="operator-vat-item">
+                    <ion-checkbox checked="false"
+                                  formControlName="businessUser"
+                                  [(ngModel)]="editObj.operatorVat">
+                    </ion-checkbox>
+                    <ion-label>
+                        {{'profile.data.commercial_provider' | translate}}</ion-label>
+                    <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('operatorVat')"></ion-icon>
+                </ion-item>
+
+                <ion-item class="operator-vat-item" text-wrap>
+                  {{'profile.data.commercial_provider_hint' | translate}}
+                </ion-item>
+
+                <div *ngIf="editObj.operatorVat" class="commercial-block">
+                    <ion-item>
+                        <ion-label stacked>{{'profile.data.company' | translate}} (*)</ion-label>
+                        <ion-input type="text" class="input-white" [(ngModel)]="editObj.company"
+                                   formControlName="company"></ion-input>
+                    </ion-item>
+                    <div *ngIf="profileForm.errors && profileForm.errors.businessUser.company && submitAttempt"
+                         class="alert-box alert-box-danger" margin>
+                        {{ errorMessages.company }}
+                    </div>
+
+                    <ion-item>
+                        <ion-label stacked>{{'profile.data.vat_number' | translate}} (*)</ion-label>
+                        <ion-input type="text" class="input-white" formControlName="operatorVatID"
+                                   [(ngModel)]="editObj.operatorVatID"></ion-input>
+                    </ion-item>
+                    <div *ngIf="profileForm.errors && profileForm.errors.businessUser.vatNumber && submitAttempt"
+                         class="alert-box alert-box-danger" margin>
+                        {{ errorMessages.vatNumber }}
+                    </div>
+
+                    <ion-item class="commercial-category" text-wrap>
+                      {{'profile.data.commercial_provider_hotel_hint' | translate}}
+                    </ion-item>
+                    <ion-item class="commercial-category">
+                        <ion-label>
+                            <ion-icon name="cust-hotel"></ion-icon>
+                            <span>{{ 'profile.commercial_category.hotel'|translate }}</span>
+                        </ion-label>
+                        <ion-checkbox [(ngModel)]="editCommercialCategory.hotel" [ngModelOptions]="{standalone:true}"></ion-checkbox>
+                    </ion-item>
+                    <ion-item class="commercial-category">
+                        <ion-label>
+                            <ion-icon name="cust-restaurant"></ion-icon>
+                            <span>{{ 'profile.commercial_category.restaurant'|translate }}</span>
+                        </ion-label>
+                        <ion-checkbox [(ngModel)]="editCommercialCategory.restaurant" [ngModelOptions]="{standalone:true}"></ion-checkbox>
+                    </ion-item>
+                </div>
+
+            </ng-container>
+
 
             <ion-item>
-                <ion-label stacked>{{'profile.data.first_name' | translate}}</ion-label>
+                <ion-label stacked>{{'profile.data.first_name' | translate}} (*)</ion-label>
                 <ion-input type="text" class="input-white" [(ngModel)]="editObj.firstname"
                            formControlName="firstName"></ion-input>
             </ion-item>
@@ -29,7 +80,7 @@
                 {{ errorMessages.firstName }}
             </div>
             <ion-item>
-                <ion-label stacked>{{'profile.data.family_name' | translate}}</ion-label>
+                <ion-label stacked>{{'profile.data.family_name' | translate}} (*)</ion-label>
                 <ion-input type="text" class="input-white" formControlName="lastName"
                            [(ngModel)]="editObj.lastname"></ion-input>
             </ion-item>
@@ -38,7 +89,7 @@
                 {{ errorMessages.lastName }}
             </div>
             <ion-item>
-                <ion-label stacked>{{'profile.data.street_house_number' | translate}}</ion-label>
+                <ion-label stacked>{{'profile.data.street_house_number' | translate}} (*)</ion-label>
                 <ion-input type="text" class="input-white" formControlName="address"
                            [(ngModel)]="editObj.address"></ion-input>
             </ion-item>
@@ -57,7 +108,7 @@
                 <ion-icon class="help-icon" name="ios-help-circle-outline" item-right (click)="showHelp('postalCode')"></ion-icon>
             </div>
             <ion-item>
-                <ion-label stacked>{{'profile.data.city' | translate}}</ion-label>
+                <ion-label stacked>{{'profile.data.city' | translate}} (*)</ion-label>
                 <ion-input type="text" class="input-white" formControlName="city"
                            [(ngModel)]="editObj.city"></ion-input>
             </ion-item>
@@ -83,31 +134,13 @@
                     <ion-option *ngFor="let country of countries" value="{{ country.value }}" selected="{{ country.selected }}">{{ country.name }}</ion-option>
                 </ion-select>
             </ion-item>
-
             <div *ngIf="!profileForm.controls.country.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
-                {{ errorMessages.country }}
+                 {{ errorMessages.country }}
             </div>
-
-            <ion-item *ngIf="!isPilot" text-wrap class="operator-vat-item">
-                <ion-checkbox checked="false"
-                    formControlName="businessUser"
-                    [(ngModel)]="editObj.operatorVat">
-                </ion-checkbox>
-                <ion-label>
-                    {{'profile.data.commercial_provider' | translate}}</ion-label>
-                <ion-icon name="ios-help-circle-outline" item-right (click)="showHelp('operatorVat')"></ion-icon>
+            <ion-item>
+              <ion-label stacked>{{'profile.data.mandatory' | translate}}</ion-label>
             </ion-item>
-            <ion-item *ngIf="editObj.operatorVat && !isPilot">
-                <ion-label floating>{{'profile.data.vat_number' | translate}}</ion-label>
-                <ion-input type="text" class="input-white" formControlName="operatorVatID"
-                           [(ngModel)]="editObj.operatorVatID"></ion-input>
-            </ion-item>
-
-            <div *ngIf="profileForm.errors && profileForm.errors.businessUser.vatNumber && submitAttempt"
-                 class="alert-box alert-box-danger" margin>
-                {{ errorMessages.vatNumber }}
-            </div>
         </ion-list>
         <div padding text-center>
             <button type="submit" ion-button round text-uppercase="">{{'common.save' | translate}}</button>

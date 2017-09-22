@@ -2,12 +2,17 @@ import {Serializable} from './serializable';
 import {isDefined, isBlank, isArray} from "ionic-angular/util/util";
 
 export class User implements Serializable<User> {
+    public static readonly COMMERCIAL_CATEGORY_PRIVATE = 0;
+    public static readonly COMMERCIAL_CATEGORY_HOTEL = 1;
+    public static readonly COMMERCIAL_CATEGORY_RESTAURANT = 2;
+
     id: any;
     email: string;
     address: string;
     profile: any;
     cars: any;
     authentification: any;
+    commercialcategory: any; /* lowercase in backend */
 
     private _creditCards: any;
 
@@ -20,6 +25,8 @@ export class User implements Serializable<User> {
 
         this.authentification = {};
 
+        this.commercialcategory = {};
+        this.commercialcategory.category = [];
         this.authentification.apnDeviceTokens = [];
         this.authentification.gcmDeviceTokens = [];
     }
@@ -125,6 +132,14 @@ export class User implements Serializable<User> {
         return typeof this.profile.language !== 'undefined';
     }
 
+    get commercialCategory() {
+        return this.commercialcategory.category;
+    }
+
+    set commercialCategory(commercialCategory) {
+        this.commercialcategory.category = commercialCategory;
+    }
+
     deserialize(input) {
         this.id = input.id;
         this.email = input.email;
@@ -132,6 +147,7 @@ export class User implements Serializable<User> {
         this.cars = input.cars;
         this.address = input.address;
         this.authentification = input.authentification;
+        this.commercialcategory.category = input.commercialcategory.category || [];
 
         this._creditCards = [];
 

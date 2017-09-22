@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar hideBackButton>
         <ion-buttons start>
             <button ion-button icon-only (click)="dismiss()">
                 <ion-icon name="md-close"></ion-icon>
@@ -9,8 +9,9 @@
         <ion-title>{{'map.filter.title'|translate}}</ion-title>
     </ion-navbar>
 </ion-header>
-<ion-content>
-    <ion-list>
+
+<ion-content padding>
+    <ion-list class="no-outer-lines">
         <ion-list-header>{{'map.filter.list_plugins'|translate}}</ion-list-header>
         <ion-item *ngFor="let plug of plugTypes">
             <span item-content item-left class="plug" [innerHtml]="skipSanitizer(plug.svg)"></span>

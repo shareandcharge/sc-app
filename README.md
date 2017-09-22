@@ -71,8 +71,11 @@ For the US pilot with eMotorwerks, we are temporarily changing the currency sign
 Implementation of the feature toggle can be found in `wallet.ts` and `wallet.html` in `src/pages/wallet/` where the currency is set in the constructor by calling `getCurrency` and `isPaymentAvailable` on the injected CurrencyService.
 
 
-##### hide_payment
-Additionally for the US pilot with eMotorwerks, we are hiding the add payment option from the wallet view. Users will not be able to transfer fiat currency in or out of the app account. This will also be removed at a later date.
+##### hide_payin
+Additionally for the US pilot with eMotorwerks, we are hiding the add payment option from the wallet view. Users will not be able to transfer fiat currency in of the app account. This will also be removed at a later date.
+
+##### hide_payout
+Additionally for the US pilot with eMotorwerks, we are hiding the payout option from the wallet view. Users will not be able to transfer fiat currency out of the app account. This will also be removed at a later date.
 
 ##### hide_commercial_option
 
@@ -102,7 +105,7 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
 
 * Bumb version numbers in
   * `/src/config/config.ts`
-  * `/src/config/config.ts.dist`
+  * `/src/config/config.ts.<env>`
   ```javascript
   export let CONFIG = {
       APP_VERSION: '{BUMPED_VERSION_NUMBER}',
@@ -111,37 +114,13 @@ Implementation of the feature toggle can be found in `wallet.ts` and `wallet.htm
   ```
   * `/config.xml`
   ```xml
-  <widget id="com.shareandcharge.app" version="{BUMPED_VERSION_NUMBER}" xmlns="...">
+  <widget id="com.shareandcharge.app" version="{BUMPED_VERSION_NUMBER}" xmlns="..."/>
   ```
 
-##### While you have the config open:
-We want to provide the info about enabled feature toggles within TestFlight builds, so note which ones you have enabled and make a note similiar to this:
-
-``` 
-if FEATURE_TOGGLES: {
-       show_juicebox_config: false,
-       usd_pilot: false,
-       hide_payment: false,
-       hide_commercial_option: false,
-       hide_sc_module: false,
-       show_kwh_tariff: false
-     }
-
-     
-          ||||
-          vvvv 
- 
-Running against live/test/staging-Environment (Pick one!)
-
-Features enabled:
-USD: OFF,
-Commercial usage: ON,
-JuiceBox: OFF,
-PayIns / -Outs : ON
-SC-Modules: OFF
-Show-KWH-Tariff: ON
+run the following command to create the config.ts file from the environment
 ```
-
+./go createConfigFor<env> // e.g ./go createConfigForLive for the production environment
+```
 
 #### 2. Set up the provisioning profiles and certificates.
 
@@ -209,6 +188,8 @@ Build Steps:
 2. Change directories to the APK output path `$ cd <TO_APK_OUTPUT_PATH> ` or `platforms/android/build/outputs/apk`
 3. Run zipalign to define the versionnumber `./zipalign -v 4 <FULL_APK_PATH>/android-release-unsigned.apk ShareAndCharge-1.0.713.apk`
 4. Make sure you have obtained the keystore as well as the passwords to unlock the key and sign the apk (key and keystore respectively)
+   1. To get the key from pass store, run `./go pass show android/passkey`.
+   2. To get the keystore file from pass store, run `./go pass show android/keystore  > share-and-charge.keystore`
 `./apksigner sign --ks <FULL_KEYSTORE_PATH>/share-and-charge.keystore --ks-key-alias share_and_charge <FULL_APK_PATH>/ShareAndCharge-1.0.713.apk
 //share_and_charge is the alias the keystore`
 5. The password for the keystore is on the pass-store and the keystore file is with Joe (TODO: Put this file somewhere)

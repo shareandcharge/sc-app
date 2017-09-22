@@ -112,6 +112,7 @@
     "error_start_charging_unavailable": "Ladestation ist temporär nicht erreichbar",
     "error_start_charging_not_connected": "Fahrzeug ist nicht angeschlossen",
     "error_start_charging": "Konnte den Ladevorgang nicht starten. Bitte prüfe die Verbindung zwischen Deinem Auto und der Ladestation!",
+    "error_stop_charging": "Konnte den Ladevorgang nicht stoppen.",
     "wrong_old_password": "Ungültiges altes Passwort.",
     "pay_in_limit_reached": "Du kannst pro Tag nur 100{{currency}} einzahlen.",
     "time_too_long": "Die ausgewählte Zeit ist zu lang.",
@@ -230,6 +231,7 @@
       "capacity": "Batteriekapazität (kWh)",
       "plugtypes": "Steckertypen",
       "plugtypes_copy": "Markiere alle Steckertypen, die dein Auto unterstützt.",
+      "us_plug_hint": "Die meisten Elektroautos in den USA nutzen Typ 1.",
       "error_subtitle": "Liste - Steckertypen",
       "error_msgs": {
             "plateNumber": "Bitte gib das Kennzeichen an.",
@@ -350,7 +352,11 @@
   "map": {
     "filter": {
       "title": "Filter",
-      "list_plugins": "Liste - Steckertypen"
+      "plugtypes": "Steckertypen",
+      "commercial_category": "Anbieter der Ladestation",
+      "list_plugins": "Liste - Steckertypen",
+      "commercial_category_title": "Anbieter der Ladestation",
+      "commercial_category_header": "Nur anzeigen"
     },
     "settings": {
       "title": "Einstellungen",
@@ -439,6 +445,8 @@
       "country": "Land",
       "select": "Bitte wählen ...",
       "commercial_provider": "Ich bin ein kommerzieller Anbieter",
+      "commercial_provider_hint": "Du bist ein kommerzieller Anbieter, wenn Du ein Gewerbe betreibst (z.B. Hotel, Restaurant, Handwerksbetrieb, etc.) und Share&Charge in diesem Zusammenhang nutzen möchtest.",
+      "commercial_provider_hotel_hint" : "Wenn Du ein Hotel- oder Restaurantbetreiber bist, wähle Zutreffendes aus, um im Filter gelistet zu werden.",
       "vat_number": "Steuernummer",
       "data": "Profildaten",
       "name_address": "Name und Anschrift",
@@ -452,12 +460,18 @@
       "confirm_delete": "Löschen bestätigen",
       "confirm_delete_message": "Möchtest Du Dein Profil und Deine Daten wirklich unwiderruflich löschen?",
       "yes_delete": "Ja, löschen",
-      "state": "Bundesland"
+      "state": "Bundesland",
+      "mandatory": "(*) Verpflichtende Angabe"
     },
     "country": {
       "de": "Deutschland",
       "us": "USA",
       "nl": "Niederlande"
+    },
+    "commercial_category": {
+      "hotel": "Hotel",
+      "restaurant": "Restaurant",
+      "private": "Privatperson"
     }
   },
   "rating": {
@@ -481,6 +495,7 @@
     "days": "Tage",
     "choose": "Bitte wählen ...",
     "contact_person": "Kontaktperson",
+    "example_contact_person": "Max Mustermann, Musterstr. 5, 12345 Musterstadt",
     "description": "Beschreibung der Ladestation",
     "save_changes": "Änderungen speichern",
     "data_incomplete": "Daten unvollständig",

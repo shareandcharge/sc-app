@@ -7,15 +7,17 @@ import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
-    templateUrl: 'filter.html',
-    selector: 'filter-page'
+    templateUrl: 'filter-plugtypes.html',
+    selector: 'filter-plugtypes-page'
 })
-export class MapFilterPage {
+export class FilterPlugtypesPage {
     plugTypes: any;
     toggledPlugs: Array<any>;
+    setPlugtypes: any;
 
     constructor(public viewCtrl: ViewController, private configService: ConfigService, private sanitizer: DomSanitizer, private navParams: NavParams, private errorService: ErrorService, private translateService: TranslateService) {
         this.toggledPlugs = this.navParams.get('toggledPlugs');
+        this.setPlugtypes = this.navParams.get('setPlugtypes');
 
         this.configService.getPlugTypes().subscribe((plugTypes) => {
                 this.plugTypes = plugTypes;
@@ -52,6 +54,7 @@ export class MapFilterPage {
             toggledPlugs.push(99999);
         }
 
-        this.viewCtrl.dismiss(toggledPlugs);
+        this.setPlugtypes(toggledPlugs);
+        this.viewCtrl.dismiss();
     }
 }

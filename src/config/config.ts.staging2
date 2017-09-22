@@ -2,7 +2,7 @@
 * copy this file to config.ts and adjust values to your needs
 */
 export let CONFIG = {
-    APP_VERSION: '1.0.720',
+    APP_VERSION: '1.0.727',
     API_URL: 'https://api-staging2.shareandcharge.com/v1',
     IMAGES_BASE_URL: 'https://api-staging2.shareandcharge.com',
     API_KEY: {
@@ -19,9 +19,11 @@ export let CONFIG = {
     FEATURE_TOGGLES: {
         show_juicebox_config: true,
         usd_pilot: true,
-        hide_payment: false,
+        hide_payin: true,
+        hide_payout: true,
         hide_commercial_option: true,
         hide_sc_module: true,
-        show_kwh_tariff: true
+        show_kwh_tariff: true,
+        hide_paypal: false
     }
 };
