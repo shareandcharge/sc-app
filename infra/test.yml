@@ -1,0 +1,23 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: false
+  vars:
+    app_name: test
+    aws_region: eu-central-1
+    aws_access_key: "{{ lookup('pipe','../../password-store/go pass show infra/aws_access_key')|quote }}"
+    aws_secret_key: "{{ lookup('pipe','../../password-store/go pass show infra/aws_secret_key')|quote }}"
+    frontend_cidr: 10.0.31.0/24
+  roles:
+    - frontend-host
+
+- hosts: frontend-host
+  become: yes
+  vars:
+    motionwerk_rsa_public: "{{ lookup('pipe','../../password-store/go pass show infra/aws_ssh_key_pub')}}"
+    env: test
+    domain: app-test.shareandcharge.com
+    sslKey: "{{ lookup('pipe','../../password-store/go pass show sc_staging/ssl/sc-private.pem')}}"
+    gocd_key: "{{ lookup('pipe','../../password-store/go pass show infra/agent_ssh_pub_key')}}"
+  roles:
+    - webapp
