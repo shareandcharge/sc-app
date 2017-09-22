@@ -36,7 +36,7 @@
                     </div>
 
                     <div padding="">
-                        <ion-item no-lines class="no-margin">
+                        <ion-item no-lines class="no-margin item-full-width">
                             <ion-input type="email"
                                        formControlName="email"
                                        [(ngModel)]="signUpLoginObject.email" name="email"
@@ -48,15 +48,19 @@
                         {{ errorMessages.email }}
                     </div>
                     <div padding="">
-                        <ion-item no-lines class="no-margin">
+                        <ion-item no-lines class="no-margin item-full-width">
                             <ion-input type="password"
                                        formControlName="password"
                                        [(ngModel)]="signUpLoginObject.authentification.password" name="password"
                                        placeholder="{{'login.password' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div *ngIf="!submitAttempt"
-                         class="alert-box info-text" margin>
+
+                    <div *ngIf="isSignup()" class="padding-left-right">
+                        <password-strength-bar [password]="signUpLoginObject.authentification.password" (change)="strengthChange($event)"></password-strength-bar>
+                    </div>
+
+                    <div *ngIf="!submitAttempt" class="alert-box info-text">
                         {{'login.password_complexity' | translate}}
                     </div>
                     <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt"
@@ -64,7 +68,7 @@
                         {{ errorMessages.password }}
                     </div>
 
-                    <div *ngIf="action=='login'">
+                    <div *ngIf="isLogin()">
                         <ion-list no-lines class="list-pwd">
                             <ion-item>
                                 <ion-label>
@@ -77,7 +81,7 @@
                         </ion-list>
                     </div>
 
-                    <div *ngIf="action=='signUp'">
+                    <div *ngIf="isSignup()">
                         <ion-list no-lines class="list-tac">
                             <ion-item text-wrap>
                                 <ion-checkbox color="light" checked="false"

@@ -10,10 +10,8 @@ import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
 import {ForgotPasswordPage} from "./forgot-password/forgot-password";
-// import {LanguageService} from "../../services/language.service";
 import {TrackerService} from "../../services/tracker.service";
 import {User} from "../../models/user";
-import {ConfigService} from "../../services/config.service";
 import {InAppBrowser} from "ionic-native";
 import {Storage} from '@ionic/storage';
 import {DataProtectionPage} from "../_global/data-protection/data-protection";
@@ -43,11 +41,16 @@ export class SignupLoginPage {
         'login': this.translateService.instant('login.login')
     };
 
+    passwordMinLength: number = 10;
+    passwordMinStrength: number = 2;
+    passwordStrength: number = 0;
+    passwordScore: number = 0;
+
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
                 private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
                 public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
                 private errorService: ErrorService, private trackerService: TrackerService, public storage: Storage,
-                private configService: ConfigService, private translateService: TranslateService) {
+                private translateService: TranslateService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'login';
@@ -56,7 +59,7 @@ export class SignupLoginPage {
         this.createErrorMessages();
         this.signUpLoginForm = formBuilder.group({
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
-            password: ['', Validators.compose([Validators.maxLength(225), Validators.minLength(10), Validators.required])]
+            password: ['', Validators.compose([Validators.maxLength(225), Validators.minLength(this.passwordMinLength), Validators.required, this.passwordStrengthValidator])]
         });
 
         if (this.action === 'signUp') {
@@ -79,6 +82,12 @@ export class SignupLoginPage {
             'Signup': 'yes'
         });
     }
+
+    passwordStrengthValidator = () => {
+        if (this.isLogin()) return null;
+
+        return this.passwordStrength < this.passwordMinStrength ? { tooWeak: true} : null;
+    };
 
     createErrorMessages() {
         this.errorMessages = {
@@ -118,7 +127,7 @@ export class SignupLoginPage {
     openTerms() {
         let url = this.translateService.instant('documents.TERMS_APP_URL');
         let close = this.translateService.instant('common.close');
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption= '+close+',toolbar=yes,location=no');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption= ' + close + ',toolbar=yes,location=no');
     }
 
     openDataProtection() {
@@ -196,9 +205,9 @@ export class SignupLoginPage {
         });
         loader.present();
 
-        
+
         this.signUpLoginObject.profile.language = this.translateService.currentLang;
-                
+
         this.trackerService.track('Signup Info Added', {
             'Screen Name': 'Registrieren',
             'Sign up method': 'Email',
@@ -228,6 +237,11 @@ export class SignupLoginPage {
 
     }
 
+    strengthChange(event) {
+        this.passwordStrength = event.strength;
+        this.passwordScore = event.score;
+    }
+
     showHelp(field) {
         let message = "";
 
@@ -245,5 +259,13 @@ export class SignupLoginPage {
             });
             alert.present();
         }
+    }
+
+    isLogin(): boolean {
+        return this.action === 'login';
+    }
+
+    isSignup(): boolean {
+        return this.action === 'signUp';
     }
 }

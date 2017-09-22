@@ -67,3 +67,12 @@ ion-list.no-margin-bottom {
   font-size: 13px;
   color: $label-small-text-color;
 }
+
+.item-full-width {
+    .item-inner {
+        padding-right: 0 !important;
+    }
+    .text-input-ios, .text-input-md {
+        width: 100%;
+    }
+}
