@@ -489,6 +489,7 @@
     "station_address": "Address of the charging station",
     "station_name": "Name of station",
     "station_name_example": "Charging station in central San Francisco",
+    "use_profile_address": "Use profile address",
     "opening_time": "Opening hours",
     "adapt": "Customize",
     "days": "Days",

@@ -440,6 +440,31 @@ export class AddStationPage {
         });
     }
 
+    setAddressFromProfile() {
+        let userProfile = this.auth.getUser().profile;
+
+        let addr = this.auth.getUser().profile.address + ', ' + this.auth.getUser().profile.city
+        console.log(userProfile);
+      console.log(addr);
+
+      let me = this;
+        this.service.getPlacePredictions({
+          input: addr,
+        }, function (predictions, status) {
+          me.autocompleteItems = [];
+          if (predictions != null) {
+            if (predictions.length ===  1) {
+              me.chooseItem(predictions[0])
+            } else {
+              me.autocompleteItems = [];
+              predictions.forEach(function (prediction) {
+                me.autocompleteItems.push(prediction);
+              });
+            }
+          }
+        })
+    }
+
     extractCountryFromGeocoderResult(result) {
         /**
          * Result-type must contain "country". Then the address_components short_name always is
@@ -581,7 +606,7 @@ export class AddStationPage {
 
     validateCountry(): boolean {
         this.errorMessages.country = '';
-        
+
         if (!this.isCountryAllowed()) {
             this.errorMessages.country = this.translateService.instant('error_messages.invalid_country');
             return false;

@@ -490,6 +490,7 @@
     "station_address": "Addresse der Ladestation",
     "station_name": "Name der Station",
     "station_name_example": "Ladestation im Essener Zentrum",
+    "use_profile_address": "Adresse aus dem Nutzerprofil übernehmen",
     "opening_time": "Öffnungszeiten",
     "adapt": "Anpassen",
     "days": "Tage",

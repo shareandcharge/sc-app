@@ -22,11 +22,16 @@
     </div>
     <div padding="">
         <ion-list no-lines>
+          <ion-list>
             <ion-item>
                 <!-- floating label does not work with clearInput (?) -->
                 <ion-label stacked>{{'station.station_address' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" [(ngModel)]="locObject.address" (input)="updateSearch()" clearInput></ion-input>
             </ion-item>
+            <button ion-button round text-uppercase outline block (click)="setAddressFromProfile()">{{ 'station.use_profile_address' | translate }}</button>
+
+          </ion-list>
+
             <div *ngIf="errorMessages.address" class="alert-box alert-box-danger" margin>
                 {{ errorMessages.address }}
             </div>
