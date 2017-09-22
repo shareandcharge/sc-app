@@ -28,7 +28,9 @@
                 <ion-label stacked>{{'station.station_address' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" [(ngModel)]="locObject.address" (input)="updateSearch()" clearInput></ion-input>
             </ion-item>
-            <button ion-button round text-uppercase outline block (click)="setAddressFromProfile()">{{ 'station.use_profile_address' | translate }}</button>
+            <div padding text-center>
+              <button ion-button [disabled]="geolocationInProgress" round text-uppercase outline block (click)="setAddressFromProfile()">{{ 'station.use_profile_address' | translate }}</button>
+            </div>
 
           </ion-list>
 
@@ -40,8 +42,8 @@
             </div>
             <ion-item>
                 <ion-label stacked>{{'station.station_name' | translate}}</ion-label>
-                <ion-input type="text" class="input-white" 
-                    [(ngModel)]="locObject.name" 
+                <ion-input type="text" class="input-white"
+                    [(ngModel)]="locObject.name"
                     placeholder="{{ 'station.station_name_example' | translate }}">
                 </ion-input>
             </ion-item>

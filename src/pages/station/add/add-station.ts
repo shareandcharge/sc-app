@@ -60,6 +60,8 @@ export class AddStationPage {
     private platform;
     mapDefaultControlls: boolean;
 
+    geolocationInProgress: boolean;
+
     customWeekCalendar: any;
 
     defaultZoom = 16;
@@ -441,11 +443,8 @@ export class AddStationPage {
     }
 
     setAddressFromProfile() {
-        let userProfile = this.auth.getUser().profile;
-
-        let addr = this.auth.getUser().profile.address + ', ' + this.auth.getUser().profile.city
-        console.log(userProfile);
-      console.log(addr);
+      let userProfile = this.auth.getUser().profile;
+      let addr = userProfile.address + ', ' + userProfile.city
 
       let me = this;
         this.service.getPlacePredictions({
@@ -501,12 +500,15 @@ export class AddStationPage {
                 maximumAge: 0, timeout: 10000, enableHighAccuracy: true
             };
 
+            this.geolocationInProgress = true;
             Geolocation.getCurrentPosition(options).then(
                 (position) => {
-                    this.positionMarker(position.coords.latitude, position.coords.longitude);
+                  this.geolocationInProgress = false;
+                  this.positionMarker(position.coords.latitude, position.coords.longitude);
                 },
                 () => {
-                    this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
+                  this.geolocationInProgress = false;
+                  this.positionMarker(this.defaultCenterLat, this.defaultCenterLng);
                 });
         }
         else {
