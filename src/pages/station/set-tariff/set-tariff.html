@@ -23,11 +23,20 @@
 
     <form novalidate>
 
+
     <ion-list class="ion-list-white" margin-bottom>
+
+      <ion-list class="ion-list-white">
         <ion-item>
             <ion-label left>{{ 'station.community_tarif' | translate }}</ion-label>
             <ion-toggle [(ngModel)]="priceprovider.public.active" color="secondary" [ngModelOptions]="{standalone: true}"></ion-toggle>
         </ion-item>
+
+        <ion-item text-wrap>
+          {{ 'station.community_tarif_description' | translate }}
+        </ion-item>
+
+      </ion-list>
 
         <div padding class="content-white tariff-box" *ngIf="priceprovider.public.active">
             <ion-segment color="primary" [(ngModel)]="priceprovider.public.selected" padding *ngIf="hourlyTariff || kwhTariff" [ngModelOptions]="{standalone: true}">
@@ -192,10 +201,22 @@
     </ion-list>
         <!---------------------------------------------------------------------------->
     <ion-list class="ion-list-white">
-        <ion-item>
+
+
+      <ion-list class="ion-list-white">
+
+       <ion-item>
             <ion-label left>{{ 'station.family_and_friends_tarif' | translate }}</ion-label>
             <ion-toggle [(ngModel)]="priceprovider.private.active" color="secondary" [ngModelOptions]="{standalone: true}"></ion-toggle>
         </ion-item>
+
+        <ion-item text-wrap>
+          {{ 'station.family_and_friends_tarif_description' | translate }}
+        </ion-item>
+
+
+
+      </ion-list>
 
         <div padding class="content-white tariff-box" *ngIf="priceprovider.private.active">
             <ion-list no-lines>
