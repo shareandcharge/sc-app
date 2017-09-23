@@ -77,7 +77,7 @@ export class JuiceBoxPage {
         let hasError = false;
         this.clearErrorMessages();
 
-        if (this.connector.metadata.deviceId.length !== 28 || isNaN(Number(this.connector.metadata.deviceId))) {
+        if (isNaN(Number(this.connector.metadata.deviceId))) {
             hasError = true;
             this.errorMessages.deviceId = this.translateService.instant('error_messages.device_id');
         }
