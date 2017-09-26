@@ -336,6 +336,7 @@
       "ratings": "Reviews:",
       "write_rating" : "Write a review",
       "load" : "Charge",
+      "edit" : "Edit",
       "loading_progress" : "Charging progress",
       "not_open" : "Charging station is not open",
       "monday": "M.",

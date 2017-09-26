@@ -14,6 +14,7 @@ import {StationWrapperPage} from "../station-wrapper";
 import {ErrorService} from "../../../services/error.service";
 import {Location} from "../../../models/location";
 import {TranslateService} from "@ngx-translate/core";
+import {LocationDetailPage} from "../../location/location-details";
 
 @Component({
     selector: 'page-my-stations',
@@ -31,7 +32,7 @@ export class MyStationsPage {
                 private events: Events, private errorService: ErrorService, private translateService: TranslateService) {
         this.events.subscribe('locations:updated', () => this.loadStations());
     }
-    
+
     loadStations() {
         if (!this.auth.loggedIn()) {
             this.stations = [];
@@ -89,6 +90,14 @@ export class MyStationsPage {
 
     dismiss() {
         this.viewCtrl.dismiss();
+    }
+
+    stationDetails(location) {
+      let locDetails = this.modalCtrl.create(LocationDetailPage, {
+        "locationId": location.id,
+        "ownerMode": true
+      });
+      locDetails.present();
     }
 
     editStation(obj) {

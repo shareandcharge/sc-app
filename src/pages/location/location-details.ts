@@ -22,6 +22,7 @@ import {ErrorService} from "../../services/error.service";
 import {ChargingCompletePage} from './charging/charging-complete/charging-complete'
 import {TrackerService} from "../../services/tracker.service";
 import {TranslateService} from "@ngx-translate/core";
+import {StationWrapperPage} from "../station/station-wrapper";
 import {User} from "../../models/user";
 
 
@@ -81,6 +82,8 @@ export class LocationDetailPage {
         PARKING: 4
     };
 
+    ownerMode: boolean = false;
+
     constructor(private alertCtrl: AlertController, private modalCtrl: ModalController,
                 private chargingService: ChargingService, private navParams: NavParams, platform: Platform,
                 private viewCtrl: ViewController, private authService: AuthService, public ratingService: RatingService,
@@ -93,6 +96,7 @@ export class LocationDetailPage {
         this.connector = new Connector();
 
         this.locationId = navParams.get("locationId");
+        this.ownerMode = navParams.get("ownerMode") || false;
 
         this.isDesktop = platform.is("core");
 
@@ -410,5 +414,16 @@ export class LocationDetailPage {
             buttons: [this.translateService.instant('common.ok')]
         });
         alert.present();
+    }
+
+    editStation() {
+      this.locationService.getLocation(this.location.id).subscribe((location) => {
+          let modal = this.modalCtrl.create(StationWrapperPage, {
+            "location": location,
+            "mode": 'edit'
+          });
+          modal.present();
+        },
+        error => this.errorService.displayErrorWithKey(error, 'error.scope.get_location'));
     }
 }
