@@ -15,7 +15,7 @@
   become: yes
   vars:
     motionwerk_rsa_public: "{{ lookup('pipe','../../password-store/go pass show infra/aws_ssh_key_pub')}}"
-    env: prod
+    env: live
     domain: app-live.shareandcharge.com
     sslKey: "{{ lookup('pipe','../../password-store/go pass show sc_staging/ssl/sc-private.pem')}}"
     gocd_key: "{{ lookup('pipe','../../password-store/go pass show infra/agent_ssh_pub_key')}}"
