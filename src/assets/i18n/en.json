@@ -398,7 +398,7 @@
     "agb_agree": "You need to agree to our terms and conditions.",
     "login_now": "Login now ...",
     "registration": "Registration",
-    "password_7_chars": "Min. 7 characters."
+    "password_min_chars": "Min. 10 characters."
   },
   "profile": {
     "account_settings": {
@@ -642,6 +642,13 @@
     "type_password_safety": "For safety reasons, please enter your password for payout",
     "type_password": "Please enter your password.",
     "pay_money_out": "Payout money"
+  },
+  "password_strength": {
+    "too_short": "too short",
+    "weak": "weak",
+    "good": "good",
+    "strong": "strong",
+    "ultra_strong": "ultra strong"
   },
   "documents": {
     "FAQ_URL": "https://shareandcharge.com/en/faqs-2/",

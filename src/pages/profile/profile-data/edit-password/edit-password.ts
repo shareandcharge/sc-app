@@ -19,6 +19,11 @@ export class EditPasswordPage {
     newPassword: any;
     oldPassword: any;
 
+    passwordMinLength: number = 10;
+    passwordMinStrength: number = 2;
+    passwordStrength: number = 0;
+    passwordScore: number = 0;
+
     errorMessages: any;
     submitAttempt: boolean = false;
 
@@ -31,11 +36,15 @@ export class EditPasswordPage {
         this.passwordForm = this.formBuilder.group({
             oldPassword: [null, Validators.required],
             newPasswords: this.formBuilder.group({
-                password: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(10), Validators.required])],
-                passwordRepeat: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(10), Validators.required])]
+                password: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(this.passwordMinLength), Validators.required, this.passwordStrengthValidator])],
+                passwordRepeat: [null, Validators.compose([Validators.maxLength(225), Validators.minLength(this.passwordMinLength), Validators.required])]
             }, {validator: this.areEqual})
         });
     }
+
+    passwordStrengthValidator = () => {
+        return this.passwordStrength < this.passwordMinStrength ? {tooWeak: true} : null;
+    };
 
     areEqual(group) {
         let password = group.controls.password.value;
@@ -69,4 +78,11 @@ export class EditPasswordPage {
 
         this.userService.updateUserAndPublish(this.user).then(() => this.navCtrl.pop());
     }
+
+    strengthChange(event) {
+        console.log(event);
+        this.passwordStrength = event.strength;
+        this.passwordScore = event.score;
+    }
+
 }

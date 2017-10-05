@@ -57,7 +57,11 @@
                     </div>
 
                     <div *ngIf="isSignup()" class="padding-left-right">
-                        <password-strength-bar [password]="signUpLoginObject.authentification.password" (change)="strengthChange($event)"></password-strength-bar>
+                        <password-strength-bar
+                                [password]="signUpLoginObject.authentification.password"
+                                [minLength]="passwordMinLength"
+                                (change)="strengthChange($event)"
+                        ></password-strength-bar>
                     </div>
 
                     <div *ngIf="!submitAttempt" class="alert-box info-text">

@@ -86,7 +86,7 @@ export class SignupLoginPage {
     passwordStrengthValidator = () => {
         if (this.isLogin()) return null;
 
-        return this.passwordStrength < this.passwordMinStrength ? { tooWeak: true} : null;
+        return this.passwordStrength < this.passwordMinStrength ? {tooWeak: true} : null;
     };
 
     createErrorMessages() {
@@ -247,7 +247,7 @@ export class SignupLoginPage {
 
         switch (field) {
             case 'password':
-                message = this.translateService.instant('login.password_7_chars');
+                message = this.translateService.instant('login.password_min_chars');
                 break;
         }
 

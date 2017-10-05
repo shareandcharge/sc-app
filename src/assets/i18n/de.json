@@ -399,7 +399,7 @@
     "agb_agree": "Du musst den AGBs zustimmen.",
     "login_now": "Melde an ...",
     "registration": "Registrierung",
-    "password_7_chars": "Mindestens 7 Zeichen."
+    "password_min_chars": "Mindestens 7 Zeichen."
   },
   "profile": {
     "account_settings": {
@@ -433,7 +433,7 @@
       "new_password": "Neues Passwort",
       "confirm_new_password": "Neues Passwort bestätigen",
       "input_old_password": "Bitte gib Dein altes Passwort ein.",
-      "input_new_password": "Bitte gib ein neues Passwort ein. Mindestens 7 Zeichen.",
+      "input_new_password": "Bitte gib ein neues Passwort ein. Mindestens 10 Zeichen.",
       "diff_password": "Die Passwörter stimmen nicht überein.",
       "edit_name_adresse": "Name und Anschrift bearbeiten",
       "company": "Firma",
@@ -643,6 +643,13 @@
     "type_password_safety": "Gib zur Absicherung der Auszahlung Dein Passwort an",
     "type_password": "Bitte gib Dein Passwort an.",
     "pay_money_out": "Geld auszahlen"
+  },
+  "password_strength": {
+    "too_short": "Zu kurz",
+    "weak": "Schwach",
+    "good": "Gut",
+    "strong": "Stark",
+    "ultra_strong": "Super stark"
   },
   "documents": {
     "FAQ_URL": "https://shareandcharge.com/faqs",

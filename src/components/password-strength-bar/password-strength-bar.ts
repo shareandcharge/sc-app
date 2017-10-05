@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'password-strength-bar',
@@ -6,6 +7,8 @@ import {Component, EventEmitter, Output} from '@angular/core';
     inputs: ['password']
 })
 export class PasswordStrengthBarComponent {
+    /* we don't add "password" here, otherwise we can't use it as a set'ter function */
+    @Input('minLength') minLength;
 
     @Output()
     change: EventEmitter<any> = new EventEmitter<any>();
@@ -16,14 +19,14 @@ export class PasswordStrengthBarComponent {
 
     labels: any = {};
 
-    constructor() {
+    constructor(private translateService: TranslateService) {
         this.labels = {
             0: '',
-            1: 'too short',
-            2: 'weak',
-            3: 'good',
-            4: 'strong',
-            5: 'ultra strong'
+            1: this.translateService.instant('password_strength.too_short'),
+            2: this.translateService.instant('password_strength.weak'),
+            3: this.translateService.instant('password_strength.good'),
+            4: this.translateService.instant('password_strength.strong'),
+            5: this.translateService.instant('password_strength.ultra_strong')
         }
     }
 
@@ -41,6 +44,10 @@ export class PasswordStrengthBarComponent {
     calcScore(pass): number {
         let score: number = 0;
         if (!pass) return -1;
+
+        if (this.minLength && pass.length < this.minLength) {
+            return 0;
+        }
 
         //-- points for unique letters up to 5 repetitions
         let letters = {};
