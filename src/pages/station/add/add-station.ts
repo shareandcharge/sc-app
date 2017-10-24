@@ -470,8 +470,17 @@ export class AddStationPage {
          */
         let country = null;
         result.forEach((res) => {
-            if (!res.types.includes('country')) return;
-            country = res.address_components[0].short_name;
+            if (res.types.includes('country')) {
+                country = res.address_components[0].short_name;
+                return;
+            }
+            
+            res.address_components.forEach((component) => {
+                if (component.types.includes('country')) {
+                    country = component.short_name;
+                    return;
+                }
+            })   
         });
 
         return country;
