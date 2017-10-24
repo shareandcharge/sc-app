@@ -16,7 +16,7 @@ export let CONFIG = {
     TERMS_STATION_URL: 'https://www.shareandcharge.com/ladestation-agbs/',
     DATA_PROTECTION_URL: 'https://www.shareandcharge.com/app-datenschutz/',
     MIXPANEL_TOKEN: '2e9e....',
-    ALLOWED_COUNTRIES: ['DE', 'NL', 'US', 'NO', 'SE'], // use alpha2 codes from iso 3166-1 (https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes)
+    ALLOWED_COUNTRIES: ['DE', 'NL', 'US', 'NO', 'SE', 'FR', 'AT'], // use alpha2 codes from iso 3166-1 (https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes)
     AVAILABLE_LANGUAGES: ['de', 'en'],
     DEFAULT_LANGUAGE: ['en'],   // if language can't be determined (from user.profile or navigator.language)
     FEATURE_TOGGLES: {
