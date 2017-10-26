@@ -11,7 +11,6 @@
         "webapp": "cp src/config/config.ts.webapp src/config/config.ts && npm run build && cp -r www/* live/",
         "test": "cp src/config/config.ts.test src/config/config.ts && npm run build && cp -r www/* test/",
         "test2": "cp src/config/config.ts.test2 src/config/config.ts && npm run build && cp -r www/* test2/",
-        "test3": "cp src/config/config.ts.test2 src/config/config.ts && npm run build && cp -r www/* test3/",
         "staging2": "cp src/config/config.ts.staging2 src/config/config.ts && npm run build && cp -r www/* staging2/",
         "ionic:build": "ionic-app-scripts build",
         "ionic:serve": "ionic-app-scripts serve"
