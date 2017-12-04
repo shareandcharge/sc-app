@@ -228,8 +228,6 @@ export class WalletPage {
                         return 'cust-credit-card';
                     case 'dd':
                         return 'cust-debit';
-                    case 'sofort':
-                        return 'cust-sofort';
                     case 'paypal':
                         return 'cust-paypal';
                 }

@@ -22,7 +22,6 @@
             <ion-select [(ngModel)]="payInObject.type" interface="action-sheet" class="input-white select-multiline" cancelText="{{'common.cancel' | translate}}">
                 <ion-option value="cc">{{ 'add_money.credit_card' | translate }}</ion-option>
                 <ion-option *ngIf="showPaypal === true" value="paypal">{{ 'add_money.paypal' | translate }}</ion-option>
-                <ion-option value="sofort">{{ 'add_money.direct' | translate }}</ion-option>
                 <!--<ion-option value="dd">{{ 'add_money.direct_debit' | translate }}</ion-option>-->
             </ion-select>
         </ion-item>

@@ -630,7 +630,6 @@
     "payment": "Zahlungsmethode",
     "credit_card": "Kreditkarte",
     "paypal": "PayPal",
-    "direct": "Sofortüberweisung",
     "direct_debit": "Bankeinzug",
     "which_map": "Welche Karte verwenden",
     "account_owner": "Kontoinhaber",

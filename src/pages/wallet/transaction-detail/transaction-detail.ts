@@ -27,8 +27,7 @@ export class TransactionDetailPage {
     paymentMethods = {
         'cc': this.translateService.instant('add_money.credit_card'),
         'paypal': this.translateService.instant('add_money.paypal'),
-        'dd': this.translateService.instant('add_money.direct_debit'),
-        'sofort':  this.translateService.instant('add_money.direct'),
+        'dd': this.translateService.instant('add_money.direct_debit')
     };
 
     constructor(private navParams: NavParams, private navCtrl: NavController, private events: Events, private platform: Platform, private translateService: TranslateService, private currencyDisplay: CurrencyDisplay, private currencyService: CurrencyService) {
@@ -55,10 +54,6 @@ export class TransactionDetailPage {
     isResumableTx(): boolean {
 
       return (this.transaction.hasOrder() && this.transaction.order.status == "started" && this.transaction.type === 60);
-    }
-
-    isSofortTx(): boolean {
-      return (this.transaction.hasOrder() && this.transaction.order.type == "sofort");
     }
 
     isPayPalTx(): boolean {

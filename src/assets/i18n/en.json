@@ -629,7 +629,6 @@
     "payment": "Payment method",
     "credit_card": "Credit card",
     "paypal": "PayPal",
-    "direct": "Sofort\u00fcberweisung",
     "direct_debit": "direct debit",
     "which_map": "Select card",
     "account_owner": "Account owner",
