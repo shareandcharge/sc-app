@@ -199,7 +199,7 @@ Build Steps:
 
 #### Another description as follows
 
-1. Build the unsigned APK by running `$ ionic build android --prod --release`
+1. Build the unsigned APK by running `$ ionic cordova build android --prod --release`
 2. Change directories to the APK output path `$ cd <TO_APK_OUTPUT_PATH> ` or `platforms/android/build/outputs/apk`
 3. Make sure you have obtained the keystore as well as the passwords to unlock the key and sign the apk (key and keystore respectively)
 `$ jarsigner -verbose -tsa http://timestamp.digicert.com -sigalg SHA1withRSA -digestalg SHA1 -keystore <PATH_TO_KEYSTORE>/share-and-charge.keystore android--unsigned.apk share_and_charge
