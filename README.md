@@ -184,9 +184,12 @@ Preparation steps:
  - Open your android studio and install/accept the license for APK 26/25/24
  
 Build Steps:
-1. Build the unsigned APK by running `$ ionic build android --prod --release`
-2. Change directories to the APK output path `$ cd <TO_APK_OUTPUT_PATH> ` or `platforms/android/build/outputs/apk`
-3. Run zipalign to define the versionnumber `./zipalign -v 4 <FULL_APK_PATH>/android-release-unsigned.apk ShareAndCharge-1.0.713.apk`
+1. Build the unsigned APK by running 
+`$ ionic cordova build android --prod --release`
+2. Change directories to the APK output path 
+`$ cd <TO_APK_OUTPUT_PATH> ` or `platforms/android/build/outputs/apk`
+3. Run zipalign to define the versionnumber 
+`./zipalign -v 4 <FULL_APK_PATH>/android-release-unsigned.apk ShareAndCharge-1.0.713.apk`
 4. Make sure you have obtained the keystore as well as the passwords to unlock the key and sign the apk (key and keystore respectively)
    1. To get the key from pass store, run `./go pass show android/passkey`.
    2. To get the keystore file from pass store, run `./go pass show android/keystore  > share-and-charge.keystore`
