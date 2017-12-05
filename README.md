@@ -178,7 +178,7 @@ You can set signing to non-auto:
 Currently, the manual process we are phasing out is as follows:
 
 Preparation steps:
- - `ionic platform rm Android`
+ - `ionic platform rm android`
  - `rm -rf platforms`
  - `ionic platform add android`
  - Open your android studio and install/accept the license for APK 26/25/24
