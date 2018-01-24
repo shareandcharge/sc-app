@@ -43,8 +43,6 @@ export class WalletPage {
         this.currency = this.currencyService.getCurrency();
         this.showPayIn = this.currencyService.isPayInAvailable();
         this.showPayOut = this.currencyService.isPayOutAvailable();
-
-        this.showPayOut = authService.getUser().email.toLowerCase().includes('@motionwerk.com');
       }
 
     ionViewWillEnter() {
