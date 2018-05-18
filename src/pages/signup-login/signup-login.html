@@ -55,15 +55,15 @@
                                        placeholder="{{'login.password' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div *ngIf="!submitAttempt"
+                    <!-- <div *ngIf="!submitAttempt"
                          class="alert-box info-text" margin>
                         {{'login.password_complexity' | translate}}
-                    </div>
+                    </div> -->
                     <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt"
                          class="alert-box alert-box-danger alert-box-bg-light" margin>
                         {{ errorMessages.password }}
                     </div>
-
+<!-- 
                     <div *ngIf="action=='login'">
                         <ion-list no-lines class="list-pwd">
                             <ion-item>
@@ -75,9 +75,9 @@
                                 </ion-label>
                             </ion-item>
                         </ion-list>
-                    </div>
+                    </div> -->
 
-                    <div *ngIf="action=='signUp'">
+                    <!-- <div *ngIf="action=='signUp'">
                         <ion-list no-lines class="list-tac">
                             <ion-item text-wrap>
                                 <ion-checkbox color="light" checked="false"
@@ -94,7 +94,8 @@
                                               [(ngModel)]="termsAccept" name="termsAccept">
                                 </ion-checkbox>
                                 <ion-label>
-                                    {{'login.terms_1' | translate}}<a ion-text="" color="light" (click)="openTerms()">{{'login.terms_2' | translate}}</a>
+                                    {{'login.terms_1' | translate}}<a ion-text="" color="light" (click)="openTerms()">
+                                    {{'login.terms_2' | translate}}</a>
                                     {{'login.terms_3' | translate}}<a ion-text="" color="light" (click)="openDataProtection()">{{'login.terms_4' | translate}}</a>
                                     {{'login.terms_5' | translate}}
                                 </ion-label>
@@ -104,7 +105,7 @@
                              class="alert-box alert-box-danger alert-box-bg-light" margin>
                             {{ errorMessages.terms }}
                         </div>
-                    </div>
+                    </div> -->
                     <div padding="" text-center="">
                         <p>
                             <button ion-button round color="white" type="submit" text-uppercase="">

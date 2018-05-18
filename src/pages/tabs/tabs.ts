@@ -5,8 +5,9 @@ import {AboutPage} from '../about/about';
 import {WalletPage} from '../wallet/wallet';
 import {ProfilePage} from '../profile/profile';
 import {AuthService} from "../../services/auth.service";
+import {ErrorService} from "../../services/error.service";
 import {MyStationsPage} from "../station/my-stations/my-stations";
-import {StationWrapperPage} from "../station/station-wrapper";
+// import {StationWrapperPage} from "../station/station-wrapper";
 import {SignupLoginPage} from "../signup-login/signup-login";
 
 
@@ -25,7 +26,7 @@ export class TabsPage {
 
     private tempTabIndex = 3;
 
-    constructor(public modalCtrl: ModalController, public auth: AuthService) {
+    constructor(public modalCtrl: ModalController, public auth: AuthService, public error: ErrorService) {
     }
 
     signupModal() {
@@ -55,18 +56,19 @@ export class TabsPage {
     }
 
     addStationModal() {
-        if (this.auth.loggedIn()) {
-            let modal = this.modalCtrl.create(StationWrapperPage);
-            modal.present();
+        this.error.displayError('This feature is currently disabled', 'Disabled');
+        // if (this.auth.loggedIn()) {
+        //     let modal = this.modalCtrl.create(StationWrapperPage);
+        //     modal.present();
 
-        }
-        else {
-            this.loginModal({
-                "dest": StationWrapperPage,
-                'mode' : 'modal',
-                'action' : 'login',
-                'trackReferrer': 'Tab Ladestationen'
-            });
-        }
+        // }
+        // else {
+        //     this.loginModal({
+        //         "dest": StationWrapperPage,
+        //         'mode' : 'modal',
+        //         'action' : 'login',
+        //         'trackReferrer': 'Tab Ladestationen'
+        //     });
+        // }
     }
 }

@@ -4,7 +4,7 @@ import {AddMoneyPage} from './add/add-money';
 import {PaymentService} from "../../services/payment.service";
 import {AuthService} from "../../services/auth.service";
 import {EditProfilePage} from "../profile/profile-data/edit-profile/edit-profile";
-import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
+// import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
 import {ErrorService} from "../../services/error.service";
 import {PayOutPage} from "./pay-out/pay-out";
 import {VoucherPage} from "./voucher/voucher";
@@ -66,6 +66,7 @@ export class WalletPage {
 
         let observable = this.paymentService.getHistory();
         observable.subscribe((history) => {
+                // console.log(history);
                 this.transactions = history;
                 this.pendingTransactions = [];
 
@@ -193,11 +194,11 @@ export class WalletPage {
     }
 
     openTransactionDetail(transaction) {
-        let modal = this.modalCtrl.create(TransactionDetailPage, {
-            'transaction': transaction,
-            'wallet' : this
-        });
-        modal.present();
+        // let modal = this.modalCtrl.create(TransactionDetailPage, {
+        //     'transaction': transaction,
+        //     'wallet' : this
+        // });
+        // modal.present();
     }
 
     payOut() {

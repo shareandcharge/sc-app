@@ -4,22 +4,21 @@ import {CONFIG} from '../config/config';
 @Injectable()
 export class CurrencyService {
 
-  private USD_PILOT: boolean = CONFIG.FEATURE_TOGGLES.usd_pilot;
-  private HIDE_PAYIN: boolean = CONFIG.FEATURE_TOGGLES.hide_payin;
-  private HIDE_PAYOUT: boolean = CONFIG.FEATURE_TOGGLES.hide_payout;
+  // private HIDE_PAYIN: boolean = CONFIG.FEATURE_TOGGLES.hide_payin;
+  // private HIDE_PAYOUT: boolean = CONFIG.FEATURE_TOGGLES.hide_payout;
   private HIDE_COMMERCIAL_OPTION : boolean = CONFIG.FEATURE_TOGGLES.hide_commercial_option;
   private HIDE_PAYPAL : boolean = CONFIG.FEATURE_TOGGLES.hide_paypal;
 
   getCurrency(): string {
-    return (this.USD_PILOT ? '$' : '€');
+    return '€';
   }
 
   isPayInAvailable(): boolean {
-    return (!this.HIDE_PAYIN);
+    return false;
   }
 
   isPayOutAvailable(): boolean {
-    return (!this.HIDE_PAYOUT);
+    return false;
   }
 
   isCommercialOptionHidden(): boolean {

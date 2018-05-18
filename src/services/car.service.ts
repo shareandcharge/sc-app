@@ -33,8 +33,10 @@ export class CarService extends AbstractApiService {
 
         return this.httpService.get(this.baseUrl + '/users/cars')
             .map(res => {
+                // console.log('res:', res);
                 let cars = [];
                 let data = res.json();
+                // console.log('data:', data);
 
                 data.cars.list.forEach(input => {
                     let car = new Car().deserialize(input);
