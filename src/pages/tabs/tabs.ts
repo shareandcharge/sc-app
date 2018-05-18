@@ -6,7 +6,7 @@ import {WalletPage} from '../wallet/wallet';
 import {ProfilePage} from '../profile/profile';
 import {AuthService} from "../../services/auth.service";
 import {ErrorService} from "../../services/error.service";
-import {MyStationsPage} from "../station/my-stations/my-stations";
+// import {MyStationsPage} from "../station/my-stations/my-stations";
 // import {StationWrapperPage} from "../station/station-wrapper";
 import {SignupLoginPage} from "../signup-login/signup-login";
 
@@ -18,7 +18,7 @@ export class TabsPage {
 
     tab1Root = MapPage;
     tab2Root = AboutPage;
-    tab3Root = MyStationsPage;
+    tab3Root = null;
     tab4Root = ProfilePage;
     tab5Root = WalletPage;
 

@@ -26,12 +26,12 @@
         <button ion-item (click)="editEmail()">
             {{ 'profile.data.email_adresse' | translate }}
         </button>
-        <button ion-item (click)="editPassword()">
+        <!-- <button ion-item (click)="editPassword()">
             {{ 'profile.data.change_password' | translate }}
-        </button>
-        <button ion-item (click)="resendVerificationEmail()" *ngIf="!user.isEmailVerified()">
+        </button> -->
+        <!-- <button ion-item (click)="resendVerificationEmail()" *ngIf="!user.isEmailVerified()">
             {{ 'profile.data.resend_confirmation' | translate }}
-        </button>
+        </button> -->
         <button ion-item (click)="changeLanguage()">
             {{ 'profile.data.change_language' | translate }}
         </button>
