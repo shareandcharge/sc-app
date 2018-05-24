@@ -34,7 +34,7 @@ export class ChargingCompletePage {
 
         this.locationService.getPrice(this.connector.id, {
             'secondsToCharge': this.chargedTime,
-            'maxCharging': this.activeCar.maxCharging
+            'maxCharging': 30
         }).subscribe((response) => {
                 this.chargedPrice = response.min
             },

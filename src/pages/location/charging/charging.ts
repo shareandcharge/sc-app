@@ -77,6 +77,7 @@ export class ChargingPage {
                 private configService: ConfigService, private translateService: TranslateService) {
 
         this.location = navParams.get("location");
+        console.log('charging loc:', this.location);
         //-- for now we use the first station
         this.station = this.location.stations[0];
 
@@ -121,14 +122,14 @@ export class ChargingPage {
         this.charging = this.chargingService.isCharging();
         this.activeCar = this.carService.getActiveCar();
 
-        if (this.activeCar) {
+        if (true) {
             //-- always read+set the hourly price
-            this.updatePriceInfo(60 * 60, this.activeCar.maxCharging, true);
+            this.updatePriceInfo(60 * 60, 30, true);
         }
 
-        if (this.charging && this.activeCar) {
-            this.startCheckConnector();
-            this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
+        if (this.charging) {
+            // this.startCheckConnector();
+            // this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
         }
         else {
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
@@ -182,12 +183,13 @@ export class ChargingPage {
         this.chargingTimeHours = this.makeTimeString(this.timer);
         this.updateCanvas();
         if (this.timer <= 0) {
-            this.charging = false;
-            this.countingDown = false;
+            // this.charging = false;
+            this.countingDown = false   ;
             //-- we don't want to close everything here if the stop button has been clicked
             //      he will take care then.
             if (!this.stopButtonClicked) {
-                this.dismiss();
+                console.log('hello')
+                // this.dismiss();
             }
         }
 
@@ -214,7 +216,7 @@ export class ChargingPage {
     }
 
     updatePriceInfoForSetTime() {
-        this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), this.carService.getActiveCar().maxCharging);
+        this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), 30);
     }
 
     isScrollable(x, y) {
@@ -256,19 +258,19 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({content: this.translateService.instant('location.charging.begin_charging')});
         loader.present();
 
-        this.chargingService.startCharging(this.connector, this.timer, this.activeCar.maxCharging, this.location)
+        this.chargingService.startCharging(this.connector, this.timer, 30, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {
                     this.trackerService.track('Charging Started', {
-                        'id': this.location.id,
+                        'id': this.location.id, 
                         'Address': this.location.address,
                         'Timestamp': ''
                     });
 
                     this.charging = true;
-                    this.startCheckConnector();
-                    this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
+                    // this.startCheckConnector();
+                    // this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
                 },
                 error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.start_charging')));
     }
@@ -330,6 +332,7 @@ export class ChargingPage {
                         this.updateCanvas();
                         this.initiateCanvas();
                         this.didStop = true;
+                        console.log('hello2')
                         this.dismiss();
                     });
 
@@ -342,57 +345,57 @@ export class ChargingPage {
     }
 
     circleRange_mouseDown() {
-        this.mouseDragging = true;
+        // this.mouseDragging = true;
     }
 
     circleRange_touchStart() {
-        this.mouseDragging = true;
+        // this.mouseDragging = true;
     }
 
     circleRange_mouseUp(self, e) {
-        this.mouseDragging = false;
-        if (!this.countingDown) {
-            self.drawSlideBar(e.offsetX, e.offsetY);
-        }
-        if (this.activeCar != null) {
-            this.updatePriceInfoForSetTime();
-        }
+        // this.mouseDragging = false;
+        // if (!this.countingDown) {
+        //     self.drawSlideBar(e.offsetX, e.offsetY);
+        // }
+        // if (this.activeCar != null) {
+        //     this.updatePriceInfoForSetTime();
+        // }
 
     }
 
     circleRange_touchEnd(self, e, canvas) {
-        if (!this.doScrolling) {
-            this.mouseDragging = false;
-            if (!this.countingDown) {
-                let rect = canvas.getBoundingClientRect();
-                self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
-            }
+        // if (!this.doScrolling) {
+        //     this.mouseDragging = false;
+        //     if (!this.countingDown) {
+        //         let rect = canvas.getBoundingClientRect();
+        //         self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
+        //     }
 
-            if (this.activeCar != null) {
-                this.updatePriceInfoForSetTime();
-            }
-        }
+        //     if (this.activeCar != null) {
+        //         this.updatePriceInfoForSetTime();
+        //     }
+        // }
     }
 
     circleRange_mouseMove(self, e) {
-        if (!this.doScrolling) {
-            if (this.mouseDragging) {
-                if (!this.countingDown) {
-                    self.drawSlideBar(e.offsetX, e.offsetY);
-                }
-            }
-        }
+        // if (!this.doScrolling) {
+        //     if (this.mouseDragging) {
+        //         if (!this.countingDown) {
+        //             self.drawSlideBar(e.offsetX, e.offsetY);
+        //         }
+        //     }
+        // }
     }
 
     circleRange_touchMove(self, e, canvas) {
-        if (!this.doScrolling) {
-            if (this.mouseDragging) {
-                if (!this.countingDown) {
-                    let rect = canvas.getBoundingClientRect();
-                    self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
-                }
-            }
-        }
+        // if (!this.doScrolling) {
+        //     if (this.mouseDragging) {
+        //         if (!this.countingDown) {
+        //             let rect = canvas.getBoundingClientRect();
+        //             self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
+        //         }
+        //     }
+        // }
     }
 
     drawSlideBar(x, y) {

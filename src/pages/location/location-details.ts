@@ -188,7 +188,7 @@ export class LocationDetailPage {
                 }
                 catch (e) {
                     this.errorService.displayError(this.translateService.instant('location.location_details.error_no_station_details'));
-                    this.dismiss();
+                    // this.dismiss();
                     return;
                 }
 
@@ -208,7 +208,7 @@ export class LocationDetailPage {
             },
             (error) => {
                 this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.location_details'));
-                this.dismiss();
+                // this.dismiss();
             }
         );
         return observable;

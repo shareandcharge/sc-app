@@ -20,11 +20,11 @@
 </ion-header>
 
 <ion-content>
-    <ion-fab top right *ngIf="!hasCars()">
+    <!-- <ion-fab top right *ngIf="!hasCars()">
         <button ion-fab (click)="addCarModal()" class="button-add-car">
             <ion-icon name="cust-add-car"></ion-icon>
         </button>
-    </ion-fab>
+    </ion-fab> -->
 
     <ion-fab top right *ngIf="hasCars() && !isCharging" #fabCar>
         <button ion-fab class="fab-image">

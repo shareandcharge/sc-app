@@ -42,9 +42,9 @@
     <hr>
 
     <div text-center *ngIf="countingDown" class="big-header">{{chargingTimeHours}}</div>
-    <div ion-text text-center *ngIf="activeCar == null" color="danger">
+    <!-- <div ion-text text-center *ngIf="activeCar == null" color="danger">
         {{'location.charging.add_car_first' | translate}}
-    </div>
+    </div> -->
 
     <div text-center class="price-label" *ngIf="activeCar != null">
         <span *ngIf="!countingDown"> {{'location.charging.estimated_price' | translate}} </span>
@@ -119,13 +119,13 @@
                 <hr>
             </ng-container>
 
-            <ion-list no-lines="" class="no-margin-bottom">
+            <!-- <ion-list no-lines="" class="no-margin-bottom">
                 <ion-item text-wrap class="item-partial-cover-cb">
                     <ion-checkbox [(ngModel)]="termsChecked" class="checkbox-square"></ion-checkbox>
                     <ion-label>{{'location.charging.accept_terms_1' | translate}} <a (click)="openTerms()">{{'location.charging.agb_2' | translate}}</a> {{'location.charging.accept_terms_3' | translate}}</ion-label>
                 </ion-item>
-            </ion-list>
-            <button ion-button round text-uppercase (click)="startCharging()" [disabled]="buttonDeactive || !termsChecked">
+            </ion-list> -->
+            <button ion-button round text-uppercase (click)="startCharging()">
                 {{'location.charging.btn_load' | translate}}
             </button>
         </div>

@@ -32,6 +32,8 @@ export class ChargingService extends AbstractApiService {
     connector: Connector;
     location: Location;
 
+    countUpInterval: any;
+
     constructor(private httpService: HttpService, configService: ConfigService, private events: Events,
                 private errorService: ErrorService, private locService: LocationService, private storage: Storage,
                 private auth: AuthService, public translateService: TranslateService) {
@@ -39,7 +41,9 @@ export class ChargingService extends AbstractApiService {
         this.events.subscribe('auth:logout', () => this.handleLogout());
     }
 
-    checkChargingState() {
+        checkChargingState() {
+
+        console.log('checking charging state');
         if (!this.auth.loggedIn()) {
             return;
         }
@@ -47,6 +51,9 @@ export class ChargingService extends AbstractApiService {
         let user = this.auth.getUser();
 
         this.getConnectors(user.address).subscribe((res) => {
+
+            console.log('checkChargingState > getConnectors:', res);
+
                 if (!res.length) {
                     this.chargingEnd();
                     return;
@@ -69,10 +76,10 @@ export class ChargingService extends AbstractApiService {
                     return;
                 }
 
-                connectors.sort((a, b) => {
-                    if (a === b) return 0;
-                    return (a < b ) ? -1 : 1;
-                });
+                // connectors.sort((a, b) => {
+                //     if (a === b) return 0;
+                //     return (a < b ) ? -1 : 1;
+                // });
 
                 let connector: Connector = connectors.shift();
 
@@ -117,8 +124,10 @@ export class ChargingService extends AbstractApiService {
     }
 
     getStation(stationId) {
+        console.log('stationId:', stationId);
         return this.httpService.get(`${this.baseUrl}/stations/${stationId}`)
             .map(res => {
+                console.log('getStation res:', res);
                 return res.json();
             })
             .catch((error) => this.handleError(error));
@@ -133,10 +142,16 @@ export class ChargingService extends AbstractApiService {
     }
 
     resumeCharging(remainingTime, totalTime) {
+        // console.log(remainingTime, totalTime);
         this.chargingTime = totalTime;
         this.charging = true;
+        this.timer = totalTime;
         this.startEventInterval();
-        this.countDown(remainingTime);
+        // this.countDown(remainingTime);
+        this.countUpInterval = setInterval(() => {
+            this.chargingTime += 1;
+            this.timer += 1;
+        }, 1000);
     }
 
     startCharging(connector: Connector, secondsToCharge, maxCharging, location: Location) {
@@ -147,17 +162,22 @@ export class ChargingService extends AbstractApiService {
 
         return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
             .map(res => {
-                res.json();
+                console.log('start success:', res);
+                res.json(); 
                 this.charging = true;
-                this.chargingTime = secondsToCharge;
-                this.timer = secondsToCharge;
+                this.timer = 0;
+                this.chargingTime = 0;
+                this.countUpInterval = setInterval(() => {
+                    this.chargingTime += 1;
+                    this.timer += 1;
+                }, 1000);
                 this.location = location;
                 this.connector = connector;
                 this.publishCharginUpdateEvent();
                 this.storage.set("chargingTime", this.chargingTime);
                 this.storage.set("isCharging", true);
-                this.startEventInterval();
-                this.countDown(secondsToCharge);
+                this.startEventInterval();  
+                // this.countDown(secondsToCharge);
 
                 this.events.publish('locations:updated');
             })
@@ -181,6 +201,7 @@ export class ChargingService extends AbstractApiService {
     chargingEnd() {
         clearInterval(this.counterInterval);
         clearInterval(this.eventInterval);
+        clearInterval(this.countUpInterval);
 
         /**
          * Do not reset location, connector, chargingTime, timer here!
@@ -210,7 +231,7 @@ export class ChargingService extends AbstractApiService {
     }
 
     chargedTime(): number {
-        return this.chargingTime - this.timer;
+        return this.timer;
     }
 
     startEventInterval() {
@@ -226,16 +247,18 @@ export class ChargingService extends AbstractApiService {
         me.timer = time;
         clearInterval(me.counterInterval);
         me.counterInterval = setInterval(() => {
-            if (--this.timer < 0) {
-                clearInterval(me.counterInterval);
-                this.stopCharging()
-                    .subscribe(
-                        () => this.events.publish('charging:lapsed'),
-                        error => this.errorService.displayErrorWithKey(error, 'error.scope.stop_charging')
-                    );
-            }
-            let chargedTime = this.chargingTime - this.timer;
-            this.progress = Math.floor((100 * chargedTime) / this.chargingTime);
+            // if (--this.timer < 0) {
+            //     clearInterval(me.counterInterval);
+            //     this.stopCharging()
+            //         .subscribe(
+            //             () => this.events.publish('charging:lapsed'),
+            //             error => this.errorService.displayErrorWithKey(error, 'error.scope.stop_charging')
+            //         );
+            // }
+            // let chargedTime = this.chargingTime - this.timer;
+            // this.progress = Math.floor((100 * chargedTime) / this.chargingTime);
+            this.progress += 1;
+            
             if (this.progress < 1) {
                 this.progress = 1;
             }

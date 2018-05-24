@@ -15,6 +15,7 @@ export abstract class AbstractApiService {
     }
 
     handleError(error: Response | any) {
+        console.log('error:', error);
         return Observable.throw(this.getErrorMessage(error));
     }
 

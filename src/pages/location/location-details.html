@@ -87,7 +87,7 @@
             <p>{{location.metadata.problemSolver}}</p>
         </div>
 
-        <h6>{{'location.location_details.ratings' | translate}}</h6>
+        <!-- <h6>{{'location.location_details.ratings' | translate}}</h6>
 
         <div *ngFor="let rating of ratings">
             <rating [(ngModel)]="rating.rating" readonly="true"></rating>
@@ -97,7 +97,7 @@
 
         <button ion-button color="secondary" small round outline (click)="feedback()" *ngIf="authService.loggedIn() && !ownerMode">+
             {{'location.location_details.write_rating' | translate}}
-        </button>
+        </button> -->
     </div>
 
 </ion-content>

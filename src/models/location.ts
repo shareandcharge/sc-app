@@ -119,14 +119,14 @@ export class Location implements Serializable<Location> {
         this.ownerprofile = input.ownerprofile;
         this.commercialcategory = input.commercialcategory;
 
-        if (input.images) {
-            this.images = input.images;
-            for (let image of this.images) {
-                if (typeof image.url !== 'undefined') {
-                    image.src = 'https://api-test.shareandcharge.com' + image.url;
-                }
-            }
-        }
+        // if (input.images) {
+        //     this.images = input.images;
+        //     for (let image of this.images) {
+        //         if (typeof image.url !== 'undefined') {
+        //             image.src = 'https://api-test.shareandcharge.com' + image.url;
+        //         }
+        //     }
+        // }
 
         let deserializedStations = [];
         if (input.stations) {

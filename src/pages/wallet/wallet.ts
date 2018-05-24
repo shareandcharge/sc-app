@@ -66,8 +66,9 @@ export class WalletPage {
 
         let observable = this.paymentService.getHistory();
         observable.subscribe((history) => {
-                // console.log(history);
+                // console.log('history:', history);
                 this.transactions = history;
+                this.transactions = this.transactions.sort((a, b) => parseInt(a.timestamp) - parseInt(b.timestamp));
                 this.pendingTransactions = [];
 
                 this.transactions.forEach((transaction) => {

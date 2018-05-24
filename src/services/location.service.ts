@@ -77,9 +77,11 @@ export class LocationService extends AbstractApiService {
     }
 
     getLocation(id): Observable<Location> {
+        console.log('locationId:', id);
         return this.httpService.get(`${this.baseUrl}/locations/${id}`)
             .map(res => {
-                return new Location().deserialize(res.json());
+                const location = new Location().deserialize(res.json());
+                return location;
             })
             .catch((error) => this.handleError(error));
     }
