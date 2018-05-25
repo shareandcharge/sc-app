@@ -43,7 +43,6 @@ export class ChargingService extends AbstractApiService {
 
         checkChargingState() {
 
-        console.log('checking charging state');
         if (!this.auth.loggedIn()) {
             return;
         }
@@ -51,8 +50,6 @@ export class ChargingService extends AbstractApiService {
         let user = this.auth.getUser();
 
         this.getConnectors(user.address).subscribe((res) => {
-
-            console.log('checkChargingState > getConnectors:', res);
 
                 if (!res.length) {
                     this.chargingEnd();
@@ -124,10 +121,8 @@ export class ChargingService extends AbstractApiService {
     }
 
     getStation(stationId) {
-        console.log('stationId:', stationId);
         return this.httpService.get(`${this.baseUrl}/stations/${stationId}`)
             .map(res => {
-                console.log('getStation res:', res);
                 return res.json();
             })
             .catch((error) => this.handleError(error));
@@ -142,7 +137,6 @@ export class ChargingService extends AbstractApiService {
     }
 
     resumeCharging(remainingTime, totalTime) {
-        // console.log(remainingTime, totalTime);
         this.chargingTime = totalTime;
         this.charging = true;
         this.timer = totalTime;
@@ -162,7 +156,6 @@ export class ChargingService extends AbstractApiService {
 
         return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
             .map(res => {
-                console.log('start success:', res);
                 res.json(); 
                 this.charging = true;
                 this.timer = 0;
@@ -184,8 +177,8 @@ export class ChargingService extends AbstractApiService {
             .catch((error) => this.handleError(error));
     }
 
-    stopCharging() {
-        return this.httpService.post(`${this.baseUrl}/connectors/${this.connector.id}/stop`, {})
+    stopCharging(id = this.connector.id) {
+        return this.httpService.post(`${this.baseUrl}/connectors/${id}/stop`, {})
             .map(res => {
                 res.json();
                 this.chargingEnd();

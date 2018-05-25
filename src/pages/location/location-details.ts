@@ -384,10 +384,10 @@ export class LocationDetailPage {
             });
 
             chargingModal.onDidDismiss((data) => {
-                if (data.isCharging == true && !data.fromLocationDetailsAndIsCharging) {
+                if (data && data.isCharging == true && !data.fromLocationDetailsAndIsCharging) {
                     this.viewCtrl.dismiss();
                 }
-                if (data.didStop == true) {
+                if (data && data.didStop == true) {
                     let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage);
                     chargingCompletedModal.present();
                 }

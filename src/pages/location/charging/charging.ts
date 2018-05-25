@@ -77,7 +77,6 @@ export class ChargingPage {
                 private configService: ConfigService, private translateService: TranslateService) {
 
         this.location = navParams.get("location");
-        console.log('charging loc:', this.location);
         //-- for now we use the first station
         this.station = this.location.stations[0];
 
@@ -188,7 +187,6 @@ export class ChargingPage {
             //-- we don't want to close everything here if the stop button has been clicked
             //      he will take care then.
             if (!this.stopButtonClicked) {
-                console.log('hello')
                 // this.dismiss();
             }
         }
@@ -315,7 +313,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({content: this.translateService.instant('location.charging.end_charging')});
         loader.present();
 
-        this.chargingService.stopCharging()
+        this.chargingService.stopCharging(this.connector.id)
             .subscribe(
                 () => {
                     loader.dismiss().then(() => {
@@ -332,7 +330,6 @@ export class ChargingPage {
                         this.updateCanvas();
                         this.initiateCanvas();
                         this.didStop = true;
-                        console.log('hello2')
                         this.dismiss();
                     });
 

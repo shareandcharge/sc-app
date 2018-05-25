@@ -77,7 +77,6 @@ export class LocationService extends AbstractApiService {
     }
 
     getLocation(id): Observable<Location> {
-        console.log('locationId:', id);
         return this.httpService.get(`${this.baseUrl}/locations/${id}`)
             .map(res => {
                 const location = new Location().deserialize(res.json());

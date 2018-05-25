@@ -31,7 +31,6 @@ export class ChargingCompletePage {
         this.connector = this.chargingService.getConnector();
         this.chargedTime = this.chargingService.chargedTime();
         this.chargedTimeString = this.makeTimeString(this.chargedTime);
-
         this.locationService.getPrice(this.connector.id, {
             'secondsToCharge': this.chargedTime,
             'maxCharging': 30
