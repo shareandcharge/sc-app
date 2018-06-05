@@ -107,7 +107,7 @@
     "used_voucher": "We are sorry, but that voucher has already been used",
     "expired_voucher": "We are sorry, but the voucher has expired",
     "no_voucheraccount": "There is no voucher account available",
-    "voucher_balance_too_low": "There was an error processing your voucher, for further assistance contact support@shareandcharge.com",
+    "voucher_balance_too_low": "There was an error processing your voucher, for further assistance contact support@chargeandfuel.com",
     "not_enough_balance": "The balance of your voucher is too low to use",
     "error_start_charging_unavailable": "The charging station is unavailable",
     "error_start_charging_not_connected": "The vehicle is not connected to the charging station",
@@ -116,7 +116,7 @@
     "wrong_old_password": "You used a wrong or old password",
     "pay_in_limit_reached": "The maximum Pay-in level per day is 100{{currency}}",
     "time_too_long": "Your selected time is too long",
-    "secure_storage_locked": "There was an error with your Pay-in - please contact our Support for help at support@shareandcharge.com",
+    "secure_storage_locked": "There was an error with your Pay-in - please contact our Support for help at support@chargeandfuel.com",
     "order_not_found": "The order could not be found",
     "password_too_weak": "Your password is too weak - you will need at least 10 characters and no more than three consecutive characters",
     "chargingsstation_already_charging": "The charging station is already charging",
@@ -124,9 +124,9 @@
     "no_invoice_found": "The requested invoice could not be found",
     "invalid_secure_config": "Invalid configuration",
     "no_key_found": "No key found",
-    "reset_recovery_locked": "The reset recovery is currently locked - please try again later or contact support at support@shareandcharge.com",
+    "reset_recovery_locked": "The reset recovery is currently locked - please try again later or contact support at support@chargeandfuel.com",
     "already_invited": "This user has already been invited",
-    "user_too_many_failes": "There have been too many login attempts for this account - please try again later or contact support at support@shareandcharge.com",
+    "user_too_many_failes": "There have been too many login attempts for this account - please try again later or contact support at support@chargeandfuel.com",
     "unauthorized_authentification_change": "Unauthorized authentification change",
     "missing_old_password": "In order to change your password, please provide the old one",
     "limit_reached": "Your Pay-in limit has been reached",
@@ -193,7 +193,7 @@
   "_global": {
     "data_protection": {
       "data_protection": "Data protection",
-      "paragraph_1": "We, Share&Charge, a service of MotionWerk GmbH, Opernplatz 1, 45129 Essen, Tel.: +49(0)201-8133108, E-Mail: info@shareandcharge.com (\u201cMotionWerk\u201c) we protect your interest in our platform \u201cShare&Charge\u201c and we know that data protection is important for you.",
+      "paragraph_1": "We,Charge&Fuel, a service of MotionWerk GmbH, Opernplatz 1, 45129 Essen, Tel.: +49(0)201-8133108, E-Mail: info@chargeandfuel.com (\u201cMotionWerk\u201c) we protect your interest in our platform \u201cCharge&Fuel\u201c and we know that data protection is important for you.",
       "paragraph_2": "Our data protection agreement ",
       "paragraph_2_here": "here",
       "paragraph_3": "Anonymized session IDs declare the provision of our services. By using our services, you agree that we will assign you a session ID per session.",
@@ -203,8 +203,8 @@
   },
   "about": {
     "title": "Info",
-    "headline": "What is Share&Charge?",
-    "paragraph_1": "Share&Charge makes electric car charging accessible to everyone. Sign up to become part of our community.",
+    "headline": "What is Charge&Fuel?",
+    "paragraph_1": "Charge&Fuel makes electric car charging accessible to everyone. Sign up to become part of our community.",
     "start_intro": "Start intro"
   },
   "car": {
@@ -445,7 +445,7 @@
       "country": "Country",
       "select": "Select ...",
       "commercial_provider": "I am a commercial provider",
-      "commercial_provider_hint": "You are a commercial provider when you run a business (e.g. hotel, restaurant, craftsman's workshop, etc.) and want to use Share&Charge in this context.",
+      "commercial_provider_hint": "You are a commercial provider when you run a business (e.g. hotel, restaurant, craftsman's workshop, etc.) and want to useCharge&Fuel in this context.",
       "commercial_provider_hotel_hint" : "If you run a hotel / restaurant, please select the appropriate option to become listed in the filter.",
       "vat_number": "VAT number",
       "data": "Profile data",
@@ -517,10 +517,10 @@
     "plugtype": "Plug type",
     "power": "Capacity",
     "none": "Standard",
-    "sc_module": "Share&Charge module",
+    "sc_module": "Charge&Fuel module",
     "kwh_billing": "kWh-based billing",
     "msg_none" : "Select this option if you do not have any of the charging stations listed below. In this case, the settlement of the charging process is based on trust.",
-    "msg_sc_light_module": "Select this option if your charging station has Wi-Fi, GSM, and a light client which can control the charging station via the Share&Charge app.",
+    "msg_sc_light_module": "Select this option if your charging station has Wi-Fi, GSM, and a light client which can control the charging station via theCharge&Fuel app.",
     "msg_kwh_type": "This option will be released soon. It presupposes a calibrated electricity meter in your charging station.",
     "user": "User",
     "add_from_contacts": "Add from contacts",
@@ -528,13 +528,13 @@
     "no_mail_found": "No e-mail addresses found",
     "no_mail_found_msg": "Please select a contact with at least one e-mail adress.",
     "mail_not_registered": "E-mail address not registered.",
-    "mail_not_registered_msg": "The selected e-mail address is not registered with Share&Charge",
+    "mail_not_registered_msg": "The selected e-mail address is not registered withCharge&Fuel",
     "registered_mail_not_found": "No registered e-mail address found.",
-    "registered_mail_not_found_msg": "None of the selected e-mail addresses is registered with Share&Charge.",
+    "registered_mail_not_found_msg": "None of the selected e-mail addresses is registered withCharge&Fuel.",
     "msg_confirm_delete_addr": "Do you really want to delete this e-mail address from the tariff?",
     "add_station": "Add charging station",
     "your_tarif": "Your tariff",
-    "sc_fee": "Share&Charge fee",
+    "sc_fee": "Charge&Fuel fee",
     "total_price": "Total price",
     "your_energy_cost": "Your energy costs",
     "park_cost": "Parking costs",
@@ -544,11 +544,11 @@
     "accept_the_given": "I accept the following",
     "terms_of_use": "Terms of use",
     "confirm": "Confirm",
-    "terms_and_conditions": "Do you want to use your own terms and conditions? Please contact us at (registrierung@shareandcharge.com)",
+    "terms_and_conditions": "Do you want to use your own terms and conditions? Please contact us at (registrierung@chargeandfuel.com)",
     "info": "Info",
     "choose_my_tarif": "Select my tariff",
     "community_tarif": "Community tariff",
-    "community_tarif_description": "The Community Tariff is used for the general Share&Charge users.",
+    "community_tarif_description": "The Community Tariff is used for the generalCharge&Fuel users.",
     "flatrate": "Flatrate",
     "hourly_tarif": "Time-based tariff",
     "kwh_rate": "kWh-based tariff",
@@ -569,7 +569,7 @@
     "juice_box_device_id": "Device Id",
     "juice_box_pin": "Guest pairing pin",
     "juice_box_details": "Juice Box Details",
-    "juice_box_info_text": "Please provide the Device Id and a Guest pairing PIN so that Share&Charge is able to connect to your JuiceBox. You can find the information by logging into the <a href=\"https://dashboard.emotorwerks.com/Portal\" target=\"_blank\">eMotorWerks Portal</a>. Then go \"My JuiceNet >> My JuiceNet Devices\" and click on \"Guest pairing pin\" for the device you want to connect."
+    "juice_box_info_text": "Please provide the Device Id and a Guest pairing PIN so thatCharge&Fuel is able to connect to your JuiceBox. You can find the information by logging into the <a href=\"https://dashboard.emotorwerks.com/Portal\" target=\"_blank\">eMotorWerks Portal</a>. Then go \"My JuiceNet >> My JuiceNet Devices\" and click on \"Guest pairing pin\" for the device you want to connect."
   },
   "wallet": {
     "PayPal": "PayPal",
@@ -599,7 +599,7 @@
     "deposit": "Charge account",
     "incomplete_data": "Incomplete data",
     "msg_complete_profile": "In order to make payments, please complete your profile first.",
-    "sanc_fee" : "Share&Charge fee",
+    "sanc_fee" : "Charge&Fuel fee",
     "incl" : "incl."
   },
   "error_messages": {
@@ -645,10 +645,10 @@
     "pay_money_out": "Payout money"
   },
   "documents": {
-    "FAQ_URL": "https://shareandcharge.com/en/faqs-2/",
-    "TERMS_APP_URL": "https://shareandcharge.com/en/app-terms-usa/",
-    "TERMS_STATION_URL": "https://shareandcharge.com/en/terms-station-usa/",
-    "DATA_PROTECTION_URL": "https://shareandcharge.com/en/dataprotection/"
+    "FAQ_URL": "https://chargeandfuel.com/en/faqs-2/",
+    "TERMS_APP_URL": "https://chargeandfuel.com/en/app-terms-usa/",
+    "TERMS_STATION_URL": "https://chargeandfuel.com/en/terms-station-usa/",
+    "DATA_PROTECTION_URL": "https://chargeandfuel.com/en/dataprotection/"
   },
   "toast" : {
     "wallet_transaction_successful" : "Transaction successful"

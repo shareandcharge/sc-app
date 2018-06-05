@@ -193,7 +193,7 @@
   "_global": {
     "data_protection": {
       "data_protection": "Datenschutzerklärung",
-      "paragraph_1": "Wir, Share&Charge, ein Dienst von MotionWerk GmbH, Opernplatz 1, 45129 Essen, Tel.: +49(0)201-8133108, E-Mail: info@shareandcharge.com („MotionWerk“) schätzen Ihr Interesse an unserer Plattform „Share&Charge“ und wissen, dass Ihnen Datenschutz wichtig ist.",
+      "paragraph_1": "Wir,Charge&Fuel, ein Dienst von MotionWerk GmbH, Opernplatz 1, 45129 Essen, Tel.: +49(0)201-8133108, E-Mail: info@chargeandfuel.com („VWFS“) schätzen Ihr Interesse an unserer Plattform „Charge&Fuel“ und wissen, dass Ihnen Datenschutz wichtig ist.",
       "paragraph_2": "Unsere vollständige Datenschutzerklärung finden Sie ",
       "paragraph_2_here": "hier",
       "paragraph_3": "Anonymisierte Session IDs erleichtern die Bereitstellung unserer Dienste. Mit der Nutzung unserer Dienste erklären Sie sich damit einverstanden, dass wir Ihnen pro Sitzung eine Session ID zuweisen.",
@@ -203,8 +203,8 @@
   },
   "about": {
     "title": "Info",
-    "headline": "Was ist Share&Charge?",
-    "paragraph_1": "Share&Charge macht Ladeinfrastruktur für jedermann zugänglich und abrechenbar. Anmelden um Teil der Community zu werden.",
+    "headline": "Was ist Charge&Fuel?",
+    "paragraph_1": "Charge&Fuel macht Ladeinfrastruktur für jedermann zugänglich und abrechenbar. Anmelden um Teil der Community zu werden.",
     "start_intro": "Intro Starten"
   },
   "car": {
@@ -273,7 +273,7 @@
   },
   "intro": {
     "welcome": "Herzlich Willkommen!",
-    "first_slide": "Als früher E-Mobilist kennst Du es bestimmt bereits: Einer muss immer der Erste sein! Und heute bist Du das! Wir freuen uns darauf, unsere Community gemeinsam mit Dir wachsen zu sehen.<br>Danke, dass Du dabei bist!<br><br>Dein Share&Charge Team",
+    "first_slide": "Als früher E-Mobilist kennst Du es bestimmt bereits: Einer muss immer der Erste sein! Und heute bist Du das! Wir freuen uns darauf, unsere Community gemeinsam mit Dir wachsen zu sehen.<br>Danke, dass Du dabei bist!<br><br>Dein Charge&Fuel Team",
     "find_charging_station": "Ladestation finden",
     "second_slide": "Suche auf unserer interaktiven Karte nach Ladestationen in Deiner Nähe. Mit Hilfe der Filter kannst Du spezifisch nach Deinen Suchkriterien filtern.",
     "register_charging_station": "Ladestation registrieren",
@@ -446,7 +446,7 @@
       "country": "Land",
       "select": "Bitte wählen ...",
       "commercial_provider": "Ich bin ein kommerzieller Anbieter",
-      "commercial_provider_hint": "Du bist ein kommerzieller Anbieter, wenn Du ein Gewerbe betreibst (z.B. Hotel, Restaurant, Handwerksbetrieb, etc.) und Share&Charge in diesem Zusammenhang nutzen möchtest.",
+      "commercial_provider_hint": "Du bist ein kommerzieller Anbieter, wenn Du ein Gewerbe betreibst (z.B. Hotel, Restaurant, Handwerksbetrieb, etc.) und Charge&Fuel in diesem Zusammenhang nutzen möchtest.",
       "commercial_provider_hotel_hint" : "Wenn Du ein Hotel- oder Restaurantbetreiber bist, wähle Zutreffendes aus, um im Filter gelistet zu werden.",
       "vat_number": "Steuernummer",
       "data": "Profildaten",
@@ -518,10 +518,10 @@
     "plugtype": "Steckertyp",
     "power": "Leistung",
     "none": "Standard",
-    "sc_module": "Share&Charge Modul",
+    "sc_module": "Charge&Fuel Modul",
     "kwh_billing": "kWh genaue Abrechnung",
     "msg_none" : "Wählen Sie diese Option, wenn Sie keine der unten aufgeführten Ladestationen besitzen. Die Abrechnung des Ladevorgangs erfolgt in diesem Fall auf Vertrauensbasis.",
-    "msg_sc_light_module": "Wähle diese Option sofern deine Ladestation über WLAN, GSM, sowie einen Light Client verfügt, der die Ladestation über die Share&Charge App steuern kann.",
+    "msg_sc_light_module": "Wähle diese Option sofern deine Ladestation über WLAN, GSM, sowie einen Light Client verfügt, der die Ladestation über die Charge&Fuel App steuern kann.",
     "msg_kwh_type": "Diese Option wird in Kürze freigeschaltet. Sie setzt einen geeichten Stromzähler in Deiner Ladesäule voraus.",
     "user": "Nutzer",
     "add_from_contacts": "Aus Kontakten hinzufügen",
@@ -545,11 +545,11 @@
     "accept_the_given": "Ich akzeptiere die vorgegebenen",
     "terms_of_use": "Nutzungsbedingungen",
     "confirm": "Bestätigen",
-    "terms_and_conditions": "Du möchtest Deine eigenen AGBs verwenden? Kontaktier uns per E-Mail. (registrierung@shareandcharge.com)",
+    "terms_and_conditions": "Du möchtest Deine eigenen AGBs verwenden? Kontaktier uns per E-Mail. (registrierung@chargeandfuel.com)",
     "info": "Info",
     "choose_my_tarif": "Meine Tarife wählen",
     "community_tarif": "Community Tarif",
-    "community_tarif_description": "Der Community Tarif ist der allgemeine Tarif für alle Share&Charge Lader.",
+    "community_tarif_description": "Der Community Tarif ist der allgemeine Tarif für alle Charge&Fuel Lader.",
     "flatrate": "Flatrate",
     "hourly_tarif": "Stundentarif",
     "kwh_rate": "kWh-Tarif",
@@ -570,7 +570,7 @@
     "juice_box_device_id": "Device Id",
     "juice_box_pin": "Guest pairing pin",
     "juice_box_details": "Juice Box Details",
-    "juice_box_info_text": "Bitte gib die Device Id und den Guest pairing pin ein, damit Share&Charge sich zu deiner Ladestation verbinden kann. Die benötigten Daten dazu findest du in dem <a href=\"https://dashboard.emotorwerks.com/Portal\" target=\"_blank\">eMotorWerks Portal</a>. Gehe zu \"My JuiceNet >> My JuiceNet Devices\" und klicke auf \"Guest pairing pin\" für die Station, die du verbinden willst."
+    "juice_box_info_text": "Bitte gib die Device Id und den Guest pairing pin ein, damit Charge&Fuel sich zu deiner Ladestation verbinden kann. Die benötigten Daten dazu findest du in dem <a href=\"https://dashboard.emotorwerks.com/Portal\" target=\"_blank\">eMotorWerks Portal</a>. Gehe zu \"My JuiceNet >> My JuiceNet Devices\" und klicke auf \"Guest pairing pin\" für die Station, die du verbinden willst."
  },
  "wallet": {
     "PayPal": "PayPal",
@@ -600,7 +600,7 @@
     "deposit": "Konto aufladen",
     "incomplete_data": "Daten unvollständig",
     "msg_complete_profile": "Um Zahlungsvorgänge durchführen zu können musst Du zunächst Dein Profil vervollständigen.",
-    "sanc_fee" : "Share&Charge Gebühr",
+    "sanc_fee" : "Charge&Fuel Gebühr",
     "incl" : "inkl."
  },
 "error_messages": {
@@ -646,10 +646,10 @@
     "pay_money_out": "Geld auszahlen"
   },
   "documents": {
-    "FAQ_URL": "https://shareandcharge.com/faqs",
-    "TERMS_APP_URL": "https://www.shareandcharge.com/app-agbs/'",
-    "TERMS_STATION_URL": "https://www.shareandcharge.com/ladestation-agbs/",
-    "DATA_PROTECTION_URL": "https://www.shareandcharge.com/app-datenschutz/"
+    "FAQ_URL": "https://chargeandfuel.com/faqs",
+    "TERMS_APP_URL": "https://www.chargeandfuel.com/app-agbs/'",
+    "TERMS_STATION_URL": "https://www.chargeandfuel.com/ladestation-agbs/",
+    "DATA_PROTECTION_URL": "https://www.chargeandfuel.com/app-datenschutz/"
   },
   "toast" : {
     "wallet_transaction_successful" : "Transaktion erfolgreich"

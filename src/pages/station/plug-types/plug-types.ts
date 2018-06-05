@@ -129,7 +129,7 @@ export class PlugTypesPage {
         else if ("kwh" === type) {
             // changed in https://github.com/slockit/sc-app/issues/203
             // message = "Wähle diese Option sofern dein Ladepunkt über einen geeichten Stromzähler verfügt " +
-            //     "& der Zählerstand automatisch an das Share&Charge Backend gesendet wird.";
+            //     "& der Zählerstand automatisch an dasCharge&Fuel Backend gesendet wird.";
             message = this.translateService.instant('station.msg_kwh_type');
         } else if ("juiceBox" === type) {
             message = this.translateService.instant('station.msg_juice_box');

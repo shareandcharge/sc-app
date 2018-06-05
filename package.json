@@ -100,7 +100,7 @@
             "locator": "android"
         }
     ],
-    "description": "Share&Charge: Be part of the e-mobility revolution",
+    "description": "Charge&Fuel: Be part of the e-mobility revolution",
     "cordova": {
         "platforms": [
             "android",
