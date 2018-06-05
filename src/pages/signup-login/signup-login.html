@@ -26,15 +26,15 @@
                     <div id="signUpLoginTabs" text-uppercase>
                         <ion-segment color="primary" [(ngModel)]="action" [ngModelOptions]="{standalone: true}"
                                      (ngModelChange)="switchTabs()" padding>
-                            <ion-segment-button value="signUp">
+                            <ion-segment-button (click)="registerClicked()"  value="signUp">
                                 {{'login.register' | translate}}
                             </ion-segment-button>
-                            <ion-segment-button value="login">
+                            <ion-segment-button (click)="loginClicked()" value="login">
                                 {{'login.login' | translate}}
                             </ion-segment-button>
                         </ion-segment>
                     </div>
-                    <div padding="">
+                    <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="text"
                                         formControlName="firstName"
@@ -42,7 +42,11 @@
                                         placeholder="{{'login.first_name' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div padding="">
+                    <div *ngIf="!signUpLoginForm.controls.firstName.valid && submitAttempt"
+                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                        {{'Please insert first name'}}
+                    </div>
+                    <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="text"
                                         formControlName="lastName"
@@ -50,15 +54,23 @@
                                         placeholder="{{'login.last_name' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div padding="">
+                    <div *ngIf="!signUpLoginForm.controls.lastName.valid && submitAttempt"
+                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                        {{'Please insert last name'}}
+                    </div>
+                    <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="text"
                                         formControlName="street"
-                                        [(ngModel)]="signUpLoginObject.city" name="street"
+                                        [(ngModel)]="signUpLoginObject.street" name="street"
                                         placeholder="{{'login.street' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div padding="">
+                    <div *ngIf="!signUpLoginForm.controls.street.valid && submitAttempt"
+                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                        {{'Please insert street'}}
+                    </div>
+                    <div padding="" *ngIf="!loginForm">
                         <ion-row>
                             <ion-item id="zipcode" no-lines class="no-margin">
                                 <ion-input type="text"
@@ -74,7 +86,14 @@
                             </ion-item>
                         </ion-row> 
                     </div>
-
+                    <div *ngIf="!signUpLoginForm.controls.zipcode.valid && submitAttempt"
+                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                        {{'Please insert zipcode'}}
+                    </div>
+                    <div *ngIf="!signUpLoginForm.controls.city.valid && submitAttempt"
+                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                        {{'Please insert city'}}
+                    </div>
                     <div padding="">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="email"
@@ -89,7 +108,7 @@
                         {{ errorMessages.email }}
                     </div>
 
-                    <div padding="">
+                    <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="text"
                                         formControlName="phone"
@@ -97,7 +116,10 @@
                                         placeholder="{{'login.phone' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-
+                    <div *ngIf="!signUpLoginForm.controls.phone.valid && submitAttempt"
+                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                        {{'Please insert phone'}}
+                    </div>
                     <div padding="">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="password"

@@ -25,6 +25,17 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class SignupLoginPage {
 
+    loginForm = false;
+
+    loginClicked(){
+        this.loginForm = true;
+    }
+
+    registerClicked(){
+        this.loginForm = false;
+    }
+    
+
     signUpLoginObject = {
         "firstName":"",
         "lastName":"",
@@ -61,12 +72,12 @@ export class SignupLoginPage {
 
         this.createErrorMessages();
         this.signUpLoginForm = formBuilder.group({
-            firstName: [''],
-            lastName: [''],
-            street: [''],
-            zipcode: [''],
-            city: [''],
-            phone:[''],
+            firstName: ['', Validators.compose([Validators.minLength(2), Validators.required])],
+            lastName: ['', Validators.compose([Validators.minLength(2), Validators.required])],
+            street: ['', Validators.compose([Validators.minLength(2), Validators.required])],
+            zipcode: ['', Validators.compose([Validators.minLength(2), Validators.required])],
+            city: ['', Validators.compose([Validators.minLength(2), Validators.required])],
+            phone:['', Validators.compose([Validators.minLength(2), Validators.required])],
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
             password: ['', Validators.compose([Validators.maxLength(225), Validators.required])]
         });
