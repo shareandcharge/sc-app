@@ -26,7 +26,13 @@ import {TranslateService} from "@ngx-translate/core";
 export class SignupLoginPage {
 
     signUpLoginObject = {
+        "firstName":"",
+        "lastName":"",
+        "street":"",
+        "zipcode":"",
+        "city":"",
         "email": "",
+        "phone":"",
         "profile": {"newsletter": false, "language": "", "disableTracking": false},   // should disableTracking be hardcoded???
         "authentification": {"type": "passwd", "password": ""}
     };
@@ -55,6 +61,12 @@ export class SignupLoginPage {
 
         this.createErrorMessages();
         this.signUpLoginForm = formBuilder.group({
+            firstName: [''],
+            lastName: [''],
+            street: [''],
+            zipcode: [''],
+            city: [''],
+            phone:[''],
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
             password: ['', Validators.compose([Validators.maxLength(225), Validators.required])]
         });

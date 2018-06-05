@@ -380,6 +380,12 @@
     "load_station": "Loading charging station"
   },
   "login": {
+    "first_name": "First name",
+    "last_name": "Last name",
+    "street": "Street",
+    "zip_code": "Zip code",
+    "city": "City",
+    "phone": "Phone",
     "forgot_password": "Forgot password",
     "input_email": "Please enter your e-mail address:",
     "email": "E-Mail",

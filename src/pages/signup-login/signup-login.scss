@@ -9,8 +9,7 @@ page-signup {
     display:block;
     margin:auto;
     max-width: 75%;
-    margin-bottom: 60px;
-    margin-top: 20px;
+    margin-top: -60px;
   }
 
   .content, .content-ios, .toolbar-title, .bar-buttons, .bar-button-default-ios {
@@ -63,6 +62,16 @@ page-signup {
     ion-label {
       color: #fff;
     }
+  }
+
+  #zipcode{
+    width: 30%;
+    display: block;
+  }
+
+  #street{
+    display: block;
+    width: 70%;
   }
 
   #signUpLoginTabs {

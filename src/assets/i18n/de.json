@@ -381,6 +381,12 @@
     "load_station": "Stationen laden"
   },
   "login": {
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "street": "Straße",
+    "zip_code": "Postleitzahl ",
+    "city": "Stadt",
+    "phone": "Telefon",
     "forgot_password": "Passwort vergessen",
     "input_email": "Bitte gib Deine Email-Adresse ein:",
     "email": "E-Mail",
