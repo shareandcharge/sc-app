@@ -37,24 +37,24 @@
                     <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="text"
-                                        formControlName="firstName"
-                                        [(ngModel)]="signUpLoginObject.firstName" name="firstName"
+                                        formControlName="firstname"
+                                        [(ngModel)]="signUpLoginObject.firstname" name="firstname"
                                         placeholder="{{'login.first_name' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.firstName.valid && submitAttempt"
+                    <div *ngIf="!signUpLoginForm.controls.firstname.valid && submitAttempt"
                         class="alert-box alert-box-danger alert-box-bg-light" margin>
                         {{'Please insert first name'}}
                     </div>
                     <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="text"
-                                        formControlName="lastName"
-                                        [(ngModel)]="signUpLoginObject.lastName" name="lastName"
+                                        formControlName="lastname"
+                                        [(ngModel)]="signUpLoginObject.lastname" name="lastname"
                                         placeholder="{{'login.last_name' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.lastName.valid && submitAttempt"
+                    <div *ngIf="!signUpLoginForm.controls.lastname.valid && submitAttempt"
                         class="alert-box alert-box-danger alert-box-bg-light" margin>
                         {{'Please insert last name'}}
                     </div>

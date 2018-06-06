@@ -72,8 +72,8 @@ export class SignupLoginPage {
 
         this.createErrorMessages();
         this.signUpLoginForm = formBuilder.group({
-            firstName: [''],
-            lastName: [''],
+            firstname: [''],
+            lastname: [''],
             street: [''],
             zipcode: [''],
             city: [''],

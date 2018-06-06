@@ -29,6 +29,8 @@ export class UserService extends AbstractApiService {
         return this.httpService.post(url, JSON.stringify(credentials))
             .map(res => {
                 let data = res.json();
+                console.log("data", data);
+                
                 this.authSuccess(data);
             })
             .catch((error) => this.handleError(error));
