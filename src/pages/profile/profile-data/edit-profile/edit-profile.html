@@ -89,6 +89,15 @@
                 {{ errorMessages.lastName }}
             </div>
             <ion-item>
+                <ion-label stacked>{{'profile.data.email_adresse' | translate}} (*)</ion-label>
+                <ion-input type="text" class="input-white" formControlName="lastName"
+                           [(ngModel)]="editObj.lastname"></ion-input>
+            </ion-item>
+            <div *ngIf="!profileForm.controls.lastName.valid && submitAttempt"
+                 class="alert-box alert-box-danger" margin>
+                {{ errorMessages.email }}
+            </div>
+            <ion-item>
                 <ion-label stacked>{{'profile.data.street_house_number' | translate}} (*)</ion-label>
                 <ion-input type="text" class="input-white" formControlName="address"
                            [(ngModel)]="editObj.address"></ion-input>
@@ -117,7 +126,7 @@
                 {{ errorMessages.city }}
             </div>
             <ion-item>
-                <ion-label stacked>{{'profile.data.state' | translate}}</ion-label>
+                <ion-label stacked>{{'profile.data.phone' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="state"
                            [(ngModel)]="editObj.state"></ion-input>
             </ion-item>

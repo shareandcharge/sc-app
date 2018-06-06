@@ -72,12 +72,12 @@ export class SignupLoginPage {
 
         this.createErrorMessages();
         this.signUpLoginForm = formBuilder.group({
-            firstName: ['', Validators.compose([Validators.minLength(2), Validators.required])],
-            lastName: ['', Validators.compose([Validators.minLength(2), Validators.required])],
-            street: ['', Validators.compose([Validators.minLength(2), Validators.required])],
-            zipcode: ['', Validators.compose([Validators.minLength(2), Validators.required])],
-            city: ['', Validators.compose([Validators.minLength(2), Validators.required])],
-            phone:['', Validators.compose([Validators.minLength(2), Validators.required])],
+            firstName: [''],
+            lastName: [''],
+            street: [''],
+            zipcode: [''],
+            city: [''],
+            phone:[''],
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
             password: ['', Validators.compose([Validators.maxLength(225), Validators.required])]
         });
