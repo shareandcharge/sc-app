@@ -3,8 +3,8 @@
  */
 export let CONFIG = {
   APP_VERSION: '1.0.736',
-  API_URL: 'http://18.185.27.243:3412/v1',
-  IMAGES_BASE_URL: 'http://18.185.27.243.209:3412',
+  API_URL: 'http://18.184.71.21:3412/v1',
+  IMAGES_BASE_URL: 'http://18.184.71.21:3412',
   API_KEY: {
     param: 'noapikey',
     name: 'webapp',
