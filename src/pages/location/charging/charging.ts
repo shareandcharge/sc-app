@@ -207,7 +207,7 @@ export class ChargingPage {
                 this.tariffType = response.type;
                 this.chargingTypeText = this.priceProviderTariffTypes[response.type];
                 if (perHour) {
-                    this.chargingPricePerHour = response.min;
+                    this.chargingPricePerHour = response.min / 100;
                 }
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
@@ -261,7 +261,7 @@ export class ChargingPage {
             .subscribe(
                 () => {
                     this.trackerService.track('Charging Started', {
-                        'id': this.location.id, 
+                        'id': this.location.id,
                         'Address': this.location.address,
                         'Timestamp': ''
                     });

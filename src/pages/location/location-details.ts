@@ -229,8 +229,8 @@ export class LocationDetailPage {
         }
 
         this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
-                this.maxPrice = response.max;
-                this.minPrice = response.min;
+                this.maxPrice = response.max / 100;
+                this.minPrice = response.min / 100;
                 this.includingVat = response.vat;
                 this.tariffType = response.type;
             },

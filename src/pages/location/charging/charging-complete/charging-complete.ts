@@ -35,7 +35,7 @@ export class ChargingCompletePage {
             'secondsToCharge': this.chargedTime,
             'maxCharging': 30
         }).subscribe((response) => {
-                this.chargedPrice = response.min
+                this.chargedPrice = response.min / 100
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('query_price'))
         );
