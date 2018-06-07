@@ -10,6 +10,7 @@ export class User implements Serializable<User> {
     email: string;
     address: string;
     profile: any;
+    about: any;
     cars: any;
     authentification: any;
     commercialcategory: any; /* lowercase in backend */
@@ -20,6 +21,7 @@ export class User implements Serializable<User> {
         this.id = '';
         this.email = '';
         this.address = '';
+        this.about = {};
         this.profile = {};
         this.cars = {};
 
@@ -144,6 +146,7 @@ export class User implements Serializable<User> {
         this.id = input.id;
         this.email = input.email;
         this.profile = input.profile;
+        this.about = input.about;
         this.cars = input.cars;
         this.address = input.address;
         this.authentification = input.authentification;

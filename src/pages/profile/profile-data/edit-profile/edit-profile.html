@@ -72,7 +72,7 @@
 
             <ion-item>
                 <ion-label stacked>{{'profile.data.first_name' | translate}} (*)</ion-label>
-                <ion-input type="text" class="input-white" [(ngModel)]="editObj.firstname"
+                <ion-input type="text" class="input-white" [(ngModel)]="about.firstname"
                            formControlName="firstName"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.firstName.valid && submitAttempt"
@@ -82,7 +82,7 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.family_name' | translate}} (*)</ion-label>
                 <ion-input type="text" class="input-white" formControlName="lastName"
-                           [(ngModel)]="editObj.lastname"></ion-input>
+                           [(ngModel)]="about.lastname"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.lastName.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
@@ -91,7 +91,7 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.email_adresse' | translate}} (*)</ion-label>
                 <ion-input type="text" class="input-white" formControlName="lastName"
-                           [(ngModel)]="editObj.lastname"></ion-input>
+                           [(ngModel)]="about.lastname"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.lastName.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
@@ -100,7 +100,7 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.street_house_number' | translate}} (*)</ion-label>
                 <ion-input type="text" class="input-white" formControlName="address"
-                           [(ngModel)]="editObj.address"></ion-input>
+                           [(ngModel)]="about.street"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.address.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
@@ -109,7 +109,7 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.zipcode' | translate}}</ion-label>
                 <ion-input type="tel" class="input-white" formControlName="postalCode"
-                           [(ngModel)]="editObj.postalCode"></ion-input>
+                           [(ngModel)]="about.zipcode"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.postalCode.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
@@ -119,7 +119,7 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.city' | translate}} (*)</ion-label>
                 <ion-input type="text" class="input-white" formControlName="city"
-                           [(ngModel)]="editObj.city"></ion-input>
+                           [(ngModel)]="about.city"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.city.valid && submitAttempt"
                 class="alert-box alert-box-danger" margin>
@@ -128,7 +128,7 @@
             <ion-item>
                 <ion-label stacked>{{'profile.data.phone' | translate}}</ion-label>
                 <ion-input type="text" class="input-white" formControlName="state"
-                           [(ngModel)]="editObj.state"></ion-input>
+                           [(ngModel)]="about.phone"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label class="label-small" stacked>{{'profile.data.country' | translate}}</ion-label>

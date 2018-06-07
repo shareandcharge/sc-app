@@ -18,6 +18,7 @@ import {isString} from "ionic-angular/util/util";
 export class EditProfilePage {
     user: User;
     editObj: any;
+    about: any;
 
     profileForm: any;
     errorMessages: any;
@@ -51,7 +52,8 @@ export class EditProfilePage {
 
         this.user = this.authService.getUser();
         this.editObj = Object.assign({}, this.user.profile);
-
+        this.about = this.user.about;
+        
         if (!this.editObj.country) this.editObj.country = 'de';
 
         this.editCommercialCategory = {
