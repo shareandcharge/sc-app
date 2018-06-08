@@ -432,7 +432,7 @@ export class ChargingPage {
         //
         // let h = this.hours < 10 ? "0" + this.hours : this.hours;
         let h = this.hours;
-        let m = this.minutes < 10 ? "05" + this.minutes : this.minutes;
+        let m = this.minutes < 10 ? "0" + this.minutes : this.minutes;
         let s = this.seconds < 10 ? "0" + this.seconds : this.seconds;
 
         this.chargingTimeHours = h + ':' + m + 'm' + s;
