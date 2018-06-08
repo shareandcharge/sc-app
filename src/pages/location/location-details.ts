@@ -234,8 +234,8 @@ export class LocationDetailPage {
                 this.includingVat = response.vat;
                 this.tariffType = response.type;
 
-                if(this.tariffType == 1){
-                    this.tariffType = 'Time based';
+                if(this.tariffType == 2){
+                    this.tariffType = 'Time-based';
                 } else {
                     this.tariffType = response.type;
                 }

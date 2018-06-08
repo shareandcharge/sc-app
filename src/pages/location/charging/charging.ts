@@ -342,57 +342,57 @@ export class ChargingPage {
     }
 
     circleRange_mouseDown() {
-        // this.mouseDragging = true;
+        this.mouseDragging = true;
     }
 
     circleRange_touchStart() {
-        // this.mouseDragging = true;
+        this.mouseDragging = true;
     }
 
     circleRange_mouseUp(self, e) {
-        // this.mouseDragging = false;
-        // if (!this.countingDown) {
-        //     self.drawSlideBar(e.offsetX, e.offsetY);
-        // }
-        // if (this.activeCar != null) {
-        //     this.updatePriceInfoForSetTime();
-        // }
+        this.mouseDragging = false;
+        if (!this.countingDown) {
+            self.drawSlideBar(e.offsetX, e.offsetY);
+        }
+        if (this.activeCar != null) {
+            this.updatePriceInfoForSetTime();
+        }
 
     }
 
     circleRange_touchEnd(self, e, canvas) {
-        // if (!this.doScrolling) {
-        //     this.mouseDragging = false;
-        //     if (!this.countingDown) {
-        //         let rect = canvas.getBoundingClientRect();
-        //         self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
-        //     }
+        if (!this.doScrolling) {
+            this.mouseDragging = false;
+            if (!this.countingDown) {
+                let rect = canvas.getBoundingClientRect();
+                self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
+            }
 
-        //     if (this.activeCar != null) {
-        //         this.updatePriceInfoForSetTime();
-        //     }
-        // }
+            if (this.activeCar != null) {
+                this.updatePriceInfoForSetTime();
+            }
+        }
     }
 
     circleRange_mouseMove(self, e) {
-        // if (!this.doScrolling) {
-        //     if (this.mouseDragging) {
-        //         if (!this.countingDown) {
-        //             self.drawSlideBar(e.offsetX, e.offsetY);
-        //         }
-        //     }
-        // }
+        if (!this.doScrolling) {
+            if (this.mouseDragging) {
+                if (!this.countingDown) {
+                    self.drawSlideBar(e.offsetX, e.offsetY);
+                }
+            }
+        }
     }
 
     circleRange_touchMove(self, e, canvas) {
-        // if (!this.doScrolling) {
-        //     if (this.mouseDragging) {
-        //         if (!this.countingDown) {
-        //             let rect = canvas.getBoundingClientRect();
-        //             self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
-        //         }
-        //     }
-        // }
+        if (!this.doScrolling) {
+            if (this.mouseDragging) {
+                if (!this.countingDown) {
+                    let rect = canvas.getBoundingClientRect();
+                    self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
+                }
+            }
+        }
     }
 
     drawSlideBar(x, y) {
@@ -429,9 +429,10 @@ export class ChargingPage {
         this.minutes = Math.floor(Math.floor((time % 3600 ) / 60) / 10) * 10;
         this.seconds = 0;
 
+        //
         // let h = this.hours < 10 ? "0" + this.hours : this.hours;
         let h = this.hours;
-        let m = this.minutes < 10 ? "0" + this.minutes : this.minutes;
+        let m = this.minutes < 10 ? "05" + this.minutes : this.minutes;
         let s = this.seconds < 10 ? "0" + this.seconds : this.seconds;
 
         this.chargingTimeHours = h + ':' + m + 'm' + s;
