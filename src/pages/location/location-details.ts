@@ -69,7 +69,7 @@ export class LocationDetailPage {
     minPrice: any;
     maxPrice: any;
     includingVat: boolean;
-    tariffType: number;
+    tariffType: any;
     flatrateTariff: boolean;
 
     commercialCategoryIcons: Array<string>;
@@ -233,6 +233,13 @@ export class LocationDetailPage {
                 this.minPrice = response.min / 100;
                 this.includingVat = response.vat;
                 this.tariffType = response.type;
+
+                if(this.tariffType == 1){
+                    this.tariffType = 'Time based';
+                } else {
+                    this.tariffType = response.type;
+                }
+                
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
     }

@@ -108,6 +108,9 @@
         <ion-grid>
             <ion-row>
                 <ion-col center>
+                    <strong>Tariff: {{ tariffType }}</strong>
+                    <br>
+                    <br>
                     <div class="footer-price">
                         <strong *ngIf="minPrice == maxPrice && minPrice != 0">
                             {{maxPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
