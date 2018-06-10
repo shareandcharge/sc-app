@@ -135,6 +135,7 @@ export class LocationDetailPage {
     }
 
     ionViewWillEnter() {
+        this.chargingService.checkChargingState();
         this.charging = this.chargingService.isCharging();
         this.getLocationDetail().subscribe(
             (location) => {
@@ -239,7 +240,7 @@ export class LocationDetailPage {
                 } else {
                     this.tariffType = response.type;
                 }
-                
+
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
     }
