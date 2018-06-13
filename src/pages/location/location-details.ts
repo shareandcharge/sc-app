@@ -71,7 +71,8 @@ export class LocationDetailPage {
     price: any;
     price_components: any;
     tariffTypes: any;
-    defaultTariff: any;
+    allPrices: any;
+    selectedTariff: any;
 
     includingVat: boolean;
     flatrateTariff: boolean;
@@ -121,6 +122,8 @@ export class LocationDetailPage {
             this.translateService.instant('location.location_details.sunday')
         ];
 
+        this.selectedTariff = "TIME";
+        
         this.plugTypes = [];
 
         this.plugSvg = '';
@@ -237,17 +240,33 @@ export class LocationDetailPage {
                 // this.maxPrice = response.maxPrice / 100;
                 // this.minPrice = response.minPrice / 100;
                 // this.tariffType = response.type;
-                this.price = response.price;
+                // this.price = response.price;
                 this.price_components = response.price_components;
 
                 this.tariffTypes = this.price_components.map(obj => {
                     return obj.type;
                 });
-                
-                this.defaultTariff = "TIME";
+
+                this.allPrices = this.price_components.map(obj => {
+                    return obj.price;
+                });
+
+                this.price = this.allPrices[0];
                 
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
+    }
+
+    getTariff() {
+        console.log(this.selectedTariff);
+        switch (this.selectedTariff) {
+            case 'TIME':
+                this.price = this.allPrices[0];
+                break;
+            case 'ENERGY':
+                this.price = this.allPrices[1];
+                break;
+        }
     }
 
     getRatings() {
