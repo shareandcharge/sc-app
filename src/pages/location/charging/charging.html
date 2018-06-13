@@ -26,17 +26,13 @@
     </div>
     <div class="top-item-text">
         <ion-icon name="cust-time-money" color="secondary"></ion-icon>
-        <div class="text" *ngIf="chargingTypeText">
-            {{"tariff.types." + chargingTypeText|translate}}:
-            <ng-container *ngIf="chargingPricePerHour != 0">
-                {{chargingPricePerHour | currencyDisplay }}
-                <span *ngIf="chargingTypeText == 'hourly' || chargingTypeText == 'kwh'">/h</span>
-                <span class="vat" *ngIf="includingVat">{{'location.charging.tax' | translate}}</span>
-            </ng-container>
-            <ng-container *ngIf="chargingPricePerHour == 0">
-                {{'location.charging.free' | translate}}
+        <div class="text">
+            <ng-container >
+                {{price | currencyDisplay }}
             </ng-container>
         </div>
+
+        
     </div>
 
     <hr>

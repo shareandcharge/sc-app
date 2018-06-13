@@ -32,6 +32,12 @@ export class ChargingPage {
     chargingTypeText: string;
     tariffType: number;
 
+    price: any;
+    price_components: any;
+    tariffTypes: any;
+    allPrices: any;
+    // selectedTariff: any
+    
     includingVat: boolean;
 
     hours: any;
@@ -110,7 +116,6 @@ export class ChargingPage {
         }
 
         this.stopButtonClicked = false;
-
         this.trackerService.track('Charging Page Entered', {
             'id': this.location.id,
             'Address': this.location.address,
@@ -202,13 +207,26 @@ export class ChargingPage {
             'secondsToCharge': secondsToCharge,
             'maxCharging': maxCharging
         }).subscribe((response) => {
-                this.chargingPrice = response.min;
-                this.includingVat = response.vat;
-                this.tariffType = response.type;
-                this.chargingTypeText = this.priceProviderTariffTypes[response.type];
-                if (perHour) {
-                    this.chargingPricePerHour = response.min / 100;
-                }
+                // this.chargingPrice = response.min;
+                // this.includingVat = response.vat;
+                // this.tariffType = response.type;
+                // this.chargingTypeText = this.priceProviderTariffTypes[response.type];
+                // if (perHour) {
+                //     this.chargingPricePerHour = response.min / 100;
+                // }
+
+                this.price_components = response.price_components;
+
+                this.tariffTypes = this.price_components.map(obj => {
+                    return obj.type;
+                });
+                this.allPrices = this.price_components.map(obj => {
+                    return obj.price;
+                });
+                
+                this.price = this.allPrices[0];
+
+
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
     }
@@ -482,6 +500,8 @@ export class ChargingPage {
         return h + ':' + m + ':' + s;
     }
 
+
+    // change colors on different tariff type here !
     updateCanvas() {
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
         if (!c) return;

@@ -246,11 +246,10 @@ export class LocationDetailPage {
                 this.tariffTypes = this.price_components.map(obj => {
                     return obj.type;
                 });
-
                 this.allPrices = this.price_components.map(obj => {
                     return obj.price;
                 });
-
+                
                 this.price = this.allPrices[0];
                 
             },
@@ -258,7 +257,6 @@ export class LocationDetailPage {
     }
 
     getTariff() {
-        console.log(this.selectedTariff);
         switch (this.selectedTariff) {
             case 'TIME':
                 this.price = this.allPrices[0];
