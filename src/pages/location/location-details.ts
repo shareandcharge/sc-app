@@ -66,10 +66,13 @@ export class LocationDetailPage {
 
     averageRating: number;
 
-    minPrice: any;
-    maxPrice: any;
+    // minPrice: any;
+    // maxPrice: any;
+    price: any;
+    price_components: any;
+    tariffTypes: any;
+
     includingVat: boolean;
-    tariffType: any;
     flatrateTariff: boolean;
 
     commercialCategoryIcons: Array<string>;
@@ -130,8 +133,8 @@ export class LocationDetailPage {
 
         this.averageRating = -1;
 
-        this.maxPrice = 0;
-        this.minPrice = 0;
+        // this.maxPrice = 0;
+        // this.minPrice = 0;
     }
 
     ionViewWillEnter() {
@@ -230,17 +233,16 @@ export class LocationDetailPage {
         }
 
         this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
-                this.maxPrice = response.max / 100;
-                this.minPrice = response.min / 100;
-                this.includingVat = response.vat;
-                this.tariffType = response.type;
-
-                if(this.tariffType == 2){
-                    this.tariffType = 'Time-based';
-                } else {
-                    this.tariffType = response.type;
-                }
-
+                // this.maxPrice = response.maxPrice / 100;
+                // this.minPrice = response.minPrice / 100;
+                // this.tariffType = response.type;
+                this.price = response.price;
+                this.price_components = response.price_components;
+                
+                this.tariffTypes = this.price_components.map(obj => {
+                    return obj.type;
+                });
+                
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
     }

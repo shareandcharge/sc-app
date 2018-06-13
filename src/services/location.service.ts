@@ -105,12 +105,14 @@ export class LocationService extends AbstractApiService {
             .catch((error) => this.handleError(error));
     }
 
+    // here change backend 
     getPrice(connectorId, priceObject) {
         return this.httpService.post(this.baseUrl + '/connectors/' + connectorId + '/price', JSON.stringify(priceObject))
             .map(res => res.json())
             .catch((error) => this.handleError(error));
     }
 
+    //check out this...
     getEstimatedPrice(pricePerHour, pricePerKW, maxWattPower) {
         let searchParams: URLSearchParams = new URLSearchParams();
         searchParams.set('pricePerHour', pricePerHour);

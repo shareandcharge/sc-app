@@ -112,7 +112,7 @@
                     <br>
                     <br>
                     <div class="footer-price">
-                        <strong *ngIf="minPrice == maxPrice && minPrice != 0">
+                        <!-- <strong *ngIf="minPrice == maxPrice && minPrice != 0">
                             {{maxPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
                             <ng-container *ngIf="includingVat">{{'location.charging.tax' | translate}}</ng-container>
                         </strong>
@@ -125,7 +125,14 @@
                         </strong>
                         <strong *ngIf="minPrice == 0 && maxPrice == 0">
                             {{'location.charging.free' | translate}}
+                        </strong> -->
+
+                        <strong>
+                            {{price | currencyDisplay}}
                         </strong>
+                        
+                        
+                        
                     </div>
                     <div *ngIf="averageRating != -1" class="footer-rating">
                         <rating [(ngModel)]="averageRating" readonly="true"></rating>
