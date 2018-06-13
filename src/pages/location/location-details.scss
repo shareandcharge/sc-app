@@ -45,6 +45,15 @@ location-details {
       left: 5px;
     }
   }
+
+  .tariff{
+    background: transparent;
+    max-width: 100% !important;
+    ion-select {
+      position: absolute;
+      margin-left: 40px;
+    }
+  }
   .footer-rating {
     margin-top: 5px;
     margin-left: 2px;

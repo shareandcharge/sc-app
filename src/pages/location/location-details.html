@@ -108,8 +108,14 @@
         <ion-grid>
             <ion-row>
                 <ion-col center>
-                    <strong>Tariff: {{ tariffType }}</strong>
-                    <br>
+                    <div class="footer-tariff">
+                        <ion-item no-lines class="tariff">
+                            <ion-label><strong>Tariff:</strong></ion-label>
+                            <ion-select class="tariff-select" [(ngModel)]="defaultTariff">
+                                <ion-option *ngFor="let type of tariffTypes" value="{{type}}"> {{type}}</ion-option>
+                            </ion-select>
+                        </ion-item> 
+                    </div>
                     <br>
                     <div class="footer-price">
                         <!-- <strong *ngIf="minPrice == maxPrice && minPrice != 0">
