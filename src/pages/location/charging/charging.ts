@@ -224,8 +224,6 @@ export class ChargingPage {
                     return obj.price;
                 });
                 
-                this.price = this.allPrices[0];
-
 
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
@@ -501,7 +499,6 @@ export class ChargingPage {
     }
 
 
-    // change colors on different tariff type here !
     updateCanvas() {
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
         if (!c) return;

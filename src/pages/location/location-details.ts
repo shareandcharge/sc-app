@@ -249,8 +249,8 @@ export class LocationDetailPage {
                 this.allPrices = this.price_components.map(obj => {
                     return obj.price;
                 });
-                
-                this.price = this.allPrices[0];
+
+                this.price = this.price || this.allPrices[0];
                 
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
