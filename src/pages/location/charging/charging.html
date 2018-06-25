@@ -28,7 +28,18 @@
         <ion-icon name="cust-time-money" color="secondary"></ion-icon>
         <div class="text">
             <ng-container >
-                {{price | currencyDisplay }}
+                <!-- {{price | currencyDisplay }} -->
+                <!-- <ul id="tariffs">
+                    <li *ngFor ="let type of tariffTypes" > {{type}} </li>
+                </ul> -->
+
+                <ion-item no-lines class="tariff">
+                        <ion-label>Choose tariff:</ion-label>
+                        <ion-select [(ngModel)]="selectedTariff" (ionChange)="getTariff()">
+                            <ion-option *ngFor="let type of tariffTypes" value="{{type}}"> {{type}}</ion-option>
+                        </ion-select>
+                    </ion-item> 
+                
             </ng-container>
         </div>
 

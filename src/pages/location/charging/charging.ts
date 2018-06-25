@@ -68,12 +68,12 @@ export class ChargingPage {
 
     @ViewChild(Content) content: Content;
 
-    priceProviderTariffTypes = [
-        'invalid',
-        'flatrate',
-        'hourly',
-        'kwh'
-    ];
+    // priceProviderTariffTypes = [
+    //     'invalid',
+    //     'flatrate',
+    //     'hourly',
+    //     'kwh'
+    // ];
 
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController,
@@ -214,10 +214,12 @@ export class ChargingPage {
                 // if (perHour) {
                 //     this.chargingPricePerHour = response.min / 100;
                 // }
-
+                
                 this.price_components = response.price_components;
+                console.log("PRCE COMPONENTS ===> ", this.price_components);
 
                 this.tariffTypes = this.price_components.map(obj => {
+                    // console.log("WELL HELLOOOOO", obj.type);
                     return obj.type;
                 });
                 this.allPrices = this.price_components.map(obj => {

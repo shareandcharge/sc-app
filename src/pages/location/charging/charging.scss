@@ -58,4 +58,13 @@ page-charging {
         background-color: #bbb;
         color: #bbb;
     }
+
+    .tariff{
+        background: transparent;
+        max-width: 100% !important;
+        // ion-select {
+        //   position: absolute;
+        //   margin-left: 40px;
+        // }
+      }
 }

@@ -256,16 +256,16 @@ export class LocationDetailPage {
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
     }
 
-    getTariff() {
-        switch (this.selectedTariff) {
-            case 'TIME':
-                this.price = this.allPrices[0];
-                break;
-            case 'ENERGY':
-                this.price = this.allPrices[1];
-                break;
-        }
-    }
+    // getTariff() {
+    //     switch (this.selectedTariff) {
+    //         case 'TIME':
+    //             this.price = this.allPrices[0];
+    //             break;
+    //         case 'ENERGY':
+    //             this.price = this.allPrices[1];
+    //             break;
+    //     }
+    // }
 
     getRatings() {
         let observable = this.ratingService.getRatings(this.location.id);

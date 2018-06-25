@@ -107,6 +107,7 @@ export class LocationService extends AbstractApiService {
 
     // here change backend 
     getPrice(connectorId, priceObject) {
+
         return this.httpService.post(this.baseUrl + '/connectors/' + connectorId + '/price', JSON.stringify(priceObject))
             .map(res => res.json())
             .catch((error) => this.handleError(error));

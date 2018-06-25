@@ -108,15 +108,6 @@
         <ion-grid>
             <ion-row>
                 <ion-col center>
-                    <div class="footer-tariff">
-                        <ion-item no-lines class="tariff">
-                            <ion-label><strong>Tariff:</strong></ion-label>
-                            <ion-select [(ngModel)]="selectedTariff" (ionChange)="getTariff()">
-                                <ion-option *ngFor="let type of tariffTypes" value="{{type}}"> {{type}}</ion-option>
-                            </ion-select>
-                        </ion-item> 
-                    </div>
-                    <br>
                     <div class="footer-price">
                         <!-- <strong *ngIf="minPrice == maxPrice && minPrice != 0">
                             {{maxPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
