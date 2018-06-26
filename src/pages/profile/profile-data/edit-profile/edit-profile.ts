@@ -53,7 +53,7 @@ export class EditProfilePage {
         this.user = this.authService.getUser();
         this.editObj = Object.assign({}, this.user.profile);
         this.about = this.user.about;
-        
+        console.log("USEER",this.user);
         if (!this.editObj.country) this.editObj.country = 'de';
 
         this.editCommercialCategory = {

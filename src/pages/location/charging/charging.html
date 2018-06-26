@@ -26,24 +26,27 @@
     </div>
     <div class="top-item-text">
         <ion-icon name="cust-time-money" color="secondary"></ion-icon>
-        <div class="text">
-            <ng-container >
-                <!-- {{price | currencyDisplay }} -->
-                <!-- <ul id="tariffs">
-                    <li *ngFor ="let type of tariffTypes" > {{type}} </li>
-                </ul> -->
+        <ng-container>
+            <!-- {{price | currencyDisplay }} -->
 
-                <ion-item no-lines class="tariff">
-                        <ion-label>Choose tariff:</ion-label>
-                        <ion-select [(ngModel)]="selectedTariff" (ionChange)="getTariff()">
-                            <ion-option *ngFor="let type of tariffTypes" value="{{type}}"> {{type}}</ion-option>
-                        </ion-select>
-                    </ion-item> 
-                
-            </ng-container>
-        </div>
+            <!-- tariff-checkbox-type -->
+            <!-- <ion-list radio-group [(ngModel)]="priceProviderTariffTypes">
+                <ion-item no-lines class="tariffs" *ngFor="let tariff of priceProviderTariffTypes">
+                    <ion-radio></ion-radio>
+                    <ion-label> {{tariff}} </ion-label>
+                </ion-item>
+            </ion-list> -->
 
-        
+            <!-- tariff-options-type -->
+            <ion-item no-lines class="tariffs">
+                <ion-label>Chose your tariff:</ion-label>
+                <ion-select>
+                    <ion-option *ngFor="let tariff of tariff_price">{{tariff.type}}</ion-option>
+                </ion-select>
+                {{price}}
+            </ion-item>
+
+        </ng-container>
     </div>
 
     <hr>
@@ -56,7 +59,8 @@
     <div text-center class="price-label" *ngIf="activeCar != null">
         <span *ngIf="!countingDown"> {{'location.charging.estimated_price' | translate}} </span>
         <ng-container *ngIf="chargingPrice != 0">
-            {{ chargingPrice | currencyDisplay }} <br>
+            {{ chargingPrice | currencyDisplay }}
+            <br>
             <span class="vat" *ngIf="includingVat">{{'location.charging.tax' | translate}}</span>
         </ng-container>
         <ng-container *ngIf="chargingPrice == 0">
@@ -65,7 +69,9 @@
     </div>
 
     <div class="progress-wrapper">
-        <div class="battery-charging" *ngIf="charging"><img src="assets/images/battery-charging.gif"></div>
+        <div class="battery-charging" *ngIf="charging">
+            <img src="assets/images/battery-charging.gif">
+        </div>
         <canvas id="circleProgressBar" width="280" height="280"></canvas>
     </div>
 
@@ -90,7 +96,8 @@
             </span>
         </p>
         <p>
-            {{'location.charging.agb_1' | translate}}<a (click)="openTerms()">{{'location.charging.agb_2' | translate}}</a>{{'location.charging.agb_3' | translate}}
+            {{'location.charging.agb_1' | translate}}
+            <a (click)="openTerms()">{{'location.charging.agb_2' | translate}}</a>{{'location.charging.agb_3' | translate}}
         </p>
     </div>
 
@@ -108,16 +115,9 @@
                 <ion-list no-lines class="no-margin-bottom">
                     <ion-item>
                         <ion-label>{{'location.charging.charging_point' | translate}}:</ion-label>
-                        <ion-select
-                                [(ngModel)]="selectedConnectorId"
-                                cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
-                                (ngModelChange)="selectConnector()"
-                        >
-                            <ion-option
-                                    *ngFor="let conn of station.connectors"
-                                    [value]="conn.id"
-                                    [disabled]="conn.isRented"
-                            >
+                        <ion-select [(ngModel)]="selectedConnectorId" cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
+                            (ngModelChange)="selectConnector()">
+                            <ion-option *ngFor="let conn of station.connectors" [value]="conn.id" [disabled]="conn.isRented">
                                 {{conn.getTitle()}}
                             </ion-option>
                         </ion-select>

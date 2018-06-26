@@ -32,10 +32,10 @@ export class ChargingPage {
     chargingTypeText: string;
     tariffType: number;
 
+    //
     price: any;
     price_components: any;
-    tariffTypes: any;
-    allPrices: any;
+    tariff_price: any;
     // selectedTariff: any
     
     includingVat: boolean;
@@ -216,14 +216,9 @@ export class ChargingPage {
                 // }
                 
                 this.price_components = response.price_components;
-                console.log("PRCE COMPONENTS ===> ", this.price_components);
 
-                this.tariffTypes = this.price_components.map(obj => {
-                    // console.log("WELL HELLOOOOO", obj.type);
-                    return obj.type;
-                });
-                this.allPrices = this.price_components.map(obj => {
-                    return obj.price;
+                this.tariff_price = this.price_components.map( obj => {
+                    return obj;
                 });
                 
 
