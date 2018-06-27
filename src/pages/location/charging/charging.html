@@ -40,10 +40,9 @@
             <!-- tariff-options-type -->
             <ion-item no-lines class="tariffs">
                 <ion-label>Chose your tariff:</ion-label>
-                <ion-select>
-                    <ion-option *ngFor="let tariff of tariff_price">{{tariff.type}}</ion-option>
+                <ion-select [(ngModel)]="selectedTariff">
+                    <ion-option *ngFor="let tariff of tariffs" >{{tariff.type}}</ion-option>
                 </ion-select>
-                {{price}}
             </ion-item>
 
         </ng-container>

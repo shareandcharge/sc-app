@@ -68,11 +68,11 @@ export class LocationDetailPage {
 
     // minPrice: any;
     // maxPrice: any;
-    price: any;
-    price_components: any;
-    tariffTypes: any;
-    allPrices: any;
-    selectedTariff: any;
+    // price: any;
+    // price_components: any;
+    // tariffTypes: any;
+    // allPrices: any;
+    // selectedTariff: any;
 
     includingVat: boolean;
     flatrateTariff: boolean;
@@ -122,7 +122,7 @@ export class LocationDetailPage {
             this.translateService.instant('location.location_details.sunday')
         ];
 
-        this.selectedTariff = "TIME";
+        // this.selectedTariff = "TIME";
         
         this.plugTypes = [];
 
@@ -241,16 +241,13 @@ export class LocationDetailPage {
                 // this.minPrice = response.minPrice / 100;
                 // this.tariffType = response.type;
                 // this.price = response.price;
-                this.price_components = response.price_components;
+                // this.price_components = response.price_components;
+                
+                // this.allPrices = this.price_components.map(obj => {
+                //     return obj.price;
+                // });
 
-                this.tariffTypes = this.price_components.map(obj => {
-                    return obj.type;
-                });
-                this.allPrices = this.price_components.map(obj => {
-                    return obj.price;
-                });
-
-                this.price = this.price || this.allPrices[0];
+                // this.price = this.price || this.allPrices[0];
                 
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));

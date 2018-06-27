@@ -1,20 +1,20 @@
-import {Component, ViewChild} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
     NavController, NavParams, AlertController, ViewController, LoadingController, Events,
     ModalController, Content
 } from 'ionic-angular';
-import {ChargingService} from '../../../services/charging.service';
-import {Connector} from "../../../models/connector";
-import {LocationService} from "../../../services/location.service";
-import {Location} from "../../../models/location";
-import {CarService} from "../../../services/car.service";
-import {ErrorService} from "../../../services/error.service";
-import {Car} from "../../../models/car";
-import {Station} from "../../../models/station";
-import {TrackerService} from "../../../services/tracker.service";
-import {InAppBrowser} from "ionic-native";
-import {ConfigService} from "../../../services/config.service";
-import {TranslateService} from "@ngx-translate/core";
+import { ChargingService } from '../../../services/charging.service';
+import { Connector } from "../../../models/connector";
+import { LocationService } from "../../../services/location.service";
+import { Location } from "../../../models/location";
+import { CarService } from "../../../services/car.service";
+import { ErrorService } from "../../../services/error.service";
+import { Car } from "../../../models/car";
+import { Station } from "../../../models/station";
+import { TrackerService } from "../../../services/tracker.service";
+import { InAppBrowser } from "ionic-native";
+import { ConfigService } from "../../../services/config.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'page-charging',
@@ -34,10 +34,10 @@ export class ChargingPage {
 
     //
     price: any;
-    price_components: any;
-    tariff_price: any;
-    // selectedTariff: any
-    
+    priceComponents: any;
+    tariffs: any;
+    selectedTariff: any;
+
     includingVat: boolean;
 
     hours: any;
@@ -77,10 +77,10 @@ export class ChargingPage {
 
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController,
-                public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
-                private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
-                private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService,
-                private configService: ConfigService, private translateService: TranslateService) {
+        public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
+        private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
+        private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService,
+        private configService: ConfigService, private translateService: TranslateService) {
 
         this.location = navParams.get("location");
         //-- for now we use the first station
@@ -188,7 +188,7 @@ export class ChargingPage {
         this.updateCanvas();
         if (this.timer <= 0) {
             // this.charging = false;
-            this.countingDown = false   ;
+            this.countingDown = false;
             //-- we don't want to close everything here if the stop button has been clicked
             //      he will take care then.
             if (!this.stopButtonClicked) {
@@ -207,22 +207,21 @@ export class ChargingPage {
             'secondsToCharge': secondsToCharge,
             'maxCharging': maxCharging
         }).subscribe((response) => {
-                // this.chargingPrice = response.min;
-                // this.includingVat = response.vat;
-                // this.tariffType = response.type;
-                // this.chargingTypeText = this.priceProviderTariffTypes[response.type];
-                // if (perHour) {
-                //     this.chargingPricePerHour = response.min / 100;
-                // }
-                
-                this.price_components = response.price_components;
+            // this.chargingPrice = response.min;
+            // this.includingVat = response.vat;
+            // this.tariffType = response.type;
+            // this.chargingTypeText = this.priceProviderTariffTypes[response.type];
+            // if (perHour) {
+            //     this.chargingPricePerHour = response.min / 100;
+            // }
+            this.priceComponents = response.priceComponents;
+            this.selectedTariff = this.priceComponents[0].priceComponents.type;
 
-                this.tariff_price = this.price_components.map( obj => {
-                    return obj;
-                });
-                
+            this.tariffs = this.priceComponents.map(obj => {
+                return obj.priceComponents;
+            });
 
-            },
+        },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
     }
 
@@ -266,7 +265,7 @@ export class ChargingPage {
 
     startCharging() {
         this.timer = (this.hours * 3600) + (this.minutes * 60);
-        let loader = this.loadingCtrl.create({content: this.translateService.instant('location.charging.begin_charging')});
+        let loader = this.loadingCtrl.create({ content: this.translateService.instant('location.charging.begin_charging') });
         loader.present();
 
         this.chargingService.startCharging(this.connector, this.timer, 30, this.location)
@@ -323,7 +322,7 @@ export class ChargingPage {
         this.chargedTimeAtStop = this.chargingService.chargedTime();
         this.stopButtonClicked = true;
 
-        let loader = this.loadingCtrl.create({content: this.translateService.instant('location.charging.end_charging')});
+        let loader = this.loadingCtrl.create({ content: this.translateService.instant('location.charging.end_charging') });
         loader.present();
 
         this.chargingService.stopCharging(this.connector.id)
@@ -439,7 +438,7 @@ export class ChargingPage {
 
         this.buttonDeactive = (time <= 600) || (this.activeCar == null);
         this.hours = Math.floor(time / 3600);
-        this.minutes = Math.floor(Math.floor((time % 3600 ) / 60) / 10) * 10;
+        this.minutes = Math.floor(Math.floor((time % 3600) / 60) / 10) * 10;
         this.seconds = 0;
 
         //
@@ -485,8 +484,8 @@ export class ChargingPage {
     makeTimeString(data) {
 
         let hours = Math.floor(data / 3600);
-        let minutes = Math.floor((data % 3600 ) / 60);
-        let seconds = Math.floor((data % 3600 ) % 60);
+        let minutes = Math.floor((data % 3600) / 60);
+        let seconds = Math.floor((data % 3600) % 60);
 
         let h = hours < 10 ? "0" + hours : hours;
         let m = minutes < 10 ? "0" + minutes : minutes;
@@ -553,7 +552,7 @@ export class ChargingPage {
     openTerms() {
         let url = this.translateService.instant('documents.TERMS_STATION_URL');
         let close = this.translateService.instant('common.close')
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption='+close+',toolbar=yes,location=no');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=' + close + ',toolbar=yes,location=no');
     }
 
     selectConnector() {
