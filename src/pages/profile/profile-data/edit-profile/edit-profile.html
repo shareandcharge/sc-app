@@ -90,7 +90,7 @@
             </div>
             <ion-item>
                 <ion-label stacked>{{'profile.data.email_adresse' | translate}} (*)</ion-label>
-                <ion-input type="text" class="input-white" formControlName="lastName"
+                <ion-input type="text" class="input-white" formControlName="email"
                            [(ngModel)]="user.email"></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.lastName.valid && submitAttempt"

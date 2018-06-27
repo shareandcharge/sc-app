@@ -53,7 +53,7 @@ export class EditProfilePage {
         this.user = this.authService.getUser();
         this.editObj = Object.assign({}, this.user.profile);
         this.about = this.user.about;
-        console.log("USEER",this.user);
+        
         if (!this.editObj.country) this.editObj.country = 'de';
 
         this.editCommercialCategory = {
@@ -74,6 +74,7 @@ export class EditProfilePage {
             company: [],
             firstName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.required])],
             lastName: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.required])],
+            email: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(1), Validators.required])],
             address: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
             city: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2), Validators.required])],
             state: ['', Validators.compose([Validators.maxLength(400), Validators.minLength(2)])],
