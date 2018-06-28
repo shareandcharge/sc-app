@@ -32,7 +32,6 @@ export class ChargingPage {
     chargingTypeText: string;
     tariffType: number;
 
-    //
     price: any;
     priceComponents: any;
     tariffs: any;
@@ -67,13 +66,6 @@ export class ChargingPage {
     maxChargingMinutesFlatrate: number = 4 * 60;
 
     @ViewChild(Content) content: Content;
-
-    // priceProviderTariffTypes = [
-    //     'invalid',
-    //     'flatrate',
-    //     'hourly',
-    //     'kwh'
-    // ];
 
 
     constructor(public navCtrl: NavController, private errorService: ErrorService, private loadingCtrl: LoadingController,
@@ -475,7 +467,7 @@ export class ChargingPage {
         ctx.font = "48px Arial";
         this.chargingTimeHours = this.chargingTimeHours.substring(0, 4);
         ctx.fillText(this.chargingTimeHours, 94, c.height / 2 + 16);
-
+        
         ctx.font = "12px Arial";
         let hoursString = this.translateService.instant('location.charging.hour');
         let minutesString = this.translateService.instant('location.charging.minutes');
@@ -487,7 +479,7 @@ export class ChargingPage {
         let radiant = (deg * Math.PI / 180) - (0.5 * Math.PI);
         ctx.arc(this.canvasX, this.canvasY, 97, 1.5 * Math.PI, radiant);
         ctx.stroke();
-
+        
         let endOfArcX = Math.round(this.canvasX + Math.cos(radiant) * 100);
         let endOfArcY = Math.round(this.canvasY + Math.sin(radiant) * 100);
 
