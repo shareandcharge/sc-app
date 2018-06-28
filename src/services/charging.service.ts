@@ -31,6 +31,7 @@ export class ChargingService extends AbstractApiService {
     charging: boolean;
     connector: Connector;
     location: Location;
+    tariff: any;
 
     countUpInterval: any;
 
@@ -148,10 +149,11 @@ export class ChargingService extends AbstractApiService {
         }, 1000);
     }
 
-    startCharging(connector: Connector, secondsToCharge, maxCharging, location: Location) {
+    startCharging(connector: Connector, secondsToCharge, maxCharging, selectedTariff, location: Location) {
         let chargingData = {
             "maxCharging": parseInt(maxCharging),
-            "secondsToCharge": secondsToCharge
+            "secondsToCharge": secondsToCharge,
+            "tariff": selectedTariff
         };
 
         return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
@@ -170,6 +172,7 @@ export class ChargingService extends AbstractApiService {
                 this.storage.set("chargingTime", this.chargingTime);
                 this.storage.set("isCharging", true);
                 this.startEventInterval();  
+                this.tariff = selectedTariff;
                 // this.countDown(secondsToCharge);
 
                 this.events.publish('locations:updated');

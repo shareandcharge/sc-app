@@ -215,7 +215,8 @@ export class ChargingPage {
             //     this.chargingPricePerHour = response.min / 100;
             // }
             this.priceComponents = response.priceComponents;
-            this.selectedTariff = this.priceComponents[0].priceComponents.type;
+            this.selectedTariff = this.priceComponents[3].priceComponents.type;
+            this.price = this.priceComponents[3].priceComponents.price * 100;
 
             this.tariffs = this.priceComponents.map(obj => {
                 return obj.priceComponents;
@@ -224,6 +225,25 @@ export class ChargingPage {
         },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
     }
+
+    tariffSelect() {
+        switch(this.selectedTariff) {
+            case 'TIME':
+                this.price = this.priceComponents[3].priceComponents.price * 100;
+                break;
+            case 'FLAT': 
+                this.price = this.priceComponents[1].priceComponents.price * 100;
+                break;
+            case 'ENERGY':
+                this.price = this.priceComponents[0].priceComponents.price * 100;
+                break;
+            case 'PARKING_TIME':
+                this.price = this.priceComponents[2].priceComponents.price * 100;    
+            default:
+                this.price = this.priceComponents[3].priceComponents.price * 100;
+        } 
+    }
+
 
     updatePriceInfoForSetTime() {
         this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), 30);
@@ -268,7 +288,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({ content: this.translateService.instant('location.charging.begin_charging') });
         loader.present();
 
-        this.chargingService.startCharging(this.connector, this.timer, 30, this.location)
+        this.chargingService.startCharging(this.connector, this.timer, 30, this.selectedTariff, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {

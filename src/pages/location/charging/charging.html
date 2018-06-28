@@ -40,7 +40,7 @@
             <!-- tariff-options-type -->
             <ion-item no-lines class="tariffs">
                 <ion-label>Chose your tariff:</ion-label>
-                <ion-select [(ngModel)]="selectedTariff">
+                <ion-select [(ngModel)]="selectedTariff" (ionChange)="tariffSelect()">
                     <ion-option *ngFor="let tariff of tariffs" >{{tariff.type}}</ion-option>
                 </ion-select>
             </ion-item>
@@ -68,6 +68,9 @@
     </div>
 
     <div class="progress-wrapper">
+        <div class="estimated_price">
+            <h6>Estimated price: {{price | currencyDisplay }}</h6>
+        </div>
         <div class="battery-charging" *ngIf="charging">
             <img src="assets/images/battery-charging.gif">
         </div>
