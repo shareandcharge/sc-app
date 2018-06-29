@@ -36,6 +36,7 @@ export class ChargingPage {
     priceComponents: any;
     tariffs: any;
     selectedTariff: any;
+    estimatedPrice: number;
 
     includingVat: boolean;
 
@@ -96,6 +97,8 @@ export class ChargingPage {
         this.canvasY = 140;
         this.canvasImage = new Image();
         this.canvasImage.src = 'assets/icons/battery.png';
+
+        this.estimatedPrice = this.price;
 
         events.subscribe('charging:update', () => this.chargingUpdateEvent());
     }
@@ -209,6 +212,7 @@ export class ChargingPage {
             this.priceComponents = response.priceComponents;
             this.selectedTariff = this.priceComponents[3].priceComponents.type;
             this.price = this.priceComponents[3].priceComponents.price * 100;
+            this.estimatedPrice = this.price;
 
             this.tariffs = this.priceComponents.map(obj => {
                 return obj.priceComponents;
@@ -491,6 +495,14 @@ export class ChargingPage {
         ctx.fill();
 
         ctx.shadowBlur = 0;
+
+        // estimating price 
+        this.timer = (this.hours * 3600) + (this.minutes * 60); // in seconds
+        let timeInMinutes = this.timer / 60;
+        
+        const pricePerMinute  = this.price / 60;
+        this.estimatedPrice = Math.round(pricePerMinute * timeInMinutes) || this.price;
+
     }
 
     makeTimeString(data) {
