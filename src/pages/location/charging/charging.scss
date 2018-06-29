@@ -72,4 +72,12 @@ page-charging {
         text-align: center;
         padding-top: 10px;
     }
+
+    .flat > img {
+        position: relative;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        top:25px;
+    }
 }

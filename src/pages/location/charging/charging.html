@@ -41,7 +41,7 @@
             <ion-item no-lines class="tariffs">
                 <ion-label>Chose your tariff:</ion-label>
                 <ion-select [(ngModel)]="selectedTariff" (ionChange)="tariffSelect()">
-                    <ion-option *ngFor="let tariff of tariffs" >{{tariff.type}}</ion-option>
+                    <ion-option *ngFor="let tariff of tariffs">{{tariff.type}}</ion-option>
                 </ion-select>
             </ion-item>
 
@@ -67,15 +67,31 @@
         </ng-container>
     </div>
 
-    <div class="progress-wrapper">
+
+    <div class="progressForAll">
         <div class="estimated_price">
             <h6>Estimated price: {{estimatedPrice | currencyDisplay }}</h6>
         </div>
-        <div class="battery-charging" *ngIf="charging">
-            <img src="assets/images/battery-charging.gif">
+
+        <div class="progress-wrapper" *ngIf="!flat">
+            <div class="battery-charging" *ngIf="charging">
+                <img src="assets/images/battery-charging.gif">
+            </div>
+            <canvas id="circleProgressBar" width="280" height="280"></canvas>
         </div>
-        <canvas id="circleProgressBar" width="280" height="280"></canvas>
+
+        <div class="flat" *ngIf="flat">
+            <img src="assets/images/flat.png" class="love">
+        </div>
+
+        <div class="kwh">
+            
+        </div>
+
     </div>
+
+
+
 
     <div class="owner-wrapper">
         <p>

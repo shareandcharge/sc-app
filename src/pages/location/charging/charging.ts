@@ -37,7 +37,9 @@ export class ChargingPage {
     tariffs: any;
     selectedTariff: any;
     estimatedPrice: number;
-
+    flat: boolean;
+    classicView: boolean;
+    
     includingVat: boolean;
 
     hours: any;
@@ -99,6 +101,8 @@ export class ChargingPage {
         this.canvasImage.src = 'assets/icons/battery.png';
 
         this.estimatedPrice = this.price;
+        this.flat = false;
+        this.classicView = true;
 
         events.subscribe('charging:update', () => this.chargingUpdateEvent());
     }
@@ -226,17 +230,26 @@ export class ChargingPage {
         switch(this.selectedTariff) {
             case 'TIME':
                 this.price = this.priceComponents[3].priceComponents.price * 100;
+                this.estimatedPrice = this.price;
+                this.classicView = true;
+                this.flat = false;
                 break;
             case 'FLAT': 
                 this.price = this.priceComponents[1].priceComponents.price * 100;
+                this.estimatedPrice = this.price;
+                this.flat = true;
+                this.classicView = false;
                 break;
             case 'ENERGY':
                 this.price = this.priceComponents[0].priceComponents.price * 100;
+                this.estimatedPrice = this.price;
                 break;
             case 'PARKING_TIME':
-                this.price = this.priceComponents[2].priceComponents.price * 100;    
+                this.price = this.priceComponents[2].priceComponents.price * 100;  
+                this.estimatedPrice = this.price;
             default:
                 this.price = this.priceComponents[3].priceComponents.price * 100;
+                this.estimatedPrice = this.price;
         } 
     }
 
@@ -284,7 +297,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({ content: this.translateService.instant('location.charging.begin_charging') });
         loader.present();
 
-        this.chargingService.startCharging(this.connector, this.timer, 30, this.selectedTariff, this.location)
+        this.chargingService.startCharging(this.connector, this.timer, this.selectedTariff, this.estimatedPrice, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {

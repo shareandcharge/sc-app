@@ -149,12 +149,13 @@ export class ChargingService extends AbstractApiService {
         }, 1000);
     }
 
-    startCharging(connector: Connector, secondsToCharge, maxCharging, selectedTariff, location: Location) {
+    startCharging(connector: Connector, chargeUnits, selectedTariff, price, location: Location) {
         let chargingData = {
-            "maxCharging": parseInt(maxCharging),
-            "secondsToCharge": secondsToCharge,
-            "tariff": selectedTariff
+            "chargeUnits": chargeUnits,
+            "tariff": selectedTariff,
+            "price": price
         };
+        // chargeUnits is seconds to charge or kWh , depends on selected tariff
 
         return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
             .map(res => {
