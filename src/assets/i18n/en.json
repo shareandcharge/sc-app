@@ -293,6 +293,7 @@
       },
       "hour" : "Hr.",
       "minutes" : "Min.",
+      "kwh": "kWh",
       "charging_session": "Charging session",
       "free": "free",
       "add_car_first": "Please add an e-car before you start the charging process",

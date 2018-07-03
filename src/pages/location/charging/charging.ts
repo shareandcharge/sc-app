@@ -31,6 +31,10 @@ export class ChargingPage {
     chargingPricePerHour: any;
     chargingTypeText: string;
     tariffType: number;
+    
+    max_kwh: any;
+    kwh_ammount: any;
+    // max_kwh implement later when we have maxkwh in tariffs
 
     price: any;
     priceComponents: any;
@@ -99,6 +103,10 @@ export class ChargingPage {
         this.canvasImage.src = 'assets/icons/battery.png';
 
         this.estimatedPrice = this.price;
+
+        // max_kwh implement when max_kwh in tariffs
+        this.max_kwh = 100;
+        this.kwh_ammount = 1;
 
         events.subscribe('charging:update', () => this.chargingUpdateEvent());
     }
@@ -470,18 +478,35 @@ export class ChargingPage {
 
         this.chargingTimeHours = h + ':' + m + 'm' + s;
 
+        //color for time display
         ctx.fillStyle = '#006EF1';
         ctx.lineCap = 'square';
         ctx.beginPath();
         ctx.font = "48px Arial";
-        this.chargingTimeHours = this.chargingTimeHours.substring(0, 4);
-        ctx.fillText(this.chargingTimeHours, 94, c.height / 2 + 16);
-        
-        ctx.font = "12px Arial";
-        let hoursString = this.translateService.instant('location.charging.hour');
-        let minutesString = this.translateService.instant('location.charging.minutes');
-        ctx.fillText(hoursString, 97, c.height / 2 + 35);
-        ctx.fillText(minutesString, 149, c.height / 2 + 35);
+
+        if(this.selectedTariff !== 'ENERGY'){
+            //display time
+            this.chargingTimeHours = this.chargingTimeHours.substring(0, 4);
+            ctx.fillText(this.chargingTimeHours, 94, c.height / 2 + 16);
+
+            //display units
+            ctx.font = "12px Arial";
+            let hoursString = this.translateService.instant('location.charging.hour');
+            let minutesString = this.translateService.instant('location.charging.minutes');
+            ctx.fillText(hoursString, 97, c.height / 2 + 35);
+            ctx.fillText(minutesString, 149, c.height / 2 + 35);
+        }   
+
+        if(this.selectedTariff === 'ENERGY'){
+            //display ammount of kWh
+            this.chargingTimeHours = 22;
+            ctx.fillText(this.chargingTimeHours, 115, c.height / 2 + 16);
+
+            //display units
+            ctx.font = "12px Arial";
+            let kwh = this.translateService.instant('location.charging.kwh');
+            ctx.fillText(kwh, 130, c.height / 2 + 35);
+        }
 
         ctx.strokeStyle = gradient;
         ctx.beginPath();
@@ -561,6 +586,12 @@ export class ChargingPage {
         ctx.font = "30px Arial";
         let fullCircle = 2 * Math.PI;
         let progress = ((fullCircle * this.timer) / (this.getMaxChargingMinutesForCurrentTariff() * 60)) - (Math.PI / 2);
+
+        console.log("IS THIS ONLY FOR CHARGING PROGRESS !? ");
+        
+
+        // implement progress for kwh here ->
+
 
         ctx.strokeStyle = gradient;
         ctx.beginPath();
