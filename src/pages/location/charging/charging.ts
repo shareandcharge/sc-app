@@ -37,8 +37,6 @@ export class ChargingPage {
     tariffs: any;
     selectedTariff: any;
     estimatedPrice: number;
-    flat: boolean;
-    classicView: boolean;
     
     includingVat: boolean;
 
@@ -101,8 +99,6 @@ export class ChargingPage {
         this.canvasImage.src = 'assets/icons/battery.png';
 
         this.estimatedPrice = this.price;
-        this.flat = false;
-        this.classicView = true;
 
         events.subscribe('charging:update', () => this.chargingUpdateEvent());
     }
@@ -231,14 +227,10 @@ export class ChargingPage {
             case 'TIME':
                 this.price = this.priceComponents[3].priceComponents.price * 100;
                 this.estimatedPrice = this.price;
-                this.classicView = true;
-                this.flat = false;
                 break;
             case 'FLAT': 
-                this.price = this.priceComponents[1].priceComponents.price * 100;
-                this.estimatedPrice = this.price;
-                this.flat = true;
-                this.classicView = false;
+                this.estimatedPrice = this.priceComponents[1].priceComponents.price * 100;
+                // this.estimatedPrice = this.price;
                 break;
             case 'ENERGY':
                 this.price = this.priceComponents[0].priceComponents.price * 100;
@@ -514,8 +506,11 @@ export class ChargingPage {
         let timeInMinutes = this.timer / 60;
         
         const pricePerMinute  = this.price / 60;
-        this.estimatedPrice = Math.round(pricePerMinute * timeInMinutes) || this.price;
-
+        
+        if(this.selectedTariff !== 'FLAT'){
+            this.estimatedPrice = Math.round(pricePerMinute * timeInMinutes) || this.price;
+        }
+            
     }
 
     makeTimeString(data) {

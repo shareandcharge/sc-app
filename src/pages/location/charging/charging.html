@@ -73,21 +73,12 @@
             <h6>Estimated price: {{estimatedPrice | currencyDisplay }}</h6>
         </div>
 
-        <div class="progress-wrapper" *ngIf="!flat">
+        <div class="progress-wrapper" >
             <div class="battery-charging" *ngIf="charging">
                 <img src="assets/images/battery-charging.gif">
             </div>
             <canvas id="circleProgressBar" width="280" height="280"></canvas>
         </div>
-
-        <div class="flat" *ngIf="flat">
-            <img src="assets/images/flat.png" class="love">
-        </div>
-
-        <div class="kwh">
-            
-        </div>
-
     </div>
 
 
