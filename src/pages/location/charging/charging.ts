@@ -438,6 +438,7 @@ export class ChargingPage {
 
     drawSlideBar(x, y) {
         let atan = Math.atan2(x - this.canvasX, y - this.canvasY);
+        // degrees circle
         let deg = -atan / (Math.PI / 180) + 180;
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
         let ctx: CanvasRenderingContext2D = c.getContext("2d");
@@ -498,9 +499,17 @@ export class ChargingPage {
         }   
 
         if(this.selectedTariff === 'ENERGY'){
+            let ammount = Math.floor(((this.getMaxChargingMinutesForCurrentTariff()) * deg) / 360) + 5;
+
             //display ammount of kWh
-            this.chargingTimeHours = 22;
-            ctx.fillText(this.chargingTimeHours, 115, c.height / 2 + 16);
+            this.chargingTimeHours = ammount;
+            if(this.chargingTimeHours < 10){
+                ctx.fillText(this.chargingTimeHours, 130, c.height / 2 + 16);
+            } else if(this.chargingTimeHours > 9 && this.chargingTimeHours <= 99) {
+                ctx.fillText(this.chargingTimeHours, 115, c.height / 2 + 16);
+            } else {
+                ctx.fillText(this.chargingTimeHours, 105, c.height / 2 + 16);
+            }
 
             //display units
             ctx.font = "12px Arial";
@@ -587,8 +596,6 @@ export class ChargingPage {
         let fullCircle = 2 * Math.PI;
         let progress = ((fullCircle * this.timer) / (this.getMaxChargingMinutesForCurrentTariff() * 60)) - (Math.PI / 2);
 
-        console.log("IS THIS ONLY FOR CHARGING PROGRESS !? ");
-        
 
         // implement progress for kwh here ->
 
@@ -627,6 +634,10 @@ export class ChargingPage {
     }
 
     getMaxChargingMinutesForCurrentTariff() {
-        return this.tariffType == 1 ? this.maxChargingMinutesFlatrate : this.maxChargingMinutes;
+        if(this.selectedTariff == 'ENERGY'){
+            return this.max_kwh;
+        }
+        return this.selectedTariff == 'FLAT' ? this.maxChargingMinutesFlatrate : this.maxChargingMinutes;
+        
     }
 }
