@@ -31,9 +31,11 @@ export class ChargingPage {
     chargingPricePerHour: any;
     chargingTypeText: string;
     tariffType: number;
+    chargeUnits: any;
     
     max_kwh: any;
     kwh_ammount: any;
+
     // max_kwh implement later when we have maxkwh in tariffs
 
     price: any;
@@ -41,7 +43,7 @@ export class ChargingPage {
     tariffs: any;
     selectedTariff: any;
     estimatedPrice: number;
-    
+
     includingVat: boolean;
 
     hours: any;
@@ -251,6 +253,8 @@ export class ChargingPage {
                 this.price = this.priceComponents[3].priceComponents.price * 100;
                 this.estimatedPrice = this.price;
         } 
+
+        this.initiateCanvas();
     }
 
 
@@ -296,8 +300,18 @@ export class ChargingPage {
         this.timer = (this.hours * 3600) + (this.minutes * 60);
         let loader = this.loadingCtrl.create({ content: this.translateService.instant('location.charging.begin_charging') });
         loader.present();
+        
+        this.chargeUnits;
 
-        this.chargingService.startCharging(this.connector, this.timer, this.selectedTariff, this.estimatedPrice, this.location)
+        if(this.selectedTariff === 'ENERGY'){
+            this.chargeUnits = this.kwh_ammount * 1000;
+            //kWh to wats for backend
+        } else {
+            this.chargeUnits = this.timer;
+            //this is going to be in seconds
+        }
+        
+        this.chargingService.startCharging(this.connector, this.chargeUnits, this.selectedTariff, this.estimatedPrice, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {
@@ -499,10 +513,11 @@ export class ChargingPage {
         }   
 
         if(this.selectedTariff === 'ENERGY'){
-            let ammount = Math.floor(((this.getMaxChargingMinutesForCurrentTariff()) * deg) / 360) + 5;
-
+            this.kwh_ammount = Math.floor(((this.getMaxChargingMinutesForCurrentTariff()) * deg) / 360) + 1;
+            this.estimatedPrice = this.kwh_ammount * this.price;
+            
             //display ammount of kWh
-            this.chargingTimeHours = ammount;
+            this.chargingTimeHours = this.kwh_ammount;
             if(this.chargingTimeHours < 10){
                 ctx.fillText(this.chargingTimeHours, 130, c.height / 2 + 16);
             } else if(this.chargingTimeHours > 9 && this.chargingTimeHours <= 99) {
@@ -541,7 +556,7 @@ export class ChargingPage {
         
         const pricePerMinute  = this.price / 60;
         
-        if(this.selectedTariff !== 'FLAT'){
+        if(this.selectedTariff !== 'FLAT' && this.selectedTariff !== 'ENERGY'){
             this.estimatedPrice = Math.round(pricePerMinute * timeInMinutes) || this.price;
         }
             
