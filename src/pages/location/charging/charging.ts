@@ -606,11 +606,9 @@ export class ChargingPage {
         ctx.beginPath();
         ctx.font = "30px Arial";
         let fullCircle = 2 * Math.PI;
-        //progress ?
+        //progress timebased
         let progress = ((fullCircle * this.timer) / (this.getMaxChargingMinutesForCurrentTariff() * 60)) - (Math.PI / 2);
 
-        console.log("Progress", progress);
-        
         // implement progress for kwh here ->
 
 

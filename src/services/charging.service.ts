@@ -1,16 +1,16 @@
-import {Injectable} from "@angular/core";
-import {Events} from "ionic-angular";
-import {Storage} from '@ionic/storage';
-import {AbstractApiService} from "./abstract.api.service";
-import {LocationService} from "./location.service";
-import {AuthService} from "./auth.service";
-import {ErrorService} from "./error.service";
-import {ConfigService} from "./config.service";
-import {HttpService} from "./http.service";
-import {Connector} from "../models/connector";
-import {Location} from "../models/location";
-import {Observable} from "rxjs/Observable";
-import {TranslateService} from "@ngx-translate/core";
+import { Injectable } from "@angular/core";
+import { Events } from "ionic-angular";
+import { Storage } from '@ionic/storage';
+import { AbstractApiService } from "./abstract.api.service";
+import { LocationService } from "./location.service";
+import { AuthService } from "./auth.service";
+import { ErrorService } from "./error.service";
+import { ConfigService } from "./config.service";
+import { HttpService } from "./http.service";
+import { Connector } from "../models/connector";
+import { Location } from "../models/location";
+import { Observable } from "rxjs/Observable";
+import { TranslateService } from "@ngx-translate/core";
 
 
 /**
@@ -36,13 +36,13 @@ export class ChargingService extends AbstractApiService {
     countDownInterval: any;
 
     constructor(private httpService: HttpService, configService: ConfigService, private events: Events,
-                private errorService: ErrorService, private locService: LocationService, private storage: Storage,
-                private auth: AuthService, public translateService: TranslateService) {
+        private errorService: ErrorService, private locService: LocationService, private storage: Storage,
+        private auth: AuthService, public translateService: TranslateService) {
         super(configService, translateService);
         this.events.subscribe('auth:logout', () => this.handleLogout());
     }
 
-        checkChargingState() {
+    checkChargingState() {
 
         if (!this.auth.loggedIn()) {
             return;
@@ -52,53 +52,53 @@ export class ChargingService extends AbstractApiService {
 
         this.getConnectors(user.address).subscribe((res) => {
 
-                if (!res.length) {
-                    this.chargingEnd();
-                    return;
-                }
+            if (!res.length) {
+                this.chargingEnd();
+                return;
+            }
 
-                /**
-                 * It may be, that we have multiple connectors because
-                 * we charge at multiple stations; the list also contains
-                 * connectors where timeLeft=0 but have not beend removed, yet.
-                 *
-                 * To determine the connector for which we want to show the progress,
-                 * we first remove all expired (timeLeft=0) the sort by timeLeft
-                 * ascending and choose the first (the oldest).
-                 */
+            /**
+             * It may be, that we have multiple connectors because
+             * we charge at multiple stations; the list also contains
+             * connectors where timeLeft=0 but have not beend removed, yet.
+             *
+             * To determine the connector for which we want to show the progress,
+             * we first remove all expired (timeLeft=0) the sort by timeLeft
+             * ascending and choose the first (the oldest).
+             */
 
-                let connectors = res.filter(connector => connector.timeleft > 0);
+            let connectors = res.filter(connector => connector.timeleft > 0);
 
-                if (!connectors.length) {
-                    this.chargingEnd();
-                    return;
-                }
+            if (!connectors.length) {
+                this.chargingEnd();
+                return;
+            }
 
-                // connectors.sort((a, b) => {
-                //     if (a === b) return 0;
-                //     return (a < b ) ? -1 : 1;
-                // });
+            // connectors.sort((a, b) => {
+            //     if (a === b) return 0;
+            //     return (a < b ) ? -1 : 1;
+            // });
 
-                let connector: Connector = connectors.shift();
+            let connector: Connector = connectors.shift();
 
-                this.getStation(connector.station).subscribe((res) => {
-                        this.locService.getLocation(res.location).subscribe((loc) => {
-                                this.location = loc;
-                            },
-                            error => this.errorService.displayErrorWithKey(error, 'error.scope.get_location'));
-                    },
-                    error => this.errorService.displayErrorWithKey(error, 'error.scope.get_station'));
-
-                let remainingTime = Math.floor(connector.timeleft);
-                if (remainingTime > 0) {
-                    this.connector = connector;
-                    this.resumeCharging(remainingTime, connector.secondstorent);
-                }
-                else {
-                    this.chargingEnd();
-                }
-
+            this.getStation(connector.station).subscribe((res) => {
+                this.locService.getLocation(res.location).subscribe((loc) => {
+                    this.location = loc;
+                },
+                    error => this.errorService.displayErrorWithKey(error, 'error.scope.get_location'));
             },
+                error => this.errorService.displayErrorWithKey(error, 'error.scope.get_station'));
+
+            let remainingTime = Math.floor(connector.timeleft);
+            if (remainingTime > 0) {
+                this.connector = connector;
+                this.resumeCharging(remainingTime, connector.secondstorent);
+            }
+            else {
+                this.chargingEnd();
+            }
+
+        },
             error => this.errorService.displayErrorWithKey(error, 'error.scope.get_connectors'));
     }
 
@@ -157,27 +157,32 @@ export class ChargingService extends AbstractApiService {
         };
         // chargeUnits is seconds to charge or kWh , depends on selected tariff
 
-        return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{timeout: 3000}])
+        return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{ timeout: 3000 }])
             .map(res => {
-                res.json(); 
+                res.json();
                 this.charging = true;
-                this.timer = chargeUnits;
-                this.chargingTime = chargeUnits;
 
-                if(chargingData.tariff === 'ENERGY'){
+                if (chargingData.tariff === 'ENERGY') {
+                    // this.timer = 0;
+                    // this.chargingTime = 0;
+
                     // this.countDownInterval = setInterval(() => {
-                    //     this.chargingTime -= 1;
-                    //     this.timer -= 1;
-                    // }, 1000);
-                    
-                    //COUNT kilowats
-                }
-                else if(chargingData.tariff === 'FLAT'){
+                    //     this.chargingTime += 1;
+                    //     this.timer += 1;
+                    // }, 10000);
+
+                } else if (chargingData.tariff === 'FLAT') {
+                    this.timer = 0;
+                    this.chargingTime = 0;
+
                     this.countDownInterval = setInterval(() => {
                         this.chargingTime += 1;
                         this.timer += 1;
                     }, 1000);
                 } else {
+                    this.timer = chargeUnits;
+                    this.chargingTime = chargeUnits;
+
                     this.countDownInterval = setInterval(() => {
                         this.chargingTime -= 1;
                         this.timer -= 1;
@@ -188,9 +193,9 @@ export class ChargingService extends AbstractApiService {
                 this.publishCharginUpdateEvent();
                 this.storage.set("chargingTime", this.chargingTime);
                 this.storage.set("isCharging", true);
-                this.startEventInterval();  
+                this.startEventInterval();
                 this.tariff = selectedTariff;
-                // this.countDown(secondsToCharge);
+                // this.(secondsToCharge);
 
                 this.events.publish('locations:updated');
             })
@@ -271,7 +276,7 @@ export class ChargingService extends AbstractApiService {
             // let chargedTime = this.chargingTime - this.timer;
             // this.progress = Math.floor((100 * chargedTime) / this.chargingTime);
             this.progress += 1;
-            
+
             if (this.progress < 1) {
                 this.progress = 1;
             }

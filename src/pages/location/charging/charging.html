@@ -24,8 +24,8 @@
         <ion-icon name="cust-station-pin" color="secondary"></ion-icon>
         <div class="text">{{this.location.address}}</div>
     </div>
-    <div class="top-item-text">
-        <ion-icon name="cust-time-money" color="secondary"></ion-icon>
+    <div class="top-item-text" >
+        <ion-icon name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon>
         <ng-container>
             <!-- {{price | currencyDisplay }} -->
 
@@ -38,7 +38,7 @@
             </ion-list> -->
 
             <!-- tariff-options-type -->
-            <ion-item no-lines class="tariffs">
+            <ion-item no-lines class="tariffs" *ngIf="!charging">
                 <ion-label id="tariff-label">Chose your tariff:</ion-label>
                 <ion-select [(ngModel)]="selectedTariff" (ionChange)="tariffSelect()">
                     <ion-option *ngFor="let tariff of tariffs">{{tariff.type}}</ion-option>
