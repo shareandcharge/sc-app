@@ -649,12 +649,10 @@ export class ChargingPage {
 
     getMaxChargingMinutesForCurrentTariff() {
 
-        return 100;
-
-        // if(this.selectedTariff == 'ENERGY'){
-        //     return this.max_kwh;
-        // }
-        // return this.selectedTariff == 'FLAT' ? this.maxChargingMinutesFlatrate : this.maxChargingMinutes;
+        if(this.selectedTariff == 'ENERGY'){
+            return this.max_kwh;
+        }
+        return this.selectedTariff == 'FLAT' ? this.maxChargingMinutesFlatrate : this.maxChargingMinutes;
         
     }
 }

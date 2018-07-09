@@ -163,10 +163,26 @@ export class ChargingService extends AbstractApiService {
                 this.charging = true;
                 this.timer = chargeUnits;
                 this.chargingTime = chargeUnits;
-                this.countDownInterval = setInterval(() => {
-                    this.chargingTime -= 1;
-                    this.timer -= 1;
-                }, 1000);
+
+                if(chargingData.tariff === 'ENERGY'){
+                    // this.countDownInterval = setInterval(() => {
+                    //     this.chargingTime -= 1;
+                    //     this.timer -= 1;
+                    // }, 1000);
+                    
+                    //COUNT kilowats
+                }
+                else if(chargingData.tariff === 'FLAT'){
+                    this.countDownInterval = setInterval(() => {
+                        this.chargingTime += 1;
+                        this.timer += 1;
+                    }, 1000);
+                } else {
+                    this.countDownInterval = setInterval(() => {
+                        this.chargingTime -= 1;
+                        this.timer -= 1;
+                    }, 1000);
+                }
                 this.location = location;
                 this.connector = connector;
                 this.publishCharginUpdateEvent();
