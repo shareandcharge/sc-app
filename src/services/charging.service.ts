@@ -33,7 +33,7 @@ export class ChargingService extends AbstractApiService {
     location: Location;
     tariff: any;
 
-    countUpInterval: any;
+    countDownInterval: any;
 
     constructor(private httpService: HttpService, configService: ConfigService, private events: Events,
                 private errorService: ErrorService, private locService: LocationService, private storage: Storage,
@@ -143,9 +143,9 @@ export class ChargingService extends AbstractApiService {
         this.timer = totalTime;
         this.startEventInterval();
         // this.countDown(remainingTime);
-        this.countUpInterval = setInterval(() => {
-            this.chargingTime += 1;
-            this.timer += 1;
+        this.countDownInterval = setInterval(() => {
+            this.chargingTime -= 1;
+            this.timer -= 1;
         }, 1000);
     }
 
@@ -161,11 +161,11 @@ export class ChargingService extends AbstractApiService {
             .map(res => {
                 res.json(); 
                 this.charging = true;
-                this.timer = 0;
-                this.chargingTime = 0;
-                this.countUpInterval = setInterval(() => {
-                    this.chargingTime += 1;
-                    this.timer += 1;
+                this.timer = chargeUnits;
+                this.chargingTime = chargeUnits;
+                this.countDownInterval = setInterval(() => {
+                    this.chargingTime -= 1;
+                    this.timer -= 1;
                 }, 1000);
                 this.location = location;
                 this.connector = connector;
@@ -198,7 +198,7 @@ export class ChargingService extends AbstractApiService {
     chargingEnd() {
         clearInterval(this.counterInterval);
         clearInterval(this.eventInterval);
-        clearInterval(this.countUpInterval);
+        clearInterval(this.countDownInterval);
 
         /**
          * Do not reset location, connector, chargingTime, timer here!

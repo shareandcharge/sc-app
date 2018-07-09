@@ -69,7 +69,7 @@
 
 
     <div class="progressForAll">
-        <div class="estimated_price">
+        <div class="estimated_price" *ngIf="!charging">
             <h6>Estimated price: {{estimatedPrice | currencyDisplay }}</h6>
         </div>
 
