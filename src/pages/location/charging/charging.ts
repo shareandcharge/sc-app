@@ -220,8 +220,8 @@ export class ChargingPage {
             //     this.chargingPricePerHour = response.min / 100;
             // }
             this.priceComponents = response.priceComponents;
-            this.selectedTariff = this.priceComponents[3].priceComponents.type;
-            this.price = this.priceComponents[3].priceComponents.price * 100;
+            this.selectedTariff = this.priceComponents[2].priceComponents.type;
+            this.price = this.priceComponents[2].priceComponents.price * 100;
             this.estimatedPrice = this.price;
 
             this.tariffs = this.priceComponents.map(obj => {
@@ -235,7 +235,7 @@ export class ChargingPage {
     tariffSelect() {
         switch(this.selectedTariff) {
             case 'TIME':
-                this.price = this.priceComponents[3].priceComponents.price * 100;
+                this.price = this.priceComponents[2].priceComponents.price * 100;
                 this.estimatedPrice = this.price;
                 break;
             case 'FLAT': 
@@ -246,11 +246,8 @@ export class ChargingPage {
                 this.price = this.priceComponents[0].priceComponents.price * 100;
                 this.estimatedPrice = this.price;
                 break;
-            case 'PARKING_TIME':
-                this.price = this.priceComponents[2].priceComponents.price * 100;  
-                this.estimatedPrice = this.price;
             default:
-                this.price = this.priceComponents[3].priceComponents.price * 100;
+                this.price = this.priceComponents[2].priceComponents.price * 100;
                 this.estimatedPrice = this.price;
         } 
 
@@ -457,7 +454,7 @@ export class ChargingPage {
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
         let ctx: CanvasRenderingContext2D = c.getContext("2d");
         ctx.clearRect(0, 0, c.width, c.height);
-
+        
         ctx.lineWidth = 26;
         ctx.strokeStyle = '#E6F0FD';
         ctx.beginPath();
@@ -609,9 +606,11 @@ export class ChargingPage {
         ctx.beginPath();
         ctx.font = "30px Arial";
         let fullCircle = 2 * Math.PI;
+        //progress ?
         let progress = ((fullCircle * this.timer) / (this.getMaxChargingMinutesForCurrentTariff() * 60)) - (Math.PI / 2);
 
-
+        console.log("Progress", progress);
+        
         // implement progress for kwh here ->
 
 
@@ -649,10 +648,13 @@ export class ChargingPage {
     }
 
     getMaxChargingMinutesForCurrentTariff() {
-        if(this.selectedTariff == 'ENERGY'){
-            return this.max_kwh;
-        }
-        return this.selectedTariff == 'FLAT' ? this.maxChargingMinutesFlatrate : this.maxChargingMinutes;
+
+        return 100;
+
+        // if(this.selectedTariff == 'ENERGY'){
+        //     return this.max_kwh;
+        // }
+        // return this.selectedTariff == 'FLAT' ? this.maxChargingMinutesFlatrate : this.maxChargingMinutes;
         
     }
 }
