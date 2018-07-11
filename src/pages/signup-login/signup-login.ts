@@ -67,7 +67,7 @@ export class SignupLoginPage {
                 private configService: ConfigService, private translateService: TranslateService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
-            this.action = 'login';
+            this.action = 'signUp';
         }
 
         this.createErrorMessages();

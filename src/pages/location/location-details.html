@@ -108,7 +108,7 @@
         <ion-grid>
             <ion-row>
                 <ion-col center>
-                    <div class="footer-price">
+                    <!-- <div class="footer-price"> -->
                         <!-- <strong *ngIf="minPrice == maxPrice && minPrice != 0">
                             {{maxPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>
                             <ng-container *ngIf="includingVat">{{'location.charging.tax' | translate}}</ng-container>
@@ -130,10 +130,10 @@
                         
                         
                         
-                    </div>
-                    <div *ngIf="averageRating != -1" class="footer-rating">
+                    <!-- </div> -->
+                    <!-- <div *ngIf="averageRating != -1" class="footer-rating">
                         <rating [(ngModel)]="averageRating" readonly="true"></rating>
-                    </div>
+                    </div> -->
                 </ion-col>
                 <ion-col text-right *ngIf="connector">
 

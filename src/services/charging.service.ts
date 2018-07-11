@@ -51,7 +51,7 @@ export class ChargingService extends AbstractApiService {
         let user = this.auth.getUser();
 
         this.getConnectors(user.address).subscribe((res) => {
-
+            
             if (!res.length) {
                 this.chargingEnd();
                 return;
@@ -73,7 +73,7 @@ export class ChargingService extends AbstractApiService {
                 this.chargingEnd();
                 return;
             }
-
+            
             // connectors.sort((a, b) => {
             //     if (a === b) return 0;
             //     return (a < b ) ? -1 : 1;
@@ -88,9 +88,11 @@ export class ChargingService extends AbstractApiService {
                     error => this.errorService.displayErrorWithKey(error, 'error.scope.get_location'));
             },
                 error => this.errorService.displayErrorWithKey(error, 'error.scope.get_station'));
-
+                
             let remainingTime = Math.floor(connector.timeleft);
             if (remainingTime > 0) {
+                // console.log("TIMER:" , this.timer);
+                // console.log("remaining time ", remainingTime);
                 this.connector = connector;
                 this.resumeCharging(remainingTime, connector.secondstorent);
             }
@@ -141,12 +143,13 @@ export class ChargingService extends AbstractApiService {
         this.chargingTime = totalTime;
         this.charging = true;
         this.timer = totalTime;
+        console.log("TIMER ::::" , this.timer);
         this.startEventInterval();
         // this.countDown(remainingTime);
-        this.countDownInterval = setInterval(() => {
-            this.chargingTime -= 1;
-            this.timer -= 1;
-        }, 1000);
+        // this.countDownInterval = setInterval(() => {
+        //     this.chargingTime -= 1;
+        //     this.timer -= 1;
+        // }, 1000);
     }
 
     startCharging(connector: Connector, chargeUnits, selectedTariff, price, location: Location) {
