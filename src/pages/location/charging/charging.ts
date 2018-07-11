@@ -64,6 +64,7 @@ export class ChargingPage {
     didStop: boolean = false;
     chargedTimeAtStop: any;
 
+    finalizeButton: boolean;
     stopButtonClicked: boolean;
     stopButtonDisabled: boolean = false;
 
@@ -84,18 +85,17 @@ export class ChargingPage {
         this.location = navParams.get("location");
         //-- for now we use the first station
         this.station = this.location.stations[0];
-
         //-- first non rented connector is default (innogy stations have two+)
         this.connector = this.station.connectors.find((connector) => {
             return !connector.isRented;
         });
-
+        
         if (this.connector) {
             this.selectedConnectorId = this.connector.id;
         }
-
+        
         this.fromLocationDetailsAndIsCharging = navParams.get("isCharging");
-
+        
         this.chargingPrice = 0;
         this.buttonDeactive = false;
         this.mouseDragging = false;
@@ -103,6 +103,7 @@ export class ChargingPage {
         this.canvasY = 140;
         this.canvasImage = new Image();
         this.canvasImage.src = 'assets/icons/battery.png';
+        this.finalizeButton = true;
 
         this.estimatedPrice = this.price;
 
@@ -395,10 +396,12 @@ export class ChargingPage {
 
     circleRange_mouseDown() {
         this.mouseDragging = true;
+        this.finalizeButton = false;
     }
 
     circleRange_touchStart() {
         this.mouseDragging = true;
+        this.finalizeButton = false;
     }
 
     circleRange_mouseUp(self, e) {

@@ -10,7 +10,7 @@ export class CurrencyService {
   private HIDE_PAYPAL : boolean = CONFIG.FEATURE_TOGGLES.hide_paypal;
 
   getCurrency(): string {
-    return '€';
+    return '£';
   }
 
   isPayInAvailable(): boolean {

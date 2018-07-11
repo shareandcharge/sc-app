@@ -58,7 +58,7 @@
     <div text-center class="price-label" *ngIf="activeCar != null">
         <span *ngIf="!countingDown"> {{'location.charging.estimated_price' | translate}} </span>
         <ng-container *ngIf="chargingPrice != 0">
-            {{ chargingPrice | currencyDisplay }}
+            {{ chargingPrice }} £
             <br>
             <span class="vat" *ngIf="includingVat">{{'location.charging.tax' | translate}}</span>
         </ng-container>
@@ -141,7 +141,7 @@
                     <ion-label>{{'location.charging.accept_terms_1' | translate}} <a (click)="openTerms()">{{'location.charging.agb_2' | translate}}</a> {{'location.charging.accept_terms_3' | translate}}</ion-label>
                 </ion-item>
             </ion-list> -->
-            <button ion-button round text-uppercase (click)="startCharging()">
+            <button ion-button round text-uppercase [disabled]="finalizeButton" (click)="startCharging()">
                 {{'location.charging.btn_load' | translate}}
             </button>
         </div>
