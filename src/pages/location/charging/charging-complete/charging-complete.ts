@@ -20,6 +20,7 @@ export class ChargingCompletePage {
   chargedTime: number;
   chargedTimeString: string;
   chargedPrice: any = "-,-";
+  price: number;
 
   constructor(private viewCtrl: ViewController, private carService: CarService, private locationService: LocationService,
               private chargingService: ChargingService, private errorService: ErrorService, private translateService: TranslateService) {
@@ -30,12 +31,13 @@ export class ChargingCompletePage {
     this.location = this.chargingService.getLocation();
     this.connector = this.chargingService.getConnector();
     this.chargedTime = this.chargingService.chargedTime();
+    this.price = this.chargingService.getPrice() / 100;
     this.chargedTimeString = this.makeTimeString(this.chargedTime);
     this.locationService.getPrice(this.connector.id, {
       'secondsToCharge': this.chargedTime,
       'maxCharging': 30
     }).subscribe((response) => {
-        this.chargedPrice = response.min / 100
+      this.chargedPrice = response.min / 100
       },
       error => this.errorService.displayErrorWithKey(error, this.translateService.instant('query_price'))
     );

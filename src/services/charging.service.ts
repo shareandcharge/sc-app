@@ -32,6 +32,7 @@ export class ChargingService extends AbstractApiService {
     connector: Connector;
     location: Location;
     tariff: any;
+    price: number;
 
     countDownInterval: any;
 
@@ -143,7 +144,6 @@ export class ChargingService extends AbstractApiService {
         this.chargingTime = totalTime;
         this.charging = true;
         this.timer = totalTime;
-        console.log("TIMER ::::" , this.timer);
         this.startEventInterval();
         // this.countDown(remainingTime);
         // this.countDownInterval = setInterval(() => {
@@ -159,6 +159,7 @@ export class ChargingService extends AbstractApiService {
             "price": price
         };
         // chargeUnits is seconds to charge or kWh , depends on selected tariff
+        this.price = price;
 
         return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{ timeout: 3000 }])
             .map(res => {
@@ -253,6 +254,10 @@ export class ChargingService extends AbstractApiService {
 
     chargedTime(): number {
         return this.timer;
+    }
+
+    getPrice(): number {
+        return this.price;
     }
 
     startEventInterval() {

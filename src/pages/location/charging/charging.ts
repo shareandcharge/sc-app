@@ -241,7 +241,6 @@ export class ChargingPage {
                 break;
             case 'FLAT': 
                 this.estimatedPrice = this.priceComponents[1].priceComponents.price * 100;
-                // this.estimatedPrice = this.price;
                 break;
             case 'ENERGY':
                 this.price = this.priceComponents[0].priceComponents.price * 100;
