@@ -31,7 +31,7 @@ export class ChargingPage {
     chargingPricePerHour: any;
     chargingTypeText: string;
     tariffType: number;
-    chargeUnits: any;
+    tariffValue: any;
     
     max_kwh: any;
     kwh_ammount: any;
@@ -298,17 +298,17 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({ content: this.translateService.instant('location.charging.begin_charging') });
         loader.present();
         
-        this.chargeUnits;
+        this.tariffValue;
 
         if(this.selectedTariff === 'ENERGY'){
-            this.chargeUnits = this.kwh_ammount * 1000;
+            this.tariffValue = this.kwh_ammount * 1000;
             //kWh to wats for backend
         } else {
-            this.chargeUnits = this.timer;
+            this.tariffValue = this.timer;
             //this is going to be in seconds
         }
         
-        this.chargingService.startCharging(this.connector, this.chargeUnits, this.selectedTariff, this.estimatedPrice, this.location)
+        this.chargingService.startCharging(this.connector, this.tariffValue, this.selectedTariff, this.estimatedPrice, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {
@@ -317,7 +317,7 @@ export class ChargingPage {
                         'Address': this.location.address,
                         'Timestamp': ''
                     });
-
+                    
                     this.charging = true;
                     // this.startCheckConnector();
                     // this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);

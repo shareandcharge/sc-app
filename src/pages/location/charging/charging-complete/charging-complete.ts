@@ -31,7 +31,7 @@ export class ChargingCompletePage {
     this.location = this.chargingService.getLocation();
     this.connector = this.chargingService.getConnector();
     this.chargedTime = this.chargingService.chargedTime();
-    this.price = this.chargingService.getPrice() / 100;
+    this.price = this.chargingService.getPrice();
     this.chargedTimeString = this.makeTimeString(this.chargedTime);
     this.locationService.getPrice(this.connector.id, {
       'secondsToCharge': this.chargedTime,

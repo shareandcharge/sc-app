@@ -145,7 +145,9 @@ export class ChargingService extends AbstractApiService {
         this.charging = true;
         this.timer = totalTime;
         this.startEventInterval();
-        // this.countDown(remainingTime);
+        this.countDown(remainingTime);
+
+        //this part makes countdown go by 2 --
         // this.countDownInterval = setInterval(() => {
         //     this.chargingTime -= 1;
         //     this.timer -= 1;
