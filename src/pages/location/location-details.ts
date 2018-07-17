@@ -79,13 +79,6 @@ export class LocationDetailPage {
 
     commercialCategoryIcons: Array<string>;
 
-    TARIFF_TYPES = {
-        INACTIVE: 0,
-        FLAT: 1,
-        HOURLY: 2,
-        KWH: 3,
-        PARKING: 4
-    };
 
     ownerMode: boolean = false;
 
