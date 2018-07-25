@@ -105,7 +105,7 @@ export class ChargingPage {
         this.canvasImage.src = 'assets/icons/battery.png';
         this.finalizeButton = true;
 
-        this.estimatedPrice = this.price;
+        this.estimatedPrice = this.price * 100;
 
         // max_kwh implement when max_kwh in tariffs
         this.max_kwh = 100;
@@ -227,13 +227,13 @@ export class ChargingPage {
             
             if (time) {
                 this.selectedTariff = 'TIME';
-                this.price = time.priceComponents.price;
+                this.price = time.priceComponents.price * 100;
             } else if (energy) {
                 this.selectedTariff = 'ENERGY';
-                this.price = energy.priceComponents.price;
+                this.price = energy.priceComponents.price * 100;
             } else if (flat) {
                 this.selectedTariff = 'FLAT';
-                this.price = flat.priceComponents.price;
+                this.price = flat.priceComponents.price * 100;
             } else {
                 this.selectedTariff = '???';
                 this.price = 0;
@@ -259,7 +259,8 @@ export class ChargingPage {
                 this.estimatedPrice = this.price;
                 break;
             case 'FLAT': 
-                this.estimatedPrice = flat.priceComponents.price * 100;
+                this.price = flat.priceComponents.price * 100;
+                this.estimatedPrice = this.price;
                 break;
             case 'ENERGY':
                 this.price = energy.priceComponents.price * 100;
