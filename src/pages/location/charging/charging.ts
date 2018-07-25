@@ -221,8 +221,24 @@ export class ChargingPage {
             //     this.chargingPricePerHour = response.min / 100;
             // }
             this.priceComponents = response.priceComponents;
-            this.selectedTariff = this.priceComponents[2].priceComponents.type;
-            this.price = this.priceComponents[2].priceComponents.price * 100;
+            const energy = this.priceComponents.filter(pc => pc.priceComponents.type === 'ENERGY')[0];
+            const time = this.priceComponents.filter(pc => pc.priceComponents.type === 'TIME')[0];
+            const flat = this.priceComponents.filter(pc => pc.priceComponents.type === 'FLAT')[0];
+            
+            if (time) {
+                this.selectedTariff = 'TIME';
+                this.price = time.priceComponents.price;
+            } else if (energy) {
+                this.selectedTariff = 'ENERGY';
+                this.price = energy.priceComponents.price;
+            } else if (flat) {
+                this.selectedTariff = 'FLAT';
+                this.price = flat.priceComponents.price;
+            } else {
+                this.selectedTariff = '???';
+                this.price = 0;
+            }
+            
             this.estimatedPrice = this.price;
 
             this.tariffs = this.priceComponents.map(obj => {
@@ -234,20 +250,23 @@ export class ChargingPage {
     }
 
     tariffSelect() {
+        const energy = this.priceComponents.filter(pc => pc.priceComponents.type === 'ENERGY')[0];
+        const time = this.priceComponents.filter(pc => pc.priceComponents.type === 'TIME')[0];
+        const flat = this.priceComponents.filter(pc => pc.priceComponents.type === 'FLAT')[0];
         switch(this.selectedTariff) {
             case 'TIME':
-                this.price = this.priceComponents[2].priceComponents.price * 100;
+                this.price = time.priceComponents.price * 100;
                 this.estimatedPrice = this.price;
                 break;
             case 'FLAT': 
-                this.estimatedPrice = this.priceComponents[1].priceComponents.price * 100;
+                this.estimatedPrice = flat.priceComponents.price * 100;
                 break;
             case 'ENERGY':
-                this.price = this.priceComponents[0].priceComponents.price * 100;
+                this.price = energy.priceComponents.price * 100;
                 this.estimatedPrice = this.price;
                 break;
             default:
-                this.price = this.priceComponents[2].priceComponents.price * 100;
+                this.price = 0;
                 this.estimatedPrice = this.price;
         } 
 
