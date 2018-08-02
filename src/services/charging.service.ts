@@ -145,7 +145,15 @@ export class ChargingService extends AbstractApiService {
         this.charging = true;
         this.timer = totalTime;
         this.startEventInterval();
-        this.countDown(remainingTime);
+
+        if(this.tariff === 'FLAT'){
+            this.countDown(totalTime);
+        }else if(this.tariff === 'TIME'){
+            this.countDown(remainingTime);
+        }else {
+            this.countDown(totalTime);
+        }
+        // countDown takes totalTime if FLAT, otherwise takes remainingTime
 
         //this part makes countdown go by 2 --
         // this.countDownInterval = setInterval(() => {

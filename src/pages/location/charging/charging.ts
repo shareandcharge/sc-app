@@ -71,7 +71,7 @@ export class ChargingPage {
     activeCar: Car;
 
     maxChargingMinutes: number = 8 * 60;
-    maxChargingMinutesFlatrate: number = 4 * 60;
+    maxChargingMinutesFlatrate: number = 8 * 60;
 
     @ViewChild(Content) content: Content;
 
