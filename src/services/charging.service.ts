@@ -35,6 +35,7 @@ export class ChargingService extends AbstractApiService {
     price: number;
 
     countDownInterval: any;
+    resumeInterval: any;
 
     constructor(private httpService: HttpService, configService: ConfigService, private events: Events,
         private errorService: ErrorService, private locService: LocationService, private storage: Storage,
@@ -156,10 +157,15 @@ export class ChargingService extends AbstractApiService {
         // countDown takes totalTime if FLAT, otherwise takes remainingTime
 
         //this part makes countdown go by 2 --
-        // this.countDownInterval = setInterval(() => {
-        //     this.chargingTime -= 1;
-        //     this.timer -= 1;
-        // }, 1000);
+
+        clearInterval(this.counterInterval);
+        clearInterval(this.countDownInterval);
+        clearInterval(this.resumeInterval);
+        
+        this.resumeInterval = setInterval(() => {
+            this.chargingTime += 1;
+            this.timer += 1;
+        }, 1000);
     }
 
     startCharging(connector: Connector, chargeUnits, selectedTariff, price, location: Location) {
