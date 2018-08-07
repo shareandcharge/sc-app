@@ -146,26 +146,34 @@ export class ChargingService extends AbstractApiService {
         this.charging = true;
         this.timer = totalTime;
         this.startEventInterval();
-
-        if(this.tariff === 'FLAT'){
-            this.countDown(totalTime);
-        }else if(this.tariff === 'TIME'){
-            this.countDown(remainingTime);
-        }else {
-            this.countDown(totalTime);
-        }
-        // countDown takes totalTime if FLAT, otherwise takes remainingTime
-
-        //this part makes countdown go by 2 --
-
+        
+        clearInterval(this.resumeInterval);
         clearInterval(this.counterInterval);
         clearInterval(this.countDownInterval);
-        clearInterval(this.resumeInterval);
         
-        this.resumeInterval = setInterval(() => {
-            this.chargingTime += 1;
-            this.timer += 1;
-        }, 1000);
+        if(this.tariff === 'FLAT'){
+            this.resumeInterval = setInterval(() => {
+                this.chargingTime += 1;
+                this.timer += 1;
+            }, 1000);
+            this.countDown(totalTime);
+
+        }else if(this.tariff === 'TIME'){
+            this.resumeInterval = setInterval(() => {
+                this.chargingTime -= 1;
+                this.timer -= 1;
+            }, 1000);
+            this.countDown(remainingTime);
+            
+        }else {
+            this.resumeInterval = setInterval(() => {
+                this.chargingTime += 1;
+                this.timer += 1;
+            }, 1000);
+            this.countDown(totalTime);
+        }
+
+
     }
 
     startCharging(connector: Connector, chargeUnits, selectedTariff, price, location: Location) {
@@ -177,15 +185,23 @@ export class ChargingService extends AbstractApiService {
         // chargeUnits is seconds to charge or kWh , depends on selected tariff
         this.price = price;
 
+        clearInterval(this.resumeInterval);
+        clearInterval(this.counterInterval);
+        clearInterval(this.countDownInterval);
+
         return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{ timeout: 3000 }])
             .map(res => {
                 res.json();
                 this.charging = true;
 
                 if (chargingData.tariff === 'ENERGY') {
+                    this.timer = 0;
+                    this.chargingTime = 0;
 
-                    //
-                    //
+                    this.countDownInterval = setInterval(() => {
+                        this.chargingTime += 1;
+                        this.timer += 1;
+                    }, 1000);
 
                 } else if (chargingData.tariff === 'FLAT') {
                     this.timer = 0;
