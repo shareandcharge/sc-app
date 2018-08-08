@@ -1,5 +1,6 @@
 import {Serializable} from './serializable';
 import {Station} from "./station";
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 export class Location implements Serializable<Location> {
     id: any;
@@ -11,6 +12,9 @@ export class Location implements Serializable<Location> {
     lat: any;
     lng: any;
     address: string;
+    postal_code: string;
+    city: string;
+    country: string;
     stations: Array<Station>;
     active: boolean;
     available: boolean;
@@ -41,6 +45,9 @@ export class Location implements Serializable<Location> {
         this.lat = '';
         this.lng = '';
         this.address = '';
+        this.postal_code = '';
+        this.city = '';
+        this.country = '';
         this.stations = [];
         this.active = true;
         this.available = true;
@@ -111,6 +118,9 @@ export class Location implements Serializable<Location> {
         this.lat = input.lat;
         this.lng = input.lng;
         this.address = input.address;
+        this.postal_code = input.postal_code;
+        this.city = input.city;
+        this.country = input.country;
         this.available = input.available;
         this.active = input.active;
         this.open = input.open;

@@ -57,9 +57,10 @@ export class LocationService extends AbstractApiService {
         if (Array.isArray(plugTypes) && plugTypes.length > 0) params['plugType'] = plugTypes.join(',');
 
         return this.getLocations(params).map(res => {
-
+            
             let locations = [];
             res.forEach(location => {
+                
                 let lat = location.lat;
                 let lng = location.lng;
 

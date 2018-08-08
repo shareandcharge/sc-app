@@ -22,9 +22,10 @@
         <span *ngIf="location.name != ''">{{location.name}}</span>
         <p>
             <strong>
-                {{location.address}}
-                <span *ngIf="location.address && location.city">,</span>
-                {{location.city}}
+                <span *ngIf="location.country != ''">{{location.country}}</span><br>
+                <span *ngIf="location.address != ''">{{location.address}} </span><br>
+                <span *ngIf="location.postal_code != ''">{{location.postal_code}} </span>
+                <span *ngIf="location.city != ''">{{location.city}}</span><br>
             </strong>
         </p>
 
