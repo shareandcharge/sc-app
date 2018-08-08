@@ -7,12 +7,12 @@
 
 <ion-content>
     <div class="top-container" padding="" text-center="">
-        <button class="image-button filled" (click)="selectPhoto()" *ngIf="user.hasImage()"
+        <!-- <button class="image-button filled" (click)="selectPhoto()" *ngIf="user.hasImage()"
                 [ngStyle]="{'background-image':'url(' + user.profile.imageBase64 + ')'}">
-        </button>
-        <button class="image-button" (click)="selectPhoto()" *ngIf="!user.hasImage()">
+        </button> -->
+        <!-- <button class="image-button" (click)="selectPhoto()" *ngIf="!user.hasImage()">
             <span><ion-icon name="cust-add-photo"></ion-icon></span>
-        </button>
+        </button> -->
         <div>
             <strong>{{user.email}}</strong>
         </div>
