@@ -1,6 +1,6 @@
 import {Serializable} from './serializable';
 import {Station} from "./station";
-import { SafeResourceUrl } from '@angular/platform-browser';
+// import { SafeResourceUrl } from '@angular/platform-browser';
 
 export class Location implements Serializable<Location> {
     id: any;
