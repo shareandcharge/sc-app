@@ -22,7 +22,13 @@
 
     <div class="top-item-text">
         <ion-icon name="cust-station-pin" color="secondary"></ion-icon>
-        <div class="text">{{this.location.address}}</div>
+        <div class="text">
+            <p>
+                {{this.location.country}}<br>
+                {{this.location.address}}<br>
+                {{this.location.postal_code}} {{this.location.city}}
+            </p>
+        </div>
     </div>
     <div class="top-item-text" >
         <ion-icon name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon>
