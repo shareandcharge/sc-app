@@ -109,6 +109,11 @@
         <ion-grid>
             <ion-row>
                 <ion-col center>
+
+                    <h6>Available tariffs:</h6>
+                    <span class="tariffs" *ngFor="let tariff of tariffs; let isLast = last">
+                        {{tariff}}{{isLast ? '' : ', '}}
+                    </span>
                     <!-- <div class="footer-price"> -->
                         <!-- <strong *ngIf="minPrice == maxPrice && minPrice != 0">
                             {{maxPrice | currencyDisplay }}<ng-container *ngIf="tariffType == TARIFF_TYPES.HOURLY">/h</ng-container><ng-container *ngIf="tariffType == TARIFF_TYPES.KWH">/kWh</ng-container>

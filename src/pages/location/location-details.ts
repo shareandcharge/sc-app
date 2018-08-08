@@ -36,6 +36,7 @@ export class LocationDetailPage {
     locationImages: Array<any>;
     station: Station;
     connector: Connector;
+    tariffs: any;
 
     slideOptions: any;
 
@@ -230,18 +231,10 @@ export class LocationDetailPage {
         }
 
         this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
-                // this.maxPrice = response.maxPrice / 100;
-                // this.minPrice = response.minPrice / 100;
-                // this.tariffType = response.type;
-                // this.price = response.price;
-                // this.price_components = response.price_components;
-                
-                // this.allPrices = this.price_components.map(obj => {
-                //     return obj.price;
-                // });
-
-                // this.price = this.price || this.allPrices[0];
-                
+                this.tariffs = response.priceComponents.map(obj => {
+                    let tariff =  obj.priceComponents.type.toLowerCase();
+                    return tariff.charAt(0).toUpperCase() + tariff.slice(1);
+                });                
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
     }
