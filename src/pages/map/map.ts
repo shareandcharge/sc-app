@@ -511,13 +511,13 @@ export class MapPage {
 
         this.elemFilterControl = document.createElement('div');
         this.elemFilterControl.id = 'mapFilterUI';
-        mapControl.appendChild(this.elemFilterControl);
+        // mapControl.appendChild(this.elemFilterControl);
 
 
-        let controlText = document.createElement('div');
-        controlText.id = 'mapFilterText';
-        controlText.innerHTML = '<ion-icon name="filter" role="img" class="icon icon-ios ion-ios-options" aria-label="filter" ng-reflect-name="filter"></ion-icon>';
-        this.elemFilterControl.appendChild(controlText);
+        // let controlText = document.createElement('div');
+        // controlText.id = 'mapFilterText';
+        // controlText.innerHTML = '<ion-icon name="filter" role="img" class="icon icon-ios ion-ios-options" aria-label="filter" ng-reflect-name="filter"></ion-icon>';
+        // this.elemFilterControl.appendChild(controlText);
 
         let me = this;
 
