@@ -45,7 +45,7 @@
 
             <!-- tariff-options-type -->
             <ion-item no-lines class="tariffs" *ngIf="!charging">
-                <ion-label id="tariff-label">Chose your tariff:</ion-label>
+                <ion-label id="tariff-label">Choose your tariff:</ion-label>
                 <ion-select [(ngModel)]="selectedTariff" (ionChange)="tariffSelect()">
                     <ion-option *ngFor="let tariff of tariffs">{{tariff.type}}</ion-option>
                 </ion-select>
