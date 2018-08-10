@@ -66,16 +66,16 @@
 
 
     <ion-grid class="detailGrid" *ngIf="transaction.isSend() || transaction.isReceived()">
-        <ion-row *ngIf="transaction.receipt.loc_name != ''">
+        <ion-row *ngIf="transaction.receipt != ''">
             <ion-col>
                 <ion-label>{{'wallet.name_charging_station' | translate}}</ion-label>
-                {{transaction.receipt.loc_name}}
+                <!-- {{transaction.receipt.loc_name}} -->
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
                 <ion-label>{{'wallet.address_charging_station' | translate}}</ion-label>
-                {{transaction.receipt.loc_address}}
+                <!-- {{transaction.receipt.loc_address}} -->
             </ion-col>
         </ion-row>
         <ion-row>
@@ -85,35 +85,35 @@
             </ion-col>
             <ion-col>
                 <ion-label>{{'wallet.tariff_charging_station' | translate}}</ion-label>
-                {{priceProviderTariffTypes[transaction.receipt.contracttype]}}, {{getTariffCosts(transaction.receipt.contracttype)}}
+                {{tariff}}
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
                 <ion-label>{{'wallet.duration' | translate}}</ion-label>
-                {{makeTimeString(transaction.receipt.seconds)}}
+                <!-- {{makeTimeString(transaction.receipt.seconds)}} -->
             </ion-col>
-            <ion-col *ngIf="transaction.receipt.contracttype==3">
+            <ion-col>
                 <ion-label>{{'wallet.power' | translate}}</ion-label>
-                {{transaction.receipt.watt / 1000}} kWh
+                <!-- {{transaction.receipt.watt / 1000}} kWh -->
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col *ngIf="transaction.isReceived()">
                 <ion-label>{{'wallet.charging_cost' | translate}}</ion-label>
-                {{transaction.amount  | currencyDisplay }} + {{transaction.receipt.feeamount  | currencyDisplay }} {{ 'wallet.sanc_fee' | translate }}
+                {{transaction.amount  | currencyDisplay }}
             </ion-col>
             <ion-col *ngIf="transaction.isSend()">
                 <ion-label>{{'wallet.charging_cost' | translate}}</ion-label>
-                {{(transaction.amount)  | currencyDisplay }} (inkl. {{transaction.receipt.feeamount  | currencyDisplay }} {{ 'wallet.sanc_fee' | translate }}) <ng-container *ngIf="transaction.receipt.owner_profile.operatorVat">{{ 'location.charging.tax' | translate }}</ng-container>
+                {{(transaction.amount)  | currencyDisplay }} 
             </ion-col>
         </ion-row>
-        <ion-row *ngIf="transaction.receipt.invoice">
+        <!-- <ion-row >
             <ion-col>
                 <ion-label>{{'wallet.bill' | translate}}</ion-label>
                 <a href="#" (click)="openPdf(transaction.receipt.invoice)">{{'wallet.show_pdf' | translate}}</a>
             </ion-col>
-        </ion-row>
+        </ion-row> -->
     </ion-grid>
 
     <div id="imageContainer">

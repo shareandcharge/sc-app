@@ -28,7 +28,10 @@ export class Transaction implements Serializable<Transaction> {
     typeString: string;
     type: number;
     timestamp: string;
-    date: string;
+    date: any;
+    tariff: any;
+    start: any;
+    end: any;
 
     order?: any;
     receipt?: any;
@@ -42,6 +45,9 @@ export class Transaction implements Serializable<Transaction> {
         this.date = '';
         this.order = null;
         this.receipt = null;
+        this.tariff = null;
+        this.start = null;
+        this.end = null;
     }
 
     /**
@@ -109,9 +115,12 @@ export class Transaction implements Serializable<Transaction> {
         this.typeString = input.type;
         this.type = this.typeFromString(input.type);
         this.timestamp = input.timestamp;
-        this.date = input.date;
+        this.date = new Date(input.date*1000);
         this.order = input.order;
         this.receipt = input.receipt;
+        this.tariff = input.tariff;
+        this.start = input.start;
+        this.end = input.end;
 
         return this;
     }
