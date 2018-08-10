@@ -13,7 +13,7 @@
 <ion-content padding>
     <div class="container">
 
-        <ion-list radio-group>
+        <!-- <ion-list radio-group>
             <ion-list-header>
                 {{'map.settings.view'| translate}}
             </ion-list-header>
@@ -25,7 +25,7 @@
                 <ion-label>{{'map.settings.list_view'| translate}}</ion-label>
                 <ion-radio value="listView" [checked]="getViewType()=='list'" (click)="setView('list')"></ion-radio>
             </ion-item>
-        </ion-list>
+        </ion-list> -->
 
         <ion-list radio-group [(ngModel)]="currentMapType">
             <ion-list-header>
