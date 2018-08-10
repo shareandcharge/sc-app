@@ -29,7 +29,7 @@ export class ChangeLanguagePage {
     ionViewWillLeave() {
         if (this.user.getLanguage() !== this.selectedLanguage) {
             this.user.setLanguage(this.selectedLanguage);
-            this.userService.updateUserAndPublish(this.user);
+            // this.userService.updateUserAndPublish(this.user);
         }
     }
 
