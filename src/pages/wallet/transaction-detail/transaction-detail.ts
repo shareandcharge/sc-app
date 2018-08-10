@@ -32,7 +32,10 @@ export class TransactionDetailPage {
 
     tariffId: any;
     tariff: any;
-
+    city: string;
+    address: string;
+    name: string;
+    country: string;
 
     paymentMethods = {
         'cc': this.translateService.instant('add_money.credit_card'),
@@ -46,6 +49,11 @@ export class TransactionDetailPage {
     
         this.tariffId = this.transaction.tariff;
         this.tariff = this.Tariffs[this.tariffId];
+
+        this.name = this.transaction.location.name || 'UNKNOWN NAME';
+        this.city = this.transaction.location.city || '';
+        this.address = this.transaction.location.address || '';
+        this.country = this.transaction.location.country || ''; 
 
     }
 

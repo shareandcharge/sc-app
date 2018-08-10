@@ -69,13 +69,13 @@
         <ion-row *ngIf="transaction.receipt != ''">
             <ion-col>
                 <ion-label>{{'wallet.name_charging_station' | translate}}</ion-label>
-                <!-- {{transaction.receipt.loc_name}} -->
+                {{name}}
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
                 <ion-label>{{'wallet.address_charging_station' | translate}}</ion-label>
-                <!-- {{transaction.receipt.loc_address}} -->
+                {{address + ', ' + city + ', ' + country }} 
             </ion-col>
         </ion-row>
         <ion-row>
