@@ -91,12 +91,12 @@
         <ion-row>
             <ion-col>
                 <ion-label>{{'wallet.duration' | translate}}</ion-label>
-                <!-- {{makeTimeString(transaction.receipt.seconds)}} -->
+                {{makeTimeString(transaction.duration)}}
             </ion-col>
-            <ion-col>
-                <ion-label>{{'wallet.power' | translate}}</ion-label>
+            <!-- <ion-col>
+                <ion-label>{{'wallet.power' | translate}}</ion-label> -->
                 <!-- {{transaction.receipt.watt / 1000}} kWh -->
-            </ion-col>
+            <!-- </ion-col> -->
         </ion-row>
         <ion-row>
             <ion-col *ngIf="transaction.isReceived()">

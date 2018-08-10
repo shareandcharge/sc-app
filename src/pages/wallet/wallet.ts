@@ -69,7 +69,7 @@ export class WalletPage {
                 this.transactions = history;
                 this.transactions = this.transactions.sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp));
                 this.pendingTransactions = [];
-
+                
                 this.transactions.forEach((transaction) => {
                     if (transaction.isPending()) {
                         this.pendingTransactions.push(transaction);

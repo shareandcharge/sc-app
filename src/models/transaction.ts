@@ -30,8 +30,9 @@ export class Transaction implements Serializable<Transaction> {
     timestamp: string;
     date: any;
     tariff: any;
-    start: any;
-    end: any;
+    start: number;
+    end: number;
+    duration: number;
 
     order?: any;
     receipt?: any;
@@ -48,6 +49,7 @@ export class Transaction implements Serializable<Transaction> {
         this.tariff = null;
         this.start = null;
         this.end = null;
+        this.duration = null;
     }
 
     /**
@@ -121,7 +123,7 @@ export class Transaction implements Serializable<Transaction> {
         this.tariff = input.tariff;
         this.start = input.start;
         this.end = input.end;
-
+        this.duration = this.end - this.start;
         return this;
     }
 
