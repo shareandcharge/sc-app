@@ -16,7 +16,7 @@
     <ion-navbar *ngIf="searchMode">
         <ion-searchbar debounce="500" #searchInput [showCancelButton]="true" (ionInput)="updateSearch($event)" (ionCancel)="setSearchMode(false)" [cancelButtonText]="'common.cancel'|translate" [placeholder]="'map.search_placeholder'|translate" animated="true"></ion-searchbar>
     </ion-navbar>
-    <charging-progress-bar></charging-progress-bar>
+    <!-- <charging-progress-bar></charging-progress-bar> -->
 </ion-header>
 
 <ion-content>

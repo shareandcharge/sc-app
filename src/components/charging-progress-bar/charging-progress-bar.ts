@@ -26,11 +26,11 @@ export class ChargingProgressBarComponent {
     }
 
     updateComponent() {
-        this.location = this.chargingService.getLocation();
-        this.connector = this.chargingService.getConnector();
-        this.charging = this.chargingService.isCharging();
-        this.progress = this.chargingService.getChargingProgress();
-        this.activeCar = this.carService.getActiveCar();
+        // this.location = this.chargingService.getLocation();
+        // this.connector = this.chargingService.getConnector();
+        // this.charging = this.chargingService.isCharging();
+        // this.progress = this.chargingService.getChargingProgress();
+        // this.activeCar = this.carService.getActiveCar();
     }
 
     goToCharging() {
