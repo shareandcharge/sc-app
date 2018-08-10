@@ -14,7 +14,7 @@
     <charging-progress-bar></charging-progress-bar>
 </ion-header>
 
-<ion-menu [content]="mycontent">
+<!-- <ion-menu [content]="mycontent">
     <ion-header>
         <ion-toolbar>
             <ion-title></ion-title>
@@ -22,13 +22,13 @@
     </ion-header>
     <ion-content>
         <ion-list>
-            <!--<ion-item>Zahlungsvorgänge</ion-item>-->
+            <ion-item>Zahlungsvorgänge</ion-item>
             <ion-item *ngIf="showPayOut === true" (click)="payOut()">{{'wallet.pay' | translate }}</ion-item>
             <ion-item (click)="redeemVoucher()">{{'wallet.voucher' | translate}}</ion-item>
-            <!--<ion-item>Rechnungen</ion-item>-->
+            <ion-item>Rechnungen</ion-item>
         </ion-list>
     </ion-content>
-</ion-menu>
+</ion-menu> -->
 
 
 <ion-content #mycontent>

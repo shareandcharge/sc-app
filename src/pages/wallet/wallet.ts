@@ -7,7 +7,7 @@ import {EditProfilePage} from "../profile/profile-data/edit-profile/edit-profile
 import {TransactionDetailPage} from "./transaction-detail/transaction-detail";
 import {ErrorService} from "../../services/error.service";
 import {PayOutPage} from "./pay-out/pay-out";
-import {VoucherPage} from "./voucher/voucher";
+// import {VoucherPage} from "./voucher/voucher";
 import {Transaction} from "../../models/transaction";
 import {TranslateService} from "@ngx-translate/core";
 import {CurrencyService} from "../../services/currency.service";
@@ -207,11 +207,11 @@ export class WalletPage {
         modal.onDidDismiss(() => this.refreshData());
     }
 
-    redeemVoucher() {
-        let modal = this.modalCtrl.create(VoucherPage);
-        modal.present();
-        modal.onDidDismiss(() => this.refreshData());
-    }
+    // redeemVoucher() {
+    //     let modal = this.modalCtrl.create(VoucherPage);
+    //     modal.present();
+    //     modal.onDidDismiss(() => this.refreshData());
+    // }
 
     getIcon(transaction: Transaction): string {
         switch (true) {
