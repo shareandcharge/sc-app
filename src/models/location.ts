@@ -20,6 +20,7 @@ export class Location implements Serializable<Location> {
     available: boolean;
     open: boolean;
     matchesPlugtype: boolean;
+    evses: any;
     metadata: {
         problemSolver: string
     };
@@ -55,6 +56,7 @@ export class Location implements Serializable<Location> {
         this.metadata = {
             problemSolver: ''
         };
+        this.evses = '';
         this.ownerprofile = {
             address: '',
             city: '',
@@ -126,6 +128,7 @@ export class Location implements Serializable<Location> {
         this.open = input.open;
         this.matchesPlugtype = input.matchesPlugtype;
         this.metadata = input.metadata;
+        this.evses = input.evses;
         this.ownerprofile = input.ownerprofile;
         this.commercialcategory = input.commercialcategory;
 

@@ -67,13 +67,8 @@ export class LocationDetailPage {
 
     averageRating: number;
 
-    // minPrice: any;
-    // maxPrice: any;
-    // price: any;
-    // price_components: any;
-    // tariffTypes: any;
-    // allPrices: any;
-    // selectedTariff: any;
+    evses: any;
+    maxKwH: number;
 
     includingVat: boolean;
     flatrateTariff: boolean;
@@ -187,6 +182,8 @@ export class LocationDetailPage {
                     this.connector = this.station.getFirstConnector();
                     this.flatrateTariff = this.station.hasConnector() ? this.connector.priceprovider.public.selected === 'flatrate' : false;
                     this.locationImages = this.locationService.getImagesWithSrc(location);
+                    this.evses.push(location.evses);
+                    console.log("evsess:", this.evses);
                 }
                 catch (e) {
                     this.errorService.displayError(this.translateService.instant('location.location_details.error_no_station_details'));
@@ -239,16 +236,6 @@ export class LocationDetailPage {
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
     }
 
-    // getTariff() {
-    //     switch (this.selectedTariff) {
-    //         case 'TIME':
-    //             this.price = this.allPrices[0];
-    //             break;
-    //         case 'ENERGY':
-    //             this.price = this.allPrices[1];
-    //             break;
-    //     }
-    // }
 
     getRatings() {
         let observable = this.ratingService.getRatings(this.location.id);
