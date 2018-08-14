@@ -75,6 +75,8 @@ export class LocationDetailPage {
 
     commercialCategoryIcons: Array<string>;
 
+    connectorsWithDetails = new Array<any>();
+
 
     ownerMode: boolean = false;
 
@@ -128,6 +130,7 @@ export class LocationDetailPage {
 
         // this.maxPrice = 0;
         // this.minPrice = 0;
+
     }
 
     ionViewWillEnter() {
@@ -174,6 +177,36 @@ export class LocationDetailPage {
 
     getLocationDetail() {
         let observable = this.locationService.getLocation(this.locationId);
+        var connectorsMap = {
+            'DOMESTIC_F': 1,//'Schuko-Steckdose'
+            'DOMESTIC_E': 2,
+            'IEC_62196_T2' : 3, //IEC 62196 Type 2 "Mennekes" 
+            'IEC_62196_T2_COMBO': 4,
+            'IEC_62196_T1': 5,
+            'TESLA_S': 6,
+            'CHADEMO': 7,
+            1 : 'DOMESTIC_F',
+            2 : 'DOMESTIC_E',
+            3 : 'IEC_62196_T2',
+            4 : 'IEC_62196_T2_COMBO',
+            5 : 'IEC_62196_T1',
+            6 : 'TESLA_S',
+            7 : 'CHADEMO', 
+            // 'Schuko-Steckdose': 1,
+            // 'CEE-Stecker': 2,
+            // 'Typ 2': 3,
+            // 'CCS': 4,
+            // 'Typ 1': 5,
+            // 'Tesla Supercharger': 6,
+            // 'CHAdeMO': 7,
+            // 1 : 'Schuko-Steckdose',
+            // 2 : 'CEE-Stecker',
+            // 3 : 'Typ 2',
+            // 4 : 'CCS',
+            // 5 : 'Typ 1',
+            // 6 : 'Tesla Supercharger',
+            // 7 : 'CHAdeMO', 
+        }
         observable.subscribe(
             (location) => {
                 try {
@@ -185,14 +218,13 @@ export class LocationDetailPage {
 
                     this.evses = this.location.evses.map( obj =>{
                         return obj.connectors.map(el => {
-                            return Math.round((el.amperage * el.voltage)/100);
+                            return Math.round((el.amperage * el.voltage)/1000);
                         });
                     }).sort((a,b) => {
                         return b > a ? 1 : -1;
                     });
 
                     this.maxkWh = String(this.evses[0]);
-
                 }
                 catch (e) {
                     this.errorService.displayError(this.translateService.instant('location.location_details.error_no_station_details'));
@@ -205,14 +237,32 @@ export class LocationDetailPage {
                 this.getRatings();
                 this.getPrice();
                 this.getCommercialCategoryIcons();
-
-                if (this.connector) {
-                    this.configService.getPlugTypes().subscribe((plugTypes) => {
-                            this.plugTypes = plugTypes;
-                            this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
-                        },
-                        error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.list_plugins')));
-                }
+                
+                this.configService.getPlugTypes().subscribe((plugTypes) => {
+                        this.plugTypes = plugTypes;
+                        this.maxkWh = 0;
+                        // get all connector details to be displayed for all evses for given location
+                        for (let evse of this.location.evses) {
+                            for (let con of evse.connectors) {
+                                // get for all plugTypeIds for given location and their power
+                                var conTypeId: number =  connectorsMap[con.standard];
+                                var power = con.amperage*con.voltage/1000;
+                                // the connector with a maximum power is always first in the list
+                                this.connectorsWithDetails.push({"typeId":conTypeId, 
+                                                                "power":power,
+                                                                "svg":this.getSvgForPlug(conTypeId)});
+                                if (this.maxkWh < power) {
+                                    this.maxkWh = power;
+                                } 
+                                this.connectorsWithDetails.sort((a, b)=>{
+                                    return b.power-a.power; //descending
+                                })
+                            }
+                        }
+                        // this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
+                    },
+                    error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.list_plugins')));
+                
             },
             (error) => {
                 this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.location_details'));
