@@ -1,6 +1,6 @@
 {
-  "name": "Charge&Fuel",
-  "short_name": "C&F",
+  "name": "Charge & Fuel",
+  "short_name": "Charge&Fuel",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [
