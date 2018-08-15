@@ -216,14 +216,6 @@ export class LocationDetailPage {
                     this.flatrateTariff = this.station.hasConnector() ? this.connector.priceprovider.public.selected === 'flatrate' : false;
                     this.locationImages = this.locationService.getImagesWithSrc(location);
 
-                    this.evses = this.location.evses.map( obj =>{
-                        return obj.connectors.map(el => {
-                            return Math.round((el.amperage * el.voltage)/1000);
-                        });
-                    }).sort((a,b) => {
-                        return b > a ? 1 : -1;
-                    });
-
                     this.maxkWh = String(this.evses[0]);
                 }
                 catch (e) {
