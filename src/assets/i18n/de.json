@@ -204,7 +204,7 @@
   "about": {
     "title": "Info",
     "headline": "Was ist Charge&Fuel?",
-    "paragraph_1": "Charge&Fuel macht Ladeinfrastruktur für jedermann zugänglich und abrechenbar. Anmelden um Teil der Community zu werden.",
+    "paragraph_1": "Charge&Fuel macht Ladeinfrastruktur für jedermann zugänglich. Melde Dich jetzt an, um Teil der Community zu werden.",
     "start_intro": "Intro Starten"
   },
   "car": {
@@ -273,13 +273,13 @@
   },
   "intro": {
     "welcome": "Herzlich Willkommen!",
-    "first_slide": "Als früher E-Mobilist kennst Du es bestimmt bereits: Einer muss immer der Erste sein! Und heute bist Du das! Wir freuen uns darauf, unsere Community gemeinsam mit Dir wachsen zu sehen.<br>Danke, dass Du dabei bist!<br><br>Dein Charge&Fuel Team",
+    "first_slide": "Als früher E-Mobilist kennst Du es bestimmt bereits: Einer muss immer der Erste sein! Und heute bist Du eine/-r der Ersten, die Blockchaintechnologie in der E-Mobilität testet. Wir freuen uns darauf, unsere Community gemeinsam mit Dir wachsen zu sehen.",
     "find_charging_station": "Ladestation finden",
-    "second_slide": "Suche auf unserer interaktiven Karte nach Ladestationen in Deiner Nähe. Mit Hilfe der Filter kannst Du spezifisch nach Deinen Suchkriterien filtern.",
+    "second_slide": "Suche auf unserer interaktiven Karte nach Ladestationen in Deiner Nähe. Wähle eine Ladestation aus, entscheide Dich für einen Tarif und starte den Ladevorgang.",
     "register_charging_station": "Ladestation registrieren",
     "third_slide": "Du besitzt eine Ladestation? Registriere sie und entscheide, wer wann und zu welchem Tarif bei Dir laden kann.",
-    "account": "Konto",
-    "fourth_slide": "Dein Konto gibt Dir eine Übersicht über alle Deine Transaktionen. Lade Dein Konto ganz einfach auf, lass Dir Dein Guthaben auszahlen, oder verwende es zum Laden Deines eigenen Elektroautos.",
+    "account": "Konto verwalten",
+    "fourth_slide": "Dein Konto gibt Dir eine Übersicht über alle Deine Ladevorgänge. Volkswagen Financial Services stellt dir Guthaben bereit, das du zum Laden Deines Elektroautos verwenden kannst. Gute Fahrt!",
     "skip": "Überspringen",
     "finished": "Fertig",
     "continue": "Weiter"

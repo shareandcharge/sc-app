@@ -204,7 +204,7 @@
   "about": {
     "title": "Info",
     "headline": "What is Charge&Fuel?",
-    "paragraph_1": "Charge&Fuel makes electric car charging accessible to everyone. Sign up to become part of our community.",
+    "paragraph_1": "Charge&Fuel makes electric vehicle charging accessible to everyone. Sign up to become part of our community.",
     "start_intro": "Start intro"
   },
   "car": {
@@ -273,13 +273,13 @@
   },
   "intro": {
     "welcome": "Welcome!",
-    "first_slide": "As an early e-mobilist you knew it already. Someone needs to be the first. And today it is you. We are looking forward to see our community growing, with you.",
+    "first_slide": "As an early e-mobilist you knew it already. Someone needs to be the first and today you are one of the first testing blockchain technology in EV Charging. We are looking forward to seeing our community growing with you.",
     "find_charging_station": "Find charging station",
-    "second_slide": "Use our interactive map to find charging stations within your area. With the help of the filters you can filter specifically according to your search criteria.",
+    "second_slide": "Use our interactive map to find charging stations within your area or anywhere you like. Select a station, choose between different tariffs and start to charge.",
     "register_charging_station": "Register charging station",
     "third_slide": "You own a charging station? Register it and decide who can charge at it, when and to which tariff.",
     "account": "Wallet",
-    "fourth_slide": "Your wallet gives you an overview of your transactions. Charge&Fuel provides you with tokens for your car, which you can use to charge your e-car",
+    "fourth_slide": "Your wallet gives you an overview of your charging transactions. Volkswagen Financial Services provides you with credit, which you can use to charge your electric vehicle. Have a good trip!",
     "skip": "Skip",
     "finished": "Finish",
     "continue": "Continue"
