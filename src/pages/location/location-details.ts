@@ -177,7 +177,7 @@ export class LocationDetailPage {
 
     getLocationDetail() {
         let observable = this.locationService.getLocation(this.locationId);
-        var connectorsMap = {
+        let connectorsMap = {
             'DOMESTIC_F': 1,//'Schuko-Steckdose'
             'DOMESTIC_E': 2,
             'IEC_62196_T2' : 3, //IEC 62196 Type 2 "Mennekes" 
@@ -245,16 +245,16 @@ export class LocationDetailPage {
                         for (let evse of this.location.evses) {
                             for (let con of evse.connectors) {
                                 // get for all plugTypeIds for given location and their power
-                                var conTypeId: number =  connectorsMap[con.standard];
-                                var power = con.amperage*con.voltage/1000;
+                                let conTypeId: number =  connectorsMap[con.standard];
+                                let power = Math.round((con.amperage * con.voltage) / 1000);
                                 // the connector with a maximum power is always first in the list
-                                this.connectorsWithDetails.push({"typeId":conTypeId, 
-                                                                "power":power,
-                                                                "svg":this.getSvgForPlug(conTypeId)});
+                                this.connectorsWithDetails
+                                    .push({"typeId":conTypeId, "power":power,"svg":this.getSvgForPlug(conTypeId)});
+                            
                                 if (this.maxkWh < power) {
                                     this.maxkWh = power;
                                 } 
-                                this.connectorsWithDetails.sort((a, b)=>{
+                                this.connectorsWithDetails.sort((a, b) => {
                                     return b.power-a.power; //descending
                                 })
                             }
