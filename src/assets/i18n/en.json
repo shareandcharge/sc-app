@@ -442,7 +442,7 @@
       "input_old_password": "Please enter your old password.",
       "input_new_password": "Please enter your new password. Min. 10 characters.",
       "diff_password": "The passwords do not match.",
-      "edit_name_adresse": "Edit profile informations",
+      "edit_name_adresse": "Edit profile information",
       "company": "Company",
       "first_name": "First name",
       "family_name": "Last name",

@@ -107,6 +107,15 @@
                 {{ errorMessages.address }}
             </div>
             <ion-item>
+                <ion-label stacked>{{'profile.data.city' | translate}} (*)</ion-label>
+                <ion-input type="text" class="input-white" formControlName="city"
+                           [(ngModel)]="about.city"></ion-input>
+            </ion-item>
+            <div *ngIf="!profileForm.controls.city.valid && submitAttempt"
+                class="alert-box alert-box-danger" margin>
+                {{ errorMessages.city }}
+            </div>
+            <ion-item>
                 <ion-label stacked>{{'profile.data.zipcode' | translate}}</ion-label>
                 <ion-input type="tel" class="input-white" formControlName="postalCode"
                            [(ngModel)]="about.zipcode"></ion-input>
@@ -115,15 +124,6 @@
                  class="alert-box alert-box-danger" margin>
                 {{ errorMessages.postalCode }}
                 <ion-icon class="help-icon" name="ios-help-circle-outline" item-right (click)="showHelp('postalCode')"></ion-icon>
-            </div>
-            <ion-item>
-                <ion-label stacked>{{'profile.data.city' | translate}} (*)</ion-label>
-                <ion-input type="text" class="input-white" formControlName="city"
-                           [(ngModel)]="about.city"></ion-input>
-            </ion-item>
-            <div *ngIf="!profileForm.controls.city.valid && submitAttempt"
-                class="alert-box alert-box-danger" margin>
-                {{ errorMessages.city }}
             </div>
             <ion-item>
                 <ion-label stacked>{{'profile.data.phone' | translate}}</ion-label>
