@@ -29,7 +29,9 @@ export class LanguageService {
         this.storage.get(this.STORAGE_KEY_LANGUAGE).then((lang) => {
             if (null === lang) {
                 /* language not saved, use navigator */
-                userLang = navigator.language.split('-')[0];
+                userLang = this.defaultLang;
+                //user language is defaulted to 'en'
+                // userLang = navigator.language.split('-')[0];
             }
             else {
                 userLang = lang;
