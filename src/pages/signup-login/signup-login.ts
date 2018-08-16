@@ -86,9 +86,9 @@ export class SignupLoginPage {
             this.signUpLoginForm.addControl(
                 "terms", new FormControl(false, Validators.compose([termsValidator.isValid, Validators.required]))
             );
-            this.signUpLoginForm.addControl(
-                "newsletter", new FormControl(false)
-            );
+            // this.signUpLoginForm.addControl(
+            //     "newsletter", new FormControl(false)
+            // );
         }
 
         this.destination = this.navParams.get('dest');
@@ -115,8 +115,8 @@ export class SignupLoginPage {
         this.submitAttempt = false;
 
         if (this.action === 'login') {
-            this.signUpLoginForm.removeControl('terms');
-            this.signUpLoginForm.removeControl('newsletter');
+            // this.signUpLoginForm.removeControl('terms');
+            // this.signUpLoginForm.removeControl('newsletter');
         }
 
         if (this.action === 'signUp') {
