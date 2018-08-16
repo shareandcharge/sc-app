@@ -115,6 +115,7 @@ export class SignupLoginPage {
         this.submitAttempt = false;
 
         if (this.action === 'login') {
+            this.termsAccept = true;
             // this.signUpLoginForm.removeControl('terms');
             // this.signUpLoginForm.removeControl('newsletter');
         }
