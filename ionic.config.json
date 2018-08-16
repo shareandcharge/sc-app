@@ -1,6 +1,5 @@
 {
   "name": "sc-app",
-  "app_id": "",
   "integrations": {
     "cordova": {}
   },
