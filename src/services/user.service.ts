@@ -1,15 +1,16 @@
-import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
-import {User} from "../models/user";
+import { Injectable } from '@angular/core';
+import { Observable } from "rxjs";
+import { User } from "../models/user";
 
 import 'rxjs/add/operator/map';
-import {AuthService} from "./auth.service";
-import {AbstractApiService} from "./abstract.api.service";
-import {ConfigService} from "./config.service";
-import {HttpService} from "./http.service";
-import {TranslateService} from "@ngx-translate/core";
-import {Events} from "ionic-angular";
-import {ErrorService} from "./error.service";
+import { AuthService } from "./auth.service";
+import { AbstractApiService } from "./abstract.api.service";
+import { ConfigService } from "./config.service";
+import { HttpService } from "./http.service";
+import { TranslateService } from "@ngx-translate/core";
+import { Events } from "ionic-angular";
+import { ErrorService } from "./error.service";
+import { InfoService } from "./info.service";
 
 @Injectable()
 export class UserService extends AbstractApiService {
@@ -17,20 +18,21 @@ export class UserService extends AbstractApiService {
     error: string;
 
     constructor(private authService: AuthService, private httpService: HttpService, configService: ConfigService,
-                public translateService: TranslateService, private events: Events, private errorService: ErrorService) {
+        public translateService: TranslateService, private events: Events, private errorService: ErrorService,
+        private infoService: InfoService) {
         super(configService, translateService);
     }
 
     login(email: string, password: string) {
-        let credentials = {'email': email, 'password': password};
+        let credentials = { 'email': email, 'password': password };
 
         let url = `${this.baseUrl}/users/login`;
 
         return this.httpService.post(url, JSON.stringify(credentials))
             .map(res => {
                 let data = res.json();
-                console.log("data", data);
-                
+
+
                 this.authSuccess(data);
             })
             .catch((error) => this.handleError(error));
@@ -67,15 +69,16 @@ export class UserService extends AbstractApiService {
     updateUser(user: User): Observable<User> {
         return this.httpService.put(`${this.baseUrl}/users`, JSON.stringify(user))
             .map(res => {
-                let result = res.json();
-                if (result.token) {
-                    this.authService.setToken(result.token);
-                }
-                let user = result.usr ? result.usr : result.user;
+                let resUser = res.json();
 
+                if (resUser.token) {
+                    this.authService.setToken(resUser.token);
+                }
                 return new User().deserialize(user)
             })
-            .catch((error) => this.handleError(error));
+            .catch((error) => {
+                return Observable.throw(error);
+            });
     }
 
     createUser(signUpObject): Observable<User> {
@@ -136,7 +139,7 @@ export class UserService extends AbstractApiService {
      * @param quiet
      * @returns {Promise<User>}
      */
-    updateUserAndPublish(user: User, scope: string = 'error.scope.update_user', quiet: boolean = false): Promise<User> {
+    updateUserAndPublish(user: User, scope: string = 'error.scope.update_user', quiet: boolean = true): Promise<User> {
         return new Promise<User>((resolve) => {
             this.updateUser(user)
                 .subscribe(
@@ -146,11 +149,30 @@ export class UserService extends AbstractApiService {
                             this.events.publish('users:updated');
                         }
                         resolve(user);
+                        this.infoService.displayInfo(this.translateService.instant('info.profile_update_success'));
+
                     },
                     error => {
-                        this.errorService.displayErrorWithKey(error, scope);
-                    }
-                );
+
+                        let errMsg = '';
+                        if (error.status === 304) {
+                            this.infoService.displayInfo(this.translateService.instant('api_error.user_nothing_to_update'));
+
+                            return;
+                        } else if (error.status === 404) {
+                            errMsg = this.translateService.instant('api_error.user_not_found');
+                            errMsg = errMsg + ": " + user.email;
+
+                        } else if (error.status === 500) {
+                            errMsg = this.translateService.instant('api_error.user_update_failed');
+
+                        } else {
+
+                            errMsg = 'Error: ' + error.status;
+                        }
+
+                        this.errorService.displayErrorWithKey(errMsg, scope);
+                    });
         });
     }
 

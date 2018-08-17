@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, AlertController} from "ionic-angular";
+import {NavController, AlertController, ModalController} from "ionic-angular";
 import {User} from "../../../../models/user";
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {UserService} from "../../../../services/user.service";
@@ -48,7 +48,7 @@ export class EditProfilePage {
     constructor(private userService: UserService, private alertCtrl: AlertController, private navCtrl: NavController,
                 private authService: AuthService, private formBuilder: FormBuilder,
                 private trackerService: TrackerService, private translateService: TranslateService,
-                private currencyService: CurrencyService) {
+                private currencyService: CurrencyService, private modalCtrl: ModalController) {
 
         this.user = this.authService.getUser();
         this.editObj = Object.assign({}, this.user.profile);
@@ -117,7 +117,7 @@ export class EditProfilePage {
             "company": this.translateService.instant('error_messages.company'),
         }
     }
-
+    
     updateUser() {
         this.submitAttempt = true;
 

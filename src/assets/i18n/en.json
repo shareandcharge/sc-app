@@ -70,9 +70,12 @@
     "message_timeout": "Request timed out",
     "security_invalid_signature": "Invalid signature",
     "security_old_signature": "Old signature",
+    "user_update_success": "",
     "user_not_found": "User could not be found",
+    "user_update_failed": "Failed to update the profile data", 
     "user_no_password": "Please enter your password",
     "user_wrong_password": "Invalid login - please re-check what you have entered",
+    "user_nothing_to_update": "Nothing to update",
     "unsupported_authentification_type": "Unsupported authentification type",
     "password_missing": "Please enter password",
     "password_tooshort": "Your password is too short (min. 10 characters)",
@@ -659,5 +662,9 @@
   },
   "toast" : {
     "wallet_transaction_successful" : "Transaction successful"
+  },
+  "info": {
+    "profile_update_success": "User data successfully updated"
   }
+
 }
