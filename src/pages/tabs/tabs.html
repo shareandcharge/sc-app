@@ -8,7 +8,7 @@
 
   <ion-tab tabTitle=" {{ 'tabs.charging_stations' | translate }}" tabIcon="cust-station" (ionSelect)="addStationModal()" show=false></ion-tab>
   <ion-tab tabTitle=" {{ 'tabs.register' | translate }}" tabIcon="cust-register" (ionSelect)="signupModal()" show="{{!auth.loggedIn()}}"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle=" {{ 'tabs.info' | translate }}" tabIcon="cust-about" show="{{!auth.loggedIn()}}"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle=" {{ 'tabs.info' | translate }}" tabIcon="cust-about" (ionSelect)="showIntro()" show="{{!auth.loggedIn()}}"></ion-tab>
 
   <ion-tab [root]="tab3Root" tabTitle=" {{ 'tabs.charging_stations' | translate }}" tabIcon="cust-station" (ionSelect)="addStationModal()"  show=false></ion-tab>
   <ion-tab [root]="tab4Root" tabTitle=" {{ 'tabs.profile' | translate }}" tabIcon="cust-profile" show="{{auth.loggedIn()}}"></ion-tab>

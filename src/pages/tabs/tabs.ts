@@ -1,7 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {ModalController, Tabs} from 'ionic-angular';
 import {MapPage} from '../map/map';
-import {AboutPage} from '../about/about';
+// import {AboutPage} from '../about/about';
+import {IntroPage} from '../intro/intro';
 import {WalletPage} from '../wallet/wallet';
 import {ProfilePage} from '../profile/profile';
 import {AuthService} from "../../services/auth.service";
@@ -17,7 +18,7 @@ import {SignupLoginPage} from "../signup-login/signup-login";
 export class TabsPage {
 
     tab1Root = MapPage;
-    tab2Root = AboutPage;
+    tab2Root = null;
     tab3Root = null;
     tab4Root = ProfilePage;
     tab5Root = WalletPage;
@@ -70,5 +71,10 @@ export class TabsPage {
         //         'trackReferrer': 'Tab Ladestationen'
         //     });
         // }
+    }
+
+    showIntro() {
+        let introModal = this.modalCtrl.create(IntroPage);
+        introModal.present();
     }
 }
