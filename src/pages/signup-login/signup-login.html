@@ -15,18 +15,17 @@
     <ion-grid class="fullpage" *ngIf="!auth.loggedIn()">
         <ion-row>
             <ion-col>
-                <div text-center id="logoContainer">
+                <!-- <div text-center id="logoContainer">
                     <img text-center src="assets/images/123.png">
-                </div>
+                </div> -->
 
                 <div *ngIf="error" class="alert-box alert-box-danger alert-box-bg-light" margin>{{ error | translate}}
                 </div>
 
                 <form [formGroup]="signUpLoginForm" (ngSubmit)="submitForm()">
                     <div id="signUpLoginTabs" text-uppercase>
-                        <ion-segment color="primary" [(ngModel)]="action" [ngModelOptions]="{standalone: true}"
-                                     (ngModelChange)="switchTabs()" padding>
-                            <ion-segment-button (click)="registerClicked()"  value="signUp">
+                        <ion-segment color="primary" [(ngModel)]="action" [ngModelOptions]="{standalone: true}" (ngModelChange)="switchTabs()" padding>
+                            <ion-segment-button (click)="registerClicked()" value="signUp">
                                 {{'login.register' | translate}}
                             </ion-segment-button>
                             <ion-segment-button (click)="loginClicked()" value="login">
@@ -36,120 +35,94 @@
                     </div>
                     <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
-                            <ion-input 
-                                tabindex=1
-                                type="text"
-                                formControlName="firstname"
-                                [(ngModel)]="signUpLoginObject.firstname" name="firstname"
+                            <ion-input tabindex=1 type="text" formControlName="firstname" [(ngModel)]="signUpLoginObject.firstname" name="firstname"
                                 placeholder="{{'login.first_name' | translate}}"></ion-input>
-                            </ion-item>
+                        </ion-item>
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.firstname.valid && submitAttempt"
-                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                    <div *ngIf="!signUpLoginForm.controls.firstname.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        margin>
                         {{'Please insert first name'}}
                     </div>
                     <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
-                            <ion-input 
-                                tabindex=2
-                                type="text"
-                                formControlName="lastname"
-                                [(ngModel)]="signUpLoginObject.lastname" name="lastname"
-                                placeholder="{{'login.last_name' | translate}}"></ion-input>
+                            <ion-input tabindex=2 type="text" formControlName="lastname" [(ngModel)]="signUpLoginObject.lastname" name="lastname" placeholder="{{'login.last_name' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.lastname.valid && submitAttempt"
-                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                    <div *ngIf="!signUpLoginForm.controls.lastname.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        margin>
                         {{'Please insert last name'}}
                     </div>
                     <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
-                            <ion-input  
-                                tabindex=3
-                                type="text"
-                                formControlName="street"
-                                [(ngModel)]="signUpLoginObject.street" name="street"
-                                placeholder="{{'login.street' | translate}}"></ion-input>
+                            <ion-input tabindex=3 type="text" formControlName="street" [(ngModel)]="signUpLoginObject.street" name="street" placeholder="{{'login.street' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.street.valid && submitAttempt"
-                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                    <div *ngIf="!signUpLoginForm.controls.street.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        margin>
                         {{'Please insert street'}}
                     </div>
                     <div padding="" *ngIf="!loginForm">
                         <ion-row>
                             <ion-item id="street" no-lines class="no-margin">
-                                <ion-input 
-                                    tabindex=5
-                                    type="text"
-                                    formControlName="city"
-                                    [(ngModel)]="signUpLoginObject.city" name="city"
-                                    placeholder="{{'login.city' | translate}}"></ion-input>
+                                <ion-input tabindex=4 type="text" formControlName="city" [(ngModel)]="signUpLoginObject.city" name="city" placeholder="{{'login.city' | translate}}"></ion-input>
                             </ion-item>
                             <ion-item id="zipcode" no-lines class="no-margin">
-                                <ion-input 
-                                    tabindex=4
-                                    type="text"
-                                    formControlName="zipcode"
-                                    [(ngModel)]="signUpLoginObject.zipcode" name="zipcode"
-                                    placeholder="{{'login.zip_code' | translate}}"></ion-input>
+                                <ion-input tabindex=5 type="text" formControlName="zipcode" [(ngModel)]="signUpLoginObject.zipcode" name="zipcode" placeholder="{{'login.zip_code' | translate}}"></ion-input>
                             </ion-item>
-                        </ion-row> 
+                        </ion-row>
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.zipcode.valid && submitAttempt"
-                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                    <div *ngIf="!signUpLoginForm.controls.zipcode.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        margin>
                         {{'Please insert zipcode'}}
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.city.valid && submitAttempt"
-                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                    <div *ngIf="!signUpLoginForm.controls.city.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        margin>
                         {{'Please insert city'}}
                     </div>
                     <div padding="">
                         <ion-item no-lines class="no-margin">
-                            <ion-input 
-                                    tabindex=6
-                                    type="email"
-                                    formControlName="email"
-                                    [(ngModel)]="signUpLoginObject.email" name="email"
-                                    placeholder="{{'login.email' | translate}}"></ion-input>
+                            <ion-input tabindex=6 type="email" formControlName="email" [(ngModel)]="signUpLoginObject.email" name="email" placeholder="{{'login.email' | translate}}"></ion-input>
                         </ion-item>
                     </div>
 
-                    <div *ngIf="!signUpLoginForm.controls.email.valid && submitAttempt"
-                         class="alert-box alert-box-danger alert-box-bg-light" margin>
+                    <div *ngIf="!signUpLoginForm.controls.email.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        margin>
                         {{ errorMessages.email }}
                     </div>
 
                     <div padding="" *ngIf="!loginForm">
                         <ion-item no-lines class="no-margin">
-                            <ion-input 
-                                    tabindex=7
-                                    type="text"
-                                    formControlName="phone"
-                                    [(ngModel)]="signUpLoginObject.phone" name="phone"
-                                    placeholder="{{'login.phone' | translate}}"></ion-input>
+                            <ion-input tabindex=7 type="text" formControlName="phone" [(ngModel)]="signUpLoginObject.phone" name="phone" placeholder="{{'login.phone' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.phone.valid && submitAttempt"
-                        class="alert-box alert-box-danger alert-box-bg-light" margin>
+                    <div *ngIf="!signUpLoginForm.controls.phone.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        margin>
                         {{'Please insert phone'}}
                     </div>
                     <div padding="">
                         <ion-item no-lines class="no-margin">
-                            <ion-input 
-                                    tabindex=8
-                                    type="password"
-                                    formControlName="password"
-                                    [(ngModel)]="signUpLoginObject.authentification.password" name="password"
-                                    placeholder="{{'login.password' | translate}}"></ion-input>
+                            <ion-input tabindex=8 type="password" formControlName="password" [(ngModel)]="signUpLoginObject.authentification.password"
+                                name="password" placeholder="{{'login.password' | translate}}"></ion-input>
                         </ion-item>
                     </div>
 
-                    <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt"
-                         class="alert-box alert-box-danger alert-box-bg-light" margin>
+                    <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        margin>
                         {{ errorMessages.password }}
                     </div>
 
+                    <div class="confirm" >
+                        <ion-item no-lines inset>
+                            <ion-label id="confirmLabel">I confirm that I'm part of the Volkswagen Financial Service Pilot
+                                and signed the data security Agreement.</ion-label>
+                            <ion-checkbox formControlName="terms" [(ngModel)]="termsAccept" name="terms" checked="false">
+                            </ion-checkbox>
+                        </ion-item>
+                    </div>
+                    <div *ngIf="!signUpLoginForm.controls.terms.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        margin>
+                        {{ errorMessages.terms }}
+                    </div>
                     <div padding="" text-center="">
                         <p>
                             <button ion-button round color="white" type="submit" text-uppercase="">

@@ -1,23 +1,23 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
     NavController, ViewController, ModalController, LoadingController, AlertController,
     NavParams
 } from 'ionic-angular';
-import {AuthService} from "../../services/auth.service";
-import {UserService} from "../../services/user.service";
-import {FormBuilder, Validators, FormControl} from '@angular/forms';
-import {termsValidator} from '../../validators/termsValidator';
-import {emailValidator} from '../../validators/emailValidator';
-import {ErrorService} from "../../services/error.service";
-import {ForgotPasswordPage} from "./forgot-password/forgot-password";
+import { AuthService } from "../../services/auth.service";
+import { UserService } from "../../services/user.service";
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { termsValidator } from '../../validators/termsValidator';
+import { emailValidator } from '../../validators/emailValidator';
+import { ErrorService } from "../../services/error.service";
+import { ForgotPasswordPage } from "./forgot-password/forgot-password";
 // import {LanguageService} from "../../services/language.service";
-import {TrackerService} from "../../services/tracker.service";
-import {User} from "../../models/user";
-import {ConfigService} from "../../services/config.service";
-import {InAppBrowser} from "ionic-native";
-import {Storage} from '@ionic/storage';
-import {DataProtectionPage} from "../_global/data-protection/data-protection";
-import {TranslateService} from "@ngx-translate/core";
+import { TrackerService } from "../../services/tracker.service";
+import { User } from "../../models/user";
+import { ConfigService } from "../../services/config.service";
+import { InAppBrowser } from "ionic-native";
+import { Storage } from '@ionic/storage';
+import { DataProtectionPage } from "../_global/data-protection/data-protection";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'page-signup',
@@ -27,25 +27,25 @@ export class SignupLoginPage {
 
     loginForm = false;
 
-    loginClicked(){
+    loginClicked() {
         this.loginForm = true;
     }
 
-    registerClicked(){
+    registerClicked() {
         this.loginForm = false;
     }
-    
+
 
     signUpLoginObject = {
-        "firstName":"",
-        "lastName":"",
-        "street":"",
-        "zipcode":"",
-        "city":"",
+        "firstName": "",
+        "lastName": "",
+        "street": "",
+        "zipcode": "",
+        "city": "",
         "email": "",
-        "phone":"",
-        "profile": {"newsletter": false, "language": "", "disableTracking": false},   // should disableTracking be hardcoded???
-        "authentification": {"type": "passwd", "password": ""}
+        "phone": "",
+        "profile": { "newsletter": false, "language": "", "disableTracking": false },   // should disableTracking be hardcoded???
+        "authentification": { "type": "passwd", "password": "" }
     };
     termsAccept: boolean;
     errorMessages: any;
@@ -61,10 +61,10 @@ export class SignupLoginPage {
     };
 
     constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private alertCtrl: AlertController,
-                private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
-                public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
-                private errorService: ErrorService, private trackerService: TrackerService, public storage: Storage,
-                private configService: ConfigService, private translateService: TranslateService) {
+        private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
+        public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
+        private errorService: ErrorService, private trackerService: TrackerService, public storage: Storage,
+        private configService: ConfigService, private translateService: TranslateService) {
         this.action = this.navParams.get('action');
         if (typeof this.action === 'undefined') {
             this.action = 'signUp';
@@ -77,7 +77,7 @@ export class SignupLoginPage {
             street: [''],
             zipcode: [''],
             city: [''],
-            phone:[''],
+            phone: [''],
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
             password: ['', Validators.compose([Validators.maxLength(225), Validators.required])]
         });
@@ -86,9 +86,9 @@ export class SignupLoginPage {
             this.signUpLoginForm.addControl(
                 "terms", new FormControl(false, Validators.compose([termsValidator.isValid, Validators.required]))
             );
-            this.signUpLoginForm.addControl(
-                "newsletter", new FormControl(false)
-            );
+            // this.signUpLoginForm.addControl(
+            //     "newsletter", new FormControl(false)
+            // );
         }
 
         this.destination = this.navParams.get('dest');
@@ -115,8 +115,9 @@ export class SignupLoginPage {
         this.submitAttempt = false;
 
         if (this.action === 'login') {
-            this.signUpLoginForm.removeControl('terms');
-            this.signUpLoginForm.removeControl('newsletter');
+            this.termsAccept = true;
+            // this.signUpLoginForm.removeControl('terms');
+            // this.signUpLoginForm.removeControl('newsletter');
         }
 
         if (this.action === 'signUp') {
@@ -141,7 +142,7 @@ export class SignupLoginPage {
     openTerms() {
         let url = this.translateService.instant('documents.TERMS_APP_URL');
         let close = this.translateService.instant('common.close');
-        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption= '+close+',toolbar=yes,location=no');
+        new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption= ' + close + ',toolbar=yes,location=no');
     }
 
     openDataProtection() {
@@ -214,14 +215,9 @@ export class SignupLoginPage {
             return;
         }
 
-        let loader = this.loadingCtrl.create({
-            content: this.translateService.instant('login.login_now'),
-        });
-        loader.present();
 
-        
         this.signUpLoginObject.profile.language = this.translateService.currentLang;
-                
+
         this.trackerService.track('Signup Info Added', {
             'Screen Name': 'Registrieren',
             'Sign up method': 'Email',
@@ -240,11 +236,18 @@ export class SignupLoginPage {
                     'Signup': 'yes'
                 });
 
-                loader.dismissAll();
+                let loader = this.loadingCtrl.create({
+                    content: "Registration successfull! \n logging in..."
+                });
+                loader.present();
+
+                setTimeout(() => {
+                    loader.dismiss();
+                  }, 1500);
                 this.viewCtrl.dismiss();
             },
             (error) => {
-                loader.dismissAll();
+                // loader.dismissAll();
                 this.errorService.displayErrorWithKey(error, this.translateService.instant('login.registration'))
             }
         );
