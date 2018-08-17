@@ -2,7 +2,7 @@
   "tabs": {
     "map": "Map",
     "charging_stations": "Charging stations",
-    "register": "Register",
+    "register": "Sign In/Up",
     "info": "Info",
     "profile": "Profile",
     "account": "Wallet"
@@ -400,7 +400,7 @@
     "login": "Login",
     "password": "Password",
     "newsletter": "Sign up for our newsletter.",
-    "terms_1": "I agree to the ",
+    "terms": "I confirm that i'm part of the Volkswagen Financial Service pilot and signed the data security Agreement.",
     "terms_2": "Terms and conditions",
     "terms_3": "& ",
     "terms_4": "data protection agreement",

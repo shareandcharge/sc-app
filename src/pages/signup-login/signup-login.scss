@@ -6,11 +6,34 @@ page-signup {
   }
 
   #logoContainer {
-    display:block;
-    margin:auto;
-    max-height: 40%;
-    max-width: 40%;
-    margin-top: -40px;
+    display: block;
+    margin: auto;
+    max-height: 45%;
+    max-width: 45%;
+    margin-bottom: 30px;
+    margin-top: -30px;
+  }
+
+  .blockchain {
+    text-align: center;
+    padding-bottom: 20px;
+  }
+
+  .checkbox-md{
+    margin: 9px 1px 9px 4px;
+    width: 0px;
+    .checkbox-icon{
+      width: 22px;
+      height:22px;
+      border-color: #eee;
+      .checkbox-inner{
+        position: absolute;
+        top: 1px;
+        left: 6px;
+        height:14px;
+        width: 6px;
+      }
+    }
   }
 
   .content, .content-ios, .toolbar-title, .bar-buttons, .bar-button-default-ios {
@@ -63,38 +86,6 @@ page-signup {
     ion-label {
       color: #fff;
     }
-  }
-
-  .checkbox-md{
-    margin: 9px 1px 9px 4px;
-    width: 0px;
-    .checkbox-icon{
-      width: 22px;
-      height:22px;
-      border-color: #eee;
-      .checkbox-inner{
-        position: absolute;
-        top: 1px;
-        left: 6px;
-        height:14px;
-        width: 6px;
-      }
-    }
-  }
-
-  #confirmLabel {
-    white-space: normal;
-    font-size: small;
-  }
-
-  #zipcode{
-    width: 45%;
-    display: block;
-  }
-
-  #city{
-    display: block;
-    width: 55%;
   }
 
   #signUpLoginTabs {
