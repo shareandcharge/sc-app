@@ -9,7 +9,7 @@ import {RatingService} from "../../services/rating.service";
 import {Rating} from "../../models/rating";
 import {LocationService} from "../../services/location.service";
 import {Location} from "../../models/location";
-import {LaunchNavigator, LaunchNavigatorOptions} from 'ionic-native';
+// import {LaunchNavigator, LaunchNavigatorOptions} from 'ionic-native';
 import {ChargingPage} from './charging/charging';
 import {ChargingService} from '../../services/charging.service';
 import {Connector} from "../../models/connector";
@@ -406,26 +406,26 @@ export class LocationDetailPage {
     }
 
     openMapsApp() {
-        if (this.isDesktop) {
+        // if (this.isDesktop) {
             let coords = this.location.lat + "," + this.location.lng;
             window.open("http://maps.google.com/?q=" + coords, '_system');
-        }
-        else {
-            let options: LaunchNavigatorOptions = {
-                appSelectionDialogHeader: this.translateService.instant('location.location_details.select_app'),
-                appSelectionCancelButton: this.translateService.instant('common.cancel')
-            };
-            LaunchNavigator.navigate([this.location.lat, this.location.lng], options)
-                .then(
-                    success => {
-                    },
-                    error => {
-                        if ('cancelled' !== error) {
-                            alert(this.translateService.instant('location.location_details.not_start_app') + error);
-                        }
-                    }
-                );
-        }
+        // }
+        // else {
+        //     let options: LaunchNavigatorOptions = {
+        //         appSelectionDialogHeader: this.translateService.instant('location.location_details.select_app'),
+        //         appSelectionCancelButton: this.translateService.instant('common.cancel')
+        //     };
+        //     LaunchNavigator.navigate([this.location.lat, this.location.lng], options)
+        //         .then(
+        //             success => {
+        //             },
+        //             error => {
+        //                 if ('cancelled' !== error) {
+        //                     alert(this.translateService.instant('location.location_details.not_start_app') + error);
+        //                 }
+        //             }
+        //         );
+        // }
     }
 
     loginModal() {
