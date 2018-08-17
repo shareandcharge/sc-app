@@ -236,11 +236,14 @@ export class SignupLoginPage {
                     'Signup': 'yes'
                 });
 
-                let alert = this.alertCtrl.create({
-                    subTitle: "Registration successfull!",
-                    buttons: [this.translateService.instant('common.ok')]
+                let loader = this.loadingCtrl.create({
+                    content: "Registration successfull! \n logging in..."
                 });
-                alert.present();
+                loader.present();
+
+                setTimeout(() => {
+                    loader.dismiss();
+                  }, 1500);
                 this.viewCtrl.dismiss();
             },
             (error) => {
