@@ -25,7 +25,7 @@ export class TabsPage {
 
     @ViewChild('tabs') tabRef: Tabs;
 
-    private tempTabIndex = 3;
+    private tempTabIndex = 4;
 
     constructor(public modalCtrl: ModalController, public auth: AuthService, public error: ErrorService) {
     }
@@ -57,24 +57,10 @@ export class TabsPage {
     }
 
     addStationModal() {
-        this.error.displayError('This feature is currently disabled', 'Disabled');
-        // if (this.auth.loggedIn()) {
-        //     let modal = this.modalCtrl.create(StationWrapperPage);
-        //     modal.present();
-
-        // }
-        // else {
-        //     this.loginModal({
-        //         "dest": StationWrapperPage,
-        //         'mode' : 'modal',
-        //         'action' : 'login',
-        //         'trackReferrer': 'Tab Ladestationen'
-        //     });
-        // }
+        // this.error.displayError('This feature is currently disabled', 'Disabled');
     }
 
     showIntro() {
-        let introModal = this.modalCtrl.create(IntroPage);
-        introModal.present();
+        this.displayModal(IntroPage, {});
     }
 }
