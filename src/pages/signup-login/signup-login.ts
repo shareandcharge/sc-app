@@ -18,6 +18,7 @@ import {InAppBrowser} from "ionic-native";
 import {Storage} from '@ionic/storage';
 import {DataProtectionPage} from "../_global/data-protection/data-protection";
 import {TranslateService} from "@ngx-translate/core";
+import {IntroPage} from '../../pages/intro/intro';
 
 @Component({
     selector: 'page-signup',
@@ -58,10 +59,9 @@ export class SignupLoginPage {
                 private configService: ConfigService, private translateService: TranslateService) {
         this.action = this.navParams.get('action');
 
-        // if(typeof this.action ==== 'undefined') {
-        if (this.action === 'signUp') {
+        // if(typeof this.action === 'undefined') {
             this.action = 'login';
-        }
+        // }
 
         this.createErrorMessages();
         // let zipRegExUk = new RegExp('[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}');
@@ -168,6 +168,11 @@ export class SignupLoginPage {
         if (this.action === 'signUp') {
             this.signUp();
         }
+    }
+
+    intro() {
+        let modal = this.modalCtrl.create(IntroPage);
+        modal.present();
     }
 
     login() {
