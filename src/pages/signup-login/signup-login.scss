@@ -36,6 +36,16 @@ page-signup {
     }
   }
 
+  #learnMore{
+    position: absolute;
+    margin: auto;
+    bottom: 20px;
+    left:0;
+    right:0;
+    text-align: center;
+    text-decoration: underline;
+  }
+
   .content, .content-ios, .toolbar-title, .bar-buttons, .bar-button-default-ios {
     color: #fff;
   }

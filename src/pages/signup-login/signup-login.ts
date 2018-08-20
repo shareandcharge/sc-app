@@ -18,6 +18,7 @@ import {InAppBrowser} from "ionic-native";
 import {Storage} from '@ionic/storage';
 import {DataProtectionPage} from "../_global/data-protection/data-protection";
 import {TranslateService} from "@ngx-translate/core";
+import {IntroPage} from '../../pages/intro/intro';
 
 @Component({
     selector: 'page-signup',
@@ -148,6 +149,11 @@ export class SignupLoginPage {
         if (this.action === 'signUp') {
             this.signUp();
         }
+    }
+
+    intro() {
+        let modal = this.modalCtrl.create(IntroPage);
+        modal.present();
     }
 
     login() {
