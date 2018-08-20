@@ -19,6 +19,7 @@ import {ChargingCompletePage} from "../pages/location/charging/charging-complete
 import {User} from "../models/user";
 import {CurrencyService} from "../services/currency.service";
 import {LanguageService} from "../services/language.service";
+import { SignupLoginPage } from "../pages/signup-login/signup-login";
 
 @Component({
     template: `
@@ -95,11 +96,16 @@ export class MyApp {
                 if (!result) {
                     this.storage.set('introShown', true);
                     let introModal = this.modalCtrl.create(IntroPage, {isOnboarding: true});
-                    introModal.onDidDismiss(() => this.goToRootPage());
+                    introModal.onDidDismiss(() => this.goRoot());
                     introModal.present();
                 }
                 else {
-                    this.goToRootPage();
+                    let loggedIn = authService.loggedIn();
+                    if(loggedIn === true){
+                        this.goRoot();
+                    }else {
+                        this.goToRootPage();
+                    }
                 }
             });
 
@@ -107,6 +113,12 @@ export class MyApp {
     }
 
     goToRootPage() {
+        let welcome = this.modalCtrl.create( SignupLoginPage );
+        welcome.present();
+        this.nav.setRoot(TabsPage);
+    }
+
+    goRoot() {
         this.nav.setRoot(TabsPage);
     }
 
