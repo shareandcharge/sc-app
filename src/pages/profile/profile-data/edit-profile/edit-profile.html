@@ -131,17 +131,11 @@
                            [(ngModel)]="about.phone"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label class="label-small" stacked>{{'profile.data.country' | translate}}</ion-label>
-                <ion-select formControlName="country"
+                <ion-label class="label-small" stacked>{{'profile.data.state' | translate}}</ion-label>
+                <ion-input formControlName="country"
+                            class="input-white"
                             [(ngModel)]="editObj.country"
-                            multiple="false"
-                            [selectOptions]="{title: 'profile.data.country' | translate}"
-                            class="select-multiline input-white"
-                            placeholder="{{'profile.data.select' | translate}}"
-                            cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
-                >
-                    <ion-option *ngFor="let country of countries" value="{{ country.value }}" selected="{{ country.selected }}">{{ country.name }}</ion-option>
-                </ion-select>
+                ></ion-input>
             </ion-item>
             <div *ngIf="!profileForm.controls.country.valid && submitAttempt"
                  class="alert-box alert-box-danger" margin>
