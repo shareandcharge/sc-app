@@ -23,7 +23,6 @@ import {IntroPage} from '../../pages/intro/intro';
 @Component({
     selector: 'page-signup',
     templateUrl: 'signup-login.html'
-
 })
 export class SignupLoginPage {
 
@@ -62,30 +61,17 @@ export class SignupLoginPage {
         // if(typeof this.action === 'undefined') {
             this.action = 'login';
         // }
-
         this.createErrorMessages();
-        // let zipRegExUk = new RegExp('[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}');
-        // let nameRegExUk = new RegExp('[a-zA-Z0-9]+');
-        // let phoneRegExUk = new RegExp('^\s*\(?(020[7,8]{1}\)?[ ]?[1-9]{1}[0-9{2}[ ]?[0-9]{4})|(0[1-8]{1}[0-9]{3}\)?[ ]?[1-9]{1}[0-9]{2}[ ]?[0-9]{3})\s*$');
-        /** passwRegEx
-         *  (?=.*\d)          // should contain at least one digit
-         *  (?=.*[a-z])       // should contain at least one lower case
-         *  (?=.*[A-Z])       // should contain at least one upper case
-         *  [a-zA-Z0-9]{8,}   // should contain at least 8 from the mentioned characters
-         */
-        // let passwRegEx = new RegExp('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/'); 
-
         this.signUpLoginForm = formBuilder.group({
-            firstname: ['', Validators.compose([Validators.minLength(2),Validators.maxLength(30), Validators.required])],
-            lastname: ['', Validators.compose([Validators.minLength(2), Validators.maxLength(30), Validators.required])],
-            street: ['', Validators.compose([Validators.minLength(2), Validators.maxLength(50), Validators.required])],
-            zipcode: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(7), Validators.required])],
-            city: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-            phone: ['', Validators.compose([Validators.minLength(5),Validators.maxLength(12), Validators.required])],
+            firstname: [''],
+            lastname: [''],
+            street: [''],
+            zipcode: [''],
+            city: [''],
+            phone: [''],
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
-            password: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(225), Validators.required])]
+            password: ['', Validators.compose([Validators.maxLength(225), Validators.required])]
         });
-
 
         if (this.action === 'signUp') {
             this.signUpLoginForm.addControl(
@@ -110,15 +96,9 @@ export class SignupLoginPage {
 
     createErrorMessages() {
         this.errorMessages = {
-            "terms": this.translateService.instant('login.agb_agree'),
-            "firstName": this.translateService.instant('register_input_validation.firstName'),
-            "lastName": this.translateService.instant('register_input_validation.lastName'),
-            "street": this.translateService.instant('register_input_validation.street'),
-            "city": this.translateService.instant('register_input_validation.city'),
-            "zip": this.translateService.instant('register_input_validation.zip'),
-            "email": this.translateService.instant('register_input_validation.email'),
-            "password": this.translateService.instant('register_input_validation.password'),
-            "phone": this.translateService.instant('register_input_validation.phone')
+            "email": this.translateService.instant('login.email_remind'),
+            "password": this.translateService.instant('login.password_complexity'),
+            "terms": this.translateService.instant('login.agb_agree')
         }
     }
 
