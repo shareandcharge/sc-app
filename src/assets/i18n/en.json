@@ -383,6 +383,16 @@
     "loading_map": "Loading map ...",
     "load_station": "Loading charging station"
   },
+  "register_input_validation": {
+    "firstName":"Invalid first name.",
+    "lastName":"Invalid last name.",
+    "street":"Please provide street name and number.",
+    "city":"Please provide a valid city name.",
+    "zip": "Invalid ZIP code.",
+    "email": "Please provide a valid email address.",
+    "password": "Please select a password as follows: *at least one digit, *at least one lower case, *at least one upper case, *at least 8 from the mentioned characters.",
+    "phone": "Please provide a valid phone number."
+  },
   "login": {
     "first_name": "First name",
     "last_name": "Last name",
