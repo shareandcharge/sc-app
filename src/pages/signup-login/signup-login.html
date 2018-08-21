@@ -164,7 +164,7 @@
                         </p>
                     </div>
                 </form>
-                <h6 id ="learnMore"  (click)="intro()"> Learn more</h6>
+                <h6 *ngIf="action=='login'" id ="learnMore"  (click)="intro()"> Learn more</h6>
             </ion-col>
 
 

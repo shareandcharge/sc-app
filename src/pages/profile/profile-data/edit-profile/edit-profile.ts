@@ -54,7 +54,7 @@ export class EditProfilePage {
         this.editObj = Object.assign({}, this.user.profile);
         this.about = this.user.about;
         
-        if (!this.editObj.country) this.editObj.country = 'de';
+        if (!this.editObj.country) this.editObj.country = 'EN';
 
         this.editCommercialCategory = {
             'hotel': this.user.commercialCategory.indexOf(User.COMMERCIAL_CATEGORY_HOTEL) > -1,
