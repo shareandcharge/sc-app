@@ -133,16 +133,21 @@ export class ProfileDataPage {
     doDeleteAccount(alert: Alert) {
         let navTransition = alert.dismiss();
 
-        let loader = this.loadingCtrl.create({content: this.translateService.instant('loading.delete_user')});
-        loader.present();
-
         this.userService.deleteUser()
-            .finally(() => loader.dismissAll())
             .subscribe(
                 () => {
                     navTransition.then(() => {
                         this.authService.logout();
                         this.navCtrl.parent.select(0);
+
+                        let loading = this.loadingCtrl.create({
+                            content: 'Logging out and deleting user...'
+                        });
+                        loading.present();
+                        
+                        setTimeout(() => {
+                            loading.dismiss();
+                        }, 2000);
                     });
                 },
                 error => this.errorService.displayErrorWithKey(error, 'error.scope.delete_user')
