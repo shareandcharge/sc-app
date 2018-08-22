@@ -39,8 +39,8 @@ export class MapPage {
     placesService: any;
     private platform;
 
-    defaultCenterLat = 52.5074592;
-    defaultCenterLng = 13.2860649;
+    defaultCenterLat = 51.579002;
+    defaultCenterLng = -0.487928;
     defaultZoom = 8;
     currentLatLng: any;
     currentPositionZoom = 16;
