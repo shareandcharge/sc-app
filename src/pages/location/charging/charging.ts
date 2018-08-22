@@ -532,7 +532,7 @@ export class ChargingPage {
         }   
 
         if(this.selectedTariff === 'ENERGY'){
-            this.kwh_ammount = Math.floor(((this.getMaxChargingMinutesForCurrentTariff()) * deg) / 360) + 1;
+            this.kwh_ammount = Math.floor(((this.getMaxChargingMinutesForCurrentTariff()) * deg) / 360 ) ;
             this.estimatedPrice = this.kwh_ammount * this.price;
             
             //display ammount of kWh
