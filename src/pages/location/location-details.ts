@@ -241,6 +241,8 @@ export class LocationDetailPage {
                 this.configService.getPlugTypes().subscribe((plugTypes) => {
                         this.plugTypes = plugTypes;
                         this.maxkWh = 0;
+                        // empty connectors array so we don't have double values
+                        this.connectorsWithDetails = [];
                         // get all connector details to be displayed for all evses for given location
                         for (let evse of this.location.evses) {
                             for (let con of evse.connectors) {
