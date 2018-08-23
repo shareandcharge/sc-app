@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
-import {Slides, ViewController, NavParams} from 'ionic-angular';
+import {Slides, ViewController, NavParams, ModalController} from 'ionic-angular';
 import {TrackerService} from "../../services/tracker.service";
+import { SignupLoginPage } from '../signup-login/signup-login';
 
 @Component({
     selector: 'page-on-boarding',
@@ -13,7 +14,7 @@ export class IntroPage {
     isEnd: boolean = false;
     isOnboarding: boolean = false;
 
-    constructor(private viewCtrl: ViewController, private trackerService: TrackerService, private navParams: NavParams) {
+    constructor(private viewCtrl: ViewController, private modalCtrl: ModalController, private trackerService: TrackerService, private navParams: NavParams) {
         this.isOnboarding = navParams.get('isOnboarding');
         this.slideOptions = {
             initialSlide: 0,
@@ -53,6 +54,9 @@ export class IntroPage {
                 'Timestamp': ''
             });
         }
+        let modal = this.modalCtrl.create(SignupLoginPage, {});
+        modal.present();
         this.close();
+
     }
 }
