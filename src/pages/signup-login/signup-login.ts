@@ -151,6 +151,7 @@ export class SignupLoginPage {
     }
 
     intro() {
+        this.viewCtrl.dismiss();
         let modal = this.modalCtrl.create(IntroPage);
         modal.present();
     }
