@@ -244,7 +244,7 @@ export class ChargingPage {
             this.tariffs = this.priceComponents.map(obj => {
                 return obj.priceComponents;
             });
-
+            this.initiateCanvas();
         },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
     }
