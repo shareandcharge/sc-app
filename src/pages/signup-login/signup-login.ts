@@ -19,6 +19,7 @@ import {Storage} from '@ionic/storage';
 import {DataProtectionPage} from "../_global/data-protection/data-protection";
 import {TranslateService} from "@ngx-translate/core";
 import {IntroPage} from '../../pages/intro/intro';
+import {InfoService} from "../../services/info.service";
 
 @Component({
     selector: 'page-signup',
@@ -55,22 +56,24 @@ export class SignupLoginPage {
                 private viewCtrl: ViewController, public modalCtrl: ModalController, public auth: AuthService,
                 public userService: UserService, public loadingCtrl: LoadingController, private navParams: NavParams,
                 private errorService: ErrorService, private trackerService: TrackerService, public storage: Storage,
-                private configService: ConfigService, private translateService: TranslateService) {
+                private configService: ConfigService, private translateService: TranslateService, private infoService: InfoService) {
         this.action = this.navParams.get('action');
-
-        // if(typeof this.action === 'undefined') {
+        
+        if (this.action === 'signUp') {
             this.action = 'login';
-        // }
+        }
+
         this.createErrorMessages();
         this.signUpLoginForm = formBuilder.group({
-            firstname: [''],
-            lastname: [''],
-            street: [''],
-            zipcode: [''],
-            city: [''],
-            phone: [''],
+            firstname: ['', Validators.compose([Validators.minLength(2),Validators.maxLength(30), Validators.required])],
+            lastname: ['', Validators.compose([Validators.minLength(2), Validators.maxLength(30), Validators.required])],
+            street: ['', Validators.compose([Validators.minLength(2), Validators.maxLength(50), Validators.required])],
+            zipcode: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(7), Validators.required])],
+            city: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+            phone: ['', Validators.compose([Validators.minLength(5),Validators.maxLength(12), Validators.required])],
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
-            password: ['', Validators.compose([Validators.maxLength(225), Validators.required])]
+            password: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(225), Validators.required])]
+            // password: ['']
         });
 
         if (this.action === 'signUp') {
@@ -96,9 +99,15 @@ export class SignupLoginPage {
 
     createErrorMessages() {
         this.errorMessages = {
-            "email": this.translateService.instant('login.email_remind'),
-            "password": this.translateService.instant('login.password_complexity'),
-            "terms": this.translateService.instant('login.agb_agree')
+            "terms": this.translateService.instant('login.agb_agree'),
+            "firstName": this.translateService.instant('register_input_validation.firstName'),
+            "lastName": this.translateService.instant('register_input_validation.lastName'),
+            "street": this.translateService.instant('register_input_validation.street'),
+            "city": this.translateService.instant('register_input_validation.city'),
+            "zip": this.translateService.instant('register_input_validation.zip'),
+            "email": this.translateService.instant('register_input_validation.email'),
+            "password": this.translateService.instant('register_input_validation.password'),
+            "phone": this.translateService.instant('register_input_validation.phone')
         }
     }
 
@@ -158,8 +167,7 @@ export class SignupLoginPage {
 
     login() {
         this.submitAttempt = true;
-
-        if (this.signUpLoginForm.valid) {
+        if (this.signUpLoginForm.controls.email.valid) {
             let loader = this.loadingCtrl.create({
                 content: this.translateService.instant('login.login') + "...",
             });
@@ -200,9 +208,13 @@ export class SignupLoginPage {
                     this.errorService.displayErrorWithKey(error, this.translateService.instant('login.login'));
                     loader.dismissAll();
                 });
-        }
-
+        } else {
+            if (!this.signUpLoginForm.controls.email.value) {
+                this.infoService.displayInfo("Email required!");
+            }
+        }   
     }
+
 
     signUp() {
         this.submitAttempt = true;

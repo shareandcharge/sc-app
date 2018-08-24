@@ -44,28 +44,26 @@
                                     placeholder="{{'login.first_name' | translate}}"></ion-input>
                             </ion-item>
                         </div>
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
-                            margin>
-                            {{'Please insert first name'}}
-                        </div> -->
+                        <div *ngIf="!signUpLoginForm.controls.firstname.valid && submitAttempt" 
+                            class="alert-box alert-box-danger alert-box-bg-light" margin>
+                            {{errorMessages.firstName | translate }}
+                        </div>
                         <div padding="" >
                             <ion-item no-lines class="no-margin">
                                 <ion-input tabindex=2 type="text" formControlName="lastname" [(ngModel)]="signUpLoginObject.lastname" name="lastname" placeholder="{{'login.last_name' | translate}}"></ion-input>
                             </ion-item>
                         </div>
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
-                            margin>
-                            {{'Please insert last name'}}
-                        </div> -->
+                        <div *ngIf="!signUpLoginForm.controls.lastname.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light" margin>
+                            {{errorMessages.lastName | translate}}
+                        </div>
                         <div padding="" >
                             <ion-item no-lines class="no-margin">
                                 <ion-input tabindex=3 type="text" formControlName="street" [(ngModel)]="signUpLoginObject.street" name="street" placeholder="{{'login.street' | translate}}"></ion-input>
                             </ion-item>
                         </div>
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
-                            margin>
-                            {{'Please insert street'}}
-                        </div> -->
+                        <div *ngIf="!signUpLoginForm.controls.street.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light" margin>
+                            {{errorMessages.street | translate}}
+                        </div>
                         <div padding="">
                             <ion-row>
                                 <ion-item id="street" no-lines class="no-margin">
@@ -76,15 +74,14 @@
                                 </ion-item>
                             </ion-row>
                         </div>
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
+                        <div *ngIf="!signUpLoginForm.controls.city.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
                             margin>
-                            {{'Please insert zipcode'}}
-                        </div> -->
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
+                            {{errorMessages.city | translate}}
+                        </div>
+                        <div *ngIf="!signUpLoginForm.controls.zipcode.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
                             margin>
-                            {{'Please insert city'}}
-                        </div> -->
-
+                            {{errorMessages.zip | translate}}
+                        </div>
                     </div>
 
                     <div padding="">
@@ -92,19 +89,19 @@
                             <ion-input type="email" formControlName="email" [(ngModel)]="signUpLoginObject.email" name="email" placeholder="{{'login.email' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.email.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                    <div *ngIf="action=='signUp' && !signUpLoginForm.controls.email.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
                         margin>
-                        {{ errorMessages.email }}
+                        {{errorMessages.email | translate}}
                     </div>
+                    
                     <div padding="">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="password" formControlName="password" [(ngModel)]="signUpLoginObject.authentification.password" name="password"
                                 placeholder="{{'login.password' | translate}}"></ion-input>
                         </ion-item>
                     </div>
-                    <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
-                        margin>
-                        {{ errorMessages.password }}
+                    <div *ngIf="action=='signUp' && !signUpLoginForm.controls.password.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light" margin>
+                        <div> {{errorMessages.password | translate}}</div>
                     </div>
 
                     <div *ngIf="action=='signUp'">
@@ -113,10 +110,10 @@
                                 <ion-input tabindex=7 type="text" formControlName="phone" [(ngModel)]="signUpLoginObject.phone" name="phone" placeholder="{{'login.phone' | translate}}"></ion-input>
                             </ion-item>
                         </div>
-                        <!-- <div *ngIf="!signUpLoginForm.controls.phone.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        <div *ngIf="!signUpLoginForm.controls.phone.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
                             margin>
-                            {{'Please insert phone'}}
-                        </div> -->
+                            {{errorMessages.phone | translate}}
+                        </div>
                     </div>
 
                     <div *ngIf="action=='login'">
