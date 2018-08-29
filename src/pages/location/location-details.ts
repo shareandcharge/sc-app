@@ -192,21 +192,8 @@ export class LocationDetailPage {
             5 : 'IEC_62196_T1',
             6 : 'TESLA_S',
             7 : 'CHADEMO', 
-            // 'Schuko-Steckdose': 1,
-            // 'CEE-Stecker': 2,
-            // 'Typ 2': 3,
-            // 'CCS': 4,
-            // 'Typ 1': 5,
-            // 'Tesla Supercharger': 6,
-            // 'CHAdeMO': 7,
-            // 1 : 'Schuko-Steckdose',
-            // 2 : 'CEE-Stecker',
-            // 3 : 'Typ 2',
-            // 4 : 'CCS',
-            // 5 : 'Typ 1',
-            // 6 : 'Tesla Supercharger',
-            // 7 : 'CHAdeMO', 
         }
+
         observable.subscribe(
             (location) => {
                 try {
@@ -244,11 +231,19 @@ export class LocationDetailPage {
                         // empty connectors array so we don't have double values
                         this.connectorsWithDetails = [];
                         // get all connector details to be displayed for all evses for given location
+                        
                         for (let evse of this.location.evses) {
                             for (let con of evse.connectors) {
+
+                                let power;
+                                if(con.power_type === 'AC_3_PHASE') {
+                                    power = Math.round((con.amperage * con.voltage) * 3 / 1000) ;
+                                }else {
+                                    power = Math.round((con.amperage * con.voltage) / 1000); 
+                                }
+
                                 // get for all plugTypeIds for given location and their power
                                 let conTypeId: number =  connectorsMap[con.standard];
-                                let power = Math.round((con.amperage * con.voltage) / 1000);
                                 // the connector with a maximum power is always first in the list
                                 this.connectorsWithDetails
                                     .push({"typeId":conTypeId, "power":power,"svg":this.getSvgForPlug(conTypeId)});
@@ -259,6 +254,7 @@ export class LocationDetailPage {
                                 this.connectorsWithDetails.sort((a, b) => {
                                     return b.power-a.power; //descending
                                 })
+
                             }
                         }
                         // this.plugSvg = this.getSvgForPlug(+this.connector.plugtype);
