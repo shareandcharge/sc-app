@@ -151,28 +151,31 @@ export class ChargingService extends AbstractApiService {
         clearInterval(this.counterInterval);
         clearInterval(this.countDownInterval);
         
-        if(this.tariff === 'FLAT'){
-            this.resumeInterval = setInterval(() => {
-                this.chargingTime += 1;
-                this.timer += 1;
-            }, 1000);
-            this.countDown(totalTime);
+        console.log('totalTime:', totalTime);
 
-        }else if(this.tariff === 'TIME'){
-            this.resumeInterval = setInterval(() => {
-                this.chargingTime -= 1;
-                this.timer -= 1;
-            }, 1000);
-            this.countDown(remainingTime);
-            
-        }else {
-            this.resumeInterval = setInterval(() => {
-                this.chargingTime += 1;
-                this.timer += 1;
-            }, 1000);
-            this.countDown(totalTime);
+        if (this.timer >= totalTime) {
+            if(this.tariff === 'FLAT'){
+                this.resumeInterval = setInterval(() => {
+                    this.chargingTime += 1;
+                    this.timer += 1;
+                }, 1000);
+                this.countDown(totalTime);
+    
+            }else if(this.tariff === 'TIME'){
+                this.resumeInterval = setInterval(() => {
+                    this.chargingTime -= 1;
+                    this.timer -= 1;
+                }, 1000);
+                this.countDown(remainingTime);
+                
+            }else {
+                this.resumeInterval = setInterval(() => {
+                    this.chargingTime += 1;
+                    this.timer += 1;
+                }, 1000);
+                this.countDown(totalTime);
+            }
         }
-
 
     }
 

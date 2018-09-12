@@ -16,11 +16,17 @@ import { InAppBrowser } from "ionic-native";
 import { ConfigService } from "../../../services/config.service";
 import { TranslateService } from "@ngx-translate/core";
 
+import { App } from 'ionic-angular';
+
 @Component({
     selector: 'page-charging',
     templateUrl: 'charging.html'
 })
 export class ChargingPage {
+
+    // @ViewChild(Content) content : Content;
+    // @ViewChild('scrollablePanel') panel : ElementRef;
+
     location: Location;
     station: Station;
     connector: Connector;
@@ -80,7 +86,10 @@ export class ChargingPage {
         public navParams: NavParams, private alertCtrl: AlertController, private chargingService: ChargingService,
         private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
         private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService,
-        private configService: ConfigService, private translateService: TranslateService) {
+        private configService: ConfigService, private translateService: TranslateService,
+        
+        private app: App
+        ) {
 
         this.location = navParams.get("location");
         //-- for now we use the first station
@@ -190,6 +199,7 @@ export class ChargingPage {
     chargingUpdateEvent() {
         this.charging = this.chargingService.isCharging();
         this.timer = this.chargingService.getRemainingTime();
+        this.timer = this.timer > 0 ? this.timer : 0;
         this.chargingTimeHours = this.makeTimeString(this.timer);
         this.updateCanvas();
         if (this.timer <= 0) {
@@ -416,6 +426,7 @@ export class ChargingPage {
     circleRange_mouseDown() {
         this.mouseDragging = true;
         this.finalizeButton = false;
+        this.doScrolling = false;
     }
 
     circleRange_touchStart() {
@@ -627,17 +638,35 @@ export class ChargingPage {
         ctx.lineCap = 'square';
         ctx.beginPath();
         ctx.font = "30px Arial";
-        let fullCircle = 2 * Math.PI;
-        //progress timebased
-        let progress = ((fullCircle * this.timer) / (this.getMaxChargingMinutesForCurrentTariff() * 60)) - (Math.PI / 2);
-
-        // implement progress for kwh here ->
-
-
-        ctx.strokeStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(this.canvasX, this.canvasY, 97, 1.5 * Math.PI, progress);
-        ctx.stroke();
+        
+        if (this.selectedTariff !== 'ENERGY') {
+            let fullCircle = 2 * Math.PI;
+            //progress timebased
+            let max = this.tariffValue;
+            console.log('max:', max);
+            
+            let timeRemaining;
+            if (this.selectedTariff === 'FLAT') {
+                timeRemaining = fullCircle * this.timer;
+            } else {
+                timeRemaining = (fullCircle * (max - (this.timer || 1)));
+            }
+            console.log('timer:', this.timer);
+            console.log('timeRemaining:', timeRemaining);
+            
+            
+            let progress = (timeRemaining / max) - (Math.PI / 2);
+            console.log('progress:', progress);
+    
+            // implement progress for kwh here ->
+    
+            if (this.timer <= max) {
+                ctx.strokeStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.canvasX, this.canvasY, 97, 1.5 * Math.PI, progress);
+                ctx.stroke();
+            }
+        }
 
     }
 

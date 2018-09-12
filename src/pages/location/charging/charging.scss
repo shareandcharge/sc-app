@@ -84,5 +84,9 @@ page-charging {
     #tariff-label{
         color: black;
     }
+
+    .no-scroll {
+        overflow-y: hidden;
+    }
     
 }
