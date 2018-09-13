@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { Events } from "ionic-angular";
 import { Storage } from '@ionic/storage';
 import { AbstractApiService } from "./abstract.api.service";
@@ -11,7 +11,8 @@ import { Connector } from "../models/connector";
 import { Location } from "../models/location";
 import { Observable } from "rxjs/Observable";
 import { TranslateService } from "@ngx-translate/core";
-
+import {EventService} from './event.service';
+import * as jwtDecode from 'jwt-decode';
 
 /**
  * published events
@@ -37,9 +38,12 @@ export class ChargingService extends AbstractApiService {
     countDownInterval: any;
     resumeInterval: any;
 
+    stopped = new EventEmitter();
+
     constructor(private httpService: HttpService, configService: ConfigService, private events: Events,
         private errorService: ErrorService, private locService: LocationService, private storage: Storage,
-        private auth: AuthService, public translateService: TranslateService) {
+        private auth: AuthService, public translateService: TranslateService,
+        private eventService: EventService) {
         super(configService, translateService);
         this.events.subscribe('auth:logout', () => this.handleLogout());
     }
@@ -233,6 +237,20 @@ export class ChargingService extends AbstractApiService {
                 // this.(secondsToCharge);
 
                 this.events.publish('locations:updated');
+
+                this.eventService.subscribe(message => {
+                    this.storage.get('id_token').then(token => {
+                        // console.log('token:', token);
+                        // console.log('decoded:', jwtDecode(token).address);
+                        // console.log('controller:', message.controller);
+                        if (jwtDecode(token).address === message.controller.toLowerCase()) {
+                            this.chargingEnd();
+                            this.events.publish('locations:updated');
+                            this.stopped.next();
+                        }
+                    });
+                });
+                
             })
             .catch((error) => this.handleError(error));
     }

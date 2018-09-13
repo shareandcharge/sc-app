@@ -75,6 +75,7 @@ import {CurrencyService} from "../services/currency.service";
 import {LanguageService} from "../services/language.service";
 import {JuiceBoxPage} from "../pages/station/juice-box/juice-box";
 import {InfoService} from "../services/info.service";
+import {EventService} from '../services/event.service';
 
 let storage = new Storage();
 
@@ -239,7 +240,8 @@ export function createTranslateLoader(http: Http) {
         TrackerService,
         CurrencyService,
         LanguageService,
-        InfoService
+        InfoService,
+        EventService
     ]
 })
 export class AppModule {

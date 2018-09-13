@@ -121,6 +121,8 @@ export class ChargingPage {
         this.kwh_ammount = 1;
 
         events.subscribe('charging:update', () => this.chargingUpdateEvent());
+            
+
     }
 
     ionViewWillEnter() {
@@ -169,6 +171,8 @@ export class ChargingPage {
             }, false);
 
             this.initiateCanvas();
+
+            this.chargingService.stopped.subscribe(() => this.handleChargingEnd());
         }
 
     }
@@ -388,6 +392,23 @@ export class ChargingPage {
         alert.present();
     }
 
+    handleChargingEnd() {
+        this.trackerService.track('Charging Stopped', {
+            'id': this.location.id,
+            'Address': this.location.address,
+            'Timestamp': ''
+        });
+        this.countingDown = false;
+        this.timer = 0;
+        this.hours = "00";
+        this.minutes = "00";
+        this.seconds = "00";
+        this.updateCanvas();
+        this.initiateCanvas();
+        this.didStop = true;
+        this.dismiss();
+    }
+
     doStopCharging() {
         this.chargedTimeAtStop = this.chargingService.chargedTime();
         this.stopButtonClicked = true;
@@ -398,23 +419,7 @@ export class ChargingPage {
         this.chargingService.stopCharging(this.connector.id)
             .subscribe(
                 () => {
-                    loader.dismiss().then(() => {
-                        this.trackerService.track('Charging Stopped', {
-                            'id': this.location.id,
-                            'Address': this.location.address,
-                            'Timestamp': ''
-                        });
-                        this.countingDown = false;
-                        this.timer = 0;
-                        this.hours = "00";
-                        this.minutes = "00";
-                        this.seconds = "00";
-                        this.updateCanvas();
-                        this.initiateCanvas();
-                        this.didStop = true;
-                        this.dismiss();
-                    });
-
+                    loader.dismiss().then(() => this.handleChargingEnd());
                 },
                 error => {
                     loader.dismiss();
@@ -643,7 +648,7 @@ export class ChargingPage {
             let fullCircle = 2 * Math.PI;
             //progress timebased
             let max = this.tariffValue;
-            console.log('max:', max);
+            // console.log('max:', max);
             
             let timeRemaining;
             if (this.selectedTariff === 'FLAT') {
@@ -651,12 +656,12 @@ export class ChargingPage {
             } else {
                 timeRemaining = (fullCircle * (max - (this.timer || 1)));
             }
-            console.log('timer:', this.timer);
-            console.log('timeRemaining:', timeRemaining);
+            // console.log('timer:', this.timer);
+            // console.log('timeRemaining:', timeRemaining);
             
             
             let progress = (timeRemaining / max) - (Math.PI / 2);
-            console.log('progress:', progress);
+            // console.log('progress:', progress);
     
             // implement progress for kwh here ->
     

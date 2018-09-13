@@ -20,6 +20,7 @@ import {User} from "../models/user";
 import {CurrencyService} from "../services/currency.service";
 import {LanguageService} from "../services/language.service";
 import { SignupLoginPage } from "../pages/signup-login/signup-login";
+import {EventService} from '../services/event.service';
 
 @Component({
     template: `
@@ -39,7 +40,7 @@ export class MyApp {
                 private pushNotificationService: PushNotificationService, private errorService: ErrorService,
                 private ionicApp: IonicApp, private menuCtrl: MenuController, private alertCtrl: AlertController,
                 private trackerService: TrackerService, private toastCtrl: ToastController,
-                private languageService: LanguageService) {
+                private languageService: LanguageService, private eventService: EventService) {
 
 
         platform.ready().then(() => {
@@ -110,6 +111,7 @@ export class MyApp {
             });
 
         });
+
     }
 
     goToRootPage() {
