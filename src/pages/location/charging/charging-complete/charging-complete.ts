@@ -8,6 +8,7 @@ import { Car } from "../../../../models/car";
 import { ErrorService } from "../../../../services/error.service";
 import { ChargingService } from "../../../../services/charging.service";
 import { TranslateService } from "@ngx-translate/core";
+import { PaymentService } from '../../../../services/payment.service';
 
 @Component({
   selector: 'page-charging-complete',
@@ -20,18 +21,23 @@ export class ChargingCompletePage {
   chargedTime: number;
   chargedTimeString: string;
   chargedPrice: any = "-,-";
-  price: number;
+  price: number = 0;
+  kwh: any = 0;
+  history: any;
+  transactions: any;
 
-  constructor(private viewCtrl: ViewController, private carService: CarService, private locationService: LocationService,
+  constructor(private viewCtrl: ViewController, private carService: CarService, private locationService: LocationService, private paymentService: PaymentService,
               private chargingService: ChargingService, private errorService: ErrorService, private translateService: TranslateService) {
+
+                this.history = this.paymentService.getHistory();
   }
 
   ionViewWillEnter() {
+    this.getDetails();
     this.activeCar = this.carService.getActiveCar();
     this.location = this.chargingService.getLocation();
     this.connector = this.chargingService.getConnector();
     this.chargedTime = this.chargingService.chargedTime();
-    this.price = this.chargingService.getPrice();
     this.chargedTimeString = this.makeTimeString(this.chargedTime);
     this.locationService.getPrice(this.connector.id, {
       'secondsToCharge': this.chargedTime,
@@ -41,6 +47,16 @@ export class ChargingCompletePage {
       },
       error => this.errorService.displayErrorWithKey(error, this.translateService.instant('query_price'))
     );
+  }
+
+  getDetails() {
+    this.history.subscribe((obj) => {
+      this.transactions = obj;
+      console.log(this.transactions[0]);
+      this.transactions = this.transactions.sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp));
+      this.price = Number(this.transactions[0].amount);
+      this.kwh = Number(this.transactions[0].kwh);
+    });
   }
 
   makeTimeString(data) {

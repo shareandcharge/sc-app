@@ -34,6 +34,7 @@ export class Transaction implements Serializable<Transaction> {
     end: number;
     duration: number;
     location: any;
+    kwh: any;
 
     order?: any;
     receipt?: any;
@@ -52,6 +53,7 @@ export class Transaction implements Serializable<Transaction> {
         this.end = null;
         this.duration = null;
         this.location = null;
+        this.kwh = 0;
     }
 
     /**
@@ -127,6 +129,7 @@ export class Transaction implements Serializable<Transaction> {
         this.end = input.end;
         this.duration = this.end - this.start;
         this.location = input.location || undefined;
+        this.kwh = input.kwh;
         
 
         return this;

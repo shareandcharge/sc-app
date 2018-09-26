@@ -420,7 +420,7 @@ export class ChargingPage {
         this.chargingService.stopCharging(this.connector.id)
             .subscribe(
                 () => {
-                    loader.dismiss().then(() => this.handleChargingEnd());
+                    loader.dismiss().then(() => this.dismiss());
                 },
                 error => {
                     loader.dismiss();
