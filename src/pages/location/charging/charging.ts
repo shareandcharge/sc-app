@@ -172,7 +172,8 @@ export class ChargingPage {
 
             this.initiateCanvas();
 
-            this.chargingService.stopped.subscribe(() => this.handleChargingEnd());
+            // this.chargingService.stopped.subscribe(() => this.handleChargingEnd());
+            this.chargingService.stopped.subscribe(() => this.dismiss());
         }
 
     }

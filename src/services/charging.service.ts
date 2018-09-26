@@ -57,9 +57,15 @@ export class ChargingService extends AbstractApiService {
         let user = this.auth.getUser();
 
         this.getConnectors(user.address).subscribe((res) => {
+
             
             if (!res.length) {
-                this.chargingEnd();
+                this.storage.get('isCharging').then(isCharging => {
+                    if (isCharging) {
+                        this.events.publish('charging:lapsed');
+                        this.chargingEnd();
+                    }
+                });
                 return;
             }
 
@@ -155,7 +161,6 @@ export class ChargingService extends AbstractApiService {
         clearInterval(this.counterInterval);
         clearInterval(this.countDownInterval);
         
-        console.log('totalTime:', totalTime);
 
         if (this.timer >= totalTime) {
             if(this.tariff === 'FLAT'){
@@ -245,7 +250,9 @@ export class ChargingService extends AbstractApiService {
                         // console.log('controller:', message.controller);
                         if (jwtDecode(token).address === message.controller.toLowerCase()) {
                             this.chargingEnd();
-                            this.events.publish('locations:updated');
+                            // this.events.publish('locations:updated');
+                            this.events.publish('charging:lapsed');
+
                             this.stopped.next();
                         }
                     });

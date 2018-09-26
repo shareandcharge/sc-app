@@ -3,7 +3,7 @@ import {
     Platform, Events, LoadingController, Config, ModalController, App, IonicApp,
     MenuController, AlertController, ToastController, Nav
 } from 'ionic-angular';
-import {StatusBar, Splashscreen} from 'ionic-native';
+import {StatusBar, Splashscreen, Toast} from 'ionic-native';
 import {Storage} from '@ionic/storage';
 
 import {TabsPage} from '../pages/tabs/tabs';
@@ -85,7 +85,7 @@ export class MyApp {
 
             this.events.subscribe('charging:lapsed', () => {
                 this.chargingLapsed();
-                this.events.publish('locations:updated');
+                // this.events.publish('locations:updated');
             });
 
             this.checkExistingToken();
@@ -190,6 +190,9 @@ export class MyApp {
         // }
     }
 
+    // stop showing me charging toasts
+    private chargingCompleteToasts = <Toast[]>[];
+
     /**
      * called when charging process is lapsed/run out (without the user hitting the stop button)
      */
@@ -204,10 +207,15 @@ export class MyApp {
 
         toast.onDidDismiss(() => {
             let chargingCompletedModal = this.modalCtrl.create(ChargingCompletePage);
+            this.chargingCompleteToasts = <Toast[]>[];
             chargingCompletedModal.present();
         });
 
-        toast.present();
+        this.chargingCompleteToasts.push(toast);
+
+        if (this.chargingCompleteToasts.length === 1) {
+            toast.present();
+        }
     }
 
     /**
