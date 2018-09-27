@@ -38,7 +38,12 @@ export class ChargingPage {
     chargingTypeText: string;
     tariffType: number;
     tariffValue: any;
-    
+
+    totalSeconds: number;
+    timeStepSize: number;
+    energyStepSize: any;
+    rounds: any;
+
     max_kwh: any;
     kwh_ammount: any;
 
@@ -87,9 +92,9 @@ export class ChargingPage {
         private viewCtrl: ViewController, private locationService: LocationService, private carService: CarService,
         private events: Events, private modalCtrl: ModalController, private trackerService: TrackerService,
         private configService: ConfigService, private translateService: TranslateService,
-        
+
         private app: App
-        ) {
+    ) {
 
         this.location = navParams.get("location");
         //-- for now we use the first station
@@ -98,13 +103,13 @@ export class ChargingPage {
         this.connector = this.station.connectors.find((connector) => {
             return !connector.isRented;
         });
-        
+
         if (this.connector) {
             this.selectedConnectorId = this.connector.id;
         }
-        
+
         this.fromLocationDetailsAndIsCharging = navParams.get("isCharging");
-        
+
         this.chargingPrice = 0;
         this.buttonDeactive = false;
         this.mouseDragging = false;
@@ -121,8 +126,6 @@ export class ChargingPage {
         this.kwh_ammount = 1;
 
         events.subscribe('charging:update', () => this.chargingUpdateEvent());
-            
-
     }
 
     ionViewWillEnter() {
@@ -145,7 +148,7 @@ export class ChargingPage {
 
         if (true) {
             //-- always read+set the hourly price
-            this.updatePriceInfo(60 * 60, 30, true);
+            this.updatePriceInfo(60 * 60, 30, false);
         }
 
         if (this.charging) {
@@ -228,24 +231,19 @@ export class ChargingPage {
             'secondsToCharge': secondsToCharge,
             'maxCharging': maxCharging
         }).subscribe((response) => {
-            // this.chargingPrice = response.min;
-            // this.includingVat = response.vat;
-            // this.tariffType = response.type;
-            // this.chargingTypeText = this.priceProviderTariffTypes[response.type];
-            // if (perHour) {
-            //     this.chargingPricePerHour = response.min / 100;
-            // }
             this.priceComponents = response.priceComponents;
             const energy = this.priceComponents.filter(pc => pc.priceComponents.type === 'ENERGY')[0];
             const time = this.priceComponents.filter(pc => pc.priceComponents.type === 'TIME')[0];
             const flat = this.priceComponents.filter(pc => pc.priceComponents.type === 'FLAT')[0];
-            
+
             if (time) {
                 this.selectedTariff = 'TIME';
                 this.price = time.priceComponents.price * 100;
+                this.timeStepSize = time.priceComponents.step_size;
             } else if (energy) {
                 this.selectedTariff = 'ENERGY';
                 this.price = energy.priceComponents.price * 100;
+                this.energyStepSize = energy.priceComponents.step_size;
             } else if (flat) {
                 this.selectedTariff = 'FLAT';
                 this.price = flat.priceComponents.price * 100;
@@ -253,7 +251,7 @@ export class ChargingPage {
                 this.selectedTariff = '???';
                 this.price = 0;
             }
-            
+
             this.estimatedPrice = this.price;
 
             this.tariffs = this.priceComponents.map(obj => {
@@ -268,30 +266,26 @@ export class ChargingPage {
         const energy = this.priceComponents.filter(pc => pc.priceComponents.type === 'ENERGY')[0];
         const time = this.priceComponents.filter(pc => pc.priceComponents.type === 'TIME')[0];
         const flat = this.priceComponents.filter(pc => pc.priceComponents.type === 'FLAT')[0];
-        switch(this.selectedTariff) {
+        switch (this.selectedTariff) {
             case 'TIME':
                 this.price = time.priceComponents.price * 100;
                 this.estimatedPrice = this.price;
+                this.timeStepSize = time.priceComponents.step_size;
                 break;
-            case 'FLAT': 
+            case 'FLAT':
                 this.price = flat.priceComponents.price * 100;
                 this.estimatedPrice = this.price;
                 break;
             case 'ENERGY':
                 this.price = energy.priceComponents.price * 100;
                 this.estimatedPrice = this.price;
+                this.energyStepSize = energy.priceComponents.step_size;
                 break;
             default:
                 this.price = 0;
                 this.estimatedPrice = this.price;
-        } 
-
+        }
         this.initiateCanvas();
-    }
-
-
-    updatePriceInfoForSetTime() {
-        this.updatePriceInfo((this.hours * 3600) + (this.minutes * 60), 30);
     }
 
     isScrollable(x, y) {
@@ -332,17 +326,17 @@ export class ChargingPage {
         this.timer = (this.hours * 3600) + (this.minutes * 60);
         let loader = this.loadingCtrl.create({ content: this.translateService.instant('location.charging.begin_charging') });
         loader.present();
-        
+
         this.tariffValue;
 
-        if(this.selectedTariff === 'ENERGY'){
+        if (this.selectedTariff === 'ENERGY') {
             this.tariffValue = this.kwh_ammount * 1000;
             //kWh to wats for backend
         } else {
             this.tariffValue = this.timer;
             //this is going to be in seconds
         }
-        
+
         this.chargingService.startCharging(this.connector, this.tariffValue, this.selectedTariff, this.estimatedPrice, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
@@ -352,7 +346,7 @@ export class ChargingPage {
                         'Address': this.location.address,
                         'Timestamp': ''
                     });
-                    
+
                     this.charging = true;
                     // this.startCheckConnector();
                     // this.updatePriceInfo(this.chargingService.getChargingTime(), this.carService.getActiveCar().maxCharging);
@@ -445,10 +439,6 @@ export class ChargingPage {
         if (!this.countingDown) {
             self.drawSlideBar(e.offsetX, e.offsetY);
         }
-        if (this.activeCar != null) {
-            this.updatePriceInfoForSetTime();
-        }
-
     }
 
     circleRange_touchEnd(self, e, canvas) {
@@ -457,10 +447,6 @@ export class ChargingPage {
             if (!this.countingDown) {
                 let rect = canvas.getBoundingClientRect();
                 self.drawSlideBar(e.changedTouches[0].pageX - rect.left, e.changedTouches[0].pageY - rect.top);
-            }
-
-            if (this.activeCar != null) {
-                this.updatePriceInfoForSetTime();
             }
         }
     }
@@ -493,7 +479,7 @@ export class ChargingPage {
         let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
         let ctx: CanvasRenderingContext2D = c.getContext("2d");
         ctx.clearRect(0, 0, c.width, c.height);
-        
+
         ctx.lineWidth = 26;
         ctx.strokeStyle = '#E6F0FD';
         ctx.beginPath();
@@ -521,7 +507,6 @@ export class ChargingPage {
         this.minutes = Math.floor(Math.floor((time % 3600) / 60) / 10) * 10;
         this.seconds = 0;
 
-        //
         // let h = this.hours < 10 ? "0" + this.hours : this.hours;
         let h = this.hours;
         let m = this.minutes < 10 ? "0" + this.minutes : this.minutes;
@@ -535,7 +520,7 @@ export class ChargingPage {
         ctx.beginPath();
         ctx.font = "48px Arial";
 
-        if(this.selectedTariff !== 'ENERGY'){
+        if (this.selectedTariff !== 'ENERGY') {
             //display time
             this.chargingTimeHours = this.chargingTimeHours.substring(0, 4);
             ctx.fillText(this.chargingTimeHours, 94, c.height / 2 + 16);
@@ -546,17 +531,18 @@ export class ChargingPage {
             let minutesString = this.translateService.instant('location.charging.minutes');
             ctx.fillText(hoursString, 97, c.height / 2 + 35);
             ctx.fillText(minutesString, 149, c.height / 2 + 35);
-        }   
+        }
 
-        if(this.selectedTariff === 'ENERGY'){
-            this.kwh_ammount = Math.floor(((this.getMaxChargingMinutesForCurrentTariff()) * deg) / 360 ) ;
-            this.estimatedPrice = this.kwh_ammount * this.price;
-            
+        if (this.selectedTariff === 'ENERGY') {
+            this.kwh_ammount = Math.floor(((this.getMaxChargingMinutesForCurrentTariff()) * deg) / 360);
+            this.rounds = this.kwh_ammount / this.energyStepSize;
+            this.estimatedPrice = Math.round(this.rounds * this.price);
+
             //display ammount of kWh
             this.chargingTimeHours = this.kwh_ammount;
-            if(this.chargingTimeHours < 10){
+            if (this.chargingTimeHours < 10) {
                 ctx.fillText(this.chargingTimeHours, 130, c.height / 2 + 16);
-            } else if(this.chargingTimeHours > 9 && this.chargingTimeHours <= 99) {
+            } else if (this.chargingTimeHours > 9 && this.chargingTimeHours <= 99) {
                 ctx.fillText(this.chargingTimeHours, 115, c.height / 2 + 16);
             } else {
                 ctx.fillText(this.chargingTimeHours, 105, c.height / 2 + 16);
@@ -573,7 +559,7 @@ export class ChargingPage {
         let radiant = (deg * Math.PI / 180) - (0.5 * Math.PI);
         ctx.arc(this.canvasX, this.canvasY, 97, 1.5 * Math.PI, radiant);
         ctx.stroke();
-        
+
         let endOfArcX = Math.round(this.canvasX + Math.cos(radiant) * 100);
         let endOfArcY = Math.round(this.canvasY + Math.sin(radiant) * 100);
 
@@ -588,14 +574,13 @@ export class ChargingPage {
 
         // estimating price 
         this.timer = (this.hours * 3600) + (this.minutes * 60); // in seconds
-        let timeInMinutes = this.timer / 60;
-        
-        const pricePerMinute  = this.price / 60;
-        
-        if(this.selectedTariff !== 'FLAT' && this.selectedTariff !== 'ENERGY'){
-            this.estimatedPrice = Math.round(pricePerMinute * timeInMinutes) || this.price;
+        this.rounds = this.timer / this.timeStepSize;
+
+        // estimated price for TIME tariff
+        if (this.selectedTariff !== 'FLAT' && this.selectedTariff !== 'ENERGY') {
+            this.estimatedPrice = Math.round(this.rounds * this.price);
         }
-            
+
     }
 
     makeTimeString(data) {
@@ -644,28 +629,23 @@ export class ChargingPage {
         ctx.lineCap = 'square';
         ctx.beginPath();
         ctx.font = "30px Arial";
-        
+
         if (this.selectedTariff !== 'ENERGY') {
             let fullCircle = 2 * Math.PI;
             //progress timebased
             let max = this.tariffValue;
-            // console.log('max:', max);
-            
+
             let timeRemaining;
             if (this.selectedTariff === 'FLAT') {
                 timeRemaining = fullCircle * this.timer;
             } else {
                 timeRemaining = (fullCircle * (max - (this.timer || 1)));
             }
-            // console.log('timer:', this.timer);
-            // console.log('timeRemaining:', timeRemaining);
-            
-            
+
             let progress = (timeRemaining / max) - (Math.PI / 2);
-            // console.log('progress:', progress);
-    
+
             // implement progress for kwh here ->
-    
+
             if (this.timer <= max) {
                 ctx.strokeStyle = gradient;
                 ctx.beginPath();
@@ -673,7 +653,6 @@ export class ChargingPage {
                 ctx.stroke();
             }
         }
-
     }
 
     dismiss() {
@@ -699,15 +678,12 @@ export class ChargingPage {
             (c: Connector) => {
                 return c.id == this.selectedConnectorId;
             })[0];
-        this.updatePriceInfoForSetTime();
     }
 
     getMaxChargingMinutesForCurrentTariff() {
-
-        if(this.selectedTariff == 'ENERGY'){
+        if (this.selectedTariff == 'ENERGY') {
             return this.max_kwh;
         }
         return this.selectedTariff == 'FLAT' ? this.maxChargingMinutesFlatrate : this.maxChargingMinutes;
-        
     }
 }
