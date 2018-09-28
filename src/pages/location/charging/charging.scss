@@ -85,8 +85,8 @@ page-charging {
         color: black;
     }
 
-    .no-scroll {
-        overflow-y: hidden;
-    }
+    .no-scroll .scroll-content{
+        overflow: hidden;
+      }
     
 }

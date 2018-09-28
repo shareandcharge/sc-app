@@ -157,25 +157,27 @@ export class ChargingPage {
         }
         else {
             let c = <HTMLCanvasElement>document.getElementById('circleProgressBar');
-
+            let x = document.getElementById('all-content');
             let me = this;
+
             document.body.addEventListener("touchstart", function (e) {
                 me.doScrolling = true;
                 if (e.target == c) {
                     if (!me.isScrollable((e.changedTouches[0].pageX), (e.changedTouches[0].pageY))) {
+                        x.className = 'content-white no-scroll';
                         e.preventDefault();
                         me.doScrolling = false;
                     }
                 }
             }, false);
             document.body.addEventListener("touchend", function (e) {
+                x.className = 'content-white';
             }, false);
             document.body.addEventListener("touchmove", function (e) {
             }, false);
 
             this.initiateCanvas();
 
-            // this.chargingService.stopped.subscribe(() => this.handleChargingEnd());
             this.chargingService.stopped.subscribe(() => this.dismiss());
         }
 
@@ -593,7 +595,7 @@ export class ChargingPage {
         let m = minutes < 10 ? "0" + minutes : minutes;
         let s = seconds < 10 ? "0" + seconds : seconds;
 
-        return h + ':' + m + ':' + s;
+        return h + ':' + m + ':' + s; 
     }
 
 
