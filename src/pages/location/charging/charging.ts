@@ -31,6 +31,7 @@ export class ChargingPage {
     station: Station;
     connector: Connector;
     evses: any;
+    // selectedEvse: any;
     selectedConnectorId: number;
 
     chargingTimeHours: any;
@@ -47,8 +48,6 @@ export class ChargingPage {
 
     max_kwh: any;
     kwh_ammount: any;
-
-    // max_kwh implement later when we have maxkwh in tariffs
 
     price: any;
     priceComponents: any;
@@ -103,7 +102,6 @@ export class ChargingPage {
 
         this.evses = this.location.evses;
         console.log("Evses", this.evses);
-        
         //-- first non rented connector is default (innogy stations have two+)
         this.connector = this.station.connectors.find((connector) => {
             return !connector.isRented;

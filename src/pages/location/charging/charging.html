@@ -24,12 +24,27 @@
             </p>
         </div>
     </div>
+    
     <div class="top-item-text" >
-        <ion-icon name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon>
+        <ng-container>
+            <!-- evse-options-type -->
+            <ion-item no-lines class="lists" *ngIf="!charging">
+                <ion-label class="list-label">Choose EVSE:</ion-label>
+                <ion-select [(ngModel)]="selectedEvse" (ionChange)="selectedEvse">
+                    <ion-option *ngFor="let evse of evses">{{evse.evse_id}}</ion-option>
+                </ion-select>
+            </ion-item>
+            
+        </ng-container>
+    </div>
+    
+    <div class="top-item-text" >
+        <!-- icon disabled for a while -->
+        <!-- <ion-icon name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon> -->
         <ng-container>
             <!-- tariff-options-type -->
-            <ion-item no-lines class="tariffs" *ngIf="!charging">
-                <ion-label id="tariff-label">Choose your tariff:</ion-label>
+            <ion-item no-lines class="lists" *ngIf="!charging">
+                <ion-label id="list-label">Choose tariff:</ion-label>
                 <ion-select [(ngModel)]="selectedTariff" (ionChange)="tariffSelect()">
                     <ion-option *ngFor="let tariff of tariffs">{{tariff.type}}</ion-option>
                 </ion-select>
@@ -67,8 +82,6 @@
             <canvas id="circleProgressBar" width="280" height="280"></canvas>
         </div>
     </div>
-
-
 
 
     <div class="owner-wrapper">
