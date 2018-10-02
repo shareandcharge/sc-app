@@ -12,13 +12,6 @@
 
 
 <ion-content id="all-content" padding class="content-white" >
-    <ion-fab top right #fabCar *ngIf="activeCar">
-        <button ion-fab class="fab-image">
-            <span class="image-wrapper">
-                <img [ngStyle]="{'background-image':'url(' + activeCar.displayImageSrc + ')'}">
-            </span>
-        </button>
-    </ion-fab>
 
     <div class="top-item-text">
         <ion-icon name="cust-station-pin" color="secondary"></ion-icon>
@@ -34,16 +27,6 @@
     <div class="top-item-text" >
         <ion-icon name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon>
         <ng-container>
-            <!-- {{price | currencyDisplay }} -->
-
-            <!-- tariff-checkbox-type -->
-            <!-- <ion-list radio-group [(ngModel)]="priceProviderTariffTypes">
-                <ion-item no-lines class="tariffs" *ngFor="let tariff of priceProviderTariffTypes">
-                    <ion-radio></ion-radio>
-                    <ion-label> {{tariff}} </ion-label>
-                </ion-item>
-            </ion-list> -->
-
             <!-- tariff-options-type -->
             <ion-item no-lines class="tariffs" *ngIf="!charging">
                 <ion-label id="tariff-label">Choose your tariff:</ion-label>
@@ -58,9 +41,6 @@
     <hr>
 
     <div text-center *ngIf="countingDown" class="big-header">{{chargingTimeHours}}</div>
-    <!-- <div ion-text text-center *ngIf="activeCar == null" color="danger">
-        {{'location.charging.add_car_first' | translate}}
-    </div> -->
 
     <div text-center class="price-label" *ngIf="activeCar != null">
         <span *ngIf="!countingDown"> {{'location.charging.estimated_price' | translate}} </span>
@@ -101,19 +81,6 @@
             <span *ngIf="location.ownerprofile.firstname || location.ownerprofile.lastname">
                 <br>{{ location.ownerprofile.firstname }} {{ location.ownerprofile.lastname }}
             </span>
-            <span *ngIf="location.ownerprofile.address">
-                <br>{{ location.ownerprofile.address }}
-            </span>
-            <span *ngIf="location.ownerprofile.postalCode || location.ownerprofile.zip">
-                <br>{{ location.ownerprofile.postalCode }} {{ location.ownerprofile.city }}
-            </span>
-            <span *ngIf="location.ownerprofile.operatorVat && location.ownerprofile.operatorVatID">
-                <br>{{'location.charging.vat_number' | translate}} {{ location.ownerprofile.operatorVatID }}
-            </span>
-        </p>
-        <p>
-            {{'location.charging.agb_1' | translate}}
-            {{'location.charging.agb_2' | translate}}{{'location.charging.agb_3' | translate}}
         </p>
     </div>
 

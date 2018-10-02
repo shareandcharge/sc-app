@@ -30,6 +30,7 @@ export class ChargingPage {
     location: Location;
     station: Station;
     connector: Connector;
+    evses: any;
     selectedConnectorId: number;
 
     chargingTimeHours: any;
@@ -99,11 +100,15 @@ export class ChargingPage {
         this.location = navParams.get("location");
         //-- for now we use the first station
         this.station = this.location.stations[0];
+
+        this.evses = this.location.evses;
+        console.log("Evses", this.evses);
+        
         //-- first non rented connector is default (innogy stations have two+)
         this.connector = this.station.connectors.find((connector) => {
             return !connector.isRented;
         });
-
+        
         if (this.connector) {
             this.selectedConnectorId = this.connector.id;
         }
@@ -676,6 +681,8 @@ export class ChargingPage {
     }
 
     selectConnector() {
+
+
         this.connector = this.station.connectors.filter(
             (c: Connector) => {
                 return c.id == this.selectedConnectorId;
