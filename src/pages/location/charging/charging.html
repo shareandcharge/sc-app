@@ -17,15 +17,15 @@
         <ion-icon name="cust-station-pin" color="secondary"></ion-icon>
         <div class="text">
             <p>
-                {{this.location.address}}<br>
+                {{this.location.address}},
                 {{this.location.city}}<br>
-                {{this.location.postal_code}}<br>
+                {{this.location.postal_code}}
                 {{this.location.country}}
             </p>
         </div>
     </div>
-    
-    <div class="top-item-text" >
+
+    <div>
         <ng-container>
             <!-- evse-options-type -->
             <ion-item no-lines class="lists" *ngIf="!charging">
@@ -37,7 +37,7 @@
             
         </ng-container>
     </div>
-    <div class="top-item-text" >
+    <div>
         <!-- icon disabled for a while -->
         <!-- <ion-icon name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon> -->
         <ng-container>

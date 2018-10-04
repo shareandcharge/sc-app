@@ -31,7 +31,7 @@ page-charging {
         margin-right: 5px;
         display: flex;
         font-size: larger;
-        padding-bottom: 10px;
+        // padding-bottom: 10px;
         .text {
             padding-top: 10px;
             white-space: normal;
@@ -62,11 +62,7 @@ page-charging {
     .lists{
         background: transparent;
         max-width: 100% !important;
-        // ion-select {
-        //   position: absolute;
-        //   margin-left: 40px;
-        // }
-      }
+    }
 
     .estimated_price {
         text-align: center;
@@ -87,6 +83,6 @@ page-charging {
 
     .no-scroll .scroll-content{
         overflow: hidden;
-      }
-    
+    }
+
 }
