@@ -31,7 +31,7 @@ export class ChargingPage {
     station: Station;
     connector: Connector;
     evses: any;
-    // selectedEvse: any;
+    selectedEvse: any;
     selectedConnectorId: number;
 
     chargingTimeHours: any;
@@ -101,7 +101,8 @@ export class ChargingPage {
         this.station = this.location.stations[0];
 
         this.evses = this.location.evses;
-        console.log("Evses", this.evses);
+        this.selectedEvse = this.evses[0].evse_id;
+
         //-- first non rented connector is default (innogy stations have two+)
         this.connector = this.station.connectors.find((connector) => {
             return !connector.isRented;
