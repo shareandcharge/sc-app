@@ -98,6 +98,16 @@
         </p>
     </div>
 
+    <div class="conditions" *ngIf="!charging">
+        <ion-item text-wrap no-lines class="lists">
+            <ion-checkbox checked="false">
+            </ion-checkbox>
+            <ion-label>
+                I accept the T&C and the selected tarrif of the charging pole provider.
+            </ion-label>
+        </ion-item>
+    </div>
+
 </ion-content>
 <ion-footer>
     <ion-toolbar color="light">

@@ -66,13 +66,12 @@ page-charging {
         top:25px;
     }
 
-    
     .no-scroll .scroll-content{
         overflow: hidden;
     }
     
-    
     .flex-content {
+        margin-top: -20px;
         display: flex;
         flex-direction: row;
         font-size: larger;
