@@ -11,11 +11,13 @@
 </ion-header>
 
 
-<ion-content id="all-content" padding class="content-white" >
+<ion-content id="all-content" padding class="content-white">
 
-    <div class="top-item-text">
-        <ion-icon name="cust-station-pin" color="secondary"></ion-icon>
-        <div class="text">
+    <div class="flex-content">
+        <div style="flex-grow: 1">
+            <ion-icon class="left-icon" name="cust-station-pin" color="secondary"></ion-icon>
+        </div>
+        <div class="text" style="flex-grow: 9">
             <p>
                 {{this.location.address}},
                 {{this.location.city}}<br>
@@ -25,32 +27,32 @@
         </div>
     </div>
 
-    <div>
-        <ng-container>
-            <!-- evse-options-type -->
+    <hr>
+
+    <div class="flex-content">
+        <div style="flex-grow: 1">
+            <ion-icon class="left-icon" name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon>
+        </div>
+
+        <!-- evse-options-type -->
+        <div style="flex-grow: 9">
             <ion-item no-lines class="lists" *ngIf="!charging">
                 <ion-label class="list-label">Choose EVSE:</ion-label>
                 <ion-select [(ngModel)]="selectedEvse" (ionChange)="selectedEvse">
                     <ion-option *ngFor="let evse of evses">{{evse.evse_id}}</ion-option>
                 </ion-select>
             </ion-item>
-            
-        </ng-container>
-    </div>
-    <div>
-        <!-- icon disabled for a while -->
-        <!-- <ion-icon name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon> -->
-        <ng-container>
+
             <!-- tariff-options-type -->
             <ion-item no-lines class="lists" *ngIf="!charging">
-                <ion-label id="list-label">Choose tariff:</ion-label>
+                <ion-label class="list-label">Choose tariff:</ion-label>
                 <ion-select [(ngModel)]="selectedTariff" (ionChange)="tariffSelect()">
                     <ion-option *ngFor="let tariff of tariffs">{{tariff.type}}</ion-option>
                 </ion-select>
             </ion-item>
-
-        </ng-container>
+        </div>
     </div>
+
 
     <hr>
 
@@ -74,7 +76,7 @@
             <h6>Estimated price: {{estimatedPrice | currencyDisplay }}</h6>
         </div>
 
-        <div class="progress-wrapper" >
+        <div class="progress-wrapper">
             <div class="battery-charging" *ngIf="charging">
                 <img src="assets/images/battery-charging.gif">
             </div>
@@ -110,8 +112,8 @@
                 <ion-list no-lines class="no-margin-bottom">
                     <ion-item>
                         <ion-label>{{'location.charging.charging_point' | translate}}:</ion-label>
-                        <ion-select [(ngModel)]="selectedConnectorId" cancelText="{{'common.cancel' | translate}}" okText="{{'common.ok' | translate}}"
-                            (ngModelChange)="selectConnector()">
+                        <ion-select [(ngModel)]="selectedConnectorId" cancelText="{{'common.cancel' | translate}}"
+                            okText="{{'common.ok' | translate}}" (ngModelChange)="selectConnector()">
                             <ion-option *ngFor="let conn of station.connectors" [value]="conn.id" [disabled]="conn.isRented">
                                 {{conn.getTitle()}}
                             </ion-option>
@@ -121,12 +123,6 @@
                 <hr>
             </ng-container>
 
-            <!-- <ion-list no-lines="" class="no-margin-bottom">
-                <ion-item text-wrap class="item-partial-cover-cb">
-                    <ion-checkbox [(ngModel)]="termsChecked" class="checkbox-square"></ion-checkbox>
-                    <ion-label>{{'location.charging.accept_terms_1' | translate}} <a (click)="openTerms()">{{'location.charging.agb_2' | translate}}</a> {{'location.charging.accept_terms_3' | translate}}</ion-label>
-                </ion-item>
-            </ion-list> -->
             <button ion-button round text-uppercase [disabled]="finalizeButton" (click)="startCharging()">
                 {{'location.charging.btn_load' | translate}}
             </button>

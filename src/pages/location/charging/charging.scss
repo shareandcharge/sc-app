@@ -27,17 +27,6 @@ page-charging {
         color: rgb(153, 153, 153);
     }
 
-    .top-item-text {
-        margin-right: 5px;
-        display: flex;
-        font-size: larger;
-        // padding-bottom: 10px;
-        .text {
-            padding-top: 10px;
-            white-space: normal;
-        }
-    }
-
     ion-icon {
         font-size: 4rem;
         position: relative;
@@ -77,12 +66,31 @@ page-charging {
         top:25px;
     }
 
-    #list-label{
-        color: black;
-    }
-
+    
     .no-scroll .scroll-content{
         overflow: hidden;
     }
+    
+    
+    .flex-content {
+        display: flex;
+        flex-direction: row;
+        font-size: larger;
 
+        .list-label{
+            color: black;
+        }
+        .text {
+            padding-top: 10px;
+            padding-left: 15px;
+            white-space: normal;
+        }
+        .left-icon{
+            padding-top: 20px;
+        }
+        .lists{
+            background: transparent;
+            max-width: 100% !important;
+        }
+    }
 }
