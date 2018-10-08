@@ -37,6 +37,7 @@ export class LocationDetailPage {
     station: Station;
     connector: Connector;
     tariffs: any;
+    owner: any;
 
     slideOptions: any;
 
@@ -198,20 +199,11 @@ export class LocationDetailPage {
             (location) => {
                 try {
                     this.location = location;
+                    this.owner = location.owner;
                     this.station = this.location.getFirstStation();
                     this.connector = this.station.getFirstConnector();
                     this.flatrateTariff = this.station.hasConnector() ? this.connector.priceprovider.public.selected === 'flatrate' : false;
                     this.locationImages = this.locationService.getImagesWithSrc(location);
-
-                    // this.evses = this.location.evses.map( obj =>{
-                    //     return obj.connectors.map(el => {
-                    //         return Math.round((el.amperage * el.voltage)/1000);
-                    //     });
-                    // }).sort((a,b) => {
-                    //     return b > a ? 1 : -1;
-                    // });
-                    // this.maxkWh = String(this.evses[0]);
-
                 }
                 catch (e) {
                     this.errorService.displayError(this.translateService.instant('location.location_details.error_no_station_details'));
@@ -404,26 +396,8 @@ export class LocationDetailPage {
     }
 
     openMapsApp() {
-        // if (this.isDesktop) {
             let coords = this.location.lat + "," + this.location.lng;
             window.open("http://maps.google.com/?q=" + coords, '_system');
-        // }
-        // else {
-        //     let options: LaunchNavigatorOptions = {
-        //         appSelectionDialogHeader: this.translateService.instant('location.location_details.select_app'),
-        //         appSelectionCancelButton: this.translateService.instant('common.cancel')
-        //     };
-        //     LaunchNavigator.navigate([this.location.lat, this.location.lng], options)
-        //         .then(
-        //             success => {
-        //             },
-        //             error => {
-        //                 if ('cancelled' !== error) {
-        //                     alert(this.translateService.instant('location.location_details.not_start_app') + error);
-        //                 }
-        //             }
-        //         );
-        // }
     }
 
     loginModal() {
