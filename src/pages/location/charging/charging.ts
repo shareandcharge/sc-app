@@ -44,7 +44,7 @@ export class ChargingPage {
     totalSeconds: number;
     timeStepSize: number;
     energyStepSize: any;
-    rounds: any;
+    steps: any;
 
     max_kwh: any;
     kwh_ammount: any;
@@ -541,8 +541,8 @@ export class ChargingPage {
 
         if (this.selectedTariff === 'ENERGY') {
             this.kwh_ammount = Math.floor(((this.getMaxChargingMinutesForCurrentTariff()) * deg) / 360);
-            this.rounds = this.kwh_ammount / this.energyStepSize;
-            this.estimatedPrice = Math.round(this.rounds * this.price);
+            this.steps = this.kwh_ammount / this.energyStepSize;
+            this.estimatedPrice = Math.ceil(this.steps * this.price);
 
             //display ammount of kWh
             this.chargingTimeHours = this.kwh_ammount;
@@ -580,11 +580,11 @@ export class ChargingPage {
 
         // estimating price 
         this.timer = (this.hours * 3600) + (this.minutes * 60); // in seconds
-        this.rounds = this.timer / this.timeStepSize;
+        this.steps = this.timer / this.timeStepSize;
 
         // estimated price for TIME tariff
         if (this.selectedTariff !== 'FLAT' && this.selectedTariff !== 'ENERGY') {
-            this.estimatedPrice = Math.round(this.rounds * this.price);
+            this.estimatedPrice = Math.ceil(this.steps * this.price);
         }
 
     }
