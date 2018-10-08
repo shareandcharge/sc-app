@@ -100,7 +100,7 @@
 
     <div class="conditions" *ngIf="!charging">
         <ion-item text-wrap no-lines class="lists">
-            <ion-checkbox checked="false">
+            <ion-checkbox checked="false" [(ngModel)]="termsChecked">
             </ion-checkbox>
             <ion-label>
                 I accept the T&C and the selected tarrif of the charging pole provider.
@@ -133,7 +133,7 @@
                 <hr>
             </ng-container>
 
-            <button ion-button round text-uppercase [disabled]="finalizeButton" (click)="startCharging()">
+            <button ion-button round text-uppercase [disabled]="!termsChecked" (click)="startCharging()">
                 {{'location.charging.btn_load' | translate}}
             </button>
         </div>

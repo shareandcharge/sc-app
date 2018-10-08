@@ -680,8 +680,6 @@ export class ChargingPage {
     }
 
     selectConnector() {
-
-
         this.connector = this.station.connectors.filter(
             (c: Connector) => {
                 return c.id == this.selectedConnectorId;
