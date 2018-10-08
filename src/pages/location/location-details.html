@@ -19,12 +19,12 @@
         </ion-fab>
     </div>
     <div padding>
-        <span *ngIf="location.name != ''">{{location.name}}</span>
+        <strong>
+            <span *ngIf="location.name != ''">{{location.name}}</span>
+        </strong>
         <p>
-            <strong>
                 {{location.address}}, {{location.city}} <br>
                 {{location.postal_code}}, {{location.country}}
-            </strong>
         </p>
 
         <div *ngIf="!showOpeningHours" margin-bottom>
@@ -78,6 +78,7 @@
         </div>
 
         <div *ngIf="owner">
+            <hr>
             <h6>Operator:</h6>
             <p class="text-line-wrap">{{owner}}</p>
             <hr>
