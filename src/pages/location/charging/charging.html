@@ -36,7 +36,7 @@
         <div style="flex-grow: 9">
             <ion-item no-lines class="lists" *ngIf="!charging">
                 <ion-label class="list-label">Choose EVSE:</ion-label>
-                <ion-select [(ngModel)]="selectedEvse" (ionChange)="selectedEvse">
+                <ion-select [(ngModel)]="selectedEvse" (ionChange)="evseSelect()">
                     <ion-option *ngFor="let evse of evses">{{evse.evse_id}}</ion-option>
                 </ion-select>
             </ion-item>

@@ -33,6 +33,7 @@ export class ChargingPage {
     evses: any;
     selectedEvse: any;
     selectedConnectorId: number;
+    plugType: any;
 
     chargingTimeHours: any;
     chargingPrice: any;
@@ -124,7 +125,7 @@ export class ChargingPage {
         this.finalizeButton = true;
 
         this.estimatedPrice = this.price * 100;
-
+    
         // max_kwh implement when max_kwh in tariffs
         this.max_kwh = 100;
         this.kwh_ammount = 1;
@@ -232,7 +233,7 @@ export class ChargingPage {
         }
     }
 
-    updatePriceInfo(secondsToCharge, maxCharging, perHour: boolean = false) {
+    updatePriceInfo(secondsToCharge, maxCharging, perHour: boolean = false) { 
         this.locationService.getPrice(this.connector.id, {
             'secondsToCharge': secondsToCharge,
             'maxCharging': maxCharging
@@ -266,6 +267,48 @@ export class ChargingPage {
             this.initiateCanvas();
         },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
+    }
+
+    evseSelect() {
+        this.locationService.getConnectors(this.connector.id, this.selectedEvse).subscribe((response) => {
+            console.log("evse selected..");
+            
+             this.initiateCanvas();
+         },
+             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
+        
+
+        // let alert = this.alertCtrl.create({
+        //     title: 'hello',
+        //     inputs: [
+        //         {
+        //           type: 'radio',
+        //           label: 'label 1',
+        //           value: '0'
+        //         },
+        //         {
+        //           type: 'radio',
+        //           label: 'label 2',
+        //           value: '1'
+        //         }
+        //       ],
+        //       buttons: [
+        //         {
+        //           text: 'Cancel',
+        //           role: 'cancel',
+        //           handler: () => {
+        //             console.log('Cancel clicked');
+        //           }
+        //         },
+        //         {
+        //           text: 'OK',
+        //           handler: (data:string) => { 
+        //             console.log(data); 
+        //         }
+        //         }
+        //       ]
+        // });
+        // alert.present();
     }
 
     tariffSelect() {
