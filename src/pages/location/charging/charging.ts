@@ -239,30 +239,30 @@ export class ChargingPage {
             'maxCharging': maxCharging
         }).subscribe((response) => {
             this.priceComponents = response.priceComponents;
-            const energy = this.priceComponents.filter(pc => pc.priceComponents.type === 'ENERGY')[0];
-            const time = this.priceComponents.filter(pc => pc.priceComponents.type === 'TIME')[0];
-            const flat = this.priceComponents.filter(pc => pc.priceComponents.type === 'FLAT')[0];
+            const energy = this.priceComponents.filter(pc => pc.price_components[0].type === 'ENERGY')[0];
+            const time = this.priceComponents.filter(pc => pc.price_components[0].type === 'TIME')[0];
+            const flat = this.priceComponents.filter(pc => pc.price_components[0].type === 'FLAT')[0];
 
             if (time) {
                 this.selectedTariff = 'TIME';
-                this.price = time.priceComponents.price * 100;
-                this.timeStepSize = time.priceComponents.step_size;
+                this.price = time.price_components[0].price * 100;
+                this.timeStepSize = time.price_components[0].step_size;
             } else if (energy) {
                 this.selectedTariff = 'ENERGY';
-                this.price = energy.priceComponents.price * 100;
-                this.energyStepSize = energy.priceComponents.step_size;
+                this.price = energy.price_components[0].price * 100;
+                this.energyStepSize = energy.price_components[0].step_size;
             } else if (flat) {
                 this.selectedTariff = 'FLAT';
-                this.price = flat.priceComponents.price * 100;
+                this.price = flat.price_components[0].price * 100;
             } else {
                 this.selectedTariff = '???';
                 this.price = 0;
             }
 
             this.estimatedPrice = this.price;
-
+            
             this.tariffs = this.priceComponents.map(obj => {
-                return obj.priceComponents;
+                return obj.price_components[0];
             });
             this.initiateCanvas();
         },

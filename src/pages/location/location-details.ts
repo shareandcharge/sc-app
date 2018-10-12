@@ -276,9 +276,10 @@ export class LocationDetailPage {
             priceObject.maxCharging = activeCar.maxCharging;
         }
 
+        // this is used to display tariff in location details
         this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
                 this.tariffs = response.priceComponents.map(obj => {
-                    let tariff =  obj.priceComponents.type.toLowerCase();
+                    let tariff =  obj.price_components[0].type.toLowerCase();
                     return tariff.charAt(0).toUpperCase() + tariff.slice(1);
                 });                
             },
