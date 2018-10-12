@@ -312,23 +312,23 @@ export class ChargingPage {
     }
 
     tariffSelect() {
-        const energy = this.priceComponents.filter(pc => pc.priceComponents.type === 'ENERGY')[0];
-        const time = this.priceComponents.filter(pc => pc.priceComponents.type === 'TIME')[0];
-        const flat = this.priceComponents.filter(pc => pc.priceComponents.type === 'FLAT')[0];
+        const energy = this.priceComponents.filter(pc => pc.price_components[0].type === 'ENERGY')[0];
+        const time = this.priceComponents.filter(pc => pc.price_components[0].type === 'TIME')[0];
+        const flat = this.priceComponents.filter(pc => pc.price_components[0].type === 'FLAT')[0];
         switch (this.selectedTariff) {
             case 'TIME':
-                this.price = time.priceComponents.price * 100;
+                this.price = time.price_components[0].price * 100;
                 this.estimatedPrice = this.price;
-                this.timeStepSize = time.priceComponents.step_size;
+                this.timeStepSize = time.price_components[0].step_size;
                 break;
             case 'FLAT':
-                this.price = flat.priceComponents.price * 100;
+                this.price = flat.price_components[0].price * 100;
                 this.estimatedPrice = this.price;
                 break;
             case 'ENERGY':
-                this.price = energy.priceComponents.price * 100;
+                this.price = energy.price_components[0].price * 100;
                 this.estimatedPrice = this.price;
-                this.energyStepSize = energy.priceComponents.step_size;
+                this.energyStepSize = energy.price_components[0].step_size;
                 break;
             default:
                 this.price = 0;
