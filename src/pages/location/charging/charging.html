@@ -29,17 +29,19 @@
     <br>
     <div class="flex-content">
         <div style="flex-grow: 1">
-            <ion-icon class="left-icon" name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon>
+            <ion-icon name="cust-time-money" color="secondary" *ngIf="!charging"></ion-icon>
         </div>
 
         <!-- evse-options-type -->
         <div style="flex-grow: 9">
-            <ion-item no-lines class="lists" *ngIf="!charging">
+
+
+            <!-- <ion-item no-lines class="lists" *ngIf="!charging">
                 <ion-label class="list-label">Choose EVSE:</ion-label>
                 <ion-select [(ngModel)]="selectedEvse" (ionChange)="selectedEvse">
                     <ion-option *ngFor="let evse of evses">{{evse.evse_id}}</ion-option>
                 </ion-select>
-            </ion-item>
+            </ion-item> -->
 
             <!-- tariff-options-type -->
             <ion-item no-lines class="lists" *ngIf="!charging">
