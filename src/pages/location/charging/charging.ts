@@ -108,7 +108,7 @@ export class ChargingPage {
         this.connector = this.station.connectors.find((connector) => {
             return !connector.isRented;
         });
-        
+
         if (this.connector) {
             this.selectedConnectorId = this.connector.id;
         }
@@ -125,7 +125,7 @@ export class ChargingPage {
         this.finalizeButton = true;
 
         this.estimatedPrice = this.price * 100;
-    
+
         // max_kwh implement when max_kwh in tariffs
         this.max_kwh = 100;
         this.kwh_ammount = 1;
@@ -233,7 +233,7 @@ export class ChargingPage {
         }
     }
 
-    updatePriceInfo(secondsToCharge, maxCharging, perHour: boolean = false) { 
+    updatePriceInfo(secondsToCharge, maxCharging, perHour: boolean = false) {
         this.locationService.getPrice(this.connector.id, {
             'secondsToCharge': secondsToCharge,
             'maxCharging': maxCharging
@@ -260,7 +260,7 @@ export class ChargingPage {
             }
 
             this.estimatedPrice = this.price;
-            
+
             this.tariffs = this.priceComponents.map(obj => {
                 return obj.price_components[0];
             });
@@ -270,45 +270,40 @@ export class ChargingPage {
     }
 
     evseSelect() {
-        this.locationService.getConnectors(this.connector.id, this.selectedEvse).subscribe((response) => {
-            console.log("evse selected..");
-            
-             this.initiateCanvas();
-         },
-             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
-        
+        // getting all connectors for sellected evse
+        let x = this.evses.filter(obj => {
+            return obj.evse_id === this.selectedEvse
+        });
 
-        // let alert = this.alertCtrl.create({
-        //     title: 'hello',
-        //     inputs: [
-        //         {
-        //           type: 'radio',
-        //           label: 'label 1',
-        //           value: '0'
-        //         },
-        //         {
-        //           type: 'radio',
-        //           label: 'label 2',
-        //           value: '1'
-        //         }
-        //       ],
-        //       buttons: [
-        //         {
-        //           text: 'Cancel',
-        //           role: 'cancel',
-        //           handler: () => {
-        //             console.log('Cancel clicked');
-        //           }
-        //         },
-        //         {
-        //           text: 'OK',
-        //           handler: (data:string) => { 
-        //             console.log(data); 
-        //         }
-        //         }
-        //       ]
-        // });
-        // alert.present();
+        let inputs = x[0].connectors.map(obj => {
+            console.log("obj", obj.standard);
+            return {
+                type: 'radio',
+                label: obj.standard,
+                value: obj.id
+            }
+        });
+
+        let alert = this.alertCtrl.create({
+            title: 'Please sellect your connector',
+            inputs: inputs,
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'OK',
+                    handler: (data: string) => {
+                        console.log(data);
+                    }
+                }
+            ]
+        });
+        alert.present();
     }
 
     tariffSelect() {
@@ -642,7 +637,7 @@ export class ChargingPage {
         let m = minutes < 10 ? "0" + minutes : minutes;
         let s = seconds < 10 ? "0" + seconds : seconds;
 
-        return h + ':' + m + ':' + s; 
+        return h + ':' + m + ':' + s;
     }
 
 
