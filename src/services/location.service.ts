@@ -112,19 +112,6 @@ export class LocationService extends AbstractApiService {
             .catch((error) => this.handleError(error));
     }
 
-    // TODO: fully implement 
-    priceForEvse(connectorId, evseId, plugType, priceObject) {
-        return this.httpService.post(this.baseUrl + '/connectors/' + connectorId + '/price/'+ `${evseId}/${plugType}`, JSON.stringify(priceObject))
-        .map(res => res.json())
-        .catch((error) => this.handleError(error));
-    }
-
-    getConnectors(connectorId, evseId) {
-        return this.httpService.get(`${this.baseUrl}/connectors/${connectorId}/${evseId}`)
-            .map(res => res.json())
-            .catch((error) => this.handleError(error));
-    }
-
     getEstimatedPrice(pricePerHour, pricePerKW, maxWattPower) {
         let searchParams: URLSearchParams = new URLSearchParams();
         searchParams.set('pricePerHour', pricePerHour);

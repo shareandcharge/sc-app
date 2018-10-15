@@ -33,7 +33,7 @@ export class ChargingPage {
     evses: any;
     selectedEvse: any;
     selectedConnectorId: number;
-    plugType: any;
+    plugTypeId: any;
 
     chargingTimeHours: any;
     chargingPrice: any;
@@ -276,7 +276,6 @@ export class ChargingPage {
         });
 
         let inputs = x[0].connectors.map(obj => {
-            console.log("obj", obj.standard);
             return {
                 type: 'radio',
                 label: obj.standard,
@@ -298,7 +297,7 @@ export class ChargingPage {
                 {
                     text: 'OK',
                     handler: (data: string) => {
-                        console.log(data);
+                        this.plugTypeId = data;
                     }
                 }
             ]
@@ -381,7 +380,7 @@ export class ChargingPage {
             //this is going to be in seconds
         }
 
-        this.chargingService.startCharging(this.connector, this.tariffValue, this.selectedTariff, this.estimatedPrice, this.location)
+        this.chargingService.startCharging(this.connector, this.selectedEvse, this.plugTypeId, this.tariffValue, this.selectedTariff, this.estimatedPrice, this.location)
             .finally(() => loader.dismissAll())
             .subscribe(
                 () => {
@@ -455,7 +454,7 @@ export class ChargingPage {
         let loader = this.loadingCtrl.create({ content: this.translateService.instant('location.charging.end_charging') });
         loader.present();
 
-        this.chargingService.stopCharging(this.connector.id)
+        this.chargingService.stopCharging(this.connector.id, this.selectedEvse)
             .subscribe(
                 () => {
                     loader.dismiss().then(() => this.dismiss());

@@ -188,8 +188,10 @@ export class ChargingService extends AbstractApiService {
 
     }
 
-    startCharging(connector: Connector, chargeUnits, selectedTariff, price, location: Location) {
+    startCharging(connector: Connector, evse, plugtypeId, chargeUnits, selectedTariff, price, location: Location) {
         let chargingData = {
+            "evse": evse,
+            "plugtypeId": plugtypeId,
             "chargeUnits": chargeUnits,
             "tariff": selectedTariff,
             "price": price
@@ -201,7 +203,7 @@ export class ChargingService extends AbstractApiService {
         clearInterval(this.counterInterval);
         clearInterval(this.countDownInterval);
 
-        return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData), [{ timeout: 3000 }])
+        return this.httpService.post(`${this.baseUrl}/connectors/${connector.id}/start`, JSON.stringify(chargingData, evse), [{ timeout: 3000 }])
             .map(res => {
                 res.json();
                 this.charging = true;
@@ -262,8 +264,8 @@ export class ChargingService extends AbstractApiService {
             .catch((error) => this.handleError(error));
     }
 
-    stopCharging(id = this.connector.id) {
-        return this.httpService.post(`${this.baseUrl}/connectors/${id}/stop`, {})
+    stopCharging(id = this.connector.id, evse) {
+        return this.httpService.post(`${this.baseUrl}/connectors/${id}/stop`, JSON.stringify({evse}), {})
             .map(res => {
                 res.json();
                 this.chargingEnd();
