@@ -43,10 +43,13 @@
 
             <!-- tariff-options-type -->
             <ion-item no-lines class="lists" *ngIf="!charging">
-                <ion-label class="list-label">Choose tariff:</ion-label>
-                <ion-select [(ngModel)]="selectedTariff" (ionChange)="tariffSelect()">
+
+                <ion-label class="list-label" *ngIf="showTariffs">Choose tariff:</ion-label>
+                <ion-select [(ngModel)]="selectedTariff" (ionChange)="tariffSelect()" *ngIf="showTariffs">
                     <ion-option *ngFor="let tariff of tariffs">{{tariff.type}}</ion-option>
                 </ion-select>
+
+                <ion-label class="list-label" *ngIf="!showTariffs">Please select evse & connector</ion-label>
             </ion-item>
         </div>
     </div>

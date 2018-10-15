@@ -41,6 +41,7 @@ export class ChargingPage {
     chargingTypeText: string;
     tariffType: number;
     tariffValue: any;
+    showTariffs: boolean;
 
     totalSeconds: number;
     timeStepSize: number;
@@ -96,7 +97,7 @@ export class ChargingPage {
 
         private app: App
     ) {
-
+        this.showTariffs = false;
         this.location = navParams.get("location");
         //-- for now we use the first station
         this.station = this.location.stations[0];
@@ -269,6 +270,10 @@ export class ChargingPage {
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.charging.find_price')));
     }
 
+    getTariff() {
+        console.log("TARIFFS", this.tariffs);
+    }
+
     evseSelect() {
         // getting all connectors for sellected evse
         let x = this.evses.filter(obj => {
@@ -298,6 +303,7 @@ export class ChargingPage {
                     text: 'OK',
                     handler: (data: string) => {
                         this.plugTypeId = data;
+                        this.showTariffs = true;
                     }
                 }
             ]
