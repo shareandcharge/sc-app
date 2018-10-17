@@ -36,7 +36,7 @@ export class LocationDetailPage {
     locationImages: Array<any>;
     station: Station;
     connector: Connector;
-    tariffs: any;
+    tariffs: Array<any>;
     owner: any;
 
     slideOptions: any;
@@ -117,7 +117,7 @@ export class LocationDetailPage {
         // this.selectedTariff = "TIME";
         
         this.plugTypes = [];
-
+        this.tariffs = [];
         this.plugSvg = '';
 
         this.loadOpeningHours();
@@ -229,7 +229,7 @@ export class LocationDetailPage {
 
                                 let power;
                                 if(con.power_type === 'AC_3_PHASE') {
-                                    power = Math.round((con.amperage * con.voltage) * 3 / 1000) ;
+                                    power = Math.round((con.amperage * con.voltage) * 1.73 / 1000) ;
                                 }else {
                                     power = Math.round((con.amperage * con.voltage) / 1000); 
                                 }
@@ -278,10 +278,19 @@ export class LocationDetailPage {
 
         // this is used to display tariff in location details
         this.locationService.getPrice(this.connector.id, priceObject).subscribe((response) => {
-                this.tariffs = response.priceComponents.map(obj => {
-                    let tariff =  obj.price_components[0].type.toLowerCase();
-                    return tariff.charAt(0).toUpperCase() + tariff.slice(1);
-                });                
+                const price_components: any = [];
+                // iterating over object to get tariff
+                for(let res in response){
+                    const temp = response[res].elements;
+                    for(let x in temp){
+                        price_components.push(temp[x]);
+                    }
+                }
+
+                this.tariffs = price_components.map(obj => {
+                    let tariffName =  obj.price_components[0].type.toLowerCase();
+                    return tariffName.charAt(0).toUpperCase() + tariffName.slice(1);
+                });
             },
             error => this.errorService.displayErrorWithKey(error, this.translateService.instant('location.location_details.query_price')));
     }
