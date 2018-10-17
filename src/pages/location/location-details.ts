@@ -405,6 +405,10 @@ export class LocationDetailPage {
         });
     }
 
+    openLink(){
+        window.open("https://appear.in/sc-dev-standup", '_system');
+    };
+
     openMapsApp() {
             let coords = this.location.lat + "," + this.location.lng;
             window.open("http://maps.google.com/?q=" + coords, '_system');
