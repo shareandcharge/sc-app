@@ -40,8 +40,8 @@ export class MapPage {
     private platform;
 
     defaultCenterLat = 51.579002;
-    defaultCenterLng = -0.487928;
-    defaultZoom = 8;
+    defaultCenterLng = 7.1207889;
+    defaultZoom = 7;
     currentLatLng: any;
     currentPositionZoom = 16;
     currentPositionOverlay: any;
