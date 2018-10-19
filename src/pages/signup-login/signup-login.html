@@ -25,6 +25,7 @@
                 <div *ngIf="error" class="alert-box alert-box-danger alert-box-bg-light" margin>{{ error | translate}}
                 </div>
 
+            <!-- signup/login buttons -->
                 <form [formGroup]="signUpLoginForm" (ngSubmit)="submitForm()">
                     <div id="signUpLoginTabs" text-uppercase>
                         <ion-segment color="primary" [(ngModel)]="action" [ngModelOptions]="{standalone: true}" (ngModelChange)="switchTabs()" padding>
@@ -36,7 +37,7 @@
                             </ion-segment-button>
                         </ion-segment>
                     </div>
-
+            <!-- firstname and lastname -->
                     <div *ngIf="action=='signUp'">
                         <div padding="" >
                             <ion-item no-lines class="no-margin">
@@ -51,25 +52,8 @@
                             </ion-item>
                         </div>
 
-                        <div padding="" >
-                            <ion-item no-lines class="no-margin">
-                                <ion-input tabindex=3 type="text" formControlName="street" [(ngModel)]="signUpLoginObject.street" name="street" placeholder="{{'login.street' | translate}}"></ion-input>
-                            </ion-item>
-                        </div>
-
-                        <div padding="">
-                            <ion-row>
-                                <ion-item id="street" no-lines class="no-margin">
-                                    <ion-input tabindex=4 type="text" formControlName="city" [(ngModel)]="signUpLoginObject.city" name="city" placeholder="{{'login.city' | translate}}"></ion-input>
-                                </ion-item>
-                                <ion-item id="zipcode" no-lines class="no-margin">
-                                    <ion-input tabindex=5 type="text" formControlName="zipcode" [(ngModel)]="signUpLoginObject.zipcode" name="zipcode" placeholder="{{'login.zip_code' | translate}}"></ion-input>
-                                </ion-item>
-                            </ion-row>
-                        </div>
-
                     </div>
-
+            <!-- email input -->
                     <div padding="">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="email" formControlName="email" [(ngModel)]="signUpLoginObject.email" name="email" placeholder="{{'login.email' | translate}}"></ion-input>
@@ -79,6 +63,21 @@
                         margin>
                         {{ errorMessages.email }}
                     </div>
+            <!-- repeat email input -->
+                    <div *ngIf="action=='signUp'">
+                        
+                        <div padding="">
+                            <ion-item no-lines class="no-margin">
+                                <ion-input type="email" formControlName="repeatEmail" [(ngModel)]="signUpLoginObject.repeatEmail" name="repeatEmail" placeholder="{{'login.repeat_email' | translate}}"></ion-input>
+                            </ion-item>
+                        </div>
+                        <!-- <div *ngIf="!signUpLoginForm.controls.email.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                            margin>
+                            {{ errorMessages.repeat_error }}
+                        </div> -->
+
+                    </div>
+            <!-- password input -->
                     <div padding="">
                         <ion-item no-lines class="no-margin">
                             <ion-input type="password" formControlName="password" [(ngModel)]="signUpLoginObject.authentification.password" name="password"
@@ -89,7 +88,7 @@
                         margin>
                         {{ errorMessages.password }}
                     </div>
-
+            <!-- phone number input -->
                     <div *ngIf="action=='signUp'">
                         <div padding="">
                             <ion-item no-lines class="no-margin">
@@ -98,7 +97,7 @@
                         </div>
                     </div>
 
-
+            <!-- terms and conditions checkbox -->
                     <div *ngIf="action=='signUp'">
                         <ion-list no-lines class="list-tac">
                             <ion-item text-wrap class="item-partial-cover-cb">
