@@ -5,7 +5,7 @@ import {
 } from 'ionic-angular';
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
-import {FormBuilder, Validators, FormControl} from '@angular/forms';
+import {FormBuilder, Validators, FormControl, FormGroup} from '@angular/forms';
 import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
@@ -70,8 +70,12 @@ export class SignupLoginPage {
             city: [''],
             phone: [''],
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
-            password: ['', Validators.compose([Validators.maxLength(225), Validators.required])]
+            password: ['', Validators.compose([Validators.maxLength(225), Validators.required])],
+            repeatEmail: ['', Validators.required]
+        },{
+            validator: this.matchEmails('email', 'repeatEmail')
         });
+
 
         if (this.action === 'signUp') {
             this.signUpLoginForm.addControl(
@@ -86,6 +90,20 @@ export class SignupLoginPage {
         this.mode = this.navParams.get('mode');
     }
 
+
+    matchEmails(email, repeatEmail) {
+        return (group: FormGroup) => {
+            let emailInput = group.controls[email],
+                emailConfirmationInput = group.controls[repeatEmail];
+            if(emailInput.value !== emailConfirmationInput.value) {
+                return emailConfirmationInput.setErrors({notEquivalent: true});
+                
+            } else {
+                return emailConfirmationInput.setErrors(null);
+            }
+        }
+    }
+
     ionViewWillEnter() {
         this.trackerService.track('Started Sign Up', {
             'Screen Name': this.navParams.get('trackReferrer') ? this.navParams.get('trackReferrer') : 'Signup/Login',
@@ -98,7 +116,8 @@ export class SignupLoginPage {
         this.errorMessages = {
             "email": this.translateService.instant('login.email_remind'),
             "password": this.translateService.instant('login.password_complexity'),
-            "terms": this.translateService.instant('login.agb_agree')
+            "terms": this.translateService.instant('login.agb_agree'),
+            "repeat_error": this.translateService.instant('login.repeat_error'),
         }
     }
 

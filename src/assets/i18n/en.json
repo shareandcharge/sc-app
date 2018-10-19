@@ -404,7 +404,7 @@
     "input_email": "Please enter your e-mail address:",
     "email": "E-Mail",
     "repeat_email": "Repeat E-mail",
-    "repeat_error": "The two email addresses must match.",
+    "repeat_error": "The E-mails do not match.",
     "email_remind": "Please enter your e-mail address again.",
     "send": "Send",
     "message_sent_mail": "We sent you an e-mail to reset your password!",

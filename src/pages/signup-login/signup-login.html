@@ -71,10 +71,10 @@
                                 <ion-input type="email" formControlName="repeatEmail" [(ngModel)]="signUpLoginObject.repeatEmail" name="repeatEmail" placeholder="{{'login.repeat_email' | translate}}"></ion-input>
                             </ion-item>
                         </div>
-                        <!-- <div *ngIf="!signUpLoginForm.controls.email.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
+                        <div *ngIf="!signUpLoginForm.controls.repeatEmail.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
                             margin>
                             {{ errorMessages.repeat_error }}
-                        </div> -->
+                        </div>
 
                     </div>
             <!-- password input -->
