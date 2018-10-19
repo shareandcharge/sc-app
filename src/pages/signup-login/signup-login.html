@@ -44,28 +44,19 @@
                                     placeholder="{{'login.first_name' | translate}}"></ion-input>
                             </ion-item>
                         </div>
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
-                            margin>
-                            {{'Please insert first name'}}
-                        </div> -->
+
                         <div padding="" >
                             <ion-item no-lines class="no-margin">
                                 <ion-input tabindex=2 type="text" formControlName="lastname" [(ngModel)]="signUpLoginObject.lastname" name="lastname" placeholder="{{'login.last_name' | translate}}"></ion-input>
                             </ion-item>
                         </div>
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
-                            margin>
-                            {{'Please insert last name'}}
-                        </div> -->
+
                         <div padding="" >
                             <ion-item no-lines class="no-margin">
                                 <ion-input tabindex=3 type="text" formControlName="street" [(ngModel)]="signUpLoginObject.street" name="street" placeholder="{{'login.street' | translate}}"></ion-input>
                             </ion-item>
                         </div>
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
-                            margin>
-                            {{'Please insert street'}}
-                        </div> -->
+
                         <div padding="">
                             <ion-row>
                                 <ion-item id="street" no-lines class="no-margin">
@@ -76,14 +67,6 @@
                                 </ion-item>
                             </ion-row>
                         </div>
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
-                            margin>
-                            {{'Please insert zipcode'}}
-                        </div> -->
-                        <!-- <div class="alert-box alert-box-danger alert-box-bg-light"
-                            margin>
-                            {{'Please insert city'}}
-                        </div> -->
 
                     </div>
 
@@ -113,36 +96,11 @@
                                 <ion-input tabindex=7 type="text" formControlName="phone" [(ngModel)]="signUpLoginObject.phone" name="phone" placeholder="{{'login.phone' | translate}}"></ion-input>
                             </ion-item>
                         </div>
-                        <!-- <div *ngIf="!signUpLoginForm.controls.phone.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
-                            margin>
-                            {{'Please insert phone'}}
-                        </div> -->
                     </div>
 
-                    <div *ngIf="action=='login'">
-                        <!-- <ion-list no-lines class="list-pwd"> -->
-                        <!-- <ion-item>
-                                    <ion-label>
-                                        <a color="light" (click)="forgotPassword()">
-                                            <ion-icon name="ios-help-circle"></ion-icon>
-                                            <span>{{'login.forgot_password' | translate}}?</span>
-                                        </a>
-                                    </ion-label>
-                                </ion-item> -->
-                        <!-- </ion-list> -->
-                    </div>
 
                     <div *ngIf="action=='signUp'">
                         <ion-list no-lines class="list-tac">
-                            <!-- <ion-item text-wrap>
-                                    <ion-checkbox color="light" checked="false"
-                                                  formControlName="newsletter"
-                                                  [(ngModel)]="signUpLoginObject.profile.newsletter" name="newsletter">
-                                    </ion-checkbox>
-                                    <ion-label>
-                                        {{'login.newsletter' | translate}}
-                                    </ion-label>
-                                </ion-item> -->
                             <ion-item text-wrap class="item-partial-cover-cb">
                                 <ion-checkbox color="light" checked="false" formControlName="terms" [(ngModel)]="termsAccept" name="termsAccept">
                                 </ion-checkbox>
