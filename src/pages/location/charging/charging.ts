@@ -59,7 +59,6 @@ export class ChargingPage {
     timer: any;
     _countingDown: boolean;
     buttonDeactive: any;
-    termsChecked: boolean;
     enterFromModal: boolean;
     mouseDragging: any;
     canvasX: any;
@@ -140,7 +139,6 @@ export class ChargingPage {
             'Timestamp': ''
         });
 
-        this.termsChecked = false;
         this.charging = this.chargingService.isCharging();
 
         if (true) {
@@ -711,19 +709,6 @@ export class ChargingPage {
                 // console.log('view was not dismissed', e)
             });
     }
-
-    // openTerms() {
-    //     let url = this.translateService.instant('documents.TERMS_STATION_URL');
-    //     let close = this.translateService.instant('common.close')
-    //     new InAppBrowser(url, '_blank', 'presentationstyle=fullscreen,closebuttoncaption=' + close + ',toolbar=yes,location=no');
-    // }
-
-    // selectConnector() {
-    //     this.connector = this.station.connectors.filter(
-    //         (c: Connector) => {
-    //             return c.id == this.selectedConnectorId;
-    //         })[0];
-    // }
 
     getMaxChargingMinutesForCurrentTariff() {
         if (this.selectedTariff == 'ENERGY') {

@@ -98,16 +98,6 @@
         </p>
     </div>
 
-    <div class="conditions" *ngIf="!charging">
-        <ion-item text-wrap no-lines class="lists">
-            <ion-checkbox checked="false" [(ngModel)]="termsChecked">
-            </ion-checkbox>
-            <ion-label>
-                I accept the T&C and the selected tarrif of the charging pole provider.
-            </ion-label>
-        </ion-item>
-    </div>
-
 </ion-content>
 <ion-footer>
     <ion-toolbar color="light">
@@ -117,23 +107,7 @@
             </button>
         </div>
         <div text-center *ngIf="!countingDown">
-
-            <ng-container *ngIf="station.connectors.length > 1">
-                <ion-list no-lines class="no-margin-bottom">
-                    <ion-item>
-                        <ion-label>{{'location.charging.charging_point' | translate}}:</ion-label>
-                        <ion-select [(ngModel)]="selectedConnectorId" cancelText="{{'common.cancel' | translate}}"
-                            okText="{{'common.ok' | translate}}" (ngModelChange)="selectConnector()">
-                            <ion-option *ngFor="let conn of station.connectors" [value]="conn.id" [disabled]="conn.isRented">
-                                {{conn.getTitle()}}
-                            </ion-option>
-                        </ion-select>
-                    </ion-item>
-                </ion-list>
-                <hr>
-            </ng-container>
-
-            <button ion-button round text-uppercase [disabled]="!termsChecked" (click)="startCharging()">
+            <button ion-button round text-uppercase [disabled]="finalizeButton" (click)="startCharging()">
                 {{'location.charging.btn_load' | translate}}
             </button>
         </div>
