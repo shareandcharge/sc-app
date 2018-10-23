@@ -74,8 +74,9 @@ export class ChargingPage {
     stopButtonClicked: boolean;
     stopButtonDisabled: boolean = false;
 
-    maxChargingMinutes: number = 8 * 60;
-    maxChargingMinutesFlatrate: number = 8 * 60;
+    // set maximum charging time here
+    maxChargingMinutes: number = 3 * 60;
+    maxChargingMinutesFlatrate: number = 2 * 60;
 
     @ViewChild(Content) content: Content;
 
@@ -547,7 +548,8 @@ export class ChargingPage {
         let time = Math.floor((((this.getMaxChargingMinutesForCurrentTariff() * 60) + 100) * deg) / 360);
 
         this.hours = Math.floor(time / 3600);
-        this.minutes = Math.floor(Math.floor((time % 3600) / 60) / 10) * 10;
+        // charging selection, 1 minute step
+        this.minutes = Math.floor(Math.floor((time % 3600) / 60) / 1) * 1;
         this.seconds = 0;
 
         // let h = this.hours < 10 ? "0" + this.hours : this.hours;
