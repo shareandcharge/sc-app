@@ -58,7 +58,6 @@ export class ChargingService extends AbstractApiService {
 
         this.getConnectors(user.address).subscribe((res) => {
 
-            
             if (!res.length) {
                 this.storage.get('isCharging').then(isCharging => {
                     if (isCharging) {

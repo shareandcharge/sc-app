@@ -132,7 +132,6 @@ export class LocationService extends AbstractApiService {
      */
     isBusy(location: Location): boolean {
         let busy = false;
-
         if (location.isRented()
             || location.isClosed()
             || (this.authService.loggedIn() && !location.isMatchingPlugtype())

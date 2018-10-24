@@ -114,22 +114,24 @@
                 <ion-col text-right *ngIf="connector">
 
                     <!-- open and user can charge -->
-                    <button *ngIf="location.isOpen() && !charging && !isBusy && !ownerMode" (click)="charge()" ion-button round color="primary" text-uppercase>
+                    <button *ngIf="!charging && !isBusy" (click)="charge()" ion-button round color="primary" text-uppercase>
                         <span>{{'location.location_details.load' | translate}}</span>
                     </button>
 
                     <!-- user is charging -->
-                    <button *ngIf="charging && !ownerMode" (click)="charge()" ion-button round color="primary" text-uppercase>
+                    <button *ngIf="charging" (click)="charge()" ion-button round color="primary" text-uppercase>
                         <span>{{'location.location_details.loading_progress' | translate}}</span>
                     </button>
 
+                    
+
                     <!-- closed -->
-                    <span *ngIf="location.isClosed() && !ownerMode">{{'location.location_details.not_open' | translate}}</span>
+                    <!-- <span *ngIf="location.isClosed() && !ownerMode">{{'location.location_details.not_open' | translate}}</span> -->
 
                     <!-- open and user can charge -->
-                    <button *ngIf="ownerMode" (click)="editStation()" ion-button round color="primary" text-uppercase>
+                    <!-- <button *ngIf="ownerMode" (click)="editStation()" ion-button round color="primary" text-uppercase>
                       <span>{{'location.location_details.edit' | translate}}</span>
-                    </button>
+                    </button> -->
 
                 </ion-col>
             </ion-row>
