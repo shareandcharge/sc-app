@@ -52,6 +52,7 @@ export class ChargingPage {
     tariffs: any;
     selectedTariff: any;
     estimatedPrice: number;
+    currency: string;
 
     hours: any;
     minutes: any;
@@ -243,7 +244,7 @@ export class ChargingPage {
         let theConnector = theEvse[0].connectors.filter(obj => obj.id === plugTypeId);
 
         let theTariff = this.allTariffs[theConnector[0].tariff_id];
-
+        this.currency = theTariff.currency;
         this.price_components = theTariff.elements;
 
         const energy = this.price_components.filter(pc => pc.price_components[0].type === 'ENERGY')[0];
