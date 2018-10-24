@@ -257,3 +257,19 @@ If you submit a (new) iOS app version and you have the Facebook SDK included, pl
 ### To deploy an Alpha Build of the application to Google Play, execute the following: ```fastlane alpha```
 
 ##### Take note, fastlane alpha runs several gradle and android apk build tasks which require that properly configured paths are set for ANDROID_HOME, and zipalign (android sdk build-tool).
+
+<hr>
+
+## Building for a browser
+
+```
+$ ionic cordova build browser --prod
+```
+### To add icon to Home screen
+  
+  1. Visit app using browser
+  2. Go to settings in browser header (three dots)
+  3. Select "Add to Home screen" 
+  4. Type desired name or just click "add"
+
+
