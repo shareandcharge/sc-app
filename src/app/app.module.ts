@@ -54,6 +54,8 @@ import {DataProtectionPage} from "../pages/_global/data-protection/data-protecti
 import {ChargingProgressBarComponent} from '../components/charging-progress-bar/charging-progress-bar'
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar';
 import {CurrencyDisplay} from '../models/currency-display';
+import {WalletDisplay} from '../models/wallet-display';
+
 
 import {Ionic2RatingModule} from 'ionic2-rating';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -146,6 +148,7 @@ export function createTranslateLoader(http: Http) {
         PayOutPage,
         VoucherPage,
         CurrencyDisplay,
+        WalletDisplay,
         JuiceBoxPage
     ],
     imports: [
