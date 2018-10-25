@@ -23,8 +23,8 @@
             <span *ngIf="location.name != ''">{{location.name}}</span>
         </strong>
         <p>
-                {{location.address}}, {{location.city}} <br>
-                {{location.postal_code}}, {{location.country}}
+            {{location.address}}, {{location.city}} <br>
+            {{location.postal_code}}, {{location.country}}
         </p>
 
         <div *ngIf="!showOpeningHours" margin-bottom>
@@ -43,18 +43,12 @@
             </table>
         </div>
 
-        <ion-chip (click)="openLink()" id="stream">
-            <ion-icon right name="globe"></ion-icon>
-            <ion-label color="secondary">Live stream</ion-label>
-        </ion-chip>
-
-
         <hr>
 
         <ion-grid class="nopadding" margin-top *ngFor="let connector of connectorsWithDetails">
             <ion-row>
                 <ion-col width-50 class="nopadding">
-                    <span [innerHtml] = "connector.svg" class="plug-icon"></span>
+                    <span [innerHtml]="connector.svg" class="plug-icon"></span>
                 </ion-col>
                 <ion-col width-50 text-right>
                     <span *ngIf="connector.power > 0" class="kw-box">
@@ -82,6 +76,45 @@
             <p class="text-line-wrap">{{location.description}}</p>
             <hr>
         </div>
+
+        <!-- <div>
+            <ion-chip (click)="openLink()" id="stream">
+                <ion-icon right name="globe"></ion-icon>
+                <ion-label color="secondary">Live stream</ion-label>
+            </ion-chip>
+            <ion-chip (click)="openLink()" id="stream">
+                <ion-icon right name="globe"></ion-icon>
+                <ion-label color="secondary">Live stream</ion-label>
+            </ion-chip>
+            <ion-chip (click)="openLink()" id="stream">
+                <ion-icon right name="globe"></ion-icon>
+                <ion-label color="secondary">Live stream</ion-label>
+            </ion-chip>
+
+        </div> -->
+
+        <ion-grid>
+            <ion-row id="chips">
+                <ion-col>
+                    <ion-chip (click)="openLink()" class="link-chips">
+                        <ion-icon right name="globe"></ion-icon>
+                        <ion-label color="secondary">Live stream</ion-label>
+                    </ion-chip>
+                </ion-col>
+                <ion-col>
+                    <ion-chip (click)="openStats()" class="link-chips">
+                        <ion-icon right name="stats"></ion-icon>
+                        <ion-label color="secondary">Netstat</ion-label>
+                    </ion-chip>
+                </ion-col>
+                <ion-col>
+                    <ion-chip (click)="openEtherscan()" class="link-chips">
+                        <ion-icon right name="paper"></ion-icon>
+                        <ion-label color="secondary">Etherscan</ion-label>
+                    </ion-chip>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
 
         <div *ngIf="owner">
             <hr>
@@ -114,7 +147,8 @@
                 <ion-col text-right *ngIf="connector">
 
                     <!-- open and user can charge -->
-                    <button *ngIf="!charging && !isBusy" (click)="charge()" ion-button round color="primary" text-uppercase>
+                    <button *ngIf="!charging && !isBusy" (click)="charge()" ion-button round color="primary"
+                        text-uppercase>
                         <span>{{'location.location_details.load' | translate}}</span>
                     </button>
 
@@ -123,7 +157,7 @@
                         <span>{{'location.location_details.loading_progress' | translate}}</span>
                     </button>
 
-                    
+
 
                     <!-- closed -->
                     <!-- <span *ngIf="location.isClosed() && !ownerMode">{{'location.location_details.not_open' | translate}}</span> -->

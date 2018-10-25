@@ -409,6 +409,14 @@ export class LocationDetailPage {
         window.open("https://youtu.be/UEhCCtGkj5o", '_system');
     };
 
+    openStats(){
+        window.open("http://netstats.energyweb.org/", '_system');
+    };
+
+    openEtherscan(){
+        window.open("https://tobalaba.etherscan.com/", '_system');
+    };
+
     openMapsApp() {
         let coords = this.location.lat + "," + this.location.lng;
         window.open("http://maps.google.com/?q=" + coords, '_system');
