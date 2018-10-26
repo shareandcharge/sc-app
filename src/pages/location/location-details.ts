@@ -349,7 +349,7 @@ export class LocationDetailPage {
             return this.translateService.instant('location.location_details.closed');
         }
 
-        return hours[day].from + ':00 - ' + hours[day].to + ':00 ' + this.translateService.instant('location.location_details.oclock');
+        return hours[day].from + ' - ' + hours[day].to + ' ' + this.translateService.instant('location.location_details.oclock');
     }
 
     getSvgForPlug(plugId: number) {
