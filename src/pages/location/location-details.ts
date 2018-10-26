@@ -414,7 +414,7 @@ export class LocationDetailPage {
     };
 
     openEtherscan(){
-        window.open("https://tobalaba.etherscan.com/", '_system');
+        window.open("https://tobalaba.etherscan.com/address/0x5108cf3c5ab07ff7b8c7c61ee011983bf6b61acc", '_system');
     };
 
     openMapsApp() {
