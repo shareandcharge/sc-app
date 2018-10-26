@@ -34,6 +34,7 @@ export class ChargingService extends AbstractApiService {
     location: Location;
     tariff: any;
     price: number;
+    initialTime: any;
 
     countDownInterval: any;
     resumeInterval: any;
@@ -85,11 +86,6 @@ export class ChargingService extends AbstractApiService {
                 return;
             }
             
-            // connectors.sort((a, b) => {
-            //     if (a === b) return 0;
-            //     return (a < b ) ? -1 : 1;
-            // });
-
             let connector: Connector = connectors.shift();
 
             this.getStation(connector.station).subscribe((res) => {
@@ -225,6 +221,8 @@ export class ChargingService extends AbstractApiService {
                         this.timer += 1;
                     }, 1000);
                 } else {
+                    this.initialTime = chargeUnits;
+
                     this.timer = chargeUnits;
                     this.chargingTime = chargeUnits;
 
@@ -310,7 +308,7 @@ export class ChargingService extends AbstractApiService {
     }
 
     chargedTime(): number {
-        return this.timer;
+        return this.initialTime - this.timer;
     }
 
     getPrice(): number {
@@ -330,16 +328,6 @@ export class ChargingService extends AbstractApiService {
         me.timer = time;
         clearInterval(me.counterInterval);
         me.counterInterval = setInterval(() => {
-            // if (--this.timer < 0) {
-            //     clearInterval(me.counterInterval);
-            //     this.stopCharging()
-            //         .subscribe(
-            //             () => this.events.publish('charging:lapsed'),
-            //             error => this.errorService.displayErrorWithKey(error, 'error.scope.stop_charging')
-            //         );
-            // }
-            // let chargedTime = this.chargingTime - this.timer;
-            // this.progress = Math.floor((100 * chargedTime) / this.chargingTime);
             this.progress += 1;
 
             if (this.progress < 1) {
