@@ -26,7 +26,7 @@
                 </div>
 
             <!-- signup/login buttons -->
-                <form [formGroup]="signUpLoginForm" (ngSubmit)="submitForm()">
+                <form [formGroup]="signUpLoginForm" (ngSubmit)="submitForm()" #f="ngForm">
                     <div id="signUpLoginTabs" text-uppercase>
                         <ion-segment color="primary" [(ngModel)]="action" [ngModelOptions]="{standalone: true}" (ngModelChange)="switchTabs()" padding>
                             <ion-segment-button value="signUp">

@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {
     NavController, ViewController, ModalController, LoadingController, AlertController,
     NavParams
 } from 'ionic-angular';
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
-import {FormBuilder, Validators, FormControl} from '@angular/forms';
+import {FormBuilder, Validators, FormControl, NgForm, FormGroup} from '@angular/forms';
 import {termsValidator} from '../../validators/termsValidator';
 import {emailValidator} from '../../validators/emailValidator';
 import {ErrorService} from "../../services/error.service";
@@ -25,6 +25,7 @@ import {IntroPage} from '../../pages/intro/intro';
     templateUrl: 'signup-login.html'
 })
 export class SignupLoginPage {
+    @ViewChild('f') signupForm: NgForm;
 
     signUpLoginObject = {
         "firstName": "",
@@ -72,6 +73,8 @@ export class SignupLoginPage {
             email: ['', Validators.compose([emailValidator.isValid, Validators.maxLength(225)])],
             password: ['', Validators.compose([Validators.maxLength(225), Validators.required])],
             repeatEmail: ['']
+        },{
+            validator: this.matchEmails('email', 'repeatEmail')
         });
 
 
@@ -89,18 +92,18 @@ export class SignupLoginPage {
     }
 
 
-    // matchEmails(email, repeatEmail) {
-    //     return (group: FormGroup) => {
-    //         let emailInput = group.controls[email],
-    //             emailConfirmationInput = group.controls[repeatEmail];
-    //         if(emailInput.value !== emailConfirmationInput.value) {
-    //             return emailConfirmationInput.setErrors({notEquivalent: true});
+    matchEmails(email, repeatEmail) {
+        return (group: FormGroup) => {
+            let emailInput = group.controls[email],
+                emailConfirmationInput = group.controls[repeatEmail];
+            if(emailInput.value !== emailConfirmationInput.value) {
+                return emailConfirmationInput.setErrors({notEquivalent: true});
                 
-    //         } else {
-    //             return emailConfirmationInput.setErrors(null);
-    //         }
-    //     }
-    // }
+            } else {
+                return emailConfirmationInput.setErrors(null);
+            }
+        }
+    }
 
     ionViewWillEnter() {
         this.trackerService.track('Started Sign Up', {
@@ -159,6 +162,13 @@ export class SignupLoginPage {
 
     submitForm() {
         if (this.action === 'login') {
+
+            // avoid validation error for repeatEmail 
+            let email = this.signupForm.value.email
+            this.signupForm.form.patchValue({
+                repeatEmail : email
+            });
+            
             this.login();
         }
 
