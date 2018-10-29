@@ -318,7 +318,7 @@ export class ChargingPage {
             case 'TIME':
                 this.price = time.price_components[0].price * 100;
                 this.estimatedPrice = this.price;
-                this.timeStepSize = time.price_components[0].step_size;
+                this.timeStepSize = time.price_components[0].step_size +1;
                 break;
             case 'FLAT':
                 this.price = flat.price_components[0].price * 100;
