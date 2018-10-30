@@ -406,7 +406,7 @@ export class LocationDetailPage {
     }
 
     openLink(){
-        window.open("https://youtu.be/UEhCCtGkj5o", '_system');
+        window.open("https://www.youtube.com/watch?v=P7klSq9FaVU&feature=youtu.be", '_system');
     };
 
     openStats(){
