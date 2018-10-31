@@ -1,6 +1,6 @@
 {
-  "name": "Charge & Fuel UK",
-  "short_name": "Charge&Fuel",
+  "name": "Share and Charge",
+  "short_name": "Share&Charge",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [
