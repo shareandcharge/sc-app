@@ -238,8 +238,10 @@ export class SignupLoginPage {
             return;
         }
 
-
-        this.signUpLoginObject.profile.language = this.translateService.currentLang;
+        let theLoader = this.loadingCtrl.create({
+            content: "Please wait..."
+        });
+        theLoader.present();
 
         this.trackerService.track('Signup Info Added', {
             'Screen Name': 'Registrieren',
@@ -262,6 +264,7 @@ export class SignupLoginPage {
                 let loader = this.loadingCtrl.create({
                     content: "Registration successfull! \n logging in..."
                 });
+                theLoader.dismiss();
                 loader.present();
 
                 setTimeout(() => {
