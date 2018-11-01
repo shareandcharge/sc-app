@@ -41,22 +41,42 @@
                     <div *ngIf="action=='signUp'">
                         <div padding="" >
                             <ion-item no-lines class="no-margin">
-                                <ion-input tabindex=1 type="text" formControlName="firstname" [(ngModel)]="signUpLoginObject.firstname" name="firstname"
-                                    placeholder="{{'login.first_name' | translate}}"></ion-input>
+                                <ion-input
+                                    tabindex="0" 
+                                    type="text" 
+                                    formControlName="firstname" 
+                                    [(ngModel)]="signUpLoginObject.firstname" 
+                                    name="firstname"
+                                    placeholder="{{'login.first_name' | translate}}">
+                                </ion-input>
                             </ion-item>
                         </div>
 
                         <div padding="" >
                             <ion-item no-lines class="no-margin">
-                                <ion-input tabindex=2 type="text" formControlName="lastname" [(ngModel)]="signUpLoginObject.lastname" name="lastname" placeholder="{{'login.last_name' | translate}}"></ion-input>
+                                <ion-input 
+                                    tabindex="1"
+                                    type="text" 
+                                    formControlName="lastname" 
+                                    [(ngModel)]="signUpLoginObject.lastname" 
+                                    name="lastname" 
+                                    placeholder="{{'login.last_name' | translate}}">
+                                </ion-input>
                             </ion-item>
                         </div>
 
                     </div>
             <!-- email input -->
                     <div padding="">
-                        <ion-item no-lines class="no-margin">
-                            <ion-input type="email" formControlName="email" [(ngModel)]="signUpLoginObject.email" name="email" placeholder="{{'login.email' | translate}}"></ion-input>
+                        <ion-item  no-lines class="no-margin">
+                            <ion-input 
+                                tabindex="2"
+                                type="email" 
+                                formControlName="email" 
+                                [(ngModel)]="signUpLoginObject.email" 
+                                name="email" 
+                                placeholder="{{'login.email' | translate}}">
+                            </ion-input>
                         </ion-item>
                     </div>
                     <div *ngIf="!signUpLoginForm.controls.email.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
@@ -68,7 +88,14 @@
                         
                         <div padding="">
                             <ion-item no-lines class="no-margin">
-                                <ion-input type="email" formControlName="repeatEmail" [(ngModel)]="signUpLoginObject.repeatEmail" name="repeatEmail" placeholder="{{'login.repeat_email' | translate}}"></ion-input>
+                                <ion-input 
+                                    tabindex="3"
+                                    type="email" 
+                                    formControlName="repeatEmail" 
+                                    [(ngModel)]="signUpLoginObject.repeatEmail" 
+                                    name="repeatEmail" 
+                                    placeholder="{{'login.repeat_email' | translate}}">
+                                </ion-input>
                             </ion-item>
                         </div>
                         <div *ngIf="!signUpLoginForm.controls.repeatEmail.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
@@ -80,8 +107,14 @@
             <!-- password input -->
                     <div padding="">
                         <ion-item no-lines class="no-margin">
-                            <ion-input type="password" formControlName="password" [(ngModel)]="signUpLoginObject.authentification.password" name="password"
-                                placeholder="{{'login.password' | translate}}"></ion-input>
+                            <ion-input 
+                                tabindex="4"
+                                type="password" 
+                                formControlName="password" 
+                                [(ngModel)]="signUpLoginObject.authentification.password" 
+                                name="password"
+                                placeholder="{{'login.password' | translate}}">
+                            </ion-input>
                         </ion-item>
                     </div>
                     <div *ngIf="!signUpLoginForm.controls.password.valid && submitAttempt" class="alert-box alert-box-danger alert-box-bg-light"
@@ -93,7 +126,13 @@
                     <div *ngIf="action=='signUp'">
                         <ion-list no-lines class="list-tac">
                             <ion-item text-wrap class="item-partial-cover-cb">
-                                <ion-checkbox color="light" checked="false" formControlName="terms" [(ngModel)]="termsAccept" name="termsAccept">
+                                <ion-checkbox
+                                    tabindex="5" 
+                                    color="light" 
+                                    checked="false" 
+                                    formControlName="terms" 
+                                    [(ngModel)]="termsAccept" 
+                                    name="termsAccept">
                                 </ion-checkbox>
                                 <ion-label>
                                     {{'login.terms' | translate}}
