@@ -620,7 +620,7 @@ export class ChargingPage {
 
         // estimating price 
         this.timer = (this.hours * 3600) + (this.minutes * 60); // in seconds
-        this.steps = Math.floor(this.timer / this.timeStepSize) + 1;
+        this.steps = Math.floor(this.timer / (this.timeStepSize + 1)) + 1;
         
 
         // estimated price for TIME tariff
