@@ -7,11 +7,9 @@
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "tslint": "ionic-app-scripts lint",
-    "live": "cp src/config/config.ts.live src/config/config.ts && npm run build && cp -r www/* live/",
-    "webapp": "cp src/config/config.ts.webapp src/config/config.ts && npm run build && cp -r www/* live/",
-    "test": "cp src/config/config.ts.test src/config/config.ts && npm run build && cp -r www/* test/",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "build-browser": "ionic-app-scripts build --prod --platform browser --target cordova"
   },
   "dependencies": {
     "@angular/common": "2.2.1",
